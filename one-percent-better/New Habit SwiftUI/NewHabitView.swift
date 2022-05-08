@@ -13,7 +13,28 @@ struct NewHabitView: View {
     
     var body: some View {
         VStack {
+            Text("Edit Habit")
+                .font(.system(size: 30))
             HabitNameView()
+            
+            Spacer()
+                .frame(height: 40)
+            
+            // Trackers
+            HStack {
+                Text("Trackers")
+                    .font(.system(size: 25))
+                Spacer()
+                Button("Add tracker") {
+                    // TODO
+                }
+            }
+            .padding(.horizontal)
+            
+            List {
+                
+            }
+            .frame(height: 100)
         }
     }
 }
@@ -34,18 +55,20 @@ struct HabitNameView: View {
     
     var body: some View {
         HStack {
-            Text("Habit")
-                .font(.headline)
+            Text("Name")
+                .font(.system(size: 20))
 
             ZStack {
                 RoundedRectangle(cornerRadius: 5)
                     .foregroundColor(.gray).opacity(0.2)
+                    .frame(height: 35)
                 
                 HStack {
                     Spacer()
                         .frame(width: 10)
                     
                     TextField(placeholderHabits.randomElement()!, text: $habitName)
+                        .font(.system(size: 20))
                 }
             }
         }
