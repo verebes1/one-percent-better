@@ -66,6 +66,7 @@
 		3FF4D2EA277B1389002C8CE9 /* ViewAllImagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D2E9277B1389002C8CE9 /* ViewAllImagesVC.swift */; };
 		3FF74FE4278DE3FF008AC399 /* StatisticsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF74FE3278DE3FF008AC399 /* StatisticsCalculator.swift */; };
 		3FFA095827807108006FC691 /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA095727807108006FC691 /* StatisticCell.swift */; };
+		80A0BA7028261039004D9F5F /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A0BA6F28261039004D9F5F /* NewHabitView.swift */; };
 		80EB034328175EAD00D54986 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB034228175EAD00D54986 /* RingView.swift */; };
 		80EB0345281A161D00D54986 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB0344281A161D00D54986 /* CalendarView.swift */; };
 		80EB0347281A18F000D54986 /* MockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB0346281A18F000D54986 /* MockStore.swift */; };
@@ -157,6 +158,7 @@
 		3FF4D2E9277B1389002C8CE9 /* ViewAllImagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllImagesVC.swift; sourceTree = "<group>"; };
 		3FF74FE3278DE3FF008AC399 /* StatisticsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCalculator.swift; sourceTree = "<group>"; };
 		3FFA095727807108006FC691 /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
+		80A0BA6F28261039004D9F5F /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 		80EB034228175EAD00D54986 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
 		80EB0344281A161D00D54986 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		80EB0346281A18F000D54986 /* MockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStore.swift; sourceTree = "<group>"; };
@@ -415,7 +417,8 @@
 		3FE6668925F982B700DE1D46 /* one-percent-better */ = {
 			isa = PBXGroup;
 			children = (
-				80EB034C281A1D2600D54986 /* Calendar */,
+				80A0BA6E2826100F004D9F5F /* New Habit SwiftUI */,
+				80EB034C281A1D2600D54986 /* Calendar SwiftUI */,
 				3F539DA827AC5635001D1431 /* Core Data */,
 				3F720D5D275D937500FCB0B0 /* Habits */,
 				3F720D5F275D93AB00FCB0B0 /* Progress */,
@@ -469,7 +472,15 @@
 			path = Statistics;
 			sourceTree = "<group>";
 		};
-		80EB034C281A1D2600D54986 /* Calendar */ = {
+		80A0BA6E2826100F004D9F5F /* New Habit SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				80A0BA6F28261039004D9F5F /* NewHabitView.swift */,
+			);
+			path = "New Habit SwiftUI";
+			sourceTree = "<group>";
+		};
+		80EB034C281A1D2600D54986 /* Calendar SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
 				80EB0344281A161D00D54986 /* CalendarView.swift */,
@@ -478,7 +489,7 @@
 				80EB0348281A193500D54986 /* CardView.swift */,
 				80EB034228175EAD00D54986 /* RingView.swift */,
 			);
-			path = Calendar;
+			path = "Calendar SwiftUI";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -721,6 +732,7 @@
 				3FE6668B25F982B700DE1D46 /* AppDelegate.swift in Sources */,
 				3F539DB027AC567A001D1431 /* CoreDataMigrationVersion.swift in Sources */,
 				3F6B0A17276BA692004C9543 /* ImageTableCell.swift in Sources */,
+				80A0BA7028261039004D9F5F /* NewHabitView.swift in Sources */,
 				3F0BEE7B26261653000485BE /* Habit.swift in Sources */,
 				3B4181272610F6EB0036C6DF /* HabitCell.swift in Sources */,
 				3F539DBA27AC5D04001D1431 /* CoreDataManager.swift in Sources */,

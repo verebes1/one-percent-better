@@ -17,7 +17,7 @@ struct RingView: View {
         ZStack {
             Circle()
                 .trim(from: 0, to: 1)
-                .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: size/6, lineCap: .round, lineJoin: .round))
+                .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: size/5, lineCap: .round, lineJoin: .round))
                 .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
                 .animation(.easeOut)
@@ -25,7 +25,7 @@ struct RingView: View {
             
             Circle()
                 .trim(from: 1-percent, to: 1)
-                .stroke(color, style: .init(lineWidth: size/6, lineCap: .round, lineJoin: .round))
+                .stroke(color, style: .init(lineWidth: size/5, lineCap: .round, lineJoin: .round))
                 .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
                 .animation(.easeOut)
@@ -35,7 +35,7 @@ struct RingView: View {
             
             if withText {
                 Text("\(Int(round(100*percent)))%")
-                    .font(.system(size: 10))
+                    .font(.system(size: size/4))
                 //                    .frame(width: 100, height: 100, alignment: .center)
             }
         }.padding(4)
@@ -47,7 +47,8 @@ struct RingView_Previews: PreviewProvider {
         VStack {
             RingView(percent: 0.435)
                 .padding(5)
-            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+            
             RingView(percent: 0.435,
                      withText: true)
         }

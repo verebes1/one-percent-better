@@ -21,14 +21,12 @@ struct CalendarView: View {
     
         VStack {
             HStack(spacing: 0) {
-                Spacer(minLength: 15)
-                
                 Text("April 2022")
                 .font(.title)
                 
                 Spacer()
                 
-                Text("23 days of 30 so far")
+                Text("23 of 30 days")
                     .font(.system(size: 15))
                     .foregroundColor(Color(hue: 1.0, saturation: 0.009, brightness: 0.239))
                     
@@ -36,9 +34,8 @@ struct CalendarView: View {
                 RingView(percent: 0.5,
                          size: 20)
                     .frame(width: 30, height: 30)
-                
-                Spacer(minLength: 15)
             }
+            .padding(.horizontal, 15)
                 
             LazyVGrid(columns: columns, spacing: columnSpacing) {
                 ForEach(0..<7) { i in
