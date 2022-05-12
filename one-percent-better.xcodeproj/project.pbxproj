@@ -66,6 +66,7 @@
 		3FF4D2EA277B1389002C8CE9 /* ViewAllImagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF4D2E9277B1389002C8CE9 /* ViewAllImagesVC.swift */; };
 		3FF74FE4278DE3FF008AC399 /* StatisticsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF74FE3278DE3FF008AC399 /* StatisticsCalculator.swift */; };
 		3FFA095827807108006FC691 /* StatisticCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFA095727807108006FC691 /* StatisticCell.swift */; };
+		800581EE28286BB70098B296 /* HabitRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800581ED28286BB70098B296 /* HabitRowView.swift */; };
 		80A0BA7028261039004D9F5F /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A0BA6F28261039004D9F5F /* NewHabitView.swift */; };
 		80EB034328175EAD00D54986 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB034228175EAD00D54986 /* RingView.swift */; };
 		80EB0345281A161D00D54986 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EB0344281A161D00D54986 /* CalendarView.swift */; };
@@ -158,6 +159,7 @@
 		3FF4D2E9277B1389002C8CE9 /* ViewAllImagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllImagesVC.swift; sourceTree = "<group>"; };
 		3FF74FE3278DE3FF008AC399 /* StatisticsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCalculator.swift; sourceTree = "<group>"; };
 		3FFA095727807108006FC691 /* StatisticCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticCell.swift; sourceTree = "<group>"; };
+		800581ED28286BB70098B296 /* HabitRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowView.swift; sourceTree = "<group>"; };
 		80A0BA6F28261039004D9F5F /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 		80EB034228175EAD00D54986 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
 		80EB0344281A161D00D54986 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -417,8 +419,7 @@
 		3FE6668925F982B700DE1D46 /* one-percent-better */ = {
 			isa = PBXGroup;
 			children = (
-				80A0BA6E2826100F004D9F5F /* New Habit SwiftUI */,
-				80EB034C281A1D2600D54986 /* Calendar SwiftUI */,
+				800581EC28286B900098B296 /* SwiftUI Views */,
 				3F539DA827AC5635001D1431 /* Core Data */,
 				3F720D5D275D937500FCB0B0 /* Habits */,
 				3F720D5F275D93AB00FCB0B0 /* Progress */,
@@ -472,24 +473,18 @@
 			path = Statistics;
 			sourceTree = "<group>";
 		};
-		80A0BA6E2826100F004D9F5F /* New Habit SwiftUI */ = {
+		800581EC28286B900098B296 /* SwiftUI Views */ = {
 			isa = PBXGroup;
 			children = (
+				800581ED28286BB70098B296 /* HabitRowView.swift */,
 				80A0BA6F28261039004D9F5F /* NewHabitView.swift */,
-			);
-			path = "New Habit SwiftUI";
-			sourceTree = "<group>";
-		};
-		80EB034C281A1D2600D54986 /* Calendar SwiftUI */ = {
-			isa = PBXGroup;
-			children = (
 				80EB0344281A161D00D54986 /* CalendarView.swift */,
 				80EB0346281A18F000D54986 /* MockStore.swift */,
 				80EB034A281A19C400D54986 /* RowView.swift */,
 				80EB0348281A193500D54986 /* CardView.swift */,
 				80EB034228175EAD00D54986 /* RingView.swift */,
 			);
-			path = "Calendar SwiftUI";
+			path = "SwiftUI Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -717,6 +712,7 @@
 				3F6B0A19276BA7B4004C9543 /* ImageCollectionCell.swift in Sources */,
 				3FFA095827807108006FC691 /* StatisticCell.swift in Sources */,
 				3F22D4BF2785D2360023DAF7 /* NotificationSettingsVC.swift in Sources */,
+				800581EE28286BB70098B296 /* HabitRowView.swift in Sources */,
 				3F68C4392752A5A3003FE94B /* CreateHabitNameVC.swift in Sources */,
 				3F41B9EB26234E2A00658D94 /* Tracker.swift in Sources */,
 				80EB034328175EAD00D54986 /* RingView.swift in Sources */,
