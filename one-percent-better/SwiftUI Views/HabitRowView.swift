@@ -27,12 +27,16 @@ class SwiftUIViewHostingController: UIHostingController<HabitList> {
 
 struct HabitList: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
     var habitRows: [HabitRow] = []
     
     var body: some View {
-        Text("Hello World!")
-        List(0 ..< habitRows.count, id: \.self) { i in
-            habitRows[i]
+        VStack {
+            Text("Hello World!")
+            List(0 ..< habitRows.count, id: \.self) { i in
+                habitRows[i]
+            }
         }
     }
 }
@@ -81,7 +85,7 @@ struct HabitRow: View {
                 Text(habitName)
                     .font(.system(size: 16))
                 
-                Text(secondaryLabel)
+                Text(streakLabel)
                     .font(.system(size: 11))
                     .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
                     .transition(.opacity)

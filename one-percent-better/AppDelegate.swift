@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if success {
                     print("Notification permission granted!")
                 } else {
-                    // FIXME: Does this produce bugs if you make a notification request?
+                    // FIXME: What happens now if you make a notification request?
                     print("There was a problem!")
                 }
             }
