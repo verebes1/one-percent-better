@@ -4,7 +4,4 @@
    <FileRef
       location = "group:one-percent-better-swiftui/one-percent-better-swiftui.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:one-percent-better/one-percent-better.xcodeproj">
-   </FileRef>
 </Workspace>

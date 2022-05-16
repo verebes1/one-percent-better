@@ -70,7 +70,7 @@
 		8055A9A72831BB79009A1881 /* MockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A02831BB73009A1881 /* MockStore.swift */; };
 		8055A9A82831BB79009A1881 /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99E2831BB73009A1881 /* NewHabitView.swift */; };
 		8055A9A92831BB79009A1881 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A22831BB73009A1881 /* CardView.swift */; };
-		8055A9AA2831BB79009A1881 /* HabitRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99D2831BB73009A1881 /* HabitRowView.swift */; };
+		8055A9AA2831BB79009A1881 /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99D2831BB73009A1881 /* HabitsView.swift */; };
 		8055A9AB2831BB79009A1881 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A32831BB73009A1881 /* RingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -156,7 +156,7 @@
 		8055A98A2831BAA8009A1881 /* one-percent-better-swiftuiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-better-swiftuiUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		8055A99D2831BB73009A1881 /* HabitRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowView.swift; sourceTree = "<group>"; };
+		8055A99D2831BB73009A1881 /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
 		8055A99E2831BB73009A1881 /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 		8055A99F2831BB73009A1881 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		8055A9A02831BB73009A1881 /* MockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStore.swift; sourceTree = "<group>"; };
@@ -256,7 +256,7 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		80428AF52831BFD300A17B53 /* Core Data */ = {
+		80428AF52831BFD300A17B53 /* Core Data Manager */ = {
 			isa = PBXGroup;
 			children = (
 				80428AF62831BFD300A17B53 /* CoreDataManager.swift */,
@@ -265,7 +265,7 @@
 				80428B002831BFD300A17B53 /* Mappings */,
 				80428B032831BFD300A17B53 /* Migration */,
 			);
-			path = "Core Data";
+			path = "Core Data Manager";
 			sourceTree = "<group>";
 		};
 		80428AF72831BFD300A17B53 /* Policies */ = {
@@ -425,7 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				80CDEAE52831BE6700AFBAD6 /* New SwiftUI Views */,
-				80428AF52831BFD300A17B53 /* Core Data */,
+				80428AF52831BFD300A17B53 /* Core Data Manager */,
 				80428B062831BFD300A17B53 /* Extensions */,
 				80428B142831BFD300A17B53 /* Habits */,
 				80428B252831BFD300A17B53 /* Haptic Engine */,
@@ -469,7 +469,7 @@
 		80CDEAE52831BE6700AFBAD6 /* New SwiftUI Views */ = {
 			isa = PBXGroup;
 			children = (
-				8055A99D2831BB73009A1881 /* HabitRowView.swift */,
+				8055A99D2831BB73009A1881 /* HabitsView.swift */,
 				8055A99E2831BB73009A1881 /* NewHabitView.swift */,
 				8055A99F2831BB73009A1881 /* CalendarView.swift */,
 				8055A9A02831BB73009A1881 /* MockStore.swift */,
@@ -611,7 +611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80428B4F2831BFD400A17B53 /* ExtraSetUp.swift in Sources */,
-				8055A9AA2831BB79009A1881 /* HabitRowView.swift in Sources */,
+				8055A9AA2831BB79009A1881 /* HabitsView.swift in Sources */,
 				80428B352831BFD300A17B53 /* GraphTableCell.swift in Sources */,
 				8055A9A92831BB79009A1881 /* CardView.swift in Sources */,
 				80428B402831BFD300A17B53 /* mo-ikai2-to-3.xcmappingmodel in Sources */,

@@ -33,7 +33,7 @@ struct HabitList: View {
     
     var body: some View {
         VStack {
-            Text("Hello World!")
+            Text("Habits")
             List(0 ..< habitRows.count, id: \.self) { i in
                 habitRows[i]
             }

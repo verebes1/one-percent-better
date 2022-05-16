@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class CoreDataManager {
+class CoreDataManager: ObservableObject {
     
     let migrator: CoreDataMigratorProtocol
     private let storeType: String
@@ -46,11 +46,6 @@ class CoreDataManager {
     init(storeType: String = NSSQLiteStoreType, migrator: CoreDataMigratorProtocol = CoreDataMigrator()) {
         self.storeType = storeType
         self.migrator = migrator
-    }
-    
-    // MARK: - Set Up
-    
-    func setup() {
         loadPersistentStore()
     }
     

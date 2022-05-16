@@ -6,60 +6,45 @@
 //
 
 import SwiftUI
-
-class SwiftUIViewHostingController: UIHostingController<HabitList> {
-    required init?(coder aDecoder: NSCoder) {
-        let habitRows = [
-            HabitRow(habitName: "Baseball",
-                     streakLabel: "Not done in 20 days"),
-            HabitRow(habitName: "Brush teeth",
-                     streakLabel: "3 day steak"),
-            HabitRow(habitName: "Floss",
-                     streakLabel: "Not done in 2 days"),
-            HabitRow(habitName: "Work out",
-                     streakLabel: "1 day steak"),
-            HabitRow(habitName: "Stretch",
-                     streakLabel: "14 day streak")
-        ]
-        super.init(coder: aDecoder, rootView: HabitList(habitRows: habitRows))
-    }
-}
+import CoreData
 
 struct HabitList: View {
     
     @Environment(\.managedObjectContext) var moc
-    
-    var habitRows: [HabitRow] = []
+    @FetchRequest(sortDescriptors: []) var habits: FetchedResults<Habit>
     
     var body: some View {
         VStack {
-            Text("Hello World!")
-            List(0 ..< habitRows.count, id: \.self) { i in
-                habitRows[i]
+            Text("Habits")
+            List(0 ..< habits.count, id: \.self) { i in
+                HabitRow(habitName: habits[i].name, streakLabel: "Test")
+            }
+            
+            Button("Add random habit") {
+                let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
+                
+                let name = habitNames.randomElement()!
+                let _ = try? Habit(context: moc, name: name)
+                try? moc.save()
             }
         }
     }
 }
 
 struct HabitListView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        let habitRows = [
-            HabitRow(habitName: "Baseball",
-                     streakLabel: "Not done in 20 days"),
-            HabitRow(habitName: "Brush teeth",
-                     streakLabel: "3 day steak"),
-            HabitRow(habitName: "Floss",
-                     streakLabel: "Not done in 2 days"),
-            HabitRow(habitName: "Work out",
-                     streakLabel: "1 day steak"),
-            HabitRow(habitName: "Stretch",
-                     streakLabel: "14 day streak")
-        ]
-        HabitList(habitRows: habitRows)
+        let context = CoreDataManager.shared.persistentContainer.viewContext
+        let _ = try? Habit(context: context, name: "Basketball")
+        return HabitList()
+            .environment(\.managedObjectContext, context)
     }
 }
 
 struct HabitRow: View {
+    
+    var habit: Habit?
+    
     var habitName = "Habit Name"
     
     @State var secondaryLabel = ""
