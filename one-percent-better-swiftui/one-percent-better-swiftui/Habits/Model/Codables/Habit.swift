@@ -7,6 +7,7 @@
 import Foundation
 import CoreData
 import UIKit
+import SwiftUI
 
 /// Error when managedObjectContext is unable to be pulled from decoder object.
 /// The decoder's managedObjectContext should be set up when creating the JSONDecoder object
@@ -69,6 +70,31 @@ public class Habit: NSManagedObject, Codable {
                 streak += 1
             }
             return streak
+        }
+    }
+    
+    /// Streak label used in habit view
+    var streakLabel: String {
+        if streak > 0 {
+            return "\(streak) day streak"
+        } else if daysCompleted.isEmpty {
+            return "Never done"
+        } else {
+            let lastCompletedDay = daysCompleted[daysCompleted.count - 1]
+            let difference = Calendar.current.numberOfDaysBetween(lastCompletedDay, and: Date()) - 2
+            let dayText = difference == 1 ? "day" : "days"
+            return "Not done in \(difference) \(dayText)"
+        }
+    }
+    
+    /// Color of streak label used in habit view
+    var streakLabelColor: Color {
+        if streak > 0 {
+            return .green
+        } else if daysCompleted.isEmpty {
+            return Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
+        } else {
+            return .red
         }
     }
     

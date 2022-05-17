@@ -8,54 +8,56 @@
 import SwiftUI
 import CoreData
 
-struct HabitList: View {
+struct HabitsView: View {
     
     @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: []) var habits: FetchedResults<Habit>
     
     var body: some View {
-        VStack {
-            Text("Habits")
-            List(0 ..< habits.count, id: \.self) { i in
-                HabitRow(habitName: habits[i].name, streakLabel: "Test")
+        NavigationView {
+            
+            List(habits, id: \.self.name) { habit in
+                HabitRow(habit: habit)
             }
             
-            Button("Add random habit") {
-                let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
-                
-                let name = habitNames.randomElement()!
-                let _ = try? Habit(context: moc, name: name)
-                try? moc.save()
+//            Button("Add random habit") {
+//                let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron"]
+//                let name = habitNames.randomElement()!
+//                let _ = try? Habit(context: moc, name: name)
+//                try? moc.save()
+//            }
+            
+            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Edit") {
+                        print("Edit tapped!")
+                    }
+                }
             }
+            .navigationTitle("Habits")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
-struct HabitListView_Previews: PreviewProvider {
-    
+struct HabitsView_Previews: PreviewProvider {
     static var previews: some View {
         let context = CoreDataManager.shared.persistentContainer.viewContext
         let _ = try? Habit(context: context, name: "Basketball")
-        return HabitList()
+        return HabitsView()
             .environment(\.managedObjectContext, context)
     }
 }
 
 struct HabitRow: View {
     
-    var habit: Habit?
-    
-    var habitName = "Habit Name"
-    
-    @State var secondaryLabel = ""
-    @State var streakLabel = "Streak label"
-    @State var timerLabel = "3:15"
-    @State var showTimer = false
+    @State var habit: Habit
     
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    func ringButtonCallback(state: Bool) {
-        showTimer = state
+    func ringButtonCallback(completed: Bool) {
+        completed ? habit.markCompleted(on: Date()) : habit.markNotCompleted(on: Date())
     }
     
     var body: some View {
@@ -67,17 +69,16 @@ struct HabitRow: View {
             }
             VStack(alignment: .leading) {
                 
-                Text(habitName)
+                Text(habit.name)
                     .font(.system(size: 16))
                 
-                Text(streakLabel)
+                Text(habit.streakLabel)
                     .font(.system(size: 11))
-                    .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
-                    .transition(.opacity)
-                    .onReceive(timer, perform: { date in
-                        timerLabel = "\(date)"
-                        secondaryLabel = showTimer ? timerLabel : streakLabel
-                    })
+                    .foregroundColor(habit.streakLabelColor)
+//                    .onReceive(timer, perform: { date in
+//                        timerLabel = "\(date)"
+//                        secondaryLabel = showTimer ? timerLabel : streakLabel
+//                    })
             }
             Spacer()
             

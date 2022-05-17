@@ -37,7 +37,7 @@ class HabitCell: UITableViewCell {
     func updateButton(showAnimation: Bool = false) {
         if habit.wasCompleted(on: Date()) {
             checkImage.image = checkedImage
-            checkImage.tintColor = Style.green
+            checkImage.tintColor = Style.UIKitGreen
             
             if showAnimation {
                 let animation = CAKeyframeAnimation(keyPath: "transform.scale")
@@ -62,7 +62,7 @@ class HabitCell: UITableViewCell {
     func updateStreakLabel() {
         if habit.streak > 0 {
             streakLabel.text = "\(habit.streak) day streak"
-            streakLabel.textColor = Style.green
+            streakLabel.textColor = Style.UIKitGreen
         } else if habit.daysCompleted.isEmpty {
             streakLabel.text = "Never done"
             streakLabel.textColor = Style.lightGray
