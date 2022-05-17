@@ -2557,7 +2557,7 @@
                                 <color key="sectionIndexBackgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SettingsCell" rowHeight="44" id="yk8-wt-yXW" customClass="SettingsCell" customModule="one_percent_better" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="38" width="350" height="44"/>
+                                        <rect key="frame" x="20" y="55.333332061767578" width="350" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="yk8-wt-yXW" id="0sz-Pf-3BX">
                                             <rect key="frame" x="0.0" y="0.0" width="319.66666666666669" height="44"/>

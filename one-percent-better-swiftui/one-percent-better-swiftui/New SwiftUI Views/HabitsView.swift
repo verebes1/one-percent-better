@@ -30,20 +30,22 @@ struct HabitsView: View {
                     UITableView.appearance().contentInset.top = -25
                 })
                 
-                Button("Add random habit") {
-                    let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
-                    let name = habitNames.randomElement()!
-                    let _ = try? Habit(context: moc, name: name)
-                    CoreDataManager.shared.saveContext()
-                }
+//                    Button("Add random habit") {
+//                        let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
+//                        let name = habitNames.randomElement()!
+//                        let _ = try? Habit(context: moc, name: name)
+//                        CoreDataManager.shared.saveContext()
+//                    }
             }
             
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-//                    Button("Edit") {
-//                        print("Edit tapped!")
-//                    }
                     EditButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: CreateNewHabit()) {
+                        Image(systemName: "square.and.pencil")
+                    }
                 }
             }
             .navigationTitle("Habits")
@@ -54,13 +56,11 @@ struct HabitsView: View {
     private func move(from source: IndexSet, to destination: Int) {
         // Make an array of items from fetched results
         var revisedItems: [Habit] = habits.map{ $0 }
-
+        
         // Change the order of the items in the array
         revisedItems.move(fromOffsets: source, toOffset: destination)
-
-        // Update the orderIndex attribute in revisedItems to
-        // persist the new order. This is done in reverse order
-        // to minimize changes to the indices.
+        
+        // Update the orderIndex indices
         for reverseIndex in stride(from: revisedItems.count - 1,
                                    through: 0,
                                    by: -1) {
@@ -120,14 +120,13 @@ struct HabitRow: View {
                 Text(habit.name)
                     .font(.system(size: 16))
                 
-//                Text(habit.streakLabel)
-                Text("\(habit.orderIndex)")
+                Text(habit.streakLabel)
                     .font(.system(size: 11))
                     .foregroundColor(habit.streakLabelColor)
-//                    .onReceive(timer, perform: { date in
-//                        timerLabel = "\(date)"
-//                        secondaryLabel = showTimer ? timerLabel : streakLabel
-//                    })
+                //                    .onReceive(timer, perform: { date in
+                //                        timerLabel = "\(date)"
+                //                        secondaryLabel = showTimer ? timerLabel : streakLabel
+                //                    })
             }
             Spacer()
             

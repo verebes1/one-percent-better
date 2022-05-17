@@ -66,12 +66,12 @@
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		8055A9A52831BB79009A1881 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99F2831BB73009A1881 /* CalendarView.swift */; };
-		8055A9A62831BB79009A1881 /* RowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A12831BB73009A1881 /* RowView.swift */; };
-		8055A9A72831BB79009A1881 /* MockStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A02831BB73009A1881 /* MockStore.swift */; };
 		8055A9A82831BB79009A1881 /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99E2831BB73009A1881 /* NewHabitView.swift */; };
 		8055A9A92831BB79009A1881 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A22831BB73009A1881 /* CardView.swift */; };
 		8055A9AA2831BB79009A1881 /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99D2831BB73009A1881 /* HabitsView.swift */; };
 		8055A9AB2831BB79009A1881 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A32831BB73009A1881 /* RingView.swift */; };
+		80F139F32834506200BC348B /* CreateNewHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F139F22834506200BC348B /* CreateNewHabit.swift */; };
+		80F139F528345B4400BC348B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F139F428345B4400BC348B /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,10 +159,10 @@
 		8055A99D2831BB73009A1881 /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
 		8055A99E2831BB73009A1881 /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
 		8055A99F2831BB73009A1881 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
-		8055A9A02831BB73009A1881 /* MockStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStore.swift; sourceTree = "<group>"; };
-		8055A9A12831BB73009A1881 /* RowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowView.swift; sourceTree = "<group>"; };
 		8055A9A22831BB73009A1881 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		8055A9A32831BB73009A1881 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
+		80F139F22834506200BC348B /* CreateNewHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewHabit.swift; sourceTree = "<group>"; };
+		80F139F428345B4400BC348B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -309,6 +309,7 @@
 				80428B072831BFD300A17B53 /* NSManagedObjectModel */,
 				80428B0A2831BFD300A17B53 /* Extensions.swift */,
 				80428B0B2831BFD300A17B53 /* NSPersistentStoreCoordinator */,
+				80F139F428345B4400BC348B /* Color.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -472,10 +473,9 @@
 				8055A99D2831BB73009A1881 /* HabitsView.swift */,
 				8055A99E2831BB73009A1881 /* NewHabitView.swift */,
 				8055A99F2831BB73009A1881 /* CalendarView.swift */,
-				8055A9A02831BB73009A1881 /* MockStore.swift */,
-				8055A9A12831BB73009A1881 /* RowView.swift */,
 				8055A9A22831BB73009A1881 /* CardView.swift */,
 				8055A9A32831BB73009A1881 /* RingView.swift */,
+				80F139F22834506200BC348B /* CreateNewHabit.swift */,
 			);
 			path = "New SwiftUI Views";
 			sourceTree = "<group>";
@@ -627,6 +627,7 @@
 				80428B372831BFD300A17B53 /* ExportManager.swift in Sources */,
 				80428B582831BFD400A17B53 /* CreateHabitTimeVC.swift in Sources */,
 				80428B272831BFD300A17B53 /* StatisticCell.swift in Sources */,
+				80F139F32834506200BC348B /* CreateNewHabit.swift in Sources */,
 				80428B2A2831BFD300A17B53 /* ImageTableCell.swift in Sources */,
 				8055A9762831BAA5009A1881 /* ContentView.swift in Sources */,
 				80428B3D2831BFD300A17B53 /* CoreDataMigrationVersion.swift in Sources */,
@@ -659,13 +660,12 @@
 				80428B502831BFD400A17B53 /* CreateHabitNameVC.swift in Sources */,
 				80428B342831BFD300A17B53 /* GraphView.swift in Sources */,
 				80428B302831BFD300A17B53 /* CalenderCalculator.swift in Sources */,
-				8055A9A62831BB79009A1881 /* RowView.swift in Sources */,
 				80428B3F2831BFD300A17B53 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
 				80428B572831BFD400A17B53 /* GraphTracker.swift in Sources */,
 				80428B512831BFD400A17B53 /* HabitEntryCells.swift in Sources */,
+				80F139F528345B4400BC348B /* Color.swift in Sources */,
 				80428B412831BFD300A17B53 /* CoreDataMigrationStep.swift in Sources */,
 				80428B452831BFD300A17B53 /* Extensions.swift in Sources */,
-				8055A9A72831BB79009A1881 /* MockStore.swift in Sources */,
 				80428B3A2831BFD300A17B53 /* SettingsVC.swift in Sources */,
 				80428B322831BFD300A17B53 /* ProgressVC.swift in Sources */,
 				80428B312831BFD300A17B53 /* CalendarMonthCollectionViewCell.swift in Sources */,
