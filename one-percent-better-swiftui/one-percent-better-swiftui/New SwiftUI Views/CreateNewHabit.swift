@@ -9,57 +9,50 @@ import SwiftUI
 
 struct CreateNewHabit: View {
     
-    @State private var habitName: String = ""
+    @State var habitName: String = ""
+    @State var nextPressed: Bool = false
+    var showNameError: Bool {
+        return nextPressed && habitName.isEmpty
+    }
     
     var body: some View {
         ZStack {
-            Color.backgroundGray
-                .ignoresSafeArea()
-            
+            Background()
             VStack {
+                HabitCreationHeader(systemImage: "square.and.pencil",
+                                    title: "Create New Habit")
                 
-                Spacer()
-                    .frame(height: 100)
-                
-                Image(systemName: "square.and.pencil")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 75)
-                .foregroundColor(.green)
-                
-                Text("Create a New Habit")
-                    .font(.system(size: 31))
-                    .fontWeight(.bold)
-                
-                Text("Enter the name of your habit")
-                
-                Spacer()
-                    .frame(height: 20)
-                
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.white)
-                        .frame(height: 50)
-                    HStack {
-                        Text("Name:")
-                            .fontWeight(.semibold)
-                            .padding(.leading, 10)
-                        TextField("Habit Name", text: $habitName)
+                VStack {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .foregroundColor(.listColor)
+                            .frame(height: 50)
+                        HStack {
+                            Text("Name")
+                                .fontWeight(.semibold)
+                                .padding(.leading, 10)
+                            TextField("Habit Name", text: $habitName)
+                        }
+                    }.padding(.horizontal, 15)
+                    
+                    if showNameError {
+                        Label("Enter a habit name", systemImage: "exclamationmark.triangle")
+                            .foregroundColor(.red)
+                            .animation(.easeInOut, value: nextPressed)
                     }
-                }.padding(.horizontal, 15)
+                }
                 
                 Spacer()
                 
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(.green)
-                        .frame(height: 50)
-                        .padding(.horizontal, 15)
-                    Text("Next")
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
+                    
+                NavigationLink(destination: CreateNewTracker(habitName: habitName)) {
+                    BottomButton(text: "Create")
                 }
-                .padding(.bottom, 10)
+                .disabled(habitName.isEmpty)
+                .onTapGesture {
+                    nextPressed = true
+                }
+                
             }
         }
     }
@@ -68,5 +61,39 @@ struct CreateNewHabit: View {
 struct CreateNewHabit_Previews: PreviewProvider {
     static var previews: some View {
         CreateNewHabit()
+    }
+}
+
+struct BottomButton: View {
+    
+    let text: String
+    var withBottomPadding: Bool = true
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundColor(.green)
+                .frame(height: 50)
+                .padding(.horizontal, 15)
+            Text(text)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+        }
+        .padding(.bottom, withBottomPadding ? 10 : 0)
+    }
+}
+
+
+struct SkipButton: View {
+    var body: some View {
+        ZStack {
+            Spacer()
+                .frame(height: 50)
+                .padding(.horizontal, 15)
+            Text("Skip")
+                .fontWeight(.bold)
+                .foregroundColor(.green)
+        }
+        .padding(.bottom, 10)
     }
 }

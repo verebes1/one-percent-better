@@ -21,7 +21,9 @@ struct HabitsView: View {
             VStack {
                 List {
                     ForEach(habits, id: \.self.name) { habit in
+                        NavigationLink(destination: ProgressView(habit: habit)) {
                         HabitRow(habit: habit)
+                        }
                     }
                     .onMove(perform: move)
                     .onDelete(perform: delete)
@@ -30,12 +32,12 @@ struct HabitsView: View {
                     UITableView.appearance().contentInset.top = -25
                 })
                 
-//                    Button("Add random habit") {
-//                        let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
-//                        let name = habitNames.randomElement()!
-//                        let _ = try? Habit(context: moc, name: name)
-//                        CoreDataManager.shared.saveContext()
-//                    }
+                Button("Add random habit") {
+                    let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
+                    let name = habitNames.randomElement()!
+                    let _ = Habit(context: moc, name: name)
+                    CoreDataManager.shared.saveContext()
+                }
             }
             
             .toolbar {
@@ -90,9 +92,22 @@ struct HabitsView: View {
 }
 
 struct HabitsView_Previews: PreviewProvider {
+    
+    static let context = CoreDataManager.shared.persistentContainer.viewContext
+    static let habits = [
+        Habit(context: context, name: "Basketball"),
+        Habit(context: context, name: "Soccer")
+    ]
+    
     static var previews: some View {
-        let context = CoreDataManager.shared.persistentContainer.viewContext
-        let _ = try? Habit(context: context, name: "Basketball")
+        
+        let fetchedHabits = Habit.updateHabitList(from: context)
+        for habit in fetchedHabits {
+            context.delete(habit)
+        }
+        let _ = Habit(context: context, name: "Basketball")
+        let _ = Habit(context: context, name: "Soccer")
+
         return HabitsView()
             .environment(\.managedObjectContext, context)
     }
@@ -101,8 +116,6 @@ struct HabitsView_Previews: PreviewProvider {
 struct HabitRow: View {
     
     @ObservedObject var habit: Habit
-    
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func ringButtonCallback(completed: Bool) {
         completed ? habit.markCompleted(on: Date()) : habit.markNotCompleted(on: Date())
@@ -123,19 +136,8 @@ struct HabitRow: View {
                 Text(habit.streakLabel)
                     .font(.system(size: 11))
                     .foregroundColor(habit.streakLabelColor)
-                //                    .onReceive(timer, perform: { date in
-                //                        timerLabel = "\(date)"
-                //                        secondaryLabel = showTimer ? timerLabel : streakLabel
-                //                    })
             }
             Spacer()
-            
-            // TODO replace with navigation link
-            Image(systemName: "chevron.right")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 7)
-                .foregroundColor(Color.gray)
         }
     }
 }

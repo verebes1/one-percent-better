@@ -132,20 +132,29 @@ public class Habit: NSManagedObject, Codable {
     
     // MARK: - init
     
-    convenience init(context: NSManagedObjectContext, name: String) throws {
+    convenience init(context: NSManagedObjectContext, name: String) {
         // Check for a duplicate habit. Habits are unique by name
         let habits = Habit.updateHabitList(from: context)
-        for habit in habits {
-            if habit.name == name {
-                throw HabitCreationError.duplicateName
-            }
-        }
+//        for habit in habits {
+//            if habit.name == name {
+//                throw HabitCreationError.duplicateName
+//            }
+//        }
         self.init(context: context)
         self.name = name
         self.startDate = Date()
         self.daysCompleted = []
         self.trackers = NSOrderedSet.init(array: [])
         self.orderIndex = nextLargestHabitIndex(habits)
+    }
+    
+    convenience init(context: NSManagedObjectContext, habit: Habit) {
+        self.init(context: context)
+        self.name = habit.name
+        self.startDate = habit.startDate
+        self.daysCompleted = habit.daysCompleted
+        self.trackers = habit.trackers
+        self.orderIndex = habit.orderIndex
     }
     
     func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
