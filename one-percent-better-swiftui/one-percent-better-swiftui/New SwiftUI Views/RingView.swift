@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RingView: View {
     var percent: Double
-    var color: Color = .green
+    var color: Color = .blue
     var size: CGFloat = 100
     var withText: Bool = false
     var buttonCallback: (Bool) -> Void = { _ in }
@@ -32,8 +32,6 @@ struct RingView: View {
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
                 .animation(.easeOut, value: completed)
                 .frame(width: size, height: size)
-            
-            
             
             if withText {
                 Text("\(Int(round(100*percent)))%")

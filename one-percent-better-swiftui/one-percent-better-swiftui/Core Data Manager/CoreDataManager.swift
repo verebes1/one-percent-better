@@ -37,15 +37,22 @@ class CoreDataManager: ObservableObject {
         return context
     }()
     
-    // MARK: - Singleton
+    // MARK: - Actual data singleton
     
     static let shared = CoreDataManager()
     
+    
     // MARK: - Init
     
-    init(storeType: String = NSSQLiteStoreType, migrator: CoreDataMigratorProtocol = CoreDataMigrator()) {
+    init(storeType: String = NSSQLiteStoreType, migrator: CoreDataMigratorProtocol = CoreDataMigrator(), inMemory: Bool = false) {
         self.storeType = storeType
         self.migrator = migrator
+        
+        if inMemory {
+            persistentContainer.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
+            persistentContainer.persistentStoreDescriptions.first!.type = NSInMemoryStoreType
+        }
+        
         loadPersistentStore()
     }
     
@@ -72,6 +79,7 @@ class CoreDataManager: ObservableObject {
     }
     
     // MARK: - Saving
+    
     func saveContext() {
         if mainContext.hasChanges {
             do {
@@ -82,6 +90,18 @@ class CoreDataManager: ObservableObject {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
+        }
+    }
+    
+    // MARK: - Previews
+    
+    static let previews = CoreDataManager(inMemory: true)
+    
+    static func resetPreviewsData() {
+        let context = Self.previews.persistentContainer.viewContext
+        let fetchedHabits = Habit.updateHabitList(from: context)
+        for habit in fetchedHabits {
+            context.delete(habit)
         }
     }
 }

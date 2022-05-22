@@ -148,15 +148,6 @@ public class Habit: NSManagedObject, Codable {
         self.orderIndex = nextLargestHabitIndex(habits)
     }
     
-    convenience init(context: NSManagedObjectContext, habit: Habit) {
-        self.init(context: context)
-        self.name = habit.name
-        self.startDate = habit.startDate
-        self.daysCompleted = habit.daysCompleted
-        self.trackers = habit.trackers
-        self.orderIndex = habit.orderIndex
-    }
-    
     func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
         return habits.isEmpty ? 0 : habits.count
     }
@@ -181,7 +172,7 @@ public class Habit: NSManagedObject, Codable {
         return false
     }
 
-    func markCompleted(on date: Date) {
+    func markCompleted(on date: Date, save: Bool = true) {
         if !wasCompleted(on: date) {
             daysCompleted.append(date)
             daysCompleted.sort()
@@ -190,7 +181,9 @@ public class Habit: NSManagedObject, Codable {
                 startDate = date
             }
             
-            CoreDataManager.shared.saveContext()
+            if save {
+                CoreDataManager.shared.saveContext()
+            }
         }
     }
 

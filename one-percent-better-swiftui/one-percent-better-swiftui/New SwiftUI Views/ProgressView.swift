@@ -36,10 +36,9 @@ struct ProgressView: View {
 
 struct ProgressView_Previews: PreviewProvider {
     
-    static let context = CoreDataManager.shared.persistentContainer.viewContext
-    static let habit = Habit(context: context, name: "Test")
-    
     static var previews: some View {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        let habit = Habit(context: context, name: "Swimming")
         return ProgressView(habit: habit)
     }
 }

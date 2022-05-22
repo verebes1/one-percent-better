@@ -93,23 +93,11 @@ struct HabitsView: View {
 
 struct HabitsView_Previews: PreviewProvider {
     
-    static let context = CoreDataManager.shared.persistentContainer.viewContext
-    static let habits = [
-        Habit(context: context, name: "Basketball"),
-        Habit(context: context, name: "Soccer")
-    ]
-    
     static var previews: some View {
-        
-        let fetchedHabits = Habit.updateHabitList(from: context)
-        for habit in fetchedHabits {
-            context.delete(habit)
-        }
-        let _ = Habit(context: context, name: "Basketball")
-        let _ = Habit(context: context, name: "Soccer")
+        PreviewData.habitViewData()
 
         return HabitsView()
-            .environment(\.managedObjectContext, context)
+            .environment(\.managedObjectContext, CoreDataManager.previews.persistentContainer.viewContext)
     }
 }
 

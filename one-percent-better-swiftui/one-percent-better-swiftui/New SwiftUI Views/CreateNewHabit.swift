@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CreateNewHabit: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
     @State var habitName: String = ""
     @State var nextPressed: Bool = false
     var showNameError: Bool {
@@ -45,7 +47,8 @@ struct CreateNewHabit: View {
                 Spacer()
                 
                     
-                NavigationLink(destination: CreateNewTracker(habitName: habitName)) {
+                NavigationLink(destination: HabitsView()) {
+                    let _ = Habit(context: moc, name: habitName)
                     BottomButton(text: "Create")
                 }
                 .disabled(habitName.isEmpty)
