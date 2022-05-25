@@ -7,18 +7,35 @@
 
 import SwiftUI
 
-struct Background: View {
+struct Background<Content>: View where Content: View {
+    
+    let content: () -> Content
+    
+    init(@ViewBuilder _ content: @escaping () -> Content) {
+        self.content = content
+    }
+    
     var body: some View {
         ZStack {
             Color.backgroundColor
                 .ignoresSafeArea()
+            content()
         }
     }
 }
 
 struct Background_Previews: PreviewProvider {
     static var previews: some View {
-        Background()
+        Group {
+            Background {
+                Text("Light Mode")
+            }
+            .preferredColorScheme(.light)
+            
+            Background {
+                Text("Dark Mode")
+            }
             .preferredColorScheme(.dark)
+        }
     }
 }

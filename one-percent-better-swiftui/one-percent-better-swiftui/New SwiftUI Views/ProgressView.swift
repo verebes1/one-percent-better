@@ -13,8 +13,7 @@ struct ProgressView: View {
     @EnvironmentObject var habit: Habit
     
     var body: some View {
-        ZStack {
-            Background()
+        Background {
             VStack {
                 HStack {
                     Text(habit.name)
@@ -24,7 +23,11 @@ struct ProgressView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 15)
-                CalendarView()
+                
+                CardView {
+                    CalendarView()
+                }
+                
                 Text("Hello World")
                 Spacer()
             }

@@ -10,7 +10,8 @@ import SwiftUI
 
 extension Color {
     static let backgroundColor = Color("BackgroundColor")
-    static let listColor = Color("ListColor")
+    static let cardColor = Color("CardColor")
+    static let cardColorOpposite = Color("CardColorOpposite")
     
     static let calendarGray = Color(#colorLiteral(red: 0.7812705636, green: 0.7763053775, blue: 0.7978962064, alpha: 1))
     static let calendarGrayNotInMonth = Color(#colorLiteral(red: 0.9568627477, green: 0.9568627477, blue: 0.9568627477, alpha: 1))

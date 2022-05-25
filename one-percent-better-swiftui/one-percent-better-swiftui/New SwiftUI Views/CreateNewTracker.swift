@@ -41,8 +41,7 @@ struct CreateNewTracker: View {
     let columnSpacing: CGFloat = 11
     
     var body: some View {
-        ZStack {
-            Background()
+        Background {
             VStack {
                 Spacer()
                     .frame(height: 50)
@@ -82,7 +81,7 @@ struct TrackerView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
                 .frame(width: 100, height: 100)
-                .foregroundColor(.listColor)
+                .foregroundColor(.cardColor)
             
             VStack {
                 Image(systemName: systemImage)

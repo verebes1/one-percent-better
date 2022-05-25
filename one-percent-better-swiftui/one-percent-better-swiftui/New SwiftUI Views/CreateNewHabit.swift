@@ -18,8 +18,7 @@ struct CreateNewHabit: View {
     }
     
     var body: some View {
-        ZStack {
-            Background()
+        Background {
             VStack {
                 HabitCreationHeader(systemImage: "square.and.pencil",
                                     title: "Create New Habit")
@@ -27,7 +26,7 @@ struct CreateNewHabit: View {
                 VStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .foregroundColor(.listColor)
+                            .foregroundColor(.cardColor)
                             .frame(height: 50)
                         HStack {
                             Text("Name")
