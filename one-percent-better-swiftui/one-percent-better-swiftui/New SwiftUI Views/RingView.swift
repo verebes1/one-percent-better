@@ -9,10 +9,13 @@ import SwiftUI
 
 struct RingView: View {
     var percent: Double
-    var color: Color = .blue
+    var color: Color = .green
     var size: CGFloat = 100
     var withText: Bool = false
-    var buttonCallback: (Bool) -> Void = { _ in }
+    
+    var lineWidth: CGFloat {
+        size / 5
+    }
     
     @State var completed: Bool = false
     
@@ -20,17 +23,16 @@ struct RingView: View {
         ZStack {
             Circle()
                 .trim(from: 0, to: 1)
-                .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: size/5, lineCap: .round, lineJoin: .round))
+                .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
                 .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
                 .frame(width: size, height: size)
             
             Circle()
                 .trim(from: completed ? 0.01 : 1-percent, to: 1)
-                .stroke(color, style: .init(lineWidth: size/5, lineCap: .round, lineJoin: .round))
+                .stroke(color, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
                 .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                .animation(.easeOut, value: completed)
                 .frame(width: size, height: size)
             
             if withText {
@@ -39,12 +41,8 @@ struct RingView: View {
                 //                    .frame(width: 100, height: 100, alignment: .center)
             }
         }
-        .padding(4)
+        .padding(lineWidth/2)
         .contentShape(Rectangle())
-        .onTapGesture {
-            completed = !completed
-            buttonCallback(completed)
-        }
     }
 }
 
@@ -52,14 +50,14 @@ struct RingView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             RingView(percent: 0.435)
-                .padding(5)
-                .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                .border(Color.black, width: 1)
             
             RingView(percent: 0.435,
                      withText: true)
             
             RingView(percent: 0.435,
                      size: 28)
+            .border(Color.black, width: 1)
         }
     }
 }

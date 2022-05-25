@@ -10,14 +10,12 @@ import CoreData
 
 struct ProgressView: View {
     
-    var habit: Habit
+    @EnvironmentObject var habit: Habit
     
     var body: some View {
         ZStack {
             Background()
-            
             VStack {
-                
                 HStack {
                     Text(habit.name)
                         .fontWeight(.bold)
@@ -37,8 +35,8 @@ struct ProgressView: View {
 struct ProgressView_Previews: PreviewProvider {
     
     static var previews: some View {
-        let context = CoreDataManager.previews.persistentContainer.viewContext
-        let habit = Habit(context: context, name: "Swimming")
-        return ProgressView(habit: habit)
+        let habit = PreviewData.progressViewData()
+        return ProgressView()
+            .environmentObject(habit)
     }
 }

@@ -132,14 +132,14 @@ public class Habit: NSManagedObject, Codable {
     
     // MARK: - init
     
-    convenience init(context: NSManagedObjectContext, name: String) {
+    convenience init(context: NSManagedObjectContext, name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
         let habits = Habit.updateHabitList(from: context)
-//        for habit in habits {
-//            if habit.name == name {
-//                throw HabitCreationError.duplicateName
-//            }
-//        }
+        for habit in habits {
+            if habit.name == name {
+                throw HabitCreationError.duplicateName
+            }
+        }
         self.init(context: context)
         self.name = name
         self.startDate = Date()

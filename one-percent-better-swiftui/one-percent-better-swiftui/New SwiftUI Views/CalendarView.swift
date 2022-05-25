@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CalendarView: View {
     
+    @EnvironmentObject var habit: Habit
+    
     /// Object used to calculate an array of days for each month
     var calendarCalculator = CalendarCalculator()
     
@@ -22,7 +24,8 @@ struct CalendarView: View {
         VStack {
             HStack(spacing: 0) {
                 Text("April 2022")
-                .font(.title)
+                    .font(.system(size: 20))
+                    .fontWeight(.medium)
                 
                 Spacer()
                 
@@ -48,10 +51,10 @@ struct CalendarView: View {
             
             LazyVGrid(columns: columns, spacing: columnSpacing) {
                 ForEach(calendarCalculator.days, id: \.date) { day in
-                    CardView(title: day.dayNumber,      width: 30,
-                             height: 30,
-                             isFilled: day.isWithinDisplayedMonth)
-                        .frame(height: 50)
+                    CalendarDayView(day: day,
+                                    width: 30,
+                                    height: 30)
+                    .frame(height: 50)
                 }
             }
         }
@@ -61,53 +64,77 @@ struct CalendarView: View {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        CalendarView()
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        let habit = PreviewData.calendarViewData()
+        return CalendarView()
+            .environmentObject(habit)
+            .environment(\.managedObjectContext, context)
     }
 }
 
 
-struct CardView: View {
-    let title: String
+struct CalendarDayView: View {
+    
+    @EnvironmentObject var habit: Habit
+    
+    let day: Day
+    
     var width: CGFloat? = nil
     var height: CGFloat? = nil
-    var isFilled: Bool = false
     
     var body: some View {
         VStack (spacing: 3) {
             
-            Text(title)
+            Text(day.dayNumber)
                 .font(.body)
             
-            if isFilled {
-                Circle()
-                    .foregroundColor(.green)
-                    .frame(width: width, height: height)
+            if Calendar.current.isDateInToday(day.date) {
+                if habit.wasCompleted(on: day.date) {
+                    Image(systemName: "checkmark.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.green)
+                        .frame(width: width, height: height)
+                } else {
+                    Circle()
+                        .stroke(.gray, style: .init(lineWidth: 1))
+                        .frame(width: width, height: height)
+                }
             } else {
-                Circle()
-                    .stroke(.gray, style: .init(lineWidth: 1))
-                    .frame(width: width, height: height)
+                if habit.wasCompleted(on: day.date) {
+                    Circle()
+                        .foregroundColor(.green.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
+                        .frame(width: width, height: height)
+                } else {
+                    Circle()
+                        .foregroundColor(Color.calendarGray.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
+                        .frame(width: width, height: height)
+                    
+                    
+                }
             }
-            
-//            RoundedRectangle(cornerRadius: 14)
-//                .foregroundColor(.random)
-//                .frame(width: width, height: height)
-
         }
         
     }
 }
 
-struct CardView_Previews: PreviewProvider {
+struct CalendarDayView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(title: "23", width: 30, height: 30)
-//        CardView(title: "23", width: 40, height: 40)
-    }
-}
-
-
-extension String: Identifiable {
-    public typealias ID = Int
-    public var id: Int {
-        return hash
+        let habit = PreviewData.calendarViewData()
+        
+        let day0 = Day(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, isWithinDisplayedMonth: false)
+        let day1 = Day(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, isWithinDisplayedMonth: true)
+        let day2 = Day(date: Date(), isWithinDisplayedMonth: true)
+        
+        HStack {
+            CalendarDayView(day: day0, width: 30, height: 30)
+                .environmentObject(habit)
+            
+            CalendarDayView(day: day1, width: 30, height: 30)
+                .environmentObject(habit)
+            
+            CalendarDayView(day: day2, width: 30, height: 30)
+            .environmentObject(habit)
+        }
     }
 }

@@ -11,4 +11,16 @@ import SwiftUI
 extension Color {
     static let backgroundColor = Color("BackgroundColor")
     static let listColor = Color("ListColor")
+    
+    static let calendarGray = Color(#colorLiteral(red: 0.7812705636, green: 0.7763053775, blue: 0.7978962064, alpha: 1))
+    static let calendarGrayNotInMonth = Color(#colorLiteral(red: 0.9568627477, green: 0.9568627477, blue: 0.9568627477, alpha: 1))
+    
+    static var random: Color {
+        return Color(
+            red: .random(in: 0...1),
+            green: .random(in: 0...1),
+            blue: .random(in: 0...1)
+        )
+    }
+    
 }

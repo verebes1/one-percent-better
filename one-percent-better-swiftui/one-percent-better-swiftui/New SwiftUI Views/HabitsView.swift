@@ -21,8 +21,9 @@ struct HabitsView: View {
             VStack {
                 List {
                     ForEach(habits, id: \.self.name) { habit in
-                        NavigationLink(destination: ProgressView(habit: habit)) {
-                        HabitRow(habit: habit)
+                        NavigationLink(destination: ProgressView().environmentObject(habit)) {
+                            HabitRow()
+                                .environmentObject(habit)
                         }
                     }
                     .onMove(perform: move)
@@ -35,8 +36,8 @@ struct HabitsView: View {
                 Button("Add random habit") {
                     let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
                     let name = habitNames.randomElement()!
-                    let _ = Habit(context: moc, name: name)
-                    CoreDataManager.shared.saveContext()
+                    let _ = try? Habit(context: moc, name: name)
+                    try? moc.save()
                 }
             }
             
@@ -56,7 +57,7 @@ struct HabitsView: View {
     }
     
     private func move(from source: IndexSet, to destination: Int) {
-        // Make an array of items from fetched results
+        // Make an array from fetched results
         var revisedItems: [Habit] = habits.map{ $0 }
         
         // Change the order of the items in the array
@@ -68,11 +69,11 @@ struct HabitsView: View {
                                    by: -1) {
             revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
         }
-        CoreDataManager.shared.saveContext()
+        try? moc.save()
     }
     
     private func delete(from source: IndexSet) {
-        // Make an array of items from fetched results
+        // Make an array from fetched results
         var revisedItems: [Habit] = habits.map{ $0 }
         
         // Remove the item to be deleted
@@ -85,9 +86,8 @@ struct HabitsView: View {
                                    through: 0,
                                    by: -1) {
             revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
-            print("reverse Index: \(reverseIndex)")
         }
-        CoreDataManager.shared.saveContext()
+        try? moc.save()
     }
 }
 
@@ -103,18 +103,13 @@ struct HabitsView_Previews: PreviewProvider {
 
 struct HabitRow: View {
     
-    @ObservedObject var habit: Habit
-    
-    func ringButtonCallback(completed: Bool) {
-        completed ? habit.markCompleted(on: Date()) : habit.markNotCompleted(on: Date())
-    }
+    @EnvironmentObject var habit: Habit
     
     var body: some View {
         HStack {
             VStack {
-                RingView(percent: 0,
-                         size: 28,
-                         buttonCallback: ringButtonCallback)
+                HabitCompletionCircle(completed: habit.wasCompleted(on: Date()),
+                                      size: 28)
             }
             VStack(alignment: .leading) {
                 

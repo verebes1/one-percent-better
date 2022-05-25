@@ -48,7 +48,7 @@ struct CreateNewHabit: View {
                 
                     
                 NavigationLink(destination: HabitsView()) {
-                    let _ = Habit(context: moc, name: habitName)
+                    let _ = try? Habit(context: moc, name: habitName)
                     BottomButton(text: "Create")
                 }
                 .disabled(habitName.isEmpty)
@@ -63,7 +63,9 @@ struct CreateNewHabit: View {
 
 struct CreateNewHabit_Previews: PreviewProvider {
     static var previews: some View {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
         CreateNewHabit()
+            .environment(\.managedObjectContext, context)
     }
 }
 
