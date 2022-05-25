@@ -7,22 +7,6 @@
 
 import SwiftUI
 
-struct CardViewFullWidth<Content>: View where Content: View {
-    let content: () -> Content
-    
-    init(@ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-    }
-    
-    var body: some View {
-        content()
-            .frame(maxWidth: .infinity)
-            .background(Color.cardColor)
-            .cornerRadius(10)
-            .shadow(color: Color.cardColorOpposite.opacity(0.2), radius: 7)
-    }
-}
-
 struct CardView<Content>: View where Content: View {
     let content: () -> Content
     
@@ -31,17 +15,15 @@ struct CardView<Content>: View where Content: View {
     }
     
     var body: some View {
-        CardViewFullWidth {
-            VStack {
-                content()
-            }
-            .padding(.vertical, 10)
-        }
+        content()
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity)
+        .background(Color.cardColor)
+        .cornerRadius(10)
+        .shadow(color: Color.cardColorOpposite.opacity(0.2), radius: 7)
         .padding(.horizontal, 10)
     }
 }
-
-
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
@@ -49,11 +31,13 @@ struct CardView_Previews: PreviewProvider {
             Background {
                 VStack {
                     CardView {
-                        Spacer()
-                            .frame(height: 100)
-                        Text("Test Card")
-                        Spacer()
-                            .frame(height: 100)
+                        VStack {
+                            Spacer()
+                                .frame(height: 100)
+                            Text("Test Card")
+                            Spacer()
+                                .frame(height: 100)
+                        }
                     }
                     
                     CardView {
@@ -67,11 +51,13 @@ struct CardView_Previews: PreviewProvider {
             Background {
                 VStack {
                     CardView {
-                        Spacer()
-                            .frame(height: 100)
-                        Text("Test Card")
-                        Spacer()
-                            .frame(height: 100)
+                        VStack {
+                            Spacer()
+                                .frame(height: 100)
+                            Text("Test Card")
+                            Spacer()
+                                .frame(height: 100)
+                        }
                     }
                     
                     CardView {
