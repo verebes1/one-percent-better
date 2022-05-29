@@ -26,9 +26,9 @@ struct ProgressView: View {
                 
                 CardView {
                     CalendarView()
+//                    CalendarScrollView()
                 }
                 
-                Text("Hello World")
                 Spacer()
             }
         }
@@ -40,6 +40,7 @@ struct ProgressView_Previews: PreviewProvider {
     static var previews: some View {
         let habit = PreviewData.progressViewData()
         return ProgressView()
+            .preferredColorScheme(.light)
             .environmentObject(habit)
     }
 }

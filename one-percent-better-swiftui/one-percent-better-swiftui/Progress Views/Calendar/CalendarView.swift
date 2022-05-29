@@ -11,10 +11,10 @@ struct CalendarView: View {
     
     @EnvironmentObject var habit: Habit
     
-    /// Object used to calculate an array of days for each month
-    var calendarCalculator = CalendarCalculator()
-    
     var body: some View {
+        
+        /// Object used to calculate an array of days for each month
+        let calendarCalculator = CalendarModel(habit: habit)
         
         let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
         
@@ -22,18 +22,21 @@ struct CalendarView: View {
     
         VStack {
             HStack(spacing: 0) {
-                Text("December 2022")
+                
+                let baseDate = calendarCalculator.getBaseDate()
+                Text(calendarCalculator.headerFormatter.string(from: baseDate))
                     .font(.system(size: 19))
                     .fontWeight(.medium)
                 
                 Spacer()
                 
-                Text("23 of 30 days")
+                let (completed, total) = calendarCalculator.numCompleted()
+                Text("\(completed) of \(total) days")
                     .font(.system(size: 15))
                     .foregroundColor(Color(hue: 1.0, saturation: 0.009, brightness: 0.239))
                     
-                
-                RingView(percent: 0.5,
+                let percent: Double = Double(completed) / Double(total)
+                RingView(percent: percent,
                          size: 20)
                     .frame(width: 30, height: 30)
             }
@@ -47,15 +50,10 @@ struct CalendarView: View {
                         
                 }
             }
-            
-            LazyVGrid(columns: columns, spacing: 0) {
-                ForEach(calendarCalculator.days, id: \.date) { day in
-                    CalendarDayView(day: day,
-                                    width: 23,
-                                    height: 23)
-                    .padding(.vertical, 2)
-                }
-            }
+            CalendarScrollView()
+                .environmentObject(calendarCalculator)
+//            CalendarDayGridView()
+//                .environmentObject(calendarCalculator)
         }
     }
 }
@@ -114,8 +112,6 @@ struct CalendarDayView: View {
                     Circle()
                         .foregroundColor(Color.calendarGray.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
                         .frame(width: width, height: height)
-                    
-                    
                 }
             }
         }
@@ -141,5 +137,39 @@ struct CalendarDayView_Previews: PreviewProvider {
             CalendarDayView(day: day2, width: 30, height: 30)
             .environmentObject(habit)
         }
+    }
+}
+
+struct CalendarDayGridView: View {
+    
+    @EnvironmentObject var calendarCalculator: CalendarModel
+    
+    var body: some View {
+        
+        let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
+        
+        LazyVGrid(columns: columns, spacing: 0) {
+            ForEach(calendarCalculator.days(), id: \.date) { day in
+                CalendarDayView(day: day,
+                                width: 23,
+                                height: 23)
+                .padding(.vertical, 2)
+            }
+        }
+        
+//        TabView {
+//            ForEach(0..<3) { i in
+//                LazyVGrid(columns: columns, spacing: 0) {
+//                    ForEach(calendarCalculator.days, id: \.date) { day in
+//                        CalendarDayView(day: day,
+//                                        width: 23,
+//                                        height: 23)
+//                        .padding(.vertical, 2)
+//                    }
+//                }
+//            }
+//        }
+//        .frame(width: 300, height: 280)
+//        .tabViewStyle(PageTabViewStyle())
     }
 }

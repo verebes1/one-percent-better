@@ -23,19 +23,13 @@ struct Day {
 }
 
 // MARK: - Calendar Calculator
-class CalendarCalculator {
+
+class CalendarModel: ObservableObject {
+    
+    private var habit: Habit
     
     /// The month this date is in is the month which gets represented
-    private var baseDate: Date! {
-        didSet {
-            days = generateDaysInMonth(for: baseDate)
-        }
-    }
-    
-    /// An array of Day objects for this month, based on the baseDate.
-    /// Includes the days before and after this month to create a grid of days
-    public lazy var days: [Day] = generateDaysInMonth(for: baseDate)
-    
+    @Published private var baseDate: Date!
     
     /// The number of weeks in this month. Lowest is 4 (leap year) and highest is 6
     private var numberOfWeeksInBaseDate: Int {
@@ -51,17 +45,34 @@ class CalendarCalculator {
         return dateFormatter
     }()
     
+    /// Date formatter for the month year label at the top of the calendar
+    public var headerFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM y")
+        return dateFormatter
+    }()
+    
     enum CalendarDataError: Error {
         case metadataGeneration
     }
 
-    init() {
+    init(habit: Habit) {
+        self.habit = habit
         self.baseDate = Date()
     }
     
     func getBaseDate() -> Date {
         return baseDate
     }
+    
+    /// An array of Day objects for this month, based on the baseDate.
+    /// Includes the days before and after this month to create a grid of days
+    public func days() -> [Day] {
+        generateDaysInMonth(for: baseDate)
+    }
+    
 
     // MARK: - Day Generation
     func monthMetadata(for baseDate: Date) throws -> MonthMetadata {
@@ -142,15 +153,41 @@ class CalendarCalculator {
         return days
     }
     
-    func backXMonths(x: Int) {
+    func backXMonths(x: Int) -> [Day] {
         self.baseDate = self.calendar.date(
             byAdding: .month,
             value: -x,
             to: Date()
         ) ?? self.baseDate
+        return days()
     }
     
     func resetBaseDate() {
         self.baseDate = Date()
+    }
+    
+    public func numCompleted() -> (Int, Int) {
+        var completed = 0
+        for day in days() {
+            if habit.wasCompleted(on: day.date) {
+                completed += 1
+            }
+        }
+        
+        let numberOfDaysInMonth = calendar.range(
+            of: .day,
+            in: .month,
+            for: baseDate)!.count
+        
+        return (completed, numberOfDaysInMonth)
+    }
+    
+    /// The number of months since the startDate of this habit
+    public var numMonthsSinceStart: Int {
+        let startMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: habit.startDate))!
+        let endMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))!
+        let component = Calendar.current.dateComponents([.month], from: startMonth, to: endMonth)
+        let numMonths = component.month! + 1
+        return numMonths
     }
 }
