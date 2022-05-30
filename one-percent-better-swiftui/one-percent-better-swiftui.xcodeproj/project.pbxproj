@@ -42,6 +42,7 @@
 		80A600C6283DCEE6007A0C0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C5283DCEE6007A0C0B /* CardView.swift */; };
 		80A600C8283F2B11007A0C0B /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */; };
 		80A600CA2841784A007A0C0B /* CalendarScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C92841784A007A0C0B /* CalendarScrollView.swift */; };
+		80D7E535284526D000577185 /* CalendarSpacingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D7E534284526D000577185 /* CalendarSpacingView.swift */; };
 		80ED9BDE283947DD00A068D9 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80ED9BDD283947DD00A068D9 /* PreviewData.swift */; };
 		80F139F32834506200BC348B /* CreateNewHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F139F22834506200BC348B /* CreateNewHabit.swift */; };
 		80F139F528345B4400BC348B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F139F428345B4400BC348B /* Color.swift */; };
@@ -114,6 +115,7 @@
 		80A600C5283DCEE6007A0C0B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
 		80A600C92841784A007A0C0B /* CalendarScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScrollView.swift; sourceTree = "<group>"; };
+		80D7E534284526D000577185 /* CalendarSpacingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSpacingView.swift; sourceTree = "<group>"; };
 		80ED9BDD283947DD00A068D9 /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		80F139F22834506200BC348B /* CreateNewHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewHabit.swift; sourceTree = "<group>"; };
 		80F139F428345B4400BC348B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 			children = (
 				80428AE82831BFD300A17B53 /* CalenderModel.swift */,
 				8055A99F2831BB73009A1881 /* CalendarView.swift */,
+				80D7E534284526D000577185 /* CalendarSpacingView.swift */,
 				80A600C92841784A007A0C0B /* CalendarScrollView.swift */,
 				80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */,
 			);
@@ -516,6 +519,7 @@
 				80F139F32834506200BC348B /* CreateNewHabit.swift in Sources */,
 				8055A9762831BAA5009A1881 /* ContentView.swift in Sources */,
 				80428B3D2831BFD300A17B53 /* CoreDataMigrationVersion.swift in Sources */,
+				80D7E535284526D000577185 /* CalendarSpacingView.swift in Sources */,
 				80428B422831BFD300A17B53 /* CoreDataMigrator.swift in Sources */,
 				80428B442831BFD300A17B53 /* NSManagedObjectModel+Compatible.swift in Sources */,
 				80F13FE62843C1F2002269F2 /* TaskTableVC.swift in Sources */,

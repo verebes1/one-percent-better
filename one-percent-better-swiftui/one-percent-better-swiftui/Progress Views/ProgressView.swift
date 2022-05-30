@@ -26,7 +26,6 @@ struct ProgressView: View {
                 
                 CardView {
                     CalendarView()
-//                    CalendarScrollView()
                 }
                 
                 Spacer()

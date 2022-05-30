@@ -11,49 +11,72 @@ struct CalendarView: View {
     
     @EnvironmentObject var habit: Habit
     
+    @State var currentPage: Int = 0
+
     var body: some View {
         
         /// Object used to calculate an array of days for each month
-        let calendarCalculator = CalendarModel(habit: habit)
+        let calendarModel = CalendarModel(habit: habit)
         
         let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
-        
         let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
     
-        VStack {
+        VStack(spacing: 0) {
             HStack(spacing: 0) {
                 
-                let baseDate = calendarCalculator.getBaseDate()
-                Text(calendarCalculator.headerFormatter.string(from: baseDate))
+                Text(calendarModel.headerMonth(page: currentPage))
                     .font(.system(size: 19))
                     .fontWeight(.medium)
                 
                 Spacer()
                 
-                let (completed, total) = calendarCalculator.numCompleted()
+                let (completed, total) = calendarModel.numCompleted(page: currentPage)
                 Text("\(completed) of \(total) days")
                     .font(.system(size: 15))
-                    .foregroundColor(Color(hue: 1.0, saturation: 0.009, brightness: 0.239))
+                    .foregroundColor(.secondary)
                     
                 let percent: Double = Double(completed) / Double(total)
                 RingView(percent: percent,
                          size: 20)
                     .frame(width: 30, height: 30)
+                    .animation(.easeInOut, value: percent)
             }
-            .padding(.horizontal, 15)
+            .padding(.leading, 15)
+            .padding(.trailing, 10)
+            .padding(.bottom, 5)
                 
             LazyVGrid(columns: columns) {
                 ForEach(0..<7) { i in
                     Text(smwttfs[i])
                         .fontWeight(.regular)
-                        .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.393))
+                        .foregroundColor(.secondary)
                         
                 }
             }
-            CalendarScrollView()
-                .environmentObject(calendarCalculator)
-//            CalendarDayGridView()
-//                .environmentObject(calendarCalculator)
+            
+            VStack {
+                TabView(selection: $currentPage) {
+                    let numMonths = calendarModel.numMonthsSinceStart
+                    ForEach(0 ..< numMonths, id: \.self) { i in
+                        
+                        let spacing = CGFloat(calendarModel.numWeeksInMonth(page: currentPage))
+                        LazyVGrid(columns: columns, spacing: spacing) {
+                            let offset = numMonths - 1 - i
+                            ForEach(calendarModel.backXMonths(x: offset), id: \.date) { day in
+                                CalendarDayView(day: day,
+                                                fontSize: 13,
+                                                circleSize: 22)
+                            }
+                        }
+                        .animation(.easeInOut, value: spacing)
+                    }
+                }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .frame(width: UIScreen.main.bounds.width - 20, height: 240)
+                .onAppear {
+                    currentPage = calendarModel.numMonthsSinceStart - 1
+                }
+            }
         }
     }
 }
@@ -71,6 +94,8 @@ struct CalendarView_Previews: PreviewProvider {
                     .environment(\.managedObjectContext, context)
             }
         }
+        .preferredColorScheme(.dark)
+        
     }
 }
 
@@ -81,15 +106,15 @@ struct CalendarDayView: View {
     
     let day: Day
     
-    var width: CGFloat? = nil
-    var height: CGFloat? = nil
+    let fontSize: CGFloat
+    var circleSize: CGFloat
     
     var body: some View {
         VStack (spacing: 0) {
             
             Text(day.dayNumber)
-                .font(.system(size: 14))
-                .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.104))
+                .font(.system(size: fontSize))
+                .foregroundColor(.calendarNumberColor)
             
             if Calendar.current.isDateInToday(day.date) {
                 if habit.wasCompleted(on: day.date) {
@@ -97,21 +122,21 @@ struct CalendarDayView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(.green)
-                        .frame(width: width, height: height)
+                        .frame(width: circleSize, height: circleSize)
                 } else {
                     Circle()
                         .stroke(.gray, style: .init(lineWidth: 1))
-                        .frame(width: width, height: height)
+                        .frame(width: circleSize, height: circleSize)
                 }
             } else {
                 if habit.wasCompleted(on: day.date) {
                     Circle()
                         .foregroundColor(.green.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
-                        .frame(width: width, height: height)
+                        .frame(width: circleSize, height: circleSize)
                 } else {
                     Circle()
-                        .foregroundColor(Color.calendarGray.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
-                        .frame(width: width, height: height)
+                        .foregroundColor(.systemGray3.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
+                        .frame(width: circleSize, height: circleSize)
                 }
             }
         }
@@ -121,55 +146,43 @@ struct CalendarDayView: View {
 
 struct CalendarDayView_Previews: PreviewProvider {
     static var previews: some View {
-        let habit = PreviewData.calendarViewData()
+        
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        
+        let h1 = try? Habit(context: context, name: "A")
+        h1?.markCompleted(on: Date())
+        let _ = try? Habit(context: context, name: "B")
+        
+        let habits = Habit.updateHabitList(from: context)
+        
+        let habit1 = habits.first!
+        let habit2 = habits.last!
         
         let day0 = Day(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, isWithinDisplayedMonth: false)
         let day1 = Day(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, isWithinDisplayedMonth: true)
         let day2 = Day(date: Date(), isWithinDisplayedMonth: true)
         
-        HStack {
-            CalendarDayView(day: day0, width: 30, height: 30)
-                .environmentObject(habit)
-            
-            CalendarDayView(day: day1, width: 30, height: 30)
-                .environmentObject(habit)
-            
-            CalendarDayView(day: day2, width: 30, height: 30)
-            .environmentObject(habit)
-        }
-    }
-}
-
-struct CalendarDayGridView: View {
-    
-    @EnvironmentObject var calendarCalculator: CalendarModel
-    
-    var body: some View {
+        let today = Day(date: Date(), isWithinDisplayedMonth: true)
         
-        let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
+        let fontSize: CGFloat = 19
+        let circleSize: CGFloat = 30
         
-        LazyVGrid(columns: columns, spacing: 0) {
-            ForEach(calendarCalculator.days(), id: \.date) { day in
-                CalendarDayView(day: day,
-                                width: 23,
-                                height: 23)
-                .padding(.vertical, 2)
+        return (
+            HStack {
+                CalendarDayView(day: day0, fontSize: fontSize, circleSize: circleSize)
+                    .environmentObject(habit1)
+                
+                CalendarDayView(day: day1, fontSize: fontSize, circleSize: circleSize)
+                    .environmentObject(habit1)
+                
+                CalendarDayView(day: day2, fontSize: fontSize, circleSize: circleSize)
+                .environmentObject(habit1)
+                
+                CalendarDayView(day: today, fontSize: fontSize, circleSize: circleSize)
+                .environmentObject(habit2)
+                
             }
-        }
-        
-//        TabView {
-//            ForEach(0..<3) { i in
-//                LazyVGrid(columns: columns, spacing: 0) {
-//                    ForEach(calendarCalculator.days, id: \.date) { day in
-//                        CalendarDayView(day: day,
-//                                        width: 23,
-//                                        height: 23)
-//                        .padding(.vertical, 2)
-//                    }
-//                }
-//            }
-//        }
-//        .frame(width: 300, height: 280)
-//        .tabViewStyle(PageTabViewStyle())
+                .preferredColorScheme(.dark)
+        )
     }
 }

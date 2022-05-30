@@ -16,7 +16,7 @@ struct CardView<Content>: View where Content: View {
     
     var body: some View {
         content()
-        .padding(.vertical, 10)
+        .padding(.vertical, 5)
         .frame(maxWidth: .infinity)
         .background(Color.cardColor)
         .cornerRadius(10)

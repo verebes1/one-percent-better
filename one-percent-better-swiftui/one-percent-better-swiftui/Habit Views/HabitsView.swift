@@ -33,12 +33,12 @@ struct HabitsView: View {
                     UITableView.appearance().contentInset.top = -25
                 })
                 
-                Button("Add random habit") {
-                    let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
-                    let name = habitNames.randomElement()!
-                    let _ = try? Habit(context: moc, name: name)
-                    try? moc.save()
-                }
+//                Button("Add random habit") {
+//                    let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
+//                    let name = habitNames.randomElement()!
+//                    let _ = try? Habit(context: moc, name: name)
+//                    try? moc.save()
+//                }
             }
             
             .toolbar {
