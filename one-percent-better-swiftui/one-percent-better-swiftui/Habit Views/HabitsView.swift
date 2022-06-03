@@ -16,12 +16,17 @@ struct HabitsView: View {
         NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)
     ]) var habits: FetchedResults<Habit>
     
+    var newHabit: String? = nil
+    
+    @State var isHabitsViewPresenting: Bool = false
+    
     var body: some View {
         NavigationView {
             VStack {
                 List {
                     ForEach(habits, id: \.self.name) { habit in
-                        NavigationLink(destination: ProgressView().environmentObject(habit)) {
+                        NavigationLink(
+                            destination: ProgressView().environmentObject(habit)) {
                             HabitRow()
                                 .environmentObject(habit)
                         }
@@ -46,13 +51,20 @@ struct HabitsView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: CreateNewHabit()) {
-                        Image(systemName: "square.and.pencil")
-                    }
+                    NavigationLink(
+                        destination: CreateNewHabit(rootPresenting: $isHabitsViewPresenting),
+                        isActive: $isHabitsViewPresenting) {
+                            Image(systemName: "square.and.pencil")
+                        }
                 }
             }
             .navigationTitle("Habits")
             .navigationBarTitleDisplayMode(.inline)
+        }
+        .onAppear {
+            if let newHabit = newHabit {
+                let _ = try? Habit(context: moc, name: newHabit)
+            }
         }
     }
     

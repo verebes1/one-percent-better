@@ -11,12 +11,11 @@ struct CreateNewHabit: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @State var habitName: String = ""
-    @State var nextPressed: Bool = false
-    var showNameError: Bool {
-        return nextPressed && habitName.isEmpty
-    }
+    @Binding var rootPresenting: Bool
     
+    @State var habitName: String = ""
+    @State var duplicateNameError: Bool = false
+
     var body: some View {
         Background {
             VStack {
@@ -28,32 +27,37 @@ struct CreateNewHabit: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.cardColor)
                             .frame(height: 50)
-                        HStack {
-                            Text("Name")
-                                .fontWeight(.semibold)
-                                .padding(.leading, 10)
-                            TextField("Habit Name", text: $habitName)
-                        }
-                    }.padding(.horizontal, 15)
+                        TextField("Habit Name", text: $habitName)
+                            .padding(.leading, 10)
+                    }.padding(.horizontal, 20)
                     
-                    if showNameError {
-                        Label("Enter a habit name", systemImage: "exclamationmark.triangle")
+                    if duplicateNameError {
+                        Label("Habit name already exists", systemImage: "exclamationmark.triangle")
                             .foregroundColor(.red)
-                            .animation(.easeInOut, value: nextPressed)
+                            .animation(.easeInOut, value: duplicateNameError)
                     }
                 }
                 
                 Spacer()
                 
-                    
-                NavigationLink(destination: HabitsView()) {
-                    let _ = try? Habit(context: moc, name: habitName)
-                    BottomButton(text: "Create")
-                }
-                .disabled(habitName.isEmpty)
-                .onTapGesture {
-                    nextPressed = true
-                }
+                BottomButton(text: "Create", dependingLabel: $habitName)
+                    .onTapGesture {
+                        duplicateNameError = false
+                        if !habitName.isEmpty {
+                            do {
+                                let _ = try Habit(context: moc, name: habitName)
+                            } catch HabitCreationError.duplicateName {
+                                duplicateNameError = true
+                            } catch {
+                                print("ERROR: Habit creation error: \(error)")
+                            }
+                            
+                            if !duplicateNameError {
+                                try? moc.save()
+                                rootPresenting = false
+                            }
+                        }
+                    }
                 
             }
         }
@@ -61,9 +65,12 @@ struct CreateNewHabit: View {
 }
 
 struct CreateNewHabit_Previews: PreviewProvider {
+    
+    @State static var rootView: Bool = false
+    
     static var previews: some View {
         let context = CoreDataManager.previews.persistentContainer.viewContext
-        CreateNewHabit()
+        CreateNewHabit(rootPresenting: $rootView)
             .environment(\.managedObjectContext, context)
     }
 }
@@ -71,17 +78,19 @@ struct CreateNewHabit_Previews: PreviewProvider {
 struct BottomButton: View {
     
     let text: String
+    @Binding var dependingLabel: String
+    
     var withBottomPadding: Bool = true
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.green)
+                .foregroundColor(dependingLabel.isEmpty ? .systemGray5 : .green)
                 .frame(height: 50)
-                .padding(.horizontal, 15)
+                .padding(.horizontal, 20)
             Text(text)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(dependingLabel.isEmpty ? .tertiaryLabel : .white)
         }
         .padding(.bottom, withBottomPadding ? 10 : 0)
     }
