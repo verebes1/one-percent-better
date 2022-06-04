@@ -1,5 +1,5 @@
 //
-//  HabitRowView.swift
+//  HabitListView.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 5/8/22.
@@ -8,7 +8,7 @@
 import SwiftUI
 import CoreData
 
-struct HabitsView: View {
+struct HabitListView: View {
     
     @Environment(\.managedObjectContext) var moc
     
@@ -16,54 +16,57 @@ struct HabitsView: View {
         NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)
     ]) var habits: FetchedResults<Habit>
     
-    var newHabit: String? = nil
-    
     @State var isHabitsViewPresenting: Bool = false
+    
+    @State var currentDay = Date()
+    
+    init() {
+        UINavigationBar.appearance().isTranslucent = true
+//        UINavigationBar.appearance().frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 410.0)
+    }
     
     var body: some View {
         NavigationView {
-            VStack {
-                List {
-                    ForEach(habits, id: \.self.name) { habit in
-                        NavigationLink(
-                            destination: ProgressView().environmentObject(habit)) {
-                            HabitRow()
-                                .environmentObject(habit)
+            Background {
+                VStack {
+                    HabitsListHeaderView(currentDay: $currentDay)
+//                        .background(.ultraThinMaterial)
+                    
+                    List {
+                        ForEach(habits, id: \.self.name) { habit in
+                            NavigationLink(
+                                destination: ProgressView().environmentObject(habit)) {
+                                    HabitRow()
+                                        .environmentObject(habit)
+                                }
                         }
+                        .onMove(perform: move)
+                        .onDelete(perform: delete)
                     }
-                    .onMove(perform: move)
-                    .onDelete(perform: delete)
+//                    Text("Current day: \(currentDay)")
                 }
-                .onAppear(perform: {
-                    UITableView.appearance().contentInset.top = -25
-                })
                 
-//                Button("Add random habit") {
-//                    let habitNames = ["Ginny", "Harry", "Hermione", "Luna", "Ron", "Dumbledoor", "Voldemort"]
-//                    let name = habitNames.randomElement()!
-//                    let _ = try? Habit(context: moc, name: name)
-//                    try? moc.save()
-//                }
-            }
-            
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        EditButton()
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(
+                            destination: CreateNewHabit(rootPresenting: $isHabitsViewPresenting),
+                            isActive: $isHabitsViewPresenting) {
+                                Image(systemName: "square.and.pencil")
+                            }
+                    }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(
-                        destination: CreateNewHabit(rootPresenting: $isHabitsViewPresenting),
-                        isActive: $isHabitsViewPresenting) {
-                            Image(systemName: "square.and.pencil")
-                        }
-                }
+                .navigationTitle("Habits")
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .navigationTitle("Habits")
-            .navigationBarTitleDisplayMode(.inline)
-        }
-        .onAppear {
-            if let newHabit = newHabit {
-                let _ = try? Habit(context: moc, name: newHabit)
+            .onAppear {
+                UITableView.appearance().contentInset.top = -25
+                
+                if !Calendar.current.isDate(currentDay, inSameDayAs: Date()) {
+                    currentDay = Date()
+                }
             }
         }
     }
@@ -108,7 +111,7 @@ struct HabitsView_Previews: PreviewProvider {
     static var previews: some View {
         PreviewData.habitViewData()
 
-        return HabitsView()
+        return HabitListView()
             .environment(\.managedObjectContext, CoreDataManager.previews.persistentContainer.viewContext)
     }
 }

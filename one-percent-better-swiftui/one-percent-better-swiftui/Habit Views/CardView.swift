@@ -10,10 +10,6 @@ import SwiftUI
 struct CardView<Content>: View where Content: View {
     let content: () -> Content
     
-    init(@ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-    }
-    
     var body: some View {
         content()
         .padding(.vertical, 5)
@@ -29,7 +25,7 @@ struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             Background {
-                VStack {
+                VStack(spacing: 20) {
                     CardView {
                         VStack {
                             Spacer()
@@ -49,7 +45,7 @@ struct CardView_Previews: PreviewProvider {
             }
             
             Background {
-                VStack {
+                VStack(spacing: 20) {
                     CardView {
                         VStack {
                             Spacer()

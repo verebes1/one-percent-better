@@ -12,24 +12,25 @@ struct ProgressView: View {
     
     @EnvironmentObject var habit: Habit
     
+    @State var progressPresenting: Bool = false
+    
     var body: some View {
         Background {
-            VStack {
-                HStack {
-                    Text(habit.name)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.leading)
-                    .font(.title)
-                    Spacer()
-                }
-                .padding(.horizontal, 15)
-                
+            VStack(spacing: 20) {
                 CardView {
                     CalendarView()
                 }
                 
+                NavigationLink(destination: CreateNewTracker(progressPresenting: $progressPresenting), isActive: $progressPresenting) {
+                    Label("New Tracker", systemImage: "plus.circle")
+                }
+                .padding(.top, 15)
+                
+                
                 Spacer()
             }
+            .navigationTitle(habit.name)
+            .navigationBarTitleDisplayMode(.large)
         }
     }
 }
@@ -38,8 +39,13 @@ struct ProgressView_Previews: PreviewProvider {
     
     static var previews: some View {
         let habit = PreviewData.progressViewData()
-        return ProgressView()
-            .preferredColorScheme(.light)
-            .environmentObject(habit)
+        return(
+            NavigationView {
+                ProgressView()
+                    .preferredColorScheme(.light)
+                    .environmentObject(habit)
+            }
+                
+        )
     }
 }

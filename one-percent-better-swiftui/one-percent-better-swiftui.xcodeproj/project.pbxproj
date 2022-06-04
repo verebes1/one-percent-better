@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		803A6D41284AAC2D00A83656 /* CreateTableTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A6D40284AAC2D00A83656 /* CreateTableTracker.swift */; };
+		803A6D43284AB23200A83656 /* TableTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A6D42284AB23200A83656 /* TableTrackerView.swift */; };
+		803A6D45284AC89300A83656 /* ScrollableListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A6D44284AC89300A83656 /* ScrollableListView.swift */; };
+		803A6D47284ACD9D00A83656 /* HabitsListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A6D46284ACD9D00A83656 /* HabitsListHeaderView.swift */; };
 		80428B302831BFD300A17B53 /* CalenderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80428AE82831BFD300A17B53 /* CalenderModel.swift */; };
 		80428B3B2831BFD300A17B53 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80428AF62831BFD300A17B53 /* CoreDataManager.swift */; };
 		80428B3C2831BFD300A17B53 /* MigrationModel2to3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80428AF82831BFD300A17B53 /* MigrationModel2to3.swift */; };
@@ -36,8 +40,7 @@
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		8055A9A52831BB79009A1881 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99F2831BB73009A1881 /* CalendarView.swift */; };
-		8055A9A82831BB79009A1881 /* NewHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99E2831BB73009A1881 /* NewHabitView.swift */; };
-		8055A9AA2831BB79009A1881 /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99D2831BB73009A1881 /* HabitsView.swift */; };
+		8055A9AA2831BB79009A1881 /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99D2831BB73009A1881 /* HabitListView.swift */; };
 		8055A9AB2831BB79009A1881 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A32831BB73009A1881 /* RingView.swift */; };
 		80A600C6283DCEE6007A0C0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C5283DCEE6007A0C0B /* CardView.swift */; };
 		80A600C8283F2B11007A0C0B /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */; };
@@ -54,6 +57,7 @@
 		80F13FE72843C1F2002269F2 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F13FE42843C1F2002269F2 /* Task.swift */; };
 		80F13FE82843C1F2002269F2 /* CreateTaskNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F13FE52843C1F2002269F2 /* CreateTaskNameVC.swift */; };
 		80F13FEB2843C213002269F2 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F13FEA2843C213002269F2 /* ExportManager.swift */; };
+		80F3A9E0284BBA630021D84E /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F3A9DF284BBA630021D84E /* BlurView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +78,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		803A6D40284AAC2D00A83656 /* CreateTableTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTableTracker.swift; sourceTree = "<group>"; };
+		803A6D42284AB23200A83656 /* TableTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableTrackerView.swift; sourceTree = "<group>"; };
+		803A6D44284AC89300A83656 /* ScrollableListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollableListView.swift; sourceTree = "<group>"; };
+		803A6D46284ACD9D00A83656 /* HabitsListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsListHeaderView.swift; sourceTree = "<group>"; };
 		80428AE82831BFD300A17B53 /* CalenderModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalenderModel.swift; sourceTree = "<group>"; };
 		80428AF62831BFD300A17B53 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		80428AF82831BFD300A17B53 /* MigrationModel2to3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationModel2to3.swift; sourceTree = "<group>"; };
@@ -108,8 +116,7 @@
 		8055A98A2831BAA8009A1881 /* one-percent-better-swiftuiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-better-swiftuiUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		8055A99D2831BB73009A1881 /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
-		8055A99E2831BB73009A1881 /* NewHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitView.swift; sourceTree = "<group>"; };
+		8055A99D2831BB73009A1881 /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
 		8055A99F2831BB73009A1881 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		8055A9A32831BB73009A1881 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
 		80A600C5283DCEE6007A0C0B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
@@ -127,6 +134,7 @@
 		80F13FE42843C1F2002269F2 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		80F13FE52843C1F2002269F2 /* CreateTaskNameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTaskNameVC.swift; sourceTree = "<group>"; };
 		80F13FEA2843C213002269F2 /* ExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExportManager.swift; path = "../../../one-percent-better/one-percent-better/Settings/ExportManager.swift"; sourceTree = "<group>"; };
+		80F3A9DF284BBA630021D84E /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,8 +284,8 @@
 				80428B1C2831BFD300A17B53 /* Data Model */,
 				80428AF52831BFD300A17B53 /* Core Data Manager */,
 				80CDEAE52831BE6700AFBAD6 /* Habit Views */,
-				80F13FE12843C1F2002269F2 /* Tasks */,
 				80A600CC28430877007A0C0B /* Progress Views */,
+				80F13FE12843C1F2002269F2 /* Tasks */,
 				80F13FE92843C207002269F2 /* Export Manager */,
 				80428B062831BFD300A17B53 /* Extensions */,
 				80428B0D2831BFD300A17B53 /* Global Style */,
@@ -338,16 +346,20 @@
 		80CDEAE52831BE6700AFBAD6 /* Habit Views */ = {
 			isa = PBXGroup;
 			children = (
-				8055A99D2831BB73009A1881 /* HabitsView.swift */,
-				8055A99E2831BB73009A1881 /* NewHabitView.swift */,
+				8055A99D2831BB73009A1881 /* HabitListView.swift */,
+				803A6D46284ACD9D00A83656 /* HabitsListHeaderView.swift */,
+				803A6D44284AC89300A83656 /* ScrollableListView.swift */,
 				8055A9A32831BB73009A1881 /* RingView.swift */,
 				80F139F22834506200BC348B /* CreateNewHabit.swift */,
 				80F139F62834940800BC348B /* CreateNewTracker.swift */,
+				803A6D40284AAC2D00A83656 /* CreateTableTracker.swift */,
 				80F139FA2835640100BC348B /* HabitCreationHeader.swift */,
 				80F139F8283560B400BC348B /* Background.swift */,
 				80ED9BDD283947DD00A068D9 /* PreviewData.swift */,
 				805343BA283BD32E004D7410 /* HabitCompletionCircle.swift */,
 				80A600C5283DCEE6007A0C0B /* CardView.swift */,
+				803A6D42284AB23200A83656 /* TableTrackerView.swift */,
+				80F3A9DF284BBA630021D84E /* BlurView.swift */,
 			);
 			path = "Habit Views";
 			sourceTree = "<group>";
@@ -509,15 +521,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8055A9AA2831BB79009A1881 /* HabitsView.swift in Sources */,
+				8055A9AA2831BB79009A1881 /* HabitListView.swift in Sources */,
 				80428B402831BFD300A17B53 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				80428B3E2831BFD300A17B53 /* mo_ikai.xcdatamodeld in Sources */,
 				80A600C8283F2B11007A0C0B /* ScrollViewTest.swift in Sources */,
 				80F139F72834940800BC348B /* CreateNewTracker.swift in Sources */,
-				8055A9A82831BB79009A1881 /* NewHabitView.swift in Sources */,
+				803A6D41284AAC2D00A83656 /* CreateTableTracker.swift in Sources */,
 				8055A9AB2831BB79009A1881 /* RingView.swift in Sources */,
 				80F139F32834506200BC348B /* CreateNewHabit.swift in Sources */,
 				8055A9762831BAA5009A1881 /* ContentView.swift in Sources */,
+				803A6D47284ACD9D00A83656 /* HabitsListHeaderView.swift in Sources */,
 				80428B3D2831BFD300A17B53 /* CoreDataMigrationVersion.swift in Sources */,
 				80D7E535284526D000577185 /* CalendarSpacingView.swift in Sources */,
 				80428B422831BFD300A17B53 /* CoreDataMigrator.swift in Sources */,
@@ -530,9 +543,12 @@
 				80ED9BDE283947DD00A068D9 /* PreviewData.swift in Sources */,
 				80F13FE82843C1F2002269F2 /* CreateTaskNameVC.swift in Sources */,
 				80428B522831BFD400A17B53 /* NumberTracker.swift in Sources */,
+				803A6D43284AB23200A83656 /* TableTrackerView.swift in Sources */,
 				805343BB283BD32E004D7410 /* HabitCompletionCircle.swift in Sources */,
 				80F139F9283560B400BC348B /* Background.swift in Sources */,
+				80F3A9E0284BBA630021D84E /* BlurView.swift in Sources */,
 				80428B432831BFD300A17B53 /* NSManagedObjectModel+Resource.swift in Sources */,
+				803A6D45284AC89300A83656 /* ScrollableListView.swift in Sources */,
 				80428B472831BFD300A17B53 /* Style.swift in Sources */,
 				80A600CA2841784A007A0C0B /* CalendarScrollView.swift in Sources */,
 				8055A9742831BAA5009A1881 /* OnePercentBetterApp.swift in Sources */,

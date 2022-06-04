@@ -9,35 +9,41 @@ import SwiftUI
 
 struct CreateNewTracker: View {
     
-    let habitName: String
+    @EnvironmentObject var habit: Habit
+    
+    @Binding var progressPresenting: Bool
     
     let trackerViews: [TrackerView] = [
-        TrackerView(systemImage: "chart.xyaxis.line",
-                    color: .blue,
-                    title: "Graph"),
-        TrackerView(systemImage: "photo",
-                    color: .mint,
-                    title: "Picture",
-                    available: false),
-        TrackerView(systemImage: "video",
-                    color: .purple,
-                    title: "Video",
-                    available: false),
-        TrackerView(systemImage: "note.text",
-                    color: .red,
-                    title: "Note",
-                    available: false),
-        TrackerView(systemImage: "face.smiling",
-                    color: .yellow,
-                    title: "Feeling",
-                    available: false),
-        TrackerView(systemImage: "mic",
-                    color: .cyan,
-                    title: "Audio Note",
-                    available: false)
+        TrackerView(systemImage: "tablecells",
+                    color: .systemOrange,
+                    title: "Table"),
+//        TrackerView(systemImage: "chart.xyaxis.line",
+//                    color: .blue,
+//                    title: "Graph",
+//                   available: false),
+//        TrackerView(systemImage: "photo",
+//                    color: .mint,
+//                    title: "Picture",
+//                    available: false),
+//        TrackerView(systemImage: "video",
+//                    color: .purple,
+//                    title: "Video",
+//                    available: false),
+//        TrackerView(systemImage: "note.text",
+//                    color: .red,
+//                    title: "Note",
+//                    available: false),
+//        TrackerView(systemImage: "face.smiling",
+//                    color: .yellow,
+//                    title: "Feeling",
+//                    available: false),
+//        TrackerView(systemImage: "mic",
+//                    color: .cyan,
+//                    title: "Recording",
+//                    available: false)
     ]
     
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 1)
     let columnSpacing: CGFloat = 11
     
     var body: some View {
@@ -51,23 +57,29 @@ struct CreateNewTracker: View {
                 
                 LazyVGrid(columns: columns, spacing: columnSpacing) {
                     ForEach(trackerViews, id: \.self.title) { trackerView in
-                        trackerView
+                        NavigationLink(destination: CreateTableTracker(progressPresenting: $progressPresenting)) {
+                            trackerView
+                        }
                     }
                 }
                 .padding(.horizontal, 15)
 
                 Spacer()
-//
-//                BottomButton(withBottomPadding: false)
-//                SkipButton()
             }
         }
     }
 }
 
 struct CreateNewTracker_Previews: PreviewProvider {
+    
+    @State static var parentPresenting: Bool = false
+    
     static var previews: some View {
-        CreateNewTracker(habitName: "Test Habit")
+        let habit = PreviewData.sampleHabit()
+        NavigationView {
+            CreateNewTracker(progressPresenting: $parentPresenting)
+                .environmentObject(habit)
+        }
     }
 }
 

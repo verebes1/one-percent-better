@@ -10,6 +10,13 @@ import CoreData
 
 class PreviewData {
     
+    static func sampleHabit() -> Habit {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        let _ = try? Habit(context: context, name: "Swimming")
+        let habits = Habit.updateHabitList(from: context)
+        return habits.first!
+    }
+    
     static func habitViewData() {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         
@@ -25,11 +32,8 @@ class PreviewData {
     
     static func progressViewData() -> Habit {
         let context = CoreDataManager.previews.persistentContainer.viewContext
-        
         let _ = try? Habit(context: context, name: "Swimming")
-        
         let habits = Habit.updateHabitList(from: context)
-        
         return habits.first!
     }
     

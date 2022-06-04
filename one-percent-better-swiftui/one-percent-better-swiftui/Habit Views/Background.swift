@@ -8,12 +8,7 @@
 import SwiftUI
 
 struct Background<Content>: View where Content: View {
-    
     let content: () -> Content
-    
-    init(@ViewBuilder _ content: @escaping () -> Content) {
-        self.content = content
-    }
     
     var body: some View {
         ZStack {
