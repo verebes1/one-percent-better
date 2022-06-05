@@ -13,8 +13,17 @@ class PreviewData {
     static func sampleHabit() -> Habit {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         let _ = try? Habit(context: context, name: "Swimming")
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         return habits.first!
+    }
+    
+    static func createHabits(_ names: [String]) -> [Habit] {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        for name in names {
+            let _ = try? Habit(context: context, name: name)
+        }
+        let habits = Habit.habitList(from: context)
+        return habits
     }
     
     static func habitViewData() {
@@ -33,7 +42,7 @@ class PreviewData {
     static func progressViewData() -> Habit {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         let _ = try? Habit(context: context, name: "Swimming")
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         return habits.first!
     }
     
@@ -44,7 +53,7 @@ class PreviewData {
         let h2 = try? Habit(context: context, name: "Jogging")
         h2?.markCompleted(on: Date())
         
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         
         return habits
     }
@@ -55,7 +64,7 @@ class PreviewData {
         let h1 = try? Habit(context: context, name: "Jumping Jacks")
         h1?.markCompleted(on: Date())
         
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         
         return habits.first!
     }

@@ -17,9 +17,6 @@ struct CalendarSpacingView: View {
     
     var body: some View {
         
-        /// Object used to calculate an array of days for each month
-        let calendarModel = CalendarModel(habit: habit)
-        
         let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
         
         LazyVGrid(columns: columns, spacing: spacing) {
@@ -52,7 +49,7 @@ struct CalendarSpacingView_Previews: PreviewProvider {
         
         let _ = try? Habit(context: context, name: "A")
         
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         
         let habit = habits.first!
         

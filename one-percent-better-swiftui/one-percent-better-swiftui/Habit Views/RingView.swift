@@ -34,6 +34,7 @@ struct RingView: View {
                 .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
                 .frame(width: size, height: size)
+                .animation(.easeInOut, value: percent)
             
             if withText {
                 Text("\(Int(round(100*percent)))%")

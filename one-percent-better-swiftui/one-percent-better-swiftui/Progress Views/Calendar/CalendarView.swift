@@ -39,7 +39,6 @@ struct CalendarView: View {
                 RingView(percent: percent,
                          size: 20)
                     .frame(width: 30, height: 30)
-                    .animation(.easeInOut, value: percent)
             }
             .padding(.leading, 15)
             .padding(.trailing, 10)
@@ -153,7 +152,7 @@ struct CalendarDayView_Previews: PreviewProvider {
         h1?.markCompleted(on: Date())
         let _ = try? Habit(context: context, name: "B")
         
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         
         let habit1 = habits.first!
         let habit2 = habits.last!

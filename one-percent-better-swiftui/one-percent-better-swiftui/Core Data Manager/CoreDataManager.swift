@@ -99,7 +99,7 @@ class CoreDataManager: ObservableObject {
     
     static func resetPreviewsData() {
         let context = Self.previews.persistentContainer.viewContext
-        let fetchedHabits = Habit.updateHabitList(from: context)
+        let fetchedHabits = Habit.habitList(from: context)
         for habit in fetchedHabits {
             context.delete(habit)
         }

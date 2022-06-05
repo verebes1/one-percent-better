@@ -41,7 +41,7 @@ class ExportManager: NSObject {
     
     func createJSON(context: NSManagedObjectContext) -> URL? {
         // Create ExportContainer object
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         let tasks = Task.updateTaskList(from: context)
         let container = ExportContainer(habits: habits, tasks: tasks)
         

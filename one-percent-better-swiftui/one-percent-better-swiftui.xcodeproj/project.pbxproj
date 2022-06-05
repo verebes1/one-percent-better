@@ -58,6 +58,7 @@
 		80F13FE82843C1F2002269F2 /* CreateTaskNameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F13FE52843C1F2002269F2 /* CreateTaskNameVC.swift */; };
 		80F13FEB2843C213002269F2 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F13FEA2843C213002269F2 /* ExportManager.swift */; };
 		80F3A9E0284BBA630021D84E /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F3A9DF284BBA630021D84E /* BlurView.swift */; };
+		80F3A9E2284D04440021D84E /* HabitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F3A9E1284D04440021D84E /* HabitHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +136,7 @@
 		80F13FE52843C1F2002269F2 /* CreateTaskNameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTaskNameVC.swift; sourceTree = "<group>"; };
 		80F13FEA2843C213002269F2 /* ExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExportManager.swift; path = "../../../one-percent-better/one-percent-better/Settings/ExportManager.swift"; sourceTree = "<group>"; };
 		80F3A9DF284BBA630021D84E /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		80F3A9E1284D04440021D84E /* HabitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +254,7 @@
 				80428B1F2831BFD300A17B53 /* ImprovementTracker.swift */,
 				80428B202831BFD300A17B53 /* ImageTracker.swift */,
 				80428B212831BFD300A17B53 /* Habit.swift */,
+				80F3A9E1284D04440021D84E /* HabitHelper.swift */,
 				80428B222831BFD300A17B53 /* Tracker.swift */,
 				80428B232831BFD300A17B53 /* GraphTracker.swift */,
 			);
@@ -281,8 +284,8 @@
 		8055A9722831BAA5009A1881 /* one-percent-better-swiftui */ = {
 			isa = PBXGroup;
 			children = (
-				80428B1C2831BFD300A17B53 /* Data Model */,
 				80428AF52831BFD300A17B53 /* Core Data Manager */,
+				80428B1C2831BFD300A17B53 /* Data Model */,
 				80CDEAE52831BE6700AFBAD6 /* Habit Views */,
 				80A600CC28430877007A0C0B /* Progress Views */,
 				80F13FE12843C1F2002269F2 /* Tasks */,
@@ -540,6 +543,7 @@
 				80F139FB2835640100BC348B /* HabitCreationHeader.swift in Sources */,
 				80428B542831BFD400A17B53 /* ImageTracker.swift in Sources */,
 				80F139FD2835A61000BC348B /* ProgressView.swift in Sources */,
+				80F3A9E2284D04440021D84E /* HabitHelper.swift in Sources */,
 				80ED9BDE283947DD00A068D9 /* PreviewData.swift in Sources */,
 				80F13FE82843C1F2002269F2 /* CreateTaskNameVC.swift in Sources */,
 				80428B522831BFD400A17B53 /* NumberTracker.swift in Sources */,

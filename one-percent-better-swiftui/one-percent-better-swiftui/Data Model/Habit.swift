@@ -134,7 +134,7 @@ public class Habit: NSManagedObject, Codable {
     
     convenience init(context: NSManagedObjectContext, name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         for habit in habits {
             if habit.name == name {
                 throw HabitCreationError.duplicateName
@@ -154,7 +154,7 @@ public class Habit: NSManagedObject, Codable {
     
     func setName(_ name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.updateHabitList(from: CoreDataManager.shared.mainContext)
+        let habits = Habit.habitList(from: CoreDataManager.shared.mainContext)
         for habit in habits {
             if habit.name == name {
                 throw HabitCreationError.duplicateName
@@ -205,7 +205,7 @@ public class Habit: NSManagedObject, Codable {
         }
     }
     
-    class func updateHabitList(from context: NSManagedObjectContext) -> [Habit] {
+    class func habitList(from context: NSManagedObjectContext) -> [Habit] {
         var habits: [Habit] = []
         do {
             // fetch all habits
@@ -282,7 +282,7 @@ public class Habit: NSManagedObject, Codable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
     
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
         var name = try container.decode(String.self, forKey: .name)
         let today = Date()
         for habit in habits {

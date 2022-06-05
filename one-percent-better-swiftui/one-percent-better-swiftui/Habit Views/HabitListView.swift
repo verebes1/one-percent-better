@@ -29,8 +29,8 @@ struct HabitListView: View {
         NavigationView {
             Background {
                 VStack {
-                    HabitsListHeaderView(currentDay: $currentDay)
-//                        .background(.ultraThinMaterial)
+                    Text("currentDay: \(currentDay)")
+                    HabitsListHeaderView(viewModel: HabitHeaderViewModel(managedObjectContext: moc), currentDay: $currentDay)
                     
                     List {
                         ForEach(habits, id: \.self.name) { habit in

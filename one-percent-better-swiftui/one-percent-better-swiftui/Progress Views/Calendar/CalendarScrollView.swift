@@ -68,7 +68,7 @@ struct CalendarScrollView_Previews: PreviewProvider {
         let fourMonthsBack = Calendar.current.date(byAdding: .month, value: -4, to: Date())!
         h1?.markCompleted(on: fourMonthsBack)
 
-        let habits = Habit.updateHabitList(from: context)
+        let habits = Habit.habitList(from: context)
 
         let habit = habits.first!
         
