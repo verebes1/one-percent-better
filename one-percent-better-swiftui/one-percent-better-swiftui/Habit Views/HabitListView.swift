@@ -17,33 +17,40 @@ struct HabitListView: View {
     ]) var habits: FetchedResults<Habit>
     
     @State var isHabitsViewPresenting: Bool = false
-    
     @State var currentDay = Date()
     
-    init() {
-        UINavigationBar.appearance().isTranslucent = true
-//        UINavigationBar.appearance().frame = CGRect(x: 0.0, y: 0.0, width: 320.0, height: 410.0)
-    }
+    /// Date formatter for the month year label at the top of the calendar
+    var dateTitleFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
+        return dateFormatter
+    }()
+    
+//    init() {
+//        UINavigationBar.appearance().isTranslucent = true
+//    }
     
     var body: some View {
         NavigationView {
             Background {
                 VStack {
-                    Text("currentDay: \(currentDay)")
-                    HabitsListHeaderView(viewModel: HabitHeaderViewModel(managedObjectContext: moc), currentDay: $currentDay)
+                    HabitsHeaderView(viewModel: HabitsHeaderViewModel(moc),
+                                         currentDay: $currentDay)
                     
                     List {
                         ForEach(habits, id: \.self.name) { habit in
                             NavigationLink(
                                 destination: ProgressView().environmentObject(habit)) {
-                                    HabitRow()
+                                    HabitRow(currentDay: currentDay)
                                         .environmentObject(habit)
+                                        .animation(.easeInOut, value: currentDay)
                                 }
                         }
                         .onMove(perform: move)
                         .onDelete(perform: delete)
                     }
-//                    Text("Current day: \(currentDay)")
                 }
                 
                 .toolbar {
@@ -58,7 +65,7 @@ struct HabitListView: View {
                             }
                     }
                 }
-                .navigationTitle("Habits")
+                .navigationTitle("\(dateTitleFormatter.string(from: currentDay))")
                 .navigationBarTitleDisplayMode(.inline)
             }
             .onAppear {
@@ -120,10 +127,12 @@ struct HabitRow: View {
     
     @EnvironmentObject var habit: Habit
     
+    var currentDay: Date
+    
     var body: some View {
         HStack {
             VStack {
-                HabitCompletionCircle(completed: habit.wasCompleted(on: Date()),
+                HabitCompletionCircle(currentDay: currentDay,
                                       size: 28)
             }
             VStack(alignment: .leading) {
@@ -131,9 +140,11 @@ struct HabitRow: View {
                 Text(habit.name)
                     .font(.system(size: 16))
                 
-                Text(habit.streakLabel)
-                    .font(.system(size: 11))
-                    .foregroundColor(habit.streakLabelColor)
+                if Calendar.current.isDateInToday(currentDay) {
+                    Text(habit.streakLabel)
+                        .font(.system(size: 11))
+                        .foregroundColor(habit.streakLabelColor)
+                }
             }
             Spacer()
         }

@@ -391,3 +391,11 @@ extension Habit {
     @NSManaged public func removeFromTrackers(_ values: NSOrderedSet)
 
 }
+
+extension Habit {
+    static func resultsController(context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = []) -> NSFetchedResultsController<Habit> {
+        let request = NSFetchRequest<Habit>(entityName: "Habit")
+        request.sortDescriptors = sortDescriptors.isEmpty ? nil : sortDescriptors
+        return NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }
+}

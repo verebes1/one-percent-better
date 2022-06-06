@@ -20,29 +20,34 @@ struct RingView: View {
     @State var completed: Bool = false
     
     var body: some View {
-        ZStack {
-            Circle()
-                .trim(from: 0, to: 1)
-                .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
-                .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                .frame(width: size, height: size)
-            
-            Circle()
-                .trim(from: completed ? 0.01 : 1-percent, to: 1)
-                .stroke(color, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
-                .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                .frame(width: size, height: size)
-                .animation(.easeInOut, value: percent)
+        VStack(spacing: 5) {
+            ZStack {
+                Circle()
+                    .trim(from: 0, to: 1)
+                    .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                    .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
+                    .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
+                    .frame(width: size, height: size)
+                
+                Circle()
+                    .trim(from: completed ? 0.01 : 1-percent, to: 1)
+                    .stroke(color, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                    .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
+                    .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
+                    .frame(width: size, height: size)
+                    .animation(.easeInOut, value: percent)
+                
+                
+            }
+            .padding(lineWidth/2)
             
             if withText {
-                Text("\(Int(round(100*percent)))%")
-                    .font(.system(size: size/4))
-                //                    .frame(width: 100, height: 100, alignment: .center)
+                Text("\(Int(round(100 * percent)))%")
+                    .font(.system(size: size/3))
+                    .fontWeight(.bold)
+                    .foregroundColor(color)
             }
         }
-        .padding(lineWidth/2)
         .contentShape(Rectangle())
     }
 }

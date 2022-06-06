@@ -10,14 +10,13 @@ import SwiftUI
 struct HabitCompletionCircle: View {
     @EnvironmentObject var habit: Habit
     
-    @State var completed: Bool
+    var currentDay: Date
     var color: Color = .green
     var size: CGFloat = 100
-    
     var lineWidth: CGFloat {
         size/5
     }
-
+    
     var body: some View {
         ZStack {
             Circle()
@@ -28,28 +27,30 @@ struct HabitCompletionCircle: View {
                 .frame(width: size, height: size)
             
             Circle()
-                .trim(from: completed ? 0.01 : 1, to: 1)
+                .trim(from: habit.wasCompleted(on: currentDay) ? 0.01 : 1, to: 1)
                 .stroke(color, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
                 .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                 .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                .animation(.easeOut, value: completed)
                 .frame(width: size, height: size)
         }
         .padding(lineWidth/2)
         .contentShape(Rectangle())
         .onTapGesture {
-            if habit.wasCompleted(on: Date()) {
-                habit.markNotCompleted(on: Date())
-                completed = false
-            } else {
-                habit.markCompleted(on: Date())
-                completed = true
+            withAnimation {
+                if habit.wasCompleted(on: currentDay) {
+                    habit.markNotCompleted(on: currentDay)
+                } else {
+                    habit.markCompleted(on: currentDay)
+                }
             }
         }
     }
 }
 
 struct HabitCompletionCircle_Previews: PreviewProvider {
+    
+    @State static var currentDay = Date()
+    
     static var previews: some View {
         
         let habits = PreviewData.habitCompletionCircleData()
@@ -57,7 +58,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
         VStack {
             Text("Not completed")
             let notCompletedHabit = habits.first!
-            HabitCompletionCircle(completed: notCompletedHabit.wasCompleted(on: Date()))
+            HabitCompletionCircle(currentDay: currentDay)
                 .environmentObject(notCompletedHabit)
                 .border(Color.black, width: 1)
             
@@ -66,7 +67,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             
             Text("Completed")
             let completedHabit = habits.last!
-            HabitCompletionCircle(completed: completedHabit.wasCompleted(on: Date()))
+            HabitCompletionCircle(currentDay: currentDay)
                 .environmentObject(completedHabit)
                 .border(Color.black, width: 1)
         }
