@@ -42,10 +42,12 @@ struct RingView: View {
             .padding(lineWidth/2)
             
             if withText {
-                Text("\(Int(round(100 * percent)))%")
-                    .font(.system(size: size/3))
-                    .fontWeight(.bold)
-                    .foregroundColor(color)
+                if let intPercent = Int(round(100 * percent)) {
+                    Text("\(intPercent)%")
+                        .font(.system(size: size/3))
+                        .fontWeight(.bold)
+                        .foregroundColor(color)
+                }
             }
         }
         .contentShape(Rectangle())

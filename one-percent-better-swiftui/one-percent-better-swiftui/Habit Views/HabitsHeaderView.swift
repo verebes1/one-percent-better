@@ -71,6 +71,7 @@ class HabitsHeaderViewModel: NSObject, NSFetchedResultsControllerDelegate, Obser
         let day = date(week: week, day: day)
         var numCompleted: Double = 0
         let total: Double = Double(habits.count)
+        guard total > 0 else { return 0 }
         for habit in habits {
             if habit.wasCompleted(on: day) {
                 numCompleted += 1
@@ -129,7 +130,7 @@ struct HabitsHeaderView: View {
                                 }
                             }
                             .contentShape(Rectangle())
-                            .opacity(dayOffset > 0 ? 0.2 : 1)
+                            .opacity(dayOffset > 0 ? 0.4 : 1)
                         }
                     }
                     .padding(.horizontal, 20)

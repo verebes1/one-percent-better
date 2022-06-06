@@ -15,7 +15,9 @@ struct CreateNewHabit: View {
     
     @State var habitName: String = ""
     @State var duplicateNameError: Bool = false
-
+    @State private var isUsernameFirstResponder : Bool? = true
+    @State private var isPasswordFirstResponder : Bool? =  false
+    
     var body: some View {
         Background {
             VStack {
@@ -27,9 +29,18 @@ struct CreateNewHabit: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.cardColor)
                             .frame(height: 50)
-                        TextField("Habit Name", text: $habitName)
+//                        TextField("Habit Name", text: $habitName)
+//                            .padding(.leading, 10)
+                        
+                        CustomTextField(text: $habitName,
+                                        nextResponder: $isPasswordFirstResponder,
+                                        isResponder: $isUsernameFirstResponder,
+                                        isSecured: false,
+                                        keyboard: .default)
                             .padding(.leading, 10)
-                    }.padding(.horizontal, 20)
+                            .frame(height: 50)
+                    }
+                    .padding(.horizontal, 20)
                     
                     if duplicateNameError {
                         Label("Habit name already exists", systemImage: "exclamationmark.triangle")
@@ -58,7 +69,6 @@ struct CreateNewHabit: View {
                             }
                         }
                     }
-                
             }
         }
     }
@@ -109,4 +119,71 @@ struct SkipButton: View {
         }
         .padding(.bottom, 10)
     }
+}
+
+
+struct CustomTextField: UIViewRepresentable {
+
+   class Coordinator: NSObject, UITextFieldDelegate {
+
+      @Binding var text: String
+      @Binding var nextResponder : Bool?
+      @Binding var isResponder : Bool?
+
+      init(text: Binding<String>, nextResponder : Binding<Bool?> , isResponder : Binding<Bool?>) {
+        _text = text
+        _isResponder = isResponder
+        _nextResponder = nextResponder
+      }
+
+      func textFieldDidChangeSelection(_ textField: UITextField) {
+        text = textField.text ?? ""
+      }
+    
+      func textFieldDidBeginEditing(_ textField: UITextField) {
+         DispatchQueue.main.async {
+             self.isResponder = true
+         }
+      }
+    
+      func textFieldDidEndEditing(_ textField: UITextField) {
+         DispatchQueue.main.async {
+             self.isResponder = false
+             if self.nextResponder != nil {
+                 self.nextResponder = true
+             }
+         }
+      }
+  }
+
+  @Binding var text: String
+  @Binding var nextResponder : Bool?
+  @Binding var isResponder : Bool?
+
+  var isSecured : Bool = false
+  var keyboard : UIKeyboardType
+
+  func makeUIView(context: UIViewRepresentableContext<CustomTextField>) -> UITextField {
+      let textField = UITextField(frame: .zero)
+      textField.isSecureTextEntry = isSecured
+      textField.autocapitalizationType = .none
+      textField.autocorrectionType = .no
+      textField.keyboardType = keyboard
+      textField.delegate = context.coordinator
+      textField.placeholder = "Habit Name"
+      textField.autocapitalizationType = .words
+      return textField
+  }
+
+  func makeCoordinator() -> CustomTextField.Coordinator {
+      return Coordinator(text: $text, nextResponder: $nextResponder, isResponder: $isResponder)
+  }
+
+  func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<CustomTextField>) {
+       uiView.text = text
+       if isResponder ?? false {
+           uiView.becomeFirstResponder()
+       }
+  }
+
 }

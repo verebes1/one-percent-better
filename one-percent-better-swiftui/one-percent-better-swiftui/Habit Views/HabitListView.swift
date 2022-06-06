@@ -28,10 +28,6 @@ struct HabitListView: View {
         return dateFormatter
     }()
     
-//    init() {
-//        UINavigationBar.appearance().isTranslucent = true
-//    }
-    
     var body: some View {
         NavigationView {
             Background {
