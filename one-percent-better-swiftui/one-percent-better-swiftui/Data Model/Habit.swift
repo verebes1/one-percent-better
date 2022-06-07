@@ -26,9 +26,12 @@ struct TrackersContainer: Codable {
 }
 
 @objc(Habit)
-public class Habit: NSManagedObject, Codable {
+public class Habit: NSManagedObject, Codable, Identifiable {
     
     // MARK: - NSManaged Properties
+    
+    /// Unique identifier
+    public var id: UUID = UUID()
     
     /// The name of the habit
     @NSManaged private(set) var name: String
@@ -54,49 +57,6 @@ public class Habit: NSManagedObject, Codable {
     @NSManaged public var notificationTime: Date?
     
     // MARK: - Properties
-    
-    /// Current streak (streak = 1 if completed today, streak = 2 if completed today and yesterday, etc.)
-    var streak: Int  {
-        get {
-            var streak = 0
-            // start at yesterday, a streak is only broken if it's not completed by the end of the day
-            var currentDay = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-            while self.wasCompleted(on: currentDay) {
-                streak += 1
-                currentDay = Calendar.current.date(byAdding: .day, value: -1, to: currentDay)!
-            }
-            // add 1 if completed today
-            if self.wasCompleted(on: Date()) {
-                streak += 1
-            }
-            return streak
-        }
-    }
-    
-    /// Streak label used in habit view
-    var streakLabel: String {
-        if streak > 0 {
-            return "\(streak) day streak"
-        } else if daysCompleted.isEmpty {
-            return "Never done"
-        } else {
-            let lastCompletedDay = daysCompleted[daysCompleted.count - 1]
-            let difference = Calendar.current.numberOfDaysBetween(lastCompletedDay, and: Date()) - 2
-            let dayText = difference == 1 ? "day" : "days"
-            return "Not done in \(difference) \(dayText)"
-        }
-    }
-    
-    /// Color of streak label used in habit view
-    var streakLabelColor: Color {
-        if streak > 0 {
-            return .green
-        } else if daysCompleted.isEmpty {
-            return Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
-        } else {
-            return .red
-        }
-    }
     
     /// The longest streak the user has completed for this habit
     var longestStreak: Int {
@@ -130,6 +90,8 @@ public class Habit: NSManagedObject, Codable {
         return manualTrackers
     }
     
+    var myContext: NSManagedObjectContext? = nil
+    
     // MARK: - init
     
     convenience init(context: NSManagedObjectContext, name: String) throws {
@@ -141,8 +103,9 @@ public class Habit: NSManagedObject, Codable {
             }
         }
         self.init(context: context)
+        self.myContext = context
         self.name = name
-        self.startDate = Date()
+        self.startDate = Calendar.current.startOfDay(for: Date())
         self.daysCompleted = []
         self.trackers = NSOrderedSet.init(array: [])
         self.orderIndex = nextLargestHabitIndex(habits)
@@ -178,11 +141,11 @@ public class Habit: NSManagedObject, Codable {
             daysCompleted.sort()
             
             if date < startDate {
-                startDate = date
+                startDate = Calendar.current.startOfDay(for: date)
             }
             
             if save {
-                CoreDataManager.shared.saveContext()
+                try? myContext?.save()
             }
         }
     }
@@ -193,7 +156,7 @@ public class Habit: NSManagedObject, Codable {
             if Calendar.current.isDate(day, inSameDayAs: date) {
                 let index = daysCompleted.firstIndex(of: day)!
                 daysCompleted.remove(at: index)
-                CoreDataManager.shared.saveContext()
+                try? myContext?.save()
             }
         }
         

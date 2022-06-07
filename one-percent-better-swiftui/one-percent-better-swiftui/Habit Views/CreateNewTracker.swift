@@ -57,9 +57,10 @@ struct CreateNewTracker: View {
                 
                 LazyVGrid(columns: columns, spacing: columnSpacing) {
                     ForEach(trackerViews, id: \.self.title) { trackerView in
-                        NavigationLink(destination: CreateTableTracker(progressPresenting: $progressPresenting)) {
+                        NavigationLink(destination: CreateTableTracker(habit: habit, progressPresenting: $progressPresenting)) {
                             trackerView
                         }
+                        .isDetailLink(false)
                     }
                 }
                 .padding(.horizontal, 15)

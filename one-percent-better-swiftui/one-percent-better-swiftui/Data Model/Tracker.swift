@@ -11,7 +11,10 @@ import CoreData
 import UIKit
 
 @objc(Tracker)
-public class Tracker: NSManagedObject, Codable {
+public class Tracker: NSManagedObject, Codable, Identifiable {
+    
+    /// Unique identifier
+    public var id: UUID = UUID()
     
     /// The habit this tracker is attached to
     @NSManaged public var habit: Habit

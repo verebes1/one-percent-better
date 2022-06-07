@@ -42,6 +42,7 @@
 		8055A9A52831BB79009A1881 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99F2831BB73009A1881 /* CalendarView.swift */; };
 		8055A9AA2831BB79009A1881 /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A99D2831BB73009A1881 /* HabitListView.swift */; };
 		8055A9AB2831BB79009A1881 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9A32831BB73009A1881 /* RingView.swift */; };
+		8064186C2850062400F68A2D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8064186B2850062400F68A2D /* CustomTextField.swift */; };
 		80A600C6283DCEE6007A0C0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C5283DCEE6007A0C0B /* CardView.swift */; };
 		80A600C8283F2B11007A0C0B /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */; };
 		80A600CA2841784A007A0C0B /* CalendarScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C92841784A007A0C0B /* CalendarScrollView.swift */; };
@@ -120,6 +121,7 @@
 		8055A99D2831BB73009A1881 /* HabitListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
 		8055A99F2831BB73009A1881 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		8055A9A32831BB73009A1881 /* RingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
+		8064186B2850062400F68A2D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		80A600C5283DCEE6007A0C0B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
 		80A600C92841784A007A0C0B /* CalendarScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScrollView.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				80A600C5283DCEE6007A0C0B /* CardView.swift */,
 				803A6D42284AB23200A83656 /* TableTrackerView.swift */,
 				80F3A9DF284BBA630021D84E /* BlurView.swift */,
+				8064186B2850062400F68A2D /* CustomTextField.swift */,
 			);
 			path = "Habit Views";
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				80428B542831BFD400A17B53 /* ImageTracker.swift in Sources */,
 				80F139FD2835A61000BC348B /* ProgressView.swift in Sources */,
 				80F3A9E2284D04440021D84E /* HabitHelper.swift in Sources */,
+				8064186C2850062400F68A2D /* CustomTextField.swift in Sources */,
 				80ED9BDE283947DD00A068D9 /* PreviewData.swift in Sources */,
 				80F13FE82843C1F2002269F2 /* CreateTaskNameVC.swift in Sources */,
 				80428B522831BFD400A17B53 /* NumberTracker.swift in Sources */,

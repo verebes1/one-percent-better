@@ -8,9 +8,20 @@
 import SwiftUI
 import CoreData
 
+class ProgressViewModel: ObservableObject {
+    
+    var habit: Habit
+    var trackers: [Tracker]
+    
+    init(habit: Habit) {
+        self.habit = habit
+        self.trackers = habit.trackers.map{ $0 as! Tracker }
+    }
+}
+
 struct ProgressView: View {
     
-    @EnvironmentObject var habit: Habit
+    var vm: ProgressViewModel
     
     @State var progressPresenting: Bool = false
     
@@ -21,15 +32,22 @@ struct ProgressView: View {
                     CalendarView()
                 }
                 
-                NavigationLink(destination: CreateNewTracker(progressPresenting: $progressPresenting), isActive: $progressPresenting) {
+                ForEach(vm.trackers) { tracker in
+                    CardView {
+                        Text(tracker.name)
+                    }
+                }
+                
+                NavigationLink(destination: CreateTableTracker(habit: vm.habit, progressPresenting: $progressPresenting),
+                               isActive: $progressPresenting) {
                     Label("New Tracker", systemImage: "plus.circle")
                 }
+                .isDetailLink(false)
                 .padding(.top, 15)
-                
                 
                 Spacer()
             }
-            .navigationTitle(habit.name)
+            .navigationTitle(vm.habit.name)
             .navigationBarTitleDisplayMode(.large)
         }
     }
@@ -39,13 +57,13 @@ struct ProgressView_Previews: PreviewProvider {
     
     static var previews: some View {
         let habit = PreviewData.progressViewData()
+        let vm = ProgressViewModel(habit: habit)
         return(
             NavigationView {
-                ProgressView()
+                ProgressView(vm: vm)
                     .preferredColorScheme(.light)
                     .environmentObject(habit)
             }
-                
         )
     }
 }
