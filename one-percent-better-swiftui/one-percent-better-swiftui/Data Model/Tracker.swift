@@ -45,7 +45,6 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
             dates = combined.map { $0.0 }
             values = combined.map { $0.1 }
         }
-        CoreDataManager.shared.saveContext()
     }
     
     func remove(on date: Date) {
@@ -60,7 +59,6 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
         if let index = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
             dates.remove(at: index)
             values.remove(at: index)
-            CoreDataManager.shared.saveContext()
         }
     }
     

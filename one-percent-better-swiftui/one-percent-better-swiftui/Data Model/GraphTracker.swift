@@ -31,14 +31,12 @@ public class GraphTracker: Tracker {
             dates = combined.map { $0.0 }
             values = combined.map { $0.1 }
         }
-        CoreDataManager.shared.saveContext()
     }
     
-    func remove(date: Date) {
+    override func remove(on date: Date) {
         if let index = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
             dates.remove(at: index)
             values.remove(at: index)
-            CoreDataManager.shared.saveContext()
         }
     }
     

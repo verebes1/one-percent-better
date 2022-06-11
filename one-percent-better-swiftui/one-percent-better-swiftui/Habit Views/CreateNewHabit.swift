@@ -15,7 +15,7 @@ struct CreateNewHabit: View {
     
     @State var habitName: String = ""
     @State var duplicateNameError: Bool = false
-    @State private var isResponder: Bool = true
+    @State private var isResponder: Bool? = true
     
     var body: some View {
         Background {
@@ -33,7 +33,8 @@ struct CreateNewHabit: View {
                         
                         CustomTextField(text: $habitName,
                                         placeholder: "Name",
-                                        isResponder: $isResponder)
+                                        isResponder: $isResponder,
+                                        nextResponder: .constant(nil))
                             .padding(.leading, 10)
                             .frame(height: 50)
                     }

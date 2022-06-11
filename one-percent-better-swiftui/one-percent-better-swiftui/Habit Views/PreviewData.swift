@@ -46,18 +46,6 @@ class PreviewData {
         return habits.first!
     }
     
-    static func habitCompletionCircleData() -> [Habit] {
-        let context = CoreDataManager.previews.persistentContainer.viewContext
-        
-        let _ = try? Habit(context: context, name: "Racquetball")
-        let h2 = try? Habit(context: context, name: "Jogging")
-        h2?.markCompleted(on: Date())
-        
-        let habits = Habit.habitList(from: context)
-        
-        return habits
-    }
-    
     static func calendarViewData() -> Habit {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         

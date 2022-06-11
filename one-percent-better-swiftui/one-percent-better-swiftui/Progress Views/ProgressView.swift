@@ -33,9 +33,7 @@ struct ProgressView: View {
                 }
                 
                 ForEach(vm.trackers) { tracker in
-                    CardView {
-                        Text(tracker.name)
-                    }
+                    NumberTrackerTableCardView(tracker: tracker)
                 }
                 
                 NavigationLink(destination: CreateTableTracker(habit: vm.habit, progressPresenting: $progressPresenting),
@@ -55,8 +53,33 @@ struct ProgressView: View {
 
 struct ProgressView_Previews: PreviewProvider {
     
+    static func progressData() -> Habit {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        
+        let day0 = Date()
+        let day1 = Calendar.current.date(byAdding: .day, value: -1, to: day0)!
+        let day2 = Calendar.current.date(byAdding: .day, value: -2, to: day0)!
+        
+        let h1 = try? Habit(context: context, name: "Swimming")
+        h1?.markCompleted(on: day0)
+        h1?.markCompleted(on: day1)
+        h1?.markCompleted(on: day2)
+        
+        if let h1 = h1 {
+            let t1 = NumberTracker(context: context, habit: h1, name: "Laps")
+            t1.add(date: day0, value: "3")
+            t1.add(date: day1, value: "2")
+            t1.add(date: day2, value: "1")
+        }
+        
+        let habits = Habit.habitList(from: context)
+        return habits.first!
+    }
+    
     static var previews: some View {
-        let habit = PreviewData.progressViewData()
+        
+        let habit = progressData()
+        
         let vm = ProgressViewModel(habit: habit)
         return(
             NavigationView {

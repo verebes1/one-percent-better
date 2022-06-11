@@ -90,7 +90,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return manualTrackers
     }
     
-    var myContext: NSManagedObjectContext? = nil
+    var myContext: NSManagedObjectContext = CoreDataManager.shared.mainContext
     
     // MARK: - init
     
@@ -145,7 +145,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             }
             
             if save {
-                try? myContext?.save()
+                try? myContext.save()
             }
         }
     }
@@ -156,7 +156,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             if Calendar.current.isDate(day, inSameDayAs: date) {
                 let index = daysCompleted.firstIndex(of: day)!
                 daysCompleted.remove(at: index)
-                try? myContext?.save()
             }
         }
         
@@ -166,6 +165,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                 t.remove(on: date)
             }
         }
+        
+        try? myContext.save()
     }
     
     class func habitList(from context: NSManagedObjectContext) -> [Habit] {

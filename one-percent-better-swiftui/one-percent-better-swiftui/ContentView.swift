@@ -11,7 +11,7 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     
     var body: some View {
-        HabitListView(viewModel: HabitListViewModel(moc))
+        HabitListView(vm: HabitListViewModel(moc))
     }
 }
 

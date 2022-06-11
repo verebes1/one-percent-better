@@ -82,39 +82,43 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
 struct HabitListView: View {
     
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.scenePhase) var scenePhase
     
-    @ObservedObject var viewModel: HabitListViewModel
+    @ObservedObject var vm: HabitListViewModel
     @State var isPresenting: Bool = false
     
     var body: some View {
         NavigationView {
             Background {
                 VStack {
-                    HabitsHeaderView(viewModel: HabitsHeaderViewModel(moc),
-                                     currentDay: $viewModel.currentDay)
+                    let headerVM = HabitsHeaderViewModel(habits: vm.habits)
+                    HabitsHeaderView(vm: headerVM,
+                                     currentDay: $vm.currentDay)
                     
                     List {
-                        ForEach(viewModel.habits, id: \.self.name) { habit in
-                            let progressVM = ProgressViewModel(habit: habit)
-                            NavigationLink(
-                                destination: ProgressView(vm: progressVM).environmentObject(habit)) {
-                                    HabitRow(vm: HabitRowViewModel(habit: habit, currentDay: viewModel.currentDay))
-                                        .environmentObject(habit)
-                                        .animation(.easeInOut, value: viewModel.currentDay)
-                                }
-                                .isDetailLink(false)
+                        ForEach(vm.habits, id: \.self.name) { habit in
+                            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: vm.currentDay) {
+                                let progressVM = ProgressViewModel(habit: habit)
+                                NavigationLink(
+                                    destination: ProgressView(vm: progressVM).environmentObject(habit)) {
+                                        HabitRow(vm: HabitRowViewModel(habit: habit, currentDay: vm.currentDay))
+                                            .environmentObject(habit)
+                                            .animation(.easeInOut, value: vm.currentDay)
+                                    }
+                                    .isDetailLink(false)
+                            }
                         }
-                        .onMove(perform: viewModel.move)
-                        .onDelete(perform: viewModel.delete)
+                        .onMove(perform: vm.move)
+                        .onDelete(perform: vm.delete)
                     }
                     
-                    Text("Current day: \(viewModel.currentDay.description)")
+//                    Text("Current day: \(vm.currentDay.description)")
                 }
                 .onAppear {
                     UITableView.appearance().contentInset.top = -25
                     
-                    if !Calendar.current.isDate(viewModel.currentDay, inSameDayAs: Date()) {
-                        viewModel.currentDay = Date()
+                    if !Calendar.current.isDate(vm.currentDay, inSameDayAs: Date()) {
+                        vm.currentDay = Date()
                     }
                 }
                 .toolbar {
@@ -129,8 +133,13 @@ struct HabitListView: View {
                             }
                     }
                 }
-                .navigationTitle(viewModel.navTitle)
+                .navigationTitle(vm.navTitle)
                 .navigationBarTitleDisplayMode(.inline)
+                .onChange(of: scenePhase, perform: { newPhase in
+                    if newPhase == .active, !Calendar.current.isDate(vm.currentDay, inSameDayAs: Date()) {
+                        vm.currentDay = Date()
+                    }
+                })
             }
         }
     }
@@ -141,7 +150,7 @@ struct HabitsView_Previews: PreviewProvider {
     static var previews: some View {
         PreviewData.habitViewData()
         let moc = CoreDataManager.previews.persistentContainer.viewContext
-        return HabitListView(viewModel: HabitListViewModel(moc))
+        return HabitListView(vm: HabitListViewModel(moc))
             .environment(\.managedObjectContext, moc)
     }
 }

@@ -8,23 +8,12 @@
 import SwiftUI
 import CoreData
 
-class HabitsHeaderViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
-    private let habitController: NSFetchedResultsController<Habit>
+class HabitsHeaderViewModel: ObservableObject {
     
-    init(_ context: NSManagedObjectContext) {
-        let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
-        habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
-        super.init()
-        habitController.delegate = self
-        try? habitController.performFetch()
-    }
+    var habits: [Habit]
     
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        objectWillChange.send()
-    }
-    
-    var habits: [Habit] {
-        return habitController.fetchedObjects ?? []
+    init(habits: [Habit]) {
+        self.habits = habits
     }
     
     /// Date of the earliest completed habit in the habit list
@@ -70,12 +59,19 @@ class HabitsHeaderViewModel: NSObject, NSFetchedResultsControllerDelegate, Obser
     func percent(week: Int, day: Int) -> Double {
         let day = date(week: week, day: day)
         var numCompleted: Double = 0
-        let total: Double = Double(habits.count)
+        var total: Double = 0
+        for habit in habits {
+            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day) {
+                total += 1
+            }
+        }
         guard total > 0 else { return 0 }
+        
         for habit in habits {
             if habit.wasCompleted(on: day) {
                 numCompleted += 1
             }
+            
         }
         return numCompleted / total
     }
@@ -88,11 +84,19 @@ fileprivate func thisWeekOffset(_ date: Date) -> Int {
 struct HabitsHeaderView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var viewModel: HabitsHeaderViewModel
+    @ObservedObject var vm: HabitsHeaderViewModel
     @Binding var currentDay: Date
-    @State var selectedWeekDay = 0
-    @State var selectedWeek = 0
+    @State var selectedWeekDay: Int
+    @State var selectedWeek: Int
     var color: Color = .systemTeal
+    
+    init(vm: HabitsHeaderViewModel, currentDay: Binding<Date>) {
+        self.vm = vm
+        self._currentDay = currentDay
+        
+        _selectedWeekDay = State(initialValue: thisWeekOffset(currentDay.wrappedValue))
+        _selectedWeek = State(initialValue: vm.numWeeksSinceEarliest - 1)
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -103,18 +107,18 @@ struct HabitsHeaderView: View {
                                     selectedWeek: $selectedWeek,
                                     currentDay: $currentDay,
                                     color: color)
-                    .environmentObject(viewModel)
+                    .environmentObject(vm)
                 }
             }
             .padding(.horizontal, 20)
             
             let ringSize: CGFloat = 27
             TabView(selection: $selectedWeek) {
-                ForEach(0 ..< viewModel.numWeeksSinceEarliest, id: \.self) { i in
+                ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
                     HStack {
                         ForEach(0 ..< 7) { j in
-                            let dayOffset = viewModel.dayOffset(week: i, day: j)
-                            let percent = viewModel.percent(week: i, day: j)
+                            let dayOffset = vm.dayOffset(week: i, day: j)
+                            let percent = vm.percent(week: i, day: j)
                             RingView(percent: percent,
                                      color: color,
                                      size: ringSize,
@@ -122,7 +126,7 @@ struct HabitsHeaderView: View {
                             .font(.system(size: 14))
                             .frame(maxWidth: .infinity)
                             .onTapGesture {
-                                let dayOffset = viewModel.dayOffset(week: i, day: j)
+                                let dayOffset = vm.dayOffset(week: i, day: j)
                                 if dayOffset <= 0 {
                                     selectedWeekDay = j
                                     let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
@@ -140,19 +144,18 @@ struct HabitsHeaderView: View {
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onChange(of: selectedWeek, perform: { _ in
                 let thisWeekOffset = thisWeekOffset(Date())
-                if selectedWeek == (viewModel.numWeeksSinceEarliest - 1),
+                if selectedWeek == (vm.numWeeksSinceEarliest - 1),
                    selectedWeekDay > thisWeekOffset {
                     selectedWeekDay = thisWeekOffset
                 }
                 
-                let dayOffset = viewModel.dayOffset(week: selectedWeek, day: selectedWeekDay)
+                let dayOffset = vm.dayOffset(week: selectedWeek, day: selectedWeekDay)
                 let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
                 currentDay = newDay
             })
-        }
-        .onAppear {
-            selectedWeekDay = thisWeekOffset(currentDay)
-            selectedWeek = viewModel.numWeeksSinceEarliest - 1
+            
+//            Text("currentDay: \(String(describing: currentDay))")
+//                .font(.system(size: 10))
         }
     }
     
@@ -162,7 +165,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
     
     @State static var currentDay = Date()
     
-    static func habitsListHeaderData() {
+    static func habitsListHeaderData() -> [Habit] {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         
         let day0 = Date()
@@ -180,13 +183,16 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
         
         let h3 = try? Habit(context: context, name: "Laundry")
         h3?.markCompleted(on: day2)
+        
+        let habits = Habit.habitList(from: context)
+        return habits
     }
     
     static var previews: some View {
-        let _ = habitsListHeaderData()
-        let context = CoreDataManager.previews.persistentContainer.viewContext
-        HabitsHeaderView(viewModel: HabitsHeaderViewModel(context),
-                             currentDay: $currentDay)
+        let habits = habitsListHeaderData()
+        
+        let vm = HabitsHeaderViewModel(habits: habits)
+        HabitsHeaderView(vm: vm, currentDay: $currentDay)
         .environment(\.managedObjectContext, CoreDataManager.previews.persistentContainer.viewContext)
     }
 }
@@ -200,11 +206,17 @@ struct SelectedDayView: View {
     @Binding var currentDay: Date
     var color: Color = .systemTeal
     
-    func selectedIsToday(_ index: Int) -> Bool {
+    func selectedIsCurrentDay(_ index: Int) -> Bool {
         let currentDayIsToday = Calendar.current.isDateInToday(currentDay)
         let selectedDayIsToday = thisWeekOffset(currentDay) == index
         let weekIsToday = selectedWeek == (viewModel.numWeeksSinceEarliest - 1)
         return currentDayIsToday && selectedDayIsToday && weekIsToday
+    }
+    
+    func isIndexSameAsToday(_ index: Int) -> Bool {
+        let dayIsSelectedWeekday = thisWeekOffset(Date()) == index
+        let weekIsSelectedWeek = selectedWeek == (viewModel.numWeeksSinceEarliest - 1)
+        return dayIsSelectedWeekday && weekIsSelectedWeek
     }
     
     let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
@@ -212,16 +224,16 @@ struct SelectedDayView: View {
     var body: some View {
         ZStack {
             let circleSize: CGFloat = 19
-            let isSelected = index == selectedWeekDay
+            let isSelected = index == thisWeekOffset(currentDay)
             if isSelected {
                 Circle()
-                    .foregroundColor(selectedIsToday(index) ? color : .systemGray2)
+                    .foregroundColor(isIndexSameAsToday(index) ? color : .systemGray2)
                     .frame(width: circleSize, height: circleSize)
             }
             Text(smwttfs[index])
                 .font(.system(size: 12))
-                .fontWeight(.regular)
-                .foregroundColor(isSelected ? .white : (selectedIsToday(index) ? color : .secondary))
+                .fontWeight(isIndexSameAsToday(index) && !isSelected ? .medium : .regular)
+                .foregroundColor(isSelected ? .white : (isIndexSameAsToday(index) ? color : .secondary))
                 .frame(maxWidth: .infinity)
         }
         .padding(.bottom, 3)
