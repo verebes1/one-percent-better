@@ -27,23 +27,25 @@ struct ProgressView: View {
     
     var body: some View {
         Background {
-            VStack(spacing: 20) {
-                CardView {
-                    CalendarView()
+            ScrollView {
+                VStack(spacing: 20) {
+                    CardView {
+                        CalendarView()
+                    }
+                    
+                    ForEach(vm.trackers) { tracker in
+                        NumberTrackerTableCardView(tracker: tracker)
+                    }
+                    
+                    NavigationLink(destination: CreateTableTracker(habit: vm.habit, progressPresenting: $progressPresenting),
+                                   isActive: $progressPresenting) {
+                        Label("New Tracker", systemImage: "plus.circle")
+                    }
+                    .isDetailLink(false)
+                    .padding(.top, 15)
+                    
+                    Spacer()
                 }
-                
-                ForEach(vm.trackers) { tracker in
-                    NumberTrackerTableCardView(tracker: tracker)
-                }
-                
-                NavigationLink(destination: CreateTableTracker(habit: vm.habit, progressPresenting: $progressPresenting),
-                               isActive: $progressPresenting) {
-                    Label("New Tracker", systemImage: "plus.circle")
-                }
-                .isDetailLink(false)
-                .padding(.top, 15)
-                
-                Spacer()
             }
             .navigationTitle(vm.habit.name)
             .navigationBarTitleDisplayMode(.large)

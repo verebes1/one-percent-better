@@ -29,10 +29,9 @@ class HabitsHeaderViewModel: ObservableObject {
     
     /// Number of weeks (each row is a week) between today and the earliest completed habit
     var numWeeksSinceEarliest: Int {
-        let thisWeekOffset = Calendar.current.component(.weekday, from: Date()) - 1
         let numDays = Calendar.current.dateComponents([.day], from: earliestCompleted, to: Date()).day!
-        let diff = numDays - thisWeekOffset
-        if diff < 0 { return 1 }
+        let diff = numDays - thisWeekOffset(Date())
+        if diff <= 0 { return 1 }
         let weeks = diff / 7
         return weeks + 2
     }
@@ -205,13 +204,6 @@ struct SelectedDayView: View {
     @Binding var selectedWeek: Int
     @Binding var currentDay: Date
     var color: Color = .systemTeal
-    
-    func selectedIsCurrentDay(_ index: Int) -> Bool {
-        let currentDayIsToday = Calendar.current.isDateInToday(currentDay)
-        let selectedDayIsToday = thisWeekOffset(currentDay) == index
-        let weekIsToday = selectedWeek == (viewModel.numWeeksSinceEarliest - 1)
-        return currentDayIsToday && selectedDayIsToday && weekIsToday
-    }
     
     func isIndexSameAsToday(_ index: Int) -> Bool {
         let dayIsSelectedWeekday = thisWeekOffset(Date()) == index

@@ -21,10 +21,14 @@ class EnterTrackerDataViewModel: ObservableObject {
     
     @Published var fields: [CustomTextFieldModel]
     
+    var habit: Habit
     var trackers: [Tracker]
+    var currentDay: Date
     
-    init(habit: Habit) {
+    init(habit: Habit, currentDay: Date) {
+        self.habit = habit
         self.trackers = habit.manualTrackers
+        self.currentDay = currentDay
         
         fields = [CustomTextFieldModel]()
         var first: Bool = true
@@ -44,9 +48,29 @@ class EnterTrackerDataViewModel: ObservableObject {
         }
         return nil
     }
+
+    
+    func save() {
+        for (i, field) in fields.enumerated() {
+            if let t = trackers[i] as? NumberTracker {
+                if !field.text.isEmpty {
+                    if let _ = Double(field.text) {
+                        t.add(date: currentDay, value: field.text)
+                    } else {
+                        // TODO: show not a double error
+                    }
+                } else if t.getValue(date: currentDay) != nil {
+                    t.remove(on: currentDay)
+                }
+            }
+        }
+    }
+    
 }
 
 struct EnterTrackerDataView: View {
+    
+    @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var vm: EnterTrackerDataViewModel
     
@@ -54,12 +78,11 @@ struct EnterTrackerDataView: View {
         NavigationView {
             Background {
                 VStack {
-                    Spacer().frame(height: 70)
                     CardView {
-                        VStack {
+                        VStack(spacing: 0) {
                             ForEach(vm.trackers.indices, id: \.self) { i in
                                 let tracker = vm.trackers[i]
-                                VStack {
+                                VStack(spacing: 0) {
                                     HStack {
                                         Text("\(tracker.name)")
                                             .fontWeight(.medium)
@@ -94,13 +117,17 @@ struct EnterTrackerDataView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        print("Do nothing")
+                        vm.currentResponder?.isResponder = false
+                        vm.save()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
-                        print("Do nothing")
+                        vm.currentResponder?.isResponder = false
+                        // TODO: Check if there will be any lost data
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
         }
@@ -126,7 +153,7 @@ struct EnterTrackerDataView_Previews: PreviewProvider {
     
     static var previews: some View {
         let habits = data()
-        let vm = EnterTrackerDataViewModel(habit: habits[0])
+        let vm = EnterTrackerDataViewModel(habit: habits[0], currentDay: Date())
         Group {
             EnterTrackerDataView(vm: vm)
             

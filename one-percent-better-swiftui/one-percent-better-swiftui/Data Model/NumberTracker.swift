@@ -15,6 +15,7 @@ public class NumberTracker: GraphTracker {
     
     convenience init(context: NSManagedObjectContext, habit: Habit, name: String) {
         self.init(context: context)
+        self.context = context
         self.habit = habit
         self.name = name
         self.autoTracker = false

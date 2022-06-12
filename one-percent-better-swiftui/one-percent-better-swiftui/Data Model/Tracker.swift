@@ -16,6 +16,8 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
     /// Unique identifier
     public var id: UUID = UUID()
     
+    var context: NSManagedObjectContext = CoreDataManager.shared.persistentContainer.viewContext
+    
     /// The habit this tracker is attached to
     @NSManaged public var habit: Habit
     

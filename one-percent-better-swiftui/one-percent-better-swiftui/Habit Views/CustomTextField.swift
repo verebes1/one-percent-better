@@ -71,12 +71,12 @@ struct CustomTextField: UIViewRepresentable {
         
         func textFieldDidEndEditing(_ textField: UITextField) {
 //            textField.resignFirstResponder()
-//            DispatchQueue.main.async {
-//                self.isResponder = false
+            DispatchQueue.main.async {
+                self.isResponder = false
 //                if self.nextResponder != nil {
 //                    self.nextResponder = true
 //                }
-//            }
+            }
         }
     }
     

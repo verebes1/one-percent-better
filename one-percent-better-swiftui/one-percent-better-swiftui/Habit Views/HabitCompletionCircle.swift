@@ -53,7 +53,7 @@ struct HabitCompletionCircle: View {
             }
         }
         .sheet(isPresented: self.$show) {
-            let vm = EnterTrackerDataViewModel(habit: habit)
+            let vm = EnterTrackerDataViewModel(habit: habit, currentDay: currentDay)
             EnterTrackerDataView(vm: vm)
         }
     }
