@@ -49,7 +49,7 @@ struct CreateNewHabit: View {
                 
                 Spacer()
                 
-                BottomButton(text: "Create", dependingLabel: $habitName)
+                BottomButtonEmptyMeansDisabled(text: "Create", dependingLabel: $habitName)
                     .onTapGesture {
                         duplicateNameError = false
                         if !habitName.isEmpty {
@@ -80,41 +80,5 @@ struct CreateNewHabit_Previews: PreviewProvider {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         CreateNewHabit(rootPresenting: $rootView)
             .environment(\.managedObjectContext, context)
-    }
-}
-
-struct BottomButton: View {
-    
-    let text: String
-    @Binding var dependingLabel: String
-    
-    var withBottomPadding: Bool = true
-    
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(dependingLabel.isEmpty ? .systemGray5 : .green)
-                .frame(height: 50)
-                .padding(.horizontal, 20)
-            Text(text)
-                .fontWeight(.bold)
-                .foregroundColor(dependingLabel.isEmpty ? .tertiaryLabel : .white)
-        }
-        .padding(.bottom, withBottomPadding ? 10 : 0)
-    }
-}
-
-
-struct SkipButton: View {
-    var body: some View {
-        ZStack {
-            Spacer()
-                .frame(height: 50)
-                .padding(.horizontal, 15)
-            Text("Skip")
-                .fontWeight(.bold)
-                .foregroundColor(.green)
-        }
-        .padding(.bottom, 10)
     }
 }

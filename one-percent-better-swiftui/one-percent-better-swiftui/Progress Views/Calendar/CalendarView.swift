@@ -9,14 +9,21 @@ import SwiftUI
 
 struct CalendarView: View {
     
-    @EnvironmentObject var habit: Habit
+    let habit: Habit
     
-    @State var currentPage: Int = 0
+    /// Object used to calculate an array of days for each month
+    let calendarModel: CalendarModel
+    
+    @State var currentPage: Int
+    
+    init(habit: Habit) {
+        self.habit = habit
+        self.calendarModel = CalendarModel(habit: habit)
+        self.currentPage = calendarModel.numMonthsSinceStart - 1
+    }
 
     var body: some View {
         
-        /// Object used to calculate an array of days for each month
-        let calendarModel = CalendarModel(habit: habit)
         
         let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
         let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
@@ -62,7 +69,8 @@ struct CalendarView: View {
                         LazyVGrid(columns: columns, spacing: spacing) {
                             let offset = numMonths - 1 - i
                             ForEach(calendarModel.backXMonths(x: offset), id: \.date) { day in
-                                CalendarDayView(day: day,
+                                CalendarDayView(habit: habit,
+                                                day: day,
                                                 fontSize: 13,
                                                 circleSize: 22)
                             }
@@ -73,7 +81,7 @@ struct CalendarView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .frame(width: UIScreen.main.bounds.width - 20, height: 240)
                 .onAppear {
-                    currentPage = calendarModel.numMonthsSinceStart - 1
+                    
                 }
             }
         }
@@ -88,12 +96,11 @@ struct CalendarView_Previews: PreviewProvider {
         
         Background {
             CardView {
-                CalendarView()
-                    .environmentObject(habit)
+                CalendarView(habit: habit)
                     .environment(\.managedObjectContext, context)
             }
         }
-        .preferredColorScheme(.dark)
+        
         
     }
 }
@@ -101,10 +108,8 @@ struct CalendarView_Previews: PreviewProvider {
 
 struct CalendarDayView: View {
     
-    @EnvironmentObject var habit: Habit
-    
+    let habit: Habit
     let day: Day
-    
     let fontSize: CGFloat
     var circleSize: CGFloat
     
@@ -168,17 +173,25 @@ struct CalendarDayView_Previews: PreviewProvider {
         
         return (
             HStack {
-                CalendarDayView(day: day0, fontSize: fontSize, circleSize: circleSize)
-                    .environmentObject(habit1)
+                CalendarDayView(habit: habit1,
+                                day: day0,
+                                fontSize: fontSize,
+                                circleSize: circleSize)
                 
-                CalendarDayView(day: day1, fontSize: fontSize, circleSize: circleSize)
-                    .environmentObject(habit1)
+                CalendarDayView(habit: habit1,
+                                day: day1,
+                                fontSize: fontSize,
+                                circleSize: circleSize)
                 
-                CalendarDayView(day: day2, fontSize: fontSize, circleSize: circleSize)
-                .environmentObject(habit1)
+                CalendarDayView(habit: habit1,
+                                day: day2,
+                                fontSize: fontSize,
+                                circleSize: circleSize)
                 
-                CalendarDayView(day: today, fontSize: fontSize, circleSize: circleSize)
-                .environmentObject(habit2)
+                CalendarDayView(habit: habit2,
+                                day: today,
+                                fontSize: fontSize,
+                                circleSize: circleSize)
                 
             }
                 .preferredColorScheme(.dark)

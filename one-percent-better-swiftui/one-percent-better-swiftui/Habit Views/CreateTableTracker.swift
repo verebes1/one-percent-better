@@ -32,7 +32,7 @@ struct CreateTableTracker: View {
                 
                 Spacer()
                 
-                BottomButton(text: "Create", dependingLabel: $trackerName)
+                BottomButtonEmptyMeansDisabled(text: "Create", dependingLabel: $trackerName)
                     .onTapGesture {
                         if !trackerName.isEmpty {
                             let _ = NumberTracker(context: moc, habit: habit, name: trackerName)

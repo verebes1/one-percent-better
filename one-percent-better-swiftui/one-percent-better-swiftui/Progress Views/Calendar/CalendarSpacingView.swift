@@ -21,7 +21,8 @@ struct CalendarSpacingView: View {
         
         LazyVGrid(columns: columns, spacing: spacing) {
             ForEach(days, id: \.date) { day in
-                CalendarDayView(day: day,
+                CalendarDayView(habit: habit,
+                                day: day,
                                 fontSize: 13,
                                 circleSize: 22)
             }

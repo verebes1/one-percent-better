@@ -11,12 +11,25 @@ struct ContentView: View {
     @Environment(\.managedObjectContext) var moc
     
     var body: some View {
-        HabitListView(vm: HabitListViewModel(moc))
+        TabView {
+            HabitListView(vm: HabitListViewModel(moc))
+                .tabItem {
+                    Label("Habits", systemImage: "checkmark.circle.fill")
+                }
+            
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape.fill")
+                }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
         ContentView()
+            .environment(\.managedObjectContext, context)
     }
 }

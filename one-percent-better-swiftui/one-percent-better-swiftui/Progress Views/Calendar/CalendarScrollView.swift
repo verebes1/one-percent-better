@@ -29,7 +29,8 @@ struct CalendarScrollView: View {
                     LazyVGrid(columns: columns, spacing: spacing) {
                         let offset = numMonths - 1 - i
                         ForEach(calendar.backXMonths(x: offset), id: \.date) { day in
-                            CalendarDayView(day: day,
+                            CalendarDayView(habit: habit,
+                                            day: day,
                                             fontSize: 14,
                                             circleSize: 23)
                             .padding(.vertical, 2)

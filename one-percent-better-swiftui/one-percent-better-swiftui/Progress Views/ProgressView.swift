@@ -30,11 +30,23 @@ struct ProgressView: View {
             ScrollView {
                 VStack(spacing: 20) {
                     CardView {
-                        CalendarView()
+                        CalendarView(habit: vm.habit)
                     }
                     
                     ForEach(vm.trackers) { tracker in
-                        NumberTrackerTableCardView(tracker: tracker)
+                        VStack(spacing: 20) {
+                            NumberTrackerTableCardView(tracker: tracker)
+                            if let t = tracker as? GraphTracker {
+                                CardView {
+                                    VStack {
+                                        Text("Has graph tracker")
+                                        GraphView(graphData: GraphData(graphTracker: t))
+                                            .frame(width: 330, height: 200)
+//                                            .background(.blue)
+                                    }
+                                }
+                            }
+                        }
                     }
                     
                     NavigationLink(destination: CreateTableTracker(habit: vm.habit, progressPresenting: $progressPresenting),

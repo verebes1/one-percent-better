@@ -107,9 +107,10 @@ struct CustomTextField: UIViewRepresentable {
     
     func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<CustomTextField>) {
         uiView.text = text
-        if let isResponder = isResponder,
-            isResponder {
-            uiView.becomeFirstResponder()
+        if let isResponder = isResponder {
+            if isResponder {
+                uiView.becomeFirstResponder()
+            }
         }
     }
     

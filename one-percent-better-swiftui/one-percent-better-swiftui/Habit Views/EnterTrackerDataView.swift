@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-class CustomTextFieldModel: ObservableObject {
-    @Published var text: String
-    @Published var isResponder: Bool?
+struct CustomTextFieldModel {
+    var text: String
+    var validField: Bool = true
     
-    init(text: String, isResponder: Bool?) {
+    init(text: String) {
         self.text = text
-        self.isResponder = isResponder
     }
 }
 
@@ -31,39 +30,63 @@ class EnterTrackerDataViewModel: ObservableObject {
         self.currentDay = currentDay
         
         fields = [CustomTextFieldModel]()
-        var first: Bool = true
-        for _ in trackers {
-            let newField = CustomTextFieldModel(text: "", isResponder: first)
+        for tracker in trackers {
+            var previousValue = ""
+            if let t = tracker as? NumberTracker {
+                if let value = t.getValue(date: currentDay) {
+                    previousValue = value
+                }
+            }
+            let newField = CustomTextFieldModel(text: previousValue)
             fields.append(newField)
-            first = false
         }
     }
     
-    var currentResponder: CustomTextFieldModel? {
-        for field in fields {
-            if let isResponder = field.isResponder,
-               isResponder {
-                return field
+    func trackerValue(index: Int) -> String {
+        if let t = trackers[index] as? NumberTracker {
+            if let value = t.getValue(date: currentDay) {
+                return value
             }
         }
-        return nil
+        return ""
     }
-
     
-    func save() {
+    var allFieldsValid: Bool {
+        var allFieldsValid = true
+        for (i, myField) in fields.enumerated() {
+            if let _ = trackers[i] as? NumberTracker {
+                if !myField.text.isEmpty {
+                    if let _ = Double(myField.text) {
+                        fields[i].validField = true
+                    } else {
+                        allFieldsValid = false
+                        fields[i].validField = false
+                    }
+                }
+            }
+        }
+        return allFieldsValid
+    }
+    
+    func save() -> Bool {
+        if !allFieldsValid {
+            return false
+        }
+        
         for (i, field) in fields.enumerated() {
             if let t = trackers[i] as? NumberTracker {
                 if !field.text.isEmpty {
                     if let _ = Double(field.text) {
                         t.add(date: currentDay, value: field.text)
-                    } else {
-                        // TODO: show not a double error
                     }
                 } else if t.getValue(date: currentDay) != nil {
                     t.remove(on: currentDay)
                 }
             }
         }
+        
+        habit.markCompleted(on: currentDay)
+        return true
     }
     
 }
@@ -74,63 +97,51 @@ struct EnterTrackerDataView: View {
     
     @ObservedObject var vm: EnterTrackerDataViewModel
     
+    @State var updateForError: Bool = false
+//    @State var validFields: [Bool]
+    
+    init(vm: EnterTrackerDataViewModel) {
+        self.vm = vm
+    }
+    
     var body: some View {
         NavigationView {
             Background {
-                VStack {
+                ScrollView {
+                    VStack {
+                    Spacer()
+                        .frame(height: 10)
                     CardView {
                         VStack(spacing: 0) {
                             ForEach(vm.trackers.indices, id: \.self) { i in
-                                let tracker = vm.trackers[i]
-                                VStack(spacing: 0) {
-                                    HStack {
-                                        Text("\(tracker.name)")
-                                            .fontWeight(.medium)
-                                        
-                                        if i + 1 < vm.fields.count {
-                                            CustomTextField(text: $vm.fields[i].text,
-                                                            placeholder: "Old value",
-                                                            isResponder: $vm.fields[i].isResponder,
-                                                            nextResponder: $vm.fields[i+1].isResponder,
-                                                            textAlignment: .right)
-                                            .frame(height: 45)
-                                        } else {
-                                            CustomTextField(text: $vm.fields[i].text,
-                                                            placeholder: "Old value",
-                                                            isResponder: $vm.fields[i].isResponder,
-                                                            nextResponder: .constant(nil),
-                                                            textAlignment: .right)
-                                            .frame(height: 45)
-                                        }
-                                    }
-                                    .padding(.horizontal, 20)
-                                    if i != vm.fields.count - 1 {
-                                        Divider()
-                                    }
-                                }
+                                NumberTrackerEnterDataView(vm: vm,
+                                                           index: i)
                             }
                         }
                     }
                     Spacer()
                 }
+                }
             }
+            .navigationBarTitle("Enter Data")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        vm.currentResponder?.isResponder = false
-                        vm.save()
-                        presentationMode.wrappedValue.dismiss()
+                        let canSave = vm.save()
+                        if canSave {
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
-                        vm.currentResponder?.isResponder = false
                         // TODO: Check if there will be any lost data
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
-        }
+            }
         }
     }
 }
@@ -159,6 +170,37 @@ struct EnterTrackerDataView_Previews: PreviewProvider {
             
             Text("Background").sheet(isPresented: .constant(true)) {
                 EnterTrackerDataView(vm: vm)
+            }
+        }
+    }
+}
+
+struct NumberTrackerEnterDataView: View {
+    
+    @ObservedObject var vm: EnterTrackerDataViewModel
+    let index: Int
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("\(vm.trackers[index].name)")
+                    .fontWeight(.medium)
+                
+                TextField("Value", text: $vm.fields[index].text)
+                    .multilineTextAlignment(.trailing)
+                    .keyboardType(.decimalPad)
+                    .frame(height: 45)
+            }
+            .padding(.horizontal, 20)
+            
+            if !vm.fields[index].validField {
+                Label("Not a valid number", systemImage: "exclamationmark.triangle")
+                    .foregroundColor(.red)
+                    .padding(.bottom, (index != vm.fields.count - 1) ? 5 : 0)
+            }
+            
+            if index != vm.fields.count - 1 {
+                Divider()
             }
         }
     }
