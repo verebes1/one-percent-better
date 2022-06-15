@@ -8,7 +8,7 @@
 import UIKit
 
 protocol UpdateGraphValueDelegate {
-    func update(to: String)
+    func update(to value: String)
 }
 
 class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
@@ -130,7 +130,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         panningRecognized = false
         if !panningGraph {
             touchPoint = nil
-//            delegate.update(to: "")
+            delegate.update(to: "")
             setNeedsDisplay()
         }
     }
@@ -139,7 +139,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         touchingGraph = false
         if !panningGraph {
             touchPoint = nil
-//            delegate.update(to: "")
+            delegate.update(to: "")
             setNeedsDisplay()
         }
     }
@@ -160,7 +160,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
             panningRecognized = false
             if !touchingGraph {
                 touchPoint = nil
-//                delegate.update(to: "")
+                delegate.update(to: "")
                 setNeedsDisplay()
             }
         } else if touchingGraph || panningGraph {
@@ -393,9 +393,9 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         }
         
         // TODO: Enable haptic engine manager again
-//        if previousTouchedPoint != closestPoint {
-//            HapticEngineManager.playHaptic(intensity: 0.5)
-//        }
+        if previousTouchedPoint != closestPoint {
+            HapticEngineManager.playHaptic(intensity: 0.5)
+        }
         previousTouchedPoint = closestPoint
         
         // vertical line
@@ -456,7 +456,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
             let rounded = round(doubleVal * 1000) / 1000
             value = String(rounded)
         }
-//        delegate.update(to: value)
+        delegate.update(to: value)
     }
     
     // MARK: - Previous Data Line

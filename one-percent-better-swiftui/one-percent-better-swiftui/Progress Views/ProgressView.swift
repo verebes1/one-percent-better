@@ -13,6 +13,7 @@ class ProgressViewModel: ObservableObject {
     var habit: Habit
     var trackers: [Tracker]
     
+    
     init(habit: Habit) {
         self.habit = habit
         self.trackers = habit.trackers.map{ $0 as! Tracker }
@@ -24,6 +25,12 @@ struct ProgressView: View {
     var vm: ProgressViewModel
     
     @State var progressPresenting: Bool = false
+    @State var selectedValues: [String]
+    
+    init(vm: ProgressViewModel) {
+        self.vm = vm
+        self._selectedValues = State(initialValue: Array(repeating: "", count: vm.trackers.count))
+    }
     
     var body: some View {
         Background {
@@ -33,19 +40,10 @@ struct ProgressView: View {
                         CalendarView(habit: vm.habit)
                     }
                     
-                    ForEach(vm.trackers) { tracker in
-                        VStack(spacing: 20) {
-                            NumberTrackerTableCardView(tracker: tracker)
-                            if let t = tracker as? GraphTracker {
-                                CardView {
-                                    VStack {
-                                        Text("Has graph tracker")
-                                        GraphView(graphData: GraphData(graphTracker: t))
-                                            .frame(width: 330, height: 200)
-//                                            .background(.blue)
-                                    }
-                                }
-                            }
+                    ForEach(0 ..< vm.trackers.count, id: \.self) { i in
+                        let tracker = vm.trackers[i]
+                        if let t = tracker as? GraphTracker {
+                            GraphCardView(tracker: t)
                         }
                     }
                     
@@ -101,6 +99,7 @@ struct ProgressView_Previews: PreviewProvider {
                     .preferredColorScheme(.light)
                     .environmentObject(habit)
             }
+                .preferredColorScheme(.dark)
         )
     }
 }

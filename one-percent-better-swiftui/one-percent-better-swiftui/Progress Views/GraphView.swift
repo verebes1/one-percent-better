@@ -10,27 +10,45 @@ import SwiftUI
 struct GraphView: UIViewRepresentable {
 
     var graphData: GraphData
+    var numDays: Int
+    @Binding var selectedValue: String
     
     func makeUIView(context: UIViewRepresentableContext<GraphView>) -> UIView {
         let graphView = GraphUIKitView(frame: .zero)
-//        graphView.backgroundColor = .red
-        graphView.backgroundColor = .white
-        graphView.configure(graphData: graphData)
+        graphView.backgroundColor = UIColor(Color.cardColor)
+        graphView.delegate = context.coordinator
         return graphView
     }
     
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<GraphView>) {
         if let graphView = uiView as? GraphUIKitView {
-            print("configuring graph view")
-            
-            graphData.updateRange(endDate: Date(), numDaysBefore: 7)
+            graphData.updateRange(endDate: Date(), numDaysBefore: numDays)
             graphView.configure(graphData: graphData)
         }
-//        uiView.text = text
+    }
+    
+    func makeCoordinator() -> GraphViewCoordinator {
+        return GraphViewCoordinator(selectedValue: $selectedValue)
+    }
+    
+    class GraphViewCoordinator: UpdateGraphValueDelegate {
+        
+        @Binding var selectedValue: String
+        
+        init(selectedValue: Binding<String>) {
+            self._selectedValue = selectedValue
+        }
+        
+        func update(to value: String) {
+            selectedValue = value
+        }
+        
     }
 }
 
 struct GraphView_Previews: PreviewProvider {
+    
+    @State static var selectedValue: String = ""
     
     static func data() -> GraphData {
         let context = CoreDataManager.previews.persistentContainer.viewContext
@@ -61,11 +79,12 @@ struct GraphView_Previews: PreviewProvider {
     static var previews: some View {
         let graphData = data()
         VStack {
-            Text("All dates: \(String(describing: graphData.allDates))")
-            GraphView(graphData: graphData)
-                .frame(width: 330, height: 300)
-//                .background(.blue)
-            Text("All values: \(String(describing: graphData.allValues))")
+            Text("Selected value: \(selectedValue)")
+            GraphView(graphData: graphData, numDays: 7, selectedValue: $selectedValue)
+                .preferredColorScheme(.light)
+                .frame(height: 300)
+                .padding(.horizontal, 20)
+            .border(.black)
         }
     }
 }

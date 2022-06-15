@@ -47,6 +47,8 @@
 		808831502859459800191660 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8088314F2859459800191660 /* GraphData.swift */; };
 		80883152285945B700191660 /* GraphUIKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80883151285945B700191660 /* GraphUIKitView.swift */; };
 		808831542859465700191660 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808831532859465700191660 /* GraphView.swift */; };
+		80883156285A7CED00191660 /* GraphCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80883155285A7CED00191660 /* GraphCardView.swift */; };
+		80883159285A92B900191660 /* HapticEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80883158285A92B900191660 /* HapticEngineManager.swift */; };
 		80A600C6283DCEE6007A0C0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C5283DCEE6007A0C0B /* CardView.swift */; };
 		80A600C8283F2B11007A0C0B /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */; };
 		80A600CA2841784A007A0C0B /* CalendarScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C92841784A007A0C0B /* CalendarScrollView.swift */; };
@@ -133,6 +135,8 @@
 		8088314F2859459800191660 /* GraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
 		80883151285945B700191660 /* GraphUIKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphUIKitView.swift; sourceTree = "<group>"; };
 		808831532859465700191660 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
+		80883155285A7CED00191660 /* GraphCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCardView.swift; sourceTree = "<group>"; };
+		80883158285A92B900191660 /* HapticEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticEngineManager.swift; sourceTree = "<group>"; };
 		80A600C5283DCEE6007A0C0B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
 		80A600C92841784A007A0C0B /* CalendarScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScrollView.swift; sourceTree = "<group>"; };
@@ -305,6 +309,7 @@
 				80A600CC28430877007A0C0B /* Progress Views */,
 				80FF97F62856DC6C00A96026 /* Settings */,
 				80F13FE12843C1F2002269F2 /* Tasks */,
+				80883157285A92AE00191660 /* Haptic Engine */,
 				80F13FE92843C207002269F2 /* Export Manager */,
 				80428B062831BFD300A17B53 /* Extensions */,
 				80428B0D2831BFD300A17B53 /* Global Style */,
@@ -342,6 +347,14 @@
 			path = "one-percent-better-swiftuiUITests";
 			sourceTree = "<group>";
 		};
+		80883157285A92AE00191660 /* Haptic Engine */ = {
+			isa = PBXGroup;
+			children = (
+				80883158285A92B900191660 /* HapticEngineManager.swift */,
+			);
+			path = "Haptic Engine";
+			sourceTree = "<group>";
+		};
 		80A600CC28430877007A0C0B /* Progress Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +363,7 @@
 				8088314F2859459800191660 /* GraphData.swift */,
 				80883151285945B700191660 /* GraphUIKitView.swift */,
 				808831532859465700191660 /* GraphView.swift */,
+				80883155285A7CED00191660 /* GraphCardView.swift */,
 			);
 			path = "Progress Views";
 			sourceTree = "<group>";
@@ -592,7 +606,9 @@
 				80428B432831BFD300A17B53 /* NSManagedObjectModel+Resource.swift in Sources */,
 				80428B472831BFD300A17B53 /* Style.swift in Sources */,
 				80A600CA2841784A007A0C0B /* CalendarScrollView.swift in Sources */,
+				80883156285A7CED00191660 /* GraphCardView.swift in Sources */,
 				8055A9742831BAA5009A1881 /* OnePercentBetterApp.swift in Sources */,
+				80883159285A92B900191660 /* HapticEngineManager.swift in Sources */,
 				80428B3C2831BFD300A17B53 /* MigrationModel2to3.swift in Sources */,
 				80428B3B2831BFD300A17B53 /* CoreDataManager.swift in Sources */,
 				80428B552831BFD400A17B53 /* Habit.swift in Sources */,
