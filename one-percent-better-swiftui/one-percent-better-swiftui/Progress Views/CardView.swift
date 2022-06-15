@@ -21,6 +21,40 @@ struct CardView<Content>: View where Content: View {
     }
 }
 
+struct CardTitle: View {
+    var name: String
+    
+    init(_ name: String) {
+        self.name = name
+    }
+    
+    var body: some View {
+        Text(name)
+            .font(.system(size: 19))
+            .fontWeight(.medium)
+    }
+}
+
+struct SimpleCardTitle<Content>: View where Content: View {
+    var name: String
+    let content: () -> Content
+    
+    init(_ name: String, @ViewBuilder content: @escaping () -> Content) {
+        self.name = name
+        self.content = content
+    }
+    
+    var body: some View {
+        HStack {
+            CardTitle(name)
+            Spacer()
+            content()
+        }
+        .padding(.horizontal, 20)
+        .padding(.top, 5)
+    }
+}
+
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
@@ -28,6 +62,7 @@ struct CardView_Previews: PreviewProvider {
                 VStack(spacing: 20) {
                     CardView {
                         VStack {
+                            CardTitle("Test")
                             Spacer()
                                 .frame(height: 100)
                             Text("Test Card")
@@ -48,6 +83,9 @@ struct CardView_Previews: PreviewProvider {
                 VStack(spacing: 20) {
                     CardView {
                         VStack {
+                            SimpleCardTitle("Balloon") {
+                                Text("test")
+                            }
                             Spacer()
                                 .frame(height: 100)
                             Text("Test Card")

@@ -49,6 +49,8 @@
 		808831542859465700191660 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808831532859465700191660 /* GraphView.swift */; };
 		80883156285A7CED00191660 /* GraphCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80883155285A7CED00191660 /* GraphCardView.swift */; };
 		80883159285A92B900191660 /* HapticEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80883158285A92B900191660 /* HapticEngineManager.swift */; };
+		8088315C285A93F800191660 /* ImageCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8088315B285A93F800191660 /* ImageCardView.swift */; };
+		8088315F285AA47D00191660 /* ImageFullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8088315E285AA47D00191660 /* ImageFullView.swift */; };
 		80A600C6283DCEE6007A0C0B /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C5283DCEE6007A0C0B /* CardView.swift */; };
 		80A600C8283F2B11007A0C0B /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */; };
 		80A600CA2841784A007A0C0B /* CalendarScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A600C92841784A007A0C0B /* CalendarScrollView.swift */; };
@@ -137,6 +139,8 @@
 		808831532859465700191660 /* GraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		80883155285A7CED00191660 /* GraphCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCardView.swift; sourceTree = "<group>"; };
 		80883158285A92B900191660 /* HapticEngineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticEngineManager.swift; sourceTree = "<group>"; };
+		8088315B285A93F800191660 /* ImageCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCardView.swift; sourceTree = "<group>"; };
+		8088315E285AA47D00191660 /* ImageFullView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFullView.swift; sourceTree = "<group>"; };
 		80A600C5283DCEE6007A0C0B /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
 		80A600C92841784A007A0C0B /* CalendarScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScrollView.swift; sourceTree = "<group>"; };
@@ -355,20 +359,39 @@
 			path = "Haptic Engine";
 			sourceTree = "<group>";
 		};
-		80A600CC28430877007A0C0B /* Progress Views */ = {
+		8088315A285A93D800191660 /* Graph Card */ = {
 			isa = PBXGroup;
 			children = (
-				80F139FC2835A61000BC348B /* ProgressView.swift */,
-				80A600CD28430890007A0C0B /* Calendar */,
 				8088314F2859459800191660 /* GraphData.swift */,
 				80883151285945B700191660 /* GraphUIKitView.swift */,
 				808831532859465700191660 /* GraphView.swift */,
 				80883155285A7CED00191660 /* GraphCardView.swift */,
 			);
+			path = "Graph Card";
+			sourceTree = "<group>";
+		};
+		8088315D285AA45E00191660 /* Image Card */ = {
+			isa = PBXGroup;
+			children = (
+				8088315B285A93F800191660 /* ImageCardView.swift */,
+				8088315E285AA47D00191660 /* ImageFullView.swift */,
+			);
+			path = "Image Card";
+			sourceTree = "<group>";
+		};
+		80A600CC28430877007A0C0B /* Progress Views */ = {
+			isa = PBXGroup;
+			children = (
+				80F139FC2835A61000BC348B /* ProgressView.swift */,
+				80A600C5283DCEE6007A0C0B /* CardView.swift */,
+				80A600CD28430890007A0C0B /* Calendar Card */,
+				8088315A285A93D800191660 /* Graph Card */,
+				8088315D285AA45E00191660 /* Image Card */,
+			);
 			path = "Progress Views";
 			sourceTree = "<group>";
 		};
-		80A600CD28430890007A0C0B /* Calendar */ = {
+		80A600CD28430890007A0C0B /* Calendar Card */ = {
 			isa = PBXGroup;
 			children = (
 				80428AE82831BFD300A17B53 /* CalenderModel.swift */,
@@ -377,7 +400,7 @@
 				80A600C92841784A007A0C0B /* CalendarScrollView.swift */,
 				80A600C7283F2B11007A0C0B /* ScrollViewTest.swift */,
 			);
-			path = Calendar;
+			path = "Calendar Card";
 			sourceTree = "<group>";
 		};
 		80CDEAE52831BE6700AFBAD6 /* Habit Views */ = {
@@ -394,7 +417,6 @@
 				80ED9BDD283947DD00A068D9 /* PreviewData.swift */,
 				805343BA283BD32E004D7410 /* HabitCompletionCircle.swift */,
 				80562C12285161B400A5B3A3 /* EnterTrackerDataView.swift */,
-				80A600C5283DCEE6007A0C0B /* CardView.swift */,
 				803A6D42284AB23200A83656 /* TableTrackerView.swift */,
 				80F3A9DF284BBA630021D84E /* BlurView.swift */,
 				8064186B2850062400F68A2D /* CustomTextField.swift */,
@@ -570,6 +592,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8088315C285A93F800191660 /* ImageCardView.swift in Sources */,
 				8055A9AA2831BB79009A1881 /* HabitListView.swift in Sources */,
 				80428B402831BFD300A17B53 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				80428B3E2831BFD300A17B53 /* mo_ikai.xcdatamodeld in Sources */,
@@ -620,6 +643,7 @@
 				80428B572831BFD400A17B53 /* GraphTracker.swift in Sources */,
 				80F139F528345B4400BC348B /* Color.swift in Sources */,
 				808831542859465700191660 /* GraphView.swift in Sources */,
+				8088315F285AA47D00191660 /* ImageFullView.swift in Sources */,
 				80F13FE72843C1F2002269F2 /* Task.swift in Sources */,
 				80428B412831BFD300A17B53 /* CoreDataMigrationStep.swift in Sources */,
 				80428B452831BFD300A17B53 /* Extensions.swift in Sources */,

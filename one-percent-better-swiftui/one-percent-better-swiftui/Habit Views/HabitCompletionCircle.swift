@@ -48,6 +48,7 @@ struct HabitCompletionCircle: View {
                         habit.markNotCompleted(on: currentDay)
                     } else {
                         habit.markCompleted(on: currentDay)
+                        HapticEngineManager.playHaptic()
                     }
                 }
             }

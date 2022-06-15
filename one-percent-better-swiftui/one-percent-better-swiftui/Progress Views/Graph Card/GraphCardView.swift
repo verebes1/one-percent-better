@@ -44,15 +44,17 @@ struct GraphCardView: View {
     var body: some View {
         CardView {
             VStack(spacing: 0) {
-                HStack {
-                    Text("\(tracker.name)")
-                        .font(.system(size: 19))
-                        .fontWeight(.medium)
-                    Spacer()
+                
+                SimpleCardTitle(tracker.name) {
                     Text(selectedValue)
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 5)
+                
+//                HStack {
+//                    CardTitle(tracker.name)
+//                    Spacer()
+//                }
+//                .padding(.horizontal, 20)
+//                .padding(.top, 5)
                 
                 GraphView(graphData: GraphData(graphTracker: tracker),
                           numDays: selectedButton.numDays(),
