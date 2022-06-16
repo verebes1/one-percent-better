@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1320"
+   LastUpgradeVersion = "1340"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3FE6668625F982B700DE1D46"
+               BlueprintIdentifier = "8055A96F2831BAA5009A1881"
                BuildableName = "one-percent-better.app"
                BlueprintName = "one-percent-better"
                ReferencedContainer = "container:one-percent-better.xcodeproj">
@@ -28,6 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8055A97F2831BAA8009A1881"
+               BuildableName = "one-percent-betterTests.xctest"
+               BlueprintName = "one-percent-betterTests"
+               ReferencedContainer = "container:one-percent-better.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "8055A9892831BAA8009A1881"
+               BuildableName = "one-percent-betterUITests.xctest"
+               BlueprintName = "one-percent-betterUITests"
+               ReferencedContainer = "container:one-percent-better.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -44,7 +64,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3FE6668625F982B700DE1D46"
+            BlueprintIdentifier = "8055A96F2831BAA5009A1881"
             BuildableName = "one-percent-better.app"
             BlueprintName = "one-percent-better"
             ReferencedContainer = "container:one-percent-better.xcodeproj">
@@ -61,7 +81,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3FE6668625F982B700DE1D46"
+            BlueprintIdentifier = "8055A96F2831BAA5009A1881"
             BuildableName = "one-percent-better.app"
             BlueprintName = "one-percent-better"
             ReferencedContainer = "container:one-percent-better.xcodeproj">

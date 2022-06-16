@@ -1,12 +1,11 @@
 //
 //  HapticEngineManager.swift
-//  mo-ikai
+//  one-percent-better-swiftui
 //
-//  Created by Jeremy Cook on 1/3/22.
+//  Created by Jeremy Cook on 6/15/22.
 //
 
 import Foundation
-
 import CoreHaptics
 
 class HapticEngineManager {
