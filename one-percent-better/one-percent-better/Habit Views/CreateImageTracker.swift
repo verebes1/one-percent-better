@@ -1,5 +1,5 @@
 //
-//  CreateTableTracker.swift
+//  CreateImageTracker.swift
 //  one-percent-better-swiftui
 //
 //  Created by Jeremy Cook on 6/3/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CreateTableTracker: View {
+struct CreateImageTracker: View {
     @Environment(\.managedObjectContext) var moc
     
     var habit: Habit
@@ -17,8 +17,8 @@ struct CreateTableTracker: View {
     var body: some View {
         Background {
             VStack {
-                HabitCreationHeader(systemImage: "tablecells",
-                                    title: "Table")
+                HabitCreationHeader(systemImage: "photo",
+                                    title: "Photo")
                 
                 VStack {
                     ZStack {
@@ -32,10 +32,10 @@ struct CreateTableTracker: View {
                 
                 Spacer()
                 
-                BottomButtonEmptyMeansDisabled(text: "Create", dependingLabel: $trackerName)
+                BottomButtonDisabledWhenEmpty(text: "Create", dependingLabel: $trackerName)
                     .onTapGesture {
                         if !trackerName.isEmpty {
-                            let _ = NumberTracker(context: moc, habit: habit, name: trackerName)
+                            let _ = ImageTracker(context: moc, habit: habit, name: trackerName)
                             try? moc.save()
                             progressPresenting = false
                         }
@@ -46,12 +46,12 @@ struct CreateTableTracker: View {
     }
 }
 
-struct CreateTableTracker_Previews: PreviewProvider {
+struct CreateImageTracker_Previews: PreviewProvider {
     
     @State static var rootPresenting: Bool = false
     
     static var previews: some View {
         let habit = PreviewData.sampleHabit()
-        CreateTableTracker(habit: habit, progressPresenting: $rootPresenting)
+        CreateImageTracker(habit: habit, progressPresenting: $rootPresenting)
     }
 }

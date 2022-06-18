@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CardView<Content>: View where Content: View {
+    
+    @Environment(\.colorScheme) var colorScheme
+    
     let content: () -> Content
     
     var body: some View {
@@ -16,7 +19,7 @@ struct CardView<Content>: View where Content: View {
         .frame(maxWidth: .infinity)
         .background(Color.cardColor)
         .cornerRadius(10)
-        .shadow(color: Color.cardColorOpposite.opacity(0.2), radius: 7)
+        .shadow(color: Color.cardColorOpposite.opacity(0.2), radius: colorScheme == .light ? 7 : 0)
         .padding(.horizontal, 10)
     }
 }

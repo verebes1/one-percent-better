@@ -49,7 +49,7 @@ struct CreateNewHabit: View {
                 
                 Spacer()
                 
-                BottomButtonEmptyMeansDisabled(text: "Create", dependingLabel: $habitName)
+                BottomButtonDisabledWhenEmpty(text: "Create", dependingLabel: $habitName)
                     .onTapGesture {
                         duplicateNameError = false
                         if !habitName.isEmpty {

@@ -19,7 +19,7 @@ struct HabitCreationHeader: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 65)
-                .foregroundColor(.green)
+                .foregroundColor(Style.accentColor)
             
             Text(title)
                 .font(.system(size: 31))
@@ -39,6 +39,8 @@ struct HabitCreationHeader: View {
 
 struct HabitCreationHeader_Previews: PreviewProvider {
     static var previews: some View {
-        HabitCreationHeader(systemImage: "square.and.pencil", title: "Create New Habit", subtitle: "The lazy brown fox jumped over the moon, but how could the fox jump over the moon if he was lazy?")
+        Background {
+            HabitCreationHeader(systemImage: "square.and.pencil", title: "Create New Habit", subtitle: "The lazy brown fox jumped over the moon, but why did the fox jump over the moon if it was lazy?")
+        }
     }
 }

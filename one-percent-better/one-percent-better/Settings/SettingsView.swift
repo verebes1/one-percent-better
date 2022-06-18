@@ -10,7 +10,23 @@ import SwiftUI
 struct SettingsView: View {
     var body: some View {
         Background {
-            Text("Settings")
+            CardView {
+                VStack {
+                    HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 7)
+                                .foregroundColor(.red)
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 28, height: 28)
+                        Text("Export Data")
+                            .font(.system(size: 21))
+                        Spacer()
+                    }
+                    .padding(.horizontal, 20)
+                }
+            }
         }
     }
 }

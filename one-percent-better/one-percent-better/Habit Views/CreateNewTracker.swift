@@ -9,22 +9,20 @@ import SwiftUI
 
 struct CreateNewTracker: View {
     
-    @EnvironmentObject var habit: Habit
+    var habit: Habit
     
     @Binding var progressPresenting: Bool
     
     let trackerViews: [TrackerView] = [
-        TrackerView(systemImage: "tablecells",
-                    color: .systemOrange,
-                    title: "Table"),
-//        TrackerView(systemImage: "chart.xyaxis.line",
-//                    color: .blue,
-//                    title: "Graph",
-//                   available: false),
-//        TrackerView(systemImage: "photo",
-//                    color: .mint,
-//                    title: "Picture",
-//                    available: false),
+//        TrackerView(systemImage: "tablecells",
+//                    color: .systemOrange,
+//                    title: "Table"),
+        TrackerView(systemImage: "chart.xyaxis.line",
+                    color: .blue,
+                    title: "Graph"),
+        TrackerView(systemImage: "photo",
+                    color: .mint,
+                    title: "Photo")
 //        TrackerView(systemImage: "video",
 //                    color: .purple,
 //                    title: "Video",
@@ -43,7 +41,7 @@ struct CreateNewTracker: View {
 //                    available: false)
     ]
     
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 1)
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let columnSpacing: CGFloat = 11
     
     var body: some View {
@@ -56,12 +54,20 @@ struct CreateNewTracker: View {
                                     subtitle: "Seeing your progress is one of the most effective forms of motivation")
                 
                 LazyVGrid(columns: columns, spacing: columnSpacing) {
-                    ForEach(trackerViews, id: \.self.title) { trackerView in
-                        NavigationLink(destination: CreateTableTracker(habit: habit, progressPresenting: $progressPresenting)) {
-                            trackerView
-                        }
-                        .isDetailLink(false)
+                    
+                    NavigationLink(destination: CreateGraphTracker(habit: habit, progressPresenting: $progressPresenting)) {
+                        TrackerView(systemImage: "chart.xyaxis.line",
+                                    color: .blue,
+                                    title: "Graph")
                     }
+                    .isDetailLink(false)
+                    
+                    NavigationLink(destination: CreateImageTracker(habit: habit, progressPresenting: $progressPresenting)) {
+                        TrackerView(systemImage: "photo",
+                                    color: .mint,
+                                    title: "Photo")
+                    }
+                    .isDetailLink(false)
                 }
                 .padding(.horizontal, 15)
 
@@ -78,8 +84,7 @@ struct CreateNewTracker_Previews: PreviewProvider {
     static var previews: some View {
         let habit = PreviewData.sampleHabit()
         NavigationView {
-            CreateNewTracker(progressPresenting: $parentPresenting)
-                .environmentObject(habit)
+            CreateNewTracker(habit: habit, progressPresenting: $parentPresenting)
         }
     }
 }

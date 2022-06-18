@@ -45,10 +45,12 @@ struct ProgressView: View {
                         if let t = tracker as? GraphTracker {
                             GraphCardView(tracker: t)
                                 .allowsHitTesting(true)
+                        } else if let t = tracker as? ImageTracker {
+                            ImageCardView(imageTracker: t)
                         }
                     }
                     
-                    NavigationLink(destination: CreateTableTracker(habit: vm.habit, progressPresenting: $progressPresenting),
+                    NavigationLink(destination: CreateNewTracker(habit: vm.habit, progressPresenting: $progressPresenting),
                                    isActive: $progressPresenting) {
                         Label("New Tracker", systemImage: "plus.circle")
                     }

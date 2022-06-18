@@ -35,4 +35,6 @@ class Style {
     static var UIKitGreen: UIColor = .systemGreen
     static var red = UIColor(rgb: 0xF94144)
     static var lightGray: UIColor = .lightGray
+    
+    static var accentColor: Color = .systemTeal
 }

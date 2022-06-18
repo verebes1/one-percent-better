@@ -16,7 +16,7 @@ struct BottomButton: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(.green)
+                .foregroundColor(Style.accentColor)
                 .frame(height: 50)
                 .padding(.horizontal, 20)
             Text(label)
@@ -38,7 +38,7 @@ struct BottomButton_Previews: PreviewProvider {
     }
 }
 
-struct BottomButtonEmptyMeansDisabled: View {
+struct BottomButtonDisabledWhenEmpty: View {
     
     let text: String
     @Binding var dependingLabel: String
@@ -48,7 +48,7 @@ struct BottomButtonEmptyMeansDisabled: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 10)
-                .foregroundColor(dependingLabel.isEmpty ? .systemGray5 : .green)
+                .foregroundColor(dependingLabel.isEmpty ? .systemGray5 : Style.accentColor)
                 .frame(height: 50)
                 .padding(.horizontal, 20)
             Text(text)
@@ -67,7 +67,7 @@ struct BottomButtonEmptyMeansDisabled_Previews: PreviewProvider {
         VStack {
             TextField("Test", text: $label)
                 .padding()
-            BottomButtonEmptyMeansDisabled(text: "Test", dependingLabel: $label)
+            BottomButtonDisabledWhenEmpty(text: "Test", dependingLabel: $label)
         }
     }
 }
