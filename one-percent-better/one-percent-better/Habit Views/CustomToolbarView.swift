@@ -52,21 +52,33 @@ struct CustomToolbarView_Previews: PreviewProvider {
         NavigationView {
             Background {
                 ZStack {
-                    ScrollView {
-                        VStack {
-                            Spacer()
-                                .frame(height: toolbarHeight)
+//                    ScrollView {
+//                        VStack {
+//                            Spacer()
+//                                .frame(height: toolbarHeight)
+//                            ForEach(0 ..< 30, id: \.self) { i in
+//                                VStack {
+//                                    RoundedRectangle(cornerRadius: 7)
+//                                        .frame(height: 50)
+//                                        .foregroundColor(.red)
+//                                }
+//                            }
+//                        }
+//                    }
+                    List {
+                        Section {
                             ForEach(0 ..< 30, id: \.self) { i in
-                                VStack {
-                                    RoundedRectangle(cornerRadius: 7)
-                                        .frame(height: 50)
-                                        .foregroundColor(.red)
-                                }
+                                Text("Hello \(i)")
+                                    .background(.red)
                             }
+                        } header: {
+                            Spacer()
+                                .frame(height: 100)
                         }
                     }
+                    .listStyle(.insetGrouped)
                     
-                    CustomToolbarView(toolbarHeight: toolbarHeight)
+//                    CustomToolbarView(toolbarHeight: toolbarHeight)
                 }
             }
             
