@@ -49,13 +49,6 @@ struct GraphCardView: View {
                     Text(selectedValue)
                 }
                 
-//                HStack {
-//                    CardTitle(tracker.name)
-//                    Spacer()
-//                }
-//                .padding(.horizontal, 20)
-//                .padding(.top, 5)
-                
                 GraphView(graphData: GraphData(graphTracker: tracker),
                           numDays: selectedButton.numDays(),
                           selectedValue: $selectedValue)

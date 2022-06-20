@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
+		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -69,6 +71,7 @@
 		80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */; };
 		80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */; };
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
+		80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
@@ -93,6 +96,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
+		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -158,6 +163,7 @@
 		80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTrackerEnterDataView.swift; sourceTree = "<group>"; };
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
+		80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTouchesScrollView.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* one-percent-better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "one-percent-better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiTests.swift; sourceTree = "<group>"; };
@@ -372,11 +378,12 @@
 		80385CEC285BEE5900CBDF71 /* Progress Views */ = {
 			isa = PBXGroup;
 			children = (
-				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				80385CEE285BEE5900CBDF71 /* ProgressView.swift */,
+				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
 				80385CF5285BEE5900CBDF71 /* Image Card */,
 				80385CF8285BEE5900CBDF71 /* Graph Card */,
+				80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */,
 			);
 			path = "Progress Views";
 			sourceTree = "<group>";
@@ -398,6 +405,7 @@
 			children = (
 				80385CF6285BEE5900CBDF71 /* ImageCardView.swift */,
 				80385CF7285BEE5900CBDF71 /* ImageFullView.swift */,
+				800F4171285FDB9B0071CC70 /* AllImagesView.swift */,
 			);
 			path = "Image Card";
 			sourceTree = "<group>";
@@ -409,6 +417,7 @@
 				80385CFA285BEE5900CBDF71 /* GraphView.swift */,
 				80385CFB285BEE5900CBDF71 /* GraphCardView.swift */,
 				80385CFC285BEE5900CBDF71 /* GraphUIKitView.swift */,
+				800F40F7285F913A0071CC70 /* GraphGestureTest.swift */,
 			);
 			path = "Graph Card";
 			sourceTree = "<group>";
@@ -599,6 +608,7 @@
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
 				80385D2D285BEE5900CBDF71 /* CalendarSpacingView.swift in Sources */,
+				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
@@ -612,6 +622,7 @@
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
+				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				80385D11285BEE5900CBDF71 /* ButtonViews.swift in Sources */,
 				80385CFE285BEE5900CBDF71 /* Style.swift in Sources */,
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
@@ -626,6 +637,7 @@
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
+				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,

@@ -1,0 +1,45 @@
+//
+//  AllImagesView.swift
+//  one-percent-better
+//
+//  Created by Jeremy Cook on 6/19/22.
+//
+
+import SwiftUI
+
+struct AllImagesView: View {
+    
+    var images: [UIImage]
+    
+    let photoSpacing: CGFloat = 4
+    var gridItem: GridItem {
+        .init(.flexible(), spacing: photoSpacing)
+    }
+    var columns: [GridItem] {
+        Array(repeating: gridItem, count: 5)
+    }
+    
+    var body: some View {
+        ScrollView {
+            VStack {
+                LazyVGrid(columns: columns, alignment: .center, spacing: photoSpacing) {
+                    ForEach(0 ..< images.count, id: \.self) { i in
+                        Image(uiImage: images[i])
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fill)
+                    }
+                }
+                .padding(.horizontal, photoSpacing)
+                Spacer()
+            }
+        }
+    }
+}
+
+struct AllImagesView_Previews: PreviewProvider {
+    static var previews: some View {
+        let patio = UIImage(named: "patio-done")!
+        let patioImages = Array<UIImage>(repeating: patio, count: 20)
+        AllImagesView(images: patioImages)
+    }
+}

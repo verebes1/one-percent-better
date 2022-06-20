@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+let cardViewHorizontalInset: CGFloat = 10
+
 struct CardView<Content>: View where Content: View {
     
     @Environment(\.colorScheme) var colorScheme
@@ -20,7 +22,7 @@ struct CardView<Content>: View where Content: View {
         .background(Color.cardColor)
         .cornerRadius(10)
         .shadow(color: Color.cardColorOpposite.opacity(0.2), radius: colorScheme == .light ? 7 : 0)
-        .padding(.horizontal, 10)
+        .padding(.horizontal, cardViewHorizontalInset)
     }
 }
 

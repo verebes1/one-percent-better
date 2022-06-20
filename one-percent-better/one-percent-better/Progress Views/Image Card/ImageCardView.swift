@@ -7,33 +7,59 @@
 
 import SwiftUI
 
-struct ImageCardView: View {
+
+class ImageCardViewModel: ObservableObject {
     
     var imageTracker: ImageTracker
     
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 5)
+    var images: [UIImage] = []
+    var previewImages: [UIImage] = []
+    let maxImages = 15
+    
+    
+    init(imageTracker: ImageTracker) {
+        self.imageTracker = imageTracker
+    }
+    
+    func loadImages(images: [UIImage]) {
+        self.images = images
+        self.previewImages = images
+        let toDrop = images.count - maxImages
+        if toDrop > 0 {
+            self.previewImages = Array(images.dropFirst(toDrop))
+        }
+    }
+}
+
+struct ImageCardView: View {
+    
+    var vm: ImageCardViewModel
+    
+    let photoSpacing: CGFloat = 4
+    var gridItem: GridItem {
+        .init(.flexible(), spacing: photoSpacing)
+    }
+    var columns: [GridItem] {
+        Array(repeating: gridItem, count: 5)
+    }
     
     var body: some View {
         CardView {
             VStack {
-                SimpleCardTitle(imageTracker.name) {
-                    Button("View All") {
-                        print("test")
-                    }
+                SimpleCardTitle(vm.imageTracker.name) {
+                    NavigationLink("View All", destination: AllImagesView(images: vm.images))
                 }
                 
-                LazyVGrid(columns: columns) {
-                    ForEach(0 ..< imageTracker.values.count, id: \.self) { i in
-                        if let image = imageTracker.getValue(date: imageTracker.dates[i]) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                        }
+                LazyVGrid(columns: columns, alignment: .center, spacing: photoSpacing) {
+                    ForEach(0 ..< vm.previewImages.count, id: \.self) { i in
+                        Image(uiImage: vm.previewImages[i])
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fill)
                     }
                 }
+                .padding(.horizontal, photoSpacing)
             }
         }
-        
     }
 }
 
@@ -71,8 +97,16 @@ struct ImageCardView_Previews: PreviewProvider {
     
     static var previews: some View {
         let imageTracker = data()
-        Background {
-            ImageCardView(imageTracker: imageTracker)
+        let vm = ImageCardViewModel(imageTracker: imageTracker)
+        
+        let patio = UIImage(named: "patio-done")!
+        let patioImages = Array<UIImage>(repeating: patio, count: 20)
+        let _ = vm.loadImages(images: patioImages)
+        
+        NavigationView {
+            Background {
+                ImageCardView(vm: vm)
+            }
         }
     }
 }

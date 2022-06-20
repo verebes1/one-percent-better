@@ -31,7 +31,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     
     func move(from source: IndexSet, to destination: Int) {
         // Make an array from fetched results
-        var revisedItems: [Habit] = habits.map{ $0 }
+        var revisedItems: [Habit] = habits.map { $0 }
         
         // Change the order of the items in the array
         revisedItems.move(fromOffsets: source, toOffset: destination)
@@ -63,8 +63,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         try? moc.save()
     }
     
-    @Published var currentDay = Date()
-    
     /// Date formatter for the month year label at the top of the calendar
     var dateTitleFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -74,8 +72,8 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         return dateFormatter
     }()
     
-    var navTitle: String {
-        dateTitleFormatter.string(from: currentDay)
+    func navTitle(for date: Date) -> String {
+        dateTitleFormatter.string(from: date)
     }
 }
 
@@ -85,6 +83,13 @@ struct HabitListView: View {
     @Environment(\.scenePhase) var scenePhase
     
     @ObservedObject var vm: HabitListViewModel
+    
+    /// The current selected day
+    @State private var currentDay: Date = Date()
+    
+    /// The latest day that has been shown. This is updated when the app is opened or the view appears on a new day.
+    @State private var latestDay: Date = Date()
+    
     @State var isPresenting: Bool = false
     
     var body: some View {
@@ -93,17 +98,19 @@ struct HabitListView: View {
                 VStack {
                     let headerVM = HabitsHeaderViewModel(habits: vm.habits)
                     HabitsHeaderView(vm: headerVM,
-                                     currentDay: $vm.currentDay)
+                                     currentDay: $currentDay)
                     
                     List {
                         ForEach(vm.habits, id: \.self.name) { habit in
-                            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: vm.currentDay) {
+                            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: currentDay) {
                                 let progressVM = ProgressViewModel(habit: habit)
                                 NavigationLink(
                                     destination: ProgressView(vm: progressVM).environmentObject(habit)) {
-                                        HabitRow(vm: HabitRowViewModel(habit: habit, currentDay: vm.currentDay))
+                                        HabitRow(vm: HabitRowViewModel(habit: habit,
+                                                                       currentDay:
+                                                                        currentDay))
                                             .environmentObject(habit)
-                                            .animation(.easeInOut, value: vm.currentDay)
+                                            .animation(.easeInOut, value: currentDay)
                                     }
                                     .isDetailLink(false)
                             }
@@ -111,14 +118,13 @@ struct HabitListView: View {
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
                     }
-                    
-//                    Text("Current day: \(vm.currentDay.description)")
                 }
                 .onAppear {
                     UITableView.appearance().contentInset.top = -25
                     
-                    if !Calendar.current.isDate(vm.currentDay, inSameDayAs: Date()) {
-                        vm.currentDay = Date()
+                    if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
+                        latestDay = Date()
+                        currentDay = Date()
                     }
                 }
                 .toolbar {
@@ -133,11 +139,12 @@ struct HabitListView: View {
                             }
                     }
                 }
-                .navigationTitle(vm.navTitle)
+                .navigationTitle(vm.navTitle(for: currentDay))
                 .navigationBarTitleDisplayMode(.inline)
                 .onChange(of: scenePhase, perform: { newPhase in
-                    if newPhase == .active, !Calendar.current.isDate(vm.currentDay, inSameDayAs: Date()) {
-                        vm.currentDay = Date()
+                    if newPhase == .active, !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
+                        latestDay = Date()
+                        currentDay = Date()
                     }
                 })
             }

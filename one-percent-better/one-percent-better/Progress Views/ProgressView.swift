@@ -44,9 +44,9 @@ struct ProgressView: View {
                         let tracker = vm.trackers[i]
                         if let t = tracker as? GraphTracker {
                             GraphCardView(tracker: t)
-                                .allowsHitTesting(true)
                         } else if let t = tracker as? ImageTracker {
-                            ImageCardView(imageTracker: t)
+                            let vm = ImageCardViewModel(imageTracker: t)
+                            ImageCardView(vm: vm)
                         }
                     }
                     
@@ -54,8 +54,8 @@ struct ProgressView: View {
                                    isActive: $progressPresenting) {
                         Label("New Tracker", systemImage: "plus.circle")
                     }
-                    .isDetailLink(false)
-                    .padding(.top, 15)
+                                   .isDetailLink(false)
+                                   .padding(.top, 15)
                     
                     Spacer()
                 }
@@ -99,10 +99,8 @@ struct ProgressView_Previews: PreviewProvider {
         return(
             NavigationView {
                 ProgressView(vm: vm)
-                    .preferredColorScheme(.light)
                     .environmentObject(habit)
             }
-                .preferredColorScheme(.dark)
         )
     }
 }
