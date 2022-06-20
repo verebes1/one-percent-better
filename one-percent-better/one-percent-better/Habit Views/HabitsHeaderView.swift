@@ -50,6 +50,19 @@ class HabitsHeaderViewModel: ObservableObject {
         }
     }
     
+    func dayOffsetToToday(from date: Date) -> Int {
+        let result = -(Calendar.current.numberOfDaysBetween(date, and: Date()) - 1)
+        return result
+    }
+    
+    func getSelectedWeek(for day: Date) -> Int {
+        let weekDayOffset = thisWeekDayOffset(day)
+        let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
+        let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
+        let result = numWeeksSinceEarliest - 1 - weekNum
+        return result
+    }
+    
     func dayOffsetFromEarliest(week: Int, day: Int) -> Int {
         let numDaysBack = day - thisWeekDayOffset(earliestStartDate)
         let numWeeksBack = week
@@ -103,8 +116,7 @@ struct HabitsHeaderView: View {
         self._currentDay = currentDay
         
         _selectedWeekDay = State(initialValue: thisWeekDayOffset(currentDay.wrappedValue))
-        // FIXME: This should be based on current day, not an absolute thing!!!
-        _selectedWeek = State(initialValue: vm.numWeeksSinceEarliest - 1)
+        _selectedWeek = State(initialValue: vm.getSelectedWeek(for: currentDay.wrappedValue))
     }
     
     var body: some View {
@@ -182,7 +194,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
         
         let day0 = Date()
         let day1 = Calendar.current.date(byAdding: .day, value: -1, to: day0)!
-        let day2 = Calendar.current.date(byAdding: .day, value: -2, to: day0)!
+        let day2 = Calendar.current.date(byAdding: .day, value: -9, to: day0)!
         
         let h1 = try? Habit(context: context, name: "Cook")
         h1?.markCompleted(on: day0)

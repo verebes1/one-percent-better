@@ -85,6 +85,10 @@ struct ProgressView_Previews: PreviewProvider {
             t1.add(date: day0, value: "3")
             t1.add(date: day1, value: "2")
             t1.add(date: day2, value: "1")
+            
+            let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
+            let patioBefore = UIImage(named: "patio-before")!
+            t2.add(date: day0, value: patioBefore)
         }
         
         let habits = Habit.habitList(from: context)

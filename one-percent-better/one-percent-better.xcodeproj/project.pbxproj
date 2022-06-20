@@ -75,6 +75,7 @@
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
+		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -164,12 +165,13 @@
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTouchesScrollView.swift; sourceTree = "<group>"; };
-		8055A9702831BAA5009A1881 /* one-percent-better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "one-percent-better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiTests.swift; sourceTree = "<group>"; };
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsHeaderViewTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -406,6 +408,7 @@
 				80385CF6285BEE5900CBDF71 /* ImageCardView.swift */,
 				80385CF7285BEE5900CBDF71 /* ImageFullView.swift */,
 				800F4171285FDB9B0071CC70 /* AllImagesView.swift */,
+				806C82792860E86300C26CEC /* ImagesPagingView.swift */,
 			);
 			path = "Image Card";
 			sourceTree = "<group>";
@@ -435,7 +438,7 @@
 		8055A9712831BAA5009A1881 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8055A9702831BAA5009A1881 /* one-percent-better.app */,
+				8055A9702831BAA5009A1881 /* 1% Better.app */,
 				8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */,
 				8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */,
 			);
@@ -477,7 +480,7 @@
 			);
 			name = "one-percent-better";
 			productName = "one-percent-better-swiftui";
-			productReference = 8055A9702831BAA5009A1881 /* one-percent-better.app */;
+			productReference = 8055A9702831BAA5009A1881 /* 1% Better.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8055A97F2831BAA8009A1881 /* one-percent-betterTests */ = {
@@ -646,6 +649,7 @@
 				80385D0A285BEE5900CBDF71 /* HabitsHeaderView.swift in Sources */,
 				80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */,
 				80385D2F285BEE5900CBDF71 /* ScrollViewTest.swift in Sources */,
+				806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */,
 				80385D1D285BEE5900CBDF71 /* Extensions.swift in Sources */,
 				80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */,
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,
@@ -827,7 +831,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "1% Better";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -858,7 +862,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "1% Better";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

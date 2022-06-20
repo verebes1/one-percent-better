@@ -19,6 +19,14 @@ class ImageCardViewModel: ObservableObject {
     
     init(imageTracker: ImageTracker) {
         self.imageTracker = imageTracker
+        self.images = imageTracker.values.map { data in
+            UIImage(data: data)!
+        }
+        self.previewImages = self.images
+        let toDrop = images.count - maxImages
+        if toDrop > 0 {
+            self.previewImages = Array(images.dropFirst(toDrop))
+        }
     }
     
     func loadImages(images: [UIImage]) {

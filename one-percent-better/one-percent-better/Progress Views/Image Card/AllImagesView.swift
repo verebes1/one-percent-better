@@ -26,12 +26,13 @@ struct AllImagesView: View {
                     ForEach(0 ..< images.count, id: \.self) { i in
                         Image(uiImage: images[i])
                             .resizable()
-                            .aspectRatio(1, contentMode: .fill)
+                            .aspectRatio(1, contentMode: .fit)
                     }
                 }
                 .padding(.horizontal, photoSpacing)
                 Spacer()
             }
+            .navigationTitle("Images")
         }
     }
 }
@@ -40,6 +41,8 @@ struct AllImagesView_Previews: PreviewProvider {
     static var previews: some View {
         let patio = UIImage(named: "patio-done")!
         let patioImages = Array<UIImage>(repeating: patio, count: 20)
-        AllImagesView(images: patioImages)
+        NavigationView {
+            AllImagesView(images: patioImages)
+        }
     }
 }
