@@ -60,9 +60,15 @@ struct ImageCardView: View {
                 
                 LazyVGrid(columns: columns, alignment: .center, spacing: photoSpacing) {
                     ForEach(0 ..< vm.previewImages.count, id: \.self) { i in
-                        Image(uiImage: vm.previewImages[i])
-                            .resizable()
-                            .aspectRatio(1, contentMode: .fill)
+                        
+                        Color.clear
+                            .aspectRatio(1, contentMode: .fit)
+                            .overlay(
+                                Image(uiImage: vm.previewImages[i])
+                                    .resizable()
+                                    .scaledToFill()
+                                )
+                            .clipShape(Rectangle())
                     }
                 }
                 .padding(.horizontal, photoSpacing)

@@ -23,10 +23,15 @@ struct AllImagesView: View {
         ScrollView {
             VStack {
                 LazyVGrid(columns: columns, alignment: .center, spacing: photoSpacing) {
-                    ForEach(0 ..< images.count, id: \.self) { i in
-                        Image(uiImage: images[i])
-                            .resizable()
+                    ForEach(0 ..< images.count, id: \.self) { i in                        
+                        Color.clear
                             .aspectRatio(1, contentMode: .fit)
+                            .overlay(
+                                Image(uiImage: images[i])
+                                    .resizable()
+                                    .scaledToFill()
+                                )
+                            .clipShape(Rectangle())
                     }
                 }
                 .padding(.horizontal, photoSpacing)
