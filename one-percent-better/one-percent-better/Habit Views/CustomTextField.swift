@@ -46,6 +46,7 @@ struct CustomTextField: UIViewRepresentable {
         }
         
         func textFieldDidChangeSelection(_ textField: UITextField) {
+            // FIXME: Modifying state during view update, this will cause undefined behavior.
             text = textField.text ?? ""
         }
         

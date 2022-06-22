@@ -19,25 +19,43 @@ struct AllImagesView: View {
         Array(repeating: gridItem, count: 5)
     }
     
+    @State var showDetail: Bool = false
+    @State var selectedIndex: Int = 0
+    
     var body: some View {
-        ScrollView {
-            VStack {
-                LazyVGrid(columns: columns, alignment: .center, spacing: photoSpacing) {
-                    ForEach(0 ..< images.count, id: \.self) { i in                        
-                        Color.clear
-                            .aspectRatio(1, contentMode: .fit)
-                            .overlay(
-                                Image(uiImage: images[i])
-                                    .resizable()
-                                    .scaledToFill()
-                                )
-                            .clipShape(Rectangle())
+        ZStack {
+            ScrollView {
+                VStack {
+                    LazyVGrid(columns: columns, alignment: .center, spacing: photoSpacing) {
+                        ForEach(0 ..< images.count, id: \.self) { i in
+                            Color.clear
+                                .aspectRatio(1, contentMode: .fit)
+                                .overlay(
+                                    Image(uiImage: images[i])
+                                        .resizable()
+                                        .scaledToFill()
+                                    )
+                                .clipShape(Rectangle())
+                                .onTapGesture {
+                                    showDetail = true
+                                    selectedIndex = i
+                                }
+                        }
                     }
+                    .padding(.horizontal, photoSpacing)
+                    Spacer()
                 }
-                .padding(.horizontal, photoSpacing)
-                Spacer()
+                .navigationTitle("Images")
             }
-            .navigationTitle("Images")
+            .overlay {
+                showDetailView
+            }
+        }
+    }
+    
+    @ViewBuilder var showDetailView: some View {
+        if showDetail {
+            ImagesPagingView(images: images, showDetail: $showDetail, selectedIndex: $selectedIndex)
         }
     }
 }
