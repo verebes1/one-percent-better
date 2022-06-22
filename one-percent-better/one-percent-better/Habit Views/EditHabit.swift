@@ -12,10 +12,32 @@ struct EditHabit: View {
     var habit: Habit
     @Binding var rootPresenting: Bool
     
+    @State var habitName: String
+    
+    init(habit: Habit, rootPresenting: Binding<Bool>) {
+        self.habit = habit
+        self._rootPresenting = rootPresenting
+        habitName = habit.name
+    }
+    
     var body: some View {
         Background {
-            VStack {
-                Text(habit.name)
+            ScrollView {
+                CardView {
+                    VStack {
+                        HStack {
+                            Text("Name")
+                                .fontWeight(.medium)
+                            
+                            TextField("", text: $habitName)
+                                .multilineTextAlignment(.trailing)
+                                .keyboardType(.decimalPad)
+                                .frame(height: 45)
+                        }
+                        .padding(.horizontal, 20)
+                        
+                    }
+                }
             }
         }
     }
@@ -54,6 +76,8 @@ struct EditHabit_Previews: PreviewProvider {
     
     static var previews: some View {
         let habit = data()
-        EditHabit(habit: habit, rootPresenting: $isPresenting)
+        NavigationView {
+            EditHabit(habit: habit, rootPresenting: $isPresenting)
+        }
     }
 }
