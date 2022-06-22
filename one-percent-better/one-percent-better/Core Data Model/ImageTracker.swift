@@ -57,7 +57,7 @@ public class ImageTracker: Tracker {
         case autoTracker
         case index
         case dates
-        // FIXME: import images correctly!
+        // FIXME: import/export images correctly!
 //        case values
     }
     
@@ -86,7 +86,7 @@ public class ImageTracker: Tracker {
         try container.encode(index, forKey: .index)
         try container.encode(dates, forKey: .dates)
         
-        // FIXME: import images correctly!
+        // FIXME: export images correctly!
 //        try container.encode(values, forKey: .values)
     }
 }

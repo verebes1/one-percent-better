@@ -32,7 +32,8 @@ class EnterTrackerDataViewModel: ObservableObject {
                 let newField = NumberTrackerFieldModel(text: previousValue)
                 numberTrackerFields[t] = newField
             } else if let t = tracker as? ImageTracker {
-                imageTrackerFields[t] = UIImage(systemName: "photo.on.rectangle")!
+                let previousValue = t.getValue(date: currentDay) ?? UIImage(systemName: "photo.on.rectangle")!
+                imageTrackerFields[t] = previousValue
             }
         }
     }

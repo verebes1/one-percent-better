@@ -63,6 +63,15 @@ struct ProgressView: View {
             .navigationTitle(vm.habit.name)
             .navigationBarTitleDisplayMode(.large)
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(
+                    destination: EditHabit(habit: vm.habit, rootPresenting: $progressPresenting),
+                    isActive: $progressPresenting) {
+                        Text("Edit")
+                    }
+            }
+        }
     }
 }
 
