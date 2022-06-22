@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19CF0D768218FB3508F4576F /* Pods_one_percent_better_one_percent_betterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */; };
+		25DED7F8519112BE6213B886 /* Pods_one_percent_betterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921CEC3E4014DCBC7FBEC377 /* Pods_one_percent_betterTests.framework */; };
+		46935B96311F43D4AC443FEE /* Pods_one_percent_better.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */; };
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
+		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -60,7 +64,6 @@
 		80385D2F285BEE5900CBDF71 /* ScrollViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CF3285BEE5900CBDF71 /* ScrollViewTest.swift */; };
 		80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CF4285BEE5900CBDF71 /* CalendarView.swift */; };
 		80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CF6285BEE5900CBDF71 /* ImageCardView.swift */; };
-		80385D32285BEE5900CBDF71 /* ImageFullView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CF7285BEE5900CBDF71 /* ImageFullView.swift */; };
 		80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CF9285BEE5900CBDF71 /* GraphData.swift */; };
 		80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CFA285BEE5900CBDF71 /* GraphView.swift */; };
 		80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CFB285BEE5900CBDF71 /* GraphCardView.swift */; };
@@ -97,8 +100,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1112AF82906B1D078BCA7DCB /* Pods-one-percent-better-one-percent-betterUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-better-one-percent-betterUITests.release.xcconfig"; path = "Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_better_one_percent_betterUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_better.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		78A37493C9223186222A6039 /* Pods-one-percent-betterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-betterTests.debug.xcconfig"; path = "Target Support Files/Pods-one-percent-betterTests/Pods-one-percent-betterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
+		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -153,7 +161,6 @@
 		80385CF3285BEE5900CBDF71 /* ScrollViewTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollViewTest.swift; sourceTree = "<group>"; };
 		80385CF4285BEE5900CBDF71 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		80385CF6285BEE5900CBDF71 /* ImageCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCardView.swift; sourceTree = "<group>"; };
-		80385CF7285BEE5900CBDF71 /* ImageFullView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageFullView.swift; sourceTree = "<group>"; };
 		80385CF9285BEE5900CBDF71 /* GraphData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
 		80385CFA285BEE5900CBDF71 /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 		80385CFB285BEE5900CBDF71 /* GraphCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphCardView.swift; sourceTree = "<group>"; };
@@ -173,6 +180,11 @@
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsHeaderViewTests.swift; sourceTree = "<group>"; };
+		8275CC8175A1F822F6AB5150 /* Pods-one-percent-better-one-percent-betterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-better-one-percent-betterUITests.debug.xcconfig"; path = "Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		921CEC3E4014DCBC7FBEC377 /* Pods_one_percent_betterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_betterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		983AD950CBF91E32DE36F08F /* Pods-one-percent-better.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-better.debug.xcconfig"; path = "Target Support Files/Pods-one-percent-better/Pods-one-percent-better.debug.xcconfig"; sourceTree = "<group>"; };
+		C825B6B21E51274CD7C95DC5 /* Pods-one-percent-better.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-better.release.xcconfig"; path = "Target Support Files/Pods-one-percent-better/Pods-one-percent-better.release.xcconfig"; sourceTree = "<group>"; };
+		F4C49D3D2BAA702188184F1E /* Pods-one-percent-betterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-betterTests.release.xcconfig"; path = "Target Support Files/Pods-one-percent-betterTests/Pods-one-percent-betterTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +192,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46935B96311F43D4AC443FEE /* Pods_one_percent_better.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25DED7F8519112BE6213B886 /* Pods_one_percent_betterTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,12 +208,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19CF0D768218FB3508F4576F /* Pods_one_percent_better_one_percent_betterUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B2B1D1A579FA9D4D9DB37B8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				983AD950CBF91E32DE36F08F /* Pods-one-percent-better.debug.xcconfig */,
+				C825B6B21E51274CD7C95DC5 /* Pods-one-percent-better.release.xcconfig */,
+				8275CC8175A1F822F6AB5150 /* Pods-one-percent-better-one-percent-betterUITests.debug.xcconfig */,
+				1112AF82906B1D078BCA7DCB /* Pods-one-percent-better-one-percent-betterUITests.release.xcconfig */,
+				78A37493C9223186222A6039 /* Pods-one-percent-betterTests.debug.xcconfig */,
+				F4C49D3D2BAA702188184F1E /* Pods-one-percent-betterTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		7BD5C14A18B1D83BAB942E01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */,
+				3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */,
+				921CEC3E4014DCBC7FBEC377 /* Pods_one_percent_betterTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		80385CAC285BEE5900CBDF71 /* one-percent-better */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +364,7 @@
 				80385CDB285BEE5900CBDF71 /* Extensions.swift */,
 				80385CDC285BEE5900CBDF71 /* Color.swift */,
 				80385CDD285BEE5900CBDF71 /* NSPersistentStoreCoordinator */,
+				801858992863A7AB003DE454 /* UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -406,7 +445,6 @@
 			isa = PBXGroup;
 			children = (
 				80385CF6285BEE5900CBDF71 /* ImageCardView.swift */,
-				80385CF7285BEE5900CBDF71 /* ImageFullView.swift */,
 				800F4171285FDB9B0071CC70 /* AllImagesView.swift */,
 				806C82792860E86300C26CEC /* ImagesPagingView.swift */,
 			);
@@ -432,6 +470,8 @@
 				8055A9832831BAA8009A1881 /* one-percent-better-Tests */,
 				8055A98D2831BAA8009A1881 /* one-percent-better-UITests */,
 				8055A9712831BAA5009A1881 /* Products */,
+				2B2B1D1A579FA9D4D9DB37B8 /* Pods */,
+				7BD5C14A18B1D83BAB942E01 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -470,9 +510,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8055A9942831BAA8009A1881 /* Build configuration list for PBXNativeTarget "one-percent-better" */;
 			buildPhases = (
+				39C48E9A5DD58DF746AE07E7 /* [CP] Check Pods Manifest.lock */,
 				8055A96C2831BAA5009A1881 /* Sources */,
 				8055A96D2831BAA5009A1881 /* Frameworks */,
 				8055A96E2831BAA5009A1881 /* Resources */,
+				E3EED57677578662972DF7E1 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -487,6 +529,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8055A9972831BAA8009A1881 /* Build configuration list for PBXNativeTarget "one-percent-betterTests" */;
 			buildPhases = (
+				F32A5105C5A6A927A8195118 /* [CP] Check Pods Manifest.lock */,
 				8055A97C2831BAA8009A1881 /* Sources */,
 				8055A97D2831BAA8009A1881 /* Frameworks */,
 				8055A97E2831BAA8009A1881 /* Resources */,
@@ -505,9 +548,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8055A99A2831BAA8009A1881 /* Build configuration list for PBXNativeTarget "one-percent-betterUITests" */;
 			buildPhases = (
+				47A79073677C70892EC2BEF7 /* [CP] Check Pods Manifest.lock */,
 				8055A9862831BAA8009A1881 /* Sources */,
 				8055A9872831BAA8009A1881 /* Frameworks */,
 				8055A9882831BAA8009A1881 /* Resources */,
+				7F22D8D598FE54C3672AB447 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -588,6 +633,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		39C48E9A5DD58DF746AE07E7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-one-percent-better-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		47A79073677C70892EC2BEF7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-one-percent-better-one-percent-betterUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F22D8D598FE54C3672AB447 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3EED57677578662972DF7E1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-one-percent-better/Pods-one-percent-better-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-one-percent-better/Pods-one-percent-better-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-one-percent-better/Pods-one-percent-better-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F32A5105C5A6A927A8195118 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-one-percent-betterTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8055A96C2831BAA5009A1881 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -634,8 +782,8 @@
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
+				8018589A2863A7AB003DE454 /* UIImage.swift in Sources */,
 				80385D2C285BEE5900CBDF71 /* CalendarScrollView.swift in Sources */,
-				80385D32285BEE5900CBDF71 /* ImageFullView.swift in Sources */,
 				80385D0B285BEE5900CBDF71 /* PreviewData.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
@@ -810,6 +958,7 @@
 		};
 		8055A9952831BAA8009A1881 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 983AD950CBF91E32DE36F08F /* Pods-one-percent-better.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -840,6 +989,7 @@
 		};
 		8055A9962831BAA8009A1881 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C825B6B21E51274CD7C95DC5 /* Pods-one-percent-better.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -871,6 +1021,7 @@
 		};
 		8055A9982831BAA8009A1881 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78A37493C9223186222A6039 /* Pods-one-percent-betterTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -891,6 +1042,7 @@
 		};
 		8055A9992831BAA8009A1881 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4C49D3D2BAA702188184F1E /* Pods-one-percent-betterTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -911,8 +1063,9 @@
 		};
 		8055A99B2831BAA8009A1881 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8275CC8175A1F822F6AB5150 /* Pods-one-percent-better-one-percent-betterUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
@@ -929,8 +1082,9 @@
 		};
 		8055A99C2831BAA8009A1881 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1112AF82906B1D078BCA7DCB /* Pods-one-percent-better-one-percent-betterUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2AB5UMPJF;

@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_one_percent_better_one_percent_betterUITests : NSObject
+@end
+@implementation PodsDummy_Pods_one_percent_better_one_percent_betterUITests
+@end

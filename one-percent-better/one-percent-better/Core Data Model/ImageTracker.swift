@@ -30,7 +30,7 @@ public class ImageTracker: Tracker {
     }
     
     func add(date: Date, value: UIImage) {
-        guard let imageData = value.pngData() else {
+        guard let imageData = value.png() else {
             return
         }
         add(dates: &dates, values: &values, date: date, value: imageData)
