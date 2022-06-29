@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EditHabit: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
     var habit: Habit
     @Binding var rootPresenting: Bool
     
@@ -20,23 +22,77 @@ struct EditHabit: View {
         habitName = habit.name
     }
     
+    func delete(from source: IndexSet) {
+        // Make an array from fetched results
+        var revisedItems: [Tracker] = habit.trackers.map { $0 as! Tracker }
+        
+        // Remove the item to be deleted
+        guard let index = source.first else { return }
+        let trackerToBeDeleted = revisedItems[index]
+        revisedItems.remove(atOffsets: source)
+        moc.delete(trackerToBeDeleted)
+        
+        for reverseIndex in stride(from: revisedItems.count - 1,
+                                   through: 0,
+                                   by: -1) {
+            revisedItems[reverseIndex].index = Int(reverseIndex)
+        }
+        moc.fatalSave()
+    }
+    
     var body: some View {
         Background {
-            ScrollView {
-                CardView {
-                    VStack {
-                        HStack {
-                            Text("Name")
-                                .fontWeight(.medium)
+            /*ScrollView*/VStack {
+                VStack(spacing: 20) {
+                    CardView {
+                        VStack {
                             
-                            TextField("", text: $habitName)
-                                .multilineTextAlignment(.trailing)
-                                .keyboardType(.decimalPad)
-                                .frame(height: 45)
+                            // Habit name
+                            HStack {
+                                Text("Name")
+                                    .fontWeight(.medium)
+                                
+                                TextField("", text: $habitName)
+                                    .multilineTextAlignment(.trailing)
+                                    .keyboardType(.decimalPad)
+                                    .frame(height: 45)
+                            }
+                            .padding(.horizontal, 20)
                         }
-                        .padding(.horizontal, 20)
-                        
                     }
+                    
+                    EditButton()
+                    
+                    List {
+                        ForEach(0 ..< habit.trackers.count, id: \.self) { i in
+                            if let t = habit.trackers[i] as? Tracker {
+                                Text(t.name)
+                            }
+                        }
+                        .onDelete(perform: delete(from:))
+                    }
+                    
+                    
+//                    CardView {
+//                        // Tracker list
+//                        VStack(alignment: .leading) {
+//                            ForEach(0 ..< habit.trackers.count, id: \.self) { i in
+//                                if let t = habit.trackers[i] as? Tracker {
+//                                    Text(t.name)
+//                                }
+//                            }
+//                        }
+//                    }
+                }
+                
+            }
+            .navigationTitle("Edit Habit")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(
+                        destination: EmptyView()) {
+                            Text("Save")
+                        }
                 }
             }
         }

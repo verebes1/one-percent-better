@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import one_percent_better
+@testable import one_percent_better_swiftui
 
 class HabitsHeaderViewTests: XCTestCase {
     

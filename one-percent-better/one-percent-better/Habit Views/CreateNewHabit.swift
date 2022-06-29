@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateNewHabit: View {
     
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.presentationMode) var presentationMode
     
     @Binding var rootPresenting: Bool
     
@@ -62,12 +63,24 @@ struct CreateNewHabit: View {
                             }
                             
                             if !duplicateNameError {
-                                try? moc.save()
+                                moc.fatalSave()
                                 rootPresenting = false
                             }
                         }
                     }
             }
+            // Hide the system back button
+            .navigationBarBackButtonHidden(true)
+            // Add your custom back button here
+            .navigationBarItems(leading:
+                                    Button(action: {
+                self.presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    Image(systemName: "chevron.left")
+                    Text("Back")
+                }
+            })
         }
     }
 }

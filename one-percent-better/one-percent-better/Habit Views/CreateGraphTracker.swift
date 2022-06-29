@@ -36,7 +36,7 @@ struct CreateGraphTracker: View {
                     .onTapGesture {
                         if !trackerName.isEmpty {
                             let _ = NumberTracker(context: moc, habit: habit, name: trackerName)
-                            try? moc.save()
+                            moc.fatalSave()
                             progressPresenting = false
                         }
                     }

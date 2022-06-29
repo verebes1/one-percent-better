@@ -16,7 +16,18 @@ struct GraphGestureTest: View {
     
     @State private var isTouching: Bool = false
     
+    @State private var secondPosition = CGPoint.zero
+    
     var body: some View {
+        
+        let firstDrag = DragGesture()
+            .onChanged { value in
+                secondPosition = value.location
+            }
+            .onEnded { _ in
+                print("Ended")
+                secondPosition = .zero
+            }
         
         let dragGesture = DragGesture()
             .onChanged { value in
@@ -54,13 +65,18 @@ struct GraphGestureTest: View {
                         .frame(height: 200)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(isDragging ? .green : .red)
-                    .gesture(combinedGestures)
+                        .gesture(firstDrag)
+                        .simultaneousGesture(combinedGestures)
                     
                     Circle()
                         .fill(.purple)
                         .frame(width: 30, height: 30)
                         .position(x: position.x, y: position.y)
-//                        .offset(x: offset.width, y: 0)
+                    
+                    Circle()
+                        .fill(.brown)
+                        .frame(width: 30, height: 30)
+                        .position(x: secondPosition.x, y: secondPosition.y)
                 }
                 
                 Text("isDragging: \(String(describing: isDragging))")

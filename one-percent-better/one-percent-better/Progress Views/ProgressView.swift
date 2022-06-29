@@ -25,6 +25,7 @@ struct ProgressView: View {
     var vm: ProgressViewModel
     
     @State var progressPresenting: Bool = false
+    @State var progressPresenting2: Bool = false
     @State var selectedValues: [String]
     
     init(vm: ProgressViewModel) {
@@ -66,8 +67,8 @@ struct ProgressView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(
-                    destination: EditHabit(habit: vm.habit, rootPresenting: $progressPresenting),
-                    isActive: $progressPresenting) {
+                    destination: EditHabit(habit: vm.habit, rootPresenting: $progressPresenting2),
+                    isActive: $progressPresenting2) {
                         Text("Edit")
                     }
             }

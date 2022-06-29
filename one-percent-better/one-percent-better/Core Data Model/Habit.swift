@@ -117,7 +117,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     
     func setName(_ name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.habitList(from: CoreDataManager.shared.mainContext)
+        let habits = Habit.habitList(from: myContext)
         for habit in habits {
             if habit.name == name {
                 throw HabitCreationError.duplicateName
@@ -135,7 +135,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return false
     }
 
-    func markCompleted(on date: Date, save: Bool = true) {
+    func markCompleted(on date: Date) {
         if !wasCompleted(on: date) {
             daysCompleted.append(date)
             daysCompleted.sort()
@@ -144,9 +144,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                 startDate = Calendar.current.startOfDay(for: date)
             }
             
-            if save {
-                try? myContext.save()
-            }
+            myContext.fatalSave()
         }
     }
 
@@ -166,7 +164,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             }
         }
         
-        try? myContext.save()
+        myContext.fatalSave()
     }
     
     class func habitList(from context: NSManagedObjectContext) -> [Habit] {
@@ -225,6 +223,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         for t in trackerArray {
             self.addToTrackers(t)
         }
+    }
+    
+    public override func prepareForDeletion() {
+        guard let trackerArray = self.trackers.array as? [Tracker] else {
+            fatalError("Can't convert habit.trackers into [Tracker]")
+        }
+        for tracker in trackerArray {
+            myContext.delete(tracker)
+        }
+        myContext.fatalSave()
     }
     
     // MARK: - Encodable

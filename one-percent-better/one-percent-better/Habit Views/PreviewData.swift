@@ -33,10 +33,10 @@ class PreviewData {
         
         let h1 = try? Habit(context: context, name: "Completed yesterday")
         let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-        h1?.markCompleted(on: yesterday, save: false)
+        h1?.markCompleted(on: yesterday)
         
         let h2 = try? Habit(context: context, name: "Completed today")
-        h2?.markCompleted(on: Date(), save: false)
+        h2?.markCompleted(on: Date())
     }
     
     static func progressViewData() -> Habit {

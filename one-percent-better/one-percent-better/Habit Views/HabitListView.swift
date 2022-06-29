@@ -42,7 +42,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
                                    by: -1) {
             revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
         }
-        try? moc.save()
+        moc.fatalSave()
     }
     
     func delete(from source: IndexSet) {
@@ -53,6 +53,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         guard let index = source.first else { return }
         let habitToBeDeleted = revisedItems[index]
         revisedItems.remove(atOffsets: source)
+//        habitToBeDeleted.de
         moc.delete(habitToBeDeleted)
         
         for reverseIndex in stride(from: revisedItems.count - 1,
@@ -60,7 +61,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
                                    by: -1) {
             revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
         }
-        try? moc.save()
+        moc.fatalSave()
     }
     
     /// Date formatter for the month year label at the top of the calendar
@@ -90,7 +91,7 @@ struct HabitListView: View {
     /// The latest day that has been shown. This is updated when the app is opened or the view appears on a new day.
     @State private var latestDay: Date = Date()
     
-    @State var isPresenting: Bool = false
+    @State var createHabitPresenting: Bool = false
     
     var body: some View {
         NavigationView {
@@ -119,35 +120,36 @@ struct HabitListView: View {
                         .onDelete(perform: vm.delete)
                     }
                 }
-                .onAppear {
-                    UITableView.appearance().contentInset.top = -25
-                    
-                    if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
-                        latestDay = Date()
-                        currentDay = Date()
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        EditButton()
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(
-                            destination: CreateNewHabit(rootPresenting: $isPresenting),
-                            isActive: $isPresenting) {
-                                Image(systemName: "square.and.pencil")
-                            }
-                    }
-                }
-                .navigationTitle(vm.navTitle(for: currentDay))
-                .navigationBarTitleDisplayMode(.inline)
-                .onChange(of: scenePhase, perform: { newPhase in
-                    if newPhase == .active, !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
-                        latestDay = Date()
-                        currentDay = Date()
-                    }
-                })
             }
+            .onAppear {
+                UITableView.appearance().contentInset.top = -25
+                
+                if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
+                    latestDay = Date()
+                    currentDay = Date()
+                }
+            }
+            .onChange(of: scenePhase, perform: { newPhase in
+                if newPhase == .active, !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
+                    latestDay = Date()
+                    currentDay = Date()
+                }
+            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    EditButton()
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(
+                        destination: CreateNewHabit(rootPresenting: $createHabitPresenting),
+                        isActive: $createHabitPresenting) {
+                            Image(systemName: "square.and.pencil")
+                        }
+                }
+            }
+            .navigationTitle(vm.navTitle(for: currentDay))
+            .navigationBarTitleDisplayMode(.inline)
+            
         }
     }
 }

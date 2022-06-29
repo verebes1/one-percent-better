@@ -15,7 +15,10 @@ struct OnePercentBetterApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(\.managedObjectContext, coreDataManager.persistentContainer.viewContext)
+                .environment(\.managedObjectContext, coreDataManager.mainContext)
+                .onAppear {
+                    print(NSHomeDirectory())
+                }
         }
     }
 }

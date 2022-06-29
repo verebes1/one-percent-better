@@ -16,7 +16,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
     /// Unique identifier
     public var id: UUID = UUID()
     
-    var context: NSManagedObjectContext = CoreDataManager.shared.persistentContainer.viewContext
+    var context: NSManagedObjectContext = CoreDataManager.shared.mainContext
     
     /// The habit this tracker is attached to
     @NSManaged public var habit: Habit
@@ -47,6 +47,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
             dates = combined.map { $0.0 }
             values = combined.map { $0.1 }
         }
+        context.fatalSave()
     }
     
     func remove(on date: Date) {
@@ -55,6 +56,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
         } else if let t = self as? ImageTracker {
             t.remove(on: date)
         }
+        context.fatalSave()
     }
     
     func remove<T>(dates: inout [Date], values: inout [T], date: Date) {

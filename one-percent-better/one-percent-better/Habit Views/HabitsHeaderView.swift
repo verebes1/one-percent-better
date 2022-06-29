@@ -37,7 +37,7 @@ class HabitsHeaderViewModel: ObservableObject {
     
     /// The number of days to offset from today to get to the selected day
     /// - Parameters:
-    ///   - week: Selected week, (numWeeksSinceEarliest - 1) == current week
+    ///   - week: Selected week, (numWeeksSinceEarliest - 1) == current week, 0 == earliest week
     ///   - day: Selected day,  [0,1,2,3,4,5,6]
     /// - Returns: Integer offset, yesterday is -1, today is 0, tomorrow is 1, etc.
     func dayOffset(week: Int, day: Int) -> Int {
@@ -121,6 +121,8 @@ struct HabitsHeaderView: View {
     
     var body: some View {
         VStack(spacing: 0) {
+            Text("Today: \(String(describing: Date()))")
+                .font(.system(size: 10))
             HStack {
                 ForEach(0 ..< 7) { i in
                     SelectedDayView(index: i,
@@ -163,21 +165,24 @@ struct HabitsHeaderView: View {
             }
             .frame(height: ringSize + 22)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .onChange(of: selectedWeek, perform: { _ in
+            .onChange(of: selectedWeek, perform: { [selectedWeekDay] newWeek in
+                // TODO: Maybe the scroll back a week with one day offset is because I'm not capturing selectedDay?
+                
                 // If scrolling to week which has dates ahead of today
-                let currentOffset = thisWeekDayOffset(Date())
-                if selectedWeek == (vm.numWeeksSinceEarliest - 1),
+                let today = Date()
+                let currentOffset = thisWeekDayOffset(today)
+                if newWeek == (vm.numWeeksSinceEarliest - 1),
                    selectedWeekDay > currentOffset {
-                    selectedWeekDay = currentOffset
+                    self.selectedWeekDay = currentOffset
                 }
                 
                 // If scrolls to week which has days before the earliest start date
-                if vm.date(week: selectedWeek, day: selectedWeekDay) < vm.earliestStartDate {
-                    selectedWeekDay = thisWeekDayOffset(vm.earliestStartDate)
+                if vm.date(week: newWeek, day: selectedWeekDay) < vm.earliestStartDate {
+                    self.selectedWeekDay = thisWeekDayOffset(vm.earliestStartDate)
                 }
                 
-                let dayOffset = vm.dayOffset(week: selectedWeek, day: selectedWeekDay)
-                let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
+                let dayOffset = vm.dayOffset(week: newWeek, day: selectedWeekDay)
+                let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: today)!
                 currentDay = newDay
             })
         }

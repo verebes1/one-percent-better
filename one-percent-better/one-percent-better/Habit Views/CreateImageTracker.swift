@@ -36,7 +36,7 @@ struct CreateImageTracker: View {
                     .onTapGesture {
                         if !trackerName.isEmpty {
                             let _ = ImageTracker(context: moc, habit: habit, name: trackerName)
-                            try? moc.save()
+                            moc.fatalSave()
                             progressPresenting = false
                         }
                     }
