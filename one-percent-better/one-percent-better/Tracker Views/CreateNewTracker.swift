@@ -13,35 +13,7 @@ struct CreateNewTracker: View {
     
     @Binding var progressPresenting: Bool
     
-    let trackerViews: [TrackerView] = [
-//        TrackerView(systemImage: "tablecells",
-//                    color: .systemOrange,
-//                    title: "Table"),
-        TrackerView(systemImage: "chart.xyaxis.line",
-                    color: .blue,
-                    title: "Graph"),
-        TrackerView(systemImage: "photo",
-                    color: .mint,
-                    title: "Photo")
-//        TrackerView(systemImage: "video",
-//                    color: .purple,
-//                    title: "Video",
-//                    available: false),
-//        TrackerView(systemImage: "note.text",
-//                    color: .red,
-//                    title: "Note",
-//                    available: false),
-//        TrackerView(systemImage: "face.smiling",
-//                    color: .yellow,
-//                    title: "Feeling",
-//                    available: false),
-//        TrackerView(systemImage: "mic",
-//                    color: .cyan,
-//                    title: "Recording",
-//                    available: false)
-    ]
-    
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
     let columnSpacing: CGFloat = 11
     
     var body: some View {
@@ -66,6 +38,13 @@ struct CreateNewTracker: View {
                         TrackerView(systemImage: "photo",
                                     color: .mint,
                                     title: "Photo")
+                    }
+                    .isDetailLink(false)
+                    
+                    NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
+                        TrackerView(systemImage: "timer",
+                                    color: .mint,
+                                    title: "Time")
                     }
                     .isDetailLink(false)
                 }

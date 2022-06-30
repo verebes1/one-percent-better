@@ -31,32 +31,33 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             Background {
-                List {
-                    Button {
-                        if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
-                            exportJson = jsonFile
-                            showActivityController = true
+                VStack {
+                    Spacer().frame(height: 10)
+                    List {
+                        Button {
+                            if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
+                                exportJson = jsonFile
+                                showActivityController = true
+                            }
+                        } label: {
+                            SettingsRow(item: exportData)
                         }
-                    } label: {
-                        SettingsRow(item: exportData)
+                        .buttonStyle(PlainButtonStyle())
+                        .frame(maxWidth: .infinity)
+                        
+                        Button {
+                            showDocumentPicker = true
+                        } label: {
+                            SettingsRow(item: importData)
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Button {
-                        showDocumentPicker = true
-                    } label: {
-                        SettingsRow(item: importData)
-                    }
-                    .buttonStyle(PlainButtonStyle())
+                    .sheet(isPresented: $showActivityController, content: {
+                        ActivityViewController(jsonFile: $exportJson)
+                    })
+                    .sheet(isPresented: $showDocumentPicker) {
+                        DocumentPicker(fileContent: $fileContent)
                 }
-                .sheet(isPresented: $showActivityController, content: {
-                    ActivityViewController(jsonFile: $exportJson)
-                })
-                .sheet(isPresented: $showDocumentPicker) {
-                    DocumentPicker(fileContent: $fileContent)
-                }
-                .onAppear {
-                    UITableView.appearance().contentInset.top = 15
                 }
             }
             .navigationTitle("Settings")
@@ -87,6 +88,7 @@ struct SettingsRow: View {
                 .font(.system(size: 18))
             Spacer()
         }
+        .frame(height: 20)
     }
 }
 
