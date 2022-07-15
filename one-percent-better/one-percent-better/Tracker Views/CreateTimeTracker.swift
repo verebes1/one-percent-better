@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CreateTimeTracker: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
     var habit: Habit
     @Binding var progressPresenting: Bool
 
@@ -33,7 +35,9 @@ struct CreateTimeTracker: View {
                 Spacer()
                 
                 Button {
-                    print("Creating time tracker with: \(selections)")
+                    let timeInSec = selections[0] * 3600 + selections[1] * 60 + selections[2]
+                    let _ = TimeTracker(context: moc, habit: habit, goalTime: timeInSec)
+                    
                     progressPresenting = false
                 } label: {
                     BottomButton(label: "Create")
@@ -189,7 +193,7 @@ struct TimePicker: View {
                         .fontWeight(.medium)
                         .position(x: minX, y: geometry.size.height / 2)
                     
-                    let secX = (geometry.size.width / 2) + (pickerWidth / 2) + 20
+                    let secX = (geometry.size.width / 2) + (pickerWidth / 2) + 14
                     Text("sec")
                         .fontWeight(.medium)
                         .position(x: secX, y: geometry.size.height / 2)

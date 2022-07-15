@@ -1,13 +1,13 @@
 //
-//  HabitCompletionCircle.swift
-//  one-percent-better-swiftui
+//  TimerCompletionCircle.swift
+//  one-percent-better
 //
-//  Created by Jeremy Cook on 5/23/22.
+//  Created by Jeremy Cook on 7/5/22.
 //
 
 import SwiftUI
 
-struct HabitCompletionCircle: View {
+struct TimerCompletionCircle: View {
     @EnvironmentObject var habit: Habit
     
     var currentDay: Date
@@ -17,21 +17,29 @@ struct HabitCompletionCircle: View {
         size/5
     }
     
-    var startColor = Color( #colorLiteral(red: 0.2066814005, green: 0.7795598507, blue: 0.349144876, alpha: 1) )
-    var endColor = Color( #colorLiteral(red: 0.4735379219, green: 1, blue: 0.5945096612, alpha: 1) )
-    
     @State var show: Bool = false
     
     var body: some View {
         ZStack {
-            let percent = habit.wasCompleted(on: currentDay) ? 1.0 : 0.0
-
-            GradientRing(startColor: startColor, endColor: endColor, percent: percent, size: size)
-                .animation(.easeInOut, value: habit.wasCompleted(on: currentDay))
+            Circle()
+                .trim(from: 0, to: 1)
+                .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
+                .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
+                .frame(width: size, height: size)
             
+            Circle()
+                .trim(from: habit.wasCompleted(on: currentDay) ? 0.01 : 1, to: 1)
+                .stroke(color, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
+                .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
+                .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
+                .frame(width: size, height: size)
+                .animation(.easeInOut, value: habit.wasCompleted(on: currentDay))
         }
+        .padding(lineWidth/2)
         .contentShape(Rectangle())
         .onTapGesture {
+            
             if !habit.manualTrackers.isEmpty {
                 show = true
             } else {
@@ -52,7 +60,7 @@ struct HabitCompletionCircle: View {
     }
 }
 
-struct HabitCompletionCircle_Previews: PreviewProvider {
+struct TimerCompletionCircle_Previews: PreviewProvider {
     
     @State static var currentDay = Date()
     
@@ -80,7 +88,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
         VStack {
             Text("Not completed")
             let notCompletedHabit = habits[0]
-            HabitCompletionCircle(currentDay: currentDay)
+            TimerCompletionCircle(currentDay: currentDay)
                 .environmentObject(notCompletedHabit)
                 .border(Color.black, width: 1)
             
@@ -89,7 +97,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             
             Text("Completed")
             let completedHabit = habits[1]
-            HabitCompletionCircle(currentDay: currentDay)
+            TimerCompletionCircle(currentDay: currentDay)
                 .environmentObject(completedHabit)
                 .border(Color.black, width: 1)
             
@@ -98,7 +106,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             
             Text("With Tracker")
             let trackerHabit = habits[2]
-            HabitCompletionCircle(currentDay: currentDay)
+            TimerCompletionCircle(currentDay: currentDay)
                 .environmentObject(trackerHabit)
                 .border(Color.black, width: 1)
         }

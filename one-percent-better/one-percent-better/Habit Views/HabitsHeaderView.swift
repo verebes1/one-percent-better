@@ -121,8 +121,6 @@ struct HabitsHeaderView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("Today: \(String(describing: Date()))")
-                .font(.system(size: 10))
             HStack {
                 ForEach(0 ..< 7) { i in
                     SelectedDayView(index: i,
@@ -165,9 +163,7 @@ struct HabitsHeaderView: View {
             }
             .frame(height: ringSize + 22)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .onChange(of: selectedWeek, perform: { [selectedWeekDay] newWeek in
-                // TODO: Maybe the scroll back a week with one day offset is because I'm not capturing selectedDay?
-                
+            .onChange(of: selectedWeek, perform: { newWeek in
                 // If scrolling to week which has dates ahead of today
                 let today = Date()
                 let currentOffset = thisWeekDayOffset(today)

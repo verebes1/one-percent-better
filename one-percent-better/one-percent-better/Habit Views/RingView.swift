@@ -12,6 +12,8 @@ struct RingView: View {
     var color: Color = .green
     var size: CGFloat = 100
     var withText: Bool = false
+    var startColor = Color( #colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1) )
+    var endColor = Color( #colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1) )
     
     var lineWidth: CGFloat {
         size / 5
@@ -21,32 +23,15 @@ struct RingView: View {
     
     var body: some View {
         VStack(spacing: 5) {
-            ZStack {
-                Circle()
-                    .trim(from: 0, to: 1)
-                    .stroke(Color.gray.opacity(0.25), style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                    .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
-                    .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                    .frame(width: size, height: size)
-                
-                Circle()
-                    .trim(from: completed ? 0.01 : 1-percent, to: 1)
-                    .stroke(color, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
-                    .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
-                    .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                    .frame(width: size, height: size)
-                    .animation(.easeInOut, value: percent)
-                
-                
-            }
-            .padding(lineWidth/2)
+            GradientRing(startColor: startColor, endColor: endColor, percent: percent, size: size)
+                .animation(.easeInOut, value: percent)
             
             if withText {
                 if let intPercent = Int(round(100 * percent)) {
                     Text("\(intPercent)%")
                         .font(.system(size: size/3))
                         .fontWeight(.bold)
-                        .foregroundColor(color)
+                        .foregroundColor(startColor)
                 }
             }
         }

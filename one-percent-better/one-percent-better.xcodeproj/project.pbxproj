@@ -79,6 +79,12 @@
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
+		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
+		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
+		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
+		8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36528767F7A00D0CB1B /* RingShape.swift */; };
+		8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36728788CB000D0CB1B /* GradientRing2.swift */; };
+		8081A36A287F6C1400D0CB1B /* GradientRing3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A369287F6C1400D0CB1B /* GradientRing3.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
@@ -182,6 +188,12 @@
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
+		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
+		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
+		8081A3632874E72900D0CB1B /* GradientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTest.swift; sourceTree = "<group>"; };
+		8081A36528767F7A00D0CB1B /* RingShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingShape.swift; sourceTree = "<group>"; };
+		8081A36728788CB000D0CB1B /* GradientRing2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing2.swift; sourceTree = "<group>"; };
+		8081A369287F6C1400D0CB1B /* GradientRing3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing3.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/TimeTracker.swift"; sourceTree = "<absolute>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
@@ -355,6 +367,12 @@
 				80385D7C285E630700CBDF71 /* CustomToolbarView.swift */,
 				8018589B2863C5FE003DE454 /* EditHabit.swift */,
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
+				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
+				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
+				8081A3632874E72900D0CB1B /* GradientTest.swift */,
+				8081A36528767F7A00D0CB1B /* RingShape.swift */,
+				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
+				8081A369287F6C1400D0CB1B /* GradientRing3.swift */,
 			);
 			path = "Habit Views";
 			sourceTree = "<group>";
@@ -762,6 +780,7 @@
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
+				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
 				80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */,
 				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
@@ -779,10 +798,13 @@
 				80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */,
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				80385D1A285BEE5900CBDF71 /* HabitCompletionCircle.swift in Sources */,
+				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
+				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
+				8081A36A287F6C1400D0CB1B /* GradientRing3.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
@@ -794,10 +816,12 @@
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
+				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
 				8018589A2863A7AB003DE454 /* UIImage.swift in Sources */,
 				80385D2C285BEE5900CBDF71 /* CalendarScrollView.swift in Sources */,
 				80385D0B285BEE5900CBDF71 /* PreviewData.swift in Sources */,
+				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
