@@ -84,7 +84,6 @@
 		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
 		8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36528767F7A00D0CB1B /* RingShape.swift */; };
 		8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36728788CB000D0CB1B /* GradientRing2.swift */; };
-		8081A36A287F6C1400D0CB1B /* GradientRing3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A369287F6C1400D0CB1B /* GradientRing3.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
@@ -193,7 +192,6 @@
 		8081A3632874E72900D0CB1B /* GradientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTest.swift; sourceTree = "<group>"; };
 		8081A36528767F7A00D0CB1B /* RingShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingShape.swift; sourceTree = "<group>"; };
 		8081A36728788CB000D0CB1B /* GradientRing2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing2.swift; sourceTree = "<group>"; };
-		8081A369287F6C1400D0CB1B /* GradientRing3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing3.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/TimeTracker.swift"; sourceTree = "<absolute>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
@@ -273,6 +271,7 @@
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
 				80385CB1285BEE5900CBDF71 /* Assets.xcassets */,
 				80385CC3285BEE5900CBDF71 /* Preview Content */,
+				8059AE7D288B4EB400846D27 /* Old Code */,
 			);
 			path = "one-percent-better";
 			sourceTree = "<group>";
@@ -369,10 +368,7 @@
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
 				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
 				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
-				8081A3632874E72900D0CB1B /* GradientTest.swift */,
 				8081A36528767F7A00D0CB1B /* RingShape.swift */,
-				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
-				8081A369287F6C1400D0CB1B /* GradientRing3.swift */,
 			);
 			path = "Habit Views";
 			sourceTree = "<group>";
@@ -514,6 +510,15 @@
 				8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */,
 			);
 			path = "one-percent-better-UITests";
+			sourceTree = "<group>";
+		};
+		8059AE7D288B4EB400846D27 /* Old Code */ = {
+			isa = PBXGroup;
+			children = (
+				8081A3632874E72900D0CB1B /* GradientTest.swift */,
+				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
+			);
+			path = "Old Code";
 			sourceTree = "<group>";
 		};
 		80F79686286E5429002FDFDA /* Tracker Views */ = {
@@ -804,7 +809,6 @@
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
-				8081A36A287F6C1400D0CB1B /* GradientRing3.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,

@@ -7,18 +7,22 @@
 
 import SwiftUI
 
+class GradientRingViewModel: ObservableObject {
+    
+    @Published var percent: Double
+    
+    init(percent: Double) {
+        self.percent = percent
+    }
+}
+
 struct GradientRing: View {
 
-    var startColor = Color( #colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1) )
-    var endColor = Color( #colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1) )
+    @ObservedObject var vm: GradientRingViewModel
     
-//    var startColor = Color( #colorLiteral(red: 0.2066814005, green: 0.7795598507, blue: 0.349144876, alpha: 1) )
-//    var endColor = Color( #colorLiteral(red: 0.4735379219, green: 1, blue: 0.5945096612, alpha: 1) )
-
-   
     /// The percent completion of the circle
     /// Last point before the two ends touch: 0.935
-    @State var percent: Double = 0.7
+    @State private var percent: Double
     
     /// The cutoff percent for the new overlapping ring to start
     let cutoffPercent: Double = 0.935
@@ -32,6 +36,18 @@ struct GradientRing: View {
         percent < startRotation ? percent : startRotation
     }
     
+    var continueAngle: CGFloat {
+        let continueAngle = percentWithRotationCutoff - cutoffPercent
+        let result = continueAngle > 0 ? continueAngle : 0
+        return result
+    }
+    
+    /// The color at the start of the gradient
+    var startColor = Color(#colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1))
+    
+    /// The color at the end of the gradient
+    var endColor = Color(#colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1))
+    
     /// The diameter of the circle
     var size: CGFloat = 250
     
@@ -43,7 +59,7 @@ struct GradientRing: View {
     
     let pi = 3.14159265359
     
-    let shadowOpacity: Double = 0.2
+    let shadowOpacity: Double = 0.15
     
     var shadowRadius: CGFloat {
         lineWidth/1.5
@@ -51,12 +67,45 @@ struct GradientRing: View {
     
     @State private var rotation: CGFloat = 0.0
     
+    @State private var animating = false
+    
+    init(vm: GradientRingViewModel, startColor: Color = Color(#colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1)), endColor: Color = Color(#colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1)), size: CGFloat = 250) {
+        self.vm = vm
+        self._percent = State(initialValue: vm.percent)
+        self.startColor = startColor
+        self.endColor = endColor
+        self.size = size
+    }
+    
+    func animateRing(from oldPercent: Double, to newPercent: Double) {
+        
+        // Animation duration in seconds
+        let animationDuration: Double = 0.3
+        let frames: Double = 100.0
+        
+        let timePerFrame: Double = animationDuration / frames
+        
+        let percentDiff: Double = (newPercent - oldPercent)
+        let percentPerFrame: Double = percentDiff / frames
+        
+        let _ = Timer.scheduledTimer(withTimeInterval: timePerFrame, repeats: true) { timer in
+            if percentPerFrame > 0 && percent >= newPercent {
+                percent = newPercent
+                timer.invalidate()
+            } else if percentPerFrame < 0 && percent <= newPercent {
+                percent = newPercent
+                timer.invalidate()
+            } else {
+                percent += percentPerFrame
+            }
+            
+        }
+    }
+    
     var body: some View {
         VStack {
-        
 //            Slider(value: $percent, in: 0 ... 3)
 //                .padding()
-            
             let rotationDegrees = percent < startRotation ? 0 : 360 * (percent - startRotation)
             
             // Circle
@@ -109,7 +158,7 @@ struct GradientRing: View {
                     .frame(width: size + lineWidth, height: size + lineWidth)
                     .reverseMask {
                         if percent > cutoffPercent {
-                            RingCutout(from: 0, to: cutoffPercent/* + 0.01*/, clockwise: false)
+                            RingCutout(from: 0, to: cutoffPercent + 0.01, clockwise: false)
                         }
                     }
                     .clipShape(Circle())
@@ -125,7 +174,6 @@ struct GradientRing: View {
                     ZStack {
                         ZStack {
                             let angleOffset: CGFloat = 360 - 360 * cutoffPercent
-                            let continueAngle: CGFloat = percentWithRotationCutoff - cutoffPercent
                             Circle()
                                 .trim(from: 0, to: continueAngle)
                                 .stroke(endColor, style: .init(lineWidth: lineWidth, lineCap: .round, lineJoin: .round))
@@ -146,14 +194,35 @@ struct GradientRing: View {
                 }
             }
             .rotationEffect(Angle(degrees: rotationDegrees))
-            
+            .onChange(of: vm.percent) { newPercent in
+                let oldPercent = percent
+                animateRing(from: oldPercent, to: newPercent)
+            }
         }
     }
 }
 
 struct GradientRing_Previews: PreviewProvider {
+    static var vm: GradientRingViewModel = GradientRingViewModel(percent: 0.3)
+    @State static var count: Int = 0
+    
     static var previews: some View {
-        GradientRing()
+        Group {
+            VStack {
+                GradientRing(vm: vm)
+                
+                Button("Toggle") {
+                    vm.percent = vm.percent < 0.5 ? 1.0 : 0.0
+                    count += 1
+                }
+                
+                Text("\(count)")
+            }
+            
+            ZStack {
+                Text("Test")
+            }
+        }
     }
 }
 

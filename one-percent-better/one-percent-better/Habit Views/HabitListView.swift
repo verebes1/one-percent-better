@@ -242,7 +242,8 @@ struct HabitRow: View {
         HStack {
             VStack {
                 HabitCompletionCircle(currentDay: vm.currentDay,
-                                      size: 28)
+                                      size: 28,
+                                      startValue: vm.habit.wasCompleted(on: vm.currentDay))
             }
             VStack(alignment: .leading) {
                 
