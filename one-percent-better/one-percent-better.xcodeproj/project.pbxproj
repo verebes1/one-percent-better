@@ -77,6 +77,7 @@
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
+		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
@@ -185,6 +186,7 @@
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleFitnessRings.swift; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 			children = (
 				8081A3632874E72900D0CB1B /* GradientTest.swift */,
 				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
+				8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */,
 			);
 			path = "Old Code";
 			sourceTree = "<group>";
@@ -802,6 +805,7 @@
 				809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */,
 				80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */,
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
+				8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */,
 				80385D1A285BEE5900CBDF71 /* HabitCompletionCircle.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,

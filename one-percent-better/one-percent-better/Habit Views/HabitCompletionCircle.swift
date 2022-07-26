@@ -21,18 +21,22 @@ struct HabitCompletionCircle: View {
     var endColor = Color( #colorLiteral(red: 0.4735379219, green: 1, blue: 0.5945096612, alpha: 1) )
     
     @State var show: Bool = false
-    var vm: GradientRingViewModel
+    @State var percent: Double
     
     
     init(currentDay: Date, size: CGFloat = 100, startValue: Bool = false) {
         self.currentDay = currentDay
         self.size = size
-        self.vm = GradientRingViewModel(percent: startValue ? 1.0 : 0.0)
+        self._percent = State(initialValue: startValue ? 1.0 : 0.0)
     }
     
     var body: some View {
         ZStack {
-            GradientRing(vm: vm, startColor: startColor, endColor: endColor, size: size)
+            GradientRing(percent: percent,
+                         startColor: startColor,
+                         endColor: endColor,
+                         size: size)
+                .animation(.easeInOut, value: percent)
         }
         .contentShape(Rectangle())
         .onTapGesture {
@@ -45,7 +49,7 @@ struct HabitCompletionCircle: View {
                     habit.markCompleted(on: currentDay)
                     HapticEngineManager.playHaptic()
                 }
-                vm.percent = habit.wasCompleted(on: currentDay) ? 1.0 : 0.0
+                percent = habit.wasCompleted(on: currentDay) ? 1.0 : 0.0
             }
         }
         .sheet(isPresented: self.$show) {

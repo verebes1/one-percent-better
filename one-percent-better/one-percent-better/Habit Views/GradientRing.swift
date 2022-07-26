@@ -7,22 +7,19 @@
 
 import SwiftUI
 
-class GradientRingViewModel: ObservableObject {
+struct GradientRing: View, Animatable {
     
-    @Published var percent: Double
-    
-    init(percent: Double) {
-        self.percent = percent
-    }
-}
-
-struct GradientRing: View {
-
-    @ObservedObject var vm: GradientRingViewModel
+    @Environment(\.colorScheme) var colorScheme
     
     /// The percent completion of the circle
     /// Last point before the two ends touch: 0.935
-    @State private var percent: Double
+    var percent: Double
+    
+    /// Used to animate the circle correctly
+    var animatableData: Double {
+        get { percent }
+        set { percent = newValue }
+    }
     
     /// The cutoff percent for the new overlapping ring to start
     let cutoffPercent: Double = 0.935
@@ -36,6 +33,7 @@ struct GradientRing: View {
         percent < startRotation ? percent : startRotation
     }
     
+    /// What angle the final part of the circle should be (the part past 0.935)
     var continueAngle: CGFloat {
         let continueAngle = percentWithRotationCutoff - cutoffPercent
         let result = continueAngle > 0 ? continueAngle : 0
@@ -51,61 +49,45 @@ struct GradientRing: View {
     /// The diameter of the circle
     var size: CGFloat = 250
     
-    
     /// The line width of the circle
-    var lineWidth: CGFloat {
-        size/5
-    }
+    var lineWidth: CGFloat = 50
     
-    let pi = 3.14159265359
+    /// Opacity of the shadow on ends of the circle
+    var shadowOpacity: Double = 1.0
     
-    let shadowOpacity: Double = 0.15
-    
+    /// Radius of shadow at the ends of the circle
     var shadowRadius: CGFloat {
-        lineWidth/1.5
+        lineWidth/4
     }
     
     @State private var rotation: CGFloat = 0.0
     
-    @State private var animating = false
+    init(percent: Double) {
+        self.percent = percent
+        self.lineWidth = size / 5
+        self.shadowOpacity = colorScheme == .light ? 0.1 : 1.0
+    }
     
-    init(vm: GradientRingViewModel, startColor: Color = Color(#colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1)), endColor: Color = Color(#colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1)), size: CGFloat = 250) {
-        self.vm = vm
-        self._percent = State(initialValue: vm.percent)
+    init(percent: Double, startColor: Color = Color(#colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1)), endColor: Color = Color(#colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1)), size: CGFloat = 250) {
+        self.percent = percent
+        self.shadowOpacity = colorScheme == .light ? 0.1 : 1.0
         self.startColor = startColor
         self.endColor = endColor
         self.size = size
+        self.lineWidth = size / 5
     }
     
-    func animateRing(from oldPercent: Double, to newPercent: Double) {
-        
-        // Animation duration in seconds
-        let animationDuration: Double = 0.3
-        let frames: Double = 100.0
-        
-        let timePerFrame: Double = animationDuration / frames
-        
-        let percentDiff: Double = (newPercent - oldPercent)
-        let percentPerFrame: Double = percentDiff / frames
-        
-        let _ = Timer.scheduledTimer(withTimeInterval: timePerFrame, repeats: true) { timer in
-            if percentPerFrame > 0 && percent >= newPercent {
-                percent = newPercent
-                timer.invalidate()
-            } else if percentPerFrame < 0 && percent <= newPercent {
-                percent = newPercent
-                timer.invalidate()
-            } else {
-                percent += percentPerFrame
-            }
-            
-        }
+    init(percent: Double, startColor: Color = Color(#colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1)), endColor: Color = Color(#colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1)), size: CGFloat = 250, lineWidth: CGFloat) {
+        self.percent = percent
+        self.shadowOpacity = colorScheme == .light ? 0.1 : 1.0
+        self.startColor = startColor
+        self.endColor = endColor
+        self.size = size
+        self.lineWidth = lineWidth
     }
     
     var body: some View {
         VStack {
-//            Slider(value: $percent, in: 0 ... 3)
-//                .padding()
             let rotationDegrees = percent < startRotation ? 0 : 360 * (percent - startRotation)
             
             // Circle
@@ -113,7 +95,7 @@ struct GradientRing: View {
                 
                 GrayCircle(diameter: size, lineWidth: lineWidth)
                 
-                let startAngle: CGFloat = 22
+                let startAngle: CGFloat = 25
                 let endAngle: CGFloat = 2
                 let angularGradient = AngularGradient(gradient: Gradient(colors: [endColor, startColor]),
                                                       center: .center,
@@ -194,26 +176,26 @@ struct GradientRing: View {
                 }
             }
             .rotationEffect(Angle(degrees: rotationDegrees))
-            .onChange(of: vm.percent) { newPercent in
-                let oldPercent = percent
-                animateRing(from: oldPercent, to: newPercent)
-            }
         }
     }
 }
 
 struct GradientRing_Previews: PreviewProvider {
-    static var vm: GradientRingViewModel = GradientRingViewModel(percent: 0.3)
+    
+    @State static var percent: Double = 0.3
     @State static var count: Int = 0
     
     static var previews: some View {
         Group {
             VStack {
-                GradientRing(vm: vm)
+                GradientRing(percent: percent, lineWidth: 50)
+                    .animation(.easeInOut, value: percent)
                 
                 Button("Toggle") {
-                    vm.percent = vm.percent < 0.5 ? 1.0 : 0.0
-                    count += 1
+                    withAnimation {
+                        percent = percent < 0.5 ? 1.0 : 0.0
+                        count += 1
+                    }
                 }
                 
                 Text("\(count)")
@@ -225,6 +207,7 @@ struct GradientRing_Previews: PreviewProvider {
         }
     }
 }
+
 
 struct GrayCircle: View {
 

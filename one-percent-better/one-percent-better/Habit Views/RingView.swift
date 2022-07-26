@@ -9,9 +9,6 @@ import SwiftUI
 
 struct RingView: View {
     var percent: Double
-    var vm: GradientRingViewModel {
-        GradientRingViewModel(percent: percent)
-    }
     var color: Color = .green
     var size: CGFloat = 100
     var withText: Bool = false
@@ -26,8 +23,8 @@ struct RingView: View {
     
     var body: some View {
         VStack(spacing: 5) {
-            GradientRing(vm: vm, startColor: startColor, endColor: endColor, size: size)
-//                .animation(.easeInOut, value: percent)
+            GradientRing(percent: percent, startColor: startColor, endColor: endColor, size: size)
+                .animation(.easeInOut, value: percent)
             
             if withText {
                 if let intPercent = Int(round(100 * percent)) {

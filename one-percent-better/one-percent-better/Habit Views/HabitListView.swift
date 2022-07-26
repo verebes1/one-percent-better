@@ -9,8 +9,18 @@ import SwiftUI
 import CoreData
 
 class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
+    
     private let habitController: NSFetchedResultsController<Habit>
     private let moc: NSManagedObjectContext
+    
+    /// The current selected day
+    @Published var currentDay: Date = Date()
+    
+    /// The latest day that has been shown. This is updated when the app is opened or the view appears on a new day.
+    @Published var latestDay: Date = Date()
+    
+    @Published var selectedWeekDay: Int = 0
+    @Published var selectedWeek: Int = 0
     
     init(_ context: NSManagedObjectContext) {
         let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
@@ -19,6 +29,9 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         super.init()
         habitController.delegate = self
         try? habitController.performFetch()
+        
+        selectedWeekDay = thisWeekDayOffset(currentDay)
+        selectedWeek = getSelectedWeek(for: currentDay)
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -76,6 +89,91 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     func navTitle(for date: Date) -> String {
         dateTitleFormatter.string(from: date)
     }
+    
+    /// Date of the earliest start date for all habits
+    var earliestStartDate: Date {
+        var earliest = Date()
+        for habit in habits {
+            if habit.startDate < earliest {
+                earliest = habit.startDate
+            }
+        }
+        return earliest
+    }
+    
+    /// Number of weeks (each row is a week) between today and the earliest completed habit
+    var numWeeksSinceEarliest: Int {
+        let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
+        let diff = numDays - thisWeekDayOffset(Date()) + 6
+        let weeks = diff / 7
+        return weeks + 1
+    }
+    
+    /// The number of days to offset from today to get to the selected day
+    /// - Parameters:
+    ///   - week: Selected week, (numWeeksSinceEarliest - 1) == current week, 0 == earliest week
+    ///   - day: Selected day,  [0,1,2,3,4,5,6]
+    /// - Returns: Integer offset, yesterday is -1, today is 0, tomorrow is 1, etc.
+    func dayOffset(week: Int, day: Int) -> Int {
+        let numDaysBack = day - thisWeekDayOffset(Date())
+        let numWeeksBack = week - (numWeeksSinceEarliest - 1)
+        if numWeeksBack == 0 {
+            return numDaysBack
+        } else {
+            return (numWeeksBack * 7) + numDaysBack
+        }
+    }
+    
+    func dayOffsetToToday(from date: Date) -> Int {
+        let result = -(Calendar.current.numberOfDaysBetween(date, and: Date()) - 1)
+        return result
+    }
+    
+    func getSelectedWeek(for day: Date) -> Int {
+        let weekDayOffset = thisWeekDayOffset(day)
+        let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
+        let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
+        let result = numWeeksSinceEarliest - 1 - weekNum
+        return result
+    }
+    
+    func dayOffsetFromEarliest(week: Int, day: Int) -> Int {
+        let numDaysBack = day - thisWeekDayOffset(earliestStartDate)
+        let numWeeksBack = week
+        if numWeeksBack == 0 {
+            return numDaysBack
+        } else {
+            return (numWeeksBack * 7) + numDaysBack
+        }
+    }
+    
+    func date(week: Int, day: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: dayOffset(week: week, day: day), to: Date())!
+    }
+    
+    func percent(week: Int, day: Int) -> Double {
+        let day = date(week: week, day: day)
+        var numCompleted: Double = 0
+        var total: Double = 0
+        for habit in habits {
+            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day) {
+                total += 1
+            }
+        }
+        guard total > 0 else { return 0 }
+        
+        for habit in habits {
+            if habit.wasCompleted(on: day) {
+                numCompleted += 1
+            }
+            
+        }
+        return numCompleted / total
+    }
+    
+    func thisWeekDayOffset(_ date: Date) -> Int {
+        return Calendar.current.component(.weekday, from: date) - 1
+    }
 }
 
 struct HabitListView: View {
@@ -85,33 +183,27 @@ struct HabitListView: View {
     
     @ObservedObject var vm: HabitListViewModel
     
-    /// The current selected day
-    @State private var currentDay: Date = Date()
-    
-    /// The latest day that has been shown. This is updated when the app is opened or the view appears on a new day.
-    @State private var latestDay: Date = Date()
-    
     @State var createHabitPresenting: Bool = false
     
     var body: some View {
         NavigationView {
             Background {
                 VStack {
-                    let headerVM = HabitsHeaderViewModel(habits: vm.habits)
-                    HabitsHeaderView(vm: headerVM,
-                                     currentDay: $currentDay)
+//                    let headerVM = HabitsHeaderViewModel(habits: vm.habits)
+                    HabitsHeaderView()
+                        .environmentObject(vm)
                     
                     List {
                         ForEach(vm.habits, id: \.self.name) { habit in
-                            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: currentDay) {
+                            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: vm.currentDay) {
                                 let progressVM = ProgressViewModel(habit: habit)
                                 NavigationLink(
                                     destination: ProgressView(vm: progressVM).environmentObject(habit)) {
                                         HabitRow(vm: HabitRowViewModel(habit: habit,
                                                                        currentDay:
-                                                                        currentDay))
+                                                                        vm.currentDay))
                                             .environmentObject(habit)
-                                            .animation(.easeInOut, value: currentDay)
+                                            .animation(.easeInOut, value: vm.currentDay)
                                     }
                                     .isDetailLink(false)
                             }
@@ -124,15 +216,15 @@ struct HabitListView: View {
             .onAppear {
                 UITableView.appearance().contentInset.top = -25
                 
-                if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
-                    latestDay = Date()
-                    currentDay = Date()
+                if !Calendar.current.isDate(vm.latestDay, inSameDayAs: Date()) {
+                    vm.latestDay = Date()
+                    vm.currentDay = Date()
                 }
             }
             .onChange(of: scenePhase, perform: { newPhase in
-                if newPhase == .active, !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
-                    latestDay = Date()
-                    currentDay = Date()
+                if newPhase == .active, !Calendar.current.isDate(vm.latestDay, inSameDayAs: Date()) {
+                    vm.latestDay = Date()
+                    vm.currentDay = Date()
                 }
             })
             .toolbar {
@@ -147,7 +239,7 @@ struct HabitListView: View {
                         }
                 }
             }
-            .navigationTitle(vm.navTitle(for: currentDay))
+            .navigationTitle(vm.navTitle(for: vm.currentDay))
             .navigationBarTitleDisplayMode(.inline)
             
         }
