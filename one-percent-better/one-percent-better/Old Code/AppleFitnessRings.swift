@@ -22,7 +22,7 @@ struct AppleFitnessRings: View {
     var blue1 = Color(#colorLiteral(red: 0, green: 0.7327416539, blue: 0.9001016021, alpha: 1))
     var blue2 = Color(#colorLiteral(red: 0, green: 0.9871314168, blue: 0.8243331909, alpha: 1))
     
-    var duration: Double = 2.0
+    var duration: Double = 1.5
     
     var body: some View {
         VStack {
