@@ -14,14 +14,16 @@ public class TimeTracker: Tracker {
 
     @NSManaged public var dates: [Date]
     @NSManaged public var values: [Int]
-    
     @NSManaged public var goalTime: Int
+    
+//    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    lazy var timer = Timer()
     
     convenience init(context: NSManagedObjectContext, habit: Habit, goalTime: Int?) {
         self.init(context: context)
         self.habit = habit
         self.name = habit.name + " Time Tracker"
-        self.autoTracker = false
+        self.autoTracker = true
         self.dates = []
         self.values = []
         self.goalTime = goalTime ?? 0

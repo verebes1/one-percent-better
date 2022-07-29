@@ -90,6 +90,15 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return manualTrackers
     }
     
+    var hasTimeTracker: Bool {
+        for tracker in trackers {
+            if let _ = tracker as? TimeTracker {
+                return true
+            }
+        }
+        return false
+    }
+    
     var myContext: NSManagedObjectContext = CoreDataManager.shared.mainContext
     
     // MARK: - init

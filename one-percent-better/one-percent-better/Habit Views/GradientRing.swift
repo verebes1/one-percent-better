@@ -30,7 +30,7 @@ class GradientRingViewModel {
         lineWidth/4
     }
     
-    let startAngle: CGFloat = 25
+    let startAngle: CGFloat = 22
     let endAngle: CGFloat = 2
     var angularGradient: AngularGradient {
         AngularGradient(gradient: Gradient(colors: [endColor, startColor]),
@@ -106,7 +106,7 @@ struct GradientRing: View, Animatable {
                 GrayCircle(vm: vm)
                 
                 // Start circle
-                if percent > 0 {
+                if percent > cutoffPercent && percent < 1 {
                     StartCircle(vm: vm,
                                 percent: percent,
                                 cutoffPercent: cutoffPercent)
@@ -133,7 +133,13 @@ struct GradientRing: View, Animatable {
 
 struct GradientRing_Previews: PreviewProvider {
     static var previews: some View {
-        GradientRing(percent: 0.3, lineWidth: 50)
+        VStack {
+            GradientRing(percent: 0.00000001, size: 100)
+            GradientRing(percent: 0.5, size: 100)
+            GradientRing(percent: 0.935, size: 100)
+            GradientRing(percent: 0.936, size: 100)
+            GradientRing(percent: 1.0, size: 100)
+        }
     }
 }
 
@@ -170,9 +176,6 @@ struct StartCircle: View {
                     .frame(width: vm.size, height: vm.size)
             }
             .frame(width: vm.size + vm.lineWidth, height: vm.size + vm.lineWidth)
-            .reverseMask {
-                RingCutout(from: 0, to: 0.1, clockwise: true)
-            }
             .clipShape(Circle())
         }
         .reverseMask {

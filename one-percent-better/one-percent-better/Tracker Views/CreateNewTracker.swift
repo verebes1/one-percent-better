@@ -43,7 +43,7 @@ struct CreateNewTracker: View {
                     
                     NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
                         TrackerView(systemImage: "timer",
-                                    color: .mint,
+                                    color: .yellow,
                                     title: "Time")
                     }
                     .isDetailLink(false)

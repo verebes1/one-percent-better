@@ -13,10 +13,6 @@ struct HabitCompletionCircle: View {
     var currentDay: Date
     var color: Color = .green
     var size: CGFloat = 100
-    var lineWidth: CGFloat {
-        size/5
-    }
-    
     var startColor = Color( #colorLiteral(red: 0.2066814005, green: 0.7795598507, blue: 0.349144876, alpha: 1) )
     var endColor = Color( #colorLiteral(red: 0.4735379219, green: 1, blue: 0.5945096612, alpha: 1) )
     
@@ -29,7 +25,11 @@ struct HabitCompletionCircle: View {
     
     var body: some View {
         ZStack {
-            let percent = habit.wasCompleted(on: currentDay) ? 1.0 : 0.0
+            
+            let wasCompleted = habit.wasCompleted(on: currentDay) ? 1.0 : 0.0
+//            let timeTrackerValue =
+            let percent = habit.hasTimeTracker ? 0.5 : wasCompleted
+            
             GradientRing(percent: percent,
                          startColor: startColor,
                          endColor: endColor,
@@ -41,11 +41,16 @@ struct HabitCompletionCircle: View {
             if !habit.manualTrackers.isEmpty {
                 show = true
             } else {
-                if habit.wasCompleted(on: currentDay) {
-                    habit.markNotCompleted(on: currentDay)
+                
+                if habit.hasTimeTracker {
+                    // start/pause timer
                 } else {
-                    habit.markCompleted(on: currentDay)
-                    HapticEngineManager.playHaptic()
+                    if habit.wasCompleted(on: currentDay) {
+                        habit.markNotCompleted(on: currentDay)
+                    } else {
+                        habit.markCompleted(on: currentDay)
+                        HapticEngineManager.playHaptic()
+                    }
                 }
             }
         }

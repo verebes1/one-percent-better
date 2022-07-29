@@ -48,6 +48,8 @@ struct ProgressView: View {
                         } else if let t = tracker as? ImageTracker {
                             let vm = ImageCardViewModel(imageTracker: t)
                             ImageCardView(vm: vm)
+                        } else if let t = tracker as? TimeTracker {
+                            Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
                         }
                     }
                     

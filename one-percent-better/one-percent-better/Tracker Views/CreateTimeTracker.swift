@@ -25,7 +25,11 @@ struct CreateTimeTracker: View {
         Background {
             VStack {
                 HabitCreationHeader(systemImage: "timer",
-                                    title: "Time")
+                                    title: "Time",
+                                    subtitle: "Track how long you spend doing your habit")
+                
+                Spacer()
+                    .frame(height: 10)
                 
                 CardView {
                     TimePicker(selections: $selections)
@@ -37,7 +41,7 @@ struct CreateTimeTracker: View {
                 Button {
                     let timeInSec = selections[0] * 3600 + selections[1] * 60 + selections[2]
                     let _ = TimeTracker(context: moc, habit: habit, goalTime: timeInSec)
-                    
+                    try? moc.save()
                     progressPresenting = false
                 } label: {
                     BottomButton(label: "Create")
@@ -174,6 +178,7 @@ struct TimePicker: View {
                 Text("Goal Time")
                     .font(.title3)
                     .fontWeight(.medium)
+                    .padding(.top, 10)
                 
                 ZStack {
                     PickerView(data: self.data, selections: self.$selections)

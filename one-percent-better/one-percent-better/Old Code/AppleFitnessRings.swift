@@ -61,6 +61,6 @@ struct AppleFitnessRings: View {
 struct AppleFitnessRings_Previews: PreviewProvider {
     static var previews: some View {
         AppleFitnessRings()
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(.light)
     }
 }

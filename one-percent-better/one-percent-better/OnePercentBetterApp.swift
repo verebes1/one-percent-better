@@ -17,7 +17,7 @@ struct OnePercentBetterApp: App {
             ContentView()
                 .environment(\.managedObjectContext, coreDataManager.mainContext)
                 .onAppear {
-                    print(NSHomeDirectory())
+                    print("NSHomeDirectory: \(NSHomeDirectory())")
                 }
         }
     }
