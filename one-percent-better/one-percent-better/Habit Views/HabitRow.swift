@@ -6,15 +6,25 @@
 //
 
 import SwiftUI
-
+import Combine
 
 class HabitRowViewModel: ObservableObject {
     let habit: Habit
     let currentDay: Date
+    @Published var timerLabel: String = "00:00"
+    @Published var isTimerRunning: Bool
+    var hasTimeTracker: Bool
     
     init(habit: Habit, currentDay: Date) {
         self.habit = habit
         self.currentDay = currentDay
+        self.isTimerRunning = false
+        hasTimeTracker = false
+        if let t = habit.timeTracker {
+            t.callback = updateTimerString(to:)
+            self.isTimerRunning = t.isRunning
+            hasTimeTracker = true
+        }
     }
     
     /// Current streak (streak = 1 if completed today, streak = 2 if completed today and yesterday, etc.)
@@ -76,47 +86,122 @@ class HabitRowViewModel: ObservableObject {
             return .red
         }
     }
+    
+//    var timerLabel: String {
+//        return "00:00"
+//    }
+    
+    func getTimerString(from time: Int) -> String {
+        var seconds = "\(time % 60)"
+        if time % 60 < 10 {
+            seconds = "0" + seconds
+        }
+        var minutes = "\((time / 60) % 60)"
+        if (time / 60) % 60 < 10 {
+            minutes = "0" + minutes
+        }
+        return minutes + ":" + seconds
+    }
+    
+    func updateTimerString(to value: Int) {
+        self.timerLabel = getTimerString(from: value)
+    }
+    
+    var timePercentComplete: Double {
+        guard let t = habit.timeTracker else {
+            return 0
+        }
+        guard let soFar = t.getValue(on: currentDay) else {
+            return 0
+        }
+        return Double(soFar) / Double(t.goalTime)
+    }
 }
 
 struct HabitRow: View {
+    
+    @Environment(\.scenePhase) var scenePhase
     
     @ObservedObject var vm: HabitRowViewModel
     
     var body: some View {
         HStack {
-            VStack {
-                HabitCompletionCircle(currentDay: vm.currentDay,
-                                      size: 28)
-            }
+            HabitCompletionCircle(vm: vm,
+                                  size: 28)
             VStack(alignment: .leading) {
                 
                 Text(vm.habit.name)
                     .font(.system(size: 16))
+                    .fontWeight(vm.isTimerRunning ? .medium : .regular)
+                    .foregroundColor(vm.isTimerRunning ? .green : .black)
                 
-                Text(vm.streakLabel)
-                    .font(.system(size: 11))
+                HStack(spacing: 0) {
+                    Text(vm.hasTimeTracker ? vm.timerLabel : "")
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondaryLabel) +
+                    Text(vm.hasTimeTracker ? "  |  " : "")
+                        .font(.system(size: 11))
+                        .fontWeight(.light)
+                        .foregroundColor(.secondaryLabel)
+                    
+                    Text(vm.streakLabel)
+                        .font(.system(size: 11))
                     .foregroundColor(vm.streakLabelColor)
+                }
             }
+            .onChange(of: scenePhase, perform: { newPhase in
+                if newPhase == .inactive {
+                    
+                }
+            })
+            
+            
             Spacer()
+        }
+    }
+}
+
+struct HabitRowPreviewer: View {
+    
+    @ObservedObject var vm: HabitListViewModel
+    
+    var body: some View {
+        NavigationView {
+            Background {
+                List {
+                    ForEach(vm.habits, id:\.name) { habit in
+                        let vm = HabitRowViewModel(habit: habit, currentDay: Date())
+                        NavigationLink(destination: EmptyView()) {
+                            HabitRow(vm: vm)
+                                .environmentObject(habit)
+                        }
+                        .isDetailLink(false)
+                    }
+                }
+                .environment(\.defaultMinListRowHeight, 54)
+            }
         }
     }
 }
 
 struct HabitRow_Previews: PreviewProvider {
     
-    static var habit: Habit = {
+    static func data() -> [Habit] {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         
         let day0 = Date()
         let h1 = try? Habit(context: context, name: "Swimming")
         h1?.markCompleted(on: day0)
         
+        let _ = try? Habit(context: context, name: "Basketball")
+        
         let habits = Habit.habitList(from: context)
-        return habits.first!
-    }()
+        return habits
+    }
     
     static var previews: some View {
-        let vm = HabitRowViewModel(habit: habit, currentDay: Date())
-        HabitRow(vm: vm)
+        let _ = data()
+        let moc = CoreDataManager.previews.persistentContainer.viewContext
+        HabitRowPreviewer(vm: HabitListViewModel(moc))
     }
 }

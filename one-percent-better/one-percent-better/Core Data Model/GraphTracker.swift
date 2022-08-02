@@ -48,7 +48,7 @@ public class GraphTracker: Tracker {
         } else {
             return nil
         }
-    }    
+    }
 }
 
 extension GraphTracker {

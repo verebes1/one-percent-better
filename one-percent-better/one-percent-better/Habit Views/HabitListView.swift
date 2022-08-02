@@ -16,7 +16,8 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     /// The current selected day
     @Published var currentDay: Date = Date()
     
-    /// The latest day that has been shown. This is updated when the app is opened or the view appears on a new day.
+    /// The latest day that has been shown. This is updated when the
+    /// app is opened or the view appears on a new day.
     @Published var latestDay: Date = Date()
     
     @Published var selectedWeekDay: Int = 0
@@ -194,22 +195,22 @@ struct HabitListView: View {
                     
                     List {
                         ForEach(vm.habits, id: \.self.name) { habit in
-                            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: vm.currentDay) {
+                            if habit.started(after: vm.currentDay) {
                                 let progressVM = ProgressViewModel(habit: habit)
-                                NavigationLink(
-                                    destination: ProgressView(vm: progressVM).environmentObject(habit)) {
-                                        HabitRow(vm: HabitRowViewModel(habit: habit,
-                                                                       currentDay:
-                                                                        vm.currentDay))
-                                            .environmentObject(habit)
-                                            .animation(.easeInOut, value: vm.currentDay)
-                                    }
-                                    .isDetailLink(false)
+                                let dest = ProgressView(vm: progressVM).environmentObject(habit)
+                                let habitRowVM = HabitRowViewModel(habit: habit,
+                                                                   currentDay:
+                                                                    vm.currentDay)
+                                NavigationLink(destination: dest) {
+                                    HabitRow(vm: habitRowVM)
+                                }
+                                .isDetailLink(false)
                             }
                         }
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
                     }
+                    .environment(\.defaultMinListRowHeight, 54)
                 }
             }
             .onAppear {

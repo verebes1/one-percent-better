@@ -99,6 +99,15 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return false
     }
     
+    var timeTracker: TimeTracker? {
+        for tracker in trackers {
+            if let t = tracker as? TimeTracker {
+                return t
+            }
+        }
+        return nil
+    }
+    
     var myContext: NSManagedObjectContext = CoreDataManager.shared.mainContext
     
     // MARK: - init
@@ -143,7 +152,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
         return false
     }
-
+    
+    /// Mark habit as completed for a date
+    /// - Parameter date: The day to mark the habit completed
     func markCompleted(on date: Date) {
         if !wasCompleted(on: date) {
             daysCompleted.append(date)
@@ -174,6 +185,13 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
         
         myContext.fatalSave()
+    }
+    
+    /// Whether or not this habit started after a certain date
+    /// - Parameter day: The day to check against
+    /// - Returns: True if the habit started on or after the date, and false otherwise
+    func started(after day: Date) -> Bool {
+        return Calendar.current.startOfDay(for: startDate) <= Calendar.current.startOfDay(for: day)
     }
     
     class func habitList(from context: NSManagedObjectContext) -> [Habit] {

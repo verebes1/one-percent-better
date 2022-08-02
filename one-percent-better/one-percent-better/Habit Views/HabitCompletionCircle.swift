@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct HabitCompletionCircle: View {
-    @EnvironmentObject var habit: Habit
     
-    var currentDay: Date
+    @ObservedObject var vm: HabitRowViewModel
+    
     var color: Color = .green
     var size: CGFloat = 100
     var startColor = Color( #colorLiteral(red: 0.2066814005, green: 0.7795598507, blue: 0.349144876, alpha: 1) )
@@ -18,17 +18,12 @@ struct HabitCompletionCircle: View {
     
     @State var show: Bool = false
     
-    init(currentDay: Date, size: CGFloat = 100) {
-        self.currentDay = currentDay
-        self.size = size
-    }
-    
     var body: some View {
         ZStack {
             
-            let wasCompleted = habit.wasCompleted(on: currentDay) ? 1.0 : 0.0
+            let wasCompleted = vm.habit.wasCompleted(on: vm.currentDay) ? 1.0 : 0.0
 //            let timeTrackerValue =
-            let percent = habit.hasTimeTracker ? 0.5 : wasCompleted
+            let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
             
             GradientRing(percent: percent,
                          startColor: startColor,
@@ -38,25 +33,27 @@ struct HabitCompletionCircle: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            if !habit.manualTrackers.isEmpty {
+            if !vm.habit.manualTrackers.isEmpty {
                 show = true
             } else {
                 
-                if habit.hasTimeTracker {
-                    // start/pause timer
+                if let t = vm.habit.timeTracker {
+                    // toggle the timer
+                    t.toggleTimer(on: vm.currentDay)
+                    vm.isTimerRunning.toggle()
                 } else {
-                    if habit.wasCompleted(on: currentDay) {
-                        habit.markNotCompleted(on: currentDay)
+                    if vm.habit.wasCompleted(on: vm.currentDay) {
+                        vm.habit.markNotCompleted(on: vm.currentDay)
                     } else {
-                        habit.markCompleted(on: currentDay)
+                        vm.habit.markCompleted(on: vm.currentDay)
                         HapticEngineManager.playHaptic()
                     }
                 }
             }
         }
         .sheet(isPresented: self.$show) {
-            let vm = EnterTrackerDataViewModel(habit: habit, currentDay: currentDay)
-            EnterTrackerDataView(vm: vm)
+            let enterDataVM = EnterTrackerDataViewModel(habit: vm.habit, currentDay: vm.currentDay)
+            EnterTrackerDataView(vm: enterDataVM)
         }
     }
 }
@@ -89,8 +86,10 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
         VStack {
             Text("Not completed")
             let notCompletedHabit = habits[0]
-            HabitCompletionCircle(currentDay: currentDay)
-                .environmentObject(notCompletedHabit)
+            let vm1 = HabitRowViewModel(habit: notCompletedHabit,
+                                        currentDay:
+                                            currentDay)
+            HabitCompletionCircle(vm: vm1)
                 .border(Color.black, width: 1)
             
             Spacer()
@@ -98,7 +97,10 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             
             Text("Completed")
             let completedHabit = habits[1]
-            HabitCompletionCircle(currentDay: currentDay)
+            let vm2 = HabitRowViewModel(habit: completedHabit,
+                                        currentDay:
+                                            currentDay)
+            HabitCompletionCircle(vm: vm2)
                 .environmentObject(completedHabit)
                 .border(Color.black, width: 1)
             
@@ -107,7 +109,10 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             
             Text("With Tracker")
             let trackerHabit = habits[2]
-            HabitCompletionCircle(currentDay: currentDay)
+            let vm3 = HabitRowViewModel(habit: trackerHabit,
+                                                    currentDay:
+                                                        currentDay)
+            HabitCompletionCircle(vm: vm3)
                 .environmentObject(trackerHabit)
                 .border(Color.black, width: 1)
         }
