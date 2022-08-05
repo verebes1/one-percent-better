@@ -17,6 +17,8 @@ public class TimeTracker: Tracker {
     @NSManaged public var values: [Int]
     @NSManaged public var goalTime: Int
     
+    var myContext: NSManagedObjectContext?
+    
     var isRunning: Bool = false
     var currentDay: Date?
     var currentTimeCounter: Int = 0
@@ -26,12 +28,15 @@ public class TimeTracker: Tracker {
     
     convenience init(context: NSManagedObjectContext, habit: Habit, goalTime: Int?) {
         self.init(context: context)
+        self.myContext = context
         self.habit = habit
         self.name = habit.name + " Time Tracker"
         self.autoTracker = true
         self.dates = []
         self.values = []
         self.goalTime = goalTime ?? 0
+        
+        // Create a number tracker for time
     }
     
     func addSec(on date: Date) {
@@ -46,6 +51,7 @@ public class TimeTracker: Tracker {
             dates = combined.map { $0.0 }
             values = combined.map { $0.1 }
         }
+        context.fatalSave()
     }
     
     func getValue(on date: Date) -> Int? {
@@ -57,7 +63,7 @@ public class TimeTracker: Tracker {
     }
     
     func toggleTimer(on date: Date) {
-        if currentDay == nil || currentDay != date {
+        if currentDay == nil || currentDay != date || cancelBag == nil {
             currentDay = date
             self.cancelBag = Timer.publish(every: 1, on: .main, in: .common)
                 .autoconnect()
@@ -73,6 +79,10 @@ public class TimeTracker: Tracker {
             }
         }
         isRunning = !isRunning
+        
+        if !isRunning {
+            self.cancelBag = nil
+        }
     }
 }
 

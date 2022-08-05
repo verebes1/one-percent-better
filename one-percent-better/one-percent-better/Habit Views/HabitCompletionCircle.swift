@@ -41,6 +41,14 @@ struct HabitCompletionCircle: View {
                     // toggle the timer
                     t.toggleTimer(on: vm.currentDay)
                     vm.isTimerRunning.toggle()
+                    if vm.isTimerRunning {
+                        vm.hasTimerStarted = true
+                    } else if t.getValue(on: vm.currentDay) == nil {
+                        vm.hasTimerStarted = false
+                    } else if let v = t.getValue(on: vm.currentDay),
+                              v == 0 {
+                        vm.hasTimerStarted = false
+                    }
                 } else {
                     if vm.habit.wasCompleted(on: vm.currentDay) {
                         vm.habit.markNotCompleted(on: vm.currentDay)

@@ -14,16 +14,24 @@ class HabitRowViewModel: ObservableObject {
     @Published var timerLabel: String = "00:00"
     @Published var isTimerRunning: Bool
     var hasTimeTracker: Bool
+    var hasTimerStarted: Bool
     
     init(habit: Habit, currentDay: Date) {
         self.habit = habit
         self.currentDay = currentDay
-        self.isTimerRunning = false
+        isTimerRunning = false
         hasTimeTracker = false
+        hasTimerStarted = false
         if let t = habit.timeTracker {
             t.callback = updateTimerString(to:)
-            self.isTimerRunning = t.isRunning
+            isTimerRunning = t.isRunning
             hasTimeTracker = true
+            if let value = t.getValue(on: currentDay) {
+                self.updateTimerString(to: value)
+                if value != 0 {
+                    hasTimerStarted = true
+                }
+            }
         }
     }
     
@@ -87,10 +95,6 @@ class HabitRowViewModel: ObservableObject {
         }
     }
     
-//    var timerLabel: String {
-//        return "00:00"
-//    }
-    
     func getTimerString(from time: Int) -> String {
         var seconds = "\(time % 60)"
         if time % 60 < 10 {
@@ -105,6 +109,12 @@ class HabitRowViewModel: ObservableObject {
     
     func updateTimerString(to value: Int) {
         self.timerLabel = getTimerString(from: value)
+        
+        if let t = habit.timeTracker {
+            if value >= t.goalTime {
+                habit.markCompleted(on: currentDay)
+            }
+        }
     }
     
     var timePercentComplete: Double {
@@ -136,13 +146,14 @@ struct HabitRow: View {
                     .foregroundColor(vm.isTimerRunning ? .green : .black)
                 
                 HStack(spacing: 0) {
-                    Text(vm.hasTimeTracker ? vm.timerLabel : "")
-                        .font(.system(size: 11))
-                        .foregroundColor(.secondaryLabel) +
-                    Text(vm.hasTimeTracker ? "  |  " : "")
-                        .font(.system(size: 11))
-                        .fontWeight(.light)
-                        .foregroundColor(.secondaryLabel)
+                    if vm.hasTimeTracker && vm.hasTimerStarted {
+                        Text(vm.timerLabel)
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondaryLabel)
+                            .fixedSize()
+                            .frame(minWidth: 40)
+                            .transition(.slide)
+                    }
                     
                     Text(vm.streakLabel)
                         .font(.system(size: 11))
@@ -194,6 +205,12 @@ struct HabitRow_Previews: PreviewProvider {
         h1?.markCompleted(on: day0)
         
         let _ = try? Habit(context: context, name: "Basketball")
+        
+        let h3 = try? Habit(context: context, name: "Timed Habit")
+        
+        if let h3 = h3 {
+            let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
+        }
         
         let habits = Habit.habitList(from: context)
         return habits
