@@ -160,11 +160,6 @@ struct HabitRow: View {
                     .foregroundColor(vm.streakLabelColor)
                 }
             }
-            .onChange(of: scenePhase, perform: { newPhase in
-                if newPhase == .inactive {
-                    
-                }
-            })
             
             
             Spacer()
