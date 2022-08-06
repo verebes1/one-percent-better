@@ -143,7 +143,7 @@ struct HabitRow: View {
                 Text(vm.habit.name)
                     .font(.system(size: 16))
                     .fontWeight(vm.isTimerRunning ? .medium : .regular)
-                    .foregroundColor(vm.isTimerRunning ? .green : .black)
+//                    .foregroundColor(vm.isTimerRunning ? .green : .black)
                 
                 HStack(spacing: 0) {
                     if vm.hasTimeTracker && vm.hasTimerStarted {
