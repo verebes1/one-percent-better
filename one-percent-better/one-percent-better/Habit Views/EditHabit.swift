@@ -43,8 +43,11 @@ struct EditHabit: View {
     var body: some View {
         Background {
             /*ScrollView*/VStack {
-                VStack(spacing: 20) {
-                    CardView {
+                VStack(alignment: .leading, spacing: 10) {
+        
+                    Spacer().frame(height: 10)
+                    
+                    CardView(shadow: false, padding: false) {
                         VStack {
                             
                             // Habit name
@@ -61,7 +64,18 @@ struct EditHabit: View {
                         }
                     }
                     
-                    EditButton()
+                    Spacer().frame(height: 10)
+                    
+                    HStack {
+                        Text("Trackers")
+                            .font(.title)
+                        .fontWeight(.medium)
+                        
+                        Spacer()
+                        
+                        EditButton()
+                    }
+                    
                     
                     List {
                         ForEach(0 ..< habit.trackers.count, id: \.self) { i in
@@ -84,9 +98,11 @@ struct EditHabit: View {
 //                        }
 //                    }
                 }
+                .padding(.horizontal, 20)
                 
             }
-            .navigationTitle("Edit Habit")
+//            .navigationTitle("Edit Habit")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(
