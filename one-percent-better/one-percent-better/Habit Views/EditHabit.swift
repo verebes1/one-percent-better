@@ -14,12 +14,12 @@ struct EditHabit: View {
     var habit: Habit
     @Binding var rootPresenting: Bool
     
-    @State var habitName: String
+    @State private var habitName: String
     
     init(habit: Habit, rootPresenting: Binding<Bool>) {
         self.habit = habit
         self._rootPresenting = rootPresenting
-        habitName = habit.name
+        self._habitName = State(initialValue: habit.name)
     }
     
     func delete(from source: IndexSet) {
@@ -42,9 +42,39 @@ struct EditHabit: View {
     
     var body: some View {
         Background {
+            VStack {
+                Text("WIP (Doesn't save for right now)")
+                List {
+                    Section(header: Text("Habit")) {
+                        HStack {
+                            Text("Name")
+                                .fontWeight(.medium)
+                            TextField("", text: $habitName)
+                                .multilineTextAlignment(.trailing)
+                                .keyboardType(.decimalPad)
+                                .frame(height: 30)
+                        }
+                    }
+                    
+                    if habit.trackers.count > 0 {
+                        Section(header: Text("Trackers")) {
+                            ForEach(0 ..< habit.trackers.count, id: \.self) { i in
+                                let tracker = habit.trackers[i] as! Tracker
+                                NavigationLink(destination: EditTracker(tracker: tracker)) {
+                                    Text(tracker.name)
+                                }
+                                .isDetailLink(false)
+                            }
+                        }
+                    }
+                }
+                .listStyle(.insetGrouped)
+            }
+            
+            /*
             /*ScrollView*/VStack {
                 VStack(alignment: .leading, spacing: 10) {
-        
+                    
                     Spacer().frame(height: 10)
                     
                     CardView(shadow: false, padding: false) {
@@ -111,6 +141,7 @@ struct EditHabit: View {
                         }
                 }
             }
+             */
         }
     }
 }

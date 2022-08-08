@@ -74,6 +74,7 @@
 		80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */; };
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
 		80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */; };
+		803E1B8428A1B29F0010540B /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8328A1B29F0010540B /* EditTracker.swift */; };
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
@@ -182,6 +183,7 @@
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTouchesScrollView.swift; sourceTree = "<group>"; };
+		803E1B8328A1B29F0010540B /* EditTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -542,6 +544,7 @@
 				80385D38285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift */,
 				80385D3A285CD80C00CBDF71 /* ImagePicker.swift */,
 				80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */,
+				803E1B8328A1B29F0010540B /* EditTracker.swift */,
 			);
 			path = "Tracker Views";
 			sourceTree = "<group>";
@@ -814,6 +817,7 @@
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */,
 				80385D1A285BEE5900CBDF71 /* HabitCompletionCircle.swift in Sources */,
+				803E1B8428A1B29F0010540B /* EditTracker.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
