@@ -19,6 +19,8 @@ struct CreateTimeTracker: View {
     
     @State private var selections: [Int] = [0, 10, 0]
     
+    @State var zeroTimeError: Bool = false
+    
     @State var uiTabarController: UITabBarController?
     
     var body: some View {
@@ -36,13 +38,23 @@ struct CreateTimeTracker: View {
                 }
                 .frame(height: 250)
                 
+                if zeroTimeError {
+                    Label("Goal time can't be 0", systemImage: "exclamationmark.triangle")
+                        .foregroundColor(.red)
+                        .animation(.easeInOut, value: zeroTimeError)
+                }
+                
                 Spacer()
                 
                 Button {
                     let timeInSec = selections[0] * 3600 + selections[1] * 60 + selections[2]
-                    let _ = TimeTracker(context: moc, habit: habit, goalTime: timeInSec)
-                    try? moc.save()
-                    progressPresenting = false
+                    if timeInSec == 0 {
+                        zeroTimeError = true
+                    } else {
+                        let _ = TimeTracker(context: moc, habit: habit, goalTime: timeInSec)
+                        try? moc.save()
+                        progressPresenting = false
+                    }
                 } label: {
                     BottomButton(label: "Create")
                 }
