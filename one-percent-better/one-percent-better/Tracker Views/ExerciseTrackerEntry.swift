@@ -89,9 +89,7 @@ struct ExerciseCheckmark: View {
                 .foregroundColor(completed ? .white : .black)
         }
         .onTapGesture {
-            withAnimation {
-                completed.toggle()
-            }
+            completed.toggle()
         }
     }
 }
