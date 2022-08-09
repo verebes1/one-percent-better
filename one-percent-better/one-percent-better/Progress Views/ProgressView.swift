@@ -49,7 +49,8 @@ struct ProgressView: View {
                             let vm = ImageCardViewModel(imageTracker: t)
                             ImageCardView(vm: vm)
                         } else if let t = tracker as? TimeTracker {
-                            Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
+//                            Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
+                            GraphCardView(tracker: t)
                         }
                     }
                     

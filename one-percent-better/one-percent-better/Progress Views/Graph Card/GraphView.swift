@@ -72,7 +72,7 @@ struct GraphView_Previews: PreviewProvider {
         let habits = Habit.habitList(from: context)
         let habit = habits.first!
         let graphTracker = habit.trackers.firstObject as! GraphTracker
-        let graphData = GraphData(graphTracker: graphTracker)
+        let graphData = GraphData(tracker: graphTracker)
         return graphData
     }
     

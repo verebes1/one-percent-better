@@ -70,7 +70,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
     
     func configure(graphData: GraphData) {
         self.graphData = graphData
-        if let _ = graphData.graphTracker as? ImprovementTracker {
+        if let _ = graphData.tracker as? ImprovementTracker {
             self.useDots = false
             self.graphColor = .systemGreen
             self.roundValue = false
@@ -445,7 +445,12 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         attrString.draw(in: stringRect)
         
         // value in top right corner
-        var value = graphData.graphTracker.getValue(date: xArr[closestIndex])!
+        var value: String = ""
+        if let t = graphData.tracker as? GraphTracker {
+            value = t.getValue(date: xArr[closestIndex])!
+        } else if let t = graphData.tracker as? TimeTracker {
+            value = String(t.getValue(on: xArr[closestIndex])!)
+        }
 //        var value = String(format:"%.0f", yArr[closestIndex])
 //        if yArr[closestIndex].hasDecimals() {
 //            value = String(format:"%.1f", yArr[closestIndex])

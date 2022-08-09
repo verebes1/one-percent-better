@@ -9,7 +9,7 @@ import Foundation
 
 class GraphData {
     
-    var graphTracker: GraphTracker
+    var tracker: Tracker
     
     var startDate: Date!
     var endDate: Date!
@@ -30,15 +30,23 @@ class GraphData {
     var afterDate: Date?
     var afterValue: Double?
     
-    init(graphTracker: GraphTracker) {
-        self.graphTracker = graphTracker
-        self.allDates = graphTracker.dates
+    init(tracker: Tracker) {
+        
+        self.tracker = tracker
+        self.allDates = []
         self.allValues = []
-        for value in graphTracker.values {
-            guard let d = Double(value) else {
-                fatalError("Can't convert to doubles for graph")
+        
+        if let t = tracker as? GraphTracker {
+            self.allDates = t.dates
+            for value in t.values {
+                guard let d = Double(value) else {
+                    fatalError("Can't convert to doubles for graph")
+                }
+                self.allValues.append(d)
             }
-            self.allValues.append(d)
+        } else if let t = tracker as? TimeTracker {
+            self.allDates = t.dates
+            self.allValues = t.values.map { Double($0) }
         }
     }
     

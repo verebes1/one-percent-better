@@ -35,7 +35,7 @@ struct GraphCardView: View {
         }
     }
     
-    var tracker: GraphTracker
+    var tracker: Tracker
     var color: Color = .blue
     @State var selectedValue: String = ""
     @State var selectedButton: TimeButtons = .oneWeek
@@ -45,11 +45,18 @@ struct GraphCardView: View {
         CardView {
             VStack(spacing: 0) {
                 
-                SimpleCardTitle(tracker.name) {
-                    Text(selectedValue)
+                if let _ = tracker as? GraphTracker {
+                    SimpleCardTitle(tracker.name) {
+                        Text(selectedValue)
+                    }
+                } else if let _ = tracker as? TimeTracker {
+                    SimpleCardTitle("Time") {
+                        let result = selectedValue == "" ? "" : selectedValue + " secs"
+                        Text(result)
+                    }
                 }
-                
-                GraphView(graphData: GraphData(graphTracker: tracker),
+        
+                GraphView(graphData: GraphData(tracker: tracker),
                           numDays: selectedButton.numDays(),
                           selectedValue: $selectedValue)
                 
