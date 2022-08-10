@@ -75,6 +75,7 @@
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
 		80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */; };
 		803E1B8428A1B29F0010540B /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8328A1B29F0010540B /* EditTracker.swift */; };
+		803E1B8828A34E930010540B /* HabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* HabitFrequency.swift */; };
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
@@ -184,6 +185,7 @@
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTouchesScrollView.swift; sourceTree = "<group>"; };
 		803E1B8328A1B29F0010540B /* EditTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
+		803E1B8728A34E930010540B /* HabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequency.swift; sourceTree = "<group>"; };
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -367,19 +369,20 @@
 				80385CD1285BEE5900CBDF71 /* RingView.swift */,
 				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
 				80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */,
+				80385CD2285BEE5900CBDF71 /* CreateNewHabit.swift */,
 				80385CC7285BEE5900CBDF71 /* PreviewData.swift */,
 				80385CC8285BEE5900CBDF71 /* BlurView.swift */,
 				80385CCC285BEE5900CBDF71 /* Background.swift */,
 				80385CCD285BEE5900CBDF71 /* ButtonViews.swift */,
 				80385CCE285BEE5900CBDF71 /* CustomTextField.swift */,
 				80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */,
-				80385CD2285BEE5900CBDF71 /* CreateNewHabit.swift */,
 				80385D7C285E630700CBDF71 /* CustomToolbarView.swift */,
 				8018589B2863C5FE003DE454 /* EditHabit.swift */,
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
 				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
 				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
 				8081A36528767F7A00D0CB1B /* RingShape.swift */,
+				803E1B8728A34E930010540B /* HabitFrequency.swift */,
 			);
 			path = "Habit Views";
 			sourceTree = "<group>";
@@ -848,6 +851,7 @@
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
+				803E1B8828A34E930010540B /* HabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
 				80385D20285BEE5900CBDF71 /* NumberTracker.swift in Sources */,
