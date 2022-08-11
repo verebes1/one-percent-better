@@ -10,7 +10,7 @@ import SwiftUI
 fileprivate enum Frequency: String {
     case daily = "Daily"
     case weekly = "Weekly"
-    case monthly = "Monthly"
+//    case monthly = "Monthly"
     
     var everyText: String {
         switch self {
@@ -18,8 +18,8 @@ fileprivate enum Frequency: String {
             return "day(s)"
         case .weekly:
             return "week(s)"
-        case .monthly:
-            return "month(s)"
+//        case .monthly:
+//            return "month(s)"
         }
     }
 }
@@ -45,16 +45,16 @@ struct HabitFrequency: View {
                         
                         Text(selectedFrequency.rawValue)
                         
-                        Menu("               ") {
+                        Menu("             ") {
                             Button("Daily") {
                                 selectedFrequency = .daily
                             }
                             Button("Weekly") {
                                 selectedFrequency = .weekly
                             }
-                            Button("Montly") {
-                                selectedFrequency = .monthly
-                            }
+//                            Button("Montly") {
+//                                selectedFrequency = .monthly
+//                            }
                         }
                         .foregroundColor(.blue)
                         .padding(10)
@@ -64,8 +64,15 @@ struct HabitFrequency: View {
                 }
                 
                 
+                switch selectedFrequency {
+                case .daily:
+                    EveryDaily()
+                case .weekly:
+                    WeeklyCards()
+//                case .monthly:
+//                    Text("Monthly")
+                }
                 
-                EveryWeekly(selectedFrequency: selectedFrequency)
                 
                 Spacer()
                 
@@ -80,13 +87,69 @@ struct HabitFrequency_Previews: PreviewProvider {
     }
 }
 
-struct EveryWeekly: View {
+struct EveryDaily: View {
     
-    fileprivate var selectedFrequency: Frequency
+    @State private var frequencyText = "1"
+    
+    var body: some View {
+        HStack {
+            ZStack {
+                RoundedRectangle(cornerRadius: 7)
+                    .foregroundColor(.systemGray5)
+                
+                TextField("", text: $frequencyText)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(width: 35, height: 25)
+            Text("time(s) per day")
+        }
+    }
+}
+
+struct WeeklyCards: View {
+    
+    @State private var selectedCard: Int = 0
+    
+    var body: some View {
+        VStack {
+            CardView {
+                EveryWeekly()
+            }
+            .border(selectedCard == 0 ? .blue : .clear)
+            .onTapGesture {
+                selectedCard = 0
+            }
+            
+            
+            CardView {
+                Text("Every 1 week(s) at anytime during that period")
+            }
+            .border(selectedCard == 1 ? .blue : .clear)
+            .onTapGesture {
+                selectedCard = 1
+            }
+        }
+    }
+}
+
+struct EveryWeekly: View {
     
     @State private var frequencyText = "1"
     
     let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
+    
+    @State private var selectedWeekdays: [Int] = [0]
+    
+    func updateSelection(_ i: Int) {
+        if selectedWeekdays.count == 1 && i == selectedWeekdays.first! {
+            return
+        }
+        if let index = selectedWeekdays.firstIndex(of: i) {
+            selectedWeekdays.remove(at: index)
+        } else {
+            selectedWeekdays.append(i)
+        }
+    }
     
     var body: some View {
         VStack {
@@ -100,22 +163,26 @@ struct EveryWeekly: View {
                         .multilineTextAlignment(.center)
                 }
                 .frame(width: 35, height: 25)
-                Text("\(selectedFrequency.everyText) on:")
+                Text("week(s) on:")
             }
             
             
-            HStack(spacing: 1) {
+            HStack(spacing: 3) {
                 ForEach(0 ..< 7) { i in
                     ZStack {
-                        Rectangle()
-                            .foregroundColor(.systemGray3)
+                        let isSelected = selectedWeekdays.contains(i)
+                        RoundedRectangle(cornerRadius: 3)
+                            .foregroundColor(isSelected ? .systemGray : .systemGray3)
                         
                         Text(weekdays[i])
                     }
                     .frame(height: 30)
+                    .onTapGesture {
+                        updateSelection(i)
+                    }
                 }
             }
-            .padding(.horizontal, 15)
+            .padding(.horizontal, 25)
         }
     }
 }

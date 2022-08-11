@@ -8,112 +8,11 @@
 import SwiftUI
 import CoreData
 
-//class HabitsHeaderViewModel: ObservableObject {
-//
-//    private var habits: [Habit]
-//
-//    init(habits: [Habit]) {
-//        self.habits = habits
-//    }
-//
-//    /// Date of the earliest start date for all habits
-//    var earliestStartDate: Date {
-//        var earliest = Date()
-//        for habit in habits {
-//            if habit.startDate < earliest {
-//                earliest = habit.startDate
-//            }
-//        }
-//        return earliest
-//    }
-//
-//    /// Number of weeks (each row is a week) between today and the earliest completed habit
-//    var numWeeksSinceEarliest: Int {
-//        let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
-//        let diff = numDays - thisWeekDayOffset(Date()) + 6
-//        let weeks = diff / 7
-//        return weeks + 1
-//    }
-//
-//    /// The number of days to offset from today to get to the selected day
-//    /// - Parameters:
-//    ///   - week: Selected week, (numWeeksSinceEarliest - 1) == current week, 0 == earliest week
-//    ///   - day: Selected day,  [0,1,2,3,4,5,6]
-//    /// - Returns: Integer offset, yesterday is -1, today is 0, tomorrow is 1, etc.
-//    func dayOffset(week: Int, day: Int) -> Int {
-//        let numDaysBack = day - thisWeekDayOffset(Date())
-//        let numWeeksBack = week - (numWeeksSinceEarliest - 1)
-//        if numWeeksBack == 0 {
-//            return numDaysBack
-//        } else {
-//            return (numWeeksBack * 7) + numDaysBack
-//        }
-//    }
-//
-//    func dayOffsetToToday(from date: Date) -> Int {
-//        let result = -(Calendar.current.numberOfDaysBetween(date, and: Date()) - 1)
-//        return result
-//    }
-//
-//    func getSelectedWeek(for day: Date) -> Int {
-//        let weekDayOffset = thisWeekDayOffset(day)
-//        let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
-//        let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
-//        let result = numWeeksSinceEarliest - 1 - weekNum
-//        return result
-//    }
-//
-//    func dayOffsetFromEarliest(week: Int, day: Int) -> Int {
-//        let numDaysBack = day - thisWeekDayOffset(earliestStartDate)
-//        let numWeeksBack = week
-//        if numWeeksBack == 0 {
-//            return numDaysBack
-//        } else {
-//            return (numWeeksBack * 7) + numDaysBack
-//        }
-//    }
-//
-//    func date(week: Int, day: Int) -> Date {
-//        return Calendar.current.date(byAdding: .day, value: dayOffset(week: week, day: day), to: Date())!
-//    }
-//
-//    func percent(week: Int, day: Int) -> Double {
-//        let day = date(week: week, day: day)
-//        var numCompleted: Double = 0
-//        var total: Double = 0
-//        for habit in habits {
-//            if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day) {
-//                total += 1
-//            }
-//        }
-//        guard total > 0 else { return 0 }
-//
-//        for habit in habits {
-//            if habit.wasCompleted(on: day) {
-//                numCompleted += 1
-//            }
-//
-//        }
-//        return numCompleted / total
-//    }
-//}
-
-//fileprivate func thisWeekDayOffset(_ date: Date) -> Int {
-//    return Calendar.current.component(.weekday, from: date) - 1
-//}
-
 struct HabitsHeaderView: View {
     
     @Environment(\.managedObjectContext) var moc
-//    @ObservedObject var vm: HabitsHeaderViewModel
     @EnvironmentObject var vm: HabitListViewModel
-//    @Binding var currentDay: Date
     var color: Color = .systemTeal
-    
-//    init(vm: HabitsHeaderViewModel, currentDay: Binding<Date>) {
-//        self.vm = vm
-//        self._currentDay = currentDay
-//    }
     
     var body: some View {
         VStack(spacing: 0) {
