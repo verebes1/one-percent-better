@@ -110,24 +110,22 @@ struct WeeklyCards: View {
     
     @State private var selectedCard: Int = 0
     
+    @State private var specificDaysSelected = true
+    
     var body: some View {
         VStack {
-            CardView {
+            SelectableCard(selection: $specificDaysSelected) {
                 EveryWeekly()
-            }
-            .border(selectedCard == 0 ? .blue : .clear)
-            .onTapGesture {
-                selectedCard = 0
             }
             
             
             CardView {
                 Text("Every 1 week(s) at anytime during that period")
             }
-            .border(selectedCard == 1 ? .blue : .clear)
-            .onTapGesture {
-                selectedCard = 1
-            }
+//            .border(selectedCard == 1 ? .blue : .clear)
+//            .onTapGesture {
+//                selectedCard = 1
+//            }
         }
     }
 }
