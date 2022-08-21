@@ -36,7 +36,7 @@ struct EditHabit: View {
     
     var habit: Habit
     
-    @Binding var showing: Bool
+    @Binding var show: Bool
     @State private var newHabitName: String
     
     /// Show empty habit name error if trying to save with empty habit name
@@ -50,9 +50,27 @@ struct EditHabit: View {
     
     init(habit: Habit, show: Binding<Bool>) {
         self.habit = habit
-        self._showing = show
+        self._show = show
         self._newHabitName = State(initialValue: habit.name)
         self.vm = EditHabitViewModel(habit: habit)
+    }
+    
+    func delete() {
+        
+        // Remove the item to be deleted
+        moc.delete(habit)
+        
+        // Get habits
+        let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
+        let habitController = Habit.resultsController(context: moc, sortDescriptors: sortDescriptors)
+        let habits = habitController.fetchedObjects ?? []
+
+        for reverseIndex in stride(from: habits.count - 1,
+                                   through: 0,
+                                   by: -1) {
+            habits[reverseIndex].orderIndex = Int(reverseIndex)
+        }
+        moc.fatalSave()
     }
     
     /// Check if the user can save or needs to make changes
@@ -106,6 +124,21 @@ struct EditHabit: View {
                             }
                         }
                     }
+                    
+                    Section {
+                        Button {
+                            delete()
+                            show = false
+                        } label: {
+                            HStack {
+                                Text("Delete Habit")
+                                    .foregroundColor(.red)
+                                Spacer()
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
+                            }
+                        }
+                    }
                 }
                 .listStyle(.insetGrouped)
             }
@@ -116,19 +149,16 @@ struct EditHabit: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
-                        
                         do {
                             if try canSave() {
                                 saveProperties()
-                                showing = false
+                                show = false
                             }
                         } catch EditHabitError.emptyHabitName {
                             emptyHabitNameError = true
                         } catch {
                             fatalError("Unknown error in EditHabit")
                         }
-                        
-                        self.presentationMode.wrappedValue.dismiss()
                     }) {
                         HStack {
                             Image(systemName: "chevron.left")

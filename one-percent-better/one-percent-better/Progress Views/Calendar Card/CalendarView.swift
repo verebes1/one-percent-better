@@ -24,7 +24,6 @@ struct CalendarView: View {
 
     var body: some View {
         
-        
         let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
         let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
     

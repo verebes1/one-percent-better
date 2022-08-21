@@ -37,7 +37,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         selectedWeekDay = thisWeekDayOffset(currentDay)
         selectedWeek = getSelectedWeek(for: currentDay)
         
-//        navLinkActivate = Array(repeating: false, count: habits.count)
         habits.forEach { habit in
             navLinkActivate[habit] = false
         }
@@ -49,6 +48,10 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     
     var habits: [Habit] {
         return habitController.fetchedObjects ?? []
+    }
+    
+    func trackers(for habit: Habit) -> [Tracker] {
+        habit.trackers.map { $0 as! Tracker }
     }
     
     func move(from source: IndexSet, to destination: Int) {
@@ -221,8 +224,9 @@ struct HabitListView: View {
                                 let habitRowVM = HabitRowViewModel(habit: habit,
                                                                    currentDay:
                                                                     vm.currentDay)
-                                let progressVM = ProgressViewModel(habit: habit)
-                                let dest = ProgressView(vm: progressVM).environmentObject(habit)
+                                let dest = ProgressView(habit: habit)
+//                                    .environmentObject(habit)
+//                                    .environmentObject(vm)
                                 NavigationLink(isActive: vm.navLinkBinding(for: habit), destination: {
                                     dest
                                 }) {

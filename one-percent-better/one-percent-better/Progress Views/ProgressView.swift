@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 class ProgressViewModel: ObservableObject {
-    
-    var habit: Habit
-    var trackers: [Tracker]
-    
+
+    @Published var habit: Habit
+    @Published var trackers: [Tracker]
+
     init(habit: Habit) {
         self.habit = habit
         self.trackers = habit.trackers.map { $0 as! Tracker }
@@ -21,18 +21,14 @@ class ProgressViewModel: ObservableObject {
 
 struct ProgressView: View {
     
-    var vm: ProgressViewModel
+    @ObservedObject var vm: ProgressViewModel
     
-    @State var progressPresenting: Bool = false
-    @State var progressPresenting2: Bool = false
+    @State private var progressActive: Bool = false
     
-    @State private var editHabitPresenting = false
+    @State private var editHabitActive = false
     
-    @State var selectedValues: [String]
-    
-    init(vm: ProgressViewModel) {
-        self.vm = vm
-        self._selectedValues = State(initialValue: Array(repeating: "", count: vm.trackers.count))
+    init(habit: Habit) {
+        self.vm = ProgressViewModel(habit: habit)
     }
     
     var body: some View {
@@ -51,13 +47,15 @@ struct ProgressView: View {
                             let vm = ImageCardViewModel(imageTracker: t)
                             ImageCardView(vm: vm)
                         } else if let t = tracker as? TimeTracker {
-                            Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
+                            CardView {
+                                Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
+                            }
                         }
                     }
                     
-                    let dest = CreateNewTracker(habit: vm.habit, progressPresenting: $progressPresenting)
+                    let dest = CreateNewTracker(habit: vm.habit, progressPresenting: $progressActive)
                     NavigationLink(destination: dest,
-                                   isActive: $progressPresenting) {
+                                   isActive: $progressActive) {
                         Label("New Tracker", systemImage: "plus.circle")
                     }
                                    .isDetailLink(false)
@@ -71,10 +69,10 @@ struct ProgressView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                let dest = EditHabit(habit: vm.habit, show: $editHabitPresenting)
+                let dest = EditHabit(habit: vm.habit, show: $editHabitActive)
                 NavigationLink(
                     destination: dest,
-                    isActive: $editHabitPresenting) {
+                    isActive: $editHabitActive) {
                         Text("Edit")
                     }
                     .isDetailLink(false)
@@ -113,14 +111,10 @@ struct ProgressView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        
         let habit = progressData()
-        
-        let vm = ProgressViewModel(habit: habit)
         return(
             NavigationView {
-                ProgressView(vm: vm)
-                    .environmentObject(habit)
+                ProgressView(habit: habit)
             }
         )
     }

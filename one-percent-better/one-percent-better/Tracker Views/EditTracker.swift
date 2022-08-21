@@ -14,13 +14,21 @@ struct EditTracker: View {
     var habit: Habit
     var tracker: Tracker
     
-    @State private var trackerName: String
+    @State private var newTrackerName: String
+    
     @Binding var show: Bool
+    
+    /// Show empty habit name error if trying to save with empty habit name
+    @State private var emptyTrackerNameError = false
+    
+    enum EditTrackerError: Error {
+        case emptyTrackerName
+    }
     
     init(habit: Habit, tracker: Tracker, show: Binding<Bool>) {
         self.habit = habit
         self.tracker = tracker
-        self._trackerName = State(initialValue: tracker.name)
+        self._newTrackerName = State(initialValue: tracker.name)
         self._show = show
     }
     
@@ -45,17 +53,38 @@ struct EditTracker: View {
         moc.fatalSave()
     }
     
+    /// Check if the user can save or needs to make changes
+    /// - Returns: True if can save, false if changes needed
+    func canSave() throws -> Bool {
+        if newTrackerName.isEmpty || newTrackerName == "" {
+            throw EditTrackerError.emptyTrackerName
+        }
+        return true
+    }
+    
+    func saveProperties() {
+        tracker.name = newTrackerName
+        moc.fatalSave()
+    }
+    
     var body: some View {
         Background {
             VStack {
                 List {
                     Section {
-                        HStack {
-                            Text("Name")
-                                .fontWeight(.medium)
-                            TextField("", text: $trackerName)
-                                .multilineTextAlignment(.trailing)
-                                .frame(height: 30)
+                        VStack{
+                            HStack {
+                                Text("Name")
+                                    .fontWeight(.medium)
+                                TextField("", text: $newTrackerName)
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(height: 30)
+                            }
+                            if emptyTrackerNameError {
+                                Label("Tracker name can't be empty", systemImage: "exclamationmark.triangle")
+                                    .foregroundColor(.red)
+                                    .animation(.easeInOut, value: emptyTrackerNameError)
+                            }
                         }
                     }
                     
@@ -75,6 +104,28 @@ struct EditTracker: View {
                     }
                 }
                 .listStyle(.insetGrouped)
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    do {
+                        if try canSave() {
+                            saveProperties()
+                            show = false
+                        }
+                    } catch EditTrackerError.emptyTrackerName {
+                        emptyTrackerNameError = true
+                    } catch {
+                        fatalError("Unknown error in EditTracker")
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Back")
+                    }
+                }
             }
         }
 //        .overlay(
