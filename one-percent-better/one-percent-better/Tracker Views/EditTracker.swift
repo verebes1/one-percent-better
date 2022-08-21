@@ -9,13 +9,40 @@ import SwiftUI
 
 struct EditTracker: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
+    var habit: Habit
     var tracker: Tracker
     
     @State private var trackerName: String
+    @Binding var show: Bool
     
-    init(tracker: Tracker) {
+    init(habit: Habit, tracker: Tracker, show: Binding<Bool>) {
+        self.habit = habit
         self.tracker = tracker
         self._trackerName = State(initialValue: tracker.name)
+        self._show = show
+    }
+    
+    func delete() {
+        // Make an array from fetched results
+        var revisedItems: [Tracker] = habit.trackers.map { $0 as! Tracker }
+
+        for (i, t) in revisedItems.enumerated() {
+            if tracker == t {
+                revisedItems.remove(at: i)
+            }
+        }
+        
+        // Remove the item to be deleted
+        moc.delete(tracker)
+
+        for reverseIndex in stride(from: revisedItems.count - 1,
+                                   through: 0,
+                                   by: -1) {
+            revisedItems[reverseIndex].index = Int(reverseIndex)
+        }
+        moc.fatalSave()
     }
     
     var body: some View {
@@ -28,17 +55,17 @@ struct EditTracker: View {
                                 .fontWeight(.medium)
                             TextField("", text: $trackerName)
                                 .multilineTextAlignment(.trailing)
-                                .keyboardType(.decimalPad)
                                 .frame(height: 30)
                         }
                     }
                     
                     Section {
                         Button {
-                            print("Delete tracker")
+                            delete()
+                            show = false
                         } label: {
                             HStack {
-                                Text("Delete")
+                                Text("Delete Tracker")
                                     .foregroundColor(.red)
                                 Spacer()
                                 Image(systemName: "trash")
@@ -47,15 +74,29 @@ struct EditTracker: View {
                         }
                     }
                 }
-                
+                .listStyle(.insetGrouped)
             }
         }
+//        .overlay(
+//            ZStack {
+//                RoundedRectangle(cornerRadius: 10)
+//                    .foregroundColor(.cardColor)
+//                    .padding(.horizontal, 15)
+//
+//                Text("Are you sure you want to delete \(tracker.name)?")
+//
+//                HStack {
+//
+//                }
+//            }
+//            .frame(height: 100)
+//        )
     }
 }
 
 struct EditTracker_Previews: PreviewProvider {
     
-    static func data() -> NumberTracker {
+    static func data() -> (Habit, NumberTracker) {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         
         let day0 = Date()
@@ -73,11 +114,13 @@ struct EditTracker_Previews: PreviewProvider {
         }
         
         let habits = Habit.habitList(from: context)
-        return habits.first!.trackers.firstObject as! NumberTracker
+        return (habits.first!, habits.first!.trackers.firstObject as! NumberTracker)
     }
     
     static var previews: some View {
         let t = data()
-        EditTracker(tracker: t)
+        NavigationView {
+            EditTracker(habit: t.0, tracker: t.1, show: .constant(true))
+        }
     }
 }

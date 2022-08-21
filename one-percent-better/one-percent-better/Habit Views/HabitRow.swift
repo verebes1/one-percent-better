@@ -142,8 +142,7 @@ struct HabitRow: View {
                 
                 Text(vm.habit.name)
                     .font(.system(size: 16))
-                    .fontWeight(vm.isTimerRunning ? .medium : .regular)
-//                    .foregroundColor(vm.isTimerRunning ? .green : .black)
+                    .fontWeight(vm.isTimerRunning ? .bold : .regular)
                 
                 HStack(spacing: 0) {
                     if vm.hasTimeTracker && vm.hasTimerStarted {
@@ -161,9 +160,11 @@ struct HabitRow: View {
                 }
             }
             
-            
             Spacer()
+            
+//            ListChevron()
         }
+        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.2) : Color.white)
     }
 }
 
@@ -177,11 +178,8 @@ struct HabitRowPreviewer: View {
                 List {
                     ForEach(vm.habits, id:\.name) { habit in
                         let vm = HabitRowViewModel(habit: habit, currentDay: Date())
-                        NavigationLink(destination: EmptyView()) {
-                            HabitRow(vm: vm)
-                                .environmentObject(habit)
-                        }
-                        .isDetailLink(false)
+                        HabitRow(vm: vm)
+                            .environmentObject(habit)
                     }
                 }
                 .environment(\.defaultMinListRowHeight, 54)
@@ -215,5 +213,16 @@ struct HabitRow_Previews: PreviewProvider {
         let _ = data()
         let moc = CoreDataManager.previews.persistentContainer.viewContext
         HabitRowPreviewer(vm: HabitListViewModel(moc))
+    }
+}
+
+struct ListChevron: View {
+    var body: some View {
+        Image(systemName: "chevron.right")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: 12)
+            .foregroundColor(.gray)
+            .padding(.trailing, 5)
     }
 }

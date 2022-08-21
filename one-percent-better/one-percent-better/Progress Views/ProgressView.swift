@@ -13,10 +13,9 @@ class ProgressViewModel: ObservableObject {
     var habit: Habit
     var trackers: [Tracker]
     
-    
     init(habit: Habit) {
         self.habit = habit
-        self.trackers = habit.trackers.map{ $0 as! Tracker }
+        self.trackers = habit.trackers.map { $0 as! Tracker }
     }
 }
 
@@ -26,6 +25,9 @@ struct ProgressView: View {
     
     @State var progressPresenting: Bool = false
     @State var progressPresenting2: Bool = false
+    
+    @State private var editHabitPresenting = false
+    
     @State var selectedValues: [String]
     
     init(vm: ProgressViewModel) {
@@ -53,7 +55,8 @@ struct ProgressView: View {
                         }
                     }
                     
-                    NavigationLink(destination: CreateNewTracker(habit: vm.habit, progressPresenting: $progressPresenting),
+                    let dest = CreateNewTracker(habit: vm.habit, progressPresenting: $progressPresenting)
+                    NavigationLink(destination: dest,
                                    isActive: $progressPresenting) {
                         Label("New Tracker", systemImage: "plus.circle")
                     }
@@ -68,11 +71,13 @@ struct ProgressView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
+                let dest = EditHabit(habit: vm.habit, show: $editHabitPresenting)
                 NavigationLink(
-                    destination: EditHabit(habit: vm.habit, rootPresenting: $progressPresenting2),
-                    isActive: $progressPresenting2) {
+                    destination: dest,
+                    isActive: $editHabitPresenting) {
                         Text("Edit")
                     }
+                    .isDetailLink(false)
             }
         }
     }

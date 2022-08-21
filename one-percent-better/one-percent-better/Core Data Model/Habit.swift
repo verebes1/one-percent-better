@@ -34,7 +34,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     public var id: UUID = UUID()
     
     /// The name of the habit
-    @NSManaged private(set) var name: String
+    @NSManaged public var name: String
     
     /// The index of the habit in the table (to keep track of order)
     @NSManaged public var orderIndex: Int
@@ -115,11 +115,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     convenience init(context: NSManagedObjectContext, name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
         let habits = Habit.habitList(from: context)
-        for habit in habits {
-            if habit.name == name {
-                throw HabitCreationError.duplicateName
-            }
-        }
+//        for habit in habits {
+//            if habit.name == name {
+//                throw HabitCreationError.duplicateName
+//            }
+//        }
         self.init(context: context)
         self.myContext = context
         self.name = name
