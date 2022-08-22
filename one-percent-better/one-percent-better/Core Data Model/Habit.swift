@@ -56,6 +56,12 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     /// The time when the notification should be sent
     @NSManaged public var notificationTime: Date?
     
+    /// How frequently the user wants to complete the habit (daily, weekly, monthly)
+    @NSManaged public var frequency: HabitFrequency
+    
+    /// If frequency is daily, how many times per day
+    @NSManaged public var timesPerDay: Int16
+    
     // MARK: - Properties
     
     /// The longest streak the user has completed for this habit

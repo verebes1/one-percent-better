@@ -1,34 +1,24 @@
 //
-//  HabitFrequency.swift
+//  ChooseHabitFrequency.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 8/9/22.
 //
 
 import SwiftUI
+import Introspect
 
-fileprivate enum Frequency: String {
-    case daily = "Daily"
-    case weekly = "Weekly"
-//    case monthly = "Monthly"
-    
-    var everyText: String {
-        switch self {
-        case .daily:
-            return "day(s)"
-        case .weekly:
-            return "week(s)"
-//        case .monthly:
-//            return "month(s)"
-        }
-    }
+@objc public enum HabitFrequency: Int16 {
+    case daily = 0
+    case weekly = 1
+//    case monthly = 2
 }
 
-struct HabitFrequency: View {
+struct ChooseHabitFrequency: View {
     
     @State private var showFrequencyMenu = false
     
-    @State private var selectedFrequency: Frequency = .daily
+    @State private var selectedFrequency: HabitFrequency = .daily
     
     var body: some View {
         Background {
@@ -37,31 +27,13 @@ struct HabitFrequency: View {
                                     title: "Frequency",
                 subtitle: "How often do you want to complete this habit?")
                 
-                
-                HStack {
-                    Text("Frequency:")
-                    
-                    ZStack {
-                        
-                        Text(selectedFrequency.rawValue)
-                        
-                        Menu("             ") {
-                            Button("Daily") {
-                                selectedFrequency = .daily
-                            }
-                            Button("Weekly") {
-                                selectedFrequency = .weekly
-                            }
-//                            Button("Montly") {
-//                                selectedFrequency = .monthly
-//                            }
-                        }
-                        .foregroundColor(.blue)
-                        .padding(10)
-                        .background(.cyan.opacity(0.3))
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    }
+                Picker(selection: $selectedFrequency, label: Text("Frequency")) {
+                    Text("Daily").tag(HabitFrequency.daily)
+                    Text("Weekly").tag(HabitFrequency.weekly)
+//                    Text("Monthly").tag(Frequency.monthly)
                 }
+                .pickerStyle(.segmented)
+                .padding(10)
                 
                 
                 switch selectedFrequency {
@@ -83,7 +55,7 @@ struct HabitFrequency: View {
 
 struct HabitFrequency_Previews: PreviewProvider {
     static var previews: some View {
-        HabitFrequency()
+        ChooseHabitFrequency()
     }
 }
 
@@ -92,16 +64,19 @@ struct EveryDaily: View {
     @State private var frequencyText = "1"
     
     var body: some View {
-        HStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 7)
-                    .foregroundColor(.systemGray5)
-                
-                TextField("", text: $frequencyText)
-                    .multilineTextAlignment(.center)
+        CardView {
+            HStack {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 7)
+                        .foregroundColor(.systemGray5)
+                    
+                    TextField("", text: $frequencyText)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(width: 35, height: 25)
+                Text("time(s) per day")
             }
-            .frame(width: 35, height: 25)
-            Text("time(s) per day")
+            .padding()
         }
     }
 }
@@ -114,14 +89,20 @@ struct WeeklyCards: View {
     
     var body: some View {
         VStack {
-            SelectableCard(selection: $specificDaysSelected) {
-                EveryWeekly()
-            }
-            
+//            SelectableCard(selection: $specificDaysSelected) {
+//                EveryWeekly()
+//            }
+//            .frame(height: 90)
             
             CardView {
-                Text("Every 1 week(s) at anytime during that period")
+                EveryWeekly()
+                    .padding()
             }
+            
+            
+//            CardView {
+//                Text("Every 1 week(s) at anytime during that period")
+//            }
 //            .border(selectedCard == 1 ? .blue : .clear)
 //            .onTapGesture {
 //                selectedCard = 1
@@ -152,16 +133,16 @@ struct EveryWeekly: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Every")
-                ZStack {
-                    RoundedRectangle(cornerRadius: 7)
-                        .foregroundColor(.systemGray5)
-                    
-                    TextField("", text: $frequencyText)
-                        .multilineTextAlignment(.center)
-                }
-                .frame(width: 35, height: 25)
-                Text("week(s) on:")
+                Text("Every week on")
+//                ZStack {
+//                    RoundedRectangle(cornerRadius: 7)
+//                        .foregroundColor(.systemGray5)
+//
+//                    TextField("", text: $frequencyText)
+//                        .multilineTextAlignment(.center)
+//                }
+//                .frame(width: 35, height: 25)
+//                Text("week(s) on:")
             }
             
             

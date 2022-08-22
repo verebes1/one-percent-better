@@ -26,6 +26,7 @@ struct HabitCreationHeader: View {
                 .fontWeight(.bold)
             
             if let subtitle = subtitle {
+                Spacer().frame(height: 10)
                 Text(subtitle)
                     .multilineTextAlignment(.center)
             }
