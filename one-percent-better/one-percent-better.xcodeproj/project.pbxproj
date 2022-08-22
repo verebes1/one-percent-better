@@ -453,7 +453,6 @@
 		80385CEF285BEE5900CBDF71 /* Calendar Card */ = {
 			isa = PBXGroup;
 			children = (
-				80385CF0285BEE5900CBDF71 /* CalendarScrollView.swift */,
 				80385CF1285BEE5900CBDF71 /* CalendarSpacingView.swift */,
 				80385CF2285BEE5900CBDF71 /* CalenderModel.swift */,
 				80385CF4285BEE5900CBDF71 /* CalendarView.swift */,
@@ -526,6 +525,7 @@
 		8059AE7D288B4EB400846D27 /* Old Code */ = {
 			isa = PBXGroup;
 			children = (
+				80385CF0285BEE5900CBDF71 /* CalendarScrollView.swift */,
 				8081A3632874E72900D0CB1B /* GradientTest.swift */,
 				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
 				8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */,
@@ -1021,7 +1021,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"one-percent-better/Preview Content\"";
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				ENABLE_PREVIEWS = YES;
@@ -1052,7 +1052,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"one-percent-better/Preview Content\"";
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				ENABLE_PREVIEWS = YES;
