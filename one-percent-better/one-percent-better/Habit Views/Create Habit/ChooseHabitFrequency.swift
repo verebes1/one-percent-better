@@ -52,7 +52,7 @@ struct ChooseHabitFrequency: View {
                 
                 BottomButton(label: "Finish")
                     .onTapGesture {
-                        <#code#>
+                        print("test")
                     }
             }
         }
