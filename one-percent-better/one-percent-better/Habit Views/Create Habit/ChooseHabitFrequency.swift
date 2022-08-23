@@ -16,6 +16,8 @@ import Introspect
 
 struct ChooseHabitFrequency: View {
     
+    @Binding var rootPresenting: Bool
+    
     @State private var showFrequencyMenu = false
     
     @State private var selectedFrequency: HabitFrequency = .daily
@@ -48,6 +50,10 @@ struct ChooseHabitFrequency: View {
                 
                 Spacer()
                 
+                BottomButton(label: "Finish")
+                    .onTapGesture {
+                        <#code#>
+                    }
             }
         }
     }
@@ -55,7 +61,7 @@ struct ChooseHabitFrequency: View {
 
 struct HabitFrequency_Previews: PreviewProvider {
     static var previews: some View {
-        ChooseHabitFrequency()
+        ChooseHabitFrequency(rootPresenting: .constant(false))
     }
 }
 

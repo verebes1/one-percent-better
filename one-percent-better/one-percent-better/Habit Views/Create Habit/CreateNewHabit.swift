@@ -54,7 +54,7 @@ struct CreateNewHabit: View {
                     }
                     .background(
                         NavigationLink(isActive: $nextView) {
-                            ChooseHabitFrequency()
+                            ChooseHabitFrequency(rootPresenting: $rootPresenting)
                         } label: {
                             EmptyView()
                         }
