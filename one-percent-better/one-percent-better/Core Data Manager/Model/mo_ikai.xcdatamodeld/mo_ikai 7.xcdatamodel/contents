@@ -12,6 +12,8 @@
     </entity>
     <entity name="Habit" representedClassName="Habit" syncable="YES">
         <attribute name="daysCompleted" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
+        <attribute name="daysPerWeek" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
+        <attribute name="fractionCompleted" optional="YES" attributeType="Transformable" customClassName="[Double]"/>
         <attribute name="frequency" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="notificationTime" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Date"/>
@@ -44,7 +46,7 @@
     <elements>
         <element name="FeatureLog" positionX="-11286" positionY="108" width="128" height="89"/>
         <element name="GraphTracker" positionX="-11373.99353027344" positionY="235.9210510253906" width="128" height="73"/>
-        <element name="Habit" positionX="-11177.68896484374" positionY="-76.03642272949219" width="122.3037109374945" height="149"/>
+        <element name="Habit" positionX="-11177.68896484374" positionY="-76.03642272949219" width="122.3037109374945" height="179"/>
         <element name="ImageTracker" positionX="-11144.95104980468" positionY="286.9313354492188" width="128" height="59"/>
         <element name="ImprovementTracker" positionX="-11295.22332763672" positionY="371.0966186523438" width="128" height="43"/>
         <element name="NumberTracker" positionX="-11520.9398803711" positionY="382.5994415283204" width="128" height="43"/>

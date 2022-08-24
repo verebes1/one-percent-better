@@ -10,7 +10,6 @@ import Introspect
 
 struct CreateNewHabit: View {
     
-    @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
     @Binding var rootPresenting: Bool
@@ -54,7 +53,7 @@ struct CreateNewHabit: View {
                     }
                     .background(
                         NavigationLink(isActive: $nextView) {
-                            ChooseHabitFrequency(rootPresenting: $rootPresenting)
+                            ChooseHabitFrequency(habitName: habitName, rootPresenting: $rootPresenting)
                         } label: {
                             EmptyView()
                         }

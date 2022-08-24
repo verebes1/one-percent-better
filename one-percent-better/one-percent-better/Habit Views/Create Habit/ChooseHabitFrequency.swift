@@ -16,11 +16,31 @@ import Introspect
 
 struct ChooseHabitFrequency: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
+    var habitName: String
+    
     @Binding var rootPresenting: Bool
     
-    @State private var showFrequencyMenu = false
-    
     @State private var selectedFrequency: HabitFrequency = .daily
+    
+    @State private var dailyFrequencyText = "1"
+    @State private var timesPerDay: Int = 1
+    
+    @State private var daysPerWeek: [Int] = [0]
+    
+    func isValid() -> Bool {
+        switch selectedFrequency {
+        case .daily:
+            if let timesPerDay = Int(dailyFrequencyText) {
+                self.timesPerDay = timesPerDay
+                return true
+            }
+        case .weekly:
+            return true
+        }
+        return false
+    }
     
     var body: some View {
         Background {
@@ -40,9 +60,10 @@ struct ChooseHabitFrequency: View {
                 
                 switch selectedFrequency {
                 case .daily:
-                    EveryDaily()
+                    EveryDaily(frequencyText: $dailyFrequencyText)
                 case .weekly:
-                    WeeklyCards()
+                    EveryWeekly(selectedWeekdays: $daysPerWeek)
+//                    WeeklyCards()
 //                case .monthly:
 //                    Text("Monthly")
                 }
@@ -52,7 +73,14 @@ struct ChooseHabitFrequency: View {
                 
                 BottomButton(label: "Finish")
                     .onTapGesture {
-                        print("test")
+                        if isValid() {
+                            let _ = try? Habit(context: moc,
+                                               name: habitName,
+                                               noNameDupe: false,
+                                               timesPerDay: timesPerDay,
+                                               daysPerWeek: daysPerWeek)
+                            rootPresenting = false
+                        }
                     }
             }
         }
@@ -61,13 +89,13 @@ struct ChooseHabitFrequency: View {
 
 struct HabitFrequency_Previews: PreviewProvider {
     static var previews: some View {
-        ChooseHabitFrequency(rootPresenting: .constant(false))
+        ChooseHabitFrequency(habitName: "Horseback Riding", rootPresenting: .constant(false))
     }
 }
 
 struct EveryDaily: View {
     
-    @State private var frequencyText = "1"
+    @Binding var frequencyText: String
     
     var body: some View {
         CardView {
@@ -77,6 +105,7 @@ struct EveryDaily: View {
                         .foregroundColor(.systemGray5)
                     
                     TextField("", text: $frequencyText)
+                        .keyboardType(.numberPad)
                         .multilineTextAlignment(.center)
                 }
                 .frame(width: 35, height: 25)
@@ -100,10 +129,10 @@ struct WeeklyCards: View {
 //            }
 //            .frame(height: 90)
             
-            CardView {
-                EveryWeekly()
-                    .padding()
-            }
+//            CardView {
+//                EveryWeekly()
+//                    .padding()
+//            }
             
             
 //            CardView {
@@ -123,10 +152,10 @@ struct EveryWeekly: View {
     
     let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
     
-    @State private var selectedWeekdays: [Int] = [0]
+    @Binding var selectedWeekdays: [Int]
     
     func updateSelection(_ i: Int) {
-        if selectedWeekdays.count == 1 && i == selectedWeekdays.first! {
+        if selectedWeekdays.count == 1 && i == selectedWeekdays[0] {
             return
         }
         if let index = selectedWeekdays.firstIndex(of: i) {
@@ -137,37 +166,39 @@ struct EveryWeekly: View {
     }
     
     var body: some View {
-        VStack {
-            HStack {
-                Text("Every week on")
-//                ZStack {
-//                    RoundedRectangle(cornerRadius: 7)
-//                        .foregroundColor(.systemGray5)
-//
-//                    TextField("", text: $frequencyText)
-//                        .multilineTextAlignment(.center)
-//                }
-//                .frame(width: 35, height: 25)
-//                Text("week(s) on:")
-            }
-            
-            
-            HStack(spacing: 3) {
-                ForEach(0 ..< 7) { i in
-                    ZStack {
-                        let isSelected = selectedWeekdays.contains(i)
-                        RoundedRectangle(cornerRadius: 3)
-                            .foregroundColor(isSelected ? .systemGray : .systemGray3)
-                        
-                        Text(weekdays[i])
-                    }
-                    .frame(height: 30)
-                    .onTapGesture {
-                        updateSelection(i)
+        CardView {
+            VStack {
+                HStack {
+                    Text("Every week on")
+                    //                ZStack {
+                    //                    RoundedRectangle(cornerRadius: 7)
+                    //                        .foregroundColor(.systemGray5)
+                    //
+                    //                    TextField("", text: $frequencyText)
+                    //                        .multilineTextAlignment(.center)
+                    //                }
+                    //                .frame(width: 35, height: 25)
+                    //                Text("week(s) on:")
+                }
+                
+                
+                HStack(spacing: 3) {
+                    ForEach(0 ..< 7) { i in
+                        ZStack {
+                            let isSelected = selectedWeekdays.contains(i)
+                            RoundedRectangle(cornerRadius: 3)
+                                .foregroundColor(isSelected ? .systemGray : .systemGray3)
+                            
+                            Text(weekdays[i])
+                        }
+                        .frame(height: 30)
+                        .onTapGesture {
+                            updateSelection(i)
+                        }
                     }
                 }
+                .padding(.horizontal, 25)
             }
-            .padding(.horizontal, 25)
         }
     }
 }

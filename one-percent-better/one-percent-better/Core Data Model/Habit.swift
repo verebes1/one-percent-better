@@ -60,7 +60,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     @NSManaged public var frequency: HabitFrequency
     
     /// If frequency is daily, how many times per day
-    @NSManaged public var timesPerDay: Int16
+    @NSManaged public var timesPerDay: Int
+    
+    /// What fraction of the habit they've completed. if it's more than one time per day,
+    /// then this value can be a decimal. For example 1/2 times is 0.5 for 50 percent completed
+    /// The length of this array matches the length of the array for daysCompleted
+    @NSManaged public var fractionCompleted: [Double]
+    
+    /// A length 7 array for the days per week to complete this habit, stored as [S, M, T, W, T, F, S]
+    /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
+    @NSManaged public var daysPerWeek: [Int]
     
     // MARK: - Properties
     
@@ -118,12 +127,19 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     
     // MARK: - init
     
-    convenience init(context: NSManagedObjectContext, name: String) throws {
+    convenience init(context: NSManagedObjectContext,
+                     name: String,
+                     noNameDupe: Bool = true,
+                     frequency: HabitFrequency = .daily,
+                     timesPerDay: Int = 1,
+                     daysPerWeek: [Int] = [0]) throws {
         // Check for a duplicate habit. Habits are unique by name
         let habits = Habit.habitList(from: context)
-        for habit in habits {
-            if habit.name == name {
-                throw HabitCreationError.duplicateName
+        if noNameDupe {
+            for habit in habits {
+                if habit.name == name {
+                    throw HabitCreationError.duplicateName
+                }
             }
         }
         self.init(context: context)
@@ -133,6 +149,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         self.daysCompleted = []
         self.trackers = NSOrderedSet.init(array: [])
         self.orderIndex = nextLargestHabitIndex(habits)
+        self.frequency = frequency
+        self.timesPerDay = timesPerDay
+        self.daysPerWeek = daysPerWeek
     }
     
     func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
