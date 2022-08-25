@@ -62,10 +62,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     /// If frequency is daily, how many times per day
     @NSManaged public var timesPerDay: Int
     
-    /// What fraction of the habit they've completed. if it's more than one time per day,
-    /// then this value can be a decimal. For example 1/2 times is 0.5 for 50 percent completed
-    /// The length of this array matches the length of the array for daysCompleted
-    @NSManaged public var fractionCompleted: [Double]
+    /// How many times this day they've completed the habit. If it's more than one time per day,
+    /// then this value can be greater than 1. The length of this array matches the length of the
+    /// array for daysCompleted
+    @NSManaged public var timesCompleted: [Int]
     
     /// A length 7 array for the days per week to complete this habit, stored as [S, M, T, W, T, F, S]
     /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
@@ -170,25 +170,45 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     }
     
     func wasCompleted(on date: Date) -> Bool {
-        for day in daysCompleted {
+        for (i, day) in daysCompleted.enumerated() {
             if Calendar.current.isDate(day, inSameDayAs: date) {
-                return true
+                if timesCompleted[i] == timesPerDay {
+                    return true
+                }
+                break
             }
         }
         return false
+    }
+    
+    func percentComplete(on date: Date) -> Double {
+        for (i, day) in daysCompleted.enumerated() {
+            if Calendar.current.isDate(day, inSameDayAs: date) {
+                let result = Double(timesCompleted[i]) / Double(timesPerDay)
+                return result
+            }
+        }
+        return 0
     }
     
     /// Mark habit as completed for a date
     /// - Parameter date: The day to mark the habit completed
     func markCompleted(on date: Date) {
         if !wasCompleted(on: date) {
-            daysCompleted.append(date)
-            daysCompleted.sort()
+            if let index = daysCompleted.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) }) {
+                timesCompleted[index] += 1
+            } else {
+                daysCompleted.append(date)
+                timesCompleted.append(1)
+            }
+            
+            let combined = zip(daysCompleted, timesCompleted).sorted { $0.0 < $1.0 }
+            daysCompleted = combined.map { $0.0 }
+            timesCompleted = combined.map { $0.1 }
             
             if date < startDate {
                 startDate = Calendar.current.startOfDay(for: date)
             }
-            
             myContext.fatalSave()
         }
         
@@ -201,6 +221,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             if Calendar.current.isDate(day, inSameDayAs: date) {
                 let index = daysCompleted.firstIndex(of: day)!
                 daysCompleted.remove(at: index)
+                timesCompleted.remove(at: index)
             }
         }
         
@@ -216,13 +237,23 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         updateImprovement()
     }
     
-    
     func updateImprovement() {
         for tracker in trackers {
             if let t = tracker as? ImprovementTracker {
                 t.update()
                 continue
             }
+        }
+    }
+    
+    func toggleHabitCompletion(on day: Date) {
+        if wasCompleted(on: day) {
+            markNotCompleted(on: day)
+        } else {
+            
+            markCompleted(on: day)
+            
+            HapticEngineManager.playHaptic()
         }
     }
     
@@ -311,7 +342,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         case notificationTime
         case frequency
         case timesPerDay
-        case fractionCompleted
+        case timesCompleted
         case daysPerWeek
         
         case trackersContainer
@@ -350,10 +381,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             self.timesPerDay = 1
         }
         
-        if let fractionCompleted = try? container.decode([Double].self, forKey: .fractionCompleted) {
-            self.fractionCompleted = fractionCompleted
+        if let timesCompleted = try? container.decode([Int].self, forKey: .timesCompleted) {
+            self.timesCompleted = timesCompleted
         } else {
-            self.fractionCompleted = Array(repeating: 1, count: daysCompleted.count)
+            self.timesCompleted = Array(repeating: 1, count: daysCompleted.count)
         }
         if let daysPerWeek = try? container.decode([Int].self, forKey: .daysPerWeek) {
             self.daysPerWeek = daysPerWeek
@@ -416,7 +447,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         try container.encode(notificationTime, forKey: .notificationTime)
         try container.encode(frequency.rawValue, forKey: .frequency)
         try container.encode(timesPerDay, forKey: .timesPerDay)
-        try container.encode(fractionCompleted, forKey: .fractionCompleted)
+        try container.encode(timesCompleted, forKey: .timesCompleted)
         try container.encode(daysPerWeek, forKey: .daysPerWeek)
     }
 }

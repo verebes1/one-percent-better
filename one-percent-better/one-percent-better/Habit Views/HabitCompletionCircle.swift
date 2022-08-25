@@ -35,29 +35,15 @@ struct HabitCompletionCircle: View {
                     vm.hasTimerStarted = false
                 }
             } else {
-                
-                if vm.habit.frequency == .daily {
-                    toggleHabitCompletion()
-                } else if vm.habit.frequency == .weekly {
-                    toggleHabitCompletion()
-                }
+                vm.habit.toggleHabitCompletion(on: vm.currentDay)
             }
-        }
-    }
-    
-    func toggleHabitCompletion() {
-        if vm.habit.wasCompleted(on: vm.currentDay) {
-            vm.habit.markNotCompleted(on: vm.currentDay)
-        } else {
-            vm.habit.markCompleted(on: vm.currentDay)
-            HapticEngineManager.playHaptic()
         }
     }
     
     var body: some View {
         ZStack {
             
-            let wasCompleted = vm.habit.wasCompleted(on: vm.currentDay) ? 1.0 : 0.0
+            let wasCompleted = vm.habit.percentComplete(on: vm.currentDay)
 //            let timeTrackerValue =
             let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
             

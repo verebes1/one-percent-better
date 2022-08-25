@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FeatureLog" representedClassName="FeatureLog" syncable="YES">
-        <attribute name="hasFractionCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasImprovement" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasNotificationTimeAsDate" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasTimesCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTrackerIndices" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTrackerToHabitRelationship" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>
@@ -14,12 +14,12 @@
     <entity name="Habit" representedClassName="Habit" syncable="YES">
         <attribute name="daysCompleted" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
         <attribute name="daysPerWeek" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
-        <attribute name="fractionCompleted" optional="YES" attributeType="Transformable" customClassName="[Double]"/>
         <attribute name="frequency" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="notificationTime" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="Date"/>
         <attribute name="orderIndex" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timesCompleted" optional="YES" attributeType="Transformable" customClassName="[Int]"/>
         <attribute name="timesPerDay" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
         <relationship name="trackers" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Tracker" inverseName="habit" inverseEntity="Tracker"/>
     </entity>

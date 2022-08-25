@@ -12,7 +12,7 @@ import CoreData
 @objc(FeatureLog)
 public class FeatureLog: NSManagedObject, Codable {
 
-    @NSManaged public var hasFractionCompleted: Bool
+    @NSManaged public var hasTimesCompleted: Bool
     @NSManaged public var hasNotificationTimeAsDate: Bool
     @NSManaged public var hasTrackerIndices: Bool
     @NSManaged public var hasTrackerToHabitRelationship: Bool
@@ -21,7 +21,7 @@ public class FeatureLog: NSManagedObject, Codable {
     // MARK: - Encodable
     
     enum CodingKeys: CodingKey {
-        case hasFractionCompleted
+        case hasTimesCompleted
         case hasNotificationTimeAsDate
         case hasTrackerIndices
         case hasTrackerToHabitRelationship
@@ -41,7 +41,7 @@ public class FeatureLog: NSManagedObject, Codable {
         }
         
         self.init(context: context)
-        self.hasFractionCompleted = try container.decode(Bool.self, forKey: .hasFractionCompleted)
+        self.hasTimesCompleted = try container.decode(Bool.self, forKey: .hasTimesCompleted)
         self.hasNotificationTimeAsDate = try container.decode(Bool.self, forKey: .hasNotificationTimeAsDate)
         self.hasTrackerIndices = try container.decode(Bool.self, forKey: .hasTrackerIndices)
         self.hasTrackerToHabitRelationship = try container.decode(Bool.self, forKey: .hasTrackerToHabitRelationship)
@@ -50,7 +50,7 @@ public class FeatureLog: NSManagedObject, Codable {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(hasFractionCompleted, forKey: .hasFractionCompleted)
+        try container.encode(hasTimesCompleted, forKey: .hasTimesCompleted)
         try container.encode(hasNotificationTimeAsDate, forKey: .hasNotificationTimeAsDate)
         try container.encode(hasTrackerIndices, forKey: .hasTrackerIndices)
         try container.encode(hasTrackerToHabitRelationship, forKey: .hasTrackerToHabitRelationship)

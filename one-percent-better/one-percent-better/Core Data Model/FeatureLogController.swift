@@ -42,7 +42,7 @@ class FeatureLogController {
         setUpPercentImprovementTrackers()
         setUpTrackerToHabitRelationships()
         setUpTrackerIndices()
-        setUpFractionCompleted()
+        setUpTimesCompleted()
     }
     
     /// Add percent improvement trackers if the user doesn't have them already
@@ -127,14 +127,14 @@ class FeatureLogController {
         }
     }
     
-    func setUpFractionCompleted() {
-        if !featureLog.hasFractionCompleted {
+    func setUpTimesCompleted() {
+        if !featureLog.hasTimesCompleted {
             let habits = Habit.habitList(from: context)
             for habit in habits {
-                habit.fractionCompleted = Array(repeating: 1, count: habit.daysCompleted.count)
+                habit.timesCompleted = Array(repeating: 1, count: habit.daysCompleted.count)
             }
             
-            featureLog.hasFractionCompleted = true
+            featureLog.hasTimesCompleted = true
             CoreDataManager.shared.saveContext()
         }
     }
