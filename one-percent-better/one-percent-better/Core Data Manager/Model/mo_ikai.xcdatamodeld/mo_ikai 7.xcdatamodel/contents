@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="FeatureLog" representedClassName="FeatureLog" syncable="YES" codeGenerationType="class">
+        <attribute name="hasFractionCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="hasNotificationTimeAsDate" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasPercentImprovement" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTrackerIndices" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -44,7 +45,7 @@
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="trackers" inverseEntity="Habit"/>
     </entity>
     <elements>
-        <element name="FeatureLog" positionX="-11286" positionY="108" width="128" height="89"/>
+        <element name="FeatureLog" positionX="-11286" positionY="108" width="128" height="104"/>
         <element name="GraphTracker" positionX="-11373.99353027344" positionY="235.9210510253906" width="128" height="73"/>
         <element name="Habit" positionX="-11177.68896484374" positionY="-76.03642272949219" width="122.3037109374945" height="179"/>
         <element name="ImageTracker" positionX="-11144.95104980468" positionY="286.9313354492188" width="128" height="59"/>

@@ -35,6 +35,12 @@ public class ImprovementTracker: GraphTracker {
         CoreDataManager.shared.saveContext()
     }
     
+    func update() {
+        self.reset()
+        createData(habit: habit)
+        CoreDataManager.shared.saveContext()
+    }
+    
     func reset() {
         self.dates = []
         self.values = []

@@ -74,11 +74,20 @@ struct ChooseHabitFrequency: View {
                 BottomButton(label: "Finish")
                     .onTapGesture {
                         if isValid() {
-                            let _ = try? Habit(context: moc,
-                                               name: habitName,
-                                               noNameDupe: false,
-                                               timesPerDay: timesPerDay,
-                                               daysPerWeek: daysPerWeek)
+                            do {
+                                let habit = try Habit(context: moc,
+                                                   name: habitName,
+                                                   noNameDupe: false,
+                                                   timesPerDay: timesPerDay,
+                                                   daysPerWeek: daysPerWeek)
+                                
+                                // Auto trackers
+                                let it = ImprovementTracker(context: moc, habit: habit)
+                                habit.addToTrackers(it)
+                            } catch {
+                                fatalError("Unable to create habit")
+                            }
+                            
                             rootPresenting = false
                         }
                     }

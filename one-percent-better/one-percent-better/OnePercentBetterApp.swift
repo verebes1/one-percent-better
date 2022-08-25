@@ -18,6 +18,7 @@ struct OnePercentBetterApp: App {
                 .environment(\.managedObjectContext, coreDataManager.mainContext)
                 .onAppear {
                     print("NSHomeDirectory: \(NSHomeDirectory())")
+                    FeatureLogController.shared.setUp()
                 }
         }
     }

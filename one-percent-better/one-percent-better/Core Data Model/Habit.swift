@@ -191,6 +191,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             
             myContext.fatalSave()
         }
+        
+        updateImprovement()
     }
 
     func markNotCompleted(on date: Date) {
@@ -210,6 +212,17 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
         
         myContext.fatalSave()
+        
+        updateImprovement()
+    }
+    
+    
+    func updateImprovement() {
+        for tracker in trackers {
+            if let t = tracker as? ImprovementTracker {
+                t.update()
+            }
+        }
     }
     
     /// Whether or not this habit started after a certain date
