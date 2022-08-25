@@ -221,6 +221,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         for tracker in trackers {
             if let t = tracker as? ImprovementTracker {
                 t.update()
+                continue
             }
         }
     }
@@ -308,6 +309,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         case startDate
         case daysCompleted
         case notificationTime
+        case frequency
+        case timesPerDay
+        case fractionCompleted
+        case daysPerWeek
         
         case trackersContainer
     }
@@ -333,6 +338,28 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         self.startDate = try container.decode(Date.self, forKey: .startDate)
         self.daysCompleted = try container.decode([Date].self, forKey: .daysCompleted)
         self.notificationTime = try container.decode(Date?.self, forKey: .notificationTime)
+        if let frequency = try? container.decode(Int.self, forKey: .frequency) {
+            self.frequency = HabitFrequency.init(rawValue: frequency) ?? .daily
+        } else {
+            self.frequency = .daily
+        }
+        
+        if let timesPerDay = try? container.decode(Int.self, forKey: .timesPerDay) {
+            self.timesPerDay = timesPerDay
+        } else {
+            self.timesPerDay = 1
+        }
+        
+        if let fractionCompleted = try? container.decode([Double].self, forKey: .fractionCompleted) {
+            self.fractionCompleted = fractionCompleted
+        } else {
+            self.fractionCompleted = Array(repeating: 1, count: daysCompleted.count)
+        }
+        if let daysPerWeek = try? container.decode([Int].self, forKey: .daysPerWeek) {
+            self.daysPerWeek = daysPerWeek
+        } else {
+            self.daysPerWeek = [0]
+        }
         
         // If importing data on top of existing data, then we must add
         // the imported index on top of the largest existing index
@@ -387,6 +414,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         try container.encode(startDate, forKey: .startDate)
         try container.encode(daysCompleted, forKey: .daysCompleted)
         try container.encode(notificationTime, forKey: .notificationTime)
+        try container.encode(frequency.rawValue, forKey: .frequency)
+        try container.encode(timesPerDay, forKey: .timesPerDay)
+        try container.encode(fractionCompleted, forKey: .fractionCompleted)
+        try container.encode(daysPerWeek, forKey: .daysPerWeek)
     }
 }
 

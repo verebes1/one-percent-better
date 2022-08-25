@@ -15,6 +15,7 @@
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
 		802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */; };
+		802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -124,6 +125,7 @@
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
 		802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureLogController.swift; sourceTree = "<group>"; };
+		802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FeatureLog.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/FeatureLog.swift"; sourceTree = "<absolute>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -428,6 +430,7 @@
 				80385CE4285BEE5900CBDF71 /* ImageTracker.swift */,
 				80F79683286D0432002FDFDA /* TimeTracker.swift */,
 				80385CE5285BEE5900CBDF71 /* Task.swift */,
+				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 			);
 			path = "Core Data Model";
@@ -830,6 +833,7 @@
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
 				80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */,
+				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
 				80385D39285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift in Sources */,
 				803E1B8A28A9D68B0010540B /* SelectableCard.swift in Sources */,
 				809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */,

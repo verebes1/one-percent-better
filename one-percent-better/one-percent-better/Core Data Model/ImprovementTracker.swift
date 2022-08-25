@@ -54,7 +54,7 @@ public class ImprovementTracker: GraphTracker {
             if habit.wasCompleted(on: curDate) {
                 score *= 1.01
             } else {
-                score *= 0.99
+                score *= 0.995
                 
                 if score < 100 {
                     score = 100

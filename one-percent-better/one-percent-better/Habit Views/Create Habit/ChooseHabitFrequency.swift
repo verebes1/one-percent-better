@@ -8,7 +8,7 @@
 import SwiftUI
 import Introspect
 
-@objc public enum HabitFrequency: Int16 {
+@objc public enum HabitFrequency: Int {
     case daily = 0
     case weekly = 1
 //    case monthly = 2

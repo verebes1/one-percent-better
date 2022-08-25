@@ -11,6 +11,7 @@ import CoreData
 struct ExportContainer: Codable {
     let habits: [Habit]
     let tasks: [Task]
+    let featureLog: FeatureLog
 }
 
 class ExportManager: NSObject {
@@ -43,7 +44,8 @@ class ExportManager: NSObject {
         // Create ExportContainer object
         let habits = Habit.habitList(from: context)
         let tasks = Task.updateTaskList(from: context)
-        let container = ExportContainer(habits: habits, tasks: tasks)
+        let featureLog = FeatureLog.getFeatureLog(from: context)
+        let container = ExportContainer(habits: habits, tasks: tasks, featureLog: featureLog!)
         
         if let jsonData = try? encoder.encode(container) {
             if let jsonString = String(data: jsonData, encoding: .utf8) {
@@ -52,7 +54,7 @@ class ExportManager: NSObject {
                 // FIXME: Add todays date into file name so we have backups
 //                let date = ExportManager.formatter.string(from: Date())
                 
-                let fileName = "mo-ikai.json"
+                let fileName = "1PercentBetter.json"
                 let file = documentsDirectoryURL.appendingPathComponent(fileName)
                 do {
                     try jsonString.write(to: file, atomically: false, encoding: .utf8)
