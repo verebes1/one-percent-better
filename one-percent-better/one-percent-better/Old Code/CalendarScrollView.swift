@@ -4,7 +4,7 @@
 //
 //  Created by Jeremy Cook on 5/27/22.
 //
-
+/*
 import SwiftUI
 
 struct CalendarScrollView: View {
@@ -24,7 +24,7 @@ struct CalendarScrollView: View {
                 let numMonths = calendar.numMonthsSinceStart
                 ForEach(0 ..< numMonths, id: \.self) { i in
                     
-                    let spacing = CGFloat(calendar.numWeeksInMonth(page: currentPage))
+                    let spacing = calendar.numWeeksInMonth()
                     
                     LazyVGrid(columns: columns, spacing: spacing) {
                         let offset = numMonths - 1 - i
@@ -85,3 +85,4 @@ struct CalendarScrollView_Previews: PreviewProvider {
         })
     }
 }
+*/

@@ -9,13 +9,62 @@ import SwiftUI
 
 struct EditTracker: View {
     
+    @Environment(\.managedObjectContext) var moc
+    
+    var habit: Habit
     var tracker: Tracker
     
-    @State private var trackerName: String
+    @State private var newTrackerName: String
     
-    init(tracker: Tracker) {
+    @Binding var show: Bool
+    
+    /// Show empty habit name error if trying to save with empty habit name
+    @State private var emptyTrackerNameError = false
+    
+    enum EditTrackerError: Error {
+        case emptyTrackerName
+    }
+    
+    init(habit: Habit, tracker: Tracker, show: Binding<Bool>) {
+        self.habit = habit
         self.tracker = tracker
-        self._trackerName = State(initialValue: tracker.name)
+        self._newTrackerName = State(initialValue: tracker.name)
+        self._show = show
+    }
+    
+    func delete() {
+        // Make an array from fetched results
+        var revisedItems: [Tracker] = habit.trackers.map { $0 as! Tracker }
+
+        for (i, t) in revisedItems.enumerated() {
+            if tracker == t {
+                revisedItems.remove(at: i)
+            }
+        }
+        
+        // Remove the item to be deleted
+        moc.delete(tracker)
+
+        for reverseIndex in stride(from: revisedItems.count - 1,
+                                   through: 0,
+                                   by: -1) {
+            revisedItems[reverseIndex].index = Int(reverseIndex)
+        }
+        moc.fatalSave()
+    }
+    
+    /// Check if the user can save or needs to make changes
+    /// - Returns: True if can save, false if changes needed
+    func canSave() throws -> Bool {
+        if newTrackerName.isEmpty || newTrackerName == "" {
+            throw EditTrackerError.emptyTrackerName
+        }
+        return true
+    }
+    
+    func saveProperties() {
+        tracker.name = newTrackerName
+        moc.fatalSave()
     }
     
     var body: some View {
@@ -23,22 +72,29 @@ struct EditTracker: View {
             VStack {
                 List {
                     Section {
-                        HStack {
-                            Text("Name")
-                                .fontWeight(.medium)
-                            TextField("", text: $trackerName)
-                                .multilineTextAlignment(.trailing)
-                                .keyboardType(.decimalPad)
-                                .frame(height: 30)
+                        VStack{
+                            HStack {
+                                Text("Name")
+                                    .fontWeight(.medium)
+                                TextField("", text: $newTrackerName)
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(height: 30)
+                            }
+                            if emptyTrackerNameError {
+                                Label("Tracker name can't be empty", systemImage: "exclamationmark.triangle")
+                                    .foregroundColor(.red)
+                                    .animation(.easeInOut, value: emptyTrackerNameError)
+                            }
                         }
                     }
                     
                     Section {
                         Button {
-                            print("Delete tracker")
+                            delete()
+                            show = false
                         } label: {
                             HStack {
-                                Text("Delete")
+                                Text("Delete Tracker")
                                     .foregroundColor(.red)
                                 Spacer()
                                 Image(systemName: "trash")
@@ -47,15 +103,51 @@ struct EditTracker: View {
                         }
                     }
                 }
-                
+                .listStyle(.insetGrouped)
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    do {
+                        if try canSave() {
+                            saveProperties()
+                            show = false
+                        }
+                    } catch EditTrackerError.emptyTrackerName {
+                        emptyTrackerNameError = true
+                    } catch {
+                        fatalError("Unknown error in EditTracker")
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left")
+                        Text("Back")
+                    }
+                }
+            }
+        }
+//        .overlay(
+//            ZStack {
+//                RoundedRectangle(cornerRadius: 10)
+//                    .foregroundColor(.cardColor)
+//                    .padding(.horizontal, 15)
+//
+//                Text("Are you sure you want to delete \(tracker.name)?")
+//
+//                HStack {
+//
+//                }
+//            }
+//            .frame(height: 100)
+//        )
     }
 }
 
 struct EditTracker_Previews: PreviewProvider {
     
-    static func data() -> NumberTracker {
+    static func data() -> (Habit, NumberTracker) {
         let context = CoreDataManager.previews.persistentContainer.viewContext
         
         let day0 = Date()
@@ -73,11 +165,13 @@ struct EditTracker_Previews: PreviewProvider {
         }
         
         let habits = Habit.habitList(from: context)
-        return habits.first!.trackers.firstObject as! NumberTracker
+        return (habits.first!, habits.first!.trackers.firstObject as! NumberTracker)
     }
     
     static var previews: some View {
         let t = data()
-        EditTracker(tracker: t)
+        NavigationView {
+            EditTracker(habit: t.0, tracker: t.1, show: .constant(true))
+        }
     }
 }

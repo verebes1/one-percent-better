@@ -7,52 +7,106 @@
 
 import SwiftUI
 
+class EditHabitViewModel: ObservableObject {
+    
+    @Published var trackerNavLinkActivate: [Tracker: Bool] = [:]
+    
+    init(habit: Habit) {
+        habit.trackers.forEach { trackerAny in
+            if let tracker = trackerAny as? Tracker {
+                trackerNavLinkActivate[tracker] = false
+            }
+        }
+    }
+    
+    func getTrackerNavLinkBinding(for tracker: Tracker) -> Binding<Bool> {
+        return Binding {
+            return self.trackerNavLinkActivate[tracker] ?? false
+        } set: {
+            self.trackerNavLinkActivate[tracker] = $0
+        }
+
+    }
+}
+
 struct EditHabit: View {
     
     @Environment(\.managedObjectContext) var moc
+    @Environment(\.presentationMode) var presentationMode
     
     var habit: Habit
-    @Binding var rootPresenting: Bool
     
-    @State private var habitName: String
+    @Binding var show: Bool
+    @State private var newHabitName: String
     
-    init(habit: Habit, rootPresenting: Binding<Bool>) {
-        self.habit = habit
-        self._rootPresenting = rootPresenting
-        self._habitName = State(initialValue: habit.name)
+    /// Show empty habit name error if trying to save with empty habit name
+    @State private var emptyHabitNameError = false
+    
+    @ObservedObject var vm: EditHabitViewModel
+    
+    enum EditHabitError: Error {
+        case emptyHabitName
     }
     
-    func delete(from source: IndexSet) {
-        // Make an array from fetched results
-        var revisedItems: [Tracker] = habit.trackers.map { $0 as! Tracker }
+    init(habit: Habit, show: Binding<Bool>) {
+        self.habit = habit
+        self._show = show
+        self._newHabitName = State(initialValue: habit.name)
+        self.vm = EditHabitViewModel(habit: habit)
+    }
+    
+    func delete() {
         
         // Remove the item to be deleted
-        guard let index = source.first else { return }
-        let trackerToBeDeleted = revisedItems[index]
-        revisedItems.remove(atOffsets: source)
-        moc.delete(trackerToBeDeleted)
+        moc.delete(habit)
         
-        for reverseIndex in stride(from: revisedItems.count - 1,
+        // Get habits
+        let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
+        let habitController = Habit.resultsController(context: moc, sortDescriptors: sortDescriptors)
+        let habits = habitController.fetchedObjects ?? []
+
+        for reverseIndex in stride(from: habits.count - 1,
                                    through: 0,
                                    by: -1) {
-            revisedItems[reverseIndex].index = Int(reverseIndex)
+            habits[reverseIndex].orderIndex = Int(reverseIndex)
         }
+        moc.fatalSave()
+    }
+    
+    /// Check if the user can save or needs to make changes
+    /// - Returns: True if can save, false if changes needed
+    func canSave() throws -> Bool {
+        
+        if newHabitName.isEmpty || newHabitName == "" {
+            throw EditHabitError.emptyHabitName
+        }
+        
+        return true
+    }
+    
+    func saveProperties() {
+        habit.name = newHabitName
         moc.fatalSave()
     }
     
     var body: some View {
         Background {
             VStack {
-                Text("WIP (Doesn't save for right now)")
                 List {
                     Section(header: Text("Habit")) {
-                        HStack {
-                            Text("Name")
-                                .fontWeight(.medium)
-                            TextField("", text: $habitName)
-                                .multilineTextAlignment(.trailing)
-                                .keyboardType(.decimalPad)
-                                .frame(height: 30)
+                        VStack {
+                            HStack {
+                                Text("Name")
+                                    .fontWeight(.medium)
+                                TextField("", text: $newHabitName)
+                                    .multilineTextAlignment(.trailing)
+                                    .frame(height: 30)
+                            }
+                            if emptyHabitNameError {
+                                Label("Habit name can't be empty", systemImage: "exclamationmark.triangle")
+                                    .foregroundColor(.red)
+                                    .animation(.easeInOut, value: emptyHabitNameError)
+                            }
                         }
                     }
                     
@@ -60,95 +114,64 @@ struct EditHabit: View {
                         Section(header: Text("Trackers")) {
                             ForEach(0 ..< habit.trackers.count, id: \.self) { i in
                                 let tracker = habit.trackers[i] as! Tracker
-                                NavigationLink(destination: EditTracker(tracker: tracker)) {
-                                    Text(tracker.name)
+                                let dest = EditTracker(habit: habit, tracker: tracker, show: vm.getTrackerNavLinkBinding(for: tracker))
+                                NavigationLink(isActive: vm.getTrackerNavLinkBinding(for: tracker)) {
+                                    dest
+                                } label: {
+                                    EditTrackerRowSimple(name: tracker.name)
                                 }
                                 .isDetailLink(false)
+                            }
+                        }
+                    }
+                    
+                    Section {
+                        Button {
+                            delete()
+                            show = false
+                        } label: {
+                            HStack {
+                                Text("Delete Habit")
+                                    .foregroundColor(.red)
+                                Spacer()
+                                Image(systemName: "trash")
+                                    .foregroundColor(.red)
                             }
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
             }
-            
-            /*
-            /*ScrollView*/VStack {
-                VStack(alignment: .leading, spacing: 10) {
-                    
-                    Spacer().frame(height: 10)
-                    
-                    CardView(shadow: false, padding: false) {
-                        VStack {
-                            
-                            // Habit name
-                            HStack {
-                                Text("Name")
-                                    .fontWeight(.medium)
-                                
-                                TextField("", text: $habitName)
-                                    .multilineTextAlignment(.trailing)
-                                    .keyboardType(.decimalPad)
-                                    .frame(height: 45)
-                            }
-                            .padding(.horizontal, 20)
-                        }
-                    }
-                    
-                    Spacer().frame(height: 10)
-                    
-                    HStack {
-                        Text("Trackers")
-                            .font(.title)
-                        .fontWeight(.medium)
-                        
-                        Spacer()
-                        
-                        EditButton()
-                    }
-                    
-                    
-                    List {
-                        ForEach(0 ..< habit.trackers.count, id: \.self) { i in
-                            if let t = habit.trackers[i] as? Tracker {
-                                Text(t.name)
-                            }
-                        }
-                        .onDelete(perform: delete(from:))
-                    }
-                    
-                    
-//                    CardView {
-//                        // Tracker list
-//                        VStack(alignment: .leading) {
-//                            ForEach(0 ..< habit.trackers.count, id: \.self) { i in
-//                                if let t = habit.trackers[i] as? Tracker {
-//                                    Text(t.name)
-//                                }
-//                            }
-//                        }
-//                    }
-                }
-                .padding(.horizontal, 20)
-                
-            }
-//            .navigationTitle("Edit Habit")
+            .navigationTitle("Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
+            // Hide the system back button
+            .navigationBarBackButtonHidden(true)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(
-                        destination: EmptyView()) {
-                            Text("Save")
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        do {
+                            if try canSave() {
+                                saveProperties()
+                                show = false
+                            }
+                        } catch EditHabitError.emptyHabitName {
+                            emptyHabitNameError = true
+                        } catch {
+                            fatalError("Unknown error in EditHabit")
                         }
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                            Text("Back")
+                        }
+                    }
                 }
             }
-             */
         }
     }
 }
 
 struct EditHabit_Previews: PreviewProvider {
-    
-    @State static var isPresenting: Bool = false
     
     static func data() -> Habit {
         let context = CoreDataManager.previews.persistentContainer.viewContext
@@ -180,7 +203,19 @@ struct EditHabit_Previews: PreviewProvider {
     static var previews: some View {
         let habit = data()
         NavigationView {
-            EditHabit(habit: habit, rootPresenting: $isPresenting)
+            EditHabit(habit: habit, show: .constant(true))
+        }
+    }
+}
+
+struct EditTrackerRowSimple: View {
+    
+    var name: String
+    
+    var body: some View {
+        HStack {
+            Text(name)
+            Spacer()
         }
     }
 }

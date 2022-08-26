@@ -21,7 +21,10 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     @Published var latestDay: Date = Date()
     
     @Published var selectedWeekDay: Int = 0
+    
     @Published var selectedWeek: Int = 0
+    
+    @Published var navLinkActivate: [Habit: Bool] = [:]
     
     init(_ context: NSManagedObjectContext) {
         let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
@@ -33,6 +36,10 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         
         selectedWeekDay = thisWeekDayOffset(currentDay)
         selectedWeek = getSelectedWeek(for: currentDay)
+        
+        habits.forEach { habit in
+            navLinkActivate[habit] = false
+        }
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -41,6 +48,10 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     
     var habits: [Habit] {
         return habitController.fetchedObjects ?? []
+    }
+    
+    func trackers(for habit: Habit) -> [Tracker] {
+        habit.trackers.map { $0 as! Tracker }
     }
     
     func move(from source: IndexSet, to destination: Int) {
@@ -67,7 +78,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         guard let index = source.first else { return }
         let habitToBeDeleted = revisedItems[index]
         revisedItems.remove(atOffsets: source)
-//        habitToBeDeleted.de
         moc.delete(habitToBeDeleted)
         
         for reverseIndex in stride(from: revisedItems.count - 1,
@@ -164,16 +174,21 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
         guard total > 0 else { return 0 }
         
         for habit in habits {
-            if habit.wasCompleted(on: day) {
-                numCompleted += 1
-            }
-            
+            numCompleted += habit.percentCompleted(on: day)
         }
         return numCompleted / total
     }
     
     func thisWeekDayOffset(_ date: Date) -> Int {
         return Calendar.current.component(.weekday, from: date) - 1
+    }
+    
+    func navLinkBinding(for habit: Habit) -> Binding<Bool> {
+        return Binding(get: {
+            return self.navLinkActivate[habit] ?? false
+        }, set: {
+            self.navLinkActivate[habit] = $0
+        })
     }
 }
 
@@ -184,7 +199,14 @@ struct HabitListView: View {
     
     @ObservedObject var vm: HabitListViewModel
     
-    @State var createHabitPresenting: Bool = false
+    /// If CreateNewHabit is being presented
+    @State private var createHabitPresenting: Bool = false
+    
+    /// The habit of the row which was selected
+    @State private var selectedHabit: Habit?
+    
+    /// If ProgressView is being presented
+    @State private var progressViewPresenting = false
     
     var body: some View {
         NavigationView {
@@ -196,12 +218,15 @@ struct HabitListView: View {
                     List {
                         ForEach(vm.habits, id: \.self.name) { habit in
                             if habit.started(after: vm.currentDay) {
-                                let progressVM = ProgressViewModel(habit: habit)
-                                let dest = ProgressView(vm: progressVM).environmentObject(habit)
                                 let habitRowVM = HabitRowViewModel(habit: habit,
                                                                    currentDay:
                                                                     vm.currentDay)
-                                NavigationLink(destination: dest) {
+                                let dest = ProgressView(habit: habit)
+//                                    .environmentObject(habit)
+//                                    .environmentObject(vm)
+                                NavigationLink(isActive: vm.navLinkBinding(for: habit), destination: {
+                                    dest
+                                }) {
                                     HabitRow(vm: habitRowVM)
                                 }
                                 .isDetailLink(false)
@@ -241,6 +266,7 @@ struct HabitListView: View {
             }
             .navigationTitle(vm.navTitle(for: vm.currentDay))
             .navigationBarTitleDisplayMode(.inline)
+            .navigationViewStyle(StackNavigationViewStyle())
             
         }
     }

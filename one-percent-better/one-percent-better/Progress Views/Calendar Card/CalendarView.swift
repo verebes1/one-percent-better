@@ -12,18 +12,14 @@ struct CalendarView: View {
     let habit: Habit
     
     /// Object used to calculate an array of days for each month
-    let calendarModel: CalendarModel
-    
-    @State var currentPage: Int
+    @ObservedObject var calendarModel: CalendarModel
     
     init(habit: Habit) {
         self.habit = habit
         self.calendarModel = CalendarModel(habit: habit)
-        self.currentPage = calendarModel.numMonthsSinceStart - 1
     }
 
     var body: some View {
-        
         
         let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
         let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
@@ -31,13 +27,13 @@ struct CalendarView: View {
         VStack(spacing: 0) {
             HStack(spacing: 0) {
                 
-                Text(calendarModel.headerMonth(page: currentPage))
+                Text(calendarModel.headerMonth)
                     .font(.system(size: 19))
                     .fontWeight(.medium)
                 
                 Spacer()
                 
-                let (completed, total) = calendarModel.numCompleted(page: currentPage)
+                let (completed, total) = calendarModel.numCompleted
                 Text("\(completed) of \(total) days")
                     .font(.system(size: 15))
                     .foregroundColor(.secondary)
@@ -61,12 +57,11 @@ struct CalendarView: View {
             }
             
             VStack {
-                TabView(selection: $currentPage) {
+                TabView(selection: $calendarModel.currentPage) {
                     let numMonths = calendarModel.numMonthsSinceStart
                     ForEach(0 ..< numMonths, id: \.self) { i in
                         
-                        let spacing = CGFloat(calendarModel.numWeeksInMonth(page: currentPage))
-                        LazyVGrid(columns: columns, spacing: spacing) {
+                        LazyVGrid(columns: columns, spacing: calendarModel.rowSpacing) {
                             let offset = numMonths - 1 - i
                             ForEach(calendarModel.backXMonths(x: offset), id: \.date) { day in
                                 CalendarDayView(habit: habit,
@@ -75,7 +70,7 @@ struct CalendarView: View {
                                                 circleSize: 22)
                             }
                         }
-                        .animation(.easeInOut, value: spacing)
+                        .animation(.easeInOut, value: calendarModel.rowSpacing)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))

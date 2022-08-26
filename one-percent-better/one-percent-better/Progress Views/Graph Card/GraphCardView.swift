@@ -35,7 +35,8 @@ struct GraphCardView: View {
         }
     }
     
-    var tracker: GraphTracker
+    @ObservedObject var tracker: GraphTracker
+    
     var color: Color = .blue
     @State var selectedValue: String = ""
     @State var selectedButton: TimeButtons = .oneWeek

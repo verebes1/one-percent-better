@@ -28,6 +28,8 @@ class CalendarModel: ObservableObject {
     
     private var habit: Habit
     
+    @Published var currentPage: Int = 0
+    
     /// The month this date is in is the month which gets represented
     public var baseDate: Date! {
         didSet {
@@ -62,18 +64,18 @@ class CalendarModel: ObservableObject {
         return dateFormatter
     }()
     
-    public var headerMonthString: String {
-        headerFormatter.string(from: baseDate)
+    var headerMonth: String {
+        return headerFormatter.string(from: currentBaseDate)
     }
     
-    public func headerMonth(page: Int) -> String {
-        let offset = numMonthsSinceStart - 1 - page
+    var currentBaseDate: Date {
+        let offset = numMonthsSinceStart - 1 - currentPage
         let offsetDate = self.calendar.date(
             byAdding: .month,
             value: -offset,
             to: Date()
         )!
-        return headerFormatter.string(from: offsetDate)
+        return offsetDate
     }
     
     enum CalendarDataError: Error {
@@ -83,10 +85,7 @@ class CalendarModel: ObservableObject {
     init(habit: Habit) {
         self.habit = habit
         self.baseDate = Date()
-    }
-    
-    func getBaseDate() -> Date {
-        return baseDate
+        self.currentPage = numMonthsSinceStart - 1
     }
     
 
@@ -170,27 +169,16 @@ class CalendarModel: ObservableObject {
     }
     
     func backXMonths(x: Int) -> [Day] {
-        self.baseDate = self.calendar.date(
+        let newDate = self.calendar.date(
             byAdding: .month,
             value: -x,
             to: Date()
         ) ?? self.baseDate
-        return days
+        return generateDaysInMonth(for: newDate!)
     }
     
-    func resetBaseDate() {
-        self.baseDate = Date()
-    }
-    
-    public func numCompleted(page: Int) -> (Int, Int) {
-        let offset = numMonthsSinceStart - 1 - page
-        let offsetDate = self.calendar.date(
-            byAdding: .month,
-            value: -offset,
-            to: Date()
-        )!
-        
-        let days = generateDaysInMonth(for: offsetDate)
+    var numCompleted: (Int, Int) {
+        let days = generateDaysInMonth(for: currentBaseDate)
         
         var completed = 0
         for day in days {
@@ -203,19 +191,13 @@ class CalendarModel: ObservableObject {
         let numberOfDaysInMonth = calendar.range(
             of: .day,
             in: .month,
-            for: baseDate)!.count
+            for: currentBaseDate)!.count
         
         return (completed, numberOfDaysInMonth)
     }
     
-    public func numWeeksInMonth(page: Int) -> CGFloat {
-        let offset = numMonthsSinceStart - 1 - page
-        let offsetDate = self.calendar.date(
-            byAdding: .month,
-            value: -offset,
-            to: Date()
-        )!
-        let num = calendar.range(of: .weekOfMonth, in: .month, for: offsetDate)?.count ?? 0
+    var rowSpacing: CGFloat {
+        let num = calendar.range(of: .weekOfMonth, in: .month, for: currentBaseDate)?.count ?? 0
         if num == 6 {
             return 2
         } else if num == 5 {

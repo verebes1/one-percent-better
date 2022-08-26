@@ -34,14 +34,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     public var id: UUID = UUID()
     
     /// The name of the habit
-    @NSManaged private(set) var name: String
+    @NSManaged public var name: String
     
-    /// The index of the habit in the table (to keep track of order)
+    /// The index of the habit in the table (to keep track of ordering)
     @NSManaged public var orderIndex: Int
     
     /// This variable is used to know the largest habit order index among existing habits when importing new habits
     /// Assuming the imported habits are well indexed (0 to highest), their new indices are largestIndexBeforeImporting + their imported indices
-    /// Set to largest when importing the first habit, and set back to nil after finished importing
+    /// This is set to the current largest index + 1 when importing the first habit, and set back to nil after importing the last habit
     static var nextLargestIndexBeforeImporting: Int?
     
     /// An ordered set of all the trackers for the habit
@@ -62,9 +62,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     /// If frequency is daily, how many times per day
     @NSManaged public var timesPerDay: Int
     
-    /// How many times this day they've completed the habit. If it's more than one time per day,
-    /// then this value can be greater than 1. The length of this array matches the length of the
-    /// array for daysCompleted
+    /// How many times they've completed the habit, where each entry corresponds to an entry in the daysCompleted
+    /// array. For example if the habit was completed twice for a particular day, the entry would be 2
     @NSManaged public var timesCompleted: [Int]
     
     /// A length 7 array for the days per week to complete this habit, stored as [S, M, T, W, T, F, S]
@@ -181,7 +180,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return false
     }
     
-    func percentComplete(on date: Date) -> Double {
+    func percentCompleted(on date: Date) -> Double {
         for (i, day) in daysCompleted.enumerated() {
             if Calendar.current.isDate(day, inSameDayAs: date) {
                 let result = Double(timesCompleted[i]) / Double(timesPerDay)

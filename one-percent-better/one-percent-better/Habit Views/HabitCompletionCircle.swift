@@ -43,7 +43,7 @@ struct HabitCompletionCircle: View {
     var body: some View {
         ZStack {
             
-            let wasCompleted = vm.habit.percentComplete(on: vm.currentDay)
+            let wasCompleted = vm.habit.percentCompleted(on: vm.currentDay)
 //            let timeTrackerValue =
             let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
             

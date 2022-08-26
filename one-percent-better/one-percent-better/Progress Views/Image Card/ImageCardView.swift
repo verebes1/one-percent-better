@@ -10,7 +10,7 @@ import SwiftUI
 
 class ImageCardViewModel: ObservableObject {
     
-    var imageTracker: ImageTracker
+    @ObservedObject var imageTracker: ImageTracker
     
     var images: [UIImage] = []
     var previewImages: [UIImage] = []
