@@ -171,7 +171,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     func wasCompleted(on date: Date) -> Bool {
         for (i, day) in daysCompleted.enumerated() {
             if Calendar.current.isDate(day, inSameDayAs: date) {
-                if timesCompleted[i] == timesPerDay {
+                if timesCompleted[i] >= timesPerDay {
                     return true
                 }
                 break
@@ -184,7 +184,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         for (i, day) in daysCompleted.enumerated() {
             if Calendar.current.isDate(day, inSameDayAs: date) {
                 let result = Double(timesCompleted[i]) / Double(timesPerDay)
-                return result
+                return min(1, result)
             }
         }
         return 0
@@ -249,9 +249,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         if wasCompleted(on: day) {
             markNotCompleted(on: day)
         } else {
-            
             markCompleted(on: day)
-            
             HapticEngineManager.playHaptic()
         }
     }

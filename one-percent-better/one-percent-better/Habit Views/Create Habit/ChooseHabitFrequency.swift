@@ -14,6 +14,11 @@ import Introspect
 //    case monthly = 2
 }
 
+enum HabitFrequencyError: Error {
+    case zeroFrequency
+    case emptyFrequency
+}
+
 struct ChooseHabitFrequency: View {
     
     @Environment(\.managedObjectContext) var moc
@@ -26,15 +31,24 @@ struct ChooseHabitFrequency: View {
     
     @State private var dailyFrequencyText = "1"
     @State private var timesPerDay: Int = 1
+    @State private var timesPerDayZeroError = false
+    @State private var timesPerDayEmptyError = false
     
     @State private var daysPerWeek: [Int] = [0]
     
-    func isValid() -> Bool {
+    func isValid() throws -> Bool {
         switch selectedFrequency {
         case .daily:
+            if dailyFrequencyText == "" {
+                throw HabitFrequencyError.emptyFrequency
+            }
             if let timesPerDay = Int(dailyFrequencyText) {
-                self.timesPerDay = timesPerDay
-                return true
+                if timesPerDay > 0 {
+                    self.timesPerDay = timesPerDay
+                    return true
+                } else {
+                    throw HabitFrequencyError.zeroFrequency
+                }
             }
         case .weekly:
             return true
@@ -49,6 +63,7 @@ struct ChooseHabitFrequency: View {
                                     title: "Frequency",
                 subtitle: "How often do you want to complete this habit?")
                 
+                /*
                 Picker(selection: $selectedFrequency, label: Text("Frequency")) {
                     Text("Daily").tag(HabitFrequency.daily)
                     Text("Weekly").tag(HabitFrequency.weekly)
@@ -67,28 +82,37 @@ struct ChooseHabitFrequency: View {
 //                case .monthly:
 //                    Text("Monthly")
                 }
+                */
                 
+                EveryDaily(frequencyText: $dailyFrequencyText,
+                           zeroError: $timesPerDayZeroError,
+                           emptyError: $timesPerDayEmptyError)
                 
                 Spacer()
                 
                 BottomButton(label: "Finish")
                     .onTapGesture {
-                        if isValid() {
-                            do {
+                        do {
+                            if try isValid() {
                                 let habit = try Habit(context: moc,
-                                                   name: habitName,
-                                                   noNameDupe: false,
-                                                   timesPerDay: timesPerDay,
-                                                   daysPerWeek: daysPerWeek)
+                                                      name: habitName,
+                                                      noNameDupe: false,
+                                                      timesPerDay: timesPerDay,
+                                                      daysPerWeek: daysPerWeek)
                                 
                                 // Auto trackers
                                 let it = ImprovementTracker(context: moc, habit: habit)
                                 habit.addToTrackers(it)
-                            } catch {
-                                fatalError("Unable to create habit")
+                                rootPresenting = false
                             }
-                            
-                            rootPresenting = false
+                        } catch HabitFrequencyError.zeroFrequency {
+                            timesPerDayZeroError = true
+                            timesPerDayEmptyError = false
+                        } catch HabitFrequencyError.emptyFrequency {
+                            timesPerDayZeroError = false
+                            timesPerDayEmptyError = true
+                        } catch {
+                            fatalError("Unknown error in Habit Frequency")
                         }
                     }
             }
@@ -105,20 +129,26 @@ struct HabitFrequency_Previews: PreviewProvider {
 struct EveryDaily: View {
     
     @Binding var frequencyText: String
+    @Binding var zeroError: Bool
+    @Binding var emptyError: Bool
     
     var body: some View {
         CardView {
-            HStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 7)
-                        .foregroundColor(.systemGray5)
-                    
-                    TextField("", text: $frequencyText)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.center)
+            VStack {
+                HStack {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 7)
+                            .foregroundColor(.systemGray5)
+                        
+                        TextField("", text: $frequencyText)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.center)
+                    }
+                    .frame(width: 35, height: 25)
+                    Text("time(s) per day")
                 }
-                .frame(width: 35, height: 25)
-                Text("time(s) per day")
+                ErrorLabel(message: "Times per day must be > 0", showError: $zeroError)
+                ErrorLabel(message: "Times per day can't be empty", showError: $emptyError)
             }
             .padding()
         }

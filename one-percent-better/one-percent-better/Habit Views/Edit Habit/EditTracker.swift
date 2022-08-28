@@ -80,11 +80,8 @@ struct EditTracker: View {
                                     .multilineTextAlignment(.trailing)
                                     .frame(height: 30)
                             }
-                            if emptyTrackerNameError {
-                                Label("Tracker name can't be empty", systemImage: "exclamationmark.triangle")
-                                    .foregroundColor(.red)
-                                    .animation(.easeInOut, value: emptyTrackerNameError)
-                            }
+                            ErrorLabel(message: "Tracker name can't be empty",
+                                       showError: $emptyTrackerNameError)
                         }
                     }
                     

@@ -42,6 +42,9 @@ struct EditHabit: View {
     /// Show empty habit name error if trying to save with empty habit name
     @State private var emptyHabitNameError = false
     
+    @State private var newTimesPerDay: Int
+    @State private var editFrequencyPresenting = false
+    
     @ObservedObject var vm: EditHabitViewModel
     
     enum EditHabitError: Error {
@@ -53,6 +56,7 @@ struct EditHabit: View {
         self._show = show
         self._newHabitName = State(initialValue: habit.name)
         self.vm = EditHabitViewModel(habit: habit)
+        self._newTimesPerDay = State(initialValue: habit.timesPerDay)
     }
     
     func delete() {
@@ -94,20 +98,23 @@ struct EditHabit: View {
             VStack {
                 List {
                     Section(header: Text("Habit")) {
-                        VStack {
+                        EditHabitName(newHabitName: $newHabitName,
+                                      emptyNameError: $emptyHabitNameError)
+                        
+                        NavigationLink(isActive: $editFrequencyPresenting) {
+                            EditHabitFrequency(timesPerDay: habit.timesPerDay, show: $editFrequencyPresenting)
+                                .environmentObject(habit)
+                        } label: {
                             HStack {
-                                Text("Name")
+                                Text("Frequency")
                                     .fontWeight(.medium)
-                                TextField("", text: $newHabitName)
-                                    .multilineTextAlignment(.trailing)
-                                    .frame(height: 30)
-                            }
-                            if emptyHabitNameError {
-                                Label("Habit name can't be empty", systemImage: "exclamationmark.triangle")
-                                    .foregroundColor(.red)
-                                    .animation(.easeInOut, value: emptyHabitNameError)
+                                Spacer()
+                                Text("\(habit.timesPerDay)x daily")
                             }
                         }
+//                        .isDetailLink(false)
+
+                        
                     }
                     
                     if habit.trackers.count > 0 {
@@ -216,6 +223,26 @@ struct EditTrackerRowSimple: View {
         HStack {
             Text(name)
             Spacer()
+        }
+    }
+}
+
+struct EditHabitName: View {
+    
+    @Binding var newHabitName: String
+    @Binding var emptyNameError: Bool
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("Name")
+                    .fontWeight(.medium)
+                TextField("", text: $newHabitName)
+                    .multilineTextAlignment(.trailing)
+                    .frame(height: 30)
+            }
+            ErrorLabel(message: "Habit name can't be empty",
+                       showError: $emptyNameError)
         }
     }
 }
