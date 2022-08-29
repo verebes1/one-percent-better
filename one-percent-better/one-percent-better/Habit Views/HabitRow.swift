@@ -187,7 +187,7 @@ struct HabitRow: View {
             
 //            ListChevron()
         }
-        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.05) : Color.white)
+        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
     }
 }
 

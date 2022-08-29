@@ -104,6 +104,20 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return manualTrackers
     }
     
+    var editableTrackers: [Tracker] {
+        var editable: [Tracker] = []
+        for tracker in trackers {
+            if let t = tracker as? Tracker {
+                if let _ = t as? ImprovementTracker {
+                    // don't add
+                } else {
+                    editable.append(t)
+                }
+            }
+        }
+        return editable
+    }
+    
     var hasTimeTracker: Bool {
         for tracker in trackers {
             if let _ = tracker as? TimeTracker {
