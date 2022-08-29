@@ -184,7 +184,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         for (i, day) in daysCompleted.enumerated() {
             if Calendar.current.isDate(day, inSameDayAs: date) {
                 let result = Double(timesCompleted[i]) / Double(timesPerDay)
-                return min(1, result)
+                return result
+            }
+        }
+        return 0
+    }
+    
+    func timesCompleted(on date: Date) -> Int {
+        for (i, day) in daysCompleted.enumerated() {
+            if Calendar.current.isDate(day, inSameDayAs: date) {
+                return timesCompleted[i]
             }
         }
         return 0

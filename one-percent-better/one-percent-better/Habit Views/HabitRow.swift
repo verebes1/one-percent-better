@@ -126,6 +126,7 @@ class HabitRowViewModel: ObservableObject {
         }
         return Double(soFar) / Double(t.goalTime)
     }
+    
 }
 
 struct HabitRow: View {
@@ -146,12 +147,33 @@ struct HabitRow: View {
                 
                 HStack(spacing: 0) {
                     if vm.hasTimeTracker && vm.hasTimerStarted {
-                        Text(vm.timerLabel)
-                            .font(.system(size: 11))
-                            .foregroundColor(.secondaryLabel)
-                            .fixedSize()
-                            .frame(minWidth: 40)
-                            .transition(.slide)
+                        HStack {
+                            Text(vm.timerLabel)
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondaryLabel)
+                                .fixedSize()
+                                .frame(minWidth: 40)
+                                .padding(.horizontal, 4)
+                                .background(.gray.opacity(0.1))
+                                .cornerRadius(10)
+                            
+                            Spacer().frame(width: 5)
+                        }
+                    }
+                    
+                    if vm.habit.timesPerDay > 1 {
+                        HStack {
+                            Text("\(vm.habit.timesCompleted(on: vm.currentDay)) / \(vm.habit.timesPerDay)")
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondaryLabel)
+                                .fixedSize()
+                                .frame(minWidth: 25)
+                                .padding(.horizontal, 7)
+                                .background(.gray.opacity(0.1))
+                                .cornerRadius(10)
+                            
+                            Spacer().frame(width: 5)
+                        }
                     }
                     
                     Text(vm.streakLabel)
@@ -162,9 +184,10 @@ struct HabitRow: View {
             
             Spacer()
             
+            
 //            ListChevron()
         }
-        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.2) : Color.white)
+        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.05) : Color.white)
     }
 }
 
@@ -204,6 +227,8 @@ struct HabitRow_Previews: PreviewProvider {
         if let h3 = h3 {
             let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
         }
+        
+        let _ = try? Habit(context: context, name: "Twice A Day", frequency: .daily, timesPerDay: 2)
         
         let habits = Habit.habitList(from: context)
         return habits
