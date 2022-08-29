@@ -170,7 +170,7 @@ struct HabitRow: View {
                                 .frame(minWidth: 25)
                                 .padding(.horizontal, 7)
                                 .background(.gray.opacity(0.1))
-                                .cornerRadius(10)
+                                .cornerRadius(5)
                             
                             Spacer().frame(width: 5)
                         }
