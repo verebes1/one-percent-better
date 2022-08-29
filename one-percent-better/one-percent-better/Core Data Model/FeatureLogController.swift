@@ -39,10 +39,10 @@ class FeatureLogController {
     }
     
     func setUp() {
+        setUpTimesCompleted()
         setUpPercentImprovementTrackers()
         setUpTrackerToHabitRelationships()
         setUpTrackerIndices()
-        setUpTimesCompleted()
     }
     
     /// Add percent improvement trackers if the user doesn't have them already
