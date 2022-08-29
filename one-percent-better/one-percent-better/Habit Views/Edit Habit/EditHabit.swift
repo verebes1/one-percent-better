@@ -117,9 +117,9 @@ struct EditHabit: View {
                         
                     }
                     
-                    if habit.trackers.count > 0 {
+                    if habit.manualTrackers.count > 0 {
                         Section(header: Text("Trackers")) {
-                            ForEach(0 ..< habit.trackers.count, id: \.self) { i in
+                            ForEach(0 ..< habit.manualTrackers.count, id: \.self) { i in
                                 let tracker = habit.trackers[i] as! Tracker
                                 let dest = EditTracker(habit: habit, tracker: tracker, show: vm.getTrackerNavLinkBinding(for: tracker))
                                 NavigationLink(isActive: vm.getTrackerNavLinkBinding(for: tracker)) {
