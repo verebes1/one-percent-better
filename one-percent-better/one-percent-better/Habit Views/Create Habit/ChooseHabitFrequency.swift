@@ -63,7 +63,7 @@ struct ChooseHabitFrequency: View {
                                     title: "Frequency",
                 subtitle: "How often do you want to complete this habit?")
                 
-                /*
+                
                 Picker(selection: $selectedFrequency, label: Text("Frequency")) {
                     Text("Daily").tag(HabitFrequency.daily)
                     Text("Weekly").tag(HabitFrequency.weekly)
@@ -75,18 +75,16 @@ struct ChooseHabitFrequency: View {
                 
                 switch selectedFrequency {
                 case .daily:
-                    EveryDaily(frequencyText: $dailyFrequencyText)
+                    EveryDaily(frequencyText: $dailyFrequencyText,
+                               zeroError: $timesPerDayZeroError,
+                               emptyError: $timesPerDayEmptyError)
                 case .weekly:
                     EveryWeekly(selectedWeekdays: $daysPerWeek)
 //                    WeeklyCards()
 //                case .monthly:
 //                    Text("Monthly")
                 }
-                */
                 
-                EveryDaily(frequencyText: $dailyFrequencyText,
-                           zeroError: $timesPerDayZeroError,
-                           emptyError: $timesPerDayEmptyError)
                 
                 Spacer()
                 
@@ -226,7 +224,7 @@ struct EveryWeekly: View {
                         ZStack {
                             let isSelected = selectedWeekdays.contains(i)
                             RoundedRectangle(cornerRadius: 3)
-                                .foregroundColor(isSelected ? .systemGray : .systemGray3)
+                                .foregroundColor(isSelected ? .systemGray : .systemGray4)
                             
                             Text(weekdays[i])
                         }
@@ -238,6 +236,7 @@ struct EveryWeekly: View {
                 }
                 .padding(.horizontal, 25)
             }
+            .padding()
         }
     }
 }
