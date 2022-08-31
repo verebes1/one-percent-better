@@ -70,6 +70,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
     @NSManaged public var daysPerWeek: [Int]
     
+    /// The color theme for this habit
+    @NSManaged public var color: UIColor
+    
     // MARK: - Properties
     
     /// The longest streak the user has completed for this habit

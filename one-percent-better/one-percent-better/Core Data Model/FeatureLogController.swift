@@ -39,10 +39,11 @@ class FeatureLogController {
     }
     
     func setUp() {
-        setUpTimesCompleted()
-        setUpPercentImprovementTrackers()
         setUpTrackerToHabitRelationships()
         setUpTrackerIndices()
+        setUpTimesCompleted()
+        setUpPercentImprovementTrackers()
+        setUpHabitColors()
     }
     
     /// Add percent improvement trackers if the user doesn't have them already
@@ -132,6 +133,18 @@ class FeatureLogController {
             let habits = Habit.habitList(from: context)
             for habit in habits {
                 habit.timesCompleted = Array(repeating: 1, count: habit.daysCompleted.count)
+            }
+            
+            featureLog.hasTimesCompleted = true
+            CoreDataManager.shared.saveContext()
+        }
+    }
+    
+    func setUpHabitColors() {
+        if !featureLog.hasHabitColor {
+            let habits = Habit.habitList(from: context)
+            for habit in habits {
+                habit.color = UIColor.green
             }
             
             featureLog.hasTimesCompleted = true

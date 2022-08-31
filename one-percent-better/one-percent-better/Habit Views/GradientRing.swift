@@ -22,9 +22,6 @@ class GradientRingViewModel {
     /// The line width of the circle
     var lineWidth: CGFloat = 50
     
-    /// Opacity of the shadow on ends of the circle
-    var shadowOpacity: Double = 0.15
-    
     /// Radius of shadow at the ends of the circle
     var shadowRadius: CGFloat {
         lineWidth/4
@@ -82,11 +79,24 @@ struct GradientRing: View, Animatable {
         return result
     }
     
+    /// Opacity of the shadow on ends of the circle
+    var shadowOpacity: Double {
+        if percent < cutoffPercent {
+            return 0.15
+        } else {
+            let overlappingPercent = 0.944
+            let range = overlappingPercent - cutoffPercent
+            let percentInRange = min(1, (percent - overlappingPercent) / range)
+            let opacity = max(percentInRange, 0.15)
+            return opacity
+        }
+    }
+    
     var vm: GradientRingViewModel
     
     init(percent: Double,
-         startColor: Color = Color(#colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1)),
-         endColor: Color = Color(#colorLiteral(red: 0.009636783041, green: 0.9831244349, blue: 0.8203613162, alpha: 1)),
+         startColor: Color = Color(#colorLiteral(red: 0.527825892, green: 0.2033253908, blue: 0.7966855764, alpha: 1)),
+         endColor: Color = Color(#colorLiteral(red: 0.7965275049, green: 0.2038353086, blue: 0.7675944567, alpha: 1)),
          size: CGFloat = 250,
          lineWidth: CGFloat? = nil) {
         self.percent = percent
@@ -109,40 +119,30 @@ struct GradientRing: View, Animatable {
                 if percent > cutoffPercent && percent < 1 {
                     StartCircle(vm: vm,
                                 percent: percent,
-                                cutoffPercent: cutoffPercent)
+                                cutoffPercent: cutoffPercent,
+                                shadowOpacity: shadowOpacity)
                 }
 
                 // Main Loop circle
                 MainLoopCircle(vm: vm,
                                percent: percent,
                                cutoffPercent: cutoffPercent,
-                               percentWithRotationCutoff: percentWithRotationCutoff)
+                               percentWithRotationCutoff: percentWithRotationCutoff,
+                               shadowOpacity: shadowOpacity)
                 
                 
                 // Overlapping circle
                 if percent > cutoffPercent {
                     OverlappingCircle(vm: vm,
                                       cutoffPercent: cutoffPercent,
-                                      continueAngle: continueAngle)
+                                      continueAngle: continueAngle,
+                                      shadowOpacity: shadowOpacity)
                 }
             }
             .rotationEffect(Angle(degrees: rotationDegrees))
         }
     }
 }
-
-struct GradientRing_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            GradientRing(percent: 0.00000001, size: 100)
-            GradientRing(percent: 0.5, size: 100)
-            GradientRing(percent: 0.935, size: 100)
-            GradientRing(percent: 0.936, size: 100)
-            GradientRing(percent: 1.0, size: 100)
-        }
-    }
-}
-
 
 struct GrayCircle: View {
     
@@ -163,6 +163,7 @@ struct StartCircle: View {
     let vm: GradientRingViewModel
     let percent: Double
     let cutoffPercent: Double
+    let shadowOpacity: Double
     
     var body: some View {
         ZStack {
@@ -172,7 +173,7 @@ struct StartCircle: View {
                     .stroke(vm.startColor, style: .init(lineWidth: vm.lineWidth, lineCap: .round, lineJoin: .round))
                     .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                     .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                    .shadow(color: percent > cutoffPercent ? .black.opacity(vm.shadowOpacity) : .black.opacity(0), radius: vm.shadowRadius)
+                    .shadow(color: percent > cutoffPercent ? .black.opacity(shadowOpacity) : .black.opacity(0), radius: vm.shadowRadius)
                     .frame(width: vm.size, height: vm.size)
             }
             .frame(width: vm.size + vm.lineWidth, height: vm.size + vm.lineWidth)
@@ -191,6 +192,7 @@ struct MainLoopCircle: View {
     let percent: Double
     let cutoffPercent: Double
     let percentWithRotationCutoff: Double
+    let shadowOpacity: Double
     
     var body: some View {
         ZStack {
@@ -200,7 +202,7 @@ struct MainLoopCircle: View {
                     .stroke(vm.angularGradient, style: .init(lineWidth: vm.lineWidth, lineCap: .round, lineJoin: .round))
                     .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                     .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
-                    .shadow(color: .black.opacity(vm.shadowOpacity), radius: vm.shadowRadius)
+                    .shadow(color: .black.opacity(shadowOpacity), radius: vm.shadowRadius)
                     .frame(width: vm.size, height: vm.size)
             }
             .frame(width: vm.size + vm.lineWidth, height: vm.size + vm.lineWidth)
@@ -223,6 +225,7 @@ struct OverlappingCircle: View {
     var vm: GradientRingViewModel
     let cutoffPercent: Double
     let continueAngle: CGFloat
+    let shadowOpacity: Double
     
     var body: some View {
         ZStack {
@@ -232,7 +235,7 @@ struct OverlappingCircle: View {
                     .trim(from: 0, to: continueAngle)
                     .stroke(vm.endColor, style: .init(lineWidth: vm.lineWidth, lineCap: .round, lineJoin: .round))
                     .rotation3DEffect(.init(degrees: -90 - angleOffset), axis: (x: 0, y: 0, z: 1))
-                    .shadow(color: .black.opacity(vm.shadowOpacity), radius: vm.shadowRadius)
+                    .shadow(color: .black.opacity(shadowOpacity), radius: vm.shadowRadius)
                     .frame(width: vm.size, height: vm.size)
             }
             .frame(width: vm.size + vm.lineWidth, height: vm.size + vm.lineWidth)
@@ -244,6 +247,23 @@ struct OverlappingCircle: View {
         .reverseMask {
             Circle()
                 .frame(width: vm.size - vm.lineWidth, height: vm.size - vm.lineWidth)
+        }
+    }
+}
+
+struct GradientRing_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+//            GradientRing(percent: 0.00000001, size: 100)
+//            GradientRing(percent: 0.5, size: 100)
+//            GradientRing(percent: 0.935, size: 100)
+//            GradientRing(percent: 0.936, size: 100)
+//            GradientRing(percent: 0.95, size: 100)
+            GradientRing(percent: 0.93, size: 100)
+            GradientRing(percent: 0.94, size: 100)
+            GradientRing(percent: 0.95, size: 100)
+            GradientRing(percent: 0.96, size: 100)
+            GradientRing(percent: 1.0, size: 100)
         }
     }
 }

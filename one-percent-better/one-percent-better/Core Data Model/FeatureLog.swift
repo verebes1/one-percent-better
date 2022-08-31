@@ -12,11 +12,18 @@ import CoreData
 @objc(FeatureLog)
 public class FeatureLog: NSManagedObject, Codable {
 
-    @NSManaged public var hasTimesCompleted: Bool
     @NSManaged public var hasNotificationTimeAsDate: Bool
     @NSManaged public var hasTrackerIndices: Bool
     @NSManaged public var hasTrackerToHabitRelationship: Bool
+    
+    /// Core Data model v7 adds improvement tracker to habits
     @NSManaged public var hasImprovement: Bool
+    
+    /// Core Data model v7 adds # of times completed per day to habits
+    @NSManaged public var hasTimesCompleted: Bool
+    
+    /// Core Data model v8 adds color to habits
+    @NSManaged public var hasHabitColor: Bool
     
     // MARK: - Encodable
     
@@ -26,6 +33,7 @@ public class FeatureLog: NSManagedObject, Codable {
         case hasTrackerIndices
         case hasTrackerToHabitRelationship
         case hasImprovement
+        case hasHabitColor
     }
     
     required convenience public init(from decoder: Decoder) throws {
@@ -46,6 +54,7 @@ public class FeatureLog: NSManagedObject, Codable {
         self.hasTrackerIndices = try container.decode(Bool.self, forKey: .hasTrackerIndices)
         self.hasTrackerToHabitRelationship = try container.decode(Bool.self, forKey: .hasTrackerToHabitRelationship)
         self.hasImprovement = try container.decode(Bool.self, forKey: .hasImprovement)
+        self.hasHabitColor = try container.decode(Bool.self, forKey: .hasHabitColor)
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -55,6 +64,7 @@ public class FeatureLog: NSManagedObject, Codable {
         try container.encode(hasTrackerIndices, forKey: .hasTrackerIndices)
         try container.encode(hasTrackerToHabitRelationship, forKey: .hasTrackerToHabitRelationship)
         try container.encode(hasImprovement, forKey: .hasImprovement)
+        try container.encode(hasHabitColor, forKey: .hasHabitColor)
     }
     
     // MARK: Fetch Request
