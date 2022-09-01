@@ -16,6 +16,8 @@ struct HabitCompletionCircle: View {
     var startColor = Color( #colorLiteral(red: 0.2066814005, green: 0.7795598507, blue: 0.349144876, alpha: 1) )
     var endColor = Color( #colorLiteral(red: 0.4735379219, green: 1, blue: 0.5945096612, alpha: 1) )
     
+    @Binding var completedPressed: Bool
+    
     @State var show: Bool = false
     
     func handleTap() {
@@ -44,7 +46,6 @@ struct HabitCompletionCircle: View {
         ZStack {
             
             let wasCompleted = vm.habit.percentCompleted(on: vm.currentDay)
-//            let timeTrackerValue =
             let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
             
             GradientRing(percent: percent,
@@ -54,9 +55,9 @@ struct HabitCompletionCircle: View {
                 .animation(.easeInOut, value: percent)
         }
         .contentShape(Rectangle())
-        .onTapGesture {
+        .onChange(of: completedPressed, perform: { newValue in
             handleTap()
-        }
+        })
         .sheet(isPresented: self.$show) {
             let enterDataVM = EnterTrackerDataViewModel(habit: vm.habit, currentDay: vm.currentDay)
             EnterTrackerDataView(vm: enterDataVM)
@@ -95,7 +96,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             let vm1 = HabitRowViewModel(habit: notCompletedHabit,
                                         currentDay:
                                             currentDay)
-            HabitCompletionCircle(vm: vm1)
+            HabitCompletionCircle(vm: vm1, completedPressed: .constant(false))
                 .border(Color.black, width: 1)
             
             Spacer()
@@ -106,7 +107,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             let vm2 = HabitRowViewModel(habit: completedHabit,
                                         currentDay:
                                             currentDay)
-            HabitCompletionCircle(vm: vm2)
+            HabitCompletionCircle(vm: vm2, completedPressed: .constant(false))
                 .environmentObject(completedHabit)
                 .border(Color.black, width: 1)
             
@@ -118,7 +119,7 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
             let vm3 = HabitRowViewModel(habit: trackerHabit,
                                                     currentDay:
                                                         currentDay)
-            HabitCompletionCircle(vm: vm3)
+            HabitCompletionCircle(vm: vm3, completedPressed: .constant(false))
                 .environmentObject(trackerHabit)
                 .border(Color.black, width: 1)
         }
