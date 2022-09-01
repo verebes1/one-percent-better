@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
+import Introspect
 
 struct CreateNewHabit: View {
     
-    @Environment(\.managedObjectContext) var moc
     @Environment(\.presentationMode) var presentationMode
     
     @Binding var rootPresenting: Bool
     
     @State var habitName: String = ""
-    @State var duplicateNameError: Bool = false
     @State private var isResponder: Bool? = true
+    
+    @State private var nextView = false
     
     var body: some View {
         Background {
@@ -40,34 +41,23 @@ struct CreateNewHabit: View {
                             .frame(height: 50)
                     }
                     .padding(.horizontal, 20)
-                    
-                    if duplicateNameError {
-                        Label("Habit name already exists", systemImage: "exclamationmark.triangle")
-                            .foregroundColor(.red)
-                            .animation(.easeInOut, value: duplicateNameError)
-                    }
                 }
                 
                 Spacer()
                 
-                BottomButtonDisabledWhenEmpty(text: "Create", dependingLabel: $habitName)
+                BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
                     .onTapGesture {
-                        duplicateNameError = false
                         if !habitName.isEmpty {
-                            do {
-                                let _ = try Habit(context: moc, name: habitName)
-                            } catch HabitCreationError.duplicateName {
-                                duplicateNameError = true
-                            } catch {
-                                print("ERROR: Habit creation error: \(error)")
-                            }
-                            
-                            if !duplicateNameError {
-                                moc.fatalSave()
-                                rootPresenting = false
-                            }
+                            nextView = true
                         }
                     }
+                    .background(
+                        NavigationLink(isActive: $nextView) {
+                            ChooseHabitFrequency(habitName: habitName, rootPresenting: $rootPresenting)
+                        } label: {
+                            EmptyView()
+                        }
+                    )
             }
             // Hide the system back button
             .navigationBarBackButtonHidden(true)

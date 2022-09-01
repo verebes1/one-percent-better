@@ -57,7 +57,7 @@ struct SettingsView: View {
                     })
                     .sheet(isPresented: $showDocumentPicker) {
                         DocumentPicker(fileContent: $fileContent)
-                }
+                    }
                 }
             }
             .navigationTitle("Settings")
@@ -142,11 +142,12 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 let jsonData = try Data(contentsOf: url)
                 do {
                     let _: ExportContainer = try exportManager.load(jsonData)
-                    CoreDataManager.shared.saveContext()
                 } catch {
                     print("IMPORT DATA ERROR: \(error)")
                     //                fatalError("\(#function) - Unexpected error: \(error)")
                 }
+                CoreDataManager.shared.saveContext()
+                FeatureLogController.shared.setUp()
             } catch {
                 print("unable to load data: \(error)")
             }

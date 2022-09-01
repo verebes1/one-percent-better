@@ -23,7 +23,7 @@ struct CardView<Content>: View where Content: View {
         .frame(maxWidth: .infinity)
         .background(Color.cardColor)
         .cornerRadius(10)
-        .shadow(color: Color.cardColorOpposite.opacity(shadow ? 0.2 : 0.0), radius: colorScheme == .light ? 7 : 0)
+        .shadow(color: Color.cardColorOpposite.opacity(shadow ? 0.05 : 0.0), radius: colorScheme == .light ? 7 : 0)
         .padding(.horizontal, padding ? cardViewHorizontalInset : 0)
     }
 }

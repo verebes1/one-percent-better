@@ -126,6 +126,7 @@ class HabitRowViewModel: ObservableObject {
         }
         return Double(soFar) / Double(t.goalTime)
     }
+    
 }
 
 struct HabitRow: View {
@@ -142,17 +143,37 @@ struct HabitRow: View {
                 
                 Text(vm.habit.name)
                     .font(.system(size: 16))
-                    .fontWeight(vm.isTimerRunning ? .medium : .regular)
-//                    .foregroundColor(vm.isTimerRunning ? .green : .black)
+                    .fontWeight(vm.isTimerRunning ? .bold : .regular)
                 
                 HStack(spacing: 0) {
                     if vm.hasTimeTracker && vm.hasTimerStarted {
-                        Text(vm.timerLabel)
-                            .font(.system(size: 11))
-                            .foregroundColor(.secondaryLabel)
-                            .fixedSize()
-                            .frame(minWidth: 40)
-                            .transition(.slide)
+                        HStack {
+                            Text(vm.timerLabel)
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondaryLabel)
+                                .fixedSize()
+                                .frame(minWidth: 40)
+                                .padding(.horizontal, 4)
+                                .background(.gray.opacity(0.1))
+                                .cornerRadius(10)
+                            
+                            Spacer().frame(width: 5)
+                        }
+                    }
+                    
+                    if vm.habit.timesPerDay > 1 {
+                        HStack {
+                            Text("\(vm.habit.timesCompleted(on: vm.currentDay)) / \(vm.habit.timesPerDay)")
+                                .font(.system(size: 11))
+                                .foregroundColor(.secondaryLabel)
+                                .fixedSize()
+                                .frame(minWidth: 25)
+                                .padding(.horizontal, 7)
+                                .background(.gray.opacity(0.1))
+                                .cornerRadius(5)
+                            
+                            Spacer().frame(width: 5)
+                        }
                     }
                     
                     Text(vm.streakLabel)
@@ -161,9 +182,12 @@ struct HabitRow: View {
                 }
             }
             
-            
             Spacer()
+            
+            
+//            ListChevron()
         }
+        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
     }
 }
 
@@ -177,11 +201,8 @@ struct HabitRowPreviewer: View {
                 List {
                     ForEach(vm.habits, id:\.name) { habit in
                         let vm = HabitRowViewModel(habit: habit, currentDay: Date())
-                        NavigationLink(destination: EmptyView()) {
-                            HabitRow(vm: vm)
-                                .environmentObject(habit)
-                        }
-                        .isDetailLink(false)
+                        HabitRow(vm: vm)
+                            .environmentObject(habit)
                     }
                 }
                 .environment(\.defaultMinListRowHeight, 54)
@@ -207,6 +228,8 @@ struct HabitRow_Previews: PreviewProvider {
             let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
         }
         
+        let _ = try? Habit(context: context, name: "Twice A Day", frequency: .daily, timesPerDay: 2)
+        
         let habits = Habit.habitList(from: context)
         return habits
     }
@@ -215,5 +238,16 @@ struct HabitRow_Previews: PreviewProvider {
         let _ = data()
         let moc = CoreDataManager.previews.persistentContainer.viewContext
         HabitRowPreviewer(vm: HabitListViewModel(moc))
+    }
+}
+
+struct ListChevron: View {
+    var body: some View {
+        Image(systemName: "chevron.right")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: 12)
+            .foregroundColor(.gray)
+            .padding(.trailing, 5)
     }
 }

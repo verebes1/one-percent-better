@@ -13,7 +13,7 @@ struct CreateNewTracker: View {
     
     @Binding var progressPresenting: Bool
     
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     let columnSpacing: CGFloat = 11
     
     var body: some View {
@@ -23,7 +23,7 @@ struct CreateNewTracker: View {
                     .frame(height: 50)
                 HabitCreationHeader(systemImage: "chart.xyaxis.line",
                                     title: "Add a Tracker",
-                                    subtitle: "Seeing your progress is one of the most effective forms of motivation")
+                                    subtitle: "Track your progress and visualize your gains to stay motivated")
                 
                 LazyVGrid(columns: columns, spacing: columnSpacing) {
                     
@@ -41,12 +41,12 @@ struct CreateNewTracker: View {
                     }
                     .isDetailLink(false)
                     
-                    NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
-                        TrackerView(systemImage: "timer",
-                                    color: .yellow,
-                                    title: "Time")
-                    }
-                    .isDetailLink(false)
+//                    NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
+//                        TrackerView(systemImage: "timer",
+//                                    color: .yellow,
+//                                    title: "Time")
+//                    }
+//                    .isDetailLink(false)
                 }
                 .padding(.horizontal, 15)
 

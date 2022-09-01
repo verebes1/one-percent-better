@@ -18,10 +18,32 @@ struct HabitCompletionCircle: View {
     
     @State var show: Bool = false
     
+    func handleTap() {
+        if !vm.habit.manualTrackers.isEmpty {
+            show = true
+        } else {
+            if let t = vm.habit.timeTracker {
+                // toggle the timer
+                t.toggleTimer(on: vm.currentDay)
+                vm.isTimerRunning.toggle()
+                if vm.isTimerRunning {
+                    vm.hasTimerStarted = true
+                } else if t.getValue(on: vm.currentDay) == nil {
+                    vm.hasTimerStarted = false
+                } else if let v = t.getValue(on: vm.currentDay),
+                          v == 0 {
+                    vm.hasTimerStarted = false
+                }
+            } else {
+                vm.habit.toggleHabitCompletion(on: vm.currentDay)
+            }
+        }
+    }
+    
     var body: some View {
         ZStack {
             
-            let wasCompleted = vm.habit.wasCompleted(on: vm.currentDay) ? 1.0 : 0.0
+            let wasCompleted = vm.habit.percentCompleted(on: vm.currentDay)
 //            let timeTrackerValue =
             let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
             
@@ -33,31 +55,7 @@ struct HabitCompletionCircle: View {
         }
         .contentShape(Rectangle())
         .onTapGesture {
-            if !vm.habit.manualTrackers.isEmpty {
-                show = true
-            } else {
-                
-                if let t = vm.habit.timeTracker {
-                    // toggle the timer
-                    t.toggleTimer(on: vm.currentDay)
-                    vm.isTimerRunning.toggle()
-                    if vm.isTimerRunning {
-                        vm.hasTimerStarted = true
-                    } else if t.getValue(on: vm.currentDay) == nil {
-                        vm.hasTimerStarted = false
-                    } else if let v = t.getValue(on: vm.currentDay),
-                              v == 0 {
-                        vm.hasTimerStarted = false
-                    }
-                } else {
-                    if vm.habit.wasCompleted(on: vm.currentDay) {
-                        vm.habit.markNotCompleted(on: vm.currentDay)
-                    } else {
-                        vm.habit.markCompleted(on: vm.currentDay)
-                        HapticEngineManager.playHaptic()
-                    }
-                }
-            }
+            handleTap()
         }
         .sheet(isPresented: self.$show) {
             let enterDataVM = EnterTrackerDataViewModel(habit: vm.habit, currentDay: vm.currentDay)
