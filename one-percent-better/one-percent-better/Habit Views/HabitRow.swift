@@ -153,7 +153,7 @@ struct HabitRow: View {
             // Left side of habit row is completion button
             GeometryReader { geo in
                 Color.clear
-                    .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 2, height: geo.size.height))))
+                    .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))
                     .onTapGesture {
                         completePressed.toggle()
                     }

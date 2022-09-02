@@ -110,32 +110,33 @@ struct CalendarDayView: View {
     
     var body: some View {
         VStack (spacing: 0) {
-            
-            Text(day.dayNumber)
-                .font(.system(size: fontSize))
-                .foregroundColor(.calendarNumberColor)
-            
-            if Calendar.current.isDateInToday(day.date) {
-                if habit.wasCompleted(on: day.date) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundColor(.green)
-                        .frame(width: circleSize, height: circleSize)
+            if day.isWithinDisplayedMonth {
+                Text(day.dayNumber)
+                    .font(.system(size: fontSize))
+                    .foregroundColor(.calendarNumberColor)
+                
+                if Calendar.current.isDateInToday(day.date) {
+                    if habit.wasCompleted(on: day.date) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(.green.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
+                            .frame(width: circleSize, height: circleSize)
+                    } else {
+                        Circle()
+                            .stroke(.gray, style: .init(lineWidth: 1))
+                            .frame(width: circleSize, height: circleSize)
+                    }
                 } else {
-                    Circle()
-                        .stroke(.gray, style: .init(lineWidth: 1))
-                        .frame(width: circleSize, height: circleSize)
-                }
-            } else {
-                if habit.wasCompleted(on: day.date) {
-                    Circle()
-                        .foregroundColor(.green.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
-                        .frame(width: circleSize, height: circleSize)
-                } else {
-                    Circle()
-                        .foregroundColor(.systemGray3.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
-                        .frame(width: circleSize, height: circleSize)
+                    if habit.wasCompleted(on: day.date) {
+                        Circle()
+                            .foregroundColor(.green.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
+                            .frame(width: circleSize, height: circleSize)
+                    } else {
+                        Circle()
+                            .foregroundColor(.systemGray3.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
+                            .frame(width: circleSize, height: circleSize)
+                    }
                 }
             }
         }
@@ -189,7 +190,7 @@ struct CalendarDayView_Previews: PreviewProvider {
                                 circleSize: circleSize)
                 
             }
-                .preferredColorScheme(.dark)
+                
         )
     }
 }
