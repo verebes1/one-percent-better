@@ -245,6 +245,9 @@ struct HabitListView: View {
                     vm.latestDay = Date()
                     vm.currentDay = Date()
                 }
+                
+                vm.selectedWeekDay = vm.thisWeekDayOffset(vm.currentDay)
+                vm.selectedWeek = vm.getSelectedWeek(for: vm.currentDay)
             }
             .onChange(of: scenePhase, perform: { newPhase in
                 if newPhase == .active, !Calendar.current.isDate(vm.latestDay, inSameDayAs: Date()) {

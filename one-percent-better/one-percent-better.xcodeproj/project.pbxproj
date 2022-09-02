@@ -384,9 +384,9 @@
 			children = (
 				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
 				803B4E8428B43381003EA859 /* Create Habit */,
-				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
 				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
+				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
 				80A6D9F828949F43009BF024 /* HabitRow.swift */,
 				80385CD1285BEE5900CBDF71 /* RingView.swift */,
 				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,

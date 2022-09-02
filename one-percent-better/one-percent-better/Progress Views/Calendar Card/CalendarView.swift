@@ -113,7 +113,7 @@ struct CalendarDayView: View {
             if day.isWithinDisplayedMonth {
                 Text(day.dayNumber)
                     .font(.system(size: fontSize))
-                    .foregroundColor(.calendarNumberColor)
+                    .foregroundColor(.calendarNumberColor.opacity(day.isWithinDisplayedMonth ? 1 : 0.2))
                 
                 if Calendar.current.isDateInToday(day.date) {
                     if habit.wasCompleted(on: day.date) {
