@@ -135,59 +135,30 @@ struct HabitRow: View {
     
     @ObservedObject var vm: HabitRowViewModel
     
+    @State private var completePressed = false
+    
     var body: some View {
-        HStack {
-            HabitCompletionCircle(vm: vm,
-                                  size: 28)
-            VStack(alignment: .leading) {
-                
-                Text(vm.habit.name)
-                    .font(.system(size: 16))
-                    .fontWeight(vm.isTimerRunning ? .bold : .regular)
-                
-                HStack(spacing: 0) {
-                    if vm.hasTimeTracker && vm.hasTimerStarted {
-                        HStack {
-                            Text(vm.timerLabel)
-                                .font(.system(size: 11))
-                                .foregroundColor(.secondaryLabel)
-                                .fixedSize()
-                                .frame(minWidth: 40)
-                                .padding(.horizontal, 4)
-                                .background(.gray.opacity(0.1))
-                                .cornerRadius(10)
-                            
-                            Spacer().frame(width: 5)
-                        }
-                    }
-                    
-                    if vm.habit.timesPerDay > 1 {
-                        HStack {
-                            Text("\(vm.habit.timesCompleted(on: vm.currentDay)) / \(vm.habit.timesPerDay)")
-                                .font(.system(size: 11))
-                                .foregroundColor(.secondaryLabel)
-                                .fixedSize()
-                                .frame(minWidth: 25)
-                                .padding(.horizontal, 7)
-                                .background(.gray.opacity(0.1))
-                                .cornerRadius(5)
-                            
-                            Spacer().frame(width: 5)
-                        }
-                    }
-                    
-                    Text(vm.streakLabel)
-                        .font(.system(size: 11))
-                    .foregroundColor(vm.streakLabelColor)
-                }
+        ZStack {
+            // Actual row views
+            HStack {
+                HabitCompletionCircle(vm: vm,
+                                      size: 28,
+                                      completedPressed: $completePressed)
+                HabitRowLabels(vm: vm)
+                Spacer()
+//                ListChevron()
             }
+            .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             
-            Spacer()
-            
-            
-//            ListChevron()
+            // Left side of habit row is completion button
+            GeometryReader { geo in
+                Color.clear
+                    .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))
+                    .onTapGesture {
+                        completePressed.toggle()
+                    }
+            }
         }
-        .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
     }
 }
 
@@ -249,5 +220,55 @@ struct ListChevron: View {
             .frame(height: 12)
             .foregroundColor(.gray)
             .padding(.trailing, 5)
+    }
+}
+
+struct HabitRowLabels: View {
+    
+    @ObservedObject var vm: HabitRowViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            
+            Text(vm.habit.name)
+                .font(.system(size: 16))
+                .fontWeight(vm.isTimerRunning ? .bold : .regular)
+            
+            HStack(spacing: 0) {
+                if vm.hasTimeTracker && vm.hasTimerStarted {
+                    HStack {
+                        Text(vm.timerLabel)
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondaryLabel)
+                            .fixedSize()
+                            .frame(minWidth: 40)
+                            .padding(.horizontal, 4)
+                            .background(.gray.opacity(0.1))
+                            .cornerRadius(10)
+                        
+                        Spacer().frame(width: 5)
+                    }
+                }
+                
+                if vm.habit.timesPerDay > 1 {
+                    HStack {
+                        Text("\(vm.habit.timesCompleted(on: vm.currentDay)) / \(vm.habit.timesPerDay)")
+                            .font(.system(size: 11))
+                            .foregroundColor(.secondaryLabel)
+                            .fixedSize()
+                            .frame(minWidth: 25)
+                            .padding(.horizontal, 7)
+                            .background(.gray.opacity(0.1))
+                            .cornerRadius(5)
+                        
+                        Spacer().frame(width: 5)
+                    }
+                }
+                
+                Text(vm.streakLabel)
+                    .font(.system(size: 11))
+                    .foregroundColor(vm.streakLabelColor)
+            }
+        }
     }
 }
