@@ -19,6 +19,13 @@ class ProgressViewModel: ObservableObject {
     }
 }
 
+class SubHabit {
+    var habit: Habit
+    init(habit: Habit) {
+        self.habit = habit
+    }
+}
+
 struct ProgressView: View {
     
     @ObservedObject var vm: ProgressViewModel
@@ -58,8 +65,8 @@ struct ProgressView: View {
                                    isActive: $progressActive) {
                         Label("New Tracker", systemImage: "plus.circle")
                     }
-                                   .isDetailLink(false)
-                                   .padding(.top, 15)
+                   .isDetailLink(false)
+                   .padding(.top, 15)
                     
                     Spacer()
                 }
@@ -69,13 +76,23 @@ struct ProgressView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                let dest = EditHabit(habit: vm.habit, show: $editHabitActive)
-                NavigationLink(
-                    destination: dest,
-                    isActive: $editHabitActive) {
-                        Text("Edit")
-                    }
-                    .isDetailLink(false)
+                Text("Edit")
+//                let subHabit = SubHabit(habit: vm.habit)
+//                NavigationLink(value: subHabit) {
+//                    Text("Edit")
+//                }
+//                .navigationDestination(for: SubHabit.self) { habit in
+//                    EditHabit(habit: habit, show: $editHabitActive)
+//                }
+//                .navigationDestination(isPresented: $editHabitActive) {
+//                    EditHabit(habit: vm.habit, show: $editHabitActive)
+//                }
+//                NavigationLink(
+//                    destination: dest,
+//                    isActive: $editHabitActive) {
+//                        Text("Edit")
+//                    }
+//                    .isDetailLink(false)
             }
         }
     }

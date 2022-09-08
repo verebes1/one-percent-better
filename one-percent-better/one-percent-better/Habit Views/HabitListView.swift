@@ -209,7 +209,7 @@ struct HabitListView: View {
     @State private var progressViewPresenting = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Background {
                 VStack {
                     HabitsHeaderView()
@@ -221,19 +221,16 @@ struct HabitListView: View {
                                 let habitRowVM = HabitRowViewModel(habit: habit,
                                                                    currentDay:
                                                                     vm.currentDay)
-                                let dest = ProgressView(habit: habit)
-//                                    .environmentObject(habit)
-//                                    .environmentObject(vm)
-                                NavigationLink(isActive: vm.navLinkBinding(for: habit), destination: {
-                                    dest
-                                }) {
+                                NavigationLink(value: habit) {
                                     HabitRow(vm: habitRowVM)
                                 }
-                                .isDetailLink(false)
                             }
                         }
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
+                    }
+                    .navigationDestination(for: Habit.self) { habit in
+                        ProgressView(habit: habit)
                     }
                     .environment(\.defaultMinListRowHeight, 54)
                 }
