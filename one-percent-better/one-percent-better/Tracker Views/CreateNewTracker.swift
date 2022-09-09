@@ -13,7 +13,7 @@ struct CreateNewTracker: View {
     
     @Binding var progressPresenting: Bool
     
-    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
     let columnSpacing: CGFloat = 11
     
     var body: some View {
@@ -47,6 +47,13 @@ struct CreateNewTracker: View {
 //                                    title: "Time")
 //                    }
 //                    .isDetailLink(false)
+                    
+                    NavigationLink(destination: CreateExerciseTracker(habit: habit, progressPresenting: $progressPresenting)) {
+                        TrackerView(systemImage: "figure.walk",
+                                    color: .red,
+                                    title: "Exercise")
+                    }
+                    .isDetailLink(false)
                 }
                 .padding(.horizontal, 15)
 

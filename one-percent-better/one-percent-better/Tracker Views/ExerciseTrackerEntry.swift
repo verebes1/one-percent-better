@@ -7,14 +7,38 @@
 
 import SwiftUI
 
+class ExerciseEntryModel: ObservableObject {
+    
+    @Published var sets: Int {
+        didSet {
+            reps.append(nil)
+            weights.append(nil)
+        }
+    }
+    @Published var reps: [Int?] = []
+    @Published var weights: [Double?] = []
+    
+    init() {
+        self.sets = 4
+        self.reps = Array(repeating: nil, count: sets)
+        self.weights = Array(repeating: nil, count: sets)
+    }
+    
+    
+}
+
 struct ExerciseTrackerEntry: View {
     
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 5)
     
+    var tracker: ExerciseTracker
+    
+    @StateObject var vm = ExerciseEntryModel()
+    
     var body: some View {
         VStack {
             HStack {
-                Text("Bench Press")
+                Text(tracker.name)
                     .fontWeight(.medium)
                     .padding(.leading, 20)
                 Spacer()
@@ -29,7 +53,7 @@ struct ExerciseTrackerEntry: View {
             }
             
             LazyVGrid(columns: columns) {
-                ForEach(0 ..< 4, id:\.self) { i in
+                ForEach(0 ..< vm.sets, id:\.self) { i in
                     Text(String(i+1))
                         .fontWeight(.medium)
                     PreviousWeight()
@@ -41,13 +65,34 @@ struct ExerciseTrackerEntry: View {
             .padding(.bottom, 10)
             
             ExerciseAddSet()
+                .environmentObject(vm)
         }
+        .padding(.vertical, 5)
     }
 }
 
 struct ExerciseTrackerEntry_Previews: PreviewProvider {
+    
+    static func data() -> ExerciseTracker {
+        let context = CoreDataManager.previews.persistentContainer.viewContext
+        
+        let h = try? Habit(context: context, name: "Work Out")
+        
+        if let h = h {
+            let _ = ExerciseTracker(context: context, habit: h, name: "Bench Press")
+        }
+        
+        let habits = Habit.habitList(from: context)
+        return (habits.first!.trackers.firstObject as! ExerciseTracker)
+    }
+    
     static var previews: some View {
-        ExerciseTrackerEntry()
+        let tracker = data()
+        Background {
+            CardView {
+                ExerciseTrackerEntry(tracker: tracker)
+            }
+        }
     }
 }
 
@@ -95,6 +140,9 @@ struct ExerciseCheckmark: View {
 }
 
 struct ExerciseAddSet: View {
+    
+    @EnvironmentObject var vm: ExerciseEntryModel
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 7)
@@ -104,5 +152,10 @@ struct ExerciseAddSet: View {
                 .font(.system(size: 14))
         }
         .padding(.horizontal, 18)
+        .onTapGesture {
+            withAnimation {
+                vm.sets += 1
+            }
+        }
     }
 }

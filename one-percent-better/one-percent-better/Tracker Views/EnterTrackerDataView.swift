@@ -139,6 +139,8 @@ struct EnterTrackerDataView: View {
                                                                   image: vm.imageTrackerBinding(for: t),
                                                                   index: i,
                                                                   fieldsCount: vm.trackers.count)
+                                    } else if let t = vm.trackers[i] as? ExerciseTracker {
+                                        ExerciseTrackerEntry(tracker: t)
                                     }
                                 }
                             }
@@ -180,6 +182,7 @@ struct EnterTrackerDataView_Previews: PreviewProvider {
             let _ = NumberTracker(context: context, habit: h, name: "Hours")
             let _ = NumberTracker(context: context, habit: h, name: "Goals")
             let _ = ImageTracker(context: context, habit: h, name: "Swimming")
+            let _ = ExerciseTracker(context: context, habit: h, name: "Squat")
         }
         
         let habits = Habit.habitList(from: context)
