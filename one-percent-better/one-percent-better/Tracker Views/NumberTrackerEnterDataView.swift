@@ -11,8 +11,6 @@ struct NumberTrackerEnterDataView: View {
     
     let name: String
     @Binding var field: NumberTrackerFieldModel
-    let index: Int
-    let fieldsCount: Int
     
     var body: some View {
         VStack(spacing: 0) {
@@ -30,11 +28,7 @@ struct NumberTrackerEnterDataView: View {
             if !field.validField {
                 Label("Not a valid number", systemImage: "exclamationmark.triangle")
                     .foregroundColor(.red)
-                    .padding(.bottom, (index != fieldsCount - 1) ? 5 : 0)
-            }
-            
-            if index != fieldsCount - 1 {
-                Divider()
+                    .padding(.bottom, 5)
             }
         }
     }
@@ -47,7 +41,7 @@ struct NumberTrackerEnterDataView_Previews: PreviewProvider {
     static var previews: some View {
         Background {
             CardView {
-                NumberTrackerEnterDataView(name: "Swimming", field: $field, index: 0, fieldsCount: 1)
+                NumberTrackerEnterDataView(name: "Swimming", field: $field)
             }
         }
     }

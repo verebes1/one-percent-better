@@ -3,7 +3,7 @@
     <entity name="ExerciseTracker" representedClassName="ExerciseTracker" parentEntity="Tracker" syncable="YES">
         <attribute name="dates" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
         <attribute name="reps" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[Int]]"/>
-        <attribute name="weights" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[Double]]"/>
+        <attribute name="weights" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[String]]"/>
     </entity>
     <entity name="FeatureLog" representedClassName="FeatureLog" syncable="YES">
         <attribute name="hasImprovement" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -50,6 +50,7 @@
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="trackers" inverseEntity="Habit"/>
     </entity>
     <elements>
+        <element name="ExerciseTracker" positionX="-11259" positionY="333" width="128" height="74"/>
         <element name="FeatureLog" positionX="-11449.83203125" positionY="48.640625" width="128" height="104"/>
         <element name="GraphTracker" positionX="-11324.96228027344" positionY="459.8780822753906" width="128" height="73"/>
         <element name="Habit" positionX="-11143.04833984374" positionY="-11.45829772949219" width="122.3037109374945" height="179"/>
@@ -59,6 +60,5 @@
         <element name="Task" positionX="-11606.82617187501" positionY="67.9473876953125" width="128" height="59"/>
         <element name="TimeTracker" positionX="-11068.2421875" positionY="484.02734375" width="128" height="74"/>
         <element name="Tracker" positionX="-11123.22296142578" positionY="255.5220336914063" width="128" height="89"/>
-        <element name="ExerciseTracker" positionX="-11259" positionY="333" width="128" height="74"/>
     </elements>
 </model>

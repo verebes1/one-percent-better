@@ -11,8 +11,6 @@ struct ImageTrackerEnterDataView: View {
     
     var name: String
     @Binding var image: UIImage
-    let index: Int
-    let fieldsCount: Int
     
     @State private var showSheet = false
     
@@ -41,10 +39,6 @@ struct ImageTrackerEnterDataView: View {
                 //  If you wish to take a photo from camera instead:
                 // ImagePicker(sourceType: .camera, selectedImage: self.$image)
             }
-            
-            if index != fieldsCount - 1 {
-                Divider()
-            }
         }
     }
 }
@@ -56,7 +50,7 @@ struct ImageTrackerEnterDataView_Previews: PreviewProvider {
     static var previews: some View {
         Background {
             CardView {
-                ImageTrackerEnterDataView(name: "Swimming", image: $image, index: 0, fieldsCount: 0)
+                ImageTrackerEnterDataView(name: "Swimming", image: $image)
             }
         }
     }

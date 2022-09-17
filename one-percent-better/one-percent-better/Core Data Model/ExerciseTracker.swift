@@ -28,7 +28,7 @@ public class ExerciseTracker: Tracker {
     @NSManaged public var reps: [[Int]]
     
     /// The weight for each set
-    @NSManaged public var weights: [[Double]]
+    @NSManaged public var weights: [[String]]
     
     
     convenience init(context: NSManagedObjectContext, habit: Habit, name: String) {
@@ -42,7 +42,7 @@ public class ExerciseTracker: Tracker {
         self.weights = []
     }
     
-    func addSet(set: Int, rep: Int, weight: Double, on date: Date) {
+    func addSet(set: Int, rep: Int, weight: String, on date: Date) {
         if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
             var repsArray = reps[dateIndex]
             var weightsArray = weights[dateIndex]
@@ -70,5 +70,40 @@ public class ExerciseTracker: Tracker {
             weights = combined.map { $0.1.1 }
         }
         context.fatalSave()
+    }
+    
+    func updateValues(reps newReps: [Int], weights newWeights: [String], on date: Date = Date()) {
+        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+            reps[dateIndex] = newReps
+            weights[dateIndex] = newWeights
+        } else {
+            dates.append(date)
+            reps.append(newReps)
+            weights.append(newWeights)
+            
+            // sort both lists by dates
+            let repWeights = zip(reps, weights)
+            let combined = zip(dates, repWeights).sorted { $0.0 < $1.0 }
+            dates = combined.map { $0.0 }
+            reps = combined.map { $0.1.0 }
+            weights = combined.map { $0.1.1 }
+        }
+        context.fatalSave()
+    }
+    
+    func getEntry(on date: Date) -> ExerciseEntryModel? {
+        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+            return ExerciseEntryModel(reps: reps[dateIndex], weights: weights[dateIndex])
+        } else {
+            return nil
+        }
+    }
+    
+    override func remove(on date: Date) {
+        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+            reps.remove(at: dateIndex)
+            weights.remove(at: dateIndex)
+            dates.remove(at: dateIndex)
+        }
     }
 }

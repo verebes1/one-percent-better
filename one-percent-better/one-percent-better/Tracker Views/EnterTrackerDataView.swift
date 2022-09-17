@@ -16,6 +16,7 @@ class EnterTrackerDataViewModel: ObservableObject {
     
     @Published var numberTrackerFields: [NumberTracker: NumberTrackerFieldModel] = [:]
     @Published var imageTrackerFields: [ImageTracker: UIImage] = [:]
+    @Published var exerciseTrackerFields: [ExerciseTracker: ExerciseEntryModel] = [:]
     
     var habit: Habit
     var trackers: [Tracker]
@@ -34,6 +35,9 @@ class EnterTrackerDataViewModel: ObservableObject {
             } else if let t = tracker as? ImageTracker {
                 let previousValue = t.getValue(date: currentDay) ?? UIImage(systemName: "photo.on.rectangle")!
                 imageTrackerFields[t] = previousValue
+            } else if let t = tracker as? ExerciseTracker {
+                let previousValue = t.getEntry(on: currentDay) ?? ExerciseEntryModel()
+                exerciseTrackerFields[t] = previousValue
             }
         }
     }
@@ -75,6 +79,20 @@ class EnterTrackerDataViewModel: ObservableObject {
                 }
             }
         }
+        
+        // TODO: Add check for exercise tracker
+        for tracker in exerciseTrackerFields.keys {
+            if let entry = exerciseTrackerFields[tracker] {
+                for i in 0 ..< entry.sets {
+                    if (entry.reps[i] != nil && entry.weights[i] == nil) ||
+                        (entry.reps[i] == nil && entry.weights[i] != nil) {
+                        allFieldsValid = false
+                        exerciseTrackerFields[tracker]!.isValid = false
+                    }
+                }
+            }
+        }
+        
         return allFieldsValid
     }
     
@@ -98,6 +116,14 @@ class EnterTrackerDataViewModel: ObservableObject {
                !image.isSymbolImage {
                 tracker.add(date: currentDay, value: image)
             } else if tracker.getValue(date: currentDay) != nil {
+                tracker.remove(on: currentDay)
+            }
+        }
+        
+        for tracker in exerciseTrackerFields.keys {
+            if let entry = exerciseTrackerFields[tracker], !entry.isEmpty {
+                tracker.updateValues(reps: entry.finalReps, weights: entry.finalWeights)
+            } else {
                 tracker.remove(on: currentDay)
             }
         }
@@ -130,17 +156,18 @@ struct EnterTrackerDataView: View {
                                 ForEach(vm.trackers.indices, id: \.self) { i in
                                     if let t = vm.trackers[i] as? NumberTracker {
                                         NumberTrackerEnterDataView(name: t.name,
-                                                                   field: vm.numberTrackerBinding(for: t),
-                                                                   index: i,
-                                                                   fieldsCount: vm.trackers.count)
+                                                                   field: vm.numberTrackerBinding(for: t))
                                     }
                                     else if let t = vm.trackers[i] as? ImageTracker {
                                         ImageTrackerEnterDataView(name: t.name,
-                                                                  image: vm.imageTrackerBinding(for: t),
-                                                                  index: i,
-                                                                  fieldsCount: vm.trackers.count)
+                                                                  image: vm.imageTrackerBinding(for: t))
                                     } else if let t = vm.trackers[i] as? ExerciseTracker {
                                         ExerciseTrackerEntry(tracker: t)
+                                            .environmentObject(vm.exerciseTrackerFields[t]!)
+                                    }
+                                    
+                                    if i != vm.trackers.count - 1 {
+                                        Divider()
                                     }
                                 }
                             }
@@ -183,6 +210,7 @@ struct EnterTrackerDataView_Previews: PreviewProvider {
             let _ = NumberTracker(context: context, habit: h, name: "Goals")
             let _ = ImageTracker(context: context, habit: h, name: "Swimming")
             let _ = ExerciseTracker(context: context, habit: h, name: "Squat")
+            let _ = NumberTracker(context: context, habit: h, name: "Miles")
         }
         
         let habits = Habit.habitList(from: context)
