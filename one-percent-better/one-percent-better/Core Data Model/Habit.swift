@@ -147,7 +147,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                      timesPerDay: Int = 1,
                      daysPerWeek: [Int] = [0]) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.habitList(from: context)
+        let habits = Habit.habits(from: context)
         if noNameDupe {
             for habit in habits {
                 if habit.name == name {
@@ -173,7 +173,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     
     func setName(_ name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.habitList(from: myContext)
+        let habits = Habit.habits(from: myContext)
         for habit in habits {
             if habit.name == name {
                 throw HabitCreationError.duplicateName
@@ -284,7 +284,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return Calendar.current.startOfDay(for: startDate) <= Calendar.current.startOfDay(for: day)
     }
     
-    class func habitList(from context: NSManagedObjectContext) -> [Habit] {
+    class func habits(from context: NSManagedObjectContext) -> [Habit] {
         var habits: [Habit] = []
         do {
             // fetch all habits
@@ -375,7 +375,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
     
-        let habits = Habit.habitList(from: context)
+        let habits = Habit.habits(from: context)
         var name = try container.decode(String.self, forKey: .name)
         let today = Date()
         for habit in habits {

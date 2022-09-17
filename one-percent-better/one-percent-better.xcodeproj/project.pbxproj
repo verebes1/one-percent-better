@@ -30,7 +30,6 @@
 		80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC2285BEE5900CBDF71 /* CoreDataMigrator.swift */; };
 		80385D09285BEE5900CBDF71 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CC4285BEE5900CBDF71 /* Preview Assets.xcassets */; };
 		80385D0A285BEE5900CBDF71 /* HabitsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */; };
-		80385D0B285BEE5900CBDF71 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC7285BEE5900CBDF71 /* PreviewData.swift */; };
 		80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC8285BEE5900CBDF71 /* BlurView.swift */; };
 		80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC9285BEE5900CBDF71 /* HabitListView.swift */; };
 		80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */; };
@@ -148,7 +147,6 @@
 		80385CC2285BEE5900CBDF71 /* CoreDataMigrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigrator.swift; sourceTree = "<group>"; };
 		80385CC4285BEE5900CBDF71 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitsHeaderView.swift; sourceTree = "<group>"; };
-		80385CC7285BEE5900CBDF71 /* PreviewData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		80385CC8285BEE5900CBDF71 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		80385CC9285BEE5900CBDF71 /* HabitListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
 		80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterTrackerDataView.swift; sourceTree = "<group>"; };
@@ -284,27 +282,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		802CCA1228BC0243006E38E6 /* Reusable Views */ = {
-			isa = PBXGroup;
-			children = (
-				802CCA1328BC0253006E38E6 /* ErrorLabel.swift */,
-			);
-			path = "Reusable Views";
-			sourceTree = "<group>";
-		};
 		80385CAC285BEE5900CBDF71 /* one-percent-better */ = {
 			isa = PBXGroup;
 			children = (
 				80385CB2285BEE5900CBDF71 /* Core Data Manager */,
 				80385CDF285BEE5900CBDF71 /* Core Data Model */,
-				80385CC5285BEE5900CBDF71 /* Habit Views */,
-				80F79686286E5429002FDFDA /* Tracker Views */,
-				80385CEC285BEE5900CBDF71 /* Progress Views */,
-				802CCA1228BC0243006E38E6 /* Reusable Views */,
 				80385CAD285BEE5900CBDF71 /* Global Style */,
-				80385CAF285BEE5900CBDF71 /* Settings */,
-				80385CD7285BEE5900CBDF71 /* Extensions */,
-				80385CE9285BEE5900CBDF71 /* Haptic Engine */,
+				80385CC5285BEE5900CBDF71 /* Habit Tab Views */,
+				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
 				80385CB1285BEE5900CBDF71 /* Assets.xcassets */,
@@ -317,18 +302,23 @@
 		80385CAD285BEE5900CBDF71 /* Global Style */ = {
 			isa = PBXGroup;
 			children = (
+				80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */,
+				802CCA1328BC0253006E38E6 /* ErrorLabel.swift */,
+				80385CCC285BEE5900CBDF71 /* Background.swift */,
 				80385CAE285BEE5900CBDF71 /* Style.swift */,
+				80385CDC285BEE5900CBDF71 /* Color.swift */,
+				80385CD7285BEE5900CBDF71 /* Extensions */,
 			);
 			path = "Global Style";
 			sourceTree = "<group>";
 		};
-		80385CAF285BEE5900CBDF71 /* Settings */ = {
+		80385CAF285BEE5900CBDF71 /* Settings Tab Views */ = {
 			isa = PBXGroup;
 			children = (
 				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 				80385CE8285BEE5900CBDF71 /* ExportManager.swift */,
 			);
-			path = Settings;
+			path = "Settings Tab Views";
 			sourceTree = "<group>";
 		};
 		80385CB2285BEE5900CBDF71 /* Core Data Manager */ = {
@@ -386,27 +376,17 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		80385CC5285BEE5900CBDF71 /* Habit Views */ = {
+		80385CC5285BEE5900CBDF71 /* Habit Tab Views */ = {
 			isa = PBXGroup;
 			children = (
-				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				8058174228D5696900E9816F /* Habit List Views */,
 				803B4E8428B43381003EA859 /* Create Habit */,
-				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
-				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
-				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
-				80A6D9F828949F43009BF024 /* HabitRow.swift */,
-				80385CD1285BEE5900CBDF71 /* RingView.swift */,
-				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
-				80385CC7285BEE5900CBDF71 /* PreviewData.swift */,
-				80385CCC285BEE5900CBDF71 /* Background.swift */,
-				80385CCE285BEE5900CBDF71 /* CustomTextField.swift */,
-				80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */,
-				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
-				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
-				8081A36528767F7A00D0CB1B /* RingShape.swift */,
-				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
+				8058174128D5692900E9816F /* Create Tracker */,
+				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				8058174428D5762600E9816F /* Enter Data Views */,
+				80385CEC285BEE5900CBDF71 /* Progress Views */,
 			);
-			path = "Habit Views";
+			path = "Habit Tab Views";
 			sourceTree = "<group>";
 		};
 		80385CD7285BEE5900CBDF71 /* Extensions */ = {
@@ -414,7 +394,6 @@
 			children = (
 				80385CD8285BEE5900CBDF71 /* NSManagedObjectModel */,
 				80385CDB285BEE5900CBDF71 /* Extensions.swift */,
-				80385CDC285BEE5900CBDF71 /* Color.swift */,
 				80385CDD285BEE5900CBDF71 /* NSPersistentStoreCoordinator */,
 				801858992863A7AB003DE454 /* UIImage.swift */,
 			);
@@ -454,14 +433,6 @@
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 			);
 			path = "Core Data Model";
-			sourceTree = "<group>";
-		};
-		80385CE9285BEE5900CBDF71 /* Haptic Engine */ = {
-			isa = PBXGroup;
-			children = (
-				80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */,
-			);
-			path = "Haptic Engine";
 			sourceTree = "<group>";
 		};
 		80385CEC285BEE5900CBDF71 /* Progress Views */ = {
@@ -561,6 +532,56 @@
 			path = "one-percent-better-UITests";
 			sourceTree = "<group>";
 		};
+		8058174128D5692900E9816F /* Create Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */,
+				80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */,
+				80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */,
+				80F79687286E552C002FDFDA /* CreateTimeTracker.swift */,
+				8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */,
+			);
+			path = "Create Tracker";
+			sourceTree = "<group>";
+		};
+		8058174228D5696900E9816F /* Habit List Views */ = {
+			isa = PBXGroup;
+			children = (
+				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
+				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
+				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
+				8058174328D569B400E9816F /* Habit Row */,
+			);
+			path = "Habit List Views";
+			sourceTree = "<group>";
+		};
+		8058174328D569B400E9816F /* Habit Row */ = {
+			isa = PBXGroup;
+			children = (
+				80385CD1285BEE5900CBDF71 /* RingView.swift */,
+				8081A36528767F7A00D0CB1B /* RingShape.swift */,
+				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
+				80A6D9F828949F43009BF024 /* HabitRow.swift */,
+				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
+				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
+			);
+			path = "Habit Row";
+			sourceTree = "<group>";
+		};
+		8058174428D5762600E9816F /* Enter Data Views */ = {
+			isa = PBXGroup;
+			children = (
+				80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */,
+				80385D38285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift */,
+				80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */,
+				803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */,
+				80385D3A285CD80C00CBDF71 /* ImagePicker.swift */,
+				80385CCE285BEE5900CBDF71 /* CustomTextField.swift */,
+				80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */,
+			);
+			path = "Enter Data Views";
+			sourceTree = "<group>";
+		};
 		8059AE7D288B4EB400846D27 /* Old Code */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,26 +601,10 @@
 				8018589B2863C5FE003DE454 /* EditHabit.swift */,
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
 				80CC287F28C0080300411ECB /* EditTracker.swift */,
+				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
 				80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */,
 			);
 			path = "Edit Habit";
-			sourceTree = "<group>";
-		};
-		80F79686286E5429002FDFDA /* Tracker Views */ = {
-			isa = PBXGroup;
-			children = (
-				80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */,
-				80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */,
-				80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */,
-				80F79687286E552C002FDFDA /* CreateTimeTracker.swift */,
-				8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */,
-				80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */,
-				80385D38285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift */,
-				80385D3A285CD80C00CBDF71 /* ImagePicker.swift */,
-				80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */,
-				803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */,
-			);
-			path = "Tracker Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -898,7 +903,6 @@
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
 				8018589A2863A7AB003DE454 /* UIImage.swift in Sources */,
 				80385D2C285BEE5900CBDF71 /* CalendarScrollView.swift in Sources */,
-				80385D0B285BEE5900CBDF71 /* PreviewData.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
