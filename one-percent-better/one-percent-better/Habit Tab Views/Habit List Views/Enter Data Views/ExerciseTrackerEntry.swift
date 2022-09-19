@@ -110,32 +110,11 @@ struct ExerciseTrackerEntry: View {
 //                Image(systemName: "checkmark")
             }
             
-            LazyVGrid(columns: columns) {
-                ForEach(0 ..< vm.sets, id:\.self) { i in
-                    Text(String(i+1))
-                        .fontWeight(.medium)
-                    PreviousWeight()
-                    
-                    ExerciseField(initalValue: vm.weights[i] ?? "") { newValue in
-                        if let _ = Double(newValue) {
-                            vm.weights[i] = newValue
-                        }
-                    }
-                    
-                    let initalRep = vm.reps[i] == nil ? "" : "\(vm.reps[i]!)"
-                    ExerciseField(initalValue: initalRep) { newValue in
-                        if let newRep = Int(newValue) {
-                            vm.reps[i] = newRep
-                        }
-                    }
-                    
-//                    ExerciseCheckmark()
-                }
+            ForEach(0 ..< vm.sets, id: \.self) { i in
+                ExerciseRow(index: i)
             }
-            .padding(.bottom, 10)
             
             ExerciseAddSet()
-                .environmentObject(vm)
             
             if !vm.isValid {
                 Label("Not a valid exercise set", systemImage: "exclamationmark.triangle")
@@ -186,25 +165,20 @@ struct PreviousWeight: View {
 
 struct ExerciseField: View {
     
-    @State private var value: String
+    @Binding var field: String
     
     let onChange: (String) -> Void
-    
-    init(initalValue: String, onChange: @escaping (String) -> Void) {
-        self.onChange = onChange
-        self._value = State(initialValue: initalValue)
-    }
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 7)
                 .foregroundColor(.systemGray5)
             
-            TextField("", text: $value)
+            TextField("", text: $field)
                 .multilineTextAlignment(.center)
         }
         .frame(width: 60, height: 25)
-        .onChange(of: value) { newValue in
+        .onChange(of: field) { newValue in
             onChange(newValue)
         }
     }
@@ -246,6 +220,54 @@ struct ExerciseAddSet: View {
             withAnimation {
                 vm.sets += 1
             }
+        }
+    }
+}
+
+struct ExerciseRow: View {
+    
+    @EnvironmentObject var vm: ExerciseEntryModel
+    
+    let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
+    
+    let i: Int
+    
+    @State private var weightField: String = ""
+    @State private var repField: String = ""
+    
+    init(index: Int) {
+        self.i = index
+    }
+    
+    var body: some View {
+        DeletableRow {
+            LazyVGrid(columns: columns) {
+                Text(String(i+1))
+                    .fontWeight(.medium)
+                PreviousWeight()
+                
+                ExerciseField(field: $weightField) { newValue in
+                    vm.weights[i] = Double(newValue) == nil ? nil : newValue
+                }
+                .onAppear {
+                    let initWeight = vm.weights[i] ?? ""
+                    weightField = initWeight
+                }
+                
+                ExerciseField(field: $repField) { newValue in
+                    vm.reps[i] = Int(newValue) ?? nil
+                }
+                .onAppear {
+                    let initRep = vm.reps[i] == nil ? "" : "\(vm.reps[i]!)"
+                    repField = initRep
+                }
+            }
+            .frame(height: 32)
+        } deleteCallback: {
+            vm.weights[i] = nil
+            vm.reps[i] = nil
+            weightField = ""
+            repField =  ""
         }
     }
 }

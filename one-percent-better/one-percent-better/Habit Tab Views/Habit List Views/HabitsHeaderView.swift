@@ -19,9 +19,6 @@ struct HabitsHeaderView: View {
             HStack {
                 ForEach(0 ..< 7) { i in
                     SelectedDayView(index: i,
-                                    selectedWeekDay: $vm.selectedWeekDay,
-                                    selectedWeek: $vm.selectedWeek,
-                                    currentDay: $vm.currentDay,
                                     color: color)
                     .environmentObject(vm)
                 }
@@ -121,16 +118,13 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
 
 struct SelectedDayView: View {
     
-    @EnvironmentObject var viewModel: HabitListViewModel
+    @EnvironmentObject var vm: HabitListViewModel
     var index: Int
-    @Binding var selectedWeekDay: Int
-    @Binding var selectedWeek: Int
-    @Binding var currentDay: Date
     var color: Color = .systemTeal
     
     func isIndexSameAsToday(_ index: Int) -> Bool {
-        let dayIsSelectedWeekday = viewModel.thisWeekDayOffset(Date()) == index
-        let weekIsSelectedWeek = selectedWeek == (viewModel.numWeeksSinceEarliest - 1)
+        let dayIsSelectedWeekday = vm.thisWeekDayOffset(Date()) == index
+        let weekIsSelectedWeek = vm.selectedWeek == (vm.numWeeksSinceEarliest - 1)
         return dayIsSelectedWeekday && weekIsSelectedWeek
     }
     
@@ -139,7 +133,7 @@ struct SelectedDayView: View {
     var body: some View {
         ZStack {
             let circleSize: CGFloat = 19
-            let isSelected = index == viewModel.thisWeekDayOffset(currentDay)
+            let isSelected = index == vm.thisWeekDayOffset(vm.currentDay)
             if isSelected {
                 Circle()
                     .foregroundColor(isIndexSameAsToday(index) ? color : .systemGray2)
@@ -154,10 +148,10 @@ struct SelectedDayView: View {
         .padding(.bottom, 3)
         .contentShape(Rectangle())
         .onTapGesture {
-            let dayOffset = viewModel.dayOffset(week: selectedWeek, day: index)
+            let dayOffset = vm.dayOffset(week: vm.selectedWeek, day: index)
             if dayOffset <= 0 {
-                selectedWeekDay = index
-                currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
+                vm.selectedWeekDay = index
+                vm.currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
             }
         }
     }

@@ -101,10 +101,13 @@ class EnterTrackerDataViewModel: ObservableObject {
             return false
         }
         
+        var atLeastOneEntry = false
+        
         for tracker in numberTrackerFields.keys {
             if !numberTrackerFields[tracker]!.text.isEmpty {
                 if let _ = Double(numberTrackerFields[tracker]!.text) {
                     tracker.add(date: currentDay, value: numberTrackerFields[tracker]!.text)
+                    atLeastOneEntry = true
                 }
             } else if tracker.getValue(date: currentDay) != nil {
                 tracker.remove(on: currentDay)
@@ -115,6 +118,7 @@ class EnterTrackerDataViewModel: ObservableObject {
             if let image = imageTrackerFields[tracker],
                !image.isSymbolImage {
                 tracker.add(date: currentDay, value: image)
+                atLeastOneEntry = true
             } else if tracker.getValue(date: currentDay) != nil {
                 tracker.remove(on: currentDay)
             }
@@ -122,13 +126,17 @@ class EnterTrackerDataViewModel: ObservableObject {
         
         for tracker in exerciseTrackerFields.keys {
             if let entry = exerciseTrackerFields[tracker], !entry.isEmpty {
-                tracker.updateValues(reps: entry.finalReps, weights: entry.finalWeights)
+                tracker.updateValues(reps: entry.finalReps, weights: entry.finalWeights, on: currentDay)
+                atLeastOneEntry = true
             } else {
                 tracker.remove(on: currentDay)
             }
         }
-        
-        habit.markCompleted(on: currentDay)
+        if atLeastOneEntry {
+            habit.markCompleted(on: currentDay)
+        } else {
+            habit.markNotCompleted(on: currentDay)
+        }
         return true
     }
     

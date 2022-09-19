@@ -172,7 +172,6 @@ struct EditTrackerRow: View {
     @State private var offset = CGSize.zero
     @State private var isDragging: Bool = false
     
-    
     @State private var rightMenuOffset: CGFloat = 0
     @State private var rightMenuOpen = false
     var rightMenuWidth: CGFloat = 70
