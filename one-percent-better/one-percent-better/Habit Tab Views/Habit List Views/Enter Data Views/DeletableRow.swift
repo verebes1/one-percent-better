@@ -77,7 +77,7 @@ struct DeletableRow<Content>: View where Content: View {
                     .frame(width: rightMenuOffsetPositive)
             }
             
-            let trashWidth: CGFloat = min(23, contentHeight / 2)
+            let trashWidth: CGFloat = min(23, contentHeight/2)
             let rawTrashOffset = -rightMenuOffset + rightMenuWidth/2 + trashWidth/2
             let maxTrashOffset = -rightMenuWidth + rightMenuWidth/2 + trashWidth/2
             let trashOffset = rawTrashOffset < maxTrashOffset ? maxTrashOffset : rawTrashOffset
