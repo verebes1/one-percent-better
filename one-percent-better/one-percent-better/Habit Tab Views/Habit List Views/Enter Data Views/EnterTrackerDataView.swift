@@ -83,9 +83,9 @@ class EnterTrackerDataViewModel: ObservableObject {
         // TODO: Add check for exercise tracker
         for tracker in exerciseTrackerFields.keys {
             if let entry = exerciseTrackerFields[tracker] {
-                for i in 0 ..< entry.sets {
-                    if (entry.reps[i] != nil && entry.weights[i] == nil) ||
-                        (entry.reps[i] == nil && entry.weights[i] != nil) {
+                for i in 0 ..< entry.sets.count {
+                    if (entry.sets[i].weight != nil && entry.sets[i].rep == nil) ||
+                        (entry.sets[i].weight == nil && entry.sets[i].rep != nil) {
                         allFieldsValid = false
                         exerciseTrackerFields[tracker]!.isValid = false
                     }
@@ -126,7 +126,7 @@ class EnterTrackerDataViewModel: ObservableObject {
         
         for tracker in exerciseTrackerFields.keys {
             if let entry = exerciseTrackerFields[tracker], !entry.isEmpty {
-                tracker.updateValues(reps: entry.finalReps, weights: entry.finalWeights, on: currentDay)
+                tracker.updateSets(sets: entry.sets, on: currentDay)
                 atLeastOneEntry = true
             } else {
                 tracker.remove(on: currentDay)

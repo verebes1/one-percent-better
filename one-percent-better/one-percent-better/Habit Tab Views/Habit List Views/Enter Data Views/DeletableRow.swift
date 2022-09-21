@@ -15,7 +15,7 @@ struct DeletableRow<Content>: View where Content: View {
     @State private var rightMenuOffset: CGFloat = 0
     
     var rightMenuOffsetPositive: CGFloat {
-        max(0, rightMenuOffset)
+        max(0, min(rightMenuOffset, 200))
     }
     
     @State private var rightMenuOpen = false
@@ -91,8 +91,8 @@ struct DeletableRow<Content>: View where Content: View {
                 .offset(x: trashOffset)
                 .foregroundColor(.white)
                 .onTapGesture {
-                    deleteCallback()
                     withAnimation {
+                        deleteCallback()
                         rightMenuOpen = false
                         rightMenuOffset = 0
                         offset = .zero

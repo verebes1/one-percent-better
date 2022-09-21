@@ -7,46 +7,64 @@
 
 import SwiftUI
 
-class ExerciseEntryModel: ObservableObject {
+class WeightRep: ObservableObject {
     
-    @Published var sets: Int {
-        willSet {
-            reps.append(nil)
-            weights.append(nil)
+    @Published var weightField: String = ""
+    @Published var repField: String = ""
+    
+    var weight: String? {
+        if !weightField.isEmpty,
+           let _ = Double(weightField) {
+            return weightField
+        } else {
+            return nil
         }
     }
-    @Published var reps: [Int?] = []
-    @Published var weights: [String?] = []
-    @Published var isValid: Bool = true
     
-    var finalReps: [Int] {
-        var arr: [Int] = []
-        for rep in reps {
-            if let rep = rep {
-                arr.append(rep)
-            }
+    var rep: Int? {
+        if !repField.isEmpty,
+           let rep = Int(repField) {
+            return rep
+        } else {
+            return nil
         }
-        return arr
-    }
-    
-    var finalWeights: [String] {
-        var arr: [String] = []
-        for weight in weights {
-            if let weight = weight {
-                arr.append(weight)
-            }
-        }
-        return arr
     }
     
     var isEmpty: Bool {
-        for rep in reps {
-            if rep != nil {
-                return false
-            }
+        if (weight == nil || weightField == "") && (rep == nil || repField == "") {
+            return true
+        } else {
+            return false
         }
-        for weight in weights {
-            if weight != nil {
+    }
+    
+    var isValid: Bool {
+        if weight == nil && rep == nil {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    init() {
+        self.weightField = ""
+        self.repField = ""
+    }
+    
+    init(weight: String, rep: Int) {
+        self.weightField = weight
+        self.repField = "\(rep)"
+    }
+}
+
+class ExerciseEntryModel: ObservableObject {
+    
+    @Published var sets: [WeightRep] = []
+    @Published var isValid: Bool = true
+    
+    var isEmpty: Bool {
+        for s in sets {
+            if !s.isEmpty {
                 return false
             }
         }
@@ -54,35 +72,16 @@ class ExerciseEntryModel: ObservableObject {
     }
     
     init() {
-        self.sets = 4
-        self.reps = Array(repeating: nil, count: sets)
-        self.weights = Array(repeating: nil, count: sets)
+        self.sets = [WeightRep()]
     }
     
     init(reps: [Int], weights: [String]) {
-        self.sets = reps.count
-        self.reps = reps
-        self.weights = weights
+        var newSets: [WeightRep] = []
+        for i in 0 ..< reps.count {
+            newSets.append(WeightRep(weight: weights[i], rep: reps[i]))
+        }
+        self.sets = newSets
     }
-    
-    func weightBinding(for set: Int) -> Binding<String> {
-        // TODO: check if set # is valid
-        return Binding(get: {
-            return self.weights[set] ?? ""
-        }, set: {
-            self.weights[set] = $0
-        })
-    }
-    
-    func repBinding(for set: Int) -> Binding<Int?> {
-        // TODO: check if set # is valid
-        return Binding(get: {
-            return self.reps[set]
-        }, set: {
-            self.reps[set] = $0
-        })
-    }
-    
 }
 
 struct ExerciseTrackerEntry: View {
@@ -92,6 +91,10 @@ struct ExerciseTrackerEntry: View {
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     
     var tracker: ExerciseTracker
+    
+    func removeRows(at offsets: IndexSet) {
+        vm.sets.remove(atOffsets: offsets)
+    }
     
     var body: some View {
         VStack {
@@ -107,11 +110,14 @@ struct ExerciseTrackerEntry: View {
                 Text("Previous")
                 Text("lbs")
                 Text("Reps")
-//                Image(systemName: "checkmark")
             }
             
-            ForEach(0 ..< vm.sets, id: \.self) { i in
-                ExerciseRow(index: i)
+            ForEach(Array(vm.sets.enumerated()), id: \.offset) { (i, gymSet) in
+                DeletableRow {
+                    ExerciseRow(i: i, gymSet: gymSet)
+                } deleteCallback: {
+                    vm.sets.remove(at: i)
+                }
             }
             
             ExerciseAddSet()
@@ -167,7 +173,7 @@ struct ExerciseField: View {
     
     @Binding var field: String
     
-    let onChange: (String) -> Void
+//    let onChange: (String) -> Void
     
     var body: some View {
         ZStack {
@@ -178,9 +184,9 @@ struct ExerciseField: View {
                 .multilineTextAlignment(.center)
         }
         .frame(width: 60, height: 25)
-        .onChange(of: field) { newValue in
-            onChange(newValue)
-        }
+//        .onChange(of: field) { newValue in
+//            onChange(newValue)
+//        }
     }
 }
 
@@ -218,7 +224,7 @@ struct ExerciseAddSet: View {
         .padding(.horizontal, 18)
         .onTapGesture {
             withAnimation {
-                vm.sets += 1
+                vm.sets.append(WeightRep())
             }
         }
     }
@@ -226,48 +232,19 @@ struct ExerciseAddSet: View {
 
 struct ExerciseRow: View {
     
-    @EnvironmentObject var vm: ExerciseEntryModel
-    
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     
     let i: Int
-    
-    @State private var weightField: String = ""
-    @State private var repField: String = ""
-    
-    init(index: Int) {
-        self.i = index
-    }
+    @ObservedObject var gymSet: WeightRep
     
     var body: some View {
-        DeletableRow {
-            LazyVGrid(columns: columns) {
-                Text(String(i+1))
-                    .fontWeight(.medium)
-                PreviousWeight()
-                
-                ExerciseField(field: $weightField) { newValue in
-                    vm.weights[i] = Double(newValue) == nil ? nil : newValue
-                }
-                .onAppear {
-                    let initWeight = vm.weights[i] ?? ""
-                    weightField = initWeight
-                }
-                
-                ExerciseField(field: $repField) { newValue in
-                    vm.reps[i] = Int(newValue) ?? nil
-                }
-                .onAppear {
-                    let initRep = vm.reps[i] == nil ? "" : "\(vm.reps[i]!)"
-                    repField = initRep
-                }
-            }
-            .frame(height: 32)
-        } deleteCallback: {
-            vm.weights[i] = nil
-            vm.reps[i] = nil
-            weightField = ""
-            repField =  ""
+        LazyVGrid(columns: columns) {
+            Text(String(i+1))
+                .fontWeight(.medium)
+            PreviousWeight()
+            ExerciseField(field: $gymSet.weightField)
+            ExerciseField(field: $gymSet.repField)
         }
+        .frame(height: 32)
     }
 }

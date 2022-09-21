@@ -72,7 +72,19 @@ public class ExerciseTracker: Tracker {
         context.fatalSave()
     }
     
-    func updateValues(reps newReps: [Int], weights newWeights: [String], on date: Date = Date()) {
+    func updateSets(sets: [WeightRep], on date: Date = Date()) {
+        
+        var newReps: [Int] = []
+        var newWeights: [String] = []
+        for s in sets {
+            if let rep = s.rep {
+                newReps.append(rep)
+            }
+            if let weight = s.weight {
+                newWeights.append(weight)
+            }
+        }
+        
         if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
             reps[dateIndex] = newReps
             weights[dateIndex] = newWeights
