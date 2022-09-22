@@ -37,6 +37,7 @@ class EnterTrackerDataViewModel: ObservableObject {
                 imageTrackerFields[t] = previousValue
             } else if let t = tracker as? ExerciseTracker {
                 let previousValue = t.getEntry(on: currentDay) ?? ExerciseEntryModel()
+                previousValue.previousEntry = t.getPreviousEntry(before: currentDay)
                 exerciseTrackerFields[t] = previousValue
             }
         }
@@ -83,12 +84,9 @@ class EnterTrackerDataViewModel: ObservableObject {
         // TODO: Add check for exercise tracker
         for tracker in exerciseTrackerFields.keys {
             if let entry = exerciseTrackerFields[tracker] {
-                for i in 0 ..< entry.sets.count {
-                    if (entry.sets[i].weight != nil && entry.sets[i].rep == nil) ||
-                        (entry.sets[i].weight == nil && entry.sets[i].rep != nil) {
-                        allFieldsValid = false
-                        exerciseTrackerFields[tracker]!.isValid = false
-                    }
+                let result = entry.validateFields()
+                if !result {
+                    allFieldsValid = false
                 }
             }
         }
@@ -132,6 +130,7 @@ class EnterTrackerDataViewModel: ObservableObject {
                 tracker.remove(on: currentDay)
             }
         }
+        
         if atLeastOneEntry {
             habit.markCompleted(on: currentDay)
         } else {
@@ -147,10 +146,6 @@ struct EnterTrackerDataView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var vm: EnterTrackerDataViewModel
-    
-    init(vm: EnterTrackerDataViewModel) {
-        self.vm = vm
-    }
     
     var body: some View {
         NavigationView {
@@ -188,11 +183,14 @@ struct EnterTrackerDataView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button {
                         let canSave = vm.save()
                         if canSave {
                             presentationMode.wrappedValue.dismiss()
                         }
+                    } label: {
+                        Text("Save")
+                            .fontWeight(.semibold)
                     }
                 }
                 

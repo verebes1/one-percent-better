@@ -10,7 +10,11 @@ import SwiftUI
 class WeightRep: ObservableObject {
     
     @Published var weightField: String = ""
+    @Published var weightFieldValid: Bool = true
+    
     @Published var repField: String = ""
+    @Published var repFieldValid: Bool = true
+    
     
     var weight: String? {
         if !weightField.isEmpty,
@@ -58,9 +62,20 @@ class WeightRep: ObservableObject {
 }
 
 class ExerciseEntryModel: ObservableObject {
-    
+
     @Published var sets: [WeightRep] = []
     @Published var isValid: Bool = true
+    
+    var previousEntry: ExerciseEntryModel? {
+        didSet {
+            if let pe = previousEntry,
+               pe.sets.count > sets.count {
+                for _ in 0 ..< pe.sets.count - sets.count {
+                    sets.append(WeightRep())
+                }
+            }
+        }
+    }
     
     var isEmpty: Bool {
         for s in sets {
@@ -82,6 +97,24 @@ class ExerciseEntryModel: ObservableObject {
         }
         self.sets = newSets
     }
+    
+    
+    func validateFields() -> Bool {
+        var isValid = true
+        for i in 0 ..< sets.count {
+            if (sets[i].weight != nil && sets[i].rep == nil) ||
+                (sets[i].weight == nil && sets[i].rep != nil) {
+                isValid = false
+                sets[i].weightFieldValid = sets[i].weight != nil ? true : false
+                sets[i].repFieldValid = sets[i].rep != nil ? true : false
+            } else {
+                sets[i].weightFieldValid = true
+                sets[i].repFieldValid = true
+            }
+        }
+        self.isValid = isValid
+        return isValid
+    }
 }
 
 struct ExerciseTrackerEntry: View {
@@ -91,10 +124,6 @@ struct ExerciseTrackerEntry: View {
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
     
     var tracker: ExerciseTracker
-    
-    func removeRows(at offsets: IndexSet) {
-        vm.sets.remove(atOffsets: offsets)
-    }
     
     var body: some View {
         VStack {
@@ -120,13 +149,10 @@ struct ExerciseTrackerEntry: View {
                 }
             }
             
-            ExerciseAddSet()
+            ErrorLabel(message: "Enter weight and reps", showError: !$vm.isValid)
             
-            if !vm.isValid {
-                Label("Not a valid exercise set", systemImage: "exclamationmark.triangle")
-                    .foregroundColor(.red)
-            }
-//            ErrorLabel(message: "Not a valid exercise set", showError: !$vm.isValid)
+            ExerciseAddSet()
+           
         }
         .padding(.vertical, 10)
     }
@@ -162,31 +188,22 @@ struct ExerciseTrackerEntry_Previews: PreviewProvider {
 }
 
 struct PreviousWeight: View {
-    var body: some View {
-        RoundedRectangle(cornerRadius: 7)
-            .foregroundColor(.systemGray5)
-            .frame(width: 35, height: 3)
-    }
-}
-
-struct ExerciseField: View {
     
-    @Binding var field: String
+    @EnvironmentObject var vm: ExerciseEntryModel
     
-//    let onChange: (String) -> Void
+    let i: Int
     
     var body: some View {
-        ZStack {
+        if let prev = vm.previousEntry,
+           i < prev.sets.count,
+            let weight = prev.sets[i].weight,
+            let reps = prev.sets[i].rep {
+            Text("\(weight) lb x \(reps)")
+        } else {
             RoundedRectangle(cornerRadius: 7)
                 .foregroundColor(.systemGray5)
-            
-            TextField("", text: $field)
-                .multilineTextAlignment(.center)
+                .frame(width: 35, height: 3)
         }
-        .frame(width: 60, height: 25)
-//        .onChange(of: field) { newValue in
-//            onChange(newValue)
-//        }
     }
 }
 
@@ -230,6 +247,29 @@ struct ExerciseAddSet: View {
     }
 }
 
+struct ExerciseField: View {
+    
+    @Binding var field: String
+    @Binding var isValid: Bool
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 7)
+                .foregroundColor(.systemGray5)
+            
+            TextField("", text: $field)
+                .multilineTextAlignment(.center)
+        }
+        .frame(width: 60, height: 25)
+        .overlay(
+            !self.isValid ?
+                RoundedRectangle(cornerRadius: 7)
+                    .stroke(.red, lineWidth: 2)
+            : nil
+        )
+    }
+}
+
 struct ExerciseRow: View {
     
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 4)
@@ -241,9 +281,9 @@ struct ExerciseRow: View {
         LazyVGrid(columns: columns) {
             Text(String(i+1))
                 .fontWeight(.medium)
-            PreviousWeight()
-            ExerciseField(field: $gymSet.weightField)
-            ExerciseField(field: $gymSet.repField)
+            PreviousWeight(i: i)
+            ExerciseField(field: $gymSet.weightField, isValid: $gymSet.weightFieldValid)
+            ExerciseField(field: $gymSet.repField, isValid: $gymSet.repFieldValid)
         }
         .frame(height: 32)
     }

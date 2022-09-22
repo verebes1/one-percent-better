@@ -111,6 +111,22 @@ public class ExerciseTracker: Tracker {
         }
     }
     
+    func getPreviousEntry(before date: Date) -> ExerciseEntryModel? {
+        if let dateIndex = dates.lastIndex(where: {day in day < date && !Calendar.current.isDate(day, inSameDayAs: date) }) {
+            return ExerciseEntryModel(reps: reps[dateIndex], weights: weights[dateIndex])
+        } else {
+            return nil
+        }
+    }
+    
+    func getAllEntries() -> [ExerciseEntryModel] {
+        var result = [ExerciseEntryModel]()
+        for i in 0 ..< dates.count {
+            result.append(ExerciseEntryModel(reps: reps[i], weights: weights[i]))
+        }
+        return result
+    }
+    
     override func remove(on date: Date) {
         if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
             reps.remove(at: dateIndex)

@@ -53,6 +53,11 @@ struct ProgressView: View {
                             CardView {
                                 Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
                             }
+                        } else if let t = tracker as? ExerciseTracker,
+                                  let vm = t.getPreviousEntry(before: Date()) {
+                            CardView {
+                                ExerciseCard(tracker: t, vm: vm)
+                            }
                         }
                     }
                     
