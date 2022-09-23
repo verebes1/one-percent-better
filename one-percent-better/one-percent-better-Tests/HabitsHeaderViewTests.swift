@@ -10,7 +10,7 @@ import XCTest
 
 class HabitsHeaderViewTests: XCTestCase {
     
-    let context = CoreDataManager.previews.persistentContainer.viewContext
+    let context = CoreDataManager.previews.mainContext
     
     var formatter: DateFormatter = {
         let _formatter = DateFormatter()

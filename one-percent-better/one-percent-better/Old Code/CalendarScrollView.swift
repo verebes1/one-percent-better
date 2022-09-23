@@ -58,7 +58,7 @@ struct CalendarScrollView_Previews: PreviewProvider {
     @State static var currentPage: Int = 0
     
     static var previews: some View {
-        let context = CoreDataManager.previews.persistentContainer.viewContext
+        let context = CoreDataManager.previews.mainContext
         
         let h1 = try? Habit(context: context, name: "Jumping Jacks")
         h1?.markCompleted(on: Date())

@@ -14,6 +14,8 @@
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
+		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
+		8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */; };
 		802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */; };
 		802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */; };
 		802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA1328BC0253006E38E6 /* ErrorLabel.swift */; };
@@ -30,7 +32,6 @@
 		80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC2285BEE5900CBDF71 /* CoreDataMigrator.swift */; };
 		80385D09285BEE5900CBDF71 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CC4285BEE5900CBDF71 /* Preview Assets.xcassets */; };
 		80385D0A285BEE5900CBDF71 /* HabitsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */; };
-		80385D0B285BEE5900CBDF71 /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC7285BEE5900CBDF71 /* PreviewData.swift */; };
 		80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC8285BEE5900CBDF71 /* BlurView.swift */; };
 		80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CC9285BEE5900CBDF71 /* HabitListView.swift */; };
 		80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */; };
@@ -77,13 +78,16 @@
 		80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */; };
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
 		80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */; };
-		803E1B8428A1B29F0010540B /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8328A1B29F0010540B /* EditTracker.swift */; };
+		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
 		803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCard.swift */; };
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
+		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
+		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
+		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
@@ -95,6 +99,7 @@
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
+		80CC288028C0080300411ECB /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC287F28C0080300411ECB /* EditTracker.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -126,6 +131,8 @@
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
+		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
+		8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAllEntries.swift; sourceTree = "<group>"; };
 		802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureLogController.swift; sourceTree = "<group>"; };
 		802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLog.swift; sourceTree = "<group>"; };
 		802CCA1328BC0253006E38E6 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
@@ -145,7 +152,6 @@
 		80385CC2285BEE5900CBDF71 /* CoreDataMigrator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataMigrator.swift; sourceTree = "<group>"; };
 		80385CC4285BEE5900CBDF71 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitsHeaderView.swift; sourceTree = "<group>"; };
-		80385CC7285BEE5900CBDF71 /* PreviewData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
 		80385CC8285BEE5900CBDF71 /* BlurView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		80385CC9285BEE5900CBDF71 /* HabitListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitListView.swift; sourceTree = "<group>"; };
 		80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterTrackerDataView.swift; sourceTree = "<group>"; };
@@ -193,7 +199,7 @@
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTouchesScrollView.swift; sourceTree = "<group>"; };
 		803B4E8328B430F8003EA859 /* mo_ikai 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 7.xcdatamodel"; sourceTree = "<group>"; };
-		803E1B8328A1B29F0010540B /* EditTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
+		803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackerEntry.swift; sourceTree = "<group>"; };
 		803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitFrequency.swift; sourceTree = "<group>"; };
 		803E1B8928A9D68B0010540B /* SelectableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard.swift; sourceTree = "<group>"; };
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
@@ -203,6 +209,10 @@
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
+		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
+		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
+		8058174528D919F600E9816F /* DeletableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletableRow.swift; sourceTree = "<group>"; };
 		8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleFitnessRings.swift; sourceTree = "<group>"; };
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
@@ -215,6 +225,7 @@
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
 		80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitFrequency.swift; sourceTree = "<group>"; };
+		80CC287F28C0080300411ECB /* EditTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -277,12 +288,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		802CCA1228BC0243006E38E6 /* Reusable Views */ = {
+		8027BEF828DD162300EC3E66 /* Exercise Card */ = {
 			isa = PBXGroup;
 			children = (
-				802CCA1328BC0253006E38E6 /* ErrorLabel.swift */,
+				8027BEF928DD164500EC3E66 /* ExerciseCard.swift */,
+				8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */,
 			);
-			path = "Reusable Views";
+			path = "Exercise Card";
 			sourceTree = "<group>";
 		};
 		80385CAC285BEE5900CBDF71 /* one-percent-better */ = {
@@ -290,14 +302,9 @@
 			children = (
 				80385CB2285BEE5900CBDF71 /* Core Data Manager */,
 				80385CDF285BEE5900CBDF71 /* Core Data Model */,
-				80385CC5285BEE5900CBDF71 /* Habit Views */,
-				80F79686286E5429002FDFDA /* Tracker Views */,
-				80385CEC285BEE5900CBDF71 /* Progress Views */,
-				802CCA1228BC0243006E38E6 /* Reusable Views */,
 				80385CAD285BEE5900CBDF71 /* Global Style */,
-				80385CAF285BEE5900CBDF71 /* Settings */,
-				80385CD7285BEE5900CBDF71 /* Extensions */,
-				80385CE9285BEE5900CBDF71 /* Haptic Engine */,
+				80385CC5285BEE5900CBDF71 /* Habit Tab Views */,
+				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
 				80385CB1285BEE5900CBDF71 /* Assets.xcassets */,
@@ -310,18 +317,23 @@
 		80385CAD285BEE5900CBDF71 /* Global Style */ = {
 			isa = PBXGroup;
 			children = (
+				80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */,
+				802CCA1328BC0253006E38E6 /* ErrorLabel.swift */,
+				80385CCC285BEE5900CBDF71 /* Background.swift */,
 				80385CAE285BEE5900CBDF71 /* Style.swift */,
+				80385CDC285BEE5900CBDF71 /* Color.swift */,
+				80385CD7285BEE5900CBDF71 /* Extensions */,
 			);
 			path = "Global Style";
 			sourceTree = "<group>";
 		};
-		80385CAF285BEE5900CBDF71 /* Settings */ = {
+		80385CAF285BEE5900CBDF71 /* Settings Tab Views */ = {
 			isa = PBXGroup;
 			children = (
 				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 				80385CE8285BEE5900CBDF71 /* ExportManager.swift */,
 			);
-			path = Settings;
+			path = "Settings Tab Views";
 			sourceTree = "<group>";
 		};
 		80385CB2285BEE5900CBDF71 /* Core Data Manager */ = {
@@ -379,29 +391,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		80385CC5285BEE5900CBDF71 /* Habit Views */ = {
+		80385CC5285BEE5900CBDF71 /* Habit Tab Views */ = {
 			isa = PBXGroup;
 			children = (
-				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				8058174228D5696900E9816F /* Habit List Views */,
 				803B4E8428B43381003EA859 /* Create Habit */,
-				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
-				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
-				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
-				80A6D9F828949F43009BF024 /* HabitRow.swift */,
-				80385CD1285BEE5900CBDF71 /* RingView.swift */,
-				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
-				80385CC7285BEE5900CBDF71 /* PreviewData.swift */,
-				80385CCC285BEE5900CBDF71 /* Background.swift */,
-				80385CCE285BEE5900CBDF71 /* CustomTextField.swift */,
-				80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */,
-				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
-				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
-				8081A36528767F7A00D0CB1B /* RingShape.swift */,
-				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
-				80385CC8285BEE5900CBDF71 /* BlurView.swift */,
-				80385D7C285E630700CBDF71 /* CustomToolbarView.swift */,
+				8058174128D5692900E9816F /* Create Tracker */,
+				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				80385CEC285BEE5900CBDF71 /* Progress Views */,
 			);
-			path = "Habit Views";
+			path = "Habit Tab Views";
 			sourceTree = "<group>";
 		};
 		80385CD7285BEE5900CBDF71 /* Extensions */ = {
@@ -409,7 +408,6 @@
 			children = (
 				80385CD8285BEE5900CBDF71 /* NSManagedObjectModel */,
 				80385CDB285BEE5900CBDF71 /* Extensions.swift */,
-				80385CDC285BEE5900CBDF71 /* Color.swift */,
 				80385CDD285BEE5900CBDF71 /* NSPersistentStoreCoordinator */,
 				801858992863A7AB003DE454 /* UIImage.swift */,
 			);
@@ -443,19 +441,12 @@
 				80385CE1285BEE5900CBDF71 /* ImprovementTracker.swift */,
 				80385CE4285BEE5900CBDF71 /* ImageTracker.swift */,
 				80F79683286D0432002FDFDA /* TimeTracker.swift */,
+				8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */,
 				80385CE5285BEE5900CBDF71 /* Task.swift */,
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 			);
 			path = "Core Data Model";
-			sourceTree = "<group>";
-		};
-		80385CE9285BEE5900CBDF71 /* Haptic Engine */ = {
-			isa = PBXGroup;
-			children = (
-				80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */,
-			);
-			path = "Haptic Engine";
 			sourceTree = "<group>";
 		};
 		80385CEC285BEE5900CBDF71 /* Progress Views */ = {
@@ -466,6 +457,7 @@
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
 				80385CF5285BEE5900CBDF71 /* Image Card */,
 				80385CF8285BEE5900CBDF71 /* Graph Card */,
+				8027BEF828DD162300EC3E66 /* Exercise Card */,
 				80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */,
 				805A64EE2867CB1400F068B1 /* YearView.swift */,
 			);
@@ -555,9 +547,63 @@
 			path = "one-percent-better-UITests";
 			sourceTree = "<group>";
 		};
+		8058174128D5692900E9816F /* Create Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */,
+				80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */,
+				80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */,
+				80F79687286E552C002FDFDA /* CreateTimeTracker.swift */,
+				8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */,
+			);
+			path = "Create Tracker";
+			sourceTree = "<group>";
+		};
+		8058174228D5696900E9816F /* Habit List Views */ = {
+			isa = PBXGroup;
+			children = (
+				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
+				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
+				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
+				8058174328D569B400E9816F /* Habit Row */,
+				8058174428D5762600E9816F /* Enter Data Views */,
+			);
+			path = "Habit List Views";
+			sourceTree = "<group>";
+		};
+		8058174328D569B400E9816F /* Habit Row */ = {
+			isa = PBXGroup;
+			children = (
+				80385CD1285BEE5900CBDF71 /* RingView.swift */,
+				8081A36528767F7A00D0CB1B /* RingShape.swift */,
+				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
+				80A6D9F828949F43009BF024 /* HabitRow.swift */,
+				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
+				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
+			);
+			path = "Habit Row";
+			sourceTree = "<group>";
+		};
+		8058174428D5762600E9816F /* Enter Data Views */ = {
+			isa = PBXGroup;
+			children = (
+				80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */,
+				80385D38285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift */,
+				80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */,
+				803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */,
+				80385D3A285CD80C00CBDF71 /* ImagePicker.swift */,
+				80385CCE285BEE5900CBDF71 /* CustomTextField.swift */,
+				80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */,
+				8058174528D919F600E9816F /* DeletableRow.swift */,
+			);
+			path = "Enter Data Views";
+			sourceTree = "<group>";
+		};
 		8059AE7D288B4EB400846D27 /* Old Code */ = {
 			isa = PBXGroup;
 			children = (
+				80385D7C285E630700CBDF71 /* CustomToolbarView.swift */,
+				80385CC8285BEE5900CBDF71 /* BlurView.swift */,
 				80385CF0285BEE5900CBDF71 /* CalendarScrollView.swift */,
 				8081A3632874E72900D0CB1B /* GradientTest.swift */,
 				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
@@ -571,25 +617,11 @@
 			children = (
 				8018589B2863C5FE003DE454 /* EditHabit.swift */,
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
-				803E1B8328A1B29F0010540B /* EditTracker.swift */,
+				80CC287F28C0080300411ECB /* EditTracker.swift */,
+				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
 				80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */,
 			);
 			path = "Edit Habit";
-			sourceTree = "<group>";
-		};
-		80F79686286E5429002FDFDA /* Tracker Views */ = {
-			isa = PBXGroup;
-			children = (
-				80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */,
-				80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */,
-				80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */,
-				80F79687286E552C002FDFDA /* CreateTimeTracker.swift */,
-				80385CCB285BEE5900CBDF71 /* EnterTrackerDataView.swift */,
-				80385D38285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift */,
-				80385D3A285CD80C00CBDF71 /* ImagePicker.swift */,
-				80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */,
-			);
-			path = "Tracker Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -837,6 +869,7 @@
 				80385D1C285BEE5900CBDF71 /* NSManagedObjectModel+Compatible.swift in Sources */,
 				802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */,
 				80385D36285BEE5900CBDF71 /* GraphUIKitView.swift in Sources */,
+				803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */,
 				80385D1F285BEE5900CBDF71 /* NSPersistentStoreCoordinator+SQLite.swift in Sources */,
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
@@ -849,6 +882,7 @@
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
 				80385D2D285BEE5900CBDF71 /* CalendarSpacingView.swift in Sources */,
+				8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */,
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
@@ -863,7 +897,7 @@
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */,
 				80385D1A285BEE5900CBDF71 /* HabitCompletionCircle.swift in Sources */,
-				803E1B8428A1B29F0010540B /* EditTracker.swift in Sources */,
+				80CC288028C0080300411ECB /* EditTracker.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
@@ -885,9 +919,9 @@
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
+				8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */,
 				8018589A2863A7AB003DE454 /* UIImage.swift in Sources */,
 				80385D2C285BEE5900CBDF71 /* CalendarScrollView.swift in Sources */,
-				80385D0B285BEE5900CBDF71 /* PreviewData.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
@@ -895,14 +929,17 @@
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
+				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
 				803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
+				8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */,
 				80385D20285BEE5900CBDF71 /* NumberTracker.swift in Sources */,
 				80385D0A285BEE5900CBDF71 /* HabitsHeaderView.swift in Sources */,
 				80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */,
 				806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */,
+				8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */,
 				80385D1D285BEE5900CBDF71 /* Extensions.swift in Sources */,
 				80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */,
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,
@@ -1251,6 +1288,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */,
 				803B4E8328B430F8003EA859 /* mo_ikai 7.xcdatamodel */,
 				8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */,
 				80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */,
@@ -1259,7 +1297,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 803B4E8328B430F8003EA859 /* mo_ikai 7.xcdatamodel */;
+			currentVersion = 8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

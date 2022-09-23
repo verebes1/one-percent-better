@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ExerciseTracker" representedClassName="ExerciseTracker" parentEntity="Tracker" syncable="YES">
+        <attribute name="dates" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
+        <attribute name="reps" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[Int]]"/>
+        <attribute name="weights" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[String]]"/>
+    </entity>
     <entity name="FeatureLog" representedClassName="FeatureLog" syncable="YES">
         <attribute name="hasImprovement" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasNotificationTimeAsDate" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -45,6 +50,7 @@
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="trackers" inverseEntity="Habit"/>
     </entity>
     <elements>
+        <element name="ExerciseTracker" positionX="-11259" positionY="333" width="128" height="74"/>
         <element name="FeatureLog" positionX="-11449.83203125" positionY="48.640625" width="128" height="104"/>
         <element name="GraphTracker" positionX="-11324.96228027344" positionY="459.8780822753906" width="128" height="73"/>
         <element name="Habit" positionX="-11143.04833984374" positionY="-11.45829772949219" width="122.3037109374945" height="179"/>

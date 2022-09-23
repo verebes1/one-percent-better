@@ -48,7 +48,7 @@ class FeatureLogController {
     /// Add percent improvement trackers if the user doesn't have them already
     func setUpPercentImprovementTrackers() {
         if !featureLog.hasImprovement {
-            let habits = Habit.habitList(from: context)
+            let habits = Habit.habits(from: context)
             
             for habit in habits {
                 let hasImprovementTracker = habit.trackers.first(where: { tracker in
@@ -76,7 +76,7 @@ class FeatureLogController {
     func setUpTrackerToHabitRelationships() {
         featureLog.hasTrackerToHabitRelationship = false
         if !featureLog.hasTrackerToHabitRelationship {
-            let habits = Habit.habitList(from: context)
+            let habits = Habit.habits(from: context)
             
             for habit in habits {
                 for tracker in habit.trackers {
@@ -93,7 +93,7 @@ class FeatureLogController {
     
     func setUpTrackerIndices() {
         if !featureLog.hasTrackerIndices {
-            let habits = Habit.habitList(from: context)
+            let habits = Habit.habits(from: context)
             
             // Put improvement tracker first
             for habit in habits {
@@ -129,7 +129,7 @@ class FeatureLogController {
     
     func setUpTimesCompleted() {
         if !featureLog.hasTimesCompleted {
-            let habits = Habit.habitList(from: context)
+            let habits = Habit.habits(from: context)
             for habit in habits {
                 habit.timesCompleted = Array(repeating: 1, count: habit.daysCompleted.count)
             }

@@ -23,6 +23,7 @@ struct TrackersContainer: Codable {
     let numberTrackers: [NumberTracker]
     let improvementTracker: ImprovementTracker?
     let imageTrackers: [ImageTracker]
+    let exerciseTrackers: [ExerciseTracker]?
 }
 
 @objc(Habit)
@@ -147,7 +148,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                      timesPerDay: Int = 1,
                      daysPerWeek: [Int] = [0]) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.habitList(from: context)
+        let habits = Habit.habits(from: context)
         if noNameDupe {
             for habit in habits {
                 if habit.name == name {
@@ -173,7 +174,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     
     func setName(_ name: String) throws {
         // Check for a duplicate habit. Habits are unique by name
-        let habits = Habit.habitList(from: myContext)
+        let habits = Habit.habits(from: myContext)
         for habit in habits {
             if habit.name == name {
                 throw HabitCreationError.duplicateName
@@ -268,7 +269,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
     }
     
-    func toggleHabitCompletion(on day: Date) {
+    func toggle(on day: Date) {
         if wasCompleted(on: day) {
             markNotCompleted(on: day)
         } else {
@@ -284,7 +285,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         return Calendar.current.startOfDay(for: startDate) <= Calendar.current.startOfDay(for: day)
     }
     
-    class func habitList(from context: NSManagedObjectContext) -> [Habit] {
+    class func habits(from context: NSManagedObjectContext) -> [Habit] {
         var habits: [Habit] = []
         do {
             // fetch all habits
@@ -375,7 +376,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
     
-        let habits = Habit.habitList(from: context)
+        let habits = Habit.habits(from: context)
         var name = try container.decode(String.self, forKey: .name)
         let today = Date()
         for habit in habits {
@@ -426,18 +427,25 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
         self.orderIndex = existingIndex + importedIndex
         
-        let trackersContainer = try container.decode(TrackersContainer.self, forKey: .trackersContainer)
-        for nt in trackersContainer.numberTrackers {
-            nt.habit = self
-            self.addToTrackers(nt)
-        }
-        if let it = trackersContainer.improvementTracker {
-            it.habit = self
-            self.addToTrackers(it)
-        }
-        for it in trackersContainer.imageTrackers {
-            it.habit = self
-            self.addToTrackers(it)
+        if let trackersContainer = try? container.decode(TrackersContainer.self, forKey: .trackersContainer) {
+            for nt in trackersContainer.numberTrackers {
+                nt.habit = self
+                self.addToTrackers(nt)
+            }
+            if let it = trackersContainer.improvementTracker {
+                it.habit = self
+                self.addToTrackers(it)
+            }
+            for it in trackersContainer.imageTrackers {
+                it.habit = self
+                self.addToTrackers(it)
+            }
+            if let ets = trackersContainer.exerciseTrackers {
+                for it in ets {
+                    it.habit = self
+                    self.addToTrackers(it)
+                }
+            }
         }
     }
     
@@ -450,6 +458,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         var numberTrackers: [NumberTracker] = []
         var improvementTracker: ImprovementTracker?
         var imageTrackers: [ImageTracker] = []
+        var exerciseTrackers: [ExerciseTracker] = []
         for tracker in trackers {
             if let t = tracker as? NumberTracker {
                 numberTrackers.append(t)
@@ -457,9 +466,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                 improvementTracker = t
             } else if let t = tracker as? ImageTracker {
                 imageTrackers.append(t)
+            } else if let t = tracker as? ExerciseTracker {
+                exerciseTrackers.append(t)
             }
         }
-        let trackersContainer = TrackersContainer(numberTrackers: numberTrackers, improvementTracker: improvementTracker, imageTrackers: imageTrackers)
+        let trackersContainer = TrackersContainer(numberTrackers: numberTrackers, improvementTracker: improvementTracker, imageTrackers: imageTrackers, exerciseTrackers: exerciseTrackers)
         try container.encode(trackersContainer, forKey: .trackersContainer)
         
         try container.encode(startDate, forKey: .startDate)
