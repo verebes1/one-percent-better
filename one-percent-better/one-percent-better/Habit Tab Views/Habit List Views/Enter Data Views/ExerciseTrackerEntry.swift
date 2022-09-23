@@ -252,6 +252,8 @@ struct ExerciseField: View {
     @Binding var field: String
     @Binding var isValid: Bool
     
+    var useDecimal: Bool
+    
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 7)
@@ -259,6 +261,7 @@ struct ExerciseField: View {
             
             TextField("", text: $field)
                 .multilineTextAlignment(.center)
+                .keyboardType(useDecimal ? .decimalPad : .numberPad)
         }
         .frame(width: 60, height: 25)
         .overlay(
@@ -282,8 +285,12 @@ struct ExerciseRow: View {
             Text(String(i+1))
                 .fontWeight(.medium)
             PreviousWeight(i: i)
-            ExerciseField(field: $gymSet.weightField, isValid: $gymSet.weightFieldValid)
-            ExerciseField(field: $gymSet.repField, isValid: $gymSet.repFieldValid)
+            ExerciseField(field: $gymSet.weightField,
+                          isValid: $gymSet.weightFieldValid,
+                          useDecimal: true)
+            ExerciseField(field: $gymSet.repField,
+                          isValid: $gymSet.repFieldValid,
+                          useDecimal: false)
         }
         .frame(height: 32)
     }

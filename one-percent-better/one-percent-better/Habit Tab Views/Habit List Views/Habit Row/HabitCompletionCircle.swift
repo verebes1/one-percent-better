@@ -37,7 +37,7 @@ struct HabitCompletionCircle: View {
                     vm.hasTimerStarted = false
                 }
             } else {
-                vm.habit.toggleHabitCompletion(on: vm.currentDay)
+                vm.habit.toggle(on: vm.currentDay)
             }
         }
     }

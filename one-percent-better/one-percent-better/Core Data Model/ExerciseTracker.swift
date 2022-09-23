@@ -111,8 +111,8 @@ public class ExerciseTracker: Tracker {
         }
     }
     
-    func getPreviousEntry(before date: Date) -> ExerciseEntryModel? {
-        if let dateIndex = dates.lastIndex(where: {day in day < date && !Calendar.current.isDate(day, inSameDayAs: date) }) {
+    func getPreviousEntry(before date: Date, allowSameDay: Bool = false) -> ExerciseEntryModel? {
+        if let dateIndex = dates.lastIndex(where: {day in day < date && (allowSameDay || !Calendar.current.isDate(day, inSameDayAs: date)) }) {
             return ExerciseEntryModel(reps: reps[dateIndex], weights: weights[dateIndex])
         } else {
             return nil

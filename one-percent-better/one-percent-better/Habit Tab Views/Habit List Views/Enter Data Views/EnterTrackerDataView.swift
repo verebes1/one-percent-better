@@ -134,7 +134,7 @@ class EnterTrackerDataViewModel: ObservableObject {
         if atLeastOneEntry {
             habit.markCompleted(on: currentDay)
         } else {
-            habit.markNotCompleted(on: currentDay)
+            habit.toggle(on: currentDay)
         }
         return true
     }

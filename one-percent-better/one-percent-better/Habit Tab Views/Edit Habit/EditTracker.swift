@@ -50,7 +50,7 @@ struct EditTracker: View {
                                    by: -1) {
             revisedItems[reverseIndex].index = Int(reverseIndex)
         }
-        moc.fatalSave()
+//        moc.fatalSave()
     }
     
     /// Check if the user can save or needs to make changes
@@ -87,8 +87,8 @@ struct EditTracker: View {
                     
                     Section {
                         Button {
-                            delete()
                             show = false
+                            delete()
                         } label: {
                             HStack {
                                 Text("Delete Tracker")

@@ -268,7 +268,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
     }
     
-    func toggleHabitCompletion(on day: Date) {
+    func toggle(on day: Date) {
         if wasCompleted(on: day) {
             markNotCompleted(on: day)
         } else {
