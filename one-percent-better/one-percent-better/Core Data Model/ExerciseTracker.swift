@@ -124,7 +124,7 @@ public class ExerciseTracker: Tracker {
         for i in 0 ..< dates.count {
             result.append(ExerciseEntryModel(reps: reps[i], weights: weights[i]))
         }
-        return result
+        return result.reversed()
     }
     
     override func remove(on date: Date) {
@@ -133,5 +133,41 @@ public class ExerciseTracker: Tracker {
             weights.remove(at: dateIndex)
             dates.remove(at: dateIndex)
         }
+    }
+    
+    // MARK: - Encodable
+    enum CodingKeys: CodingKey {
+        case name
+        case autoTracker
+        case index
+        case dates
+        case reps
+        case weights
+    }
+    
+    required convenience public init(from decoder: Decoder) throws {
+        guard let context = decoder.userInfo[CodingUserInfoKey.managedObjectContext] as? NSManagedObjectContext else {
+            throw DecoderConfigurationError.missingManagedObjectContext
+        }
+        
+        self.init(context: context)
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.autoTracker = try container.decode(Bool.self, forKey: .autoTracker)
+        self.index = try container.decode(Int.self, forKey: .index)
+        self.dates = try container.decode([Date].self, forKey: .dates)
+        self.reps = try container.decode([[Int]].self, forKey: .reps)
+        self.weights = try container.decode([[String]].self, forKey: .weights)
+    }
+    
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(autoTracker, forKey: .autoTracker)
+        try container.encode(index, forKey: .index)
+        try container.encode(dates, forKey: .dates)
+        try container.encode(reps, forKey: .reps)
+        try container.encode(weights, forKey: .weights)
     }
 }

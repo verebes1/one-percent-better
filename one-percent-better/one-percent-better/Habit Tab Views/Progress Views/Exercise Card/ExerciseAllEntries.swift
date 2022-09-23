@@ -19,7 +19,7 @@ struct ExerciseAllEntries: View {
                 VStack {
                     ForEach(0 ..< entries.count) { i in
                         CardView {
-                            ExerciseCard(tracker: tracker, vm: entries[i], viewAllButton: false, date: tracker.dates[i] )
+                            ExerciseCard(tracker: tracker, vm: entries[i], viewAllButton: false, date: tracker.dates.reversed()[i])
                         }
                     }
                 }

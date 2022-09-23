@@ -10,7 +10,7 @@ import SwiftUI
 struct ExerciseCard: View {
     var tracker: ExerciseTracker
     
-    var vm: ExerciseEntryModel
+    var vm: ExerciseEntryModel?
     
     let columns: [GridItem] = Array(repeating: GridItem(.flexible()), count: 3)
     
@@ -56,8 +56,12 @@ struct ExerciseCard: View {
                 Text("Reps")
             }
             
-            ForEach(Array(vm.sets.enumerated()), id: \.offset) { (i, gymSet) in
-                ExerciseCardRow(i: i, gymSet: gymSet)
+            if let vm = vm {
+                ForEach(Array(vm.sets.enumerated()), id: \.offset) { (i, gymSet) in
+                    ExerciseCardRow(i: i, gymSet: gymSet)
+                }
+            } else {
+                Text("No data yet")
             }
         }
         .padding(.vertical, 10)

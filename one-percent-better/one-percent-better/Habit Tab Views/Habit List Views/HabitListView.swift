@@ -223,11 +223,6 @@ struct HabitListView: View {
     /// If ProgressView is being presented
     @State private var progressViewPresenting = false
     
-    init(vm: HabitListViewModel) {
-        print("HabitListView init **************************")
-        self.vm = vm
-    }
-    
     var body: some View {
         NavigationView {
             Background {
@@ -260,7 +255,6 @@ struct HabitListView: View {
                 }
             }
             .onAppear {
-                UITableView.appearance().contentInset.top = -25
                 vm.updateDayToToday()
             }
             .onChange(of: scenePhase, perform: { newPhase in

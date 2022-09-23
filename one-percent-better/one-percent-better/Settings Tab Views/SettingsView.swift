@@ -146,6 +146,14 @@ struct DocumentPicker: UIViewControllerRepresentable {
                     print("IMPORT DATA ERROR: \(error)")
                     //                fatalError("\(#function) - Unexpected error: \(error)")
                 }
+                let habits = Habit.habits(from: CoreDataManager.shared.mainContext)
+                for habit in habits {
+                    for t in habit.trackers {
+                        if let t = t as? Tracker {
+                            print("habit: \(habit.name), tracker: \(t.name), t.habit: \(t.habit.name)")
+                        }
+                    }
+                }
                 CoreDataManager.shared.saveContext()
                 FeatureLogController.shared.setUp()
             } catch {

@@ -288,13 +288,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8027BEF828DD162300EC3E66 /* Exercise Set Card */ = {
+		8027BEF828DD162300EC3E66 /* Exercise Card */ = {
 			isa = PBXGroup;
 			children = (
 				8027BEF928DD164500EC3E66 /* ExerciseCard.swift */,
 				8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */,
 			);
-			path = "Exercise Set Card";
+			path = "Exercise Card";
 			sourceTree = "<group>";
 		};
 		80385CAC285BEE5900CBDF71 /* one-percent-better */ = {
@@ -457,7 +457,7 @@
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
 				80385CF5285BEE5900CBDF71 /* Image Card */,
 				80385CF8285BEE5900CBDF71 /* Graph Card */,
-				8027BEF828DD162300EC3E66 /* Exercise Set Card */,
+				8027BEF828DD162300EC3E66 /* Exercise Card */,
 				80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */,
 				805A64EE2867CB1400F068B1 /* YearView.swift */,
 			);

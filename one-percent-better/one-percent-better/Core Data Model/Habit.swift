@@ -23,6 +23,7 @@ struct TrackersContainer: Codable {
     let numberTrackers: [NumberTracker]
     let improvementTracker: ImprovementTracker?
     let imageTrackers: [ImageTracker]
+    let exerciseTrackers: [ExerciseTracker]?
 }
 
 @objc(Habit)
@@ -426,18 +427,25 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         }
         self.orderIndex = existingIndex + importedIndex
         
-        let trackersContainer = try container.decode(TrackersContainer.self, forKey: .trackersContainer)
-        for nt in trackersContainer.numberTrackers {
-            nt.habit = self
-            self.addToTrackers(nt)
-        }
-        if let it = trackersContainer.improvementTracker {
-            it.habit = self
-            self.addToTrackers(it)
-        }
-        for it in trackersContainer.imageTrackers {
-            it.habit = self
-            self.addToTrackers(it)
+        if let trackersContainer = try? container.decode(TrackersContainer.self, forKey: .trackersContainer) {
+            for nt in trackersContainer.numberTrackers {
+                nt.habit = self
+                self.addToTrackers(nt)
+            }
+            if let it = trackersContainer.improvementTracker {
+                it.habit = self
+                self.addToTrackers(it)
+            }
+            for it in trackersContainer.imageTrackers {
+                it.habit = self
+                self.addToTrackers(it)
+            }
+            if let ets = trackersContainer.exerciseTrackers {
+                for it in ets {
+                    it.habit = self
+                    self.addToTrackers(it)
+                }
+            }
         }
     }
     
@@ -450,6 +458,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         var numberTrackers: [NumberTracker] = []
         var improvementTracker: ImprovementTracker?
         var imageTrackers: [ImageTracker] = []
+        var exerciseTrackers: [ExerciseTracker] = []
         for tracker in trackers {
             if let t = tracker as? NumberTracker {
                 numberTrackers.append(t)
@@ -457,9 +466,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                 improvementTracker = t
             } else if let t = tracker as? ImageTracker {
                 imageTrackers.append(t)
+            } else if let t = tracker as? ExerciseTracker {
+                exerciseTrackers.append(t)
             }
         }
-        let trackersContainer = TrackersContainer(numberTrackers: numberTrackers, improvementTracker: improvementTracker, imageTrackers: imageTrackers)
+        let trackersContainer = TrackersContainer(numberTrackers: numberTrackers, improvementTracker: improvementTracker, imageTrackers: imageTrackers, exerciseTrackers: exerciseTrackers)
         try container.encode(trackersContainer, forKey: .trackersContainer)
         
         try container.encode(startDate, forKey: .startDate)
