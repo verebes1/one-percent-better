@@ -100,6 +100,7 @@
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
 		80CC288028C0080300411ECB /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC287F28C0080300411ECB /* EditTracker.swift */; };
+		80CC691F28E1184F00584340 /* NewProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC691E28E1184F00584340 /* NewProgress.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -226,6 +227,7 @@
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
 		80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitFrequency.swift; sourceTree = "<group>"; };
 		80CC287F28C0080300411ECB /* EditTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
+		80CC691E28E1184F00584340 /* NewProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProgress.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				80385CEE285BEE5900CBDF71 /* ProgressView.swift */,
+				80CC691E28E1184F00584340 /* NewProgress.swift */,
 				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
 				80385CF5285BEE5900CBDF71 /* Image Card */,
@@ -945,6 +948,7 @@
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,
 				80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */,
 				80385D29285BEE5900CBDF71 /* OnePercentBetterApp.swift in Sources */,
+				80CC691F28E1184F00584340 /* NewProgress.swift in Sources */,
 				80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */,
 				80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */,
 				80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */,
@@ -1118,6 +1122,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1150,6 +1155,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

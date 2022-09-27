@@ -14,7 +14,8 @@ struct OnePercentBetterApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+            GraphGestureTest()
                 .environment(\.managedObjectContext, coreDataManager.mainContext)
                 .onAppear {
                     print("NSHomeDirectory: \(NSHomeDirectory())")
