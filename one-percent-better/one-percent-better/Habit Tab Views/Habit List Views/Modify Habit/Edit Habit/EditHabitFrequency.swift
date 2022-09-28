@@ -13,16 +13,17 @@ struct EditHabitFrequency: View {
     
     @EnvironmentObject var habit: Habit
     
-    @State private var timesPerDay: Int
-    @State private var selectedWeekDays: [Int] = [0]
-    
-    @State private var selection: FrequencySelection = .timesPerDay
-    
     @Binding var show: Bool
     
+    @ObservedObject var vm: FrequencySelectionModel
+    
     init(timesPerDay: Int, show: Binding<Bool>) {
-        self._timesPerDay = State(initialValue: timesPerDay)
+        self.vm = FrequencySelectionModel(selection: .timesPerDay, timesPerDay: timesPerDay, daysPerWeek: [1,3,5])
         self._show = show
+    }
+    
+    func canSave() -> Bool {
+        return true
     }
     
     var body: some View {
@@ -32,41 +33,33 @@ struct EditHabitFrequency: View {
                                     title: "Frequency",
                 subtitle: "How often do you want to complete this habit?")
                 
-                SelectableCard(selection: $selection, type: .timesPerDay) {
-                    EveryDaily(timesPerDay: $timesPerDay)
-                }
-                
-                
-                SelectableCard(selection: $selection, type: .daysInTheWeek) {
-                    EveryWeekly(selectedWeekdays: $selectedWeekDays)
-                }
+                FrequencySelectionStack()
+                    .environmentObject(vm)
                 
                 Spacer()
             }
-            .navigationTitle("Edit Frequency")
-            .navigationBarTitleDisplayMode(.inline)
-            // Hide the system back button
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        habit.timesPerDay = self.timesPerDay
-                        moc.fatalSave()
-                        show = false
-                    }) {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                            Text("Back")
-                        }
+            .onDisappear {
+                if canSave() {
+                    switch vm.selection {
+                    case .timesPerDay:
+                        habit.timesPerDay = vm.timesPerDay
+                        habit.changeFrequency(to: .timesPerDay)
+                    case .daysInTheWeek:
+                        habit.daysPerWeek = vm.daysPerWeek
+                        habit.changeFrequency(to: .daysInTheWeek)
                     }
+                    moc.fatalSave()
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
 struct EditHabitFrequency_Previews: PreviewProvider {
     static var previews: some View {
-        EditHabitFrequency(timesPerDay: 2, show: .constant(true))
+        NavigationView {
+            EditHabitFrequency(timesPerDay: 2, show: .constant(true))
+        }
     }
 }

@@ -7,16 +7,10 @@
 
 import SwiftUI
 
-enum FrequencySelection {
-    case timesPerDay
-    case daysInTheWeek
-//    case everyXDays
-}
-
 struct SelectableCard<Content>: View where Content: View {
     
-    @Binding var selection: FrequencySelection
-    let type: FrequencySelection
+    @Binding var selection: HabitFrequency
+    let type: HabitFrequency
     let content: () -> Content
     
     var body: some View {
@@ -58,7 +52,7 @@ struct SelectableCard<Content>: View where Content: View {
 
 struct SelectableCardPreviewer: View {
     
-    @State private var selection: FrequencySelection = .timesPerDay
+    @State private var selection: HabitFrequency = .timesPerDay
     
     var body: some View {
         Background {

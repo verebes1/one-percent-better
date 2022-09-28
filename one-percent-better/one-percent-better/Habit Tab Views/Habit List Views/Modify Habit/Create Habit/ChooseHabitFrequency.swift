@@ -9,9 +9,8 @@ import SwiftUI
 import Introspect
 
 @objc public enum HabitFrequency: Int {
-    case daily = 0
-    case weekly = 1
-//    case monthly = 2
+    case timesPerDay = 0
+    case daysInTheWeek = 1
 }
 
 enum HabitFrequencyError: Error {
@@ -27,14 +26,7 @@ struct ChooseHabitFrequency: View {
     
     @Binding var rootPresenting: Bool
     
-    @State private var selectedFrequency: HabitFrequency = .daily
-    
-    @State private var dailyFrequencyText = "1"
-    @State private var timesPerDay: Int = 1
-    @State private var timesPerDayZeroError = false
-    @State private var timesPerDayEmptyError = false
-    
-    @State private var daysPerWeek: [Int] = [0]
+    @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay, timesPerDay: 1, daysPerWeek: [1,3,5])
     
     var body: some View {
         Background {
@@ -43,28 +35,8 @@ struct ChooseHabitFrequency: View {
                                     title: "Frequency",
                                     subtitle: "How often do you complete this habit?")
                 
-                /*
-                 Picker(selection: $selectedFrequency, label: Text("Frequency")) {
-                 Text("Daily").tag(HabitFrequency.daily)
-                 Text("Weekly").tag(HabitFrequency.weekly)
-                 //                    Text("Monthly").tag(Frequency.monthly)
-                 }
-                 .pickerStyle(.segmented)
-                 .padding(10)
-                 
-                 
-                 switch selectedFrequency {
-                 case .daily:
-                 EveryDaily(frequencyText: $dailyFrequencyText)
-                 case .weekly:
-                 EveryWeekly(selectedWeekdays: $daysPerWeek)
-                 //                    WeeklyCards()
-                 //                case .monthly:
-                 //                    Text("Monthly")
-                 }
-                 */
-                
-                EveryDaily(timesPerDay: $timesPerDay)
+                FrequencySelectionStack()
+                    .environmentObject(vm)
                 
                 Spacer()
                 
@@ -74,8 +46,9 @@ struct ChooseHabitFrequency: View {
                             let habit = try Habit(context: moc,
                                                   name: habitName,
                                                   noNameDupe: false,
-                                                  timesPerDay: timesPerDay,
-                                                  daysPerWeek: daysPerWeek)
+                                                  frequency: vm.selection,
+                                                  timesPerDay: vm.timesPerDay,
+                                                  daysPerWeek: vm.daysPerWeek)
                             
                             // Auto trackers
                             let it = ImprovementTracker(context: moc, habit: habit)

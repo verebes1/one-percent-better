@@ -18,6 +18,10 @@ public class FeatureLog: NSManagedObject, Codable {
     @NSManaged public var hasTrackerToHabitRelationship: Bool
     @NSManaged public var hasImprovement: Bool
     
+    /// Starting with 1.0.3, habit frequency is an array and must be paired with a frequency date array
+    /// to know when the user changed the frequency
+    @NSManaged public var hasFrequencyDates: Bool
+    
     // MARK: - Encodable
     
     enum CodingKeys: CodingKey {
@@ -26,6 +30,7 @@ public class FeatureLog: NSManagedObject, Codable {
         case hasTrackerIndices
         case hasTrackerToHabitRelationship
         case hasImprovement
+        case hasFrequencyDates
     }
     
     required convenience public init(from decoder: Decoder) throws {
@@ -46,6 +51,7 @@ public class FeatureLog: NSManagedObject, Codable {
         self.hasTrackerIndices = try container.decode(Bool.self, forKey: .hasTrackerIndices)
         self.hasTrackerToHabitRelationship = try container.decode(Bool.self, forKey: .hasTrackerToHabitRelationship)
         self.hasImprovement = try container.decode(Bool.self, forKey: .hasImprovement)
+        self.hasFrequencyDates = try container.decode(Bool.self, forKey: .hasFrequencyDates)
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -55,6 +61,7 @@ public class FeatureLog: NSManagedObject, Codable {
         try container.encode(hasTrackerIndices, forKey: .hasTrackerIndices)
         try container.encode(hasTrackerToHabitRelationship, forKey: .hasTrackerToHabitRelationship)
         try container.encode(hasImprovement, forKey: .hasImprovement)
+        try container.encode(hasFrequencyDates, forKey: .hasFrequencyDates)
     }
     
     // MARK: Fetch Request

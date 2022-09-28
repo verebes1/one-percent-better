@@ -199,7 +199,7 @@ struct HabitRow_Previews: PreviewProvider {
             let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
         }
         
-        let _ = try? Habit(context: context, name: "Twice A Day", frequency: .daily, timesPerDay: 2)
+        let _ = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay, timesPerDay: 2)
         
         let habits = Habit.habits(from: context)
         return habits

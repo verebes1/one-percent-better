@@ -58,7 +58,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     @NSManaged public var notificationTime: Date?
     
     /// How frequently the user wants to complete the habit (daily, weekly, monthly)
-    @NSManaged public var frequency: HabitFrequency
+    @NSManaged public var frequency: [Int]
+    
+    /// The dates the user switches the frequency of their habits, so that their previous data is still shown as completed
+    @NSManaged public var frequencyDates: [Date]
     
     /// If frequency is daily, how many times per day
     @NSManaged public var timesPerDay: Int
@@ -144,7 +147,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     convenience init(context: NSManagedObjectContext,
                      name: String,
                      noNameDupe: Bool = true,
-                     frequency: HabitFrequency = .daily,
+                     frequency: HabitFrequency = .timesPerDay,
                      timesPerDay: Int = 1,
                      daysPerWeek: [Int] = [0]) throws {
         // Check for a duplicate habit. Habits are unique by name
@@ -163,7 +166,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         self.daysCompleted = []
         self.trackers = NSOrderedSet.init(array: [])
         self.orderIndex = nextLargestHabitIndex(habits)
-        self.frequency = frequency
+        self.frequency = [frequency.rawValue]
         self.timesPerDay = timesPerDay
         self.daysPerWeek = daysPerWeek
     }
@@ -198,8 +201,12 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     func percentCompleted(on date: Date) -> Double {
         for (i, day) in daysCompleted.enumerated() {
             if Calendar.current.isDate(day, inSameDayAs: date) {
-                let result = Double(timesCompleted[i]) / Double(timesPerDay)
-                return result
+                if frequency(on: date) == .timesPerDay {
+                    let result = Double(timesCompleted[i]) / Double(timesPerDay)
+                    return result
+                } else if frequency(on: date) == .daysInTheWeek {
+                    return Double(timesCompleted[i])
+                }
             }
         }
         return 0
@@ -275,6 +282,29 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         } else {
             markCompleted(on: day)
             HapticEngineManager.playHaptic()
+        }
+    }
+    
+    func changeFrequency(to frequency: HabitFrequency) {
+        let date = Date()
+        
+        guard self.frequency.count == self.frequencyDates.count else {
+            fatalError("frequency and frequencyDates out of whack")
+        }
+        
+        if let index = frequencyDates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) } ) {
+            self.frequency[index] = frequency.rawValue
+        } else {
+            self.frequencyDates.append(date)
+            self.frequency.append(frequency.rawValue)
+        }
+    }
+    
+    func frequency(on date: Date) -> HabitFrequency {
+        if let index = frequencyDates.lastIndex(where: { Calendar.current.startOfDay(for: $0) <= Calendar.current.startOfDay(for: date) }) {
+            return HabitFrequency(rawValue: frequency[index])!
+        } else {
+            return HabitFrequency(rawValue: frequency.last!)!
         }
     }
     
@@ -362,6 +392,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         case daysCompleted
         case notificationTime
         case frequency
+        case frequencyDates
         case timesPerDay
         case timesCompleted
         case daysPerWeek
@@ -390,10 +421,19 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         self.startDate = try container.decode(Date.self, forKey: .startDate)
         self.daysCompleted = try container.decode([Date].self, forKey: .daysCompleted)
         self.notificationTime = try container.decode(Date?.self, forKey: .notificationTime)
+        
         if let frequency = try? container.decode(Int.self, forKey: .frequency) {
-            self.frequency = HabitFrequency.init(rawValue: frequency) ?? .daily
+            self.frequency = [HabitFrequency.init(rawValue: frequency)?.rawValue ?? HabitFrequency.timesPerDay.rawValue]
+        } else if let frequency = try? container.decode([Int].self, forKey: .frequency) {
+            self.frequency = frequency
         } else {
-            self.frequency = .daily
+            self.frequency = [HabitFrequency.timesPerDay.rawValue]
+        }
+        
+        if let frequencyDates = try? container.decode([Date].self, forKey: .frequencyDates) {
+            self.frequencyDates = frequencyDates
+        } else {
+            self.frequencyDates = [self.startDate]
         }
         
         if let timesPerDay = try? container.decode(Int.self, forKey: .timesPerDay) {
@@ -476,7 +516,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         try container.encode(startDate, forKey: .startDate)
         try container.encode(daysCompleted, forKey: .daysCompleted)
         try container.encode(notificationTime, forKey: .notificationTime)
-        try container.encode(frequency.rawValue, forKey: .frequency)
+        try container.encode(frequency, forKey: .frequency)
+        try container.encode(frequencyDates, forKey: .frequencyDates)
         try container.encode(timesPerDay, forKey: .timesPerDay)
         try container.encode(timesCompleted, forKey: .timesCompleted)
         try container.encode(daysPerWeek, forKey: .daysPerWeek)

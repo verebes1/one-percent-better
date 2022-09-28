@@ -15,7 +15,6 @@ struct OnePercentBetterApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-//            ExpandingFillButton()
                 .environment(\.managedObjectContext, coreDataManager.mainContext)
                 .onAppear {
                     print("NSHomeDirectory: \(NSHomeDirectory())")
