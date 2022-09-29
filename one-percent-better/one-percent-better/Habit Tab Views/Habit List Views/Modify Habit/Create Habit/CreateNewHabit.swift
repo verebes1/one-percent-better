@@ -10,9 +10,7 @@ import Introspect
 
 struct CreateNewHabit: View {
     
-    @Environment(\.presentationMode) var presentationMode
-    
-    @Binding var rootPresenting: Bool
+    @EnvironmentObject var vm: HabitListViewModel
     
     @State var habitName: String = ""
     @State private var isResponder: Bool? = true
@@ -48,40 +46,43 @@ struct CreateNewHabit: View {
                 BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
                     .onTapGesture {
                         if !habitName.isEmpty {
-                            nextView = true
+//                            nextView = true
+                            vm.createHabitPath.append("habit_name")
                         }
                     }
-                    .background(
-                        NavigationLink(isActive: $nextView) {
-                            ChooseHabitFrequency(habitName: habitName, rootPresenting: $rootPresenting)
-                        } label: {
-                            EmptyView()
-                        }
-                    )
+                    .navigationDestination(for: String.self) { value in
+                        ChooseHabitFrequency(habitName: habitName)
+                            .environmentObject(vm)
+                    }
+//                    .background(
+//                        NavigationLink(isActive: $nextView) {
+//                            ChooseHabitFrequency(habitName: habitName, rootPresenting: $rootPresenting)
+//                        } label: {
+//                            EmptyView()
+//                        }
+//                    )
             }
             // Hide the system back button
-            .navigationBarBackButtonHidden(true)
-            // Add your custom back button here
-            .navigationBarItems(leading:
-                                    Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }) {
-                HStack {
-                    Image(systemName: "chevron.left")
-                    Text("Back")
-                }
-            })
+//            .navigationBarBackButtonHidden(true)
+//            // Add your custom back button here
+//            .navigationBarItems(leading:
+//                                    Button(action: {
+//                self.presentationMode.wrappedValue.dismiss()
+//            }) {
+//                HStack {
+//                    Image(systemName: "chevron.left")
+//                    Text("Back")
+//                }
+//            })
         }
     }
 }
 
 struct CreateNewHabit_Previews: PreviewProvider {
     
-    @State static var rootView: Bool = false
-    
     static var previews: some View {
         let context = CoreDataManager.previews.mainContext
-        CreateNewHabit(rootPresenting: $rootView)
+        CreateNewHabit()
             .environment(\.managedObjectContext, context)
     }
 }

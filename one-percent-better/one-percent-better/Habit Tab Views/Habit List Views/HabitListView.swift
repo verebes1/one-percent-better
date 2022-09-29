@@ -29,6 +29,8 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     /// An array of navigation link isActive variables for each habit in the list
     @Published var navLinkActivate: [Habit: Bool] = [:]
     
+    @Published var createHabitPath = NavigationPath()
+    
     init(_ context: NSManagedObjectContext) {
         let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
         habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
@@ -225,59 +227,106 @@ struct HabitListView: View {
     
     var body: some View {
         NavigationView {
-            Background {
-                VStack {
-                    HabitsHeaderView()
-                        .environmentObject(vm)
-                    
-                    if vm.habits.isEmpty {
-                        NoHabitsView()
-                    }
-                    
-                    List {
-                        ForEach(vm.habits, id: \.self.name) { habit in
-                            if habit.started(after: vm.currentDay) {
-                                let habitRowVM = HabitRowViewModel(habit: habit,
-                                                                   currentDay:
-                                                                    vm.currentDay)
-                                NavigationLink(isActive: vm.navLinkBinding(for: habit), destination: {
-                                    ProgressView(habit: habit, active: vm.navLinkBinding(for: habit))
-                                }) {
-                                    HabitRow(vm: habitRowVM)
-                                }
-                                .isDetailLink(false)
-                            }
+            NavigationStack(path: $vm.createHabitPath) {
+                Background {
+                    VStack {
+                        HabitsHeaderView()
+                            .environmentObject(vm)
+                        
+                        if vm.habits.isEmpty {
+                            NoHabitsView()
                         }
-                        .onMove(perform: vm.move)
-                        .onDelete(perform: vm.delete)
+                        
+                        List {
+                            ForEach(vm.habits, id: \.self.name) { habit in
+                                if habit.started(after: vm.currentDay) {
+                                    let habitRowVM = HabitRowViewModel(habit: habit,
+                                                                       currentDay:
+                                                                        vm.currentDay)
+                                    NavigationLink(isActive: vm.navLinkBinding(for: habit), destination: {
+                                        ProgressView(habit: habit, active: vm.navLinkBinding(for: habit))
+                                    }) {
+                                        HabitRow(vm: habitRowVM)
+                                    }
+                                    .isDetailLink(false)
+                                }
+                            }
+                            .onMove(perform: vm.move)
+                            .onDelete(perform: vm.delete)
+                        }
+                        .environment(\.defaultMinListRowHeight, 54)
                     }
-                    .environment(\.defaultMinListRowHeight, 54)
                 }
-            }
-            .onAppear {
-                vm.updateDayToToday()
-            }
-            .onChange(of: scenePhase, perform: { newPhase in
-                if newPhase == .active {
+                .onAppear {
                     vm.updateDayToToday()
                 }
-            })
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(
-                        destination: CreateNewHabit(rootPresenting: $createHabitPresenting),
-                        isActive: $createHabitPresenting) {
+                .onChange(of: scenePhase, perform: { newPhase in
+                    if newPhase == .active {
+                        vm.updateDayToToday()
+                    }
+                })
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        EditButton()
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        
+                        Button {
+                            vm.createHabitPath.append(0)
+                        } label: {
                             Image(systemName: "square.and.pencil")
                         }
+                        .navigationDestination(for: Int.self) { value in
+                            CreateNewHabit()
+                                .toolbar {
+                                    ToolbarItem(placement: .principal) {
+                                        // this sets the screen title in the navigation bar, when the screen is visible
+                                        Text("")
+                                    }
+                                }
+                                .environmentObject(vm)
+                        }
+
+                        
+//                        NavigationLink(value: 0) {
+//                            Image(systemName: "square.and.pencil")
+//                        }
+//                        .navigationDestination(for: Int.self) { value in
+//                            CreateNewHabit(value: value)
+//                                .toolbar {
+//                                    ToolbarItem(placement: .principal) {
+//                                        // this sets the screen title in the navigation bar, when the screen is visible
+//                                        Text("")
+//                                    }
+//                                }
+//                                .environmentObject(vm)
+//                        }
+                    
+                        
+                        //                    NavigationLink {
+                        //                        CreateNewHabit(rootPresenting: $createHabitPresenting)
+                        //                            .toolbar {
+                        //                                ToolbarItem(placement: .principal) {
+                        //                                    // this sets the screen title in the navigation bar, when the screen is visible
+                        //                                    Text("")
+                        //                                }
+                        //                            }
+                        //                    } label: {
+                        //                        Image(systemName: "square.and.pencil")
+                        //                    }
+                        
+                        //                    NavigationLink(
+                        //                        destination: CreateNewHabit(rootPresenting: $createHabitPresenting),
+                        //                        isActive: $createHabitPresenting) {
+                        //                            Image(systemName: "square.and.pencil")
+                        //                        }
+                    }
                 }
+                .navigationTitle(vm.navTitle)
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationViewStyle(StackNavigationViewStyle())
+                
             }
-            .navigationTitle(vm.navTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(StackNavigationViewStyle())
-            
         }
     }
 }

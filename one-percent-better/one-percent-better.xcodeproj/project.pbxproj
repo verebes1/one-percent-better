@@ -577,11 +577,11 @@
 		8058174228D5696900E9816F /* Habit List Views */ = {
 			isa = PBXGroup;
 			children = (
-				80CC692028E27EDC00584340 /* Modify Habit */,
 				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
 				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
 				8058174328D569B400E9816F /* Habit Row */,
+				80CC692028E27EDC00584340 /* Modify Habit */,
 				8058174428D5762600E9816F /* Enter Data Views */,
 			);
 			path = "Habit List Views";

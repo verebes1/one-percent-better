@@ -22,11 +22,11 @@ struct ChooseHabitFrequency: View {
     
     @Environment(\.managedObjectContext) var moc
     
+    @EnvironmentObject var hlvm: HabitListViewModel
+    
     var habitName: String
     
-    @Binding var rootPresenting: Bool
-    
-    @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay, timesPerDay: 1, daysPerWeek: [1,3,5])
+    @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay, timesPerDay: 1, daysPerWeek: [2,4])
     
     var body: some View {
         Background {
@@ -39,6 +39,15 @@ struct ChooseHabitFrequency: View {
                     .environmentObject(vm)
                 
                 Spacer()
+                
+                Button {
+//                    for _ in 0 ..< hlvm.createHabitPath.count {
+                        hlvm.createHabitPath.removeLast()
+//                    }
+                } label: {
+                    Text("Pop to root")
+                }
+
                 
                 BottomButton(label: "Finish")
                     .onTapGesture {
@@ -53,9 +62,12 @@ struct ChooseHabitFrequency: View {
                             // Auto trackers
                             let it = ImprovementTracker(context: moc, habit: habit)
                             habit.addToTrackers(it)
-                            rootPresenting = false
                         } catch {
                             fatalError("unkown error in choose habit frequency")
+                        }
+                        
+                        for _ in 0 ..< hlvm.createHabitPath.count {
+                            hlvm.createHabitPath.removeLast()
                         }
                     }
             }
@@ -65,7 +77,7 @@ struct ChooseHabitFrequency: View {
 
 struct HabitFrequency_Previews: PreviewProvider {
     static var previews: some View {
-        ChooseHabitFrequency(habitName: "Horseback Riding", rootPresenting: .constant(false))
+        ChooseHabitFrequency(habitName: "Horseback Riding")
     }
 }
 

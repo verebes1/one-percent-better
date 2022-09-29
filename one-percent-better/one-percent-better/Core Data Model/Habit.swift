@@ -162,11 +162,13 @@ public class Habit: NSManagedObject, Codable, Identifiable {
         self.init(context: context)
         self.myContext = context
         self.name = name
-        self.startDate = Calendar.current.startOfDay(for: Date())
+        let today = Date()
+        self.startDate = Calendar.current.startOfDay(for: today)
         self.daysCompleted = []
         self.trackers = NSOrderedSet.init(array: [])
         self.orderIndex = nextLargestHabitIndex(habits)
         self.frequency = [frequency.rawValue]
+        self.frequencyDates = [today]
         self.timesPerDay = timesPerDay
         self.daysPerWeek = daysPerWeek
     }
