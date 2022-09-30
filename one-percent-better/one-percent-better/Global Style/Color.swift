@@ -84,3 +84,10 @@ extension UIColor {
         return UIColor { $0.userInterfaceStyle == .dark ? dark : light }
     }
 }
+
+extension Color {
+    static func dynamicColor(light: Color, dark: Color) -> Color {
+        guard #available(iOS 13.0, *) else { return light }
+        return Color (UIColor { $0.userInterfaceStyle == .dark ? UIColor(dark) : UIColor(light) })
+    }
+}

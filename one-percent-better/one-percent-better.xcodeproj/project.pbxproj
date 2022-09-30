@@ -98,9 +98,17 @@
 		8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36728788CB000D0CB1B /* GradientRing2.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
+		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
+		80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */; };
+		80BF87A128E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A028E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel */; };
+		80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A228E69EB2002A1347 /* ChartTest.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
 		80CC288028C0080300411ECB /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC287F28C0080300411ECB /* EditTracker.swift */; };
 		80CC691F28E1184F00584340 /* NewProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC691E28E1184F00584340 /* NewProgress.swift */; };
+		80CC692228E27FC200584340 /* EveryDaily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692128E27FC200584340 /* EveryDaily.swift */; };
+		80CC692428E39BA800584340 /* MyStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692328E39BA800584340 /* MyStepper.swift */; };
+		80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692528E3AF5400584340 /* ExpandingFillButton.swift */; };
+		80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekly.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -225,9 +233,18 @@
 		8081A36728788CB000D0CB1B /* GradientRing2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing2.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
+		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
+		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
+		80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStack.swift; sourceTree = "<group>"; };
+		80BF87A028E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
+		80BF87A228E69EB2002A1347 /* ChartTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTest.swift; sourceTree = "<group>"; };
 		80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitFrequency.swift; sourceTree = "<group>"; };
 		80CC287F28C0080300411ECB /* EditTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
 		80CC691E28E1184F00584340 /* NewProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProgress.swift; sourceTree = "<group>"; };
+		80CC692128E27FC200584340 /* EveryDaily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily.swift; sourceTree = "<group>"; };
+		80CC692328E39BA800584340 /* MyStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStepper.swift; sourceTree = "<group>"; };
+		80CC692528E3AF5400584340 /* ExpandingFillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingFillButton.swift; sourceTree = "<group>"; };
+		80CC692728E3B5A700584340 /* EveryWeekly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekly.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -354,6 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				80385CB5285BEE5900CBDF71 /* MigrationModel2to3.swift */,
+				80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */,
 			);
 			path = Policies;
 			sourceTree = "<group>";
@@ -372,6 +390,7 @@
 			children = (
 				80385CBE285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel */,
 				80385CBF285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel */,
+				80BF87A028E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel */,
 			);
 			path = Mappings;
 			sourceTree = "<group>";
@@ -397,9 +416,7 @@
 			isa = PBXGroup;
 			children = (
 				8058174228D5696900E9816F /* Habit List Views */,
-				803B4E8428B43381003EA859 /* Create Habit */,
 				8058174128D5692900E9816F /* Create Tracker */,
-				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
 				80385CEC285BEE5900CBDF71 /* Progress Views */,
 			);
 			path = "Habit Tab Views";
@@ -495,6 +512,7 @@
 				80385CFB285BEE5900CBDF71 /* GraphCardView.swift */,
 				80385CFC285BEE5900CBDF71 /* GraphUIKitView.swift */,
 				800F40F7285F913A0071CC70 /* GraphGestureTest.swift */,
+				80BF87A228E69EB2002A1347 /* ChartTest.swift */,
 			);
 			path = "Graph Card";
 			sourceTree = "<group>";
@@ -569,6 +587,7 @@
 				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
 				8058174328D569B400E9816F /* Habit Row */,
+				80CC692028E27EDC00584340 /* Create Habit - Edit Habit */,
 				8058174428D5762600E9816F /* Enter Data Views */,
 			);
 			path = "Habit List Views";
@@ -621,10 +640,24 @@
 				8018589B2863C5FE003DE454 /* EditHabit.swift */,
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
 				80CC287F28C0080300411ECB /* EditTracker.swift */,
-				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
 				80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */,
 			);
 			path = "Edit Habit";
+			sourceTree = "<group>";
+		};
+		80CC692028E27EDC00584340 /* Create Habit - Edit Habit */ = {
+			isa = PBXGroup;
+			children = (
+				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
+				80CC692128E27FC200584340 /* EveryDaily.swift */,
+				803B4E8428B43381003EA859 /* Create Habit */,
+				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				80CC692328E39BA800584340 /* MyStepper.swift */,
+				80CC692528E3AF5400584340 /* ExpandingFillButton.swift */,
+				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
+				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
+			);
+			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -872,6 +905,7 @@
 				80385D1C285BEE5900CBDF71 /* NSManagedObjectModel+Compatible.swift in Sources */,
 				802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */,
 				80385D36285BEE5900CBDF71 /* GraphUIKitView.swift in Sources */,
+				80BF87A128E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel in Sources */,
 				803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */,
 				80385D1F285BEE5900CBDF71 /* NSPersistentStoreCoordinator+SQLite.swift in Sources */,
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
@@ -888,8 +922,11 @@
 				8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */,
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
+				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
+				80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */,
+				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
 				80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */,
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
@@ -904,11 +941,13 @@
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
+				80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */,
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
+				80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				80385D11285BEE5900CBDF71 /* ButtonViews.swift in Sources */,
@@ -919,6 +958,7 @@
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
+				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
@@ -936,6 +976,7 @@
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
 				803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
+				80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
 				8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */,
 				80385D20285BEE5900CBDF71 /* NumberTracker.swift in Sources */,
@@ -1294,6 +1335,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */,
 				8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */,
 				803B4E8328B430F8003EA859 /* mo_ikai 7.xcdatamodel */,
 				8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */,
@@ -1303,7 +1345,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */;
+			currentVersion = 80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -88,11 +88,6 @@ struct EditHabit: View {
         return true
     }
     
-    func saveProperties() {
-        habit.name = newHabitName
-        moc.fatalSave()
-    }
-    
     var body: some View {
         Background {
             VStack {
@@ -101,7 +96,7 @@ struct EditHabit: View {
                         EditHabitName(newHabitName: $newHabitName,
                                       emptyNameError: $emptyHabitNameError)
                         
-                        NavigationLink(isActive: $editFrequencyPresenting) {
+                        NavigationLink {
                             EditHabitFrequency(timesPerDay: habit.timesPerDay, show: $editFrequencyPresenting)
                                 .environmentObject(habit)
                         } label: {
@@ -111,10 +106,7 @@ struct EditHabit: View {
                                 Spacer()
                                 Text("\(habit.timesPerDay)x daily")
                             }
-                        }
-//                        .isDetailLink(false)
-
-                        
+                        }                        
                     }
                     
                     if habit.editableTrackers.count > 0 {
@@ -122,12 +114,12 @@ struct EditHabit: View {
                             ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
                                 let tracker = habit.editableTrackers[i]
                                 let dest = EditTracker(habit: habit, tracker: tracker, show: vm.getTrackerNavLinkBinding(for: tracker))
-                                NavigationLink(isActive: vm.getTrackerNavLinkBinding(for: tracker)) {
+                                
+                                NavigationLink {
                                     dest
                                 } label: {
                                     EditTrackerRowSimple(name: tracker.name)
                                 }
-                                .isDetailLink(false)
                             }
                         }
                     }
@@ -151,27 +143,14 @@ struct EditHabit: View {
             }
             .navigationTitle("Edit Habit")
             .navigationBarTitleDisplayMode(.inline)
-            // Hide the system back button
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        do {
-                            if try canSave() {
-                                saveProperties()
-                                show = false
-                            }
-                        } catch EditHabitError.emptyHabitName {
-                            emptyHabitNameError = true
-                        } catch {
-                            fatalError("Unknown error in EditHabit")
-                        }
-                    }) {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                            Text("Back")
-                        }
+            .onDisappear {
+                do {
+                    if try canSave() {
+                        habit.name = newHabitName
+                        moc.fatalSave()
                     }
+                } catch {
+                    // do nothing
                 }
             }
         }

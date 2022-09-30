@@ -103,26 +103,13 @@ struct EditTracker: View {
                 .listStyle(.insetGrouped)
             }
         }
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                Button(action: {
-                    do {
-                        if try canSave() {
-                            saveProperties()
-                            show = false
-                        }
-                    } catch EditTrackerError.emptyTrackerName {
-                        emptyTrackerNameError = true
-                    } catch {
-                        fatalError("Unknown error in EditTracker")
-                    }
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                        Text("Back")
-                    }
+        .onDisappear {
+            do {
+                if try canSave() {
+                    saveProperties()
                 }
+            } catch {
+                // do nothing
             }
         }
 //        .overlay(

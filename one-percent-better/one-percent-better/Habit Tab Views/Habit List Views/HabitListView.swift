@@ -29,6 +29,8 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     /// An array of navigation link isActive variables for each habit in the list
     @Published var navLinkActivate: [Habit: Bool] = [:]
     
+    @Published var createHabitPath = NavigationPath()
+    
     init(_ context: NSManagedObjectContext) {
         let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
         habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
@@ -214,6 +216,8 @@ struct HabitListView: View {
     
     @ObservedObject var vm: HabitListViewModel
     
+//    @ObservedObject var headerVM: HabitHeaderViewModel
+    
     /// If CreateNewHabit is being presented
     @State private var createHabitPresenting: Bool = false
     
@@ -224,7 +228,7 @@ struct HabitListView: View {
     @State private var progressViewPresenting = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $vm.createHabitPath) {
             Background {
                 VStack {
                     HabitsHeaderView()
@@ -267,17 +271,28 @@ struct HabitListView: View {
                     EditButton()
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(
-                        destination: CreateNewHabit(rootPresenting: $createHabitPresenting),
-                        isActive: $createHabitPresenting) {
-                            Image(systemName: "square.and.pencil")
-                        }
+                    
+                    Button {
+                        vm.createHabitPath.append(0)
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                    }
+                    .navigationDestination(for: Int.self) { value in
+                        CreateNewHabit()
+                            .toolbar {
+                                ToolbarItem(placement: .principal) {
+                                    // this sets the screen title in the navigation bar, when the screen is visible
+                                    Text("")
+                                }
+                            }
+                            .toolbar(.hidden, for: .tabBar)
+                            .environmentObject(vm)
+                    }
                 }
             }
             .navigationTitle(vm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
-            
         }
     }
 }

@@ -28,6 +28,8 @@ struct HabitCreationHeader: View {
             if let subtitle = subtitle {
                 Spacer().frame(height: 10)
                 Text(subtitle)
+                    .font(.callout)
+                    .foregroundColor(Color.secondaryLabel)
                     .multilineTextAlignment(.center)
             }
             

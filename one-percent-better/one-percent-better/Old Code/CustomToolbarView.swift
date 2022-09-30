@@ -4,7 +4,7 @@
 //
 //  Created by Jeremy Cook on 6/18/22.
 //
-
+/*
 import SwiftUI
 
 struct CustomToolbarView: View {
@@ -25,7 +25,7 @@ struct CustomToolbarView: View {
                     Text("Toolbar")
                     Spacer()
                     NavigationLink(
-                        destination: CreateNewHabit(rootPresenting: $isPresenting),
+                        destination: CreateNewHabit(),
                         isActive: $isPresenting) {
                             Image(systemName: "square.and.pencil")
                                 .resizable()
@@ -86,3 +86,4 @@ struct CustomToolbarView_Previews: PreviewProvider {
         }
     }
 }
+*/

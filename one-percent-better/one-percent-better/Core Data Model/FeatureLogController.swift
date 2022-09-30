@@ -43,6 +43,7 @@ class FeatureLogController {
         setUpPercentImprovementTrackers()
         setUpTrackerToHabitRelationships()
         setUpTrackerIndices()
+        setUpFrequencyDates()
     }
     
     /// Add percent improvement trackers if the user doesn't have them already
@@ -135,6 +136,18 @@ class FeatureLogController {
             }
             
             featureLog.hasTimesCompleted = true
+            CoreDataManager.shared.saveContext()
+        }
+    }
+    
+    func setUpFrequencyDates() {
+        if !featureLog.hasFrequencyDates {
+            let habits = Habit.habits(from: context)
+            for habit in habits {
+                habit.frequencyDates = [habit.startDate]
+            }
+            
+            featureLog.hasFrequencyDates = true
             CoreDataManager.shared.saveContext()
         }
     }
