@@ -28,8 +28,6 @@ struct CreateNewHabit: View {
                         RoundedRectangle(cornerRadius: 10)
                             .foregroundColor(.cardColor)
                             .frame(height: 50)
-//                        TextField("Habit Name", text: $habitName)
-//                            .padding(.leading, 10)
                         
                         CustomTextField(text: $habitName,
                                         placeholder: "Name",
@@ -46,34 +44,16 @@ struct CreateNewHabit: View {
                 BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
                     .onTapGesture {
                         if !habitName.isEmpty {
-//                            nextView = true
                             vm.createHabitPath.append("habit_name")
                         }
                     }
                     .navigationDestination(for: String.self) { value in
                         ChooseHabitFrequency(habitName: habitName)
+                            .toolbar(.hidden, for: .tabBar)
                             .environmentObject(vm)
                     }
-//                    .background(
-//                        NavigationLink(isActive: $nextView) {
-//                            ChooseHabitFrequency(habitName: habitName, rootPresenting: $rootPresenting)
-//                        } label: {
-//                            EmptyView()
-//                        }
-//                    )
             }
-            // Hide the system back button
-//            .navigationBarBackButtonHidden(true)
-//            // Add your custom back button here
-//            .navigationBarItems(leading:
-//                                    Button(action: {
-//                self.presentationMode.wrappedValue.dismiss()
-//            }) {
-//                HStack {
-//                    Image(systemName: "chevron.left")
-//                    Text("Back")
-//                }
-//            })
+            
         }
     }
 }

@@ -25,7 +25,7 @@ struct FrequencySelectionStack: View {
     @EnvironmentObject var vm: FrequencySelectionModel
     
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             SelectableCard(selection: $vm.selection, type: .timesPerDay) {
                 EveryDaily(timesPerDay: $vm.timesPerDay)
             }
@@ -39,6 +39,10 @@ struct FrequencySelectionStack: View {
 
 struct HabitFrequencyStack_Previews: PreviewProvider {
     static var previews: some View {
-        FrequencySelectionStack()
+        let vm = FrequencySelectionModel(selection: .timesPerDay, timesPerDay: 1, daysPerWeek: [2,4])
+        Background {
+            FrequencySelectionStack()
+                .environmentObject(vm)
+        }
     }
 }

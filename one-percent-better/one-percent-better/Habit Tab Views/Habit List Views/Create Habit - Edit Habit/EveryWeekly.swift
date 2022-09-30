@@ -10,14 +10,29 @@ import SwiftUI
 
 struct EveryWeekly: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @State private var frequencyText = "1"
     
     let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
     
     @Binding var selectedWeekdays: [Int]
     
-    private let backgroundColor = Color(#colorLiteral(red: 0.9310173988, green: 0.9355356693, blue: 0.935390532, alpha: 1))
+    private var backgroundColor: Color {
+        colorScheme == .light ?
+        Color(#colorLiteral(red: 0.9310173988, green: 0.9355356693, blue: 0.935390532, alpha: 1))
+        :
+        Color(#colorLiteral(red: 0.1921563745, green: 0.1921573281, blue: 0.2135840654, alpha: 1))
+        
+    }
     private let selectedTextColor = Color(#colorLiteral(red: 0.8744927645, green: 0.9400271177, blue: 0.9856405854, alpha: 1))
+    
+    private var textColor: Color {
+        colorScheme == .light ?
+        Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
+        :
+        Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
+    }
     private let selectedBackground = Color(#colorLiteral(red: 0.4746856689, green: 0.6031921506, blue: 0.9928647876, alpha: 1))
     
     func updateSelection(_ i: Int) {
@@ -43,7 +58,7 @@ struct EveryWeekly: View {
                         
                         Text(weekdays[i])
                             .fontWeight(isSelected ? .semibold : .regular)
-                            .foregroundColor(isSelected ? selectedTextColor : Color.black)
+                            .foregroundColor(isSelected ? selectedTextColor : textColor)
                     }
                     .frame(height: 30)
                     .onTapGesture {

@@ -20,11 +20,13 @@ struct MyStepper: View {
         value > range.lowerBound
     }
     
-    private let backgroundColor = Color(#colorLiteral(red: 0.9310173988, green: 0.9355356693, blue: 0.935390532, alpha: 1))
-    private let separatorColor = Color(#colorLiteral(red: 0.8372157812, green: 0.8420629501, blue: 0.8492249846, alpha: 1))
-    private let selectedColor = Color(#colorLiteral(red: 0.7734330297, green: 0.7784343362, blue: 0.7932845354, alpha: 1))
-    private let disabledColor = Color(#colorLiteral(red: 0.4678601623, green: 0.4678601623, blue: 0.4678601623, alpha: 1))
-    private let enabledColor = Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
+    private let backgroundColor = Color.dynamicColor(light: Color(#colorLiteral(red: 0.9310173988, green: 0.9355356693, blue: 0.935390532, alpha: 1)), dark: Color(#colorLiteral(red: 0.1921563745, green: 0.1921573281, blue: 0.2135840654, alpha: 1)))
+    
+    
+    private let separatorColor = Color.dynamicColor(light: Color(#colorLiteral(red: 0.8372157812, green: 0.8420629501, blue: 0.8492249846, alpha: 1)), dark: Color(#colorLiteral(red: 0.2392151952, green: 0.2392161489, blue: 0.2606586814, alpha: 1)))
+    private let selectedColor = Color.dynamicColor(light: Color(#colorLiteral(red: 0.7734330297, green: 0.7784343362, blue: 0.7932845354, alpha: 1)), dark: Color(#colorLiteral(red: 0.2675395012, green: 0.2625788152, blue: 0.2755606174, alpha: 1)))
+    private let disabledColor = Color.dynamicColor(light: Color(#colorLiteral(red: 0.4678601623, green: 0.4678601623, blue: 0.4678601623, alpha: 1)), dark: Color(#colorLiteral(red: 0.5960781574, green: 0.5960787535, blue: 0.6089832187, alpha: 1)))
+    private let enabledColor = Color.dynamicColor(light: Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)), dark: Color(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
     
     func increment() {
         if value < range.upperBound {
@@ -108,7 +110,19 @@ struct StepperButtonStyle: ButtonStyle {
 struct MyStepperPreviewer: View {
     @State private var value: Int = 1
     var body: some View {
-        MyStepper(value: $value, range: 1 ... 10)
+        VStack {
+            MyStepper(value: $value, range: 1 ... 10)
+            
+            
+            Stepper {
+                Text("")
+            } onIncrement: {
+                // do nothing
+            } onDecrement: {
+                // do nothing
+            }
+            .frame(width: 100)
+        }
     }
 }
 

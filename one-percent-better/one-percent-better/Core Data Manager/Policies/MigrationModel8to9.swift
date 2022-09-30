@@ -8,9 +8,12 @@
 import Foundation
 import CoreData
 
-@objc(MigrationModel8to9)
 class MigrationModel8to9: NSEntityMigrationPolicy {
     @objc func typeFor(frequency: NSNumber) -> [NSNumber] {
         return [frequency]
+    }
+    
+    @objc func typeFor(frequencyDates: NSDate) -> [NSDate] {
+        return [frequencyDates]
     }
 }

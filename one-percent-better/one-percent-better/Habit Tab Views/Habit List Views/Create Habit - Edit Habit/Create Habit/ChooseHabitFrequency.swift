@@ -40,15 +40,6 @@ struct ChooseHabitFrequency: View {
                 
                 Spacer()
                 
-                Button {
-//                    for _ in 0 ..< hlvm.createHabitPath.count {
-                        hlvm.createHabitPath.removeLast()
-//                    }
-                } label: {
-                    Text("Pop to root")
-                }
-
-                
                 BottomButton(label: "Finish")
                     .onTapGesture {
                         do {

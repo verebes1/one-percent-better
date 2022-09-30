@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EveryDaily: View {
     
+    @Environment(\.colorScheme) var colorScheme
+    
     @Binding var timesPerDay: Int
     let tpdRange = 1 ... 100
     
@@ -20,12 +22,12 @@ struct EveryDaily: View {
                 ZStack {
                     
                     RoundedRectangle(cornerRadius: 10)
-                        .foregroundColor(backgroundColor)
+                        .foregroundColor(colorScheme == .light ? backgroundColor : Color.blue)
                     
                     Text("\(timesPerDay)")
                         .font(.title3)
                         .fontWeight(.semibold)
-                        .foregroundColor(Color.blue)
+                        .foregroundColor(colorScheme == .light ? Color.blue : backgroundColor)
                 }
                 .frame(width: 50)
                 .frame(height: 32)
@@ -35,7 +37,6 @@ struct EveryDaily: View {
                 Spacer()
                 
                 MyStepper(value: $timesPerDay, range: 1 ... 100)
-                
             }
         }
         .padding()
@@ -47,7 +48,11 @@ struct EveryDailyPreviewContainer: View {
     @State private var timesPerDay = 1
     
     var body: some View {
-        EveryDaily(timesPerDay: $timesPerDay)
+        Background {
+            CardView {
+                EveryDaily(timesPerDay: $timesPerDay)
+            }
+        }
     }
 }
 
