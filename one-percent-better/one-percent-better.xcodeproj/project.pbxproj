@@ -101,6 +101,7 @@
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */; };
 		80BF87A128E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A028E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel */; };
+		80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A228E69EB2002A1347 /* ChartTest.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
 		80CC288028C0080300411ECB /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC287F28C0080300411ECB /* EditTracker.swift */; };
 		80CC692228E27FC200584340 /* EveryDaily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692128E27FC200584340 /* EveryDaily.swift */; };
@@ -235,6 +236,7 @@
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
 		80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStack.swift; sourceTree = "<group>"; };
 		80BF87A028E520C6002A1347 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
+		80BF87A228E69EB2002A1347 /* ChartTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTest.swift; sourceTree = "<group>"; };
 		80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitFrequency.swift; sourceTree = "<group>"; };
 		80CC287F28C0080300411ECB /* EditTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
 		80CC692128E27FC200584340 /* EveryDaily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily.swift; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 				80385CFB285BEE5900CBDF71 /* GraphCardView.swift */,
 				80385CFC285BEE5900CBDF71 /* GraphUIKitView.swift */,
 				800F40F7285F913A0071CC70 /* GraphGestureTest.swift */,
+				80BF87A228E69EB2002A1347 /* ChartTest.swift */,
 			);
 			path = "Graph Card";
 			sourceTree = "<group>";
@@ -970,6 +973,7 @@
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
 				803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
+				80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
 				8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */,
 				80385D20285BEE5900CBDF71 /* NumberTracker.swift in Sources */,

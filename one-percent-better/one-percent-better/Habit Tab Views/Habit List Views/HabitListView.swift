@@ -216,7 +216,7 @@ struct HabitListView: View {
     
     @ObservedObject var vm: HabitListViewModel
     
-//    @ObservedObject var vm: HabitHeaderViewModel
+//    @ObservedObject var headerVM: HabitHeaderViewModel
     
     /// If CreateNewHabit is being presented
     @State private var createHabitPresenting: Bool = false
