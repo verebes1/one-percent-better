@@ -44,7 +44,7 @@ struct CreateNewHabit: View {
                 BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
                     .onTapGesture {
                         if !habitName.isEmpty {
-                            vm.createHabitPath.append("habit_name")
+                            vm.navPath.append("habit_name")
                         }
                     }
                     .navigationDestination(for: String.self) { value in

@@ -57,8 +57,8 @@ struct ChooseHabitFrequency: View {
                             fatalError("unkown error in choose habit frequency")
                         }
                         
-                        for _ in 0 ..< hlvm.createHabitPath.count {
-                            hlvm.createHabitPath.removeLast()
+                        for _ in 0 ..< hlvm.navPath.count {
+                            hlvm.navPath.removeLast()
                         }
                     }
             }

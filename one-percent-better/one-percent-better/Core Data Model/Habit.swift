@@ -32,7 +32,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
     // MARK: - NSManaged Properties
     
     /// Unique identifier
-    public var id: UUID = UUID()
+    public var id = UUID()
     
     /// The name of the habit
     @NSManaged public var name: String

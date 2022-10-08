@@ -10,6 +10,7 @@
 		19CF0D768218FB3508F4576F /* Pods_one_percent_better_one_percent_betterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */; };
 		25DED7F8519112BE6213B886 /* Pods_one_percent_betterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921CEC3E4014DCBC7FBEC377 /* Pods_one_percent_betterTests.framework */; };
 		46935B96311F43D4AC443FEE /* Pods_one_percent_better.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */; };
+		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
@@ -82,6 +83,7 @@
 		803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCard.swift */; };
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
+		8043A92528E7A414001D0E8C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043A92428E7A414001D0E8C /* Timeline.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
@@ -136,6 +138,7 @@
 		3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_better_one_percent_betterUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_better.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A37493C9223186222A6039 /* Pods-one-percent-betterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-betterTests.debug.xcconfig"; path = "Target Support Files/Pods-one-percent-betterTests/Pods-one-percent-betterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -212,6 +215,7 @@
 		803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitFrequency.swift; sourceTree = "<group>"; };
 		803E1B8928A9D68B0010540B /* SelectableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard.swift; sourceTree = "<group>"; };
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		8043A92428E7A414001D0E8C /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiTests.swift; sourceTree = "<group>"; };
@@ -480,6 +484,8 @@
 				8027BEF828DD162300EC3E66 /* Exercise Card */,
 				80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */,
 				805A64EE2867CB1400F068B1 /* YearView.swift */,
+				8043A92428E7A414001D0E8C /* Timeline.swift */,
+				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
 			);
 			path = "Progress Views";
 			sourceTree = "<group>";
@@ -911,6 +917,7 @@
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
+				8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */,
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
@@ -970,6 +977,7 @@
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
+				8043A92528E7A414001D0E8C /* Timeline.swift in Sources */,
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,

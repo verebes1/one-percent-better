@@ -36,7 +36,6 @@ struct EditHabit: View {
     
     var habit: Habit
     
-    @Binding var show: Bool
     @State private var newHabitName: String
     
     /// Show empty habit name error if trying to save with empty habit name
@@ -51,9 +50,8 @@ struct EditHabit: View {
         case emptyHabitName
     }
     
-    init(habit: Habit, show: Binding<Bool>) {
+    init(habit: Habit) {
         self.habit = habit
-        self._show = show
         self._newHabitName = State(initialValue: habit.name)
         self.vm = EditHabitViewModel(habit: habit)
         self._newTimesPerDay = State(initialValue: habit.timesPerDay)
@@ -127,7 +125,7 @@ struct EditHabit: View {
                     Section {
                         Button {
                             delete()
-                            show = false
+//                            show = false
                         } label: {
                             HStack {
                                 Text("Delete Habit")
@@ -189,7 +187,7 @@ struct EditHabit_Previews: PreviewProvider {
     static var previews: some View {
         let habit = data()
         NavigationView {
-            EditHabit(habit: habit, show: .constant(true))
+            EditHabit(habit: habit)
         }
     }
 }
