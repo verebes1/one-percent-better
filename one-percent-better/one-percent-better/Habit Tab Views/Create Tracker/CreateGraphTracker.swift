@@ -10,8 +10,9 @@ import SwiftUI
 struct CreateGraphTracker: View {
   @Environment(\.managedObjectContext) var moc
   
+  @EnvironmentObject var nav: HabitTabNavPath
+  
   var habit: Habit
-  @Binding var path: NavigationPath
   @State var trackerName: String = ""
   
   var body: some View {
@@ -37,7 +38,7 @@ struct CreateGraphTracker: View {
             if !trackerName.isEmpty {
               let _ = NumberTracker(context: moc, habit: habit, name: trackerName)
               moc.fatalSave()
-              path.removeLast()
+              nav.path.removeLast(2)
             }
           }
         
@@ -47,18 +48,14 @@ struct CreateGraphTracker: View {
 }
 
 struct CreateGraphTrackerPreviewer: View {
-  @State private var path = NavigationPath(["Test"])
   var body: some View {
     let _ = try? Habit(context: CoreDataManager.previews.mainContext, name: "Swimming")
     let habit = Habit.habits(from: CoreDataManager.previews.mainContext).first!
-    CreateGraphTracker(habit: habit, path: $path)
+    CreateGraphTracker(habit: habit)
   }
 }
 
 struct CreateGraphTracker_Previews: PreviewProvider {
-  
-//  @State static var rootPresenting: Bool = false
-  
   static var previews: some View {
     CreateGraphTrackerPreviewer()
   }

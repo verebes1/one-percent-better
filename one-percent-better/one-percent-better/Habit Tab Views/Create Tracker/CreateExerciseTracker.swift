@@ -10,8 +10,9 @@ import SwiftUI
 struct CreateExerciseTracker: View {
   @Environment(\.managedObjectContext) var moc
   
+  @EnvironmentObject var nav: HabitTabNavPath
+  
   var habit: Habit
-  @Binding var progressPresenting: Bool
   @State var trackerName: String = ""
   
   var body: some View {
@@ -37,10 +38,9 @@ struct CreateExerciseTracker: View {
             if !trackerName.isEmpty {
               let _ = ExerciseTracker(context: moc, habit: habit, name: trackerName)
               moc.fatalSave()
-              progressPresenting = false
+              nav.path.removeLast(2)
             }
           }
-        
       }
     }
   }
@@ -53,6 +53,6 @@ struct CreateExerciseTracker_Previews: PreviewProvider {
   static var previews: some View {
     let _ = try? Habit(context: CoreDataManager.previews.mainContext, name: "Swimming")
     let habit = Habit.habits(from: CoreDataManager.previews.mainContext).first!
-    CreateExerciseTracker(habit: habit, progressPresenting: $rootPresenting)
+    CreateExerciseTracker(habit: habit)
   }
 }

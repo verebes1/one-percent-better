@@ -19,11 +19,14 @@ class ProgressViewModel: ObservableObject {
   }
 }
 
+enum ProgressViewNavRoute: Hashable {
+  case editHabit
+  case newTracker
+}
+
 struct ProgressView: View {
   
   @ObservedObject var vm: ProgressViewModel
-  
-  @Binding var progressActive: Bool
   
   @State private var createNewTrackerActive = false
   
@@ -31,9 +34,8 @@ struct ProgressView: View {
   
   private let id = UUID()
   
-  init(habit: Habit, active: Binding<Bool>) {
+  init(habit: Habit) {
     self.vm = ProgressViewModel(habit: habit)
-    self._progressActive = active
   }
   
   var body: some View {
@@ -72,6 +74,11 @@ struct ProgressView: View {
           //                         .isDetailLink(false)
           //                         .padding(.top, 15)
           
+          NavigationLink(value: ProgressViewNavRoute.newTracker) {
+            Label("New Tracker", systemImage: "plus.circle")
+          }
+          .buttonStyle(BorderedButtonStyle())
+          
           
           Spacer()
         }
@@ -79,12 +86,18 @@ struct ProgressView: View {
       .navigationTitle(vm.habit.name)
       .navigationBarTitleDisplayMode(.large)
     }
-    .navigationDestination(for: UUID.self, destination: { id in
-      EditHabit(habit: vm.habit)
-    })
     .toolbar {
       ToolbarItem(placement: .navigationBarTrailing) {
-        NavigationLink("Edit", value: id)
+        NavigationLink("Edit", value: ProgressViewNavRoute.editHabit)
+      }
+    }
+    .navigationDestination(for: ProgressViewNavRoute.self) { route in
+      if route == .editHabit {
+        EditHabit(habit: vm.habit)
+      }
+      
+      if route == .newTracker {
+        CreateNewTracker(habit: vm.habit)
       }
     }
   }
@@ -123,7 +136,7 @@ struct ProgressView_Previews: PreviewProvider {
     let habit = progressData()
     return(
       NavigationView {
-        ProgressView(habit: habit, active: .constant(true))
+        ProgressView(habit: habit)
       }
     )
   }

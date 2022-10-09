@@ -8,11 +8,6 @@
 import SwiftUI
 import CoreData
 
-enum NavRoute: Hashable {
-  case habitListItem(Habit)
-  case editHabit
-}
-
 class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
   
   private let habitController: NSFetchedResultsController<Habit>
@@ -31,12 +26,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
   /// Which week is selected in the HabitHeaderView
   @Published var selectedWeek: Int = 0
   
-  /// An array of navigation link isActive variables for each habit in the list
-  @Published var navLinkActivate: [Habit: Bool] = [:]
-  
-  /// The navigation path for this tab
-  @Published var navPath = NavigationPath()
-  
   init(_ context: NSManagedObjectContext) {
     let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
     habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
@@ -46,10 +35,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
     try? habitController.performFetch()
     
     updateHeaderView()
-    
-    habits.forEach { habit in
-      navLinkActivate[habit] = false
-    }
   }
   
   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -205,14 +190,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
   func thisWeekDayOffset(_ date: Date) -> Int {
     return Calendar.current.component(.weekday, from: date) - 1
   }
-  
-  func navLinkBinding(for habit: Habit) -> Binding<Bool> {
-    return Binding(get: {
-      return self.navLinkActivate[habit] ?? false
-    }, set: {
-      self.navLinkActivate[habit] = $0
-    })
-  }
 }
 
 struct HabitListView: View {
@@ -220,7 +197,10 @@ struct HabitListView: View {
   @Environment(\.managedObjectContext) var moc
   @Environment(\.scenePhase) var scenePhase
   
+  @EnvironmentObject var nav: HabitTabNavPath
+  
   @ObservedObject var vm: HabitListViewModel
+  
   
   /// If CreateNewHabit is being presented
   @State private var createHabitPresenting: Bool = false
@@ -232,7 +212,7 @@ struct HabitListView: View {
   @State private var progressViewPresenting = false
   
   var body: some View {
-    NavigationStack(path: $vm.navPath) {
+    NavigationStack(path: $nav.path) {
       Background {
         VStack {
           HabitsHeaderView()
@@ -249,7 +229,7 @@ struct HabitListView: View {
                                                    currentDay:
                                                     vm.currentDay)
                 
-                NavigationLink(value: habit) {
+                NavigationLink(value: NavRoute.showProgress(habit)) {
                   HabitRow(vm: habitRowVM)
                 }
               }
@@ -257,9 +237,18 @@ struct HabitListView: View {
             .onMove(perform: vm.move)
             .onDelete(perform: vm.delete)
           }
-          .navigationDestination(for: Habit.self, destination: { habit in
-            ProgressView(habit: habit, active: vm.navLinkBinding(for: habit))
-          })
+//          .navigationDestination(for: Habit.self) { habit in
+//            ProgressView(habit: habit)
+//          }
+//          .navigationDestination(for: NavRoute.self, destination: { dest in
+//            switch dest {
+//            case .habitListItem(let habit):
+//              ProgressView(habit: habit)
+//            }
+//          })
+//          .navigationDestination(for: Habit.self, destination: { habit in
+//            ProgressView(habit: habit)
+//          })
           .environment(\.defaultMinListRowHeight, 54)
         }
       }
@@ -276,23 +265,20 @@ struct HabitListView: View {
           EditButton()
         }
         ToolbarItem(placement: .navigationBarTrailing) {
-          
-          Button {
-            vm.navPath.append(0)
-          } label: {
+          NavigationLink(value: NavRoute.createHabit) {
             Image(systemName: "square.and.pencil")
           }
-          .navigationDestination(for: Int.self) { value in
-            CreateNewHabit()
-              .toolbar {
-                ToolbarItem(placement: .principal) {
-                  // this sets the screen title in the navigation bar, when the screen is visible
-                  Text("")
-                }
-              }
-              .toolbar(.hidden, for: .tabBar)
-              .environmentObject(vm)
-          }
+        }
+      }
+      .navigationDestination(for: NavRoute.self) { route in
+        
+        if case let .showProgress(habit) = route {
+          ProgressView(habit: habit)
+        }
+        
+        if route == NavRoute.createHabit {
+          CreateNewHabit()
+            .environmentObject(vm)
         }
       }
       .navigationTitle(vm.navTitle)

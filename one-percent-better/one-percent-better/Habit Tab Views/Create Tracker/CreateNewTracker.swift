@@ -11,77 +11,72 @@ struct CreateNewTracker: View {
   
   var habit: Habit
   
-  @State var path = NavigationPath()
-  
-  @Binding var progressPresenting: Bool
-  
   let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 3)
   let columnSpacing: CGFloat = 11
   
   var body: some View {
     Background {
-      NavigationStack(path: $path) {
-        VStack {
-          Spacer()
-            .frame(height: 50)
-          HabitCreationHeader(systemImage: "chart.xyaxis.line",
-                              title: "Add a Tracker",
-                              subtitle: "Track your progress and visualize your gains to stay motivated")
+      VStack {
+        Spacer()
+          .frame(height: 50)
+        HabitCreationHeader(systemImage: "chart.xyaxis.line",
+                            title: "Add a Tracker",
+                            subtitle: "Track your progress and visualize your gains to stay motivated")
+        
+        LazyVGrid(columns: columns, spacing: columnSpacing) {
           
-          LazyVGrid(columns: columns, spacing: columnSpacing) {
-            
-            
-            NavigationLink(value: "graph") {
-              TrackerView(systemImage: "chart.xyaxis.line",
-                          color: .blue,
-                          title: "Graph")
-            }
-            
-//            NavigationLink {
-//              CreateGraphTracker(habit: habit, path: $path)
-//            } label: {
-//              TrackerView(systemImage: "chart.xyaxis.line",
-//                          color: .blue,
-//                          title: "Graph")
-//            }
-//
-//            Button {
-//              path.append("create_graph")
-//            } label: {
-//              TrackerView(systemImage: "chart.xyaxis.line",
-//                          color: .blue,
-//                          title: "Graph")
-//            }
-            
-            NavigationLink(destination: CreateImageTracker(habit: habit, progressPresenting: $progressPresenting)) {
-              TrackerView(systemImage: "photo",
-                          color: .mint,
-                          title: "Photo")
-            }
-            .isDetailLink(false)
-            
-//            NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
-//              TrackerView(systemImage: "timer",
-//                          color: .yellow,
-//                          title: "Time")
-//            }
-//            .isDetailLink(false)
-            
-            NavigationLink(destination: CreateExerciseTracker(habit: habit, progressPresenting: $progressPresenting)) {
-              TrackerView(systemImage: "figure.walk",
-                          color: .red,
-                          title: "Exercise")
-            }
-            .isDetailLink(false)
+          
+          NavigationLink(value: "graph") {
+            TrackerView(systemImage: "chart.xyaxis.line",
+                        color: .blue,
+                        title: "Graph")
           }
-          .padding(.horizontal, 15)
           
-          Spacer()
+          //            NavigationLink {
+          //              CreateGraphTracker(habit: habit, path: $path)
+          //            } label: {
+          //              TrackerView(systemImage: "chart.xyaxis.line",
+          //                          color: .blue,
+          //                          title: "Graph")
+          //            }
+          //
+          //            Button {
+          //              path.append("create_graph")
+          //            } label: {
+          //              TrackerView(systemImage: "chart.xyaxis.line",
+          //                          color: .blue,
+          //                          title: "Graph")
+          //            }
+          
+          NavigationLink(destination: CreateImageTracker(habit: habit)) {
+            TrackerView(systemImage: "photo",
+                        color: .mint,
+                        title: "Photo")
+          }
+          .isDetailLink(false)
+          
+          //            NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
+          //              TrackerView(systemImage: "timer",
+          //                          color: .yellow,
+          //                          title: "Time")
+          //            }
+          //            .isDetailLink(false)
+          
+          NavigationLink(destination: CreateExerciseTracker(habit: habit)) {
+            TrackerView(systemImage: "figure.walk",
+                        color: .red,
+                        title: "Exercise")
+          }
+          .isDetailLink(false)
         }
-        .navigationDestination(for: String.self) { id in
-          CreateGraphTracker(habit: habit, path: $path)
-        }
+        .padding(.horizontal, 15)
+        
+        Spacer()
       }
+      .navigationDestination(for: String.self) { id in
+        CreateGraphTracker(habit: habit)
+      }
+      
     }
   }
 }
@@ -95,7 +90,7 @@ struct CreateNewTracker_Previews: PreviewProvider {
     let habit = Habit.habits(from: CoreDataManager.previews.mainContext).first!
     
     NavigationView {
-      CreateNewTracker(habit: habit, progressPresenting: $parentPresenting)
+      CreateNewTracker(habit: habit)
     }
   }
 }
