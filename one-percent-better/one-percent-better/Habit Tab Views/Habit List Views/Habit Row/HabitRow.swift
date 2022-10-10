@@ -269,9 +269,16 @@ struct HabitRowLabels: View {
                }
             }
             
-            Text(vm.streakLabel)
-               .font(.system(size: 11))
-               .foregroundColor(vm.streakLabelColor)
+            if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
+               !vm.habit.isDue(on: vm.currentDay) {
+               Text("Not due today")
+                  .font(.system(size: 11))
+                  .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
+            } else {
+               Text(vm.streakLabel)
+                  .font(.system(size: 11))
+                  .foregroundColor(vm.streakLabelColor)
+            }
          }
       }
    }

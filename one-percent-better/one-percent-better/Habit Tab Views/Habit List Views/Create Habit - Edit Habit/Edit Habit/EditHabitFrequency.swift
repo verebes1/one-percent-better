@@ -26,14 +26,16 @@ struct EditHabitFrequency: View {
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
             
-            FrequencySelectionStack()
+            FrequencySelectionStack(vm: vm)
                .environmentObject(vm)
             
             Spacer()
          }
          .onDisappear {
-            habit.changeFrequency(to: vm.selection)
-            moc.fatalSave()
+            if vm.selection != habit.frequency(on: Date()) {
+               habit.changeFrequency(to: vm.selection)
+               moc.fatalSave()
+            }
          }
          .navigationBarTitleDisplayMode(.inline)
       }

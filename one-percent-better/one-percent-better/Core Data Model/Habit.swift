@@ -52,6 +52,10 @@ enum HabitFrequency: Equatable {
          return 1
       }
    }
+   
+   func equalType(to hf: HabitFrequency) -> Bool {
+      return self.valueNS == hf.valueNS
+   }
 }
 
 @objc(Habit)
@@ -380,6 +384,15 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
    }
    
+   func isDue(on date: Date) -> Bool {
+      switch frequency(on: date) {
+      case .timesPerDay(_):
+         return true
+      case .daysInTheWeek(let days):
+         return days.contains(date.weekdayOffset)
+      }
+   }
+   
    /// Whether or not this habit started after a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
@@ -628,5 +641,11 @@ extension KeyedDecodingContainer {
          return value
       }
       return nil
+   }
+}
+
+extension Date {
+   var weekdayOffset: Int {
+      return Calendar.current.component(.weekday, from: self) - 1
    }
 }
