@@ -19,7 +19,7 @@
     </entity>
     <entity name="Habit" representedClassName="Habit" syncable="YES">
         <attribute name="daysCompleted" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
-        <attribute name="daysPerWeek" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
+        <attribute name="daysPerWeek" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[Int]]"/>
         <attribute name="frequency" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int64]"/>
         <attribute name="frequencyDates" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
         <attribute name="name" attributeType="String"/>
@@ -27,7 +27,7 @@
         <attribute name="orderIndex" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timesCompleted" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
-        <attribute name="timesPerDay" attributeType="Integer 64" defaultValueString="1" usesScalarValueType="YES"/>
+        <attribute name="timesPerDay" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
         <relationship name="trackers" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Tracker" inverseName="habit" inverseEntity="Tracker"/>
     </entity>
     <entity name="ImageTracker" representedClassName="ImageTracker" parentEntity="Tracker" syncable="YES">

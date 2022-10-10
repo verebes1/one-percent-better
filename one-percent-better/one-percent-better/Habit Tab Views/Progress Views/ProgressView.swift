@@ -8,17 +8,6 @@
 import SwiftUI
 import CoreData
 
-class ProgressViewModel: ObservableObject {
-  
-  @Published var habit: Habit
-  @Published var trackers: [Tracker]
-  
-  init(habit: Habit) {
-    self.habit = habit
-    self.trackers = habit.trackers.map { $0 as! Tracker }
-  }
-}
-
 enum ProgressViewNavRoute: Hashable {
   case editHabit
   case newTracker
@@ -26,28 +15,18 @@ enum ProgressViewNavRoute: Hashable {
 
 struct ProgressView: View {
   
-  @ObservedObject var vm: ProgressViewModel
-  
-  @State private var createNewTrackerActive = false
-  
-  @State private var editHabitActive = false
-  
-  private let id = UUID()
-  
-  init(habit: Habit) {
-    self.vm = ProgressViewModel(habit: habit)
-  }
+  @EnvironmentObject var habit: Habit
   
   var body: some View {
     Background {
       ScrollView {
         VStack(spacing: 20) {
           CardView {
-            CalendarView(habit: vm.habit)
+            CalendarView(habit: habit)
           }
           
-          ForEach(0 ..< vm.trackers.count, id: \.self) { i in
-            let tracker = vm.trackers[i]
+          ForEach(0 ..< habit.trackers.count, id: \.self) { i in
+            let tracker = habit.trackers[i]
             if let t = tracker as? GraphTracker {
               GraphCardView(tracker: t)
             } else if let t = tracker as? ImageTracker {
@@ -65,25 +44,16 @@ struct ProgressView: View {
             }
           }
           
-          //          let dest = CreateNewTracker(habit: vm.habit, progressPresenting: $createNewTrackerActive)
-          
-          //          NavigationLink(destination: dest,
-          //                         isActive: $createNewTrackerActive) {
-          //            Label("New Tracker", systemImage: "plus.circle")
-          //          }
-          //                         .isDetailLink(false)
-          //                         .padding(.top, 15)
-          
           NavigationLink(value: ProgressViewNavRoute.newTracker) {
             Label("New Tracker", systemImage: "plus.circle")
           }
           .buttonStyle(BorderedButtonStyle())
-          
+          .padding(.top, 15)
           
           Spacer()
         }
       }
-      .navigationTitle(vm.habit.name)
+      .navigationTitle(habit.name)
       .navigationBarTitleDisplayMode(.large)
     }
     .toolbar {
@@ -93,11 +63,12 @@ struct ProgressView: View {
     }
     .navigationDestination(for: ProgressViewNavRoute.self) { route in
       if route == .editHabit {
-        EditHabit(habit: vm.habit)
+        EditHabit(habit: habit)
+            .environmentObject(habit)
       }
       
       if route == .newTracker {
-        CreateNewTracker(habit: vm.habit)
+        CreateNewTracker(habit: habit)
       }
     }
   }
@@ -136,7 +107,8 @@ struct ProgressView_Previews: PreviewProvider {
     let habit = progressData()
     return(
       NavigationView {
-        ProgressView(habit: habit)
+        ProgressView()
+          .environmentObject(habit)
       }
     )
   }

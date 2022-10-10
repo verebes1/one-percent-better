@@ -19,27 +19,11 @@ struct SelectableCard<Content>: View where Content: View {
         }
         .simultaneousGesture(
             TapGesture()
-                .onEnded({
+                .onEnded {
                     selection = type
-                })
+                }
         )
-//        .onTapGesture {
-//            selection = type
-//        }
         .overlay(content: {
-        
-//                ZStack {
-//                    VStack {
-//                        HStack {
-//                            Spacer()
-//                            CheckmarkToggleButton(state: selection == type)
-//                                .padding(.trailing, 5)
-//                                .padding(5)
-//                        }
-//                        Spacer()
-//                    }
-//                }
-        
             selection == type ?
             RoundedRectangle(cornerRadius: 10)
                 .stroke(.blue, lineWidth: 2)
@@ -52,12 +36,12 @@ struct SelectableCard<Content>: View where Content: View {
 
 struct SelectableCardPreviewer: View {
     
-    @State private var selection: HabitFrequency = .timesPerDay
+    @State private var selection: HabitFrequency = .timesPerDay(1)
     
     var body: some View {
         Background {
             VStack {
-                SelectableCard(selection: $selection, type: .timesPerDay, content: {
+                SelectableCard(selection: $selection, type: .timesPerDay(1), content: {
                     VStack {
                         Text("Hello World")
                         Text("Hello World")
@@ -66,7 +50,7 @@ struct SelectableCardPreviewer: View {
                     }
                 })
                 
-                SelectableCard(selection: $selection, type: .daysInTheWeek, content: {
+                SelectableCard(selection: $selection, type: .daysInTheWeek([2,4]), content: {
                     VStack {
                         Text("What's good baby")
                         Text("What's good baby")

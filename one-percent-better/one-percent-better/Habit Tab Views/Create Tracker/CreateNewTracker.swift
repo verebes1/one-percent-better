@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum CreateTrackerNavRoute: Hashable {
+  case graphTracker
+  case imageTracker
+  case exerciseTracker
+}
+
 struct CreateNewTracker: View {
   
   var habit: Habit
@@ -25,58 +31,44 @@ struct CreateNewTracker: View {
         
         LazyVGrid(columns: columns, spacing: columnSpacing) {
           
-          
-          NavigationLink(value: "graph") {
+          NavigationLink(value: CreateTrackerNavRoute.graphTracker) {
             TrackerView(systemImage: "chart.xyaxis.line",
                         color: .blue,
                         title: "Graph")
           }
           
-          //            NavigationLink {
-          //              CreateGraphTracker(habit: habit, path: $path)
-          //            } label: {
-          //              TrackerView(systemImage: "chart.xyaxis.line",
-          //                          color: .blue,
-          //                          title: "Graph")
-          //            }
-          //
-          //            Button {
-          //              path.append("create_graph")
-          //            } label: {
-          //              TrackerView(systemImage: "chart.xyaxis.line",
-          //                          color: .blue,
-          //                          title: "Graph")
-          //            }
-          
-          NavigationLink(destination: CreateImageTracker(habit: habit)) {
+          NavigationLink(value: CreateTrackerNavRoute.imageTracker) {
             TrackerView(systemImage: "photo",
                         color: .mint,
                         title: "Photo")
           }
-          .isDetailLink(false)
           
-          //            NavigationLink(destination: CreateTimeTracker(habit: habit, progressPresenting: $progressPresenting)) {
-          //              TrackerView(systemImage: "timer",
-          //                          color: .yellow,
-          //                          title: "Time")
-          //            }
-          //            .isDetailLink(false)
-          
-          NavigationLink(destination: CreateExerciseTracker(habit: habit)) {
+          NavigationLink(value: CreateTrackerNavRoute.exerciseTracker) {
             TrackerView(systemImage: "figure.walk",
                         color: .red,
                         title: "Exercise")
           }
-          .isDetailLink(false)
+          
+//          NavigationLink(value: CreateTrackerNavRoute.timeTracker) {
+//            TrackerView(systemImage: "timer",
+//                        color: .yellow,
+//                        title: "Time")
+//          }
         }
         .padding(.horizontal, 15)
         
         Spacer()
       }
-      .navigationDestination(for: String.self) { id in
-        CreateGraphTracker(habit: habit)
+      .navigationDestination(for: CreateTrackerNavRoute.self) { route in
+        switch route {
+        case .graphTracker:
+          CreateGraphTracker(habit: habit)
+        case .imageTracker:
+          CreateImageTracker(habit: habit)
+        case .exerciseTracker:
+          CreateExerciseTracker(habit: habit)
+        }
       }
-      
     }
   }
 }

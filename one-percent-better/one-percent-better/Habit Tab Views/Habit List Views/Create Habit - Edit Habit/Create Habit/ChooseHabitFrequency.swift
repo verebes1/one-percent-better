@@ -8,11 +8,6 @@
 import SwiftUI
 import Introspect
 
-@objc public enum HabitFrequency: Int {
-  case timesPerDay = 0
-  case daysInTheWeek = 1
-}
-
 enum HabitFrequencyError: Error {
   case zeroFrequency
   case emptyFrequency
@@ -28,7 +23,7 @@ struct ChooseHabitFrequency: View {
   
   var habitName: String
   
-  @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay, timesPerDay: 1, daysPerWeek: [2,4])
+  @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay(1))
   
   var body: some View {
     Background {
@@ -48,9 +43,7 @@ struct ChooseHabitFrequency: View {
               let habit = try Habit(context: moc,
                                     name: habitName,
                                     noNameDupe: false,
-                                    frequency: vm.selection,
-                                    timesPerDay: vm.timesPerDay,
-                                    daysPerWeek: vm.daysPerWeek)
+                                    frequency: vm.selection)
               
               // Auto trackers
               let it = ImprovementTracker(context: moc, habit: habit)
@@ -59,9 +52,6 @@ struct ChooseHabitFrequency: View {
               fatalError("unkown error in choose habit frequency")
             }
             
-//            for _ in 0 ..< nav.path.count {
-//              nav.path.removeLast()
-//            }
             nav.path.removeLast(2)
           }
       }

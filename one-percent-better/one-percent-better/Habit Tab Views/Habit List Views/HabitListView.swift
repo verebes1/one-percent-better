@@ -201,7 +201,6 @@ struct HabitListView: View {
   
   @ObservedObject var vm: HabitListViewModel
   
-  
   /// If CreateNewHabit is being presented
   @State private var createHabitPresenting: Bool = false
   
@@ -225,30 +224,14 @@ struct HabitListView: View {
           List {
             ForEach(vm.habits, id: \.self.name) { habit in
               if habit.started(after: vm.currentDay) {
-                let habitRowVM = HabitRowViewModel(habit: habit,
-                                                   currentDay:
-                                                    vm.currentDay)
-                
                 NavigationLink(value: NavRoute.showProgress(habit)) {
-                  HabitRow(vm: habitRowVM)
+                  HabitRow(habit: habit, day: vm.currentDay)
                 }
               }
             }
             .onMove(perform: vm.move)
             .onDelete(perform: vm.delete)
           }
-//          .navigationDestination(for: Habit.self) { habit in
-//            ProgressView(habit: habit)
-//          }
-//          .navigationDestination(for: NavRoute.self, destination: { dest in
-//            switch dest {
-//            case .habitListItem(let habit):
-//              ProgressView(habit: habit)
-//            }
-//          })
-//          .navigationDestination(for: Habit.self, destination: { habit in
-//            ProgressView(habit: habit)
-//          })
           .environment(\.defaultMinListRowHeight, 54)
         }
       }
@@ -271,9 +254,9 @@ struct HabitListView: View {
         }
       }
       .navigationDestination(for: NavRoute.self) { route in
-        
         if case let .showProgress(habit) = route {
-          ProgressView(habit: habit)
+          ProgressView()
+            .environmentObject(habit)
         }
         
         if route == NavRoute.createHabit {
