@@ -17,7 +17,8 @@ class MigrationModel8to9: NSEntityMigrationPolicy {
       return [frequencyDates]
    }
    
-   @objc func typeFor(timesPerDay: Int64) -> [Int64] {
+   @objc func typeFor(timesPerDay: Int) -> [Int] {
+      print("tpd: \(timesPerDay)")
       return [timesPerDay]
    }
    
