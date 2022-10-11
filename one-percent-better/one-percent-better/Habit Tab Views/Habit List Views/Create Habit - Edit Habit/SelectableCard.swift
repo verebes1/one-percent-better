@@ -27,7 +27,7 @@ struct SelectableCard<Content>: View where Content: View {
       .overlay(content: {
          selection.equalType(to: type) ?
          RoundedRectangle(cornerRadius: 10)
-            .stroke(.blue, lineWidth: 2)
+            .stroke(Style.accentColor, lineWidth: 2)
             .padding(.horizontal, cardViewHorizontalInset)
          :
          nil

@@ -16,7 +16,7 @@ struct EveryDaily: View {
    @Binding var timesPerDay: Int
    let tpdRange = 1 ... 100
    
-   private let backgroundColor = Color(#colorLiteral(red: 0.8744927645, green: 0.9400271177, blue: 0.9856405854, alpha: 1))
+   private let backgroundColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
    
    var body: some View {
       VStack {
@@ -24,12 +24,12 @@ struct EveryDaily: View {
             ZStack {
                
                RoundedRectangle(cornerRadius: 10)
-                  .foregroundColor(colorScheme == .light ? backgroundColor : Color.blue)
+                  .foregroundColor(colorScheme == .light ? backgroundColor : Style.accentColor)
                
                Text("\(timesPerDay)")
                   .font(.title3)
                   .fontWeight(.semibold)
-                  .foregroundColor(colorScheme == .light ? Color.blue : backgroundColor)
+                  .foregroundColor(colorScheme == .light ? Style.accentColor : backgroundColor)
             }
             .frame(width: 50)
             .frame(height: 32)
