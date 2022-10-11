@@ -12,6 +12,7 @@
 		46935B96311F43D4AC443FEE /* Pods_one_percent_better.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */; };
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
+		8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* TimesADayText.swift */; };
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
@@ -140,6 +141,7 @@
 		78A37493C9223186222A6039 /* Pods-one-percent-betterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-betterTests.debug.xcconfig"; path = "Target Support Files/Pods-one-percent-betterTests/Pods-one-percent-betterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
+		8006A09628F53D1C005D1A19 /* TimesADayText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesADayText.swift; sourceTree = "<group>"; };
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 				80CC692528E3AF5400584340 /* ExpandingFillButton.swift */,
 				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
 				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
+				8006A09628F53D1C005D1A19 /* TimesADayText.swift */,
 			);
 			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
@@ -930,6 +933,7 @@
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
+				8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */,

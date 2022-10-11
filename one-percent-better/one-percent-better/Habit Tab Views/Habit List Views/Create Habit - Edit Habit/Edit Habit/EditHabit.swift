@@ -146,6 +146,20 @@ struct EditHabit: View {
    }
 }
 
+struct EditHabitPreviewer: View {
+   let habit: Habit
+   @StateObject private var nv = HabitTabNavPath()
+   
+   
+   var body: some View {
+      NavigationStack(path: $nv.path) {
+         EditHabit(habit: habit)
+            .environmentObject(habit)
+            .environmentObject(nv)
+      }
+   }
+}
+
 struct EditHabit_Previews: PreviewProvider {
    
    static func data() -> Habit {
@@ -178,7 +192,8 @@ struct EditHabit_Previews: PreviewProvider {
    static var previews: some View {
       let habit = data()
       NavigationView {
-         EditHabit(habit: habit)
+         EditHabitPreviewer(habit: habit)
+//         EditHabit(habit: habit)
       }
    }
 }

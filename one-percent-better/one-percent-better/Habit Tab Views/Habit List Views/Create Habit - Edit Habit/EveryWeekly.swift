@@ -27,12 +27,19 @@ struct EveryWeekly: View {
       Color(#colorLiteral(red: 0.1921563745, green: 0.1921573281, blue: 0.2135840654, alpha: 1))
       
    }
-   private let selectedTextColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
+   private var selectedTextColor: Color {
+      colorScheme == .light ?
+      Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
+      :
+         .black
+   }
    
    private var textColor: Color {
       colorScheme == .light ? .black : .white
    }
-   private let selectedBackground = Style.accentColor
+   private var selectedBackground: Color {
+      colorScheme == .light ? Style.accentColor : Style.accentColor2
+   }
    
    func updateSelection(_ i: Int) {
       if selectedWeekdays.count == 1 && i == selectedWeekdays[0] {

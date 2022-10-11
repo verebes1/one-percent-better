@@ -18,25 +18,38 @@ struct EveryDaily: View {
    
    private let backgroundColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
    
+   var isPlural: Binding<Bool> {
+      Binding {
+         timesPerDay > 1
+      } set: { _, _ in
+         // do nothing
+      }
+   }
+   
    var body: some View {
       VStack {
          HStack {
-            ZStack {
+            
+            VStack {
+               ZStack {
+                  
+                  RoundedRectangle(cornerRadius: 10)
+                     .foregroundColor(colorScheme == .light ? Style.accentColor : Style.accentColor2)
+                  
+                  Text("\(timesPerDay)")
+                     .font(.title3)
+                     .fontWeight(.semibold)
+                     .foregroundColor(colorScheme == .light ? backgroundColor : .black)
+               }
+               .frame(width: 50)
+               .frame(height: 32)
                
-               RoundedRectangle(cornerRadius: 10)
-                  .foregroundColor(colorScheme == .light ? backgroundColor : Style.accentColor)
                
-               Text("\(timesPerDay)")
-                  .font(.title3)
-                  .fontWeight(.semibold)
-                  .foregroundColor(colorScheme == .light ? Style.accentColor : backgroundColor)
+//               Text("time\(timesPerDay == 1 ? " " : "s ")a day")
+//                  .foregroundColor(.label)
+               TimesADayText(plural: isPlural)
             }
-            .frame(width: 50)
-            .frame(height: 32)
-            
-            
-            Text("time\(timesPerDay == 1 ? " " : "s ")a day")
-            Spacer()
+            Spacer().frame(width: 50)
             
             MyStepper(value: $timesPerDay, range: 1 ... 100) { val in
                self.vm.selection = .timesPerDay(val)
@@ -51,12 +64,14 @@ struct EveryDaily: View {
 
 struct EveryDailyPreviewContainer: View {
    
+   @StateObject var vm = FrequencySelectionModel(selection: .timesPerDay(2))
    @State private var timesPerDay = 1
    
    var body: some View {
       Background {
          CardView {
             EveryDaily(timesPerDay: $timesPerDay)
+               .environmentObject(vm)
          }
       }
    }

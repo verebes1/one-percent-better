@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SelectableCard<Content>: View where Content: View {
    
+   @Environment(\.colorScheme) var scheme
+   
    @Binding var selection: HabitFrequency
    let type: HabitFrequency
    let content: () -> Content
@@ -27,8 +29,10 @@ struct SelectableCard<Content>: View where Content: View {
       .overlay(content: {
          selection.equalType(to: type) ?
          RoundedRectangle(cornerRadius: 10)
-            .stroke(Style.accentColor, lineWidth: 2)
+            .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
+            .shadow(color: scheme == .light ? Style.accentColor : Style.accentColor2, radius: 5)
             .padding(.horizontal, cardViewHorizontalInset)
+            .transition(.opacity)
          :
          nil
       })
