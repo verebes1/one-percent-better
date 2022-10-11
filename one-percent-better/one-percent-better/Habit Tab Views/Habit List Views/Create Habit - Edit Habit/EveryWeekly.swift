@@ -76,7 +76,7 @@ struct EveryWeekly: View {
          }
          .padding(.horizontal, 25)
       }
-      .padding()
+      .padding(.vertical, 30)
    }
 }
 

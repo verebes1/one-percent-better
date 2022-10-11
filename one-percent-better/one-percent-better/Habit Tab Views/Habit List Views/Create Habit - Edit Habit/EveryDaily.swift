@@ -44,9 +44,6 @@ struct EveryDaily: View {
                .frame(width: 50)
                .frame(height: 32)
                
-               
-//               Text("time\(timesPerDay == 1 ? " " : "s ")a day")
-//                  .foregroundColor(.label)
                TimesADayText(plural: isPlural)
             }
             Spacer().frame(width: 50)
@@ -58,7 +55,7 @@ struct EveryDaily: View {
             }
          }
       }
-      .padding()
+      .padding(.vertical, 30)
    }
 }
 
