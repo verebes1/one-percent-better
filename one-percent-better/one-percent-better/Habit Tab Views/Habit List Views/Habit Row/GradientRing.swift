@@ -168,7 +168,7 @@ struct StartCircle: View {
         ZStack {
             ZStack {
                 Circle()
-                    .trim(from: 0, to: 0.0000000001)
+                  .trim(from: 0, to: 0.00001)
                     .stroke(vm.startColor, style: .init(lineWidth: vm.lineWidth, lineCap: .round, lineJoin: .round))
                     .rotation3DEffect(.init(degrees: 180), axis: (x: 1, y: 0, z: 0))
                     .rotation3DEffect(.init(degrees: -90), axis: (x: 0, y: 0, z: 1))
