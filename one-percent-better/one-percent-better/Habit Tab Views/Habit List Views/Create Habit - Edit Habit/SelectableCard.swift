@@ -36,6 +36,7 @@ struct SelectableCard<Content>: View where Content: View {
          :
          nil
       })
+      .animation(.easeInOut(duration: 0.2), value: selection.equalType(to: type))
    }
 }
 
