@@ -16,9 +16,35 @@ struct EveryWeekly: View {
    
    @State private var frequencyText = "1"
    
+   @Binding var selectedWeekdays: [Int]
+   
+   var body: some View {
+      VStack {
+         Text("Every week on")
+         HStack(spacing: 3) {
+            ForEach(0 ..< 7) { i in
+               WeekDayButton(i: i, selectedWeekdays: $selectedWeekdays)
+            }
+         }
+         .padding(.horizontal, 25)
+      }
+      .padding(.vertical, 30)
+   }
+}
+
+struct WeekDayButton: View {
+   
+   @Environment(\.colorScheme) var colorScheme
+   
+   @EnvironmentObject var vm: FrequencySelectionModel
+   
+   let i: Int
+   @Binding var selectedWeekdays: [Int]
    let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
    
-   @Binding var selectedWeekdays: [Int]
+   private var selectedBackground: Color {
+      colorScheme == .light ? Style.accentColor : Style.accentColor2
+   }
    
    private var backgroundColor: Color {
       colorScheme == .light ?
@@ -34,13 +60,6 @@ struct EveryWeekly: View {
          .black
    }
    
-   private var textColor: Color {
-      colorScheme == .light ? .black : .white
-   }
-   private var selectedBackground: Color {
-      colorScheme == .light ? Style.accentColor : Style.accentColor2
-   }
-   
    func updateSelection(_ i: Int) {
       if selectedWeekdays.count == 1 && i == selectedWeekdays[0] {
          return
@@ -54,37 +73,43 @@ struct EveryWeekly: View {
       vm.selection = .daysInTheWeek(selectedWeekdays)
    }
    
+   private var textColor: Color {
+      colorScheme == .light ? .black : .white
+   }
+   
    var body: some View {
-      VStack {
-         Text("Every week on")
-         HStack(spacing: 3) {
-            ForEach(0 ..< 7) { i in
-               ZStack {
-                  let isSelected = selectedWeekdays.contains(i)
-                  RoundedRectangle(cornerRadius: 3)
-                     .foregroundColor(isSelected ? selectedBackground : backgroundColor)
-                  
-                  Text(weekdays[i])
-                     .fontWeight(isSelected ? .semibold : .regular)
-                     .foregroundColor(isSelected ? selectedTextColor : textColor)
-               }
-               .frame(height: 30)
-               .onTapGesture {
-                  updateSelection(i)
-               }
-            }
+      Button {
+         updateSelection(i)
+      } label : {
+         ZStack {
+            let isSelected = selectedWeekdays.contains(i)
+            RoundedRectangle(cornerRadius: 7)
+               .foregroundColor(isSelected ? selectedBackground : backgroundColor)
+            
+            Text(weekdays[i])
+               .fontWeight(isSelected ? .semibold : .regular)
+               .foregroundColor(isSelected ? selectedTextColor : textColor)
          }
-         .padding(.horizontal, 25)
       }
-      .padding(.vertical, 30)
+      
+//      .frame(width: 50)
+      .frame(height: 32)
+      
+//      .frame(height: 30)
+//      .buttonStyle(<#T##style: PrimitiveButtonStyle##PrimitiveButtonStyle#>)
    }
 }
 
 struct EveryWeeklyPreviews: View {
    @State var selectedWeekdays: [Int] = [1,2]
+   @StateObject var vm = FrequencySelectionModel(selection: .daysInTheWeek([0, 2, 4]))
+   
    var body: some View {
-      CardView {
-         EveryWeekly(selectedWeekdays: $selectedWeekdays)
+      Background {
+         CardView {
+            EveryWeekly(selectedWeekdays: $selectedWeekdays)
+               .environmentObject(vm)
+         }
       }
    }
 }
@@ -95,3 +120,5 @@ struct EveryWeekly_Previews: PreviewProvider {
       EveryWeeklyPreviews()
    }
 }
+
+

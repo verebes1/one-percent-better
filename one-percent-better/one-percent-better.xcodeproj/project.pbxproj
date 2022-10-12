@@ -13,6 +13,9 @@
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
 		8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* TimesADayText.swift */; };
+		8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09828F71812005D1A19 /* GrowingTapButton.swift */; };
+		8006A09B28F719A1005D1A19 /* MinusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09A28F719A1005D1A19 /* MinusStepper.swift */; };
+		8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09C28F71BBC005D1A19 /* PlusStepper.swift */; };
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
@@ -142,6 +145,9 @@
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
 		8006A09628F53D1C005D1A19 /* TimesADayText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesADayText.swift; sourceTree = "<group>"; };
+		8006A09828F71812005D1A19 /* GrowingTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTapButton.swift; sourceTree = "<group>"; };
+		8006A09A28F719A1005D1A19 /* MinusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinusStepper.swift; sourceTree = "<group>"; };
+		8006A09C28F71BBC005D1A19 /* PlusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStepper.swift; sourceTree = "<group>"; };
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
@@ -665,6 +671,9 @@
 				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
 				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
 				8006A09628F53D1C005D1A19 /* TimesADayText.swift */,
+				8006A09828F71812005D1A19 /* GrowingTapButton.swift */,
+				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
+				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
 			);
 			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
@@ -943,6 +952,7 @@
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
 				80385D39285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift in Sources */,
 				803E1B8A28A9D68B0010540B /* SelectableCard.swift in Sources */,
+				8006A09B28F719A1005D1A19 /* MinusStepper.swift in Sources */,
 				809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */,
 				80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */,
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
@@ -957,6 +967,7 @@
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
+				8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
@@ -966,6 +977,7 @@
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
+				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,

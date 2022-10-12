@@ -28,7 +28,13 @@ struct EveryDaily: View {
    
    var body: some View {
       VStack {
-         HStack {
+         HStack(spacing: 20) {
+            
+            MinusStepper(value: $timesPerDay, range: 1 ... 100) { val in
+               self.vm.selection = .timesPerDay(val)
+            }
+            .frame(width: 50)
+            .frame(height: 42)
             
             VStack {
                ZStack {
@@ -46,13 +52,20 @@ struct EveryDaily: View {
                
                TimesADayText(plural: isPlural)
             }
-            Spacer().frame(width: 50)
             
-            MyStepper(value: $timesPerDay, range: 1 ... 100) { val in
-               self.vm.selection = .timesPerDay(val)
-            } onDecrement: { val in
+            PlusStepper(value: $timesPerDay, range: 1 ... 100) { val in
                self.vm.selection = .timesPerDay(val)
             }
+            .frame(width: 50)
+            .frame(height: 42)
+            
+//            Spacer().frame(width: 50)
+            
+//            MyStepper(value: $timesPerDay, range: 1 ... 100) { val in
+//               self.vm.selection = .timesPerDay(val)
+//            } onDecrement: { val in
+//               self.vm.selection = .timesPerDay(val)
+//            }
          }
       }
       .padding(.vertical, 30)
