@@ -120,7 +120,6 @@ struct EditHabit: View {
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
-         
          .navigationDestination(for: EditHabitNavRoute.self) { route in
             if route == .editFrequency {
                EditHabitFrequency(frequency: habit.frequency(on: Date()))
@@ -131,7 +130,6 @@ struct EditHabit: View {
                EditTracker(habit: habit, tracker: tracker)
             }
          }
-         
          .onDisappear {
             do {
                if try canSave() {

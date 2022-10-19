@@ -19,6 +19,7 @@ struct HabitCreationHeader: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 65)
+                .frame(height: 65)
                 .foregroundColor(Style.accentColor)
             
             Text(title)
