@@ -22,7 +22,7 @@ class FeatureLogController {
     init() {
         var featureLogs: [FeatureLog] = []
         do {
-            // fetch all habits
+            // fetch all feature logs (should only be 1)
             let fetchRequest: NSFetchRequest<FeatureLog> = FeatureLog.fetchRequest()
             featureLogs = try context.fetch(fetchRequest)
         } catch {

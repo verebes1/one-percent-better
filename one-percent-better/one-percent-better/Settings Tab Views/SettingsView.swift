@@ -13,51 +13,65 @@ enum SettingsNavRoute: Hashable {
 
 struct SettingsView: View {
    
+   @FetchRequest(sortDescriptors: []) var settings: FetchedResults<Settings>
+   @Environment(\.managedObjectContext) var moc
+   
    var exportManager = ExportManager()
    @State private var exportJson: URL = URL(fileURLWithPath: "")
    @State private var showActivityController = false
    @State private var fileContent = ""
    @State private var showDocumentPicker = false
    
+   init() {
+      _settings = FetchRequest<Settings>(sortDescriptors: [])
+   }
+   
    var body: some View {
       NavigationStack {
          Background {
-            List {
-               Section(header: Text("Notifications")) {
-                  NavigationLink(value: SettingsNavRoute.dailyReminder) {
-                     IconTextRow(title: "Daily Reminder", icon: "bell.fill", color: .pink)
+            VStack {
+               List {
+                  Section(header: Text("Notifications")) {
+                     NavigationLink(value: SettingsNavRoute.dailyReminder) {
+                        IconTextRow(title: "Daily Reminder", icon: "bell.fill", color: .pink)
+                     }
                   }
+                  
+                  Section(header: Text("Data")) {
+                     Button {
+                        if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
+                           exportJson = jsonFile
+                           showActivityController = true
+                        }
+                     } label: {
+                        IconTextRow(title: "Export Data", icon: "square.and.arrow.up", color: .red)
+                     }
+                     .buttonStyle(PlainButtonStyle())
+                     
+                     Button {
+                        showDocumentPicker = true
+                     } label: {
+                        IconTextRow(title: "Import Data", icon: "square.and.arrow.down", color: .blue)
+                     }
+                     .buttonStyle(PlainButtonStyle())
+                  }
+                  .sheet(isPresented: $showActivityController, content: {
+                     ActivityViewController(jsonFile: $exportJson)
+                  })
+                  .sheet(isPresented: $showDocumentPicker) {
+                     DocumentPicker(fileContent: $fileContent)
+                  }
+               }
+               .listStyle(.insetGrouped)
+               .navigationDestination(for: SettingsNavRoute.self) { route in
+                  DailyReminder()
                }
                
-               Section(header: Text("Data")) {
-                  Button {
-                     if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
-                        exportJson = jsonFile
-                        showActivityController = true
-                     }
-                  } label: {
-                     IconTextRow(title: "Export Data", icon: "square.and.arrow.up", color: .red)
-                  }
-                  .buttonStyle(PlainButtonStyle())
-                  
-                  Button {
-                     showDocumentPicker = true
-                  } label: {
-                     IconTextRow(title: "Import Data", icon: "square.and.arrow.down", color: .blue)
-                  }
-                  .buttonStyle(PlainButtonStyle())
-               }
-               .sheet(isPresented: $showActivityController, content: {
-                  ActivityViewController(jsonFile: $exportJson)
-               })
-               .sheet(isPresented: $showDocumentPicker) {
-                  DocumentPicker(fileContent: $fileContent)
+               if !settings.isEmpty {
+                  Text("Notifications enabled: \(String(describing: settings[0].dailyReminderEnabled))")
                }
             }
-            .listStyle(.insetGrouped)
-            .navigationDestination(for: SettingsNavRoute.self) { route in
-               DailyReminder()
-            }
+            
          }
          .navigationTitle("Settings")
       }
@@ -143,10 +157,6 @@ struct DocumentPicker: UIViewControllerRepresentable {
          }
          controller.dismiss(animated: true)
       }
-      
-//      public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-//         controller.dismiss(animated: true)
-//      }
    }
    
 }

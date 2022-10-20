@@ -9,8 +9,15 @@ import SwiftUI
 
 struct DailyReminder: View {
    
+   @Environment(\.managedObjectContext) var moc
+   
    @State private var sendNotif = false
-   @State private var timeSelection = Date()
+   @State private var timeSelection: Date
+   
+   init() {
+      _sendNotif = State(initialValue: SettingsController.shared.settings.dailyReminderEnabled)
+      _timeSelection = State(initialValue: SettingsController.shared.settings.dailyReminderTime)
+   }
    
    var body: some View {
       Background {
@@ -30,6 +37,12 @@ struct DailyReminder: View {
             
             Spacer()
          }
+      }
+      .onChange(of: sendNotif) { newBool in
+         SettingsController.shared.updateDailyReminder(to: newBool)
+      }
+      .onChange(of: timeSelection) { newTime in
+         SettingsController.shared.updateDailyReminder(time: newTime)
       }
    }
 }
