@@ -168,20 +168,21 @@ struct HabitListView: View {
                
                if vm.habits.isEmpty {
                   NoHabitsView()
-               }
-               
-               List {
-                  ForEach(vm.habits, id: \.self.name) { habit in
-                     if habit.started(after: vm.currentDay) {
-                        NavigationLink(value: NavRoute.showProgress(habit)) {
-                           HabitRow(habit: habit, day: vm.currentDay)
+                  Spacer()
+               } else {
+                  List {
+                     ForEach(vm.habits, id: \.self.name) { habit in
+                        if habit.started(after: vm.currentDay) {
+                           NavigationLink(value: NavRoute.showProgress(habit)) {
+                              HabitRow(habit: habit, day: vm.currentDay)
+                           }
                         }
                      }
+                     .onMove(perform: vm.move)
+                     .onDelete(perform: vm.delete)
                   }
-                  .onMove(perform: vm.move)
-                  .onDelete(perform: vm.delete)
+                  .environment(\.defaultMinListRowHeight, 54)
                }
-               .environment(\.defaultMinListRowHeight, 54)
             }
          }
          .onAppear {
@@ -226,11 +227,11 @@ struct HabitsView_Previews: PreviewProvider {
       let context = CoreDataManager.previews.mainContext
       
       let _ = try? Habit(context: context, name: "Never completed")
-      
+
       let h1 = try? Habit(context: context, name: "Completed yesterday")
       let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
       h1?.markCompleted(on: yesterday)
-      
+
       let h2 = try? Habit(context: context, name: "Completed today")
       h2?.markCompleted(on: Date())
    }
@@ -240,16 +241,20 @@ struct HabitsView_Previews: PreviewProvider {
       let _ = data()
       HabitListView(vm: HabitListViewModel(moc))
          .environment(\.managedObjectContext, moc)
+         .environmentObject(HabitTabNavPath())
    }
 }
 
 struct NoHabitsView: View {
+   
+   @Environment(\.colorScheme) var scheme
+   
    var body: some View {
       HStack {
          Text("To create a habit, press")
          Image(systemName: "square.and.pencil")
       }
-      .foregroundColor(Color(hue: 1.0, saturation: 0.008, brightness: 0.279))
+      .foregroundColor(scheme == .light ? Color(hue: 1.0, saturation: 0.008, brightness: 0.279) : .secondaryLabel)
       .padding(.top, 40)
    }
 }

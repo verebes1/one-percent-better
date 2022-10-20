@@ -6,25 +6,60 @@
 //
 
 import SwiftUI
+import CoreData
 
 enum SettingsNavRoute: Hashable {
    case dailyReminder
 }
 
+class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
+   
+   private let settingsController: NSFetchedResultsController<Settings>
+   private let moc: NSManagedObjectContext
+   
+   init(_ context: NSManagedObjectContext) {
+      settingsController = Settings.resultsController(context: context, sortDescriptors: [])
+      moc = context
+      super.init()
+      settingsController.delegate = self
+      try? settingsController.performFetch()
+   }
+   
+   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      objectWillChange.send()
+   }
+   
+   var settings: Settings {
+      guard let settingsArr = settingsController.fetchedObjects else {
+         fatalError("Unable to retrieve settings")
+      }
+      
+      if settingsArr.isEmpty {
+         let set = Settings(myContext: moc)
+         moc.fatalSave()
+         return set
+      }
+      
+      guard settingsArr.count == 1 else {
+         fatalError("Not exactly 1 setting! Count: \(settingsArr.count)")
+      }
+      
+      return settingsArr[0]
+   }
+}
+
 struct SettingsView: View {
    
-   @FetchRequest(sortDescriptors: []) var settings: FetchedResults<Settings>
    @Environment(\.managedObjectContext) var moc
    
    var exportManager = ExportManager()
+   
+   @ObservedObject var vm: SettingsViewModel
+   
    @State private var exportJson: URL = URL(fileURLWithPath: "")
    @State private var showActivityController = false
    @State private var fileContent = ""
    @State private var showDocumentPicker = false
-   
-   init() {
-      _settings = FetchRequest<Settings>(sortDescriptors: [])
-   }
    
    var body: some View {
       NavigationStack {
@@ -33,7 +68,8 @@ struct SettingsView: View {
                List {
                   Section(header: Text("Notifications")) {
                      NavigationLink(value: SettingsNavRoute.dailyReminder) {
-                        IconTextRow(title: "Daily Reminder", icon: "bell.fill", color: .pink)
+                        DailyReminderRow()
+                           .environmentObject(vm)
                      }
                   }
                   
@@ -66,12 +102,7 @@ struct SettingsView: View {
                .navigationDestination(for: SettingsNavRoute.self) { route in
                   DailyReminder()
                }
-               
-               if !settings.isEmpty {
-                  Text("Notifications enabled: \(String(describing: settings[0].dailyReminderEnabled))")
-               }
             }
-            
          }
          .navigationTitle("Settings")
       }
@@ -79,84 +110,15 @@ struct SettingsView: View {
 }
 
 struct SettingsView_Previews: PreviewProvider {
+   
+   static func data() {
+      let context = CoreDataManager.previews.mainContext
+      let _ = Settings(context: context)
+   }
+   
    static var previews: some View {
-      SettingsView()
+      let moc = CoreDataManager.previews.mainContext
+      let _ = data()
+      SettingsView(vm: SettingsViewModel(moc))
    }
-}
-
-struct ActivityViewController: UIViewControllerRepresentable {
-   
-   @Binding var jsonFile: URL
-   
-   func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityViewController>) -> UIActivityViewController {
-      
-      let activityViewController = UIActivityViewController(activityItems: [jsonFile], applicationActivities: nil)
-      return activityViewController
-   }
-   
-   func updateUIViewController(_ uiViewController: UIActivityViewController, context: UIViewControllerRepresentableContext<ActivityViewController>) {
-      // Do nothing
-   }
-   
-}
-
-struct DocumentPicker: UIViewControllerRepresentable {
-   
-   @Binding var fileContent: String
-   
-   func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
-      let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.json])
-      documentPicker.delegate = context.coordinator
-      documentPicker.allowsMultipleSelection = false
-      documentPicker.modalPresentationStyle = .popover
-      return documentPicker
-   }
-   
-   func makeCoordinator() -> DocumentPicker.Coordinator {
-      return Coordinator()
-   }
-   
-   func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
-      // Do nothing
-   }
-   
-   class Coordinator: NSObject, UIDocumentPickerDelegate {
-      
-      lazy var exportManager = ExportManager()
-      
-      public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-         guard let url = urls.first else {
-            return
-         }
-         var relinquish = false
-         do {
-            relinquish = url.startAccessingSecurityScopedResource()
-            let jsonData = try Data(contentsOf: url)
-            do {
-               let _: ExportContainer = try exportManager.load(jsonData)
-            } catch {
-               print("IMPORT DATA ERROR: \(error)")
-               //                fatalError("\(#function) - Unexpected error: \(error)")
-            }
-            let habits = Habit.habits(from: CoreDataManager.shared.mainContext)
-            for habit in habits {
-               for t in habit.trackers {
-                  if let t = t as? Tracker {
-                     print("habit: \(habit.name), tracker: \(t.name), t.habit: \(t.habit.name)")
-                  }
-               }
-            }
-            CoreDataManager.shared.saveContext()
-            FeatureLogController.shared.setUp()
-         } catch {
-            print("unable to load data: \(error)")
-         }
-         
-         if relinquish {
-            url.stopAccessingSecurityScopedResource()
-         }
-         controller.dismiss(animated: true)
-      }
-   }
-   
 }

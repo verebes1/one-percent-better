@@ -30,7 +30,7 @@ struct ContentView: View {
           Label("Habits", systemImage: "checkmark.circle.fill")
         }
       
-      SettingsView()
+       SettingsView(vm: SettingsViewModel(moc))
         .tabItem {
           Label("Settings", systemImage: "gearshape.fill")
         }

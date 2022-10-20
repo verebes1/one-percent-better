@@ -26,3 +26,11 @@ public class Settings: NSManagedObject {
    }
 
 }
+
+extension Settings {
+   static func resultsController(context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = []) -> NSFetchedResultsController<Settings> {
+      let request = NSFetchRequest<Settings>(entityName: "Settings")
+      request.sortDescriptors = []//sortDescriptors.isEmpty ? nil : sortDescriptors
+      return NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+   }
+}

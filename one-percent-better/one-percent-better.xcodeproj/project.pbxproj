@@ -102,6 +102,8 @@
 		8062AA382900772E00903123 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA372900772E00903123 /* DailyReminder.swift */; };
 		8062AA3B2900AAE900903123 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3A2900AAE900903123 /* Settings.swift */; };
 		8062AA3D290198C300903123 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3C290198C300903123 /* SettingsController.swift */; };
+		8062AA3F29019E7F00903123 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3E29019E7F00903123 /* DocumentPicker.swift */; };
+		8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA4029019FDB00903123 /* DailyReminderRow.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
@@ -249,6 +251,8 @@
 		8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 10.xcdatamodel"; sourceTree = "<group>"; };
 		8062AA3A2900AAE900903123 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Settings.swift"; sourceTree = "<absolute>"; };
 		8062AA3C290198C300903123 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		8062AA3E29019E7F00903123 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
@@ -376,6 +380,8 @@
 				80385CE8285BEE5900CBDF71 /* ExportManager.swift */,
 				8062AA3528FF2C3F00903123 /* IconTextRow.swift */,
 				8062AA372900772E00903123 /* DailyReminder.swift */,
+				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
+				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -972,6 +978,7 @@
 				803E1B8A28A9D68B0010540B /* SelectableCard.swift in Sources */,
 				8006A09B28F719A1005D1A19 /* MinusStepper.swift in Sources */,
 				809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */,
+				8062AA3F29019E7F00903123 /* DocumentPicker.swift in Sources */,
 				80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */,
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */,
@@ -1002,6 +1009,7 @@
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
+				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
 				8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */,
 				8062AA3B2900AAE900903123 /* Settings.swift in Sources */,
