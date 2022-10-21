@@ -101,7 +101,6 @@
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
 		8062AA382900772E00903123 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA372900772E00903123 /* DailyReminder.swift */; };
 		8062AA3B2900AAE900903123 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3A2900AAE900903123 /* Settings.swift */; };
-		8062AA3D290198C300903123 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3C290198C300903123 /* SettingsController.swift */; };
 		8062AA3F29019E7F00903123 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3E29019E7F00903123 /* DocumentPicker.swift */; };
 		8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA4029019FDB00903123 /* DailyReminderRow.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
@@ -250,7 +249,6 @@
 		8062AA372900772E00903123 /* DailyReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminder.swift; sourceTree = "<group>"; };
 		8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 10.xcdatamodel"; sourceTree = "<group>"; };
 		8062AA3A2900AAE900903123 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Settings.swift"; sourceTree = "<absolute>"; };
-		8062AA3C290198C300903123 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		8062AA3E29019E7F00903123 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
@@ -497,7 +495,6 @@
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
-				8062AA3C290198C300903123 /* SettingsController.swift */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
@@ -1046,7 +1043,6 @@
 				80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */,
 				80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */,
 				80385D1B285BEE5900CBDF71 /* NSManagedObjectModel+Resource.swift in Sources */,
-				8062AA3D290198C300903123 /* SettingsController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

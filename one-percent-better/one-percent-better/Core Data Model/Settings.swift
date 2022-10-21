@@ -24,7 +24,6 @@ public class Settings: NSManagedObject {
       self.dailyReminderEnabled = false
       self.dailyReminderTime = Calendar.current.date(from: DateComponents(hour: 21))!
    }
-
 }
 
 extension Settings {

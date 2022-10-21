@@ -23,6 +23,17 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       super.init()
       settingsController.delegate = self
       try? settingsController.performFetch()
+      
+      guard let settingsArr = settingsController.fetchedObjects else {
+         fatalError("Unable to retrieve settings")
+      }
+      
+      if settingsArr.isEmpty {
+         let _ = Settings(myContext: moc)
+         moc.fatalSave()
+      } else if settingsArr.count > 1 {
+         fatalError("Too many settings entities")
+      }
    }
    
    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -33,18 +44,61 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       guard let settingsArr = settingsController.fetchedObjects else {
          fatalError("Unable to retrieve settings")
       }
-      
-      if settingsArr.isEmpty {
-         let set = Settings(myContext: moc)
-         moc.fatalSave()
-         return set
-      }
-      
       guard settingsArr.count == 1 else {
          fatalError("Not exactly 1 setting! Count: \(settingsArr.count)")
       }
-      
       return settingsArr[0]
+   }
+   
+   func requestNotifPermission() {
+      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+         if success {
+            print("All set!")
+         } else if let error = error {
+            print(error.localizedDescription)
+         }
+      }
+   }
+   
+   func addNotification() {
+      let content = UNMutableNotificationContent()
+      content.title = "Daily Reminder"
+      content.subtitle = "Mark your habits as completed!"
+      content.sound = UNNotificationSound.default
+      
+      var date = DateComponents()
+      date.hour = Calendar.current.component(.hour, from: settings.dailyReminderTime)
+      date.minute = Calendar.current.component(.minute, from: settings.dailyReminderTime)
+      let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+      
+      let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder", content: content, trigger: trigger)
+      
+      // add our notification request
+      UNUserNotificationCenter.current().add(request)
+   }
+   
+   func removeNotification() {
+      UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-DailyReminder"])
+   }
+   
+   func updateDailyReminder(to enabled: Bool) {
+      settings.dailyReminderEnabled = enabled
+      
+      if enabled {
+         requestNotifPermission()
+         addNotification()
+      } else {
+         removeNotification()
+      }
+   }
+   
+   func updateDailyReminder(time: Date) {
+      settings.dailyReminderTime = time
+      
+      if settings.dailyReminderEnabled {
+         removeNotification()
+         addNotification()
+      }
    }
 }
 
@@ -100,7 +154,8 @@ struct SettingsView: View {
                }
                .listStyle(.insetGrouped)
                .navigationDestination(for: SettingsNavRoute.self) { route in
-                  DailyReminder()
+                  DailyReminder(settings: vm.settings)
+                     .environmentObject(vm)
                }
             }
          }

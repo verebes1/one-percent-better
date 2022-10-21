@@ -11,12 +11,14 @@ struct DailyReminder: View {
    
    @Environment(\.managedObjectContext) var moc
    
+   @EnvironmentObject var vm: SettingsViewModel
+   
    @State private var sendNotif = false
    @State private var timeSelection: Date
    
-   init() {
-      _sendNotif = State(initialValue: SettingsController.shared.settings.dailyReminderEnabled)
-      _timeSelection = State(initialValue: SettingsController.shared.settings.dailyReminderTime)
+   init(settings: Settings) {
+      _sendNotif = State(initialValue: settings.dailyReminderEnabled)
+      _timeSelection = State(initialValue: settings.dailyReminderTime)
    }
    
    var body: some View {
@@ -39,16 +41,28 @@ struct DailyReminder: View {
          }
       }
       .onChange(of: sendNotif) { newBool in
-         SettingsController.shared.updateDailyReminder(to: newBool)
+         vm.updateDailyReminder(to: newBool)
+         moc.fatalSave()
       }
       .onChange(of: timeSelection) { newTime in
-         SettingsController.shared.updateDailyReminder(time: newTime)
+         vm.updateDailyReminder(time: newTime)
+         moc.fatalSave()
       }
    }
 }
 
 struct DailyReminder_Previews: PreviewProvider {
-    static var previews: some View {
-        DailyReminder()
-    }
+   
+   static func data() {
+      let context = CoreDataManager.previews.mainContext
+      let _ = Settings(context: context)
+   }
+   
+   static var previews: some View {
+      let moc = CoreDataManager.previews.mainContext
+      let _ = data()
+      let vm = SettingsViewModel(moc)
+      DailyReminder(settings: vm.settings)
+         .environmentObject(vm)
+   }
 }
