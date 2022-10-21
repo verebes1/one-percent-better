@@ -23,8 +23,7 @@ struct IconTextRow: View {
             Image(systemName: icon)
                .resizable()
                .aspectRatio(contentMode: .fit)
-               .frame(maxWidth: imageSize, maxHeight: imageSize)
-               .clipped()
+               .frame(width: imageSize, height: imageSize)
                .foregroundColor(.white)
          }
          

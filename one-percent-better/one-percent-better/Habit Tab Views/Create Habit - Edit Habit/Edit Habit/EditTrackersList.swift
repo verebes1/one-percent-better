@@ -167,7 +167,7 @@ struct EditTrackersList_Previews: PreviewProvider {
 }
 
 
-struct EditTrackerRow: View {
+struct EditTrackerRowMovable: View {
     
     @State private var offset = CGSize.zero
     @State private var isDragging: Bool = false

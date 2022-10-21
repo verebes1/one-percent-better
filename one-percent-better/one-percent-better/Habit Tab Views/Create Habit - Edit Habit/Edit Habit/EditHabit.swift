@@ -81,10 +81,10 @@ struct EditHabit: View {
                   
                   NavigationLink(value: EditHabitNavRoute.editFrequency) {
                      HStack {
-//                        Text("Frequency")
-//                           .fontWeight(.medium)
-                        IconTextRow(title: "Frequency", icon: "clock.arrow.2.circlepath", color: .green)
+                        Text("Frequency")
                            .fontWeight(.medium)
+//                        IconTextRow(title: "Frequency", icon: "clock.arrow.2.circlepath", color: .green)
+//                           .fontWeight(.medium)
                         
                         Spacer()
                         
@@ -98,7 +98,8 @@ struct EditHabit: View {
                      ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
                         let tracker = habit.editableTrackers[i]
                         NavigationLink(value: EditHabitNavRoute.editTracker(tracker)) {
-                           EditTrackerRowSimple(name: tracker.name)
+                           EditTrackerRow(tracker: tracker)
+//                           EditTrackerRowSimple(name: tracker.name)
                         }
                      }
                   }
@@ -184,6 +185,8 @@ struct EditHabit_Previews: PreviewProvider {
          let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
          let patioBefore = UIImage(named: "patio-before")!
          t2.add(date: day0, value: patioBefore)
+         
+         let t3 = ExerciseTracker(context: context, habit: h1, name: "Bench Press")
       }
       
       let habits = Habit.habits(from: context)
@@ -211,6 +214,27 @@ struct EditTrackerRowSimple: View {
    }
 }
 
+struct EditTrackerRow: View {
+   
+   var tracker: Tracker
+   
+   var body: some View {
+      HStack {
+         if tracker is GraphTracker {
+            IconTextRow(title: tracker.name, icon: "chart.xyaxis.line", color: .blue)
+         } else if tracker is ImageTracker {
+            IconTextRow(title: tracker.name, icon: "photo", color: .mint)
+         } else if tracker is ExerciseTracker {
+            IconTextRow(title: tracker.name, icon: "figure.walk", color: .red)
+         } else {
+            Text(tracker.name)
+            //            IconTextRow(title: tracker.name, icon: "chart.xyaxis.line", color: .blue)
+         }
+         Spacer()
+      }
+   }
+}
+
 struct EditHabitName: View {
    
    @Binding var newHabitName: String
@@ -219,10 +243,10 @@ struct EditHabitName: View {
    var body: some View {
       VStack {
          HStack {
-//            Text("Name")
-//               .fontWeight(.medium)
-            IconTextRow(title: "Name", icon: "square.and.pencil", color: .systemTeal)
+            Text("Name")
                .fontWeight(.medium)
+//            IconTextRow(title: "Name", icon: "square.and.pencil", color: .systemTeal)
+//               .fontWeight(.medium)
             TextField("", text: $newHabitName)
                .multilineTextAlignment(.trailing)
                .frame(height: 30)

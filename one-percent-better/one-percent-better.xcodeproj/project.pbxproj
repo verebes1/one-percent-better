@@ -104,6 +104,7 @@
 		8062AA3F29019E7F00903123 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3E29019E7F00903123 /* DocumentPicker.swift */; };
 		8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA4029019FDB00903123 /* DailyReminderRow.swift */; };
 		8062AA432902F23000903123 /* ProgressCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA422902F23000903123 /* ProgressCards.swift */; };
+		8062AA452902F76200903123 /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA442902F76200903123 /* CalendarDayView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
@@ -253,6 +254,7 @@
 		8062AA3E29019E7F00903123 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
 		8062AA422902F23000903123 /* ProgressCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCards.swift; sourceTree = "<group>"; };
+		8062AA442902F76200903123 /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
@@ -526,6 +528,7 @@
 				80385CF1285BEE5900CBDF71 /* CalendarSpacingView.swift */,
 				80385CF2285BEE5900CBDF71 /* CalenderModel.swift */,
 				80385CF4285BEE5900CBDF71 /* CalendarView.swift */,
+				8062AA442902F76200903123 /* CalendarDayView.swift */,
 			);
 			path = "Calendar Card";
 			sourceTree = "<group>";
@@ -1026,6 +1029,7 @@
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
+				8062AA452902F76200903123 /* CalendarDayView.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
 				803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
