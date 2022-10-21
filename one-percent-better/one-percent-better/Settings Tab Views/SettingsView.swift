@@ -10,6 +10,7 @@ import CoreData
 
 enum SettingsNavRoute: Hashable {
    case dailyReminder
+   case importData
 }
 
 class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
@@ -145,17 +146,22 @@ struct SettingsView: View {
                      }
                      .buttonStyle(PlainButtonStyle())
                   }
-                  .sheet(isPresented: $showActivityController, content: {
-                     ActivityViewController(jsonFile: $exportJson)
-                  })
-                  .sheet(isPresented: $showDocumentPicker) {
-                     DocumentPicker(fileContent: $fileContent)
-                  }
                }
                .listStyle(.insetGrouped)
                .navigationDestination(for: SettingsNavRoute.self) { route in
-                  DailyReminder(settings: vm.settings)
-                     .environmentObject(vm)
+                  switch route {
+                  case .dailyReminder:
+                     DailyReminder(settings: vm.settings)
+                        .environmentObject(vm)
+                  case .importData:
+                     DocumentPicker()
+                  }
+               }
+               .sheet(isPresented: $showDocumentPicker) {
+                  DocumentPicker()
+               }
+               .sheet(isPresented: $showActivityController) {
+                  ActivityViewController(jsonFile: $exportJson)
                }
             }
          }

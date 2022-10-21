@@ -8,32 +8,7 @@
 import SwiftUI
 import CoreData
 
-class HabitsHeaderViewModel: ObservableObject {
-   
-   @Published var habits: [Habit]
-   
-   init(habits: [Habit]) {
-      self.habits = habits
-   }
-   
-   /// Date of the earliest start date for all habits
-   var earliestStartDate: Date {
-      var earliest = Date()
-      for habit in habits {
-         if habit.startDate < earliest {
-            earliest = habit.startDate
-         }
-      }
-      return earliest
-   }
-   
-   /// Number of weeks (each row is a week) between today and the earliest completed habit
-   var numWeeksSinceEarliest: Int {
-      let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
-      let diff = numDays - thisWeekDayOffset(Date()) + 6
-      let weeks = diff / 7
-      return weeks + 1
-   }
+extension HabitListViewModel {
    
    /// The number of days to offset from today to get to the selected day
    /// - Parameters:
@@ -85,23 +60,13 @@ class HabitsHeaderViewModel: ObservableObject {
       }
       return numCompleted / total
    }
-   
-   func thisWeekDayOffset(_ date: Date) -> Int {
-      return Calendar.current.component(.weekday, from: date) - 1
-   }
 }
 
 struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @EnvironmentObject var hlvm: HabitListViewModel
+   @EnvironmentObject var vm: HabitListViewModel
    var color: Color = .systemTeal
-   
-   @ObservedObject var vm: HabitsHeaderViewModel
-   
-   init(habits: [Habit]) {
-      self.vm = HabitsHeaderViewModel(habits: habits)
-   }
    
    var body: some View {
       VStack(spacing: 0) {
@@ -115,7 +80,7 @@ struct HabitsHeaderView: View {
          .padding(.horizontal, 20)
          
          let ringSize: CGFloat = 27
-         TabView(selection: $hlvm.selectedWeek) {
+         TabView(selection: $vm.selectedWeek) {
             ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
                HStack {
                   ForEach(0 ..< 7) { j in
@@ -130,9 +95,9 @@ struct HabitsHeaderView: View {
                      .frame(maxWidth: .infinity)
                      .onTapGesture {
                         if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
-                           hlvm.selectedWeekDay = j
+                           vm.selectedWeekDay = j
                            let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
-                           hlvm.currentDay = newDay
+                           vm.currentDay = newDay
                         }
                      }
                      .contentShape(Rectangle())
@@ -144,23 +109,23 @@ struct HabitsHeaderView: View {
          }
          .frame(height: ringSize + 22)
          .tabViewStyle(.page(indexDisplayMode: .never))
-         .onChange(of: hlvm.selectedWeek, perform: { newWeek in
+         .onChange(of: vm.selectedWeek, perform: { newWeek in
             // If scrolling to week which has dates ahead of today
             let today = Date()
             let currentOffset = vm.thisWeekDayOffset(today)
             if newWeek == (vm.numWeeksSinceEarliest - 1),
-               hlvm.selectedWeekDay > currentOffset {
-               hlvm.selectedWeekDay = currentOffset
+               vm.selectedWeekDay > currentOffset {
+               vm.selectedWeekDay = currentOffset
             }
             
             // If scrolls to week which has days before the earliest start date
-            if vm.date(week: newWeek, day: hlvm.selectedWeekDay) < vm.earliestStartDate {
-               hlvm.selectedWeekDay = vm.thisWeekDayOffset(vm.earliestStartDate)
+            if vm.date(week: newWeek, day: vm.selectedWeekDay) < vm.earliestStartDate {
+               vm.selectedWeekDay = vm.thisWeekDayOffset(vm.earliestStartDate)
             }
             
-            let dayOffset = vm.dayOffset(week: newWeek, day: hlvm.selectedWeekDay)
+            let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
             let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: today)!
-            hlvm.currentDay = newDay
+            vm.currentDay = newDay
          })
       }
    }
@@ -199,7 +164,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
       
       let moc = CoreDataManager.previews.mainContext
       let vm = HabitListViewModel(moc)
-      HabitsHeaderView(habits: vm.habits)
+      HabitsHeaderView()
          .environment(\.managedObjectContext, moc)
          .environmentObject(vm)
    }
@@ -207,14 +172,13 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
 
 struct SelectedDayView: View {
    
-   @EnvironmentObject var hlvm: HabitListViewModel
-   @EnvironmentObject var vm: HabitsHeaderViewModel
+   @EnvironmentObject var vm: HabitListViewModel
    var index: Int
    var color: Color = .systemTeal
    
    func isIndexSameAsToday(_ index: Int) -> Bool {
       let dayIsSelectedWeekday = vm.thisWeekDayOffset(Date()) == index
-      let weekIsSelectedWeek = hlvm.selectedWeek == (vm.numWeeksSinceEarliest - 1)
+      let weekIsSelectedWeek = vm.selectedWeek == (vm.numWeeksSinceEarliest - 1)
       return dayIsSelectedWeekday && weekIsSelectedWeek
    }
    
@@ -223,7 +187,7 @@ struct SelectedDayView: View {
    var body: some View {
       ZStack {
          let circleSize: CGFloat = 19
-         let isSelected = index == vm.thisWeekDayOffset(hlvm.currentDay)
+         let isSelected = index == vm.thisWeekDayOffset(vm.currentDay)
          if isSelected {
             Circle()
                .foregroundColor(isIndexSameAsToday(index) ? color : .systemGray2)
@@ -238,10 +202,10 @@ struct SelectedDayView: View {
       .padding(.bottom, 3)
       .contentShape(Rectangle())
       .onTapGesture {
-         let dayOffset = vm.dayOffset(week: hlvm.selectedWeek, day: index)
+         let dayOffset = vm.dayOffset(week: vm.selectedWeek, day: index)
          if dayOffset <= 0 {
-            hlvm.selectedWeekDay = index
-            hlvm.currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
+            vm.selectedWeekDay = index
+            vm.currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
          }
       }
    }

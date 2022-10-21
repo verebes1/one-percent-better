@@ -27,44 +27,46 @@ struct ExerciseCard: View {
     }()
     
     var body: some View {
-        VStack {
-            HStack {
-                Text(tracker.name)
-                    .fontWeight(.medium)
-                    .padding(.leading, 20)
-                Spacer()
-                
-                if viewAllButton {
-                    NavigationLink {
-                        ExerciseAllEntries(tracker: tracker, entries: tracker.getAllEntries())
-                    } label: {
-                        HStack {
-                            Text("View All")
-                            Image(systemName: "chevron.right")
-                        }
-                        .padding(.trailing, 20)
-                    }
-                } else {
-                    Text(dateTitleFormatter.string(from: date))
-                        .padding(.trailing, 20)
-                }
-            }
-            
-            LazyVGrid(columns: columns) {
-                Text("Set")
-                Text("lbs")
-                Text("Reps")
-            }
-            
-            if let vm = vm {
-                ForEach(Array(vm.sets.enumerated()), id: \.offset) { (i, gymSet) in
-                    ExerciseCardRow(i: i, gymSet: gymSet)
-                }
-            } else {
-                Text("No data yet")
-            }
-        }
-        .padding(.vertical, 10)
+       CardView {
+          VStack {
+               HStack {
+                   Text(tracker.name)
+                       .fontWeight(.medium)
+                       .padding(.leading, 20)
+                   Spacer()
+                   
+                   if viewAllButton {
+                       NavigationLink {
+                           ExerciseAllEntries(tracker: tracker, entries: tracker.getAllEntries())
+                       } label: {
+                           HStack {
+                               Text("View All")
+                               Image(systemName: "chevron.right")
+                           }
+                           .padding(.trailing, 20)
+                       }
+                   } else {
+                       Text(dateTitleFormatter.string(from: date))
+                           .padding(.trailing, 20)
+                   }
+               }
+               
+               LazyVGrid(columns: columns) {
+                   Text("Set")
+                   Text("lbs")
+                   Text("Reps")
+               }
+               
+               if let vm = vm {
+                   ForEach(Array(vm.sets.enumerated()), id: \.offset) { (i, gymSet) in
+                       ExerciseCardRow(i: i, gymSet: gymSet)
+                   }
+               } else {
+                   Text("No data yet")
+               }
+           }
+          .padding(.vertical, 10)
+       }
     }
 }
 

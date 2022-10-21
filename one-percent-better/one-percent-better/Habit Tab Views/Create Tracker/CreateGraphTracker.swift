@@ -28,7 +28,8 @@ struct CreateGraphTracker: View {
               .frame(height: 50)
             TextField("Name", text: $trackerName)
               .padding(.leading, 10)
-          }.padding(.horizontal, 20)
+          }
+          .padding(.horizontal, 20)
         }
         
         Spacer()

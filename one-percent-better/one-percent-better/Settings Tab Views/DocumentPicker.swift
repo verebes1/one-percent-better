@@ -25,11 +25,7 @@ struct ActivityViewController: UIViewControllerRepresentable {
 }
 
 struct DocumentPicker: UIViewControllerRepresentable {
-   
-   @Binding var fileContent: String
-   
-   var documentPicker: UIDocumentPickerViewController!
-   
+
    func makeUIViewController(context: UIViewControllerRepresentableContext<DocumentPicker>) -> UIDocumentPickerViewController {
       let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.json])
       documentPicker.delegate = context.coordinator
@@ -37,24 +33,25 @@ struct DocumentPicker: UIViewControllerRepresentable {
       documentPicker.modalPresentationStyle = .popover
       return documentPicker
    }
-   
+
    func makeCoordinator() -> DocumentPickerCoordinator {
       return DocumentPickerCoordinator()
    }
-   
+
    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: UIViewControllerRepresentableContext<DocumentPicker>) {
       // Do nothing
    }
 }
 
 class DocumentPickerCoordinator: NSObject, UIDocumentPickerDelegate {
-   
+
    lazy var exportManager = ExportManager()
-   
+
    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
       guard let url = urls.first else {
          return
       }
+
       var relinquish = false
       do {
          relinquish = url.startAccessingSecurityScopedResource()
@@ -78,15 +75,15 @@ class DocumentPickerCoordinator: NSObject, UIDocumentPickerDelegate {
       } catch {
          print("unable to load data: \(error)")
       }
-      
+
       if relinquish {
          url.stopAccessingSecurityScopedResource()
       }
       controller.dismiss(animated: true)
+
    }
-   
+
    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
       controller.dismiss(animated: true)
    }
-
 }

@@ -81,8 +81,11 @@ struct EditHabit: View {
                   
                   NavigationLink(value: EditHabitNavRoute.editFrequency) {
                      HStack {
-                        Text("Frequency")
+//                        Text("Frequency")
+//                           .fontWeight(.medium)
+                        IconTextRow(title: "Frequency", icon: "clock.arrow.2.circlepath", color: .green)
                            .fontWeight(.medium)
+                        
                         Spacer()
                         
                         freqTextView
@@ -216,7 +219,9 @@ struct EditHabitName: View {
    var body: some View {
       VStack {
          HStack {
-            Text("Name")
+//            Text("Name")
+//               .fontWeight(.medium)
+            IconTextRow(title: "Name", icon: "square.and.pencil", color: .systemTeal)
                .fontWeight(.medium)
             TextField("", text: $newHabitName)
                .multilineTextAlignment(.trailing)

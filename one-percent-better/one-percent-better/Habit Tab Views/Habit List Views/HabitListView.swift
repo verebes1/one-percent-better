@@ -163,7 +163,7 @@ struct HabitListView: View {
       NavigationStack(path: $nav.path) {
          Background {
             VStack {
-               HabitsHeaderView(habits: vm.habits)
+               HabitsHeaderView()
                   .environmentObject(vm)
                
                if vm.habits.isEmpty {
@@ -172,7 +172,7 @@ struct HabitListView: View {
                } else {
                   List {
                      ForEach(vm.habits, id: \.self.name) { habit in
-                        if habit.started(after: vm.currentDay) {
+                        if habit.started(before: vm.currentDay) {
                            NavigationLink(value: NavRoute.showProgress(habit)) {
                               HabitRow(habit: habit, day: vm.currentDay)
                            }

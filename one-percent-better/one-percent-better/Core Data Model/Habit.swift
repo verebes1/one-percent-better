@@ -398,6 +398,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
+      return Calendar.current.startOfDay(for: startDate) >= Calendar.current.startOfDay(for: day)
+   }
+   
+   func started(before day: Date) -> Bool {
       return Calendar.current.startOfDay(for: startDate) <= Calendar.current.startOfDay(for: day)
    }
    

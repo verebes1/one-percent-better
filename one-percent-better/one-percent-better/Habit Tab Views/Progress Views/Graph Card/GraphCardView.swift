@@ -41,11 +41,21 @@ struct GraphCardView: View {
     @State var selectedValue: String = ""
     @State var selectedButton: TimeButtons = .oneWeek
     var buttons: [TimeButtons] = [.oneWeek, .twoWeeks, .oneMonth, .threeMonths, .sixMonths, .oneYear]
+   
+   init(tracker: GraphTracker) {
+      self.tracker = tracker
+      for button in buttons {
+         let buttonStartDate = Calendar.current.date(byAdding: .day, value: -button.numDays(), to: Date())!
+         if tracker.habit.started(after: buttonStartDate) {
+            _selectedButton = State(initialValue: button)
+            break
+         }
+      }
+   }
     
     var body: some View {
         CardView {
             VStack(spacing: 0) {
-                
                 SimpleCardTitle(tracker.name) {
                     Text(selectedValue)
                 }

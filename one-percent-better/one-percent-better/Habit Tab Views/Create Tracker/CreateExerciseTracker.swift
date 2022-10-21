@@ -25,7 +25,7 @@ struct CreateExerciseTracker: View {
           ZStack {
             RoundedRectangle(cornerRadius: 10)
               .foregroundColor(.cardColor)
-              .frame(height: 40)
+              .frame(height: 50)
             TextField("Name", text: $trackerName)
               .padding(.leading, 10)
           }.padding(.horizontal, 20)

@@ -103,6 +103,7 @@
 		8062AA3B2900AAE900903123 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3A2900AAE900903123 /* Settings.swift */; };
 		8062AA3F29019E7F00903123 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3E29019E7F00903123 /* DocumentPicker.swift */; };
 		8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA4029019FDB00903123 /* DailyReminderRow.swift */; };
+		8062AA432902F23000903123 /* ProgressCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA422902F23000903123 /* ProgressCards.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
@@ -251,6 +252,7 @@
 		8062AA3A2900AAE900903123 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Settings.swift"; sourceTree = "<absolute>"; };
 		8062AA3E29019E7F00903123 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
+		8062AA422902F23000903123 /* ProgressCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCards.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
@@ -503,6 +505,7 @@
 			isa = PBXGroup;
 			children = (
 				80385CEE285BEE5900CBDF71 /* ProgressView.swift */,
+				8062AA422902F23000903123 /* ProgressCards.swift */,
 				80CC691E28E1184F00584340 /* NewProgress.swift */,
 				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
@@ -994,6 +997,7 @@
 				80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
+				8062AA432902F23000903123 /* ProgressCards.swift in Sources */,
 				80385D11285BEE5900CBDF71 /* ButtonViews.swift in Sources */,
 				80385CFE285BEE5900CBDF71 /* Style.swift in Sources */,
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
