@@ -163,7 +163,7 @@ struct HabitListView: View {
       NavigationStack(path: $nav.path) {
          Background {
             VStack {
-               HabitsHeaderView()
+               HabitsHeaderView(selectedWeek: vm.selectedWeek)
                   .environmentObject(vm)
                
                if vm.habits.isEmpty {

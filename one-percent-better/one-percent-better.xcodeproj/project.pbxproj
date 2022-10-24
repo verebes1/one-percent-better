@@ -622,9 +622,9 @@
 		8058174228D5696900E9816F /* Habit List Views */ = {
 			isa = PBXGroup;
 			children = (
-				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
-				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
+				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
+				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
 				8058174328D569B400E9816F /* Habit Row */,
 				8058174428D5762600E9816F /* Enter Data Views */,
 			);

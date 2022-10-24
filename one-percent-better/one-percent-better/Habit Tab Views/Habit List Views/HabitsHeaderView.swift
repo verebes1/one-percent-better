@@ -7,6 +7,15 @@
 
 import SwiftUI
 import CoreData
+import Combine
+
+struct ViewOffsetKey: PreferenceKey {
+    typealias Value = CGFloat
+    static var defaultValue = CGFloat.zero
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value += nextValue()
+    }
+}
 
 extension HabitListViewModel {
    
@@ -68,6 +77,21 @@ struct HabitsHeaderView: View {
    @EnvironmentObject var vm: HabitListViewModel
    var color: Color = .systemTeal
    
+   let detector: CurrentValueSubject<CGFloat, Never>
+   let publisher: AnyPublisher<CGFloat, Never>
+   
+   @State private var fakePage = 0
+   
+   init(selectedWeek: Int) {
+      let detector = CurrentValueSubject<CGFloat, Never>(0)
+      self.publisher = detector
+         .debounce(for: .seconds(0.05), scheduler: DispatchQueue.main)
+         .dropFirst()
+         .eraseToAnyPublisher()
+      self.detector = detector
+      _fakePage = State(initialValue: selectedWeek)
+   }
+   
    var body: some View {
       VStack(spacing: 0) {
          HStack {
@@ -80,7 +104,7 @@ struct HabitsHeaderView: View {
          .padding(.horizontal, 20)
          
          let ringSize: CGFloat = 27
-         TabView(selection: $vm.selectedWeek) {
+         TabView(selection: $fakePage /*$vm.selectedWeek*/) {
             ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
                HStack {
                   ForEach(0 ..< 7) { j in
@@ -106,10 +130,22 @@ struct HabitsHeaderView: View {
                }
                .padding(.horizontal, 20)
             }
+            .background(GeometryReader {
+               Color.clear.preference(key: ViewOffsetKey.self,
+                                      value: $0.frame(in: .named("scroll")).origin.x)
+            })
+            .onPreferenceChange(ViewOffsetKey.self) { val in
+               detector.send(val)
+            }
          }
+         .coordinateSpace(name: "scroll")
          .frame(height: ringSize + 22)
          .tabViewStyle(.page(indexDisplayMode: .never))
-         .onChange(of: vm.selectedWeek, perform: { newWeek in
+         .onReceive(publisher) { _ in
+            // Use this to let scroll to only update selectedWeek when it's done scrolling
+            vm.selectedWeek = fakePage
+         }
+         .onChange(of: vm.selectedWeek) { newWeek in
             // If scrolling to week which has dates ahead of today
             let today = Date()
             let currentOffset = vm.thisWeekDayOffset(today)
@@ -126,7 +162,7 @@ struct HabitsHeaderView: View {
             let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
             let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: today)!
             vm.currentDay = newDay
-         })
+         }
       }
    }
    
@@ -164,7 +200,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
       
       let moc = CoreDataManager.previews.mainContext
       let vm = HabitListViewModel(moc)
-      HabitsHeaderView()
+      HabitsHeaderView(selectedWeek: 0)
          .environment(\.managedObjectContext, moc)
          .environmentObject(vm)
    }
