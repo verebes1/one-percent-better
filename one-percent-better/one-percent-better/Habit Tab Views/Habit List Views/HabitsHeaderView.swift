@@ -34,8 +34,6 @@ class HeaderWeekViewModel: ObservableObject {
    /// Which week is selected in the HabitHeaderView
    @Published var selectedWeek: Int = 0
    
-//   @Published var fakeSelectedWeek: Int = 0
-   
    init(hlvm: HabitListViewModel) {
       self.hlvm = hlvm
       updateHeaderView()
