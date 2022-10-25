@@ -13,19 +13,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
    private let habitController: NSFetchedResultsController<Habit>
    private let moc: NSManagedObjectContext
    
-   /// The current selected day
-   @Published var currentDay: Date = Date()
-   
-   /// The latest day that has been shown. This is updated when the
-   /// app is opened or the view appears on a new day.
-   @Published var latestDay: Date = Date()
-   
-   /// Which day is selected in the HabitHeaderView
-   @Published var selectedWeekDay: Int = 0
-   
-   /// Which week is selected in the HabitHeaderView
-   @Published var selectedWeek: Int = 0
-   
    init(_ context: NSManagedObjectContext) {
       let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
       habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
@@ -33,8 +20,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       super.init()
       habitController.delegate = self
       try? habitController.performFetch()
-      
-      updateHeaderView()
    }
    
    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -47,19 +32,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
    
    func trackers(for habit: Habit) -> [Tracker] {
       habit.trackers.map { $0 as! Tracker }
-   }
-   
-   func updateHeaderView() {
-      selectedWeekDay = thisWeekDayOffset(currentDay)
-      selectedWeek = getSelectedWeek(for: currentDay)
-   }
-   
-   func updateDayToToday() {
-      if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
-         latestDay = Date()
-         currentDay = Date()
-      }
-      updateHeaderView()
    }
    
    func move(from source: IndexSet, to destination: Int) {
@@ -95,50 +67,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       }
       moc.fatalSave()
    }
-   
-   /// Date formatter for the month year label at the top of the calendar
-   var dateTitleFormatter: DateFormatter = {
-      let dateFormatter = DateFormatter()
-      dateFormatter.calendar = Calendar(identifier: .gregorian)
-      dateFormatter.locale = Locale.autoupdatingCurrent
-      dateFormatter.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
-      return dateFormatter
-   }()
-   
-   var navTitle: String {
-      dateTitleFormatter.string(from: currentDay)
-   }
-   
-   /// Date of the earliest start date for all habits
-   var earliestStartDate: Date {
-      var earliest = Date()
-      for habit in habits {
-         if habit.startDate < earliest {
-            earliest = habit.startDate
-         }
-      }
-      return earliest
-   }
-   
-   /// Number of weeks (each row is a week) between today and the earliest completed habit
-   var numWeeksSinceEarliest: Int {
-      let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
-      let diff = numDays - thisWeekDayOffset(Date()) + 6
-      let weeks = diff / 7
-      return weeks + 1
-   }
-   
-   func getSelectedWeek(for day: Date) -> Int {
-      let weekDayOffset = thisWeekDayOffset(day)
-      let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
-      let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
-      let result = numWeeksSinceEarliest - 1 - weekNum
-      return result
-   }
-   
-   func thisWeekDayOffset(_ date: Date) -> Int {
-      return Calendar.current.component(.weekday, from: date) - 1
-   }
 }
 
 struct HabitListView: View {
@@ -147,24 +75,20 @@ struct HabitListView: View {
    @Environment(\.scenePhase) var scenePhase
    
    @EnvironmentObject var nav: HabitTabNavPath
-   
    @ObservedObject var vm: HabitListViewModel
+   @ObservedObject var hwvm: HeaderWeekViewModel
    
-   /// If CreateNewHabit is being presented
-   @State private var createHabitPresenting: Bool = false
-   
-   /// The habit of the row which was selected
-   @State private var selectedHabit: Habit?
-   
-   /// If ProgressView is being presented
-   @State private var progressViewPresenting = false
+   init(vm: HabitListViewModel) {
+      self.vm = vm
+      self.hwvm = HeaderWeekViewModel(hlvm: vm)
+   }
    
    var body: some View {
       NavigationStack(path: $nav.path) {
          Background {
             VStack {
-               HabitsHeaderView(selectedWeek: vm.selectedWeek)
-                  .environmentObject(vm)
+               HabitsHeaderView()
+                  .environmentObject(hwvm)
                
                if vm.habits.isEmpty {
                   NoHabitsView()
@@ -172,9 +96,9 @@ struct HabitListView: View {
                } else {
                   List {
                      ForEach(vm.habits, id: \.self.name) { habit in
-                        if habit.started(before: vm.currentDay) {
+                        if habit.started(before: hwvm.currentDay) {
                            NavigationLink(value: NavRoute.showProgress(habit)) {
-                              HabitRow(habit: habit, day: vm.currentDay)
+                              HabitRow(habit: habit, day: hwvm.currentDay)
                            }
                         }
                      }
@@ -186,11 +110,11 @@ struct HabitListView: View {
             }
          }
          .onAppear {
-            vm.updateDayToToday()
+            hwvm.updateDayToToday()
          }
          .onChange(of: scenePhase, perform: { newPhase in
             if newPhase == .active {
-               vm.updateDayToToday()
+               hwvm.updateDayToToday()
             }
          })
          .toolbar {
@@ -214,7 +138,7 @@ struct HabitListView: View {
                   .environmentObject(vm)
             }
          }
-         .navigationTitle(vm.navTitle)
+         .navigationTitle(hwvm.navTitle)
          .navigationBarTitleDisplayMode(.inline)
          .navigationViewStyle(StackNavigationViewStyle())
       }
@@ -227,11 +151,11 @@ struct HabitsView_Previews: PreviewProvider {
       let context = CoreDataManager.previews.mainContext
       
       let _ = try? Habit(context: context, name: "Never completed")
-
+      
       let h1 = try? Habit(context: context, name: "Completed yesterday")
       let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
       h1?.markCompleted(on: yesterday)
-
+      
       let h2 = try? Habit(context: context, name: "Completed today")
       h2?.markCompleted(on: Date())
    }

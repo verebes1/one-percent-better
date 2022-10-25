@@ -17,7 +17,88 @@ struct ViewOffsetKey: PreferenceKey {
     }
 }
 
-extension HabitListViewModel {
+class HeaderWeekViewModel: ObservableObject {
+   
+   var hlvm: HabitListViewModel
+   
+   /// The current selected day
+   @Published var currentDay: Date = Date()
+   
+   /// The latest day that has been shown. This is updated when the
+   /// app is opened or the view appears on a new day.
+   @Published var latestDay: Date = Date()
+   
+   /// Which day is selected in the HabitHeaderView
+   @Published var selectedWeekDay: Int = 0
+   
+   /// Which week is selected in the HabitHeaderView
+   @Published var selectedWeek: Int = 0
+   
+   @Published var fakeSelectedWeek: Int = 0
+   
+   init(hlvm: HabitListViewModel) {
+      self.hlvm = hlvm
+      updateHeaderView()
+   }
+   
+   /// Date formatter for the month year label at the top of the calendar
+   var dateTitleFormatter: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.calendar = Calendar(identifier: .gregorian)
+      dateFormatter.locale = Locale.autoupdatingCurrent
+      dateFormatter.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
+      return dateFormatter
+   }()
+   
+   var navTitle: String {
+      dateTitleFormatter.string(from: currentDay)
+   }
+   
+   func updateHeaderView() {
+      selectedWeekDay = thisWeekDayOffset(currentDay)
+      selectedWeek = getSelectedWeek(for: currentDay)
+      // TODO: Maybe don't need this?
+      fakeSelectedWeek = selectedWeek
+   }
+   
+   func updateDayToToday() {
+      if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
+         latestDay = Date()
+         currentDay = Date()
+      }
+      updateHeaderView()
+   }
+   
+   /// Date of the earliest start date for all habits
+   var earliestStartDate: Date {
+      var earliest = Date()
+      for habit in hlvm.habits {
+         if habit.startDate < earliest {
+            earliest = habit.startDate
+         }
+      }
+      return earliest
+   }
+   
+   /// Number of weeks (each row is a week) between today and the earliest completed habit
+   var numWeeksSinceEarliest: Int {
+      let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
+      let diff = numDays - thisWeekDayOffset(Date()) + 6
+      let weeks = diff / 7
+      return weeks + 1
+   }
+   
+   func getSelectedWeek(for day: Date) -> Int {
+      let weekDayOffset = thisWeekDayOffset(day)
+      let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
+      let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
+      let result = numWeeksSinceEarliest - 1 - weekNum
+      return result
+   }
+   
+   func thisWeekDayOffset(_ date: Date) -> Int {
+      return Calendar.current.component(.weekday, from: date) - 1
+   }
    
    /// The number of days to offset from today to get to the selected day
    /// - Parameters:
@@ -57,14 +138,14 @@ extension HabitListViewModel {
       let day = date(week: week, day: day)
       var numCompleted: Double = 0
       var total: Double = 0
-      for habit in habits {
+      for habit in hlvm.habits {
          if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day) {
             total += 1
          }
       }
       guard total > 0 else { return 0 }
       
-      for habit in habits {
+      for habit in hlvm.habits {
          numCompleted += habit.percentCompleted(on: day)
       }
       return numCompleted / total
@@ -74,22 +155,19 @@ extension HabitListViewModel {
 struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @EnvironmentObject var vm: HabitListViewModel
+   @EnvironmentObject var vm: HeaderWeekViewModel
    var color: Color = .systemTeal
    
    let detector: CurrentValueSubject<CGFloat, Never>
    let publisher: AnyPublisher<CGFloat, Never>
    
-   @State private var fakePage = 0
-   
-   init(selectedWeek: Int) {
+   init() {
       let detector = CurrentValueSubject<CGFloat, Never>(0)
       self.publisher = detector
          .debounce(for: .seconds(0.05), scheduler: DispatchQueue.main)
          .dropFirst()
          .eraseToAnyPublisher()
       self.detector = detector
-      _fakePage = State(initialValue: selectedWeek)
    }
    
    var body: some View {
@@ -104,7 +182,7 @@ struct HabitsHeaderView: View {
          .padding(.horizontal, 20)
          
          let ringSize: CGFloat = 27
-         TabView(selection: $fakePage /*$vm.selectedWeek*/) {
+         TabView(selection: $vm.fakeSelectedWeek) {
             ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
                HStack {
                   ForEach(0 ..< 7) { j in
@@ -143,7 +221,7 @@ struct HabitsHeaderView: View {
          .tabViewStyle(.page(indexDisplayMode: .never))
          .onReceive(publisher) { _ in
             // Use this to let scroll to only update selectedWeek when it's done scrolling
-            vm.selectedWeek = fakePage
+            vm.selectedWeek = vm.fakeSelectedWeek
          }
          .onChange(of: vm.selectedWeek) { newWeek in
             // If scrolling to week which has dates ahead of today
@@ -200,15 +278,16 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
       
       let moc = CoreDataManager.previews.mainContext
       let vm = HabitListViewModel(moc)
-      HabitsHeaderView(selectedWeek: 0)
+      let hwvm = HeaderWeekViewModel(hlvm: vm)
+      HabitsHeaderView()
          .environment(\.managedObjectContext, moc)
-         .environmentObject(vm)
+         .environmentObject(hwvm)
    }
 }
 
 struct SelectedDayView: View {
    
-   @EnvironmentObject var vm: HabitListViewModel
+   @EnvironmentObject var vm: HeaderWeekViewModel
    var index: Int
    var color: Color = .systemTeal
    
