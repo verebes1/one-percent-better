@@ -143,18 +143,19 @@ class EnterTrackerDataViewModel: ObservableObject {
 
 struct EnterTrackerDataView: View {
     
+   @Environment(\.colorScheme) var scheme
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var vm: EnterTrackerDataViewModel
     
     var body: some View {
         NavigationView {
-            Background {
+           Background(color: scheme == .light ? .white : .black) {
                 ScrollView {
                     VStack {
                         Spacer()
                             .frame(height: 10)
-                        CardView {
+//                        CardView {
                             VStack(spacing: 0) {
                                 ForEach(vm.trackers.indices, id: \.self) { i in
                                     if let t = vm.trackers[i] as? NumberTracker {
@@ -169,12 +170,9 @@ struct EnterTrackerDataView: View {
                                             .environmentObject(vm.exerciseTrackerFields[t]!)
                                     }
                                     
-                                    if i != vm.trackers.count - 1 {
-                                        Divider()
-                                    }
                                 }
                             }
-                        }
+//                        }
                         Spacer()
                     }
                 }

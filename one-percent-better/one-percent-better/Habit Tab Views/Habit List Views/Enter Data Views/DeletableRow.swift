@@ -69,7 +69,6 @@ struct DeletableRow<Content>: View where Content: View {
                   }
                )
          }
-         .background(Color.cardColor)
          .simultaneousGesture(dragGesture)
          
          HStack {
@@ -120,7 +119,6 @@ struct DeletableRowPreview: View {
    @State private var rowText: String = "Hello World!"
    
    var body: some View {
-      Background {
          DeletableRow {
             Text(rowText)
                .frame(maxWidth: .infinity)
@@ -128,7 +126,6 @@ struct DeletableRowPreview: View {
          } deleteCallback: {
             rowText = "Deleted"
          }
-      }
    }
 }
 

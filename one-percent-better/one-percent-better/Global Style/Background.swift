@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct Background<Content>: View where Content: View {
-    let content: () -> Content
-    
-    var body: some View {
-        ZStack {
-            Color.backgroundColor
-                .ignoresSafeArea()
-            content()
-        }
-    }
+   
+   var color = Color.backgroundColor
+   
+   let content: () -> Content
+   
+   var body: some View {
+      ZStack {
+         color.ignoresSafeArea()
+         content()
+      }
+   }
 }
 
 struct Background_Previews: PreviewProvider {
