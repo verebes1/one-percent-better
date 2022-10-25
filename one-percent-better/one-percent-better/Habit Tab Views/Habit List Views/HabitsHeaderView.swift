@@ -34,7 +34,7 @@ class HeaderWeekViewModel: ObservableObject {
    /// Which week is selected in the HabitHeaderView
    @Published var selectedWeek: Int = 0
    
-   @Published var fakeSelectedWeek: Int = 0
+//   @Published var fakeSelectedWeek: Int = 0
    
    init(hlvm: HabitListViewModel) {
       self.hlvm = hlvm
@@ -57,8 +57,6 @@ class HeaderWeekViewModel: ObservableObject {
    func updateHeaderView() {
       selectedWeekDay = thisWeekDayOffset(currentDay)
       selectedWeek = getSelectedWeek(for: currentDay)
-      // TODO: Maybe don't need this?
-      fakeSelectedWeek = selectedWeek
    }
    
    func updateDayToToday() {
@@ -158,18 +156,6 @@ struct HabitsHeaderView: View {
    @EnvironmentObject var vm: HeaderWeekViewModel
    var color: Color = .systemTeal
    
-   let detector: CurrentValueSubject<CGFloat, Never>
-   let publisher: AnyPublisher<CGFloat, Never>
-   
-   init() {
-      let detector = CurrentValueSubject<CGFloat, Never>(0)
-      self.publisher = detector
-         .debounce(for: .seconds(0.05), scheduler: DispatchQueue.main)
-         .dropFirst()
-         .eraseToAnyPublisher()
-      self.detector = detector
-   }
-   
    var body: some View {
       VStack(spacing: 0) {
          HStack {
@@ -182,7 +168,7 @@ struct HabitsHeaderView: View {
          .padding(.horizontal, 20)
          
          let ringSize: CGFloat = 27
-         TabView(selection: $vm.fakeSelectedWeek) {
+         TabView(selection: $vm.selectedWeek) {
             ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
                HStack {
                   ForEach(0 ..< 7) { j in
@@ -208,21 +194,10 @@ struct HabitsHeaderView: View {
                }
                .padding(.horizontal, 20)
             }
-            .background(GeometryReader {
-               Color.clear.preference(key: ViewOffsetKey.self,
-                                      value: $0.frame(in: .named("scroll")).origin.x)
-            })
-            .onPreferenceChange(ViewOffsetKey.self) { val in
-               detector.send(val)
-            }
          }
          .coordinateSpace(name: "scroll")
          .frame(height: ringSize + 22)
          .tabViewStyle(.page(indexDisplayMode: .never))
-         .onReceive(publisher) { _ in
-            // Use this to let scroll to only update selectedWeek when it's done scrolling
-            vm.selectedWeek = vm.fakeSelectedWeek
-         }
          .onChange(of: vm.selectedWeek) { newWeek in
             // If scrolling to week which has dates ahead of today
             let today = Date()
