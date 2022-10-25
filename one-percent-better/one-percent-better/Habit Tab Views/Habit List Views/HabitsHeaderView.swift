@@ -17,7 +17,49 @@ struct ViewOffsetKey: PreferenceKey {
     }
 }
 
-extension HabitListViewModel {
+class HabitsHeaderViewModel: ObservableObject {
+   
+   /// Which day is selected in the HabitHeaderView
+   @Published var selectedWeekDay: Int = 0
+   
+   /// Which week is selected in the HabitHeaderView
+   @Published var selectedWeek: Int  = 0
+   
+   init() {
+      self.selectedWeekDay = 0
+      self.selectedWeek = 0
+   }
+   
+   /// Date of the earliest start date for all habits
+   var earliestStartDate: Date {
+      var earliest = Date()
+      for habit in HabitsGlobalModel.shared.habits {
+         if habit.startDate < earliest {
+            earliest = habit.startDate
+         }
+      }
+      return earliest
+   }
+   
+   /// Number of weeks (each row is a week) between today and the earliest completed habit
+   var numWeeksSinceEarliest: Int {
+      let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
+      let diff = numDays - thisWeekDayOffset(Date()) + 6
+      let weeks = diff / 7
+      return weeks + 1
+   }
+   
+   func getSelectedWeek(for day: Date) -> Int {
+      let weekDayOffset = thisWeekDayOffset(day)
+      let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
+      let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
+      let result = numWeeksSinceEarliest - 1 - weekNum
+      return result
+   }
+   
+   func thisWeekDayOffset(_ date: Date) -> Int {
+      return Calendar.current.component(.weekday, from: date) - 1
+   }
    
    /// The number of days to offset from today to get to the selected day
    /// - Parameters:
@@ -57,14 +99,14 @@ extension HabitListViewModel {
       let day = date(week: week, day: day)
       var numCompleted: Double = 0
       var total: Double = 0
-      for habit in habits {
+      for habit in HabitsGlobalModel.shared.habits {
          if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day) {
             total += 1
          }
       }
       guard total > 0 else { return 0 }
       
-      for habit in habits {
+      for habit in HabitsGlobalModel.shared.habits {
          numCompleted += habit.percentCompleted(on: day)
       }
       return numCompleted / total
@@ -74,7 +116,10 @@ extension HabitListViewModel {
 struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @EnvironmentObject var vm: HabitListViewModel
+   
+   @StateObject var vm: HabitsHeaderViewModel = HabitsHeaderViewModel()
+   
+//   @EnvironmentObject var vm: HabitListViewModel
    var color: Color = .systemTeal
    
    let detector: CurrentValueSubject<CGFloat, Never>
@@ -93,6 +138,8 @@ struct HabitsHeaderView: View {
    }
    
    var body: some View {
+      print("Reloading HEADER")
+      return (
       VStack(spacing: 0) {
          HStack {
             ForEach(0 ..< 7) { i in
@@ -120,8 +167,6 @@ struct HabitsHeaderView: View {
                      .onTapGesture {
                         if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
                            vm.selectedWeekDay = j
-                           let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
-                           vm.currentDay = newDay
                         }
                      }
                      .contentShape(Rectangle())
@@ -159,11 +204,12 @@ struct HabitsHeaderView: View {
                vm.selectedWeekDay = vm.thisWeekDayOffset(vm.earliestStartDate)
             }
             
-            let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
-            let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: today)!
-            vm.currentDay = newDay
+//            let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
+//            let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: today)!
+//            vm.currentDay = newDay
          }
       }
+      )
    }
    
 }
@@ -208,7 +254,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
 
 struct SelectedDayView: View {
    
-   @EnvironmentObject var vm: HabitListViewModel
+   @EnvironmentObject var vm: HabitsHeaderViewModel
    var index: Int
    var color: Color = .systemTeal
    
@@ -223,7 +269,7 @@ struct SelectedDayView: View {
    var body: some View {
       ZStack {
          let circleSize: CGFloat = 19
-         let isSelected = index == vm.thisWeekDayOffset(vm.currentDay)
+         let isSelected = index == vm.thisWeekDayOffset(HabitsGlobalModel.shared.currentDay)
          if isSelected {
             Circle()
                .foregroundColor(isIndexSameAsToday(index) ? color : .systemGray2)
@@ -241,7 +287,7 @@ struct SelectedDayView: View {
          let dayOffset = vm.dayOffset(week: vm.selectedWeek, day: index)
          if dayOffset <= 0 {
             vm.selectedWeekDay = index
-            vm.currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
+//            vm.currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
          }
       }
    }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
    
@@ -20,12 +21,6 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
    /// app is opened or the view appears on a new day.
    @Published var latestDay: Date = Date()
    
-   /// Which day is selected in the HabitHeaderView
-   @Published var selectedWeekDay: Int = 0
-   
-   /// Which week is selected in the HabitHeaderView
-   @Published var selectedWeek: Int = 0
-   
    init(_ context: NSManagedObjectContext) {
       let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
       habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
@@ -38,6 +33,8 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
    }
    
    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      let newObjects = controller.fetchedObjects
+      print("Habits changing\n-------------------------")
       objectWillChange.send()
    }
    
@@ -49,17 +46,17 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       habit.trackers.map { $0 as! Tracker }
    }
    
-   func updateHeaderView() {
-      selectedWeekDay = thisWeekDayOffset(currentDay)
-      selectedWeek = getSelectedWeek(for: currentDay)
-   }
+//   func updateHeaderView() {
+//      selectedWeekDay = thisWeekDayOffset(currentDay)
+//      selectedWeek = getSelectedWeek(for: currentDay)
+//   }
    
    func updateDayToToday() {
       if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
          latestDay = Date()
          currentDay = Date()
       }
-      updateHeaderView()
+//      updateHeaderView()
    }
    
    func move(from source: IndexSet, to destination: Int) {
@@ -108,38 +105,43 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
    var navTitle: String {
       dateTitleFormatter.string(from: currentDay)
    }
+}
+
+
+class HabitsOnlyListModel: ObservableObject {
+   var cancellable: [AnyCancellable?] = []
    
-   /// Date of the earliest start date for all habits
-   var earliestStartDate: Date {
-      var earliest = Date()
-      for habit in habits {
-         if habit.startDate < earliest {
-            earliest = habit.startDate
+   @Published var habitIDs: [UUID] = []
+   @Published var currentDay: Date = Date()
+   
+   init() {
+      cancellable.append( HabitsGlobalModel.shared.objectWillChange.sink { [weak self] newGM in
+         guard let strongSelf = self else { fatalError("Unable to get self") }
+         let newList = HabitsGlobalModel.shared.habits.compactMap { habit in
+            if habit.started(before: strongSelf.currentDay) {
+               return habit.id
+            }
+            return nil
          }
-      }
-      return earliest
+         if strongSelf.habitIDs != newList {
+            print("UPDATING LIST!!")
+            strongSelf.habitIDs = newList
+         }
+      })
+      
+      cancellable.append( HabitsGlobalModel.shared.$currentDay.sink { newDay in
+         self.currentDay = newDay
+         print("New day!")
+      })
+      
+      habitIDs = HabitsGlobalModel.shared.habits.map { $0.id }
    }
    
-   /// Number of weeks (each row is a week) between today and the earliest completed habit
-   var numWeeksSinceEarliest: Int {
-      let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
-      let diff = numDays - thisWeekDayOffset(Date()) + 6
-      let weeks = diff / 7
-      return weeks + 1
-   }
-   
-   func getSelectedWeek(for day: Date) -> Int {
-      let weekDayOffset = thisWeekDayOffset(day)
-      let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
-      let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
-      let result = numWeeksSinceEarliest - 1 - weekNum
-      return result
-   }
-   
-   func thisWeekDayOffset(_ date: Date) -> Int {
-      return Calendar.current.component(.weekday, from: date) - 1
+   func habit(for uuid: UUID) -> Habit {
+      HabitsGlobalModel.shared.habits.first { $0.id == uuid }!
    }
 }
+
 
 struct HabitListView: View {
    
@@ -156,10 +158,12 @@ struct HabitListView: View {
    /// The habit of the row which was selected
    @State private var selectedHabit: Habit?
    
-   /// If ProgressView is being presented
-   @State private var progressViewPresenting = false
+   @StateObject var newVM = HabitsOnlyListModel()
    
    var body: some View {
+      
+      print("Reloading LIST")
+      return (
       NavigationStack(path: $nav.path) {
          Background {
             VStack {
@@ -170,29 +174,43 @@ struct HabitListView: View {
                   NoHabitsView()
                   Spacer()
                } else {
+//                  List {
+//                     ForEach(vm.habits, id: \.self.name) { habit in
+//                        if habit.started(before: vm.currentDay) {
+//                           NavigationLink(value: NavRoute.showProgress(habit)) {
+//                              HabitRow(habit: habit, day: vm.currentDay)
+//                           }
+//                        }
+//                     }
+                  // TODO: REDO MOVE AND DELETE TO USE UUID
+//                     .onMove(perform: vm.move)
+//                     .onDelete(perform: vm.delete)
+//                  }
+//                  .environment(\.defaultMinListRowHeight, 54)
                   List {
-                     ForEach(vm.habits, id: \.self.name) { habit in
-                        if habit.started(before: vm.currentDay) {
-                           NavigationLink(value: NavRoute.showProgress(habit)) {
-                              HabitRow(habit: habit, day: vm.currentDay)
-                           }
+                     ForEach(newVM.habitIDs, id: \.self) { habitID in
+                        NavigationLink(value: NavRoute.showProgress(habitID)) {
+                           HabitRow(habit: newVM.habit(for: habitID), day: newVM.currentDay)
                         }
                      }
-                     .onMove(perform: vm.move)
-                     .onDelete(perform: vm.delete)
+//                     .onMove(perform: vm.move)
+//                     .onDelete(perform: vm.delete)
                   }
                   .environment(\.defaultMinListRowHeight, 54)
                }
+               
+               
             }
          }
-         .onAppear {
-            vm.updateDayToToday()
-         }
-         .onChange(of: scenePhase, perform: { newPhase in
-            if newPhase == .active {
-               vm.updateDayToToday()
-            }
-         })
+         // TODO: PUT BACK AFTER FIXING LIST RELOAD
+//         .onAppear {
+//            vm.updateDayToToday()
+//         }
+//         .onChange(of: scenePhase, perform: { newPhase in
+//            if newPhase == .active {
+//               vm.updateDayToToday()
+//            }
+//         })
          .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                EditButton()
@@ -204,9 +222,9 @@ struct HabitListView: View {
             }
          }
          .navigationDestination(for: NavRoute.self) { route in
-            if case let .showProgress(habit) = route {
+            if case let .showProgress(habitID) = route {
                ProgressView()
-                  .environmentObject(habit)
+                  .environmentObject(newVM.habit(for: habitID))
             }
             
             if route == NavRoute.createHabit {
@@ -218,6 +236,7 @@ struct HabitListView: View {
          .navigationBarTitleDisplayMode(.inline)
          .navigationViewStyle(StackNavigationViewStyle())
       }
+      )
    }
 }
 

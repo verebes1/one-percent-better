@@ -105,6 +105,8 @@
 		8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA4029019FDB00903123 /* DailyReminderRow.swift */; };
 		8062AA432902F23000903123 /* ProgressCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA422902F23000903123 /* ProgressCards.swift */; };
 		8062AA452902F76200903123 /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA442902F76200903123 /* CalendarDayView.swift */; };
+		8062AA472906EF3600903123 /* HabitsGlobalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA462906EF3600903123 /* HabitsGlobalModel.swift */; };
+		8062AA492906F00A00903123 /* HabitListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA482906F00A00903123 /* HabitListModel.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
@@ -255,6 +257,8 @@
 		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
 		8062AA422902F23000903123 /* ProgressCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCards.swift; sourceTree = "<group>"; };
 		8062AA442902F76200903123 /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
+		8062AA462906EF3600903123 /* HabitsGlobalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsGlobalModel.swift; sourceTree = "<group>"; };
+		8062AA482906F00A00903123 /* HabitListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListModel.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
@@ -627,6 +631,8 @@
 				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
 				8058174328D569B400E9816F /* Habit Row */,
 				8058174428D5762600E9816F /* Enter Data Views */,
+				8062AA462906EF3600903123 /* HabitsGlobalModel.swift */,
+				8062AA482906F00A00903123 /* HabitListModel.swift */,
 			);
 			path = "Habit List Views";
 			sourceTree = "<group>";
@@ -961,6 +967,7 @@
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
 				80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */,
+				8062AA492906F00A00903123 /* HabitListModel.swift in Sources */,
 				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
@@ -1013,6 +1020,7 @@
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
+				8062AA472906EF3600903123 /* HabitsGlobalModel.swift in Sources */,
 				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
 				8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */,
