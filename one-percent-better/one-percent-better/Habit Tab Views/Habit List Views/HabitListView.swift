@@ -95,15 +95,31 @@ struct HabitListView: View {
                   Spacer()
                } else {
                   List {
-                     ForEach(vm.habits, id: \.self.name) { habit in
-                        if habit.started(before: hwvm.currentDay) {
-                           NavigationLink(value: NavRoute.showProgress(habit)) {
-                              HabitRow(habit: habit, day: hwvm.currentDay)
+                     Section(header: Text("Due Today")) {
+                        ForEach(vm.habits, id: \.self.name) { habit in
+                           if habit.started(before: hwvm.currentDay),
+                              habit.isDue(on: hwvm.currentDay) {
+                              NavigationLink(value: NavRoute.showProgress(habit)) {
+                                 HabitRow(habit: habit, day: hwvm.currentDay)
+                              }
                            }
                         }
+                        .onMove(perform: vm.move)
+                        .onDelete(perform: vm.delete)
                      }
-                     .onMove(perform: vm.move)
-                     .onDelete(perform: vm.delete)
+                     
+                     Section(header: Text("Not Due Today")) {
+                        ForEach(vm.habits, id: \.self.name) { habit in
+                           if habit.started(before: hwvm.currentDay),
+                              !habit.isDue(on: hwvm.currentDay) {
+                              NavigationLink(value: NavRoute.showProgress(habit)) {
+                                 HabitRow(habit: habit, day: hwvm.currentDay)
+                              }
+                           }
+                        }
+                        .onMove(perform: vm.move)
+                        .onDelete(perform: vm.delete)
+                     }
                   }
                   .environment(\.defaultMinListRowHeight, 54)
                }

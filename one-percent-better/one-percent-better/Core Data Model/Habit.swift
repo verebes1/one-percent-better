@@ -364,6 +364,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             daysPerWeek[daysPerWeek.count - 1] = days
          }
       }
+      moc.fatalSave()
    }
    
    func frequency(on date: Date) -> HabitFrequency {

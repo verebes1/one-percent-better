@@ -21,7 +21,6 @@ class MigrationModel8to9: NSEntityMigrationPolicy {
       if timesPerDay < 0 || timesPerDay > 100 {
          return [1]
       } else {
-         print("tpd: \(timesPerDay), Int(tpd): \(Int(timesPerDay))")
          return [Int(timesPerDay)]
       }
    }

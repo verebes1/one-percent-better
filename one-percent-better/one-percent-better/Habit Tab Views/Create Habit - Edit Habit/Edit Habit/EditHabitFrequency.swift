@@ -34,7 +34,6 @@ struct EditHabitFrequency: View {
          .onDisappear {
             if vm.selection != habit.frequency(on: Date()) {
                habit.changeFrequency(to: vm.selection)
-               moc.fatalSave()
             }
          }
          .navigationBarTitleDisplayMode(.inline)

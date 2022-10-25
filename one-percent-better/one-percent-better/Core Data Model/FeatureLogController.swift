@@ -144,7 +144,9 @@ class FeatureLogController {
         if !featureLog.hasFrequencyDates {
             let habits = Habit.habits(from: context)
             for habit in habits {
-                habit.frequencyDates = [habit.startDate]
+               if habit.frequencyDates.isEmpty {
+                  habit.frequencyDates = Array(repeating: habit.startDate, count: habit.frequency.count)
+               }
             }
             
             featureLog.hasFrequencyDates = true
