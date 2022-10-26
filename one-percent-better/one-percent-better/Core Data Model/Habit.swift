@@ -64,7 +64,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    // MARK: - NSManaged Properties
    
    /// Unique identifier
-   public var id = UUID()
+   @NSManaged public var id: UUID
    
    /// The name of the habit
    @NSManaged public var name: String
@@ -192,6 +192,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.init(context: context)
       self.moc = context
       self.name = name
+      self.id = UUID()
       let today = Date()
       self.startDate = Calendar.current.startOfDay(for: today)
       self.daysCompleted = []
@@ -478,6 +479,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    enum CodingKeys: CodingKey {
       case name
+      case id
       case orderIndex
       case startDate
       case daysCompleted
@@ -509,6 +511,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       self.init(context: context)
       self.name = name
+      self.id = container.decodeOptional(key: .id, type: UUID.self) ?? UUID()
       self.startDate = try container.decode(Date.self, forKey: .startDate)
       self.daysCompleted = try container.decode([Date].self, forKey: .daysCompleted)
       self.notificationTime = try container.decode(Date?.self, forKey: .notificationTime)
@@ -561,6 +564,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    public func encode(to encoder: Encoder) throws {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(name, forKey: .name)
+      try container.encode(id, forKey: .id)
       try container.encode(orderIndex, forKey: .orderIndex)
       
       // Bundle up trackers into a container struct
@@ -633,8 +637,11 @@ extension Habit {
 }
 
 extension Habit {
-   static func resultsController(context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = []) -> NSFetchedResultsController<Habit> {
+   static func resultsController(context: NSManagedObjectContext,
+                                 sortDescriptors: [NSSortDescriptor] = [],
+                                 predicate: NSPredicate? = nil) -> NSFetchedResultsController<Habit> {
       let request = NSFetchRequest<Habit>(entityName: "Habit")
+      request.predicate = predicate
       request.sortDescriptors = sortDescriptors.isEmpty ? nil : sortDescriptors
       return NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
    }

@@ -13,6 +13,8 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
    private let habitController: NSFetchedResultsController<Habit>
    private let moc: NSManagedObjectContext
    
+   @Published var habitList: [UUID] = []
+   
    init(_ context: NSManagedObjectContext) {
       let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
       habitController = Habit.resultsController(context: context, sortDescriptors: sortDescriptors)
@@ -20,14 +22,27 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       super.init()
       habitController.delegate = self
       try? habitController.performFetch()
-   }
-   
-   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      objectWillChange.send()
+      
+      habitList = habits.map { $0.id }
    }
    
    var habits: [Habit] {
-      return habitController.fetchedObjects ?? []
+      habitController.fetchedObjects ?? []
+   }
+   
+//   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//      objectWillChange.send()
+//   }
+   
+   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      if habitList != habitUUIDs {
+         habitList = habitUUIDs
+      }
+      //      objectWillChange.send()
+   }
+   
+   var habitUUIDs: [UUID] {
+      return habits.map { $0.id }
    }
    
    func trackers(for habit: Habit) -> [Tracker] {
@@ -74,8 +89,13 @@ struct HabitListView: View {
    @Environment(\.managedObjectContext) var moc
    @Environment(\.scenePhase) var scenePhase
    
+   /// Navigation path model
    @EnvironmentObject var nav: HabitTabNavPath
+   
+   /// List of habits model
    @ObservedObject var vm: HabitListViewModel
+   
+   /// Habits header view model
    @ObservedObject var hwvm: HeaderWeekViewModel
    
    init(vm: HabitListViewModel) {
@@ -84,21 +104,23 @@ struct HabitListView: View {
    }
    
    var body: some View {
-      NavigationStack(path: $nav.path) {
-         Background {
-            VStack {
-               HabitsHeaderView()
-                  .environmentObject(hwvm)
-               
-               if vm.habits.isEmpty {
-                  NoHabitsView()
-                  Spacer()
-               } else {
-                  List {
-                     Section(header: Text("Due Today")) {
-                        ForEach(vm.habits, id: \.self.name) { habit in
-                           if habit.started(before: hwvm.currentDay),
-                              habit.isDue(on: hwvm.currentDay) {
+      print("Reloading Habit List View")
+      return (
+         NavigationStack(path: $nav.path) {
+            Background {
+               VStack {
+                  HabitsHeaderView()
+                     .environmentObject(hwvm)
+                  
+                  if vm.habits.isEmpty {
+                     NoHabitsView()
+                     Spacer()
+                  } else {
+                     List {
+                        ForEach(vm.habits, id: \.self.id) { habit in
+                           if habit.started(before: hwvm.currentDay) {
+                              
+                              // Habit Row
                               NavigationLink(value: NavRoute.showProgress(habit)) {
                                  HabitRow(habit: habit, day: hwvm.currentDay)
                               }
@@ -106,58 +128,59 @@ struct HabitListView: View {
                         }
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
+                        
+                        // Due today / not due today, need to create separate lists so not looping in view builder
+                        //                     Section(header: Text("Not Due Today")) {
+                        //                        ForEach(vm.habits, id: \.self.name) { habit in
+                        //                           if habit.started(before: hwvm.currentDay),
+                        //                              !habit.isDue(on: hwvm.currentDay) {
+                        //                              NavigationLink(value: NavRoute.showProgress(habit)) {
+                        //                                 HabitRow(habit: habit, day: hwvm.currentDay)
+                        //                              }
+                        //                           }
+                        //                        }
+                        //                        .onMove(perform: vm.move)
+                        //                        .onDelete(perform: vm.delete)
+                        //                     }
                      }
-                     
-                     Section(header: Text("Not Due Today")) {
-                        ForEach(vm.habits, id: \.self.name) { habit in
-                           if habit.started(before: hwvm.currentDay),
-                              !habit.isDue(on: hwvm.currentDay) {
-                              NavigationLink(value: NavRoute.showProgress(habit)) {
-                                 HabitRow(habit: habit, day: hwvm.currentDay)
-                              }
-                           }
-                        }
-                        .onMove(perform: vm.move)
-                        .onDelete(perform: vm.delete)
-                     }
+                     .environment(\.defaultMinListRowHeight, 54)
                   }
-                  .environment(\.defaultMinListRowHeight, 54)
                }
             }
-         }
-         .onAppear {
-            hwvm.updateDayToToday()
-         }
-         .onChange(of: scenePhase, perform: { newPhase in
-            if newPhase == .active {
+            .onAppear {
                hwvm.updateDayToToday()
             }
-         })
-         .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-               EditButton()
-            }
-            ToolbarItem(placement: .navigationBarTrailing) {
-               NavigationLink(value: NavRoute.createHabit) {
-                  Image(systemName: "square.and.pencil")
+            .onChange(of: scenePhase, perform: { newPhase in
+               if newPhase == .active {
+                  hwvm.updateDayToToday()
+               }
+            })
+            .toolbar {
+               ToolbarItem(placement: .navigationBarLeading) {
+                  EditButton()
+               }
+               ToolbarItem(placement: .navigationBarTrailing) {
+                  NavigationLink(value: NavRoute.createHabit) {
+                     Image(systemName: "square.and.pencil")
+                  }
                }
             }
-         }
-         .navigationDestination(for: NavRoute.self) { route in
-            if case let .showProgress(habit) = route {
-               ProgressView()
-                  .environmentObject(habit)
+            .navigationDestination(for: NavRoute.self) { route in
+               if case let .showProgress(habit) = route {
+                  ProgressView()
+                     .environmentObject(habit)
+               }
+               
+               if route == NavRoute.createHabit {
+                  CreateNewHabit()
+                     .environmentObject(vm)
+               }
             }
-            
-            if route == NavRoute.createHabit {
-               CreateNewHabit()
-                  .environmentObject(vm)
-            }
+            .navigationTitle(hwvm.navTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationViewStyle(StackNavigationViewStyle())
          }
-         .navigationTitle(hwvm.navTitle)
-         .navigationBarTitleDisplayMode(.inline)
-         .navigationViewStyle(StackNavigationViewStyle())
-      }
+      )
    }
 }
 

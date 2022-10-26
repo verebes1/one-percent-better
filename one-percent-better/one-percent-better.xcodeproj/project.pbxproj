@@ -123,6 +123,7 @@
 		80CC692428E39BA800584340 /* MyStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692328E39BA800584340 /* MyStepper.swift */; };
 		80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692528E3AF5400584340 /* ExpandingFillButton.swift */; };
 		80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekly.swift */; };
+		80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C42290883F9005CD7B4 /* HabitObserver.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -274,6 +275,8 @@
 		80CC692328E39BA800584340 /* MyStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStepper.swift; sourceTree = "<group>"; };
 		80CC692528E3AF5400584340 /* ExpandingFillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingFillButton.swift; sourceTree = "<group>"; };
 		80CC692728E3B5A700584340 /* EveryWeekly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekly.swift; sourceTree = "<group>"; };
+		80D88C42290883F9005CD7B4 /* HabitObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitObserver.swift; sourceTree = "<group>"; };
+		80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 11.xcdatamodel"; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -499,6 +502,7 @@
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
+				80D88C42290883F9005CD7B4 /* HabitObserver.swift */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
@@ -1024,6 +1028,7 @@
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
+				80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
 				8043A92528E7A414001D0E8C /* Timeline.swift in Sources */,
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
@@ -1396,6 +1401,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */,
 				8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */,
 				80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */,
 				8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */,
@@ -1407,7 +1413,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */;
+			currentVersion = 80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

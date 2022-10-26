@@ -7,10 +7,17 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
-class HabitRowViewModel: ObservableObject {
-   let habit: Habit
-   let currentDay: Date
+class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
+   
+   let habitController: NSFetchedResultsController<Habit>
+   let moc: NSManagedObjectContext
+   
+   @Published var habit: Habit
+   
+   var currentDay: Date
+   
    @Published var timerLabel: String = "00:00"
    @Published var isTimerRunning: Bool
    var hasTimeTracker: Bool
@@ -22,11 +29,22 @@ class HabitRowViewModel: ObservableObject {
       isTimerRunning = false
       hasTimeTracker = false
       hasTimerStarted = false
-      if let t = habit.timeTracker {
+      self.currentDay = currentDay
+      
+      let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
+      habitController = Habit.resultsController(context: CoreDataManager.shared.mainContext,
+                                                sortDescriptors: sortDescriptors,
+                                                predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
+      moc = CoreDataManager.shared.mainContext
+      super.init()
+      habitController.delegate = self
+      try? habitController.performFetch()
+      
+      if let t = self.habit.timeTracker {
          t.callback = updateTimerString(to:)
          isTimerRunning = t.isRunning
          hasTimeTracker = true
-         if let value = t.getValue(on: currentDay) {
+         if let value = t.getValue(on: self.currentDay) {
             self.updateTimerString(to: value)
             if value != 0 {
                hasTimerStarted = true
@@ -34,6 +52,30 @@ class HabitRowViewModel: ObservableObject {
          }
       }
    }
+   
+   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      objectWillChange.send()
+   }
+   
+//   var firstResult: Habit? {
+//      let results = habitController.fetchedObjects ?? []
+//      if results.isEmpty {
+//         return nil
+//      } else {
+//         return results[0]
+//      }
+//   }
+//
+//   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//
+//      if let fetchedHabit = firstResult,
+//         habit != fetchedHabit {
+//         print("New update for fetched habit \(fetchedHabit.name)")
+//         self.habit = fetchedHabit
+//
+//      }
+//      objectWillChange.send()
+//   }
    
    /// Current streak (streak = 1 if completed today, streak = 2 if completed today and yesterday, etc.)
    var streak: Int {
@@ -142,27 +184,30 @@ struct HabitRow: View {
    }
    
    var body: some View {
-      ZStack {
-         // Actual row views
-         HStack {
-            HabitCompletionCircle(vm: vm,
-                                  size: 28,
-                                  completedPressed: $completePressed)
-            HabitRowLabels(vm: vm)
-            Spacer()
-            //                ListChevron()
+      print("Reloading habit row: \(vm.habit.name)")
+      return (
+         ZStack {
+            // Actual row views
+            HStack {
+               HabitCompletionCircle(vm: vm,
+                                     size: 28,
+                                     completedPressed: $completePressed)
+               HabitRowLabels(vm: vm)
+               Spacer()
+               //                ListChevron()
+            }
+            .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
+            
+            // Left side of habit row is completion button
+            GeometryReader { geo in
+               Color.clear
+                  .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))
+                  .onTapGesture {
+                     completePressed.toggle()
+                  }
+            }
          }
-         .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
-         
-         // Left side of habit row is completion button
-         GeometryReader { geo in
-            Color.clear
-               .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))
-               .onTapGesture {
-                  completePressed.toggle()
-               }
-         }
-      }
+      )
    }
 }
 
@@ -170,12 +215,14 @@ struct HabitRowPreviewer: View {
    
    @ObservedObject var vm: HabitListViewModel
    
+   @State private var currentDay = Date()
+   
    var body: some View {
       NavigationView {
          Background {
             List {
-               ForEach(vm.habits, id:\.name) { habit in
-                  HabitRow(habit: habit, day: Date())
+               ForEach(Array(zip(vm.habits.indices, vm.habits)), id:\.0) { index, habit in
+                  HabitRow(habit: habit, day: currentDay)
                      .environmentObject(habit)
                }
             }

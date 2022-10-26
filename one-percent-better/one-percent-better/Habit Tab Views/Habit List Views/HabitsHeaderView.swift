@@ -17,6 +17,26 @@ struct ViewOffsetKey: PreferenceKey {
     }
 }
 
+class HeaderHabitsChanged: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
+   let habitController: NSFetchedResultsController<Habit>
+   let moc: NSManagedObjectContext
+   
+   override init() {
+      let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
+      habitController = Habit.resultsController(context: CoreDataManager.shared.mainContext,
+                                                sortDescriptors: sortDescriptors)
+      moc = CoreDataManager.shared.mainContext
+      super.init()
+      habitController.delegate = self
+      try? habitController.performFetch()
+   }
+   
+   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      print("Header habits changed")
+      objectWillChange.send()
+   }
+}
+
 class HeaderWeekViewModel: ObservableObject {
    
    var hlvm: HabitListViewModel
@@ -38,6 +58,18 @@ class HeaderWeekViewModel: ObservableObject {
       self.hlvm = hlvm
       updateHeaderView()
    }
+   
+   
+//   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//
+//      if let fetchedHabit = firstResult,
+//         habit != fetchedHabit {
+//         print("New update for fetched habit \(fetchedHabit.name)")
+//         self.habit = fetchedHabit
+//
+//      }
+//      objectWillChange.send()
+//   }
    
    /// Date formatter for the month year label at the top of the calendar
    var dateTitleFormatter: DateFormatter = {
@@ -152,10 +184,15 @@ struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
    @EnvironmentObject var vm: HeaderWeekViewModel
+   
+   @StateObject var hc = HeaderHabitsChanged()
+   
    var color: Color = .systemTeal
    
    var body: some View {
-      VStack(spacing: 0) {
+      print("Reload HabitsHeaderView")
+      return (
+         VStack(spacing: 0) {
          HStack {
             ForEach(0 ..< 7) { i in
                SelectedDayView(index: i,
@@ -215,6 +252,7 @@ struct HabitsHeaderView: View {
             vm.currentDay = newDay
          }
       }
+      )
    }
    
 }
