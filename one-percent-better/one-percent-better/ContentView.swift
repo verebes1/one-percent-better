@@ -8,33 +8,45 @@
 import SwiftUI
 
 class HabitTabNavPath: ObservableObject {
-  @Published var path = NavigationPath()
+   @Published var path = NavigationPath()
+}
+
+enum Tab {
+   case habitList
+   case settings
 }
 
 struct ContentView: View {
-  @Environment(\.managedObjectContext) var moc
-  
-  var body: some View {
-    TabView {
-      HabitListView(vm: HabitListViewModel(moc))
-        .environmentObject(HabitTabNavPath())
-        .tabItem {
-          Label("Habits", systemImage: "checkmark.circle.fill")
-        }
+   @Environment(\.managedObjectContext) var moc
+   
+   @State private var tabSelection: Tab = .habitList
+   
+   var body: some View {
       
-       SettingsView(vm: SettingsViewModel(moc))
-        .tabItem {
-          Label("Settings", systemImage: "gearshape.fill")
-        }
-    }
-  }
+//      MyTabView(selection: $tabSelection) {
+//
+//      }
+      
+      TabView {
+         HabitListView(vm: HabitListViewModel(moc))
+            .environmentObject(HabitTabNavPath())
+            .tabItem {
+               Label("Habits", systemImage: "checkmark.circle.fill")
+            }
+
+         SettingsView(vm: SettingsViewModel(moc))
+            .tabItem {
+               Label("Settings", systemImage: "gearshape.fill")
+            }
+      }
+   }
 }
 
 struct ContentView_Previews: PreviewProvider {
-  
-  static var previews: some View {
-    let context = CoreDataManager.previews.mainContext
-    ContentView()
-      .environment(\.managedObjectContext, context)
-  }
+   
+   static var previews: some View {
+      let context = CoreDataManager.previews.mainContext
+      ContentView()
+         .environment(\.managedObjectContext, context)
+   }
 }

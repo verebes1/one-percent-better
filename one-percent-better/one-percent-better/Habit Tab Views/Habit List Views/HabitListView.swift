@@ -165,6 +165,7 @@ struct HabitListView: View {
                   }
                }
             }
+            .toolbarBackground(Color.backgroundColor, for: .tabBar)
             .navigationDestination(for: HabitListViewRoute.self) { route in
                if case let .showProgress(habit) = route {
                   ProgressView()
