@@ -29,10 +29,9 @@ struct ContentView: View {
       
       TabView {
          HabitListView(vm: HabitListViewModel(moc))
-            .environmentObject(HabitTabNavPath())
-            .tabItem {
-               Label("Habits", systemImage: "checkmark.circle.fill")
-            }
+         .tabItem {
+            Label("Habits", systemImage: "checkmark.circle.fill")
+         }
 
          SettingsView(vm: SettingsViewModel(moc))
             .tabItem {

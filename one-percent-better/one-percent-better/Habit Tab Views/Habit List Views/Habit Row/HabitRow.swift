@@ -24,6 +24,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimerStarted: Bool
    
    init(habit: Habit, currentDay: Date) {
+//      print("initializing new habit: \(habit.name)")
+//      self.habit = habit.copy() as? Habit
       self.habit = habit
       self.currentDay = currentDay
       isTimerRunning = false
@@ -68,11 +70,15 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
 //   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 //      let results = controller.fetchedObjects ?? []
-//      if let fetchedHabit = firstResult,
-//         habit != fetchedHabit {
-//         print("New update for fetched habit \(fetchedHabit.name)")
-//         self.habit = fetchedHabit
 //
+//      if let fetchedHabit = firstResult {
+////         habit != fetchedHabit {
+//         let habitDays = habit.daysCompleted
+//         let fetchedDays = fetchedHabit.daysCompleted
+//         print("New update for fetched habit \(fetchedHabit.name)")
+//         print("habit days: \(habitDays)")
+//         print("fetched days: \(fetchedDays)")
+//         self.habit = fetchedHabit
 //      }
 //   }
    
@@ -218,6 +224,7 @@ struct HabitRow: View {
                   }
             }
          }
+//            .background(Color.random)
       )
    }
 }

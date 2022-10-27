@@ -56,7 +56,7 @@ class HeaderWeekViewModel: ObservableObject {
    
    init(hlvm: HabitListViewModel) {
       self.hlvm = hlvm
-//      updateHeaderView()
+      updateHeaderView()
    }
    
 //   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

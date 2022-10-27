@@ -35,10 +35,6 @@ struct CreateNewHabit: View {
                      .foregroundColor(.cardColor)
                      .frame(height: 50)
                   
-//                  CustomTextField(text: $habitName,
-//                                  placeholder: "Name",
-//                                  isResponder: $isResponder,
-//                                  nextResponder: .constant(nil))
                   TextField("Name", text: $habitName)
                      .focused($nameInFocus)
                   
@@ -62,6 +58,7 @@ struct CreateNewHabit: View {
                ChooseHabitFrequency(habitName: habitName)
                   .toolbar(.hidden, for: .tabBar)
                   .environmentObject(vm)
+                  .environmentObject(nav)
             }
          }
          .onAppear {

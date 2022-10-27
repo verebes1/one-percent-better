@@ -90,7 +90,7 @@ struct HabitListView: View {
    @Environment(\.scenePhase) var scenePhase
    
    /// Navigation path model
-   @EnvironmentObject var nav: HabitTabNavPath
+   @StateObject var nav = HabitTabNavPath()
    
    /// List of habits model
    @ObservedObject var vm: HabitListViewModel
@@ -128,20 +128,6 @@ struct HabitListView: View {
                         }
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
-                        
-                        // Due today / not due today, need to create separate lists so not looping in view builder
-                        //                     Section(header: Text("Not Due Today")) {
-                        //                        ForEach(vm.habits, id: \.self.name) { habit in
-                        //                           if habit.started(before: hwvm.currentDay),
-                        //                              !habit.isDue(on: hwvm.currentDay) {
-                        //                              NavigationLink(value: NavRoute.showProgress(habit)) {
-                        //                                 HabitRow(habit: habit, day: hwvm.currentDay)
-                        //                              }
-                        //                           }
-                        //                        }
-                        //                        .onMove(perform: vm.move)
-                        //                        .onDelete(perform: vm.delete)
-                        //                     }
                      }
                      .environment(\.defaultMinListRowHeight, 54)
                   }
@@ -169,19 +155,30 @@ struct HabitListView: View {
             .navigationDestination(for: HabitListViewRoute.self) { route in
                if case let .showProgress(habit) = route {
                   ProgressView()
+                     .environmentObject(nav)
                      .environmentObject(habit)
                }
                
                if route == HabitListViewRoute.createHabit {
                   CreateNewHabit()
+                     .environmentObject(nav)
                      .environmentObject(vm)
                }
             }
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
+//            .environmentObject(nav)
+            //      .printChanges()
          }
       )
+   }
+}
+
+extension View {
+   func printChanges() -> some View {
+      let _ = Self._printChanges()
+      return self
    }
 }
 

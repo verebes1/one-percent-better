@@ -72,6 +72,8 @@ struct EditHabit: View {
    }
    
    var body: some View {
+      let _ = Self._printChanges()
+      return (
       Background {
          VStack {
             List {
@@ -145,6 +147,7 @@ struct EditHabit: View {
             }
          }
       }
+      )
    }
 }
 
