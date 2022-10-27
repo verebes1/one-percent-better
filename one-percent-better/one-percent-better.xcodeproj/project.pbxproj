@@ -124,6 +124,7 @@
 		80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692528E3AF5400584340 /* ExpandingFillButton.swift */; };
 		80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekly.swift */; };
 		80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C42290883F9005CD7B4 /* HabitObserver.swift */; };
+		80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -277,6 +278,7 @@
 		80CC692728E3B5A700584340 /* EveryWeekly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekly.swift; sourceTree = "<group>"; };
 		80D88C42290883F9005CD7B4 /* HabitObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitObserver.swift; sourceTree = "<group>"; };
 		80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 11.xcdatamodel"; sourceTree = "<group>"; };
+		80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCreateSymbol.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -703,6 +705,7 @@
 				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
 				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
 				8062AA3328F9FE5600903123 /* NotificationSelection.swift */,
+				80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */,
 			);
 			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
@@ -1011,6 +1014,7 @@
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
 				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,
+				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,

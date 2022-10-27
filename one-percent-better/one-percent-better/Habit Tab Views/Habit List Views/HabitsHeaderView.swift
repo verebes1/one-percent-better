@@ -56,9 +56,8 @@ class HeaderWeekViewModel: ObservableObject {
    
    init(hlvm: HabitListViewModel) {
       self.hlvm = hlvm
-      updateHeaderView()
+//      updateHeaderView()
    }
-   
    
 //   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 //
@@ -190,7 +189,8 @@ struct HabitsHeaderView: View {
    var color: Color = .systemTeal
    
    var body: some View {
-      print("Reload HabitsHeaderView")
+      print(" - HabitsHeaderView body")
+      let _ = Self._printChanges()
       return (
          VStack(spacing: 0) {
          HStack {
@@ -234,6 +234,7 @@ struct HabitsHeaderView: View {
          .frame(height: ringSize + 22)
          .tabViewStyle(.page(indexDisplayMode: .never))
          .onChange(of: vm.selectedWeek) { newWeek in
+            print("new selected week!")
             // If scrolling to week which has dates ahead of today
             let today = Date()
             let currentOffset = vm.thisWeekDayOffset(today)

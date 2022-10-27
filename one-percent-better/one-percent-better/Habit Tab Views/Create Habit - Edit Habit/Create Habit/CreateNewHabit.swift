@@ -19,9 +19,9 @@ struct CreateNewHabit: View {
    @EnvironmentObject var vm: HabitListViewModel
    
    @State var habitName: String = ""
-   @State private var isResponder: Bool? = true
+//   @State private var isResponder: Bool? = true
    
-   @State private var nextView = false
+   @FocusState private var nameInFocus: Bool
    
    var body: some View {
       Background {
@@ -35,10 +35,13 @@ struct CreateNewHabit: View {
                      .foregroundColor(.cardColor)
                      .frame(height: 50)
                   
-                  CustomTextField(text: $habitName,
-                                  placeholder: "Name",
-                                  isResponder: $isResponder,
-                                  nextResponder: .constant(nil))
+//                  CustomTextField(text: $habitName,
+//                                  placeholder: "Name",
+//                                  isResponder: $isResponder,
+//                                  nextResponder: .constant(nil))
+                  TextField("Name", text: $habitName)
+                     .focused($nameInFocus)
+                  
                   .padding(.leading, 10)
                   .frame(height: 50)
                }
@@ -53,13 +56,18 @@ struct CreateNewHabit: View {
                      nav.path.append(CreateFrequencyRoute.createFrequency(habitName))
                   }
                }
-               .navigationDestination(for: CreateFrequencyRoute.self) { route in
-                  if case let .createFrequency(habitName) = route {
-                     ChooseHabitFrequency(habitName: habitName)
-                        .toolbar(.hidden, for: .tabBar)
-                        .environmentObject(vm)
-                  }
-               }
+         }
+         .navigationDestination(for: CreateFrequencyRoute.self) { route in
+            if case let .createFrequency(habitName) = route {
+               ChooseHabitFrequency(habitName: habitName)
+                  .toolbar(.hidden, for: .tabBar)
+                  .environmentObject(vm)
+            }
+         }
+         .onAppear {
+           DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+             self.nameInFocus = true
+           }
          }
       }
       .toolbar {

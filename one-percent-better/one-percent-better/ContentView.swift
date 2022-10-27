@@ -11,14 +11,6 @@ class HabitTabNavPath: ObservableObject {
   @Published var path = NavigationPath()
 }
 
-enum NavRoute: Hashable {
-  case createHabit
-  case showProgress(Habit)
-  case createFrequency
-//  case habitListItem(Habit)
-//  case editHabit
-}
-
 struct ContentView: View {
   @Environment(\.managedObjectContext) var moc
   

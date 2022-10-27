@@ -57,23 +57,33 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       objectWillChange.send()
    }
    
-//   var firstResult: Habit? {
-//      let results = habitController.fetchedObjects ?? []
-//      if results.isEmpty {
-//         return nil
-//      } else {
-//         return results[0]
-//      }
-//   }
-//
+   var firstResult: Habit? {
+      let results = habitController.fetchedObjects ?? []
+      if results.isEmpty {
+         return nil
+      } else {
+         return results[0]
+      }
+   }
+   
 //   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//
+//      let results = controller.fetchedObjects ?? []
 //      if let fetchedHabit = firstResult,
 //         habit != fetchedHabit {
 //         print("New update for fetched habit \(fetchedHabit.name)")
 //         self.habit = fetchedHabit
 //
 //      }
+//   }
+   
+//   func controller(
+//       _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+//       didChange anObject: Any,
+//       at indexPath: IndexPath?,
+//       for type: NSFetchedResultsChangeType,
+//       newIndexPath: IndexPath?
+//   ) {
+//      print("changing object!")
 //      objectWillChange.send()
 //   }
    
@@ -184,7 +194,8 @@ struct HabitRow: View {
    }
    
    var body: some View {
-      print("Reloading habit row: \(vm.habit.name)")
+      print("   - HabitRow(\(vm.habit.name)) body")
+      let _ = Self._printChanges()
       return (
          ZStack {
             // Actual row views

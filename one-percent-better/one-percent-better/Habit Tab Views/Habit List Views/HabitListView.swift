@@ -8,6 +8,11 @@
 import SwiftUI
 import CoreData
 
+enum HabitListViewRoute: Hashable {
+   case createHabit
+   case showProgress(Habit)
+}
+
 class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
    
    private let habitController: NSFetchedResultsController<Habit>
@@ -30,15 +35,10 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       habitController.fetchedObjects ?? []
    }
    
-//   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//      objectWillChange.send()
-//   }
-   
    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
       if habitList != habitUUIDs {
          habitList = habitUUIDs
       }
-      //      objectWillChange.send()
    }
    
    var habitUUIDs: [UUID] {
@@ -104,7 +104,7 @@ struct HabitListView: View {
    }
    
    var body: some View {
-      print("Reloading Habit List View")
+      let _ = Self._printChanges()
       return (
          NavigationStack(path: $nav.path) {
             Background {
@@ -121,7 +121,7 @@ struct HabitListView: View {
                            if habit.started(before: hwvm.currentDay) {
                               
                               // Habit Row
-                              NavigationLink(value: NavRoute.showProgress(habit)) {
+                              NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                                  HabitRow(habit: habit, day: hwvm.currentDay)
                               }
                            }
@@ -160,18 +160,18 @@ struct HabitListView: View {
                   EditButton()
                }
                ToolbarItem(placement: .navigationBarTrailing) {
-                  NavigationLink(value: NavRoute.createHabit) {
+                  NavigationLink(value: HabitListViewRoute.createHabit) {
                      Image(systemName: "square.and.pencil")
                   }
                }
             }
-            .navigationDestination(for: NavRoute.self) { route in
+            .navigationDestination(for: HabitListViewRoute.self) { route in
                if case let .showProgress(habit) = route {
                   ProgressView()
                      .environmentObject(habit)
                }
                
-               if route == NavRoute.createHabit {
+               if route == HabitListViewRoute.createHabit {
                   CreateNewHabit()
                      .environmentObject(vm)
                }
