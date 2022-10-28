@@ -21,9 +21,13 @@ struct ProgressView: View {
       Background {
          ScrollView {
             VStack(spacing: 20) {
+               
+               YearView()
+               
                CardView {
                   CalendarView(habit: habit)
                }
+               
                
                ForEach(0 ..< habit.trackers.count, id: \.self) { i in
                   let tracker = habit.trackers[i] as! Tracker

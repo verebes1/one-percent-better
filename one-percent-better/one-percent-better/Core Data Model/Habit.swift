@@ -178,17 +178,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    convenience init(context: NSManagedObjectContext,
                     name: String,
-                    noNameDupe: Bool = true,
-                    frequency: HabitFrequency = .timesPerDay(1)) throws {
+                    frequency: HabitFrequency = .timesPerDay(1)) {
       // Check for a duplicate habit. Habits are unique by name
       let habits = Habit.habits(from: context)
-      if noNameDupe {
-         for habit in habits {
-            if habit.name == name {
-               throw HabitCreationError.duplicateName
-            }
-         }
-      }
       self.init(context: context)
       self.moc = context
       self.name = name
@@ -218,17 +210,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
       return habits.isEmpty ? 0 : habits.count
-   }
-   
-   func setName(_ name: String) throws {
-      // Check for a duplicate habit. Habits are unique by name
-      let habits = Habit.habits(from: moc)
-      for habit in habits {
-         if habit.name == name {
-            throw HabitCreationError.duplicateName
-         }
-      }
-      self.name = name
    }
    
    func wasCompleted(on date: Date) -> Bool {

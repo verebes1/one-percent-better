@@ -15,6 +15,7 @@ struct HabitCreationHeader: View {
     
     var body: some View {
         VStack {
+//           Image("custom.square.and.pencil")
             Image(systemName: systemImage)
                 .resizable()
                 .aspectRatio(contentMode: .fit)

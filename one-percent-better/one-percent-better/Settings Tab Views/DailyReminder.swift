@@ -53,16 +53,13 @@ struct DailyReminder: View {
 
 struct DailyReminder_Previews: PreviewProvider {
    
-   static func data() {
-      let context = CoreDataManager.previews.mainContext
-      let _ = Settings(context: context)
-   }
-   
    static var previews: some View {
       let moc = CoreDataManager.previews.mainContext
-      let _ = data()
+      let _ = Settings(context: moc)
       let vm = SettingsViewModel(moc)
+      return (
       DailyReminder(settings: vm.settings)
          .environmentObject(vm)
+      )
    }
 }

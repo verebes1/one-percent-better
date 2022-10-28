@@ -39,20 +39,15 @@ struct ChooseHabitFrequency: View {
         
         BottomButton(label: "Finish")
           .onTapGesture {
-            do {
-              let habit = try Habit(context: moc,
-                                    name: habitName,
-                                    noNameDupe: false,
-                                    frequency: vm.selection)
-              
-              // Auto trackers
-              let it = ImprovementTracker(context: moc, habit: habit)
-              habit.addToTrackers(it)
-            } catch {
-              fatalError("unkown error in choose habit frequency")
-            }
-            
-            nav.path.removeLast(2)
+             let habit = Habit(context: moc,
+                                   name: habitName,
+                                   frequency: vm.selection)
+             
+             // Auto trackers
+             let it = ImprovementTracker(context: moc, habit: habit)
+             habit.addToTrackers(it)
+             
+             nav.path.removeLast(2)
           }
       }
     }
