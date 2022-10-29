@@ -57,7 +57,7 @@ struct GradientRing: View, Animatable {
     /// Last point before the two ends touch: 0.935
     var percent: Double
     
-    /// Used to animate the circle correctly
+    /// Used to animate the circle
     var animatableData: Double {
         get { percent }
         set { percent = newValue }

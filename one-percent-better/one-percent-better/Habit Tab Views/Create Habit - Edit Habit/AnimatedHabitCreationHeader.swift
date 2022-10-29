@@ -1,24 +1,24 @@
 //
-//  HabitCreationHeader.swift
-//  one-percent-better-swiftui
+//  AnimatedHabitCreationHeader.swift
+//  one-percent-better
 //
-//  Created by Jeremy Cook on 5/18/22.
+//  Created by Jeremy Cook on 10/29/22.
 //
 
 import SwiftUI
 
-struct HabitCreationHeader: View {
+struct AnimatedHabitCreationHeader: View {
    
-   let systemImage: String
+   @Binding var animateBell: Bool
    let title: String
    var subtitle: String? = nil
    
    var body: some View {
       VStack {
-         Image(systemName: systemImage)
-            .fitToFrame()
+         AnimatedBellWrapper(animateBell: $animateBell)
             .frame(width: 65, height: 65)
             .foregroundColor(Style.accentColor)
+//            .animate
          
          Text(title)
             .font(.system(size: 31))
@@ -36,13 +36,14 @@ struct HabitCreationHeader: View {
             .frame(height: 20)
       }
       .padding(.horizontal, 15)
+//      .border(.black)
    }
 }
 
-struct HabitCreationHeader_Previews: PreviewProvider {
+struct AnimatedHabitCreationHeader_Previews: PreviewProvider {
    static var previews: some View {
       Background {
-         HabitCreationHeader(systemImage: "square.and.pencil", title: "Create New Habit", subtitle: "The lazy brown fox jumped over the moon, but why did the fox jump over the moon if it was lazy?")
+         AnimatedHabitCreationHeader(animateBell: .constant(false), title: "Create New Habit", subtitle: "The lazy brown fox jumped over the moon, but why did the fox jump over the moon if it was lazy?")
       }
    }
 }

@@ -15,6 +15,7 @@ struct DailyReminder: View {
    
    @State private var sendNotif = false
    @State private var timeSelection: Date
+   @State private var animateBell = false
    
    init(settings: Settings) {
       _sendNotif = State(initialValue: settings.dailyReminderEnabled)
@@ -24,7 +25,10 @@ struct DailyReminder: View {
    var body: some View {
       Background {
          VStack {
-            HabitCreationHeader(systemImage: "bell.fill", title: "Daily Reminder", subtitle: "Add a notification reminder to complete your habits")
+            
+            AnimatedHabitCreationHeader(animateBell: $animateBell,
+                                        title: "Daily Reminder",
+                                        subtitle: "Add a notification reminder to complete your habits")
             
             List {
                
@@ -41,6 +45,11 @@ struct DailyReminder: View {
          }
       }
       .onChange(of: sendNotif) { newBool in
+         
+         if newBool && !animateBell {
+            animateBell = true
+         }
+         
          vm.updateDailyReminder(to: newBool)
          moc.fatalSave()
       }

@@ -99,3 +99,18 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
         set: { value.wrappedValue = !$0 }
     )
 }
+
+extension Image {
+   func fitToFrame() -> some View {
+      return self
+         .resizable()
+         .aspectRatio(contentMode: .fit)
+   }
+}
+
+extension View {
+   func printType() -> some View {
+      print(type(of: self))
+      return self
+   }
+}
