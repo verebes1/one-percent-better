@@ -28,7 +28,7 @@ struct ContentView: View {
 //      }
       
       TabView {
-         HabitListView(vm: HabitListViewModel(moc))
+         HabitTabNavStack()
          .tabItem {
             Label("Habits", systemImage: "checkmark.circle.fill")
          }

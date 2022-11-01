@@ -20,6 +20,7 @@ enum CoreDataMigrationVersion: String, CaseIterable {
    case v9 = "mo_ikai 9"
    case v10 = "mo_ikai 10"
    case v11 = "mo_ikai 11"
+   case v12 = "mo_ikai 12 - 1.0.5"
    
    // MARK: - Current
    
@@ -56,6 +57,8 @@ enum CoreDataMigrationVersion: String, CaseIterable {
       case .v10:
          return .v11
       case .v11:
+         return .v12
+      case .v12:
          return nil
       }
    }

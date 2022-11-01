@@ -34,7 +34,7 @@ public class ExerciseTracker: Tracker {
     convenience init(context: NSManagedObjectContext, habit: Habit, name: String) {
         self.init(context: context)
         self.context = context
-        self.habit = habit
+        self.habitNS = habit
         self.name = name
         self.autoTracker = false
         self.dates = []

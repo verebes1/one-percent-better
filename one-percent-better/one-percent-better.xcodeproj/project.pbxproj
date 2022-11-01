@@ -62,7 +62,7 @@
 		80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE3285BEE5900CBDF71 /* GraphTracker.swift */; };
 		80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE4285BEE5900CBDF71 /* ImageTracker.swift */; };
 		80385D25285BEE5900CBDF71 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE5285BEE5900CBDF71 /* Task.swift */; };
-		80385D26285BEE5900CBDF71 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE6285BEE5900CBDF71 /* Habit.swift */; };
+		80385D26285BEE5900CBDF71 /* HabitNS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE6285BEE5900CBDF71 /* HabitNS.swift */; };
 		80385D27285BEE5900CBDF71 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE8285BEE5900CBDF71 /* ExportManager.swift */; };
 		80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */; };
 		80385D29285BEE5900CBDF71 /* OnePercentBetterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */; };
@@ -108,6 +108,9 @@
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
+		807A47BA290F2B810022068B /* HabitTabNavStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B9290F2B810022068B /* HabitTabNavStack.swift */; };
+		807A47BC290F80260022068B /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47BB290F80260022068B /* Habit.swift */; };
+		807A47C1290F8ED80022068B /* DayDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47C0290F8ED80022068B /* DayDate.swift */; };
 		8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */; };
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
 		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
@@ -211,7 +214,7 @@
 		80385CE3285BEE5900CBDF71 /* GraphTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTracker.swift; sourceTree = "<group>"; };
 		80385CE4285BEE5900CBDF71 /* ImageTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTracker.swift; sourceTree = "<group>"; };
 		80385CE5285BEE5900CBDF71 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		80385CE6285BEE5900CBDF71 /* Habit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		80385CE6285BEE5900CBDF71 /* HabitNS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitNS.swift; sourceTree = "<group>"; };
 		80385CE8285BEE5900CBDF71 /* ExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticEngineManager.swift; sourceTree = "<group>"; };
 		80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnePercentBetterApp.swift; sourceTree = "<group>"; };
@@ -264,6 +267,10 @@
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
+		807A47B9290F2B810022068B /* HabitTabNavStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTabNavStack.swift; sourceTree = "<group>"; };
+		807A47BB290F80260022068B /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
+		807A47BD290F85D70022068B /* mo_ikai 12 - 1.0.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 12 - 1.0.5.xcdatamodel"; sourceTree = "<group>"; };
+		807A47C0290F8ED80022068B /* DayDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayDate.swift; sourceTree = "<group>"; };
 		8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerCompletionCircle.swift; sourceTree = "<group>"; };
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
 		8081A3632874E72900D0CB1B /* GradientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTest.swift; sourceTree = "<group>"; };
@@ -503,7 +510,8 @@
 		80385CDF285BEE5900CBDF71 /* Core Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				80385CE6285BEE5900CBDF71 /* Habit.swift */,
+				80385CE6285BEE5900CBDF71 /* HabitNS.swift */,
+				807A47BB290F80260022068B /* Habit.swift */,
 				80385CE2285BEE5900CBDF71 /* Tracker.swift */,
 				80385CE3285BEE5900CBDF71 /* GraphTracker.swift */,
 				80385CE0285BEE5900CBDF71 /* NumberTracker.swift */,
@@ -516,6 +524,7 @@
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
 				80D88C42290883F9005CD7B4 /* HabitObserver.swift */,
+				807A47C0290F8ED80022068B /* DayDate.swift */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
@@ -639,6 +648,7 @@
 		8058174228D5696900E9816F /* Habit List Views */ = {
 			isa = PBXGroup;
 			children = (
+				807A47B9290F2B810022068B /* HabitTabNavStack.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
 				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
 				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
@@ -980,7 +990,7 @@
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
 				80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */,
-				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
+				80385D26285BEE5900CBDF71 /* HabitNS.swift in Sources */,
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
 				80385D2D285BEE5900CBDF71 /* CalendarSpacingView.swift in Sources */,
@@ -1005,6 +1015,7 @@
 				80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */,
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */,
+				807A47C1290F8ED80022068B /* DayDate.swift in Sources */,
 				80385D1A285BEE5900CBDF71 /* HabitCompletionCircle.swift in Sources */,
 				80CC288028C0080300411ECB /* EditTracker.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
@@ -1047,6 +1058,7 @@
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
 				80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */,
+				807A47BA290F2B810022068B /* HabitTabNavStack.swift in Sources */,
 				80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
 				8043A92528E7A414001D0E8C /* Timeline.swift in Sources */,
@@ -1071,6 +1083,7 @@
 				80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */,
 				80385D29285BEE5900CBDF71 /* OnePercentBetterApp.swift in Sources */,
 				80CC691F28E1184F00584340 /* NewProgress.swift in Sources */,
+				807A47BC290F80260022068B /* Habit.swift in Sources */,
 				807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */,
 				80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */,
 				80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */,
@@ -1421,6 +1434,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				807A47BD290F85D70022068B /* mo_ikai 12 - 1.0.5.xcdatamodel */,
 				80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */,
 				8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */,
 				80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */,
@@ -1433,7 +1447,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */;
+			currentVersion = 807A47BD290F85D70022068B /* mo_ikai 12 - 1.0.5.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

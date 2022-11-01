@@ -1,110 +1,18 @@
 //
 //  Habit.swift
+//  one-percent-better
 //
-//  Created by Jeremy on 4/11/21.
+//  Created by Jeremy Cook on 10/30/22.
 //
 
 import Foundation
 import CoreData
-import UIKit
-import SwiftUI
 
-/// Error when managedObjectContext is unable to be pulled from decoder object.
-/// The decoder's managedObjectContext should be set up when creating the JSONDecoder object
-enum DecoderConfigurationError: Error {
-   case missingManagedObjectContext
-}
-
-enum HabitCreationError: Error {
-   case duplicateName
-}
-
-struct TrackersContainer: Codable {
-   let numberTrackers: [NumberTracker]
-   let improvementTracker: ImprovementTracker?
-   let imageTrackers: [ImageTracker]
-   let exerciseTrackers: [ExerciseTracker]?
-}
-
-@objc public enum HabitFrequencyNSManaged: Int {
-   case timesPerDay = 0
-   case daysInTheWeek = 1
+class Habit: HabitNS, Codable {
    
-   init(_ freq: HabitFrequency) {
-      switch freq {
-      case .timesPerDay(_):
-         self = .timesPerDay
-      case .daysInTheWeek(_):
-         self = .daysInTheWeek
-      }
-   }
-}
-
-enum HabitFrequency: Equatable {
-   case timesPerDay(Int)
-   case daysInTheWeek([Int])
-   
-   var valueNS: Int {
-      switch self {
-      case .timesPerDay(_):
-         return 0
-      case .daysInTheWeek(_):
-         return 1
-      }
-   }
-   
-   func equalType(to hf: HabitFrequency) -> Bool {
-      return self.valueNS == hf.valueNS
-   }
-}
-
-@objc(Habit)
-public class Habit: NSManagedObject, Codable, Identifiable {
-   
-   // MARK: - NSManaged Properties
-   
-   /// Unique identifier
-   @NSManaged public var id: UUID
-   
-   /// The name of the habit
-   @NSManaged public var name: String
-   
-   /// The index of the habit in the table (to keep track of ordering)
-   @NSManaged public var orderIndex: Int
-   
-   /// This variable is used to know the largest habit order index among existing habits when importing new habits
-   /// Assuming the imported habits are well indexed (0 to highest), their new indices are largestIndexBeforeImporting + their imported indices
-   /// This is set to the current largest index + 1 when importing the first habit, and set back to nil after importing the last habit
-   static var nextLargestIndexBeforeImporting: Int?
-   
-   /// An ordered set of all the trackers for the habit
-   @NSManaged public var trackers: NSOrderedSet
-   
-   /// The day the habit was first created (not completed)
-   @NSManaged public var startDate: Date
-   
-   /// An array of all the days where the habit was completed
-   @NSManaged public var daysCompleted: [Date]
-   
-   /// The time when the notification should be sent
-   @NSManaged public var notificationTime: Date?
-   
-   /// How frequently the user wants to complete the habit (daily, weekly, monthly)
-   @NSManaged public var frequency: [Int]
-   
-   /// The dates the user switches the frequency of their habits, so that their previous data is still shown as completed
-   @NSManaged public var frequencyDates: [Date]
-   
-   /// How many times they've completed the habit, where each entry corresponds to an entry in the daysCompleted
-   /// array. For example if the habit was completed twice for a particular day, the entry would be 2
-   @NSManaged public var timesCompleted: [Int]
-   
-   /// If frequency is daily, how many times per day
-   @NSManaged public var timesPerDay: [Int]
-   
-   /// A length 7 array for the days per week to complete this habit, stored as [S, M, T, W, T, F, S]
-   /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
-   @NSManaged public var daysPerWeek: [[Int]]
+   // Load Habit Entity from NSManagedContext
+   // Create a Habit from Habit for easier and quicker read/write of Habit object
+   //
    
    // MARK: - Properties
    
@@ -178,20 +86,25 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    convenience init(context: NSManagedObjectContext,
                     name: String,
-                    frequency: HabitFrequency = .timesPerDay(1)) {
-      // Check for a duplicate habit. Habits are unique by name
+                    frequency: HabitFrequency = .timesPerDay(1),
+                    id: UUID = UUID()) throws {
+      // Check for a duplicate habit. Habits are unique by id
       let habits = Habit.habits(from: context)
+      for habit in habits {
+         if habit.id == id {
+            throw HabitCreationError.duplicate
+         }
+      }
       self.init(context: context)
       self.moc = context
       self.name = name
-      self.id = UUID()
-      let today = Date()
-      self.startDate = Calendar.current.startOfDay(for: today)
+      self.id = id
+      self.startDate = Calendar.current.startOfDay(for: Date())
       self.daysCompleted = []
       self.trackers = NSOrderedSet.init(array: [])
       self.orderIndex = nextLargestHabitIndex(habits)
       
-
+      
       let managedFreq = HabitFrequencyNSManaged(frequency)
       self.frequency = [managedFreq.rawValue]
       self.frequencyDates = [startDate]
@@ -206,6 +119,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case .daysInTheWeek(let days):
          self.daysPerWeek = [days]
       }
+      
+      // Auto trackers
+      let it = ImprovementTracker(context: context, habit: self)
+      self.addToTrackers(it)
    }
    
    func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
@@ -323,7 +240,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
       
       if let index = frequencyDates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) } ) {
-      
+         
          frequency[index] = freq.valueNS
          
          switch freq {
@@ -355,7 +272,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          print("Requesting frequency on date which is after all dates in the frequencyDates array")
          return .timesPerDay(1)
       }
-         
+      
       guard let freq = HabitFrequencyNSManaged(rawValue: frequency[index]) else {
          fatalError("Unknown frequency")
       }
@@ -377,22 +294,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
    }
    
-   /// Whether or not this habit started after a certain date
-   /// - Parameter day: The day to check against
-   /// - Returns: True if the habit started on or after the date, and false otherwise
-   func started(after day: Date) -> Bool {
-      return Calendar.current.startOfDay(for: startDate) >= Calendar.current.startOfDay(for: day)
-   }
-   
-   func started(before day: Date) -> Bool {
-      return Calendar.current.startOfDay(for: startDate) <= Calendar.current.startOfDay(for: day)
-   }
-   
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
-      var habits: [Habit] = []
+      var habits: [HabitNS] = []
       do {
          // fetch all habits
-         let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
+         let fetchRequest: NSFetchRequest<HabitNS> = HabitNS.fetchRequest()
          habits = try context.fetch(fetchRequest)
       } catch {
          fatalError("Habit.swift \(#function) - unable to fetch habits! Error: \(error)")
@@ -410,6 +316,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             habit.orderIndex = i
          }
       }
+      // Save index ordering?
       
       // Debug habit index order
       //        print("---------")
@@ -417,7 +324,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       //            print("index: \(habit.orderIndex), name: \(habit.name)")
       //        }
       
-      return habits
+      return habits.map { <#HabitNS#> in
+//         Habit(context: context, name: $0.name, frequency: $0.frequency, )
+      }
    }
    
    /// Sort trackers by their index property
@@ -575,71 +484,5 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       try container.encode(timesPerDay, forKey: .timesPerDay)
       try container.encode(timesCompleted, forKey: .timesCompleted)
       try container.encode(daysPerWeek, forKey: .daysPerWeek)
-   }
-}
-
-// MARK: Generated accessors for trackers
-extension Habit {
-   
-   @nonobjc public class func fetchRequest() -> NSFetchRequest<Habit> {
-      return NSFetchRequest<Habit>(entityName: "Habit")
-   }
-   
-   @objc(insertObject:inTrackersAtIndex:)
-   @NSManaged public func insertIntoTrackers(_ value: Tracker, at idx: Int)
-   
-   @objc(removeObjectFromTrackersAtIndex:)
-   @NSManaged public func removeFromTrackers(at idx: Int)
-   
-   @objc(insertTrackers:atIndexes:)
-   @NSManaged public func insertIntoTrackers(_ values: [Tracker], at indexes: NSIndexSet)
-   
-   @objc(removeTrackersAtIndexes:)
-   @NSManaged public func removeFromTrackers(at indexes: NSIndexSet)
-   
-   @objc(replaceObjectInTrackersAtIndex:withObject:)
-   @NSManaged public func replaceTrackers(at idx: Int, with value: Tracker)
-   
-   @objc(replaceTrackersAtIndexes:withTrackers:)
-   @NSManaged public func replaceTrackers(at indexes: NSIndexSet, with values: [Tracker])
-   
-   @objc(addTrackersObject:)
-   @NSManaged public func addToTrackers(_ value: Tracker)
-   
-   @objc(removeTrackersObject:)
-   @NSManaged public func removeFromTrackers(_ value: Tracker)
-   
-   @objc(addTrackers:)
-   @NSManaged public func addToTrackers(_ values: NSOrderedSet)
-   
-   @objc(removeTrackers:)
-   @NSManaged public func removeFromTrackers(_ values: NSOrderedSet)
-   
-}
-
-extension Habit {
-   static func resultsController(context: NSManagedObjectContext,
-                                 sortDescriptors: [NSSortDescriptor] = [],
-                                 predicate: NSPredicate? = nil) -> NSFetchedResultsController<Habit> {
-      let request = NSFetchRequest<Habit>(entityName: "Habit")
-      request.predicate = predicate
-      request.sortDescriptors = sortDescriptors.isEmpty ? nil : sortDescriptors
-      return NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-   }
-}
-
-
-extension KeyedDecodingContainer {
-   func decodeOptional<T: Decodable>(key: KeyedDecodingContainer.Key, type: T.Type) -> T? {
-      if let value = try? self.decode(T.self, forKey: key) {
-         return value
-      }
-      return nil
-   }
-}
-
-extension Date {
-   var weekdayOffset: Int {
-      return Calendar.current.component(.weekday, from: self) - 1
    }
 }

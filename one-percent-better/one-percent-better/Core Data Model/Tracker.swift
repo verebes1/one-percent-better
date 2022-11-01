@@ -19,7 +19,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
     var context: NSManagedObjectContext = CoreDataManager.shared.mainContext
     
     /// The habit this tracker is attached to
-    @NSManaged public var habit: Habit
+    @NSManaged public var habitNS: HabitNS
     
     /// Name of the tracker
     @NSManaged public var name: String

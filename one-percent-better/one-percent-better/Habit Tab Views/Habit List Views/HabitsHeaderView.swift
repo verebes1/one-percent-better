@@ -18,11 +18,11 @@ struct ViewOffsetKey: PreferenceKey {
 }
 
 class HeaderHabitsChanged: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
-   let habitController: NSFetchedResultsController<Habit>
+   let habitController: NSFetchedResultsController<HabitNS>
    let moc: NSManagedObjectContext
    
    override init() {
-      let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
+      let sortDescriptors = [NSSortDescriptor(keyPath: \HabitNS.orderIndex, ascending: true)]
       habitController = Habit.resultsController(context: CoreDataManager.shared.mainContext,
                                                 sortDescriptors: sortDescriptors)
       moc = CoreDataManager.shared.mainContext

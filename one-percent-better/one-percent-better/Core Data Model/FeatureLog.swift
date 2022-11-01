@@ -21,6 +21,8 @@ public class FeatureLog: NSManagedObject, Codable {
    /// Starting with 1.0.3, habit frequency is an array and must be paired with a frequency date array
    /// to know when the user changed the frequency
    @NSManaged public var hasFrequencyDates: Bool
+   
+   /// v1.0.4: Each habit now has a unique ID
    @NSManaged public var hasID: Bool
    
    // MARK: - Encodable

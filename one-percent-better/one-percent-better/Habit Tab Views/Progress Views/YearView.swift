@@ -55,13 +55,13 @@ struct YearView_Previews: PreviewProvider {
       let context = CoreDataManager.previews.mainContext
       
       let day0 = Date()
-      let h1 = Habit(context: context, name: "Swimming")
-      h1.markCompleted(on: day0)
-      h1.changeFrequency(to: .timesPerDay(3), on: Calendar.current.date(byAdding: .day, value: -365, to: day0)!)
+      let h1 = try? Habit(context: context, name: "Swimming")
+      h1?.markCompleted(on: day0)
+      h1?.changeFrequency(to: .timesPerDay(3), on: Calendar.current.date(byAdding: .day, value: -365, to: day0)!)
       
       for _ in 0 ..< 330 {
          let rand = Int.random(in: 0 ..< 365)
-         h1.markCompleted(on: Calendar.current.date(byAdding: .day, value: -rand, to: day0)!)
+         h1?.markCompleted(on: Calendar.current.date(byAdding: .day, value: -rand, to: day0)!)
       }
       
       let habits = Habit.habits(from: context)

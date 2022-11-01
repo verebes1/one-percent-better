@@ -62,7 +62,7 @@ struct CreateNewHabit: View {
             }
          }
          .onAppear {
-           DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+           DispatchQueue.main.asyncAfter(deadline: .now()) {
              self.nameInFocus = true
            }
          }

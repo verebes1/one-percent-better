@@ -46,7 +46,7 @@ struct GraphCardView: View {
       self.tracker = tracker
       for button in buttons {
          let buttonStartDate = Calendar.current.date(byAdding: .day, value: -button.numDays(), to: Date())!
-         if tracker.habit.started(after: buttonStartDate) {
+         if tracker.habitNS.started(after: buttonStartDate) {
             _selectedButton = State(initialValue: button)
             break
          }
