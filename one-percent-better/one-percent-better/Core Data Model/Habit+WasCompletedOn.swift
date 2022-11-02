@@ -10,20 +10,8 @@ import Foundation
 
 extension Habit {
    
-   func binarySearch(for date: Date) -> Int?  {
-      guard let i = daysCompleted.binarySearch(predicate: { $0 < Calendar.current.startOfDay(for: date) }) else {
-         return nil
-      }
-      
-      if Calendar.current.isDate(date, inSameDayAs: daysCompleted[i]) {
-         return i
-      } else {
-         return nil
-      }
-   }
-   
    func wasCompleted(on date: Date) -> Bool {
-      guard let i = binarySearch(for: date) else { return false }
+      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return false }
       
       switch frequency(on: date) {
       case .timesPerDay(let n):
@@ -65,7 +53,7 @@ extension Habit {
 //         return 0
 //      }
       
-      guard let i = binarySearch(for: date) else { return 0 }
+      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
       
       switch frequency(on: date) {
       case .timesPerDay(let n):
@@ -76,7 +64,7 @@ extension Habit {
    }
    
    func timesCompleted(on date: Date) -> Int {
-      guard let i = binarySearch(for: date) else { return 0 }
+      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
       return timesCompleted[i]
    }
    
@@ -84,7 +72,7 @@ extension Habit {
    /// - Parameter date: The day to mark the habit completed
    func markCompleted(on date: Date) {
       if !wasCompleted(on: date) {
-         if let i = binarySearch(for: date) {
+         if let i = daysCompleted.sameDayBinarySearch(for: date) {
             timesCompleted[i] += 1
             if let v = timesCompletedDict[DMYDate(date: date)] {
                timesCompletedDict[DMYDate(date: date)] = v + 1
@@ -110,7 +98,7 @@ extension Habit {
    
    func markNotCompleted(on date: Date) {
       // Mark habit as not completed on this day
-      if let i = binarySearch(for: date) {
+      if let i = daysCompleted.sameDayBinarySearch(for: date) {
          daysCompleted.remove(at: i)
          timesCompleted.remove(at: i)
       }

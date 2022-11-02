@@ -27,38 +27,6 @@ struct TrackersContainer: Codable {
    let exerciseTrackers: [ExerciseTracker]?
 }
 
-@objc public enum HabitFrequencyNSManaged: Int {
-   case timesPerDay = 0
-   case daysInTheWeek = 1
-   
-   init(_ freq: HabitFrequency) {
-      switch freq {
-      case .timesPerDay(_):
-         self = .timesPerDay
-      case .daysInTheWeek(_):
-         self = .daysInTheWeek
-      }
-   }
-}
-
-enum HabitFrequency: Equatable {
-   case timesPerDay(Int)
-   case daysInTheWeek([Int])
-   
-   var valueNS: Int {
-      switch self {
-      case .timesPerDay(_):
-         return 0
-      case .daysInTheWeek(_):
-         return 1
-      }
-   }
-   
-   func equalType(to hf: HabitFrequency) -> Bool {
-      return self.valueNS == hf.valueNS
-   }
-}
-
 @objc(Habit)
 public class Habit: NSManagedObject, Codable, Identifiable {
    
@@ -225,71 +193,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
       return habits.isEmpty ? 0 : habits.count
-   }
-   
-   
-   /// Change the frequency on a specific date
-   /// - Parameters:
-   ///   - freq: The frequency to change to
-   ///   - date: The date to change it on
-   func changeFrequency(to freq: HabitFrequency, on date: Date = Date()) {
-      guard frequency.count == self.frequencyDates.count else {
-         fatalError("frequency and frequencyDates out of whack")
-      }
-      
-      if let index = frequencyDates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) } ) {
-      
-         frequency[index] = freq.valueNS
-         
-         switch freq {
-         case .timesPerDay(let n):
-            timesPerDay[index] = n
-         case .daysInTheWeek(let days):
-            daysPerWeek[index] = days
-         }
-      } else {
-         frequencyDates.append(date)
-         frequency.append(freq.valueNS)
-         
-         timesPerDay.append(1)
-         daysPerWeek.append([0])
-         
-         switch freq {
-         case .timesPerDay(let n):
-            timesPerDay[timesPerDay.count - 1] = n
-         case .daysInTheWeek(let days):
-            daysPerWeek[daysPerWeek.count - 1] = days
-         }
-      }
-      moc.fatalSave()
-   }
-   
-   func frequency(on date: Date) -> HabitFrequency {
-      
-      guard let index = frequencyDates.lastIndex(where: { Calendar.current.startOfDay(for: $0) <= Calendar.current.startOfDay(for: date) }) else {
-         print("Requesting frequency on date which is after all dates in the frequencyDates array")
-         return .timesPerDay(1)
-      }
-         
-      guard let freq = HabitFrequencyNSManaged(rawValue: frequency[index]) else {
-         fatalError("Unknown frequency")
-      }
-      
-      switch freq {
-      case .timesPerDay:
-         return .timesPerDay(timesPerDay[index])
-      case .daysInTheWeek:
-         return .daysInTheWeek(daysPerWeek[index])
-      }
-   }
-   
-   func isDue(on date: Date) -> Bool {
-      switch frequency(on: date) {
-      case .timesPerDay(_):
-         return true
-      case .daysInTheWeek(let days):
-         return days.contains(date.weekdayOffset)
-      }
    }
    
    /// Whether or not this habit started after a certain date

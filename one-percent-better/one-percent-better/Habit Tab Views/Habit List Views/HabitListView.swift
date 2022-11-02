@@ -129,6 +129,7 @@ struct HabitListView: View {
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
                      }
+//                     .listStyle(ListStyle.inset(alternatesRowBackgrounds: true))
                      .environment(\.defaultMinListRowHeight, 54)
                   }
                }

@@ -134,3 +134,16 @@ extension RandomAccessCollection {
       return (low as! Int) < count ? low : nil
    }
 }
+
+extension RandomAccessCollection where Element == Date, Index == Int {
+   func sameDayBinarySearch(for date: Date) -> Index?  {
+      guard let i = binarySearch(predicate: { $0 < Calendar.current.startOfDay(for: date) }) else {
+         return nil
+      }
+      if Calendar.current.isDate(date, inSameDayAs: self[i]) {
+         return i
+      } else {
+         return nil
+      }
+   }
+}
