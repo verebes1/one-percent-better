@@ -27,7 +27,7 @@ struct ProgressView: View {
                CardView {
                   CalendarView(habit: habit)
                }
-               
+//
                
                ForEach(0 ..< habit.trackers.count, id: \.self) { i in
                   let tracker = habit.trackers[i] as! Tracker

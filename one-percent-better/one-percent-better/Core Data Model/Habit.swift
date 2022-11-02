@@ -8,6 +8,7 @@ import Foundation
 import CoreData
 import UIKit
 import SwiftUI
+import Combine
 
 /// Error when managedObjectContext is unable to be pulled from decoder object.
 /// The decoder's managedObjectContext should be set up when creating the JSONDecoder object
@@ -106,6 +107,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
    @NSManaged public var daysPerWeek: [[Int]]
    
+   lazy var timesCompletedDict: [DMYDate: Int] = {
+      var result: [DMYDate: Int] = [:]
+      for (index, day) in daysCompleted.enumerated() {
+         result[DMYDate(date: day)] = timesCompleted[index]
+      }
+      return result
+   }()
+   
    // MARK: - Properties
    
    /// The longest streak the user has completed for this habit
@@ -174,6 +183,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
+   var sub: AnyCancellable? = nil
+   
    // MARK: - init
    
    convenience init(context: NSManagedObjectContext,
@@ -206,112 +217,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case .daysInTheWeek(let days):
          self.daysPerWeek = [days]
       }
+      
+      sub = self.objectWillChange.sink { _ in
+         print("Habit \(self.name) will change!!!")
+      }
    }
    
    func nextLargestHabitIndex(_ habits: [Habit]) -> Int {
       return habits.isEmpty ? 0 : habits.count
    }
    
-   func wasCompleted(on date: Date) -> Bool {
-      for (i, day) in daysCompleted.enumerated() {
-         if Calendar.current.isDate(day, inSameDayAs: date) {
-            switch frequency(on: date) {
-            case .timesPerDay(let n):
-               return timesCompleted[i] >= n
-            case .daysInTheWeek(_):
-               return timesCompleted[i] >= 1
-            }
-         }
-      }
-      return false
-   }
-   
-   func percentCompleted(on date: Date) -> Double {
-      for (i, day) in daysCompleted.enumerated() {
-         if Calendar.current.isDate(day, inSameDayAs: date) {
-            switch frequency(on: date) {
-            case .timesPerDay(let n):
-               return Double(timesCompleted[i]) / Double(n)
-            case .daysInTheWeek(_):
-               return timesCompleted[i] >= 1 ? 1 : 0
-            }
-         }
-      }
-      return 0
-   }
-   
-   func timesCompleted(on date: Date) -> Int {
-      for (i, day) in daysCompleted.enumerated() {
-         if Calendar.current.isDate(day, inSameDayAs: date) {
-            return timesCompleted[i]
-         }
-      }
-      return 0
-   }
-   
-   /// Mark habit as completed for a date
-   /// - Parameter date: The day to mark the habit completed
-   func markCompleted(on date: Date) {
-      if !wasCompleted(on: date) {
-         if let index = daysCompleted.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) }) {
-            timesCompleted[index] += 1
-         } else {
-            daysCompleted.append(date)
-            timesCompleted.append(1)
-         }
-         
-         let combined = zip(daysCompleted, timesCompleted).sorted { $0.0 < $1.0 }
-         daysCompleted = combined.map { $0.0 }
-         timesCompleted = combined.map { $0.1 }
-         
-         if date < startDate {
-            startDate = Calendar.current.startOfDay(for: date)
-         }
-         moc.fatalSave()
-      }
-      
-      updateImprovement()
-   }
-   
-   func markNotCompleted(on date: Date) {
-      // Mark habit as not completed on this day
-      for day in daysCompleted {
-         if Calendar.current.isDate(day, inSameDayAs: date) {
-            let index = daysCompleted.firstIndex(of: day)!
-            daysCompleted.remove(at: index)
-            timesCompleted.remove(at: index)
-         }
-      }
-      
-      // Remove tracker entries for this date
-      for tracker in trackers {
-         if let t = tracker as? Tracker {
-            t.remove(on: date)
-         }
-      }
-      
-      moc.fatalSave()
-      
-      updateImprovement()
-   }
-   
-   func updateImprovement() {
-      for tracker in trackers {
-         if let t = tracker as? ImprovementTracker {
-            t.update()
-            continue
-         }
-      }
-   }
-   
-   func toggle(on day: Date) {
-      if wasCompleted(on: day) {
-         markNotCompleted(on: day)
-      } else {
-         markCompleted(on: day)
-         HapticEngineManager.playHaptic()
-      }
-   }
    
    /// Change the frequency on a specific date
    /// - Parameters:
