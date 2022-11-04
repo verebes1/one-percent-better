@@ -174,34 +174,41 @@ struct HabitListView: View {
    }
 }
 
-extension View {
-   func printChanges() -> some View {
-      let _ = Self._printChanges()
-      return self
+struct HabitsViewPreviewer: View {
+   
+   static let h0id = UUID()
+   static let h1id = UUID()
+   static let h2id = UUID()
+   
+   @State var nav = HabitTabNavPath()
+   
+   func data() {
+      let context = CoreDataManager.previews.mainContext
+      
+      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
+      
+      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
+      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+      h1?.markCompleted(on: yesterday)
+      
+      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
+      h2?.markCompleted(on: Date())
+   }
+   
+   var body: some View {
+      let moc = CoreDataManager.previews.mainContext
+      let _ = data()
+      NavigationStack(path: $nav.path) {
+         HabitListView(vm: HabitListViewModel(moc))
+            .environment(\.managedObjectContext, moc)
+            .environmentObject(nav)
+      }
    }
 }
 
 struct HabitsView_Previews: PreviewProvider {
-   
-   static func data() {
-      let context = CoreDataManager.previews.mainContext
-      
-      let _ = try? Habit(context: context, name: "Never completed")
-      
-      let h1 = try? Habit(context: context, name: "Completed yesterday")
-      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
-      h1?.markCompleted(on: yesterday)
-      
-      let h2 = try? Habit(context: context, name: "Completed today")
-      h2?.markCompleted(on: Date())
-   }
-   
    static var previews: some View {
-      let moc = CoreDataManager.previews.mainContext
-      let _ = data()
-      HabitListView(vm: HabitListViewModel(moc))
-         .environment(\.managedObjectContext, moc)
-         .environmentObject(HabitTabNavPath())
+      HabitsViewPreviewer()
    }
 }
 

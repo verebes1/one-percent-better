@@ -147,3 +147,10 @@ extension RandomAccessCollection where Element == Date, Index == Int {
       }
    }
 }
+
+extension View {
+   func printChanges() -> some View {
+      let _ = Self._printChanges()
+      return self
+   }
+}

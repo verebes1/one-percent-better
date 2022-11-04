@@ -17,7 +17,7 @@ enum DecoderConfigurationError: Error {
 }
 
 enum HabitCreationError: Error {
-   case duplicateName
+   case duplicate
 }
 
 struct TrackersContainer: Codable {
@@ -75,6 +75,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
    @NSManaged public var daysPerWeek: [[Int]]
    
+   // MARK: - Properties
+   
    lazy var timesCompletedDict: [DMYDate: Int] = {
       var result: [DMYDate: Int] = [:]
       for (index, day) in daysCompleted.enumerated() {
@@ -82,6 +84,58 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
       return result
    }()
+   
+   var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
+   
+   var sub: AnyCancellable? = nil
+   
+   // MARK: - init
+   
+   convenience init(context: NSManagedObjectContext,
+                    name: String,
+                    frequency: HabitFrequency = .timesPerDay(1),
+                    id: UUID = UUID()) throws {
+      // Check for a duplicate habit. Habits are unique by name
+      let habits = Habit.habits(from: context)
+      for habit in habits {
+         if habit.id == id {
+            throw HabitCreationError.duplicate
+         }
+      }
+      self.init(context: context)
+      self.moc = context
+      self.name = name
+      self.id = id
+      let today = Date()
+      self.startDate = Calendar.current.startOfDay(for: today)
+      self.daysCompleted = []
+      self.trackers = NSOrderedSet.init(array: [])
+      self.orderIndex = nextLargestHabitIndex(habits)
+      
+
+      let managedFreq = HabitFrequencyNSManaged(frequency)
+      self.frequency = [managedFreq.rawValue]
+      self.frequencyDates = [startDate]
+      
+      // Default values
+      self.timesPerDay = [1]
+      self.daysPerWeek = [[2,4]]
+      
+      switch frequency {
+      case .timesPerDay(let n):
+         self.timesPerDay = [n]
+      case .daysInTheWeek(let days):
+         self.daysPerWeek = [days]
+      }
+      
+      // Auto trackers
+      let it = ImprovementTracker(context: moc, habit: self)
+      self.addToTrackers(it)
+      
+      sub = self.objectWillChange.sink { _ in
+         print("Habit \(self.name) will change!!!")
+      }
+   }
    
    // MARK: - Properties
    
@@ -147,48 +201,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          }
       }
       return nil
-   }
-   
-   var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
-   
-   var sub: AnyCancellable? = nil
-   
-   // MARK: - init
-   
-   convenience init(context: NSManagedObjectContext,
-                    name: String,
-                    frequency: HabitFrequency = .timesPerDay(1)) {
-      // Check for a duplicate habit. Habits are unique by name
-      let habits = Habit.habits(from: context)
-      self.init(context: context)
-      self.moc = context
-      self.name = name
-      self.id = UUID()
-      let today = Date()
-      self.startDate = Calendar.current.startOfDay(for: today)
-      self.daysCompleted = []
-      self.trackers = NSOrderedSet.init(array: [])
-      self.orderIndex = nextLargestHabitIndex(habits)
-      
-
-      let managedFreq = HabitFrequencyNSManaged(frequency)
-      self.frequency = [managedFreq.rawValue]
-      self.frequencyDates = [startDate]
-      
-      // Default values
-      self.timesPerDay = [1]
-      self.daysPerWeek = [[2,4]]
-      
-      switch frequency {
-      case .timesPerDay(let n):
-         self.timesPerDay = [n]
-      case .daysInTheWeek(let days):
-         self.daysPerWeek = [days]
-      }
-      
-      sub = self.objectWillChange.sink { _ in
-         print("Habit \(self.name) will change!!!")
-      }
    }
    
    func nextLargestHabitIndex(_ habits: [Habit]) -> Int {

@@ -39,14 +39,9 @@ struct ChooseHabitFrequency: View {
         
         BottomButton(label: "Finish")
           .onTapGesture {
-             let habit = Habit(context: moc,
+             let _ = try? Habit(context: moc,
                                    name: habitName,
-                                   frequency: vm.selection)
-             
-             // Auto trackers
-             let it = ImprovementTracker(context: moc, habit: habit)
-             habit.addToTrackers(it)
-             
+                                       frequency: vm.selection)
              nav.path.removeLast(2)
           }
       }
