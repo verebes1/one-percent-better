@@ -24,8 +24,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimerStarted: Bool
    
    init(habit: Habit, currentDay: Date) {
-//      print("initializing new habit: \(habit.name)")
-//      self.habit = habit.copy() as? Habit
+      //      print("initializing new habit: \(habit.name)")
+      //      self.habit = habit.copy() as? Habit
       self.habit = habit
       self.currentDay = currentDay
       isTimerRunning = false
@@ -68,47 +68,45 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
    }
    
-//   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//      let results = controller.fetchedObjects ?? []
-//
-//      if let fetchedHabit = firstResult {
-////         habit != fetchedHabit {
-//         let habitDays = habit.daysCompleted
-//         let fetchedDays = fetchedHabit.daysCompleted
-//         print("New update for fetched habit \(fetchedHabit.name)")
-//         print("habit days: \(habitDays)")
-//         print("fetched days: \(fetchedDays)")
-//         self.habit = fetchedHabit
-//      }
-//   }
+   //   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+   //      let results = controller.fetchedObjects ?? []
+   //
+   //      if let fetchedHabit = firstResult {
+   ////         habit != fetchedHabit {
+   //         let habitDays = habit.daysCompleted
+   //         let fetchedDays = fetchedHabit.daysCompleted
+   //         print("New update for fetched habit \(fetchedHabit.name)")
+   //         print("habit days: \(habitDays)")
+   //         print("fetched days: \(fetchedDays)")
+   //         self.habit = fetchedHabit
+   //      }
+   //   }
    
-//   func controller(
-//       _ controller: NSFetchedResultsController<NSFetchRequestResult>,
-//       didChange anObject: Any,
-//       at indexPath: IndexPath?,
-//       for type: NSFetchedResultsChangeType,
-//       newIndexPath: IndexPath?
-//   ) {
-//      print("changing object!")
-//      objectWillChange.send()
-//   }
+   //   func controller(
+   //       _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+   //       didChange anObject: Any,
+   //       at indexPath: IndexPath?,
+   //       for type: NSFetchedResultsChangeType,
+   //       newIndexPath: IndexPath?
+   //   ) {
+   //      print("changing object!")
+   //      objectWillChange.send()
+   //   }
    
-   /// Current streak (streak = 1 if completed today, streak = 2 if completed today and yesterday, etc.)
+   /// Current streak (streak = 1 if completed today, streak = 2 if completed today and yesterday, streak = 1 if completed yesterday and not today, etc.)
    var streak: Int {
-      get {
-         var streak = 0
-         // start at yesterday, a streak is only broken if it's not completed by the end of the day
-         var day = Calendar.current.date(byAdding: .day, value: -1, to: currentDay)!
-         while habit.wasCompleted(on: day) {
-            streak += 1
-            day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
-         }
-         // add 1 if completed today
-         if habit.wasCompleted(on: currentDay) {
-            streak += 1
-         }
-         return streak
+      var streak = 0
+      // start at yesterday, a streak is only broken if it's not completed by the end of the day
+      var day = Calendar.current.date(byAdding: .day, value: -1, to: currentDay)!
+      while habit.wasCompleted(on: day) {
+         streak += 1
+         day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
       }
+      // add 1 if completed today
+      if habit.wasCompleted(on: currentDay) {
+         streak += 1
+      }
+      return streak
    }
    
    var notDoneIn: Int {
@@ -224,7 +222,7 @@ struct HabitRow: View {
                   }
             }
          }
-//            .background(Color.random)
+         //            .background(Color.random)
       )
    }
 }

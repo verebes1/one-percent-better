@@ -89,8 +89,7 @@ struct HabitListView: View {
    @Environment(\.managedObjectContext) var moc
    @Environment(\.scenePhase) var scenePhase
    
-   /// Navigation path model
-   @StateObject var nav = HabitTabNavPath()
+   @EnvironmentObject var nav: HabitTabNavPath
    
    /// List of habits model
    @ObservedObject var vm: HabitListViewModel
@@ -106,34 +105,33 @@ struct HabitListView: View {
    var body: some View {
       let _ = Self._printChanges()
       return (
-         NavigationStack(path: $nav.path) {
-            Background {
-               VStack {
-                  HabitsHeaderView()
-                     .environmentObject(hwvm)
-                  
-                  if vm.habits.isEmpty {
-                     NoHabitsView()
-                     Spacer()
-                  } else {
-                     List {
-                        ForEach(vm.habits, id: \.self.id) { habit in
-                           if habit.started(before: hwvm.currentDay) {
-                              
-                              // Habit Row
-                              NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                                 HabitRow(habit: habit, day: hwvm.currentDay)
-                              }
+         Background {
+            VStack {
+               HabitsHeaderView()
+                  .environmentObject(hwvm)
+               
+               if vm.habits.isEmpty {
+                  NoHabitsView()
+                  Spacer()
+               } else {
+                  List {
+                     ForEach(vm.habits, id: \.self.id) { habit in
+                        if habit.started(before: hwvm.currentDay) {
+                           let _ = print("Habit row \(habit.name) is being loaded")
+                           // Habit Row
+                           NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                              HabitRow(habit: habit, day: hwvm.currentDay)
                            }
                         }
-                        .onMove(perform: vm.move)
-                        .onDelete(perform: vm.delete)
                      }
-//                     .listStyle(ListStyle.inset(alternatesRowBackgrounds: true))
-                     .environment(\.defaultMinListRowHeight, 54)
+                     .onMove(perform: vm.move)
+                     .onDelete(perform: vm.delete)
                   }
+                  //                     .listStyle(ListStyle.inset(alternatesRowBackgrounds: true))
+                  .environment(\.defaultMinListRowHeight, 54)
                }
             }
+         }
             .onAppear {
                hwvm.updateDayToToday()
             }
@@ -169,9 +167,9 @@ struct HabitListView: View {
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
-//            .environmentObject(nav)
-            //      .printChanges()
-         }
+         //            .environmentObject(nav)
+         //      .printChanges()
+         
       )
    }
 }

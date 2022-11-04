@@ -21,14 +21,15 @@ struct ContentView: View {
    
    @State private var tabSelection: Tab = .habitList
    
+   /// Navigation path model
+   @StateObject var nav = HabitTabNavPath()
+   
    var body: some View {
-      
-//      MyTabView(selection: $tabSelection) {
-//
-//      }
-      
       TabView {
-         HabitListView(vm: HabitListViewModel(moc))
+         NavigationStack(path: $nav.path) {
+            HabitListView(vm: HabitListViewModel(moc))
+               .environmentObject(nav)
+         }
          .tabItem {
             Label("Habits", systemImage: "checkmark.circle.fill")
          }
