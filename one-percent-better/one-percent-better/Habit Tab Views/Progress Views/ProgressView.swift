@@ -15,6 +15,7 @@ enum ProgressViewNavRoute: Hashable {
 
 struct ProgressView: View {
    
+   @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var habit: Habit
    
    var body: some View {
@@ -55,6 +56,7 @@ struct ProgressView: View {
          if route == .editHabit {
             EditHabit(habit: habit)
                .environmentObject(habit)
+               .environmentObject(nav)
          }
          
          if route == .newTracker {

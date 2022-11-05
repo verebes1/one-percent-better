@@ -26,6 +26,9 @@ struct CreateNewHabit: View {
    var body: some View {
       Background {
          VStack {
+            
+            Spacer()
+            
             HabitCreationHeader(systemImage: "square.and.pencil",
                                 title: "Create New Habit")
             
@@ -56,7 +59,6 @@ struct CreateNewHabit: View {
          .navigationDestination(for: CreateFrequencyRoute.self) { route in
             if case let .createFrequency(habitName) = route {
                ChooseHabitFrequency(habitName: habitName)
-                  .toolbar(.hidden, for: .tabBar)
                   .environmentObject(vm)
                   .environmentObject(nav)
             }
@@ -66,6 +68,7 @@ struct CreateNewHabit: View {
              self.nameInFocus = true
            }
          }
+         .toolbar(.hidden, for: .tabBar)
       }
       .toolbar {
          ToolbarItem(placement: .principal) {
@@ -73,7 +76,6 @@ struct CreateNewHabit: View {
             Text("    ")
          }
       }
-      .toolbar(.hidden, for: .tabBar)
    }
 }
 

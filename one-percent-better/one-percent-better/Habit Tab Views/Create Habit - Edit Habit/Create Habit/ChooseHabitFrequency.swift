@@ -28,6 +28,7 @@ struct ChooseHabitFrequency: View {
   var body: some View {
     Background {
       VStack {
+         Spacer()
         HabitCreationHeader(systemImage: "clock.arrow.2.circlepath",
                             title: "Frequency",
                             subtitle: "How often do you complete this habit?")
@@ -45,6 +46,7 @@ struct ChooseHabitFrequency: View {
              nav.path.removeLast(2)
           }
       }
+      .toolbar(.hidden, for: .tabBar)
     }
   }
 }
