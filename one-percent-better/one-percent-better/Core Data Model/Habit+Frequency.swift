@@ -83,7 +83,7 @@ extension Habit {
    
    func frequency(on date: Date) -> HabitFrequency {
       guard let index = frequencyDates.lastIndex(where: { Calendar.current.startOfDay(for: $0) <= Calendar.current.startOfDay(for: date) }) else {
-         print("Requesting frequency on date which is after all dates in the frequencyDates array")
+//         print("Requesting frequency on date which is after all dates in the frequencyDates array")
          return .timesPerDay(1)
       }
          

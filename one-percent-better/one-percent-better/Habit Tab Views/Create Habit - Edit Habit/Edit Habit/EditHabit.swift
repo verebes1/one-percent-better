@@ -189,7 +189,7 @@ struct EditHabit_Previews: PreviewProvider {
          let patioBefore = UIImage(named: "patio-before")!
          t2.add(date: day0, value: patioBefore)
          
-         let t3 = ExerciseTracker(context: context, habit: h1, name: "Bench Press")
+         let _ = ExerciseTracker(context: context, habit: h1, name: "Bench Press")
       }
       
       let habits = Habit.habits(from: context)

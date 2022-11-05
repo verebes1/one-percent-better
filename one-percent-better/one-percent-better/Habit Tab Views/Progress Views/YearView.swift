@@ -59,7 +59,7 @@ struct YearView_Previews: PreviewProvider {
       h1?.markCompleted(on: day0)
       h1?.changeFrequency(to: .timesPerDay(3), on: Calendar.current.date(byAdding: .day, value: -365, to: day0)!)
       
-      for _ in 0 ..< 330 {
+      for _ in 0 ..< 730 {
          let rand = Int.random(in: 0 ..< 365)
          h1?.markCompleted(on: Calendar.current.date(byAdding: .day, value: -rand, to: day0)!)
       }
@@ -84,12 +84,28 @@ struct CompletedSquare: View {
    
    let today = Date()
    
+   func opacity(on curDay: Date) -> Double {
+      var opacity: Double
+      switch habit.frequency(on: curDay) {
+      case .timesPerDay(let n):
+         let tpd = Double(habit.timesCompleted(on: curDay))
+         print("tpd: \(tpd)")
+         print("n: \(n)")
+         opacity = tpd / Double(n)
+      case .daysInTheWeek:
+         opacity = Double(1)
+      }
+      return opacity
+   }
+   
    var body: some View {
       ForEach(0 ..< 365) { i in
          
          let curDay = Calendar.current.date(byAdding: .day, value: -i, to: today)!
-         let isCompleted = habit.wasCompleted(on: curDay)
-         let opacity = Double(habit.timesCompleted(on: curDay)) / Double(habit.timesPerDay[habit.timesPerDay.count - 1])
+         let isCompleted = habit.timesCompleted(on: curDay) >= 1
+         
+         
+         let opacity = opacity(on: curDay)
          
          Rectangle()
             .fill(isCompleted ? .green.opacity(opacity) : .systemGray5)
