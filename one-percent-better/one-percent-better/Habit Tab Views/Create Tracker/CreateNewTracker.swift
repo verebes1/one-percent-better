@@ -56,34 +56,12 @@ struct CreateNewTracker: View {
                                    available: false,
                                    navPath: CreateTrackerNavRoute.timeTracker)
                
+               CreateTrackerButton(systemImage: "note.text",
+                                   color: .systemOrange,
+                                   title: "Notes",
+                                   available: false,
+                                   navPath: CreateTrackerNavRoute.timeTracker)
                
-               
-               //               }
-               
-               //               NavigationLink(value: CreateTrackerNavRoute.graphTracker) {
-               //                  CreateTrackerButton(systemImage: "chart.xyaxis.line",
-               //                              color: .blue,
-               //                              title: "Graph")
-               //               }
-               
-               //               NavigationLink(value: CreateTrackerNavRoute.imageTracker) {
-               //                  CreateTrackerButton(systemImage: "photo",
-               //                                      color: .mint,
-               //                                      title: "Photo")
-               //               }
-               //               .border(.blue)
-               //
-               //               NavigationLink(value: CreateTrackerNavRoute.exerciseTracker) {
-               //                  CreateTrackerButton(systemImage: "figure.walk",
-               //                                      color: .red,
-               //                                      title: "Exercise")
-               //               }
-               
-               //          NavigationLink(value: CreateTrackerNavRoute.timeTracker) {
-               //            TrackerView(systemImage: "timer",
-               //                        color: .yellow,
-               //                        title: "Time")
-               //          }
             }
             .padding(.horizontal, columnSpacing)
             
@@ -136,24 +114,26 @@ struct CreateTrackerButton: View {
    
    var body: some View {
       Button {
-         nav.path.append(navPath)
+         if available {
+            nav.path.append(navPath)
+         }
       } label: {
          VStack {
             Image(systemName: systemImage)
                .resizable()
                .aspectRatio(contentMode: .fit)
                .frame(width: 35, height: 35)
-               .shadow(color: .black.opacity(0.1), radius: 3, x: 3, y: 3)
+               .shadow(color: .black.opacity(0.2), radius: 3, x: 3, y: 3)
             
             Text(title)
-               .font(.system(size: 15))
+               .font(.system(size: 14))
                .fontWeight(.bold)
-               .shadow(color: .black.opacity(0.1), radius: 3, x: 3, y: 3)
+               .shadow(color: .black.opacity(0.2), radius: 3, x: 3, y: 3)
             
             if !available {
-               Text("Not available yet")
+               Text("Coming Soon")
                   .font(.system(size: 8))
-                  .shadow(color: .black.opacity(0.1), radius: 3, x: 3, y: 3)
+                  .shadow(color: .black.opacity(0.2), radius: 3, x: 3, y: 3)
             }
          }
          .frame(maxWidth: .infinity, maxHeight: .infinity)

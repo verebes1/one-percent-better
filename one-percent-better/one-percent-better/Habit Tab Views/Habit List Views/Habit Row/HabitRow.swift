@@ -250,22 +250,27 @@ struct HabitRowPreviewer: View {
 
 struct HabitRow_Previews: PreviewProvider {
    
+   static let id1 = UUID()
+   static let id2 = UUID()
+   static let id3 = UUID()
+   static let id4 = UUID()
+   
    static func data() -> [Habit] {
       let context = CoreDataManager.previews.mainContext
       
       let day0 = Date()
-      let h1 = try? Habit(context: context, name: "Swimming")
+      let h1 = try? Habit(context: context, name: "Swimming", id: id1)
       h1?.markCompleted(on: day0)
       
-      let _ = try? Habit(context: context, name: "Basketball")
+      let _ = try? Habit(context: context, name: "Basketball", id: id2)
       
-      let h3 = try? Habit(context: context, name: "Timed Habit")
+      let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       
       if let h3 = h3 {
          let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
       }
       
-      let _ = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2))
+      let _ = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2), id: id4)
       
       let habits = Habit.habits(from: context)
       return habits

@@ -86,8 +86,8 @@ struct EditTracker: View {
                
                Section {
                   Button {
-                     nav.path.removeLast()
                      delete()
+                     nav.path.removeLast()
                   } label: {
                      HStack {
                         Text("Delete Tracker")
