@@ -130,10 +130,12 @@ struct EditHabit: View {
             if route == .editFrequency {
                EditHabitFrequency(frequency: habit.frequency(on: Date()))
                   .environmentObject(habit)
+                  .environmentObject(nav)
             }
             
             if case let .editTracker(tracker) = route {
                EditTracker(habit: habit, tracker: tracker)
+                  .environmentObject(nav)
             }
          }
          .onDisappear {

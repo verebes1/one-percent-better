@@ -166,14 +166,17 @@ class HeaderWeekViewModel: ObservableObject {
       var numCompleted: Double = 0
       var total: Double = 0
       for habit in hlvm.habits {
-         if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day) {
+         if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day),
+            habit.isDue(on: day) {
             total += 1
          }
       }
       guard total > 0 else { return 0 }
       
       for habit in hlvm.habits {
-         numCompleted += habit.percentCompleted(on: day)
+//         if habit.isDue(on: day) {
+            numCompleted += habit.percentCompleted(on: day)
+//         }
       }
       return numCompleted / total
    }

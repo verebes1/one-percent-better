@@ -82,6 +82,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       }
       moc.fatalSave()
    }
+   
 }
 
 struct HabitListView: View {
@@ -96,6 +97,8 @@ struct HabitListView: View {
    
    /// Habits header view model
    @ObservedObject var hwvm: HeaderWeekViewModel
+   
+   @State private var showingPopover = false
    
    init(vm: HabitListViewModel) {
       self.vm = vm
@@ -144,6 +147,14 @@ struct HabitListView: View {
                ToolbarItem(placement: .navigationBarLeading) {
                   EditButton()
                }
+               
+//               ToolbarItem(placement: .principal) {
+//                  Button("Help") {
+//                     print("Help tapped!")
+//                     showingPopover = true
+//                  }
+//               }
+               
                ToolbarItem(placement: .navigationBarTrailing) {
                   NavigationLink(value: HabitListViewRoute.createHabit) {
                      Image(systemName: "square.and.pencil")
@@ -167,9 +178,12 @@ struct HabitListView: View {
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
-         //            .environmentObject(nav)
-         //      .printChanges()
-         
+//            .popup(isPresented: $showingPopover) {
+//               BottomPopupView {
+//                  NamePopupView(isPresented: $showingPopover)
+//               }
+//            }
+            .environmentObject(nav)
       )
    }
 }

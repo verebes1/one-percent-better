@@ -25,20 +25,22 @@ struct ProgressView: View {
                
                YearView()
                
-               CardView {
-                  CalendarView(habit: habit)
-               }
-//
-               
                ForEach(0 ..< habit.trackers.count, id: \.self) { i in
-                  let tracker = habit.trackers[i] as! Tracker
+                  let reverseIndex = habit.trackers.count - 1 - i
+                  let tracker = habit.trackers[reverseIndex] as! Tracker
                   ProgressCards(tracker: tracker)
                }
                
-               NavigationLink(value: ProgressViewNavRoute.newTracker) {
+               CardView {
+                  CalendarView(habit: habit)
+               }
+               
+               Button {
+                  nav.path.append(ProgressViewNavRoute.newTracker)
+               } label: {
                   Label("New Tracker", systemImage: "plus.circle")
                }
-               .buttonStyle(BorderedButtonStyle())
+               .buttonStyle(PillButtonStyle(color: Style.accentColor))
                .padding(.top, 15)
                
                Spacer()
@@ -61,6 +63,7 @@ struct ProgressView: View {
          
          if route == .newTracker {
             CreateNewTracker(habit: habit)
+               .environmentObject(nav)
          }
       }
    }
@@ -101,6 +104,7 @@ struct ProgressView_Previews: PreviewProvider {
          NavigationView {
             ProgressView()
                .environmentObject(habit)
+               .environmentObject(HabitTabNavPath())
          }
       )
    }
