@@ -97,10 +97,10 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var streak: Int {
       var streak = 0
       // start at yesterday, a streak is only broken if it's not completed by the end of the day
-      var day = Calendar.current.date(byAdding: .day, value: -1, to: currentDay)!
+      var day = Cal.date(byAdding: .day, value: -1, to: currentDay)!
       while habit.wasCompleted(on: day) {
          streak += 1
-         day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+         day = Cal.date(byAdding: .day, value: -1, to: day)!
       }
       // add 1 if completed today
       if habit.wasCompleted(on: currentDay) {
@@ -111,12 +111,12 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
    var notDoneIn: Int {
       var difference = 0
-      var day = Calendar.current.startOfDay(for: currentDay)
-      day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+      var day = Cal.startOfDay(for: currentDay)
+      day = Cal.date(byAdding: .day, value: -1, to: day)!
       if day > habit.startDate {
          while !habit.wasCompleted(on: day) {
             difference += 1
-            day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+            day = Cal.date(byAdding: .day, value: -1, to: day)!
             if day < habit.startDate {
                break
             }

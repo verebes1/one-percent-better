@@ -45,11 +45,11 @@ class GraphData {
     func updateRange(endDate: Date, numDaysBefore: Int) {
         numDays = numDaysBefore
         
-        let end = Calendar.current.startOfDay(for: endDate)
-        self.endDate = Calendar.current.date(byAdding: .day, value: 1, to: end)!
+        let end = Cal.startOfDay(for: endDate)
+        self.endDate = Cal.date(byAdding: .day, value: 1, to: end)!
         
-        let start = Calendar.current.date(byAdding: .day, value: -(numDays - 1), to: endDate)!
-        startDate = Calendar.current.startOfDay(for: start)
+        let start = Cal.date(byAdding: .day, value: -(numDays - 1), to: endDate)!
+        startDate = Cal.startOfDay(for: start)
         
         beforeDate = nil
         beforeValue = nil

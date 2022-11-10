@@ -201,7 +201,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         if graphData.beforeDate != nil {
             // draw line out front corresponding to previous data point slope
             drawPreviousLine(range: yRange)
-        } else if !Calendar.current.isDate(graphData.dates[0], inSameDayAs: graphData.startDate) {
+        } else if !Cal.isDate(graphData.dates[0], inSameDayAs: graphData.startDate) {
             // draw gray line out front
             drawGrayBeginning(x: graphData.dates[0], y: graphData.values[0], range: yRange)
         }
@@ -341,7 +341,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         
         // end
         // adjust bc end date is the start of next day
-        let end = Calendar.current.date(byAdding: .day, value: -1, to: graphData.endDate)!
+        let end = Cal.date(byAdding: .day, value: -1, to: graphData.endDate)!
         dateLabel = end.monthAndDay()
         attrString = NSAttributedString(string: dateLabel, attributes: attrs)
         stringRect = CGRect(x: frame.width - xOffset.right - textSize.width,
@@ -351,7 +351,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         attrString.draw(in: stringRect)
         
         // middle
-        let middleDate = Calendar.current.date(byAdding: .day, value: graphData.numDays / 2, to: graphData.startDate)!
+        let middleDate = Cal.date(byAdding: .day, value: graphData.numDays / 2, to: graphData.startDate)!
         dateLabel = middleDate.monthAndDay()
         attrString = NSAttributedString(string: dateLabel, attributes: attrs)
         stringRect = CGRect(x: xOffset.left + graphSize.width / 2 - textSize.width / 2,
@@ -364,7 +364,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Get Graph X and Y
     
     func getGraphX(x day: Date) -> CGFloat {
-        let i = Calendar.current.numberOfDaysBetween(graphData.startDate, and: day) - 1
+        let i = Cal.numberOfDaysBetween(graphData.startDate, and: day) - 1
         let widthRatio = CGFloat(i) / CGFloat(graphData.numDays - 1)
         let x = xOffset.left + graphSize.width * widthRatio
         return x
@@ -469,7 +469,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         let x1 = graphData.dates[0]
         let y1 = graphData.values[0]
         
-        let i = Calendar.current.numberOfDaysBetween(x0, and: x1) - 1
+        let i = Cal.numberOfDaysBetween(x0, and: x1) - 1
         let widthRatio = CGFloat(i) / CGFloat(graphData.numDays - 1)
         let gx0 = xOffset.left - widthRatio * graphSize.width
         let gy0 = getGraphY(y: y0, range: range)

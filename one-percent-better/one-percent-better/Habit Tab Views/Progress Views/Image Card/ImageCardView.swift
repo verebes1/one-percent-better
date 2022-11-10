@@ -83,8 +83,8 @@ struct ImageCardView_Previews: PreviewProvider {
         let context = CoreDataManager.previews.mainContext
         
         let day0 = Date()
-        let day1 = Calendar.current.date(byAdding: .day, value: -1, to: day0)!
-        let day2 = Calendar.current.date(byAdding: .day, value: -2, to: day0)!
+        let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+        let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
         
         let h1 = try? Habit(context: context, name: "Swimming")
         h1?.markCompleted(on: day0)
@@ -98,7 +98,7 @@ struct ImageCardView_Previews: PreviewProvider {
             var day = day1
             for _ in 0 ..< 7 {
                 t1.add(date: day, value: patioBefore)
-                day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+                day = Cal.date(byAdding: .day, value: -1, to: day)!
             }
             t1.add(date: day0, value: UIImage(named: "patio-done")!)
         }

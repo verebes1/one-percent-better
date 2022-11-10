@@ -39,7 +39,7 @@ struct CalendarSpacingView_Previews: PreviewProvider {
             for _ in 0 ..< 7 {
                 let day = Day(date: currentDay, isWithinDisplayedMonth: true)
                 days.append(day)
-                currentDay = Calendar.current.date(byAdding: .day, value: -1, to: currentDay)!
+                currentDay = Cal.date(byAdding: .day, value: -1, to: currentDay)!
             }
         }
         return days

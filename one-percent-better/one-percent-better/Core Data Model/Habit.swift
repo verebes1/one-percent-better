@@ -107,7 +107,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.name = name
       self.id = id
       let today = Date()
-      self.startDate = Calendar.current.startOfDay(for: today)
+      self.startDate = Cal.startOfDay(for: today)
       self.daysCompleted = []
       self.trackers = NSOrderedSet.init(array: [])
       self.orderIndex = nextLargestHabitIndex(habits)
@@ -145,7 +145,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          var longest = 0
          var current = 0
          var curDay = startDate
-         while !Calendar.current.isDateInTomorrow(curDay) {
+         while !Cal.isDateInTomorrow(curDay) {
             if self.wasCompleted(on: curDay) {
                current += 1
                if current > longest {
@@ -154,7 +154,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             } else {
                current = 0
             }
-            curDay = Calendar.current.date(byAdding: .day, value: 1, to: curDay)!
+            curDay = Cal.date(byAdding: .day, value: 1, to: curDay)!
          }
          return longest
       }
@@ -211,11 +211,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
-      return Calendar.current.startOfDay(for: startDate) >= Calendar.current.startOfDay(for: day)
+      return Cal.startOfDay(for: startDate) >= Cal.startOfDay(for: day)
    }
    
    func started(before day: Date) -> Bool {
-      return Calendar.current.startOfDay(for: startDate) <= Calendar.current.startOfDay(for: day)
+      return Cal.startOfDay(for: startDate) <= Cal.startOfDay(for: day)
    }
    
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
@@ -470,6 +470,6 @@ extension KeyedDecodingContainer {
 
 extension Date {
    var weekdayOffset: Int {
-      return Calendar.current.component(.weekday, from: self) - 1
+      return Cal.component(.weekday, from: self) - 1
    }
 }

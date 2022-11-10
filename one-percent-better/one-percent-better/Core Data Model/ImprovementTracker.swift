@@ -40,10 +40,55 @@ public class ImprovementTracker: GraphTracker {
       
 //      [0, 1, 2, 3, 4, 5, ]
       
+      var curDate: Date
+      var score: Double
+      
       if let i = dates.sameDayBinarySearch(for: date) {
-         createData(from: i)
+         curDate = dates[i]
+         score = Double(values[i])!
       } else {
-         createData(from: nil)
+         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
+         
+         curDate = habit.startDate
+         score = 100
+         
+      }
+      
+      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+      
+      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
+         
+//         var oldScore: Double?
+//         if let oldScoreIndex = dates.sameDayBinarySearch(for: curDate) {
+//            oldScore = values[oldScoreIndex]
+//         }
+         
+         switch habit.frequency(on: curDate) {
+         case .timesPerDay(let n):
+            score *= 1.01 * Double(habit.timesCompleted(on: curDate)) / Double(n)
+         case .daysInTheWeek(let days):
+            if days.contains(curDate.weekdayOffset) {
+               if habit.wasCompleted(on: curDate) {
+                  score *= 1.01
+               } else {
+                  score *= 0.995
+               }
+            } else {
+               // don't modify score, unless it was done anyways
+               if habit.wasCompleted(on: curDate) {
+                  score *= 1.01
+               }
+            }
+         }
+         
+         if score < 100 {
+            score = 100
+         }
+         
+         let roundedScore = round(score)
+         let scaledScore = roundedScore - 100
+         self.add(date: curDate, value: String(Int(scaledScore)))
+         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
       }
    }
    
@@ -70,8 +115,13 @@ public class ImprovementTracker: GraphTracker {
    /// let oldScore = score[date]
    /// let newScore = start * c_date
    /// if newScore != oldScore -> update
+   ///
+   /// Note: These must be calculated based on the frequency at that time period.
+   /// If something is supposed to be twice a day then doing it once gets you 0.5% better
+   /// This means the dates array may not contain every day
+   ///
    func createData(from i: Int?) {
-      let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
       var curDate: Date
       var score: Double
       if let i = i {
@@ -79,14 +129,14 @@ public class ImprovementTracker: GraphTracker {
          score = Double(values[i])!
       } else {
          
-         let start = Calendar.current.date(byAdding: .day, value: -1, to: habit.startDate)!
+         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
          
          
          curDate = habit.startDate
          score = 100
       }
       
-      while !Calendar.current.isDate(curDate, inSameDayAs: tomorrow) {
+      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
          if habit.wasCompleted(on: curDate) {
             score *= 1.01
          } else {
@@ -99,15 +149,15 @@ public class ImprovementTracker: GraphTracker {
          let roundedScore = round(score)
          let scaledScore = roundedScore - 100
          self.add(date: curDate, value: String(Int(scaledScore)))
-         curDate = Calendar.current.date(byAdding: .day, value: 1, to: curDate)!
+         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
       }
    }
    
 //   func createData(habit: Habit) {
 //      var score: Double = 100
-//      let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+//      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
 //      var curDate = habit.startDate
-//      while !Calendar.current.isDate(curDate, inSameDayAs: tomorrow) {
+//      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
 //         if habit.wasCompleted(on: curDate) {
 //            score *= 1.01
 //         } else {
@@ -120,7 +170,7 @@ public class ImprovementTracker: GraphTracker {
 //         let roundedScore = round(score)
 //         let scaledScore = roundedScore - 100
 //         self.add(date: curDate, value: String(Int(scaledScore)))
-//         curDate = Calendar.current.date(byAdding: .day, value: 1, to: curDate)!
+//         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
 //      }
 //   }
    

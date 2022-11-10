@@ -43,7 +43,7 @@ public class ExerciseTracker: Tracker {
     }
     
     func addSet(set: Int, rep: Int, weight: String, on date: Date) {
-        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
             var repsArray = reps[dateIndex]
             var weightsArray = weights[dateIndex]
             
@@ -85,7 +85,7 @@ public class ExerciseTracker: Tracker {
             }
         }
         
-        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
             reps[dateIndex] = newReps
             weights[dateIndex] = newWeights
         } else {
@@ -104,7 +104,7 @@ public class ExerciseTracker: Tracker {
     }
     
     func getEntry(on date: Date) -> ExerciseEntryModel? {
-        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
             return ExerciseEntryModel(reps: reps[dateIndex], weights: weights[dateIndex])
         } else {
             return nil
@@ -112,7 +112,7 @@ public class ExerciseTracker: Tracker {
     }
     
     func getPreviousEntry(before date: Date, allowSameDay: Bool = false) -> ExerciseEntryModel? {
-        if let dateIndex = dates.lastIndex(where: {day in day < date && (allowSameDay || !Calendar.current.isDate(day, inSameDayAs: date)) }) {
+        if let dateIndex = dates.lastIndex(where: {day in day < date && (allowSameDay || !Cal.isDate(day, inSameDayAs: date)) }) {
             return ExerciseEntryModel(reps: reps[dateIndex], weights: weights[dateIndex])
         } else {
             return nil
@@ -128,7 +128,7 @@ public class ExerciseTracker: Tracker {
     }
     
     override func remove(on date: Date) {
-        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
             reps.remove(at: dateIndex)
             weights.remove(at: dateIndex)
             dates.remove(at: dateIndex)

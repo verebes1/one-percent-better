@@ -68,8 +68,8 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       content.sound = UNNotificationSound.default
       
       var date = DateComponents()
-      date.hour = Calendar.current.component(.hour, from: settings.dailyReminderTime)
-      date.minute = Calendar.current.component(.minute, from: settings.dailyReminderTime)
+      date.hour = Cal.component(.hour, from: settings.dailyReminderTime)
+      date.minute = Cal.component(.minute, from: settings.dailyReminderTime)
       let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
       
       let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder", content: content, trigger: trigger)

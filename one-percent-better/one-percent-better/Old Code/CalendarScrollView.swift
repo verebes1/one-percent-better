@@ -46,7 +46,7 @@ struct CalendarScrollView: View {
             
 //            Button("Mark Last Month Completed") {
 //                let x = currentPage - calendar.numMonthsSinceStart
-//                let lastMonth = Calendar.current.date(byAdding: .month, value: x, to: Date())!
+//                let lastMonth = Cal.date(byAdding: .month, value: x, to: Date())!
 //                habit.markCompleted(on: lastMonth)
 //            }
         }
@@ -62,11 +62,11 @@ struct CalendarScrollView_Previews: PreviewProvider {
         
         let h1 = try? Habit(context: context, name: "Jumping Jacks")
         h1?.markCompleted(on: Date())
-        let oneMonthBack = Calendar.current.date(byAdding: .month, value: -1, to: Date())!
+        let oneMonthBack = Cal.date(byAdding: .month, value: -1, to: Date())!
         h1?.markCompleted(on: oneMonthBack)
-        let twoMonthsBack = Calendar.current.date(byAdding: .month, value: -2, to: Date())!
+        let twoMonthsBack = Cal.date(byAdding: .month, value: -2, to: Date())!
         h1?.markCompleted(on: twoMonthsBack)
-        let fourMonthsBack = Calendar.current.date(byAdding: .month, value: -4, to: Date())!
+        let fourMonthsBack = Cal.date(byAdding: .month, value: -4, to: Date())!
         h1?.markCompleted(on: fourMonthsBack)
 
         let habits = Habit.habitList(from: context)

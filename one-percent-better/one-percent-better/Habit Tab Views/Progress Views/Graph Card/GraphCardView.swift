@@ -45,7 +45,7 @@ struct GraphCardView: View {
    init(tracker: GraphTracker) {
       self.tracker = tracker
       for button in buttons {
-         let buttonStartDate = Calendar.current.date(byAdding: .day, value: -button.numDays(), to: Date())!
+         let buttonStartDate = Cal.date(byAdding: .day, value: -button.numDays(), to: Date())!
          if tracker.habit.started(after: buttonStartDate) {
             _selectedButton = State(initialValue: button)
             break
@@ -97,8 +97,8 @@ struct GraphCardView_Previews: PreviewProvider {
         let context = CoreDataManager.previews.mainContext
         
         let day0 = Date()
-        let day1 = Calendar.current.date(byAdding: .day, value: -1, to: day0)!
-        let day2 = Calendar.current.date(byAdding: .day, value: -2, to: day0)!
+        let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+        let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
         
         let h1 = try? Habit(context: context, name: "Swimming")
         h1?.markCompleted(on: day0)

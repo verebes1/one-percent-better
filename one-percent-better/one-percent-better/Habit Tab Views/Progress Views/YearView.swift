@@ -57,11 +57,11 @@ struct YearView_Previews: PreviewProvider {
       let day0 = Date()
       let h1 = try? Habit(context: context, name: "Swimming")
       h1?.markCompleted(on: day0)
-      h1?.changeFrequency(to: .timesPerDay(3), on: Calendar.current.date(byAdding: .day, value: -365, to: day0)!)
+      h1?.changeFrequency(to: .timesPerDay(3), on: Cal.date(byAdding: .day, value: -365, to: day0)!)
       
       for _ in 0 ..< 730 {
          let rand = Int.random(in: 0 ..< 365)
-         h1?.markCompleted(on: Calendar.current.date(byAdding: .day, value: -rand, to: day0)!)
+         h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
       }
       
       let habits = Habit.habits(from: context)
@@ -98,7 +98,7 @@ struct CompletedSquare: View {
    var body: some View {
       ForEach(0 ..< 365) { i in
          
-         let curDay = Calendar.current.date(byAdding: .day, value: -i, to: today)!
+         let curDay = Cal.date(byAdding: .day, value: -i, to: today)!
          let isCompleted = habit.timesCompleted(on: curDay) >= 1
          
          

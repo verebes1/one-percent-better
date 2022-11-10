@@ -36,7 +36,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
     
     func add<T>(dates: inout [Date], values: inout [T], date: Date, value: T) {
         // check for duplicate date
-        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
             values[dateIndex] = value
         } else {
             dates.append(date)
@@ -60,14 +60,14 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
     }
     
     func remove<T>(dates: inout [Date], values: inout [T], date: Date) {
-        if let index = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let index = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
             dates.remove(at: index)
             values.remove(at: index)
         }
     }
     
     func getValue<T>(dates: inout [Date], values: inout [T], date: Date) -> T? {
-        if let i = dates.firstIndex(where: {Calendar.current.isDate($0, inSameDayAs: date)}){
+        if let i = dates.firstIndex(where: {Cal.isDate($0, inSameDayAs: date)}){
             return values[i]
         } else {
             return nil

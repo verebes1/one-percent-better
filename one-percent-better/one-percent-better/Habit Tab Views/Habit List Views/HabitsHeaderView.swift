@@ -89,7 +89,7 @@ class HeaderWeekViewModel: ObservableObject {
    }
    
    func updateDayToToday() {
-      if !Calendar.current.isDate(latestDay, inSameDayAs: Date()) {
+      if !Cal.isDate(latestDay, inSameDayAs: Date()) {
          latestDay = Date()
          currentDay = Date()
       }
@@ -109,7 +109,7 @@ class HeaderWeekViewModel: ObservableObject {
    
    /// Number of weeks (each row is a week) between today and the earliest completed habit
    var numWeeksSinceEarliest: Int {
-      let numDays = Calendar.current.dateComponents([.day], from: earliestStartDate, to: Date()).day!
+      let numDays = Cal.dateComponents([.day], from: earliestStartDate, to: Date()).day!
       let diff = numDays - thisWeekDayOffset(Date()) + 6
       let weeks = diff / 7
       return weeks + 1
@@ -117,14 +117,14 @@ class HeaderWeekViewModel: ObservableObject {
    
    func getSelectedWeek(for day: Date) -> Int {
       let weekDayOffset = thisWeekDayOffset(day)
-      let totalDayOffset = -(Calendar.current.numberOfDaysBetween(day, and: Date()) - 1)
+      let totalDayOffset = -(Cal.numberOfDaysBetween(day, and: Date()) - 1)
       let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
       let result = numWeeksSinceEarliest - 1 - weekNum
       return result
    }
    
    func thisWeekDayOffset(_ date: Date) -> Int {
-      return Calendar.current.component(.weekday, from: date) - 1
+      return Cal.component(.weekday, from: date) - 1
    }
    
    /// The number of days to offset from today to get to the selected day
@@ -143,7 +143,7 @@ class HeaderWeekViewModel: ObservableObject {
    }
    
    func dayOffsetToToday(from date: Date) -> Int {
-      let result = -(Calendar.current.numberOfDaysBetween(date, and: Date()) - 1)
+      let result = -(Cal.numberOfDaysBetween(date, and: Date()) - 1)
       return result
    }
    
@@ -158,7 +158,7 @@ class HeaderWeekViewModel: ObservableObject {
    }
    
    func date(week: Int, day: Int) -> Date {
-      return Calendar.current.date(byAdding: .day, value: dayOffset(week: week, day: day), to: Date())!
+      return Cal.date(byAdding: .day, value: dayOffset(week: week, day: day), to: Date())!
    }
    
    func percent(week: Int, day: Int) -> Double {
@@ -166,7 +166,7 @@ class HeaderWeekViewModel: ObservableObject {
       var numCompleted: Double = 0
       var total: Double = 0
       for habit in hlvm.habits {
-         if Calendar.current.startOfDay(for: habit.startDate) <= Calendar.current.startOfDay(for: day),
+         if Cal.startOfDay(for: habit.startDate) <= Cal.startOfDay(for: day),
             habit.isDue(on: day) {
             total += 1
          }
@@ -222,7 +222,7 @@ struct HabitsHeaderView: View {
                      .onTapGesture {
                         if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
                            vm.selectedWeekDay = j
-                           let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
+                           let newDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
                            vm.currentDay = newDay
                         }
                      }
@@ -252,7 +252,7 @@ struct HabitsHeaderView: View {
             }
             
             let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
-            let newDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: today)!
+            let newDay = Cal.date(byAdding: .day, value: dayOffset, to: today)!
             vm.currentDay = newDay
          }
       }
@@ -269,8 +269,8 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
       let context = CoreDataManager.previews.mainContext
       
       let day0 = Date()
-      let day1 = Calendar.current.date(byAdding: .day, value: -1, to: day0)!
-      let day2 = Calendar.current.date(byAdding: .day, value: -9, to: day0)!
+      let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+      let day2 = Cal.date(byAdding: .day, value: -9, to: day0)!
       
       let h1 = try? Habit(context: context, name: "Cook")
       h1?.markCompleted(on: day0)
@@ -335,7 +335,7 @@ struct SelectedDayView: View {
          let dayOffset = vm.dayOffset(week: vm.selectedWeek, day: index)
          if dayOffset <= 0 {
             vm.selectedWeekDay = index
-            vm.currentDay = Calendar.current.date(byAdding: .day, value: dayOffset, to: Date())!
+            vm.currentDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
          }
       }
    }

@@ -40,7 +40,7 @@ public class TimeTracker: Tracker {
     }
     
     func addSec(on date: Date) {
-        if let dateIndex = dates.firstIndex(where: { day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.firstIndex(where: { day in Cal.isDate(day, inSameDayAs: date) }) {
             values[dateIndex] += 1
         } else {
             dates.append(date)
@@ -55,7 +55,7 @@ public class TimeTracker: Tracker {
     }
     
     func getValue(on date: Date) -> Int? {
-        if let i = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) }) {
+        if let i = dates.firstIndex(where: { Cal.isDate($0, inSameDayAs: date) }) {
             return values[i]
         } else {
             return nil

@@ -87,7 +87,7 @@ struct CalendarView_Previews: PreviewProvider {
    static func habit() -> Habit {
       let h = try? Habit(context: CoreDataManager.previews.mainContext, name: "Jumping Jacks")
       let _ = h?.markCompleted(on: Date())
-      h?.markCompleted(on: Calendar.current.date(byAdding: .day, value: -100, to: Date())!)
+      h?.markCompleted(on: Cal.date(byAdding: .day, value: -100, to: Date())!)
       return Habit.habits(from: CoreDataManager.previews.mainContext).first!
    }
    

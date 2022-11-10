@@ -209,9 +209,9 @@ class CalendarModel: ObservableObject {
    
    /// The number of months since the startDate of this habit
    public var numMonthsSinceStart: Int {
-      let startMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: habit.startDate))!
-      let endMonth = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))!
-      let component = Calendar.current.dateComponents([.month], from: startMonth, to: endMonth)
+      let startMonth = Cal.date(from: Cal.dateComponents([.year, .month], from: habit.startDate))!
+      let endMonth = Cal.date(from: Cal.dateComponents([.year, .month], from: Date()))!
+      let component = Cal.dateComponents([.month], from: startMonth, to: endMonth)
       let numMonths = component.month! + 1
       return numMonths
    }

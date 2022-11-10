@@ -24,7 +24,7 @@ struct CalendarDayView: View {
             
             let percent = habit.percentCompleted(on: day.date)
             if percent > 0 {
-               if percent == 1 && Calendar.current.isDateInToday(day.date) {
+               if percent == 1 && Cal.isDateInToday(day.date) {
                   Image(systemName: "checkmark.circle.fill")
                      .resizable()
                      .aspectRatio(contentMode: .fit)
@@ -52,7 +52,7 @@ struct CalendarDayView: View {
                   }
                }
             } else {
-               if Calendar.current.isDateInToday(day.date) {
+               if Cal.isDateInToday(day.date) {
                   Circle()
                      .stroke(.gray, style: .init(lineWidth: 1))
                      .frame(width: circleSize, height: circleSize)
@@ -75,9 +75,9 @@ struct CalendarDayView_Previews: PreviewProvider {
       
       let context = CoreDataManager.previews.mainContext
       
-      let yesterday3 = Calendar.current.date(byAdding: .day, value: -3, to: Date())!
-      let yesterday2 = Calendar.current.date(byAdding: .day, value: -2, to: Date())!
-      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+      let yesterday3 = Cal.date(byAdding: .day, value: -3, to: Date())!
+      let yesterday2 = Cal.date(byAdding: .day, value: -2, to: Date())!
+      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
       let today = Date()
       
       let h1 = try? Habit(context: context, name: "A")

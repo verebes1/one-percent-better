@@ -22,7 +22,7 @@ public class Settings: NSManagedObject {
    convenience init(myContext: NSManagedObjectContext) {
       self.init(context: myContext)
       self.dailyReminderEnabled = false
-      self.dailyReminderTime = Calendar.current.date(from: DateComponents(hour: 21))!
+      self.dailyReminderTime = Cal.date(from: DateComponents(hour: 21))!
    }
 }
 

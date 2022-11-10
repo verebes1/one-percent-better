@@ -66,8 +66,8 @@
 //        let context = CoreDataManager.previews.mainContext
 //        
 //        let day0 = Date()
-//        let day1 = Calendar.current.date(byAdding: .day, value: -1, to: day0)!
-//        let day2 = Calendar.current.date(byAdding: .day, value: -2, to: day0)!
+//        let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+//        let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
 //        
 //        let h1 = try? Habit(context: context, name: "Swimming")
 //        h1?.markCompleted(on: day0)

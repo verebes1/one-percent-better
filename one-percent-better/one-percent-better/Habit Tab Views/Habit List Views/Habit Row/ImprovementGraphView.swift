@@ -18,7 +18,7 @@ extension HabitRowViewModel {
       var result = [GraphPoint]()
       
       for i in 0 ..< 5 {
-         let day = Calendar.current.date(byAdding: .day, value: -i, to: Date())!
+         let day = Cal.date(byAdding: .day, value: -i, to: Date())!
 //         let value = habit.im
       }
       return result
@@ -26,9 +26,9 @@ extension HabitRowViewModel {
    
 //   let departmentBProfit: [GraphPoint] = [
 //      ProfitOverTime(date: Date(), profit: 15),
-//      ProfitOverTime(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, profit: 10),
-//      ProfitOverTime(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, profit: 7),
-//      ProfitOverTime(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, profit: 7)
+//      ProfitOverTime(date: Cal.date(byAdding: .day, value: -1, to: Date())!, profit: 10),
+//      ProfitOverTime(date: Cal.date(byAdding: .day, value: -2, to: Date())!, profit: 7),
+//      ProfitOverTime(date: Cal.date(byAdding: .day, value: -3, to: Date())!, profit: 7)
 //   ]
 }
 

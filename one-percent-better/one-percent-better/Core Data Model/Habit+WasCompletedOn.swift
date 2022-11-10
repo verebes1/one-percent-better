@@ -98,7 +98,7 @@ extension Habit {
          timesCompleted = combined.map { $0.1 }
          
          if date < startDate {
-            startDate = Calendar.current.startOfDay(for: date)
+            startDate = Cal.startOfDay(for: date)
          }
       }
       

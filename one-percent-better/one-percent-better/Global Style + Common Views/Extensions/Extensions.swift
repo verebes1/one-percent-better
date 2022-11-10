@@ -30,11 +30,11 @@ extension Date {
       self.description(with: .current)
    }
    
-   func get(_ components: Calendar.Component..., calendar: Calendar = Calendar.current) -> DateComponents {
+   func get(_ components: Calendar.Component..., calendar: Calendar = Cal) -> DateComponents {
       return calendar.dateComponents(Set(components), from: self)
    }
    
-   func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+   func get(_ component: Calendar.Component, calendar: Calendar = Cal) -> Int {
       return calendar.component(component, from: self)
    }
    
@@ -73,6 +73,8 @@ extension Calendar {
       return numberOfDays.day! + 1
    }
 }
+
+public var Cal = Calendar.autoupdatingCurrent
 
 
 // MARK: - Double
@@ -137,10 +139,10 @@ extension RandomAccessCollection {
 
 extension RandomAccessCollection where Element == Date, Index == Int {
    func sameDayBinarySearch(for date: Date) -> Index?  {
-      guard let i = binarySearch(predicate: { $0 < Calendar.current.startOfDay(for: date) }) else {
+      guard let i = binarySearch(predicate: { $0 < Cal.startOfDay(for: date) }) else {
          return nil
       }
-      if Calendar.current.isDate(date, inSameDayAs: self[i]) {
+      if Cal.isDate(date, inSameDayAs: self[i]) {
          return i
       } else {
          return nil
@@ -154,3 +156,5 @@ extension View {
       return self
    }
 }
+
+

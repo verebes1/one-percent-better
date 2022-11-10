@@ -202,7 +202,7 @@ struct HabitsViewPreviewer: View {
       let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
       
       let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
-      let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
       h1?.markCompleted(on: yesterday)
       
       let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
