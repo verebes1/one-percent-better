@@ -21,11 +21,11 @@ class HeaderHabitsChanged: NSObject, NSFetchedResultsControllerDelegate, Observa
    let habitController: NSFetchedResultsController<Habit>
    let moc: NSManagedObjectContext
    
-   override init() {
+   init(moc: NSManagedObjectContext) {
       let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
-      habitController = Habit.resultsController(context: CoreDataManager.shared.mainContext,
+      habitController = Habit.resultsController(context: moc,
                                                 sortDescriptors: sortDescriptors)
-      moc = CoreDataManager.shared.mainContext
+      self.moc = moc
       super.init()
       habitController.delegate = self
       try? habitController.performFetch()
@@ -187,7 +187,7 @@ struct HabitsHeaderView: View {
    @Environment(\.managedObjectContext) var moc
    @EnvironmentObject var vm: HeaderWeekViewModel
    
-   @StateObject var hc = HeaderHabitsChanged()
+   @ObservedObject var hc: HeaderHabitsChanged
    
    var color: Color = .systemTeal
    
@@ -294,7 +294,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
       let moc = CoreDataManager.previews.mainContext
       let vm = HabitListViewModel(moc)
       let hwvm = HeaderWeekViewModel(hlvm: vm)
-      HabitsHeaderView()
+      HabitsHeaderView(hc: HeaderHabitsChanged(moc: moc))
          .environment(\.managedObjectContext, moc)
          .environmentObject(hwvm)
    }

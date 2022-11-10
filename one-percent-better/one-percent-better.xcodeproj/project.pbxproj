@@ -32,6 +32,7 @@
 		802E92942919EB7900A28EB1 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92932919EB7900A28EB1 /* PillButton.swift */; };
 		802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */; };
 		802E9298291A0CD600A28EB1 /* ColorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9297291A0CD600A28EB1 /* ColorFunctions.swift */; };
+		802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -188,6 +189,7 @@
 		802E92932919EB7900A28EB1 /* PillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectButtonStyle.swift; sourceTree = "<group>"; };
 		802E9297291A0CD600A28EB1 /* ColorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFunctions.swift; sourceTree = "<group>"; };
+		802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementGraphView.swift; sourceTree = "<group>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -687,6 +689,7 @@
 				80A6D9F828949F43009BF024 /* HabitRow.swift */,
 				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
 				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
+				802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */,
 			);
 			path = "Habit Row";
 			sourceTree = "<group>";
@@ -1029,6 +1032,7 @@
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
 				80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */,
+				802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */,
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
 				80385D39285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift in Sources */,
 				802E9298291A0CD600A28EB1 /* ColorFunctions.swift in Sources */,

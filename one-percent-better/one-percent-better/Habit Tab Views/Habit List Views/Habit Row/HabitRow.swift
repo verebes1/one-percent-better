@@ -23,7 +23,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimeTracker: Bool
    var hasTimerStarted: Bool
    
-   init(habit: Habit, currentDay: Date) {
+   init(moc: NSManagedObjectContext, habit: Habit, currentDay: Date) {
       //      print("initializing new habit: \(habit.name)")
       //      self.habit = habit.copy() as? Habit
       self.habit = habit
@@ -34,10 +34,10 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       self.currentDay = currentDay
       
       let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
-      habitController = Habit.resultsController(context: CoreDataManager.shared.mainContext,
+      habitController = Habit.resultsController(context: moc,
                                                 sortDescriptors: sortDescriptors,
                                                 predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
-      moc = CoreDataManager.shared.mainContext
+      self.moc = moc
       super.init()
       habitController.delegate = self
       try? habitController.performFetch()
@@ -193,8 +193,8 @@ struct HabitRow: View {
    
    @State private var completePressed = false
    
-   init(habit: Habit, day: Date) {
-      self.vm = HabitRowViewModel(habit: habit, currentDay: day)
+   init(moc: NSManagedObjectContext, habit: Habit, day: Date) {
+      self.vm = HabitRowViewModel(moc: moc, habit: habit, currentDay: day)
    }
    
    var body: some View {
@@ -210,6 +210,10 @@ struct HabitRow: View {
                HabitRowLabels(vm: vm)
                Spacer()
                //                ListChevron()
+//               ImprovementGraphView()
+//                  .environmentObject(vm)
+//                  .frame(width: 100)
+//                  .border(.black)
             }
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             
@@ -238,7 +242,7 @@ struct HabitRowPreviewer: View {
          Background {
             List {
                ForEach(Array(zip(vm.habits.indices, vm.habits)), id:\.0) { index, habit in
-                  HabitRow(habit: habit, day: currentDay)
+                  HabitRow(moc: CoreDataManager.previews.mainContext, habit: habit, day: currentDay)
                      .environmentObject(habit)
                }
             }

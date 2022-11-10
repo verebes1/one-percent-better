@@ -110,7 +110,7 @@ struct HabitListView: View {
       return (
          Background {
             VStack {
-               HabitsHeaderView()
+               HabitsHeaderView(hc: HeaderHabitsChanged(moc: moc))
                   .environmentObject(hwvm)
                
                if vm.habits.isEmpty {
@@ -123,7 +123,7 @@ struct HabitListView: View {
                            let _ = print("Habit row \(habit.name) is being loaded")
                            // Habit Row
                            NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                              HabitRow(habit: habit, day: hwvm.currentDay)
+                              HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)
                            }
                         }
                      }

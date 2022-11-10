@@ -20,7 +20,7 @@ public class GraphTracker: Tracker {
     
     func add(date: Date, value: String) {
         // check for duplicate date
-        if let dateIndex = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let dateIndex = dates.sameDayBinarySearch(for: date) {
             values[dateIndex] = value
         } else {
             dates.append(date)
@@ -35,7 +35,7 @@ public class GraphTracker: Tracker {
     }
     
     override func remove(on date: Date) {
-        if let index = dates.firstIndex(where: {day in Calendar.current.isDate(day, inSameDayAs: date) }) {
+        if let index = dates.sameDayBinarySearch(for: date) {
             dates.remove(at: index)
             values.remove(at: index)
         }
@@ -43,7 +43,7 @@ public class GraphTracker: Tracker {
     }
     
     func getValue(date: Date) -> String? {
-        if let i = dates.firstIndex(where: { Calendar.current.isDate($0, inSameDayAs: date) }) {
+        if let i = dates.sameDayBinarySearch(for: date) {
             return values[i]
         } else {
             return nil

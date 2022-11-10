@@ -99,7 +99,7 @@ struct HabitCompletionCircle_Previewer: View {
       VStack {
          Text("Not completed")
          let notCompletedHabit = habits[0]
-         let vm1 = HabitRowViewModel(habit: notCompletedHabit,
+         let vm1 = HabitRowViewModel(moc: CoreDataManager.previews.mainContext, habit: notCompletedHabit,
                                      currentDay:
                                        currentDay)
          HabitCompletionCircle(vm: vm1, completedPressed: .constant(false))

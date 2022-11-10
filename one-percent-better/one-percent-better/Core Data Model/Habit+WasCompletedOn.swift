@@ -10,6 +10,15 @@ import Foundation
 
 extension Habit {
    
+   var improvementTracker: ImprovementTracker? {
+      for tracker in trackers {
+         if let t = tracker as? ImprovementTracker {
+            return t
+         }
+      }
+      return nil
+   }
+   
    func wasCompleted(on date: Date) -> Bool {
       guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return false }
       
@@ -20,6 +29,7 @@ extension Habit {
          return timesCompleted[i] >= 1
       }
    
+      // Dictionary style
 //      let dmyDate = DMYDate(date: date)
 //
 //      switch frequency(on: date) {
@@ -37,7 +47,16 @@ extension Habit {
    }
    
    func percentCompleted(on date: Date) -> Double {
+      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
       
+      switch frequency(on: date) {
+      case .timesPerDay(let n):
+         return Double(timesCompleted[i]) / Double(n)
+      case .daysInTheWeek(_):
+         return timesCompleted[i] >= 1 ? 1 : 0
+      }
+      
+      // Dictionary style
 //      let dmyDate = DayMonthYearDate(date: date)
 //
 //      switch frequency(on: date) {
@@ -52,15 +71,6 @@ extension Habit {
 //         }
 //         return 0
 //      }
-      
-      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
-      
-      switch frequency(on: date) {
-      case .timesPerDay(let n):
-         return Double(timesCompleted[i]) / Double(n)
-      case .daysInTheWeek(_):
-         return timesCompleted[i] >= 1 ? 1 : 0
-      }
    }
    
    func timesCompleted(on date: Date) -> Int {
@@ -90,10 +100,10 @@ extension Habit {
          if date < startDate {
             startDate = Calendar.current.startOfDay(for: date)
          }
-         moc.fatalSave()
       }
       
-//      updateImprovement()
+      improvementTracker?.update(on: date)
+      moc.fatalSave()
    }
    
    func markNotCompleted(on date: Date) {
@@ -110,20 +120,9 @@ extension Habit {
          }
       }
       
-      // Do I need to save right here?
-      moc.fatalSave()
-      
       // Fix this at some point
-//      updateImprovement()
-   }
-   
-   func updateImprovement() {
-      for tracker in trackers {
-         if let t = tracker as? ImprovementTracker {
-            t.update()
-            continue
-         }
-      }
+      improvementTracker?.update(on: date)
+      moc.fatalSave()
    }
    
    func toggle(on day: Date) {
