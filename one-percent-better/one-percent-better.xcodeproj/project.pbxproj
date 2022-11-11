@@ -33,6 +33,7 @@
 		802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */; };
 		802E9298291A0CD600A28EB1 /* ColorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9297291A0CD600A28EB1 /* ColorFunctions.swift */; };
 		802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */; };
+		802E929D291E02E000A28EB1 /* ImprovementTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -190,6 +191,8 @@
 		802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectButtonStyle.swift; sourceTree = "<group>"; };
 		802E9297291A0CD600A28EB1 /* ColorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFunctions.swift; sourceTree = "<group>"; };
 		802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementGraphView.swift; sourceTree = "<group>"; };
+		802E929B291CC7DF00A28EB1 /* opb 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 12.xcdatamodel"; sourceTree = "<group>"; };
+		802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTrackerTests.swift; sourceTree = "<group>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -643,6 +646,7 @@
 			children = (
 				8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */,
 				80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */,
+				802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */,
 			);
 			path = "one-percent-better-Tests";
 			sourceTree = "<group>";
@@ -823,7 +827,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1330;
+				LastSwiftUpdateCheck = 1410;
 				LastUpgradeCheck = 1330;
 				TargetAttributes = {
 					8055A96F2831BAA5009A1881 = {
@@ -1129,6 +1133,7 @@
 			files = (
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
 				8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */,
+				802E929D291E02E000A28EB1 /* ImprovementTrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1350,14 +1355,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftuiTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/one-percent-better.app/one-percent-better";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/1% Better.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/1% Better";
 			};
 			name = Debug;
 		};
@@ -1371,14 +1376,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftuiTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/one-percent-better.app/one-percent-better";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/1% Better.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/1% Better";
 			};
 			name = Release;
 		};
@@ -1391,6 +1396,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftuiUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1410,6 +1416,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftuiUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1465,6 +1472,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				802E929B291CC7DF00A28EB1 /* opb 12.xcdatamodel */,
 				80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */,
 				8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */,
 				80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */,
@@ -1477,7 +1485,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */;
+			currentVersion = 802E929B291CC7DF00A28EB1 /* opb 12.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

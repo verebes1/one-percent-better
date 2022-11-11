@@ -11,6 +11,9 @@ import CoreData
 @objc(ImprovementTracker)
 public class ImprovementTracker: GraphTracker {
    
+   /// Actual score data points which align with dates array
+   @NSManaged public var scores: [Double]
+   
    /// Default initializer for improvement tracker
    /// - Parameters:
    ///   - context: The managed object context
@@ -22,74 +25,28 @@ public class ImprovementTracker: GraphTracker {
       self.autoTracker = true
       self.dates = []
       self.values = []
+      self.scores = []
    }
    
-   override func toString() -> String {
-      return "Improvement"
-   }
-   
-   func update(on date: Date) {
-//      self.reset()
-//      createData(habit: habit)
-//      CoreDataManager.shared.saveContext()
-      
-      // Case 1: dates is empty, so start from habit.startDate
-      // Case 2: dates has 1 entry, yesterday
-      // Case 3: dates has 1 entry, many days ago
-      // Case 4: dates has many entries, including yesterday
-      
-//      [0, 1, 2, 3, 4, 5, ]
-      
-      var curDate: Date
-      var score: Double
-      
-      if let i = dates.sameDayBinarySearch(for: date) {
-         curDate = dates[i]
-         score = Double(values[i])!
+   func add(date: Date, score: Double) {
+      let value = String(Int(score))
+      // check for duplicate date
+      if let dateIndex = dates.sameDayBinarySearch(for: date) {
+         values[dateIndex] = value
+         scores[dateIndex] = score
       } else {
-         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
+         dates.append(date)
+         values.append(value)
+         scores.append(score)
          
-         curDate = habit.startDate
-         score = 100
-         
+         // sort both lists by dates
+         let valuesScores = zip(values, scores)
+         let combined = zip(dates, valuesScores).sorted { $0.0 < $1.0 }
+         dates = combined.map { $0.0 }
+         values = combined.map { $0.1.0 }
+         scores = combined.map { $0.1.1 }
       }
-      
-      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
-      
-      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-         
-//         var oldScore: Double?
-//         if let oldScoreIndex = dates.sameDayBinarySearch(for: curDate) {
-//            oldScore = values[oldScoreIndex]
-//         }
-         
-         switch habit.frequency(on: curDate) {
-         case .timesPerDay(let n):
-            score *= 1.01 * Double(habit.timesCompleted(on: curDate)) / Double(n)
-         case .daysInTheWeek(let days):
-            if days.contains(curDate.weekdayOffset) {
-               if habit.wasCompleted(on: curDate) {
-                  score *= 1.01
-               } else {
-                  score *= 0.995
-               }
-            } else {
-               // don't modify score, unless it was done anyways
-               if habit.wasCompleted(on: curDate) {
-                  score *= 1.01
-               }
-            }
-         }
-         
-         if score < 100 {
-            score = 100
-         }
-         
-         let roundedScore = round(score)
-         let scaledScore = roundedScore - 100
-         self.add(date: curDate, value: String(Int(scaledScore)))
-         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
-      }
+      context.fatalSave()
    }
    
    /// Create 1% better graph data
@@ -120,59 +77,144 @@ public class ImprovementTracker: GraphTracker {
    /// If something is supposed to be twice a day then doing it once gets you 0.5% better
    /// This means the dates array may not contain every day
    ///
-   func createData(from i: Int?) {
-      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+   func update(on date: Date) {
+      
       var curDate: Date
       var score: Double
-      if let i = i {
+      
+      if let i = dates.sameDayBinarySearch(for: date) {
          curDate = dates[i]
-         score = Double(values[i])!
+         if i > 0 {
+            // Go off on yesterday's score
+            score = scores[i-1] + 100
+         } else {
+            score = 100
+            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+         }
       } else {
-         
-         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
-         
-         
-         curDate = habit.startDate
-         score = 100
+         if dates.isEmpty {
+            curDate = habit.startDate
+            score = 100
+            
+            // Start of graph needs to be a 0 from the day before beginning
+            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+         } else {
+            if Cal.startOfDay(for: date) > Cal.startOfDay(for: dates.last!) {
+               curDate = dates.last!
+               score = Double(values.last!)!
+            } else {
+               fatalError("Case not handled!!!")
+            }
+            //         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
+         }
       }
       
+      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+      
       while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-         if habit.wasCompleted(on: curDate) {
-            score *= 1.01
-         } else {
-            score *= 0.995
-            
-            if score < 100 {
-               score = 100
+         
+         //         var oldScore: Double?
+         //         if let oldScoreIndex = dates.sameDayBinarySearch(for: curDate) {
+         //            oldScore = values[oldScoreIndex]
+         //         }
+         
+         switch habit.frequency(on: curDate) {
+         case .timesPerDay(let n):
+            let tc = Double(habit.timesCompleted(on: curDate))
+            let expected = Double(n)
+            if tc > 0 {
+               score *= 1.01 * tc / expected
+            } else {
+               score *= 0.995
+            }
+         case .daysInTheWeek(let days):
+            if days.contains(curDate.weekdayOffset) {
+               if habit.wasCompleted(on: curDate) {
+                  score *= 1.01
+               } else {
+                  score *= 0.995
+               }
+            } else {
+               // don't modify score, unless it was done anyways
+               if habit.wasCompleted(on: curDate) {
+                  score *= 1.01
+               }
             }
          }
-         let roundedScore = round(score)
-         let scaledScore = roundedScore - 100
-         self.add(date: curDate, value: String(Int(scaledScore)))
+         
+         score = max(100, score)
+         let scaledScore = score - 100
+         self.add(date: curDate, score: scaledScore)
          curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
       }
    }
    
-//   func createData(habit: Habit) {
-//      var score: Double = 100
-//      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
-//      var curDate = habit.startDate
-//      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-//         if habit.wasCompleted(on: curDate) {
-//            score *= 1.01
-//         } else {
-//            score *= 0.995
-//
-//            if score < 100 {
-//               score = 100
-//            }
-//         }
-//         let roundedScore = round(score)
-//         let scaledScore = roundedScore - 100
-//         self.add(date: curDate, value: String(Int(scaledScore)))
-//         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
-//      }
-//   }
+   
+   //      self.reset()
+   //      createData(habit: habit)
+   //      CoreDataManager.shared.saveContext()
+   
+   // Case 1: dates is empty, so start from habit.startDate
+   // Case 2: dates has 1 entry, yesterday
+   // Case 3: dates has 1 entry, many days ago
+   // Case 4: dates has many entries, including yesterday
+   
+   //      [0, 1, 2, 3, 4, 5, ]
+   
+   
+   //   func createData(from i: Int?) {
+   //      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+   //      var curDate: Date
+   //      var score: Double
+   //      if let i = i {
+   //         curDate = dates[i]
+   //         score = Double(values[i])!
+   //      } else {
+   //
+   //         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
+   //
+   //
+   //         curDate = habit.startDate
+   //         score = 100
+   //      }
+   //
+   //      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
+   //         if habit.wasCompleted(on: curDate) {
+   //            score *= 1.01
+   //         } else {
+   //            score *= 0.995
+   //
+   //            if score < 100 {
+   //               score = 100
+   //            }
+   //         }
+   //         let roundedScore = round(score)
+   //         let scaledScore = roundedScore - 100
+   //         self.add(date: curDate, value: String(Int(scaledScore)))
+   //         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
+   //      }
+   //   }
+   
+   //   func createData(habit: Habit) {
+   //      var score: Double = 100
+   //      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+   //      var curDate = habit.startDate
+   //      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
+   //         if habit.wasCompleted(on: curDate) {
+   //            score *= 1.01
+   //         } else {
+   //            score *= 0.995
+   //
+   //            if score < 100 {
+   //               score = 100
+   //            }
+   //         }
+   //         let roundedScore = round(score)
+   //         let scaledScore = roundedScore - 100
+   //         self.add(date: curDate, value: String(Int(scaledScore)))
+   //         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
+   //      }
+   //   }
    
    // MARK: - Encodable
    enum CodingKeys: CodingKey {
@@ -181,6 +223,7 @@ public class ImprovementTracker: GraphTracker {
       case index
       case dates
       case values
+      case scores
    }
    
    required convenience public init(from decoder: Decoder) throws {
@@ -196,6 +239,7 @@ public class ImprovementTracker: GraphTracker {
       self.index = try container.decode(Int.self, forKey: .index)
       self.dates = try container.decode([Date].self, forKey: .dates)
       self.values = try container.decode([String].self, forKey: .values)
+      self.scores = container.decodeOptional(key: .scores, type: [Double].self) ?? []
    }
    
    public override func encode(to encoder: Encoder) throws {
@@ -205,6 +249,7 @@ public class ImprovementTracker: GraphTracker {
       try container.encode(index, forKey: .index)
       try container.encode(dates, forKey: .dates)
       try container.encode(values, forKey: .values)
+      try container.encode(scores, forKey: .scores)
    }
    
 }

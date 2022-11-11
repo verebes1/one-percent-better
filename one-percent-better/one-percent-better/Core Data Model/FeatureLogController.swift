@@ -67,7 +67,7 @@ class FeatureLogController {
             // Create the improvement tracker and add to autoTrackers
             let improvementTracker = ImprovementTracker(context: context, habit: habit)
             habit.addToTrackers(improvementTracker)
-            improvementTracker.createData(from: nil)
+//            improvementTracker.createData(from: nil)
          }
          
          featureLog.hasImprovement = true

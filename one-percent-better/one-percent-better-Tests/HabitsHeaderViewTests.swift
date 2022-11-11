@@ -6,7 +6,7 @@
 //
 
 import XCTest
-//@testable import one_percent_better_swiftui
+@testable import ___Better
 
 class HabitsHeaderViewTests: XCTestCase {
     
@@ -41,7 +41,7 @@ class HabitsHeaderViewTests: XCTestCase {
 
     override func tearDownWithError() throws {
         // Remove all habits before next test
-        let habits = Habit.habitList(from: context)
+        let habits = Habit.habits(from: context)
         for habit in habits {
             context.delete(habit)
             try? context.save()

@@ -99,6 +99,7 @@ extension Habit {
          
          if date < startDate {
             startDate = Cal.startOfDay(for: date)
+            // TODO: Update frequency data as well
          }
       }
       
@@ -115,7 +116,8 @@ extension Habit {
       
       // Remove tracker entries for this date
       for tracker in trackers {
-         if let t = tracker as? Tracker {
+         if let t = tracker as? Tracker,
+            !t.autoTracker {
             t.remove(on: date)
          }
       }

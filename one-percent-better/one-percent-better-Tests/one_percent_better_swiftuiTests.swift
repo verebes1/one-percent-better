@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import one_percent_better_swiftui
+//@testable import one_percent_better_swiftui
 
 class one_percent_better_swiftuiTests: XCTestCase {
 

@@ -20,6 +20,26 @@ enum CoreDataMigrationVersion: String, CaseIterable {
    case v9 = "mo_ikai 9"
    case v10 = "mo_ikai 10"
    case v11 = "mo_ikai 11"
+   case v12 = "opb 12"
+   
+   // MARK: - Migration
+   
+   func nextVersion() -> CoreDataMigrationVersion? {
+      switch self {
+      case .v1: return .v2
+      case .v2: return .v3
+      case .v3: return .v4
+      case .v4: return .v5
+      case .v5: return .v6
+      case .v6: return .v7
+      case .v7: return .v8
+      case .v8: return .v9
+      case .v9: return .v10
+      case .v10: return .v11
+      case .v11: return .v12
+      case .v12: return nil
+      }
+   }
    
    // MARK: - Current
    
@@ -29,34 +49,5 @@ enum CoreDataMigrationVersion: String, CaseIterable {
       }
       
       return latest
-   }
-   
-   // MARK: - Migration
-   
-   func nextVersion() -> CoreDataMigrationVersion? {
-      switch self {
-      case .v1:
-         return .v2
-      case .v2:
-         return .v3
-      case .v3:
-         return .v4
-      case .v4:
-         return .v5
-      case .v5:
-         return .v6
-      case .v6:
-         return .v7
-      case .v7:
-         return .v8
-      case .v8:
-         return .v9
-      case .v9:
-         return .v10
-      case .v10:
-         return .v11
-      case .v11:
-         return nil
-      }
    }
 }

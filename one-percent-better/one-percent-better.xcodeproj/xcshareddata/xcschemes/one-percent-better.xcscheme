@@ -48,6 +48,17 @@
                ReferencedContainer = "container:one-percent-better.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "802E92A1291E097800A28EB1"
+               BuildableName = "MyTests.xctest"
+               BlueprintName = "MyTests"
+               ReferencedContainer = "container:one-percent-better.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
