@@ -23,6 +23,9 @@ public class FeatureLog: NSManagedObject, Codable {
    @NSManaged public var hasFrequencyDates: Bool
    @NSManaged public var hasID: Bool
    
+   /// With 1.0.5 theres a new way to calculate the improvement score
+   @NSManaged public var hasNewImprovement: Bool
+   
    // MARK: - Encodable
    
    enum CodingKeys: CodingKey {
@@ -33,6 +36,7 @@ public class FeatureLog: NSManagedObject, Codable {
       case hasImprovement
       case hasFrequencyDates
       case hasID
+      case hasNewImprovement
    }
    
    required convenience public init(from decoder: Decoder) throws {
@@ -55,6 +59,7 @@ public class FeatureLog: NSManagedObject, Codable {
       self.hasImprovement = try container.decode(Bool.self, forKey: .hasImprovement)
       self.hasFrequencyDates = try container.decode(Bool.self, forKey: .hasFrequencyDates)
       self.hasID = try container.decode(Bool.self, forKey: .hasID)
+      self.hasNewImprovement = container.decodeOptional(key: .hasNewImprovement, type: Bool.self) ?? false
    }
    
    public func encode(to encoder: Encoder) throws {
@@ -66,6 +71,7 @@ public class FeatureLog: NSManagedObject, Codable {
       try container.encode(hasImprovement, forKey: .hasImprovement)
       try container.encode(hasFrequencyDates, forKey: .hasFrequencyDates)
       try container.encode(hasID, forKey: .hasID)
+      try container.encode(hasNewImprovement, forKey: .hasNewImprovement)
    }
    
    // MARK: Fetch Request

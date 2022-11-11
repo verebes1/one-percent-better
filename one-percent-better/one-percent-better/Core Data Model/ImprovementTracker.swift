@@ -239,7 +239,7 @@ public class ImprovementTracker: GraphTracker {
       self.index = try container.decode(Int.self, forKey: .index)
       self.dates = try container.decode([Date].self, forKey: .dates)
       self.values = try container.decode([String].self, forKey: .values)
-      self.scores = container.decodeOptional(key: .scores, type: [Double].self) ?? []
+      self.scores = container.decodeOptional(key: .scores, type: [Double].self) ?? self.values.map { Double(Int($0)!) }
    }
    
    public override func encode(to encoder: Encoder) throws {

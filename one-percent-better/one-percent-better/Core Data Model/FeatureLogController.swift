@@ -45,6 +45,7 @@ class FeatureLogController {
       setUpTrackerToHabitRelationships()
       setUpTrackerIndices()
       setUpFrequencyDates()
+      setUpNewImprovement()
    }
    
    /// Add percent improvement trackers if the user doesn't have them already
@@ -164,6 +165,24 @@ class FeatureLogController {
          }
          
          featureLog.hasID = true
+         CoreDataManager.shared.saveContext()
+      }
+   }
+   
+   func setUpNewImprovement() {
+      if !featureLog.hasNewImprovement {
+         
+         let habits = Habit.habits(from: context)
+         for habit in habits {
+            if let t = habit.improvementTracker {
+               t.dates = []
+               t.values = []
+               t.scores = []
+               t.update(on: habit.startDate)
+            }
+         }
+         
+         featureLog.hasNewImprovement = true
          CoreDataManager.shared.saveContext()
       }
    }
