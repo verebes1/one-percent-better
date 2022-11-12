@@ -49,6 +49,14 @@ public class ImprovementTracker: GraphTracker {
       context.fatalSave()
    }
    
+   func score(on date: Date) -> Double? {
+      guard let index = dates.sameDayBinarySearch(for: date) else {
+         return nil
+      }
+      
+      return scores[index]
+   }
+   
    /// Create 1% better graph data
    /// - Parameter i: index in dates array to start recalculating the score
    /// Let c_{day} be whether or not the user completed the habit on that day. c_{day} = 1.01 if completed on day, and 0.995 if not

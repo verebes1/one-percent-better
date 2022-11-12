@@ -210,10 +210,10 @@ struct HabitRow: View {
                HabitRowLabels(vm: vm)
                Spacer()
                //                ListChevron()
-//               ImprovementGraphView()
-//                  .environmentObject(vm)
-//                  .frame(width: 100)
-//                  .border(.black)
+               ImprovementGraphView()
+                  .environmentObject(vm)
+                  .frame(width: 80, height: 35)
+                  .border(.black)
             }
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             
@@ -262,11 +262,15 @@ struct HabitRow_Previews: PreviewProvider {
    static func data() -> [Habit] {
       let context = CoreDataManager.previews.mainContext
       
-      let day0 = Date()
       let h1 = try? Habit(context: context, name: "Swimming", id: id1)
-      h1?.markCompleted(on: day0)
+      h1?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+      h1?.markCompleted(on: Cal.date(byAdding: .day, value: 0, to: Date())!)
+      h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
-      let _ = try? Habit(context: context, name: "Basketball", id: id2)
+      let h2 = try? Habit(context: context, name: "Basketball", id: id2)
+      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       
