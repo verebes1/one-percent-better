@@ -28,8 +28,15 @@ public class ImprovementTracker: GraphTracker {
       self.scores = []
    }
    
+   func scoreToValue(for score: Double) -> String {
+      let roundedScore = round(score)
+      let string = String(Int(roundedScore))
+      return string
+   }
+   
    func add(date: Date, score: Double) {
-      let value = String(Int(score))
+//      let value = String(Int(score))
+      let value = scoreToValue(for: score)
       // check for duplicate date
       if let dateIndex = dates.sameDayBinarySearch(for: date) {
          values[dateIndex] = value
@@ -50,11 +57,16 @@ public class ImprovementTracker: GraphTracker {
    }
    
    func score(on date: Date) -> Double? {
-      guard let index = dates.sameDayBinarySearch(for: date) else {
+      if let index = dates.sameDayBinarySearch(for: date) {
+         return scores[index]
+      } else if habit.isDue(on: date) {
+         update(on: date)
+         print("Updating on date: \(date.localDate())")
+         return score(on: date)
+      } else {
          return nil
       }
       
-      return scores[index]
    }
    
    /// Create 1% better graph data
@@ -90,32 +102,50 @@ public class ImprovementTracker: GraphTracker {
       var curDate: Date
       var score: Double
       
-      if let i = dates.sameDayBinarySearch(for: date) {
-         curDate = dates[i]
-         if i > 0 {
-            // Go off on yesterday's score
+      if let i = dates.lessThanOrEqualSearch(for: date),
+         i > 0 {
+            curDate = dates[i]
             score = scores[i-1] + 100
-         } else {
-            score = 100
-            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
-         }
       } else {
-         if dates.isEmpty {
-            curDate = habit.startDate
-            score = 100
-            
-            // Start of graph needs to be a 0 from the day before beginning
-            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
-         } else {
-            if Cal.startOfDay(for: date) > Cal.startOfDay(for: dates.last!) {
-               curDate = dates.last!
-               score = Double(values.last!)!
-            } else {
-               fatalError("Case not handled!!!")
-            }
-            //         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
-         }
+         curDate = habit.startDate
+         score = 100
+         // Start of graph needs to be a 0 from the day before beginning
+         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
       }
+      
+      
+//      if dates.isEmpty {
+//         curDate = habit.startDate
+//         score = 100
+//
+//         // Start of graph needs to be a 0 from the day before beginning
+//         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+//      } else if let i = dates.sameDayBinarySearch(for: date) {
+//         curDate = dates[i]
+//         if i > 0 {
+//            // Go off on yesterday's score
+//            score = scores[i-1] + 100
+//         } else {
+//            score = 100
+//            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+//         }
+//      } else if let i = dates.lastIndex(where: { $0.startOfDay() <= date.startOfDay() } ) {
+//         curDate = dates[i]
+//
+//         if i > 0 {
+//            score = scores[i-1] + 100
+//         } else {
+//            score = 100
+//            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+//         }
+//
+//      } else {
+//         score = 100
+//         curDate = date
+//         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+//      }
+         
+      
       
       let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
       
@@ -131,7 +161,7 @@ public class ImprovementTracker: GraphTracker {
             let tc = Double(habit.timesCompleted(on: curDate))
             let expected = Double(n)
             if tc > 0 {
-               score *= 1.01 * tc / expected
+               score *= (1 + (0.01 * tc / expected))
             } else {
                score *= 0.995
             }

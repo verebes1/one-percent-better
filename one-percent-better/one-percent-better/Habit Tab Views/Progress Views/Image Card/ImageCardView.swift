@@ -54,7 +54,7 @@ struct ImageCardView: View {
     var body: some View {
         CardView {
             VStack {
-                SimpleCardTitle(vm.imageTracker.name) {
+                CardTitleWithRightDetail(vm.imageTracker.name) {
                     NavigationLink("View All", destination: AllImagesView(images: vm.images))
                 }
                 

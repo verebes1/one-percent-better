@@ -92,6 +92,26 @@ final class ImprovementTrackerTests: XCTestCase {
       XCTAssertEqual(["0", "1", "0", "0"], habit.improvementTracker?.values)
    }
    
-   // TODO: Tests: frequency tests like 1/2 times a day and on Tuesday when due MWF
+   func testFrequency() throws {
+      habit.startDate = Cal.dayBefore(byAddingDays: -1)
+      habit.changeFrequency(to: .timesPerDay(2), on: habit.startDate)
+      
+      habit.markCompleted(on: Cal.dayBefore(byAddingDays: -1))
+      XCTAssertEqual(["0", "0", "0"], habit.improvementTracker?.values)
+      habit.markCompleted(on: Cal.dayBefore(byAddingDays: -1))
+      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
+      habit.markCompleted(on: Cal.dayBefore(byAddingDays: 0))
+      // 0, 1, 1.501
+      XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
+   }
    
+   // TODO: Tests: frequency tests like on Tuesday when due MWF
+   
+}
+
+
+extension Calendar {
+   func dayBefore(byAddingDays i: Int, to date: Date = Date()) -> Date {
+      return Cal.date(byAdding: .day, value: i, to: date)!
+   }
 }

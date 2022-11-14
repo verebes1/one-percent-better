@@ -47,6 +47,10 @@ extension Date {
       let components = self.get(.day, .month)
       return "\(components.day!)"
    }
+   
+   func startOfDay() -> Date {
+      return Cal.startOfDay(for: self)
+   }
 }
 
 // MARK: - Collection
@@ -143,6 +147,17 @@ extension RandomAccessCollection where Element == Date, Index == Int {
          return nil
       }
       if Cal.isDate(date, inSameDayAs: self[i]) {
+         return i
+      } else {
+         return nil
+      }
+   }
+   
+   func lessThanOrEqualSearch(for date: Date) -> Index?  {
+      guard let i = binarySearch(predicate: { $0 < Cal.startOfDay(for: date) }) else {
+         return nil
+      }
+      if self[i].startOfDay() <= date.startOfDay() {
          return i
       } else {
          return nil

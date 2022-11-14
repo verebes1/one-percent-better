@@ -213,7 +213,8 @@ struct HabitRow: View {
                ImprovementGraphView()
                   .environmentObject(vm)
                   .frame(width: 80, height: 35)
-                  .border(.black)
+                  .padding(.trailing, 20)
+//                  .border(.black)
             }
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             
@@ -237,17 +238,22 @@ struct HabitRowPreviewer: View {
    
    @State private var currentDay = Date()
    
+   @StateObject var nav = HabitTabNavPath()
+   
    var body: some View {
-      NavigationView {
+      NavigationStack {
          Background {
             List {
                ForEach(Array(zip(vm.habits.indices, vm.habits)), id:\.0) { index, habit in
-                  HabitRow(moc: CoreDataManager.previews.mainContext, habit: habit, day: currentDay)
-                     .environmentObject(habit)
+                  NavigationLink(value: habit) {
+                     HabitRow(moc: CoreDataManager.previews.mainContext, habit: habit, day: currentDay)
+                        .environmentObject(habit)
+                  }
                }
             }
             .environment(\.defaultMinListRowHeight, 54)
          }
+         .environmentObject(nav)
       }
    }
 }
@@ -273,12 +279,16 @@ struct HabitRow_Previews: PreviewProvider {
       h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
+      h3?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       
       if let h3 = h3 {
          let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
       }
       
-      let _ = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2), id: id4)
+      let h4 = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2), id: id4)
+      h4?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+      h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+      h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
       
       let habits = Habit.habits(from: context)
       return habits

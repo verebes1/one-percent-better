@@ -42,7 +42,7 @@ struct CardTitle: View {
     }
 }
 
-struct SimpleCardTitle<Content>: View where Content: View {
+struct CardTitleWithRightDetail<Content>: View where Content: View {
     var name: String
     let content: () -> Content
     
@@ -90,7 +90,7 @@ struct CardView_Previews: PreviewProvider {
                 VStack(spacing: 20) {
                     CardView {
                         VStack {
-                            SimpleCardTitle("Balloon") {
+                            CardTitleWithRightDetail("Balloon") {
                                 Text("test")
                             }
                             Spacer()

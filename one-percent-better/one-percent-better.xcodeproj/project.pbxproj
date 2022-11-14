@@ -34,6 +34,8 @@
 		802E9298291A0CD600A28EB1 /* ColorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9297291A0CD600A28EB1 /* ColorFunctions.swift */; };
 		802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */; };
 		802E929D291E02E000A28EB1 /* ImprovementTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */; };
+		802E92AC29220B8400A28EB1 /* NewImprovementGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */; };
+		802E92AE2922108000A28EB1 /* InteractiveGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92AD2922108000A28EB1 /* InteractiveGraph.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -193,6 +195,8 @@
 		802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementGraphView.swift; sourceTree = "<group>"; };
 		802E929B291CC7DF00A28EB1 /* opb 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 12.xcdatamodel"; sourceTree = "<group>"; };
 		802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTrackerTests.swift; sourceTree = "<group>"; };
+		802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImprovementGraph.swift; sourceTree = "<group>"; };
+		802E92AD2922108000A28EB1 /* InteractiveGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveGraph.swift; sourceTree = "<group>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -416,6 +420,7 @@
 				802E92932919EB7900A28EB1 /* PillButton.swift */,
 				802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */,
 				802E9297291A0CD600A28EB1 /* ColorFunctions.swift */,
+				802E92AD2922108000A28EB1 /* InteractiveGraph.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -570,6 +575,7 @@
 				805A64EE2867CB1400F068B1 /* YearView.swift */,
 				8043A92428E7A414001D0E8C /* Timeline.swift */,
 				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
+				802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */,
 			);
 			path = "Progress Views";
 			sourceTree = "<group>";
@@ -1035,6 +1041,7 @@
 				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
+				802E92AC29220B8400A28EB1 /* NewImprovementGraph.swift in Sources */,
 				80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */,
 				802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */,
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
@@ -1123,6 +1130,7 @@
 				80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */,
 				80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */,
 				80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */,
+				802E92AE2922108000A28EB1 /* InteractiveGraph.swift in Sources */,
 				80385D1B285BEE5900CBDF71 /* NSManagedObjectModel+Resource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

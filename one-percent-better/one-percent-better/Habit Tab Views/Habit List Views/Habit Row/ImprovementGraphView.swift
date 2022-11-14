@@ -20,6 +20,8 @@ extension HabitRowViewModel {
          let day = Cal.date(byAdding: .day, value: -i, to: self.currentDay)!
          if let value = habit.improvementTracker?.score(on: day) {
             result.append(GraphPoint(date: day, value: value))
+         } else {
+            print("What")
          }
       }
       return result
@@ -63,11 +65,11 @@ struct ImprovementGraphView: View {
                      series: .value("Company", "B")
                  )
                  .symbol(.circle)
-                 .symbolSize(20)
+                 .symbolSize(14)
                  .interpolationMethod(.catmullRom)
 //                 .interpolationMethod(.cardinal)
 //                 .interpolationMethod(.linear)
-                 .foregroundStyle(Color.accentColor)
+                 .foregroundStyle(Color.mint)
              }
       }
       .chartYScale(domain: vm.improvementRange)

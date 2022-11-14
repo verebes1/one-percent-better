@@ -25,14 +25,8 @@ struct CalendarView: View {
       let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
       
       VStack(spacing: 0) {
-         HStack(spacing: 0) {
-            
-            Text(calendarModel.headerMonth)
-               .font(.system(size: 19))
-               .fontWeight(.medium)
-            
-            Spacer()
-            
+         
+         CardTitleWithRightDetail(calendarModel.headerMonth) {
             let (completed, total) = calendarModel.numCompleted
             Text("\(completed) of \(total) days")
                .font(.system(size: 15))
@@ -43,8 +37,7 @@ struct CalendarView: View {
                      size: 20)
             .frame(width: 30, height: 30)
          }
-         .padding(.leading, 15)
-         .padding(.trailing, 10)
+         .padding(.trailing, -10)
          .padding(.bottom, 5)
          
          LazyVGrid(columns: columns) {

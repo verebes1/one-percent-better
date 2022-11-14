@@ -56,7 +56,7 @@ struct GraphCardView: View {
     var body: some View {
         CardView {
             VStack(spacing: 0) {
-                SimpleCardTitle(tracker.name) {
+                CardTitleWithRightDetail(tracker.name) {
                     Text(selectedValue)
                 }
                 
