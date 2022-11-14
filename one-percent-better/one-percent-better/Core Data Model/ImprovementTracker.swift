@@ -61,12 +61,14 @@ public class ImprovementTracker: GraphTracker {
          return scores[index]
       } else if habit.isDue(on: date) {
          update(on: date)
-         print("Updating on date: \(date.localDate())")
-         return score(on: date)
+         if let index = dates.sameDayBinarySearch(for: date) {
+            return scores[index]
+         } else {
+            return nil
+         }
       } else {
          return nil
       }
-      
    }
    
    /// Create 1% better graph data

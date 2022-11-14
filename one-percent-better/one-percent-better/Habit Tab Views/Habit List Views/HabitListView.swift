@@ -118,20 +118,31 @@ struct HabitListView: View {
                   Spacer()
                } else {
                   List {
-                     ForEach(vm.habits, id: \.self.id) { habit in
-                        if habit.started(before: hwvm.currentDay) {
-                           let _ = print("Habit row \(habit.name) is being loaded")
-                           // Habit Row
-                           NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                              HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)
+                     Section {
+                        ForEach(vm.habits, id: \.self.id) { habit in
+                           if habit.started(before: hwvm.currentDay) {
+                              let _ = print("Habit row \(habit.name) is being loaded")
+                              // Habit Row
+                              NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                                 HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)
+                              }
                            }
                         }
+                        .onMove(perform: vm.move)
+                        .onDelete(perform: vm.delete)
                      }
-                     .onMove(perform: vm.move)
-                     .onDelete(perform: vm.delete)
+//                     .listRowInsets(EdgeInsets(
+//                        top: 0,
+//                        leading: 0,
+//                        bottom: 0,
+//                        trailing: 0))
                   }
-                  //                     .listStyle(ListStyle.inset(alternatesRowBackgrounds: true))
+                  .listStyle(.insetGrouped)
+                  .scrollContentBackground(.hidden)
                   .environment(\.defaultMinListRowHeight, 54)
+                  .padding(.top, -25)
+                  .clipShape(Rectangle())
+//                  .border(.black)
                }
             }
          }

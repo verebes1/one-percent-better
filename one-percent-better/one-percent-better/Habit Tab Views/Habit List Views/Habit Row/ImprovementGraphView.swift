@@ -48,6 +48,23 @@ extension HabitRowViewModel {
       return smallest ... largest
    }
    
+   var graphColor: Color {
+      
+      guard !improvementArr.isEmpty else {
+         return .gray
+      }
+      // improvement array in reverse order
+      let first = improvementArr.last!.value
+      let last = improvementArr.first!.value
+      
+      if first < last {
+         return Color.green
+      } else if first > last {
+         return Color.red
+      } else {
+         return Color.gray
+      }
+   }
    
 }
 
@@ -67,9 +84,7 @@ struct ImprovementGraphView: View {
                  .symbol(.circle)
                  .symbolSize(14)
                  .interpolationMethod(.catmullRom)
-//                 .interpolationMethod(.cardinal)
-//                 .interpolationMethod(.linear)
-                 .foregroundStyle(Color.mint)
+                 .foregroundStyle(vm.graphColor)
              }
       }
       .chartYScale(domain: vm.improvementRange)
