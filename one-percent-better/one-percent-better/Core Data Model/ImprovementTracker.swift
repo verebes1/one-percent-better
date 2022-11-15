@@ -41,7 +41,7 @@ public class ImprovementTracker: GraphTracker {
    
    func lastFiveScores(on date: Date) -> [GraphPoint] {
       var r = [GraphPoint]()
-      if var i = dates.sameDayBinarySearch(for: date) {
+      if var i = dates.lessThanOrEqualSearch(for: date) {
          for _ in 0 ..< 7 {
             if i >= 0 {
                r.append(GraphPoint(date: dates[i], value: scores[i]))
@@ -73,7 +73,14 @@ public class ImprovementTracker: GraphTracker {
          values = combined.map { $0.1.0 }
          scores = combined.map { $0.1.1 }
       }
-      context.fatalSave()
+   }
+   
+   override func remove(on date: Date) {
+      if let index = dates.sameDayBinarySearch(for: date) {
+         dates.remove(at: index)
+         values.remove(at: index)
+         scores.remove(at: index)
+      }
    }
    
    func score(on date: Date) -> Double? {
@@ -135,48 +142,11 @@ public class ImprovementTracker: GraphTracker {
          self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
       }
       
-      
-//      if dates.isEmpty {
-//         curDate = habit.startDate
-//         score = 100
-//
-//         // Start of graph needs to be a 0 from the day before beginning
-//         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
-//      } else if let i = dates.sameDayBinarySearch(for: date) {
-//         curDate = dates[i]
-//         if i > 0 {
-//            // Go off on yesterday's score
-//            score = scores[i-1] + 100
-//         } else {
-//            score = 100
-//            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
-//         }
-//      } else if let i = dates.lastIndex(where: { $0.startOfDay() <= date.startOfDay() } ) {
-//         curDate = dates[i]
-//
-//         if i > 0 {
-//            score = scores[i-1] + 100
-//         } else {
-//            score = 100
-//            self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
-//         }
-//
-//      } else {
-//         score = 100
-//         curDate = date
-//         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
-//      }
-         
-      
-      
       let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
       
       while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
          
-         //         var oldScore: Double?
-         //         if let oldScoreIndex = dates.sameDayBinarySearch(for: curDate) {
-         //            oldScore = values[oldScoreIndex]
-         //         }
+         var toRemove = false
          
          switch habit.frequency(on: curDate) {
          case .timesPerDay(let n):
@@ -188,93 +158,34 @@ public class ImprovementTracker: GraphTracker {
                score *= 0.995
             }
          case .daysInTheWeek(let days):
-            if days.contains(curDate.weekdayOffset) {
+            if days.contains(curDate.weekdayInt) {
                if habit.wasCompleted(on: curDate) {
                   score *= 1.01
                } else {
                   score *= 0.995
                }
             } else {
-               // don't modify score, unless it was done anyways
+               // Only increase score if completed
+               // Remove score if not
                if habit.wasCompleted(on: curDate) {
                   score *= 1.01
+               } else {
+                  toRemove = true
                }
             }
          }
          
          score = max(100, score)
          let scaledScore = score - 100
-         self.add(date: curDate, score: scaledScore)
+         if !toRemove {
+            self.add(date: curDate, score: scaledScore)
+         } else {
+            self.remove(on: curDate)
+         }
          curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
       }
+      context.fatalSave()
    }
-   
-   
-   //      self.reset()
-   //      createData(habit: habit)
-   //      CoreDataManager.shared.saveContext()
-   
-   // Case 1: dates is empty, so start from habit.startDate
-   // Case 2: dates has 1 entry, yesterday
-   // Case 3: dates has 1 entry, many days ago
-   // Case 4: dates has many entries, including yesterday
-   
-   //      [0, 1, 2, 3, 4, 5, ]
-   
-   
-   //   func createData(from i: Int?) {
-   //      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
-   //      var curDate: Date
-   //      var score: Double
-   //      if let i = i {
-   //         curDate = dates[i]
-   //         score = Double(values[i])!
-   //      } else {
-   //
-   //         let start = Cal.date(byAdding: .day, value: -1, to: habit.startDate)!
-   //
-   //
-   //         curDate = habit.startDate
-   //         score = 100
-   //      }
-   //
-   //      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-   //         if habit.wasCompleted(on: curDate) {
-   //            score *= 1.01
-   //         } else {
-   //            score *= 0.995
-   //
-   //            if score < 100 {
-   //               score = 100
-   //            }
-   //         }
-   //         let roundedScore = round(score)
-   //         let scaledScore = roundedScore - 100
-   //         self.add(date: curDate, value: String(Int(scaledScore)))
-   //         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
-   //      }
-   //   }
-   
-   //   func createData(habit: Habit) {
-   //      var score: Double = 100
-   //      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
-   //      var curDate = habit.startDate
-   //      while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-   //         if habit.wasCompleted(on: curDate) {
-   //            score *= 1.01
-   //         } else {
-   //            score *= 0.995
-   //
-   //            if score < 100 {
-   //               score = 100
-   //            }
-   //         }
-   //         let roundedScore = round(score)
-   //         let scaledScore = roundedScore - 100
-   //         self.add(date: curDate, value: String(Int(scaledScore)))
-   //         curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
-   //      }
-   //   }
    
    // MARK: - Encodable
    enum CodingKeys: CodingKey {

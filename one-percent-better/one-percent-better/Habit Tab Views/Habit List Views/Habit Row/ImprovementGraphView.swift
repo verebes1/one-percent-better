@@ -8,14 +8,8 @@
 import SwiftUI
 import Charts
 
-extension HabitRowViewModel {
-   
-   
-}
-
 struct ImprovementGraphView: View {
    
-//   var habit: Habit
    @EnvironmentObject var vm: HabitRowViewModel
    
    func getLast5() -> [GraphPoint] {
@@ -91,17 +85,11 @@ struct ImprovementGraphView: View {
             .interpolationMethod(.catmullRom)
             .foregroundStyle(graphColor(last5: last5, avg: average))
          }
-         
-//         RuleMark(yStart: last5[2].value, yEnd: last5[2].value)
-
       }
       .animation(.easeInOut, value: last5)
-//      .animation(.easeInOut, value: vm.graphColor)
       .chartYScale(domain: improvementRange(last5: last5))
       .chartXAxis(.hidden)
       .chartYAxis(.hidden)
-//      .onAppear()
-//      .frame(width: 300, height: 200)
    }
 }
 
@@ -120,7 +108,8 @@ struct ImprovementGraphView_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: 0, to: Date())!)
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
-      let _ = try? Habit(context: context, name: "Basketball", id: id2)
+      let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
+      h2?.changeFrequency(to: .daysInTheWeek([1,3,5]))
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       

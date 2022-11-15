@@ -34,6 +34,13 @@ enum HabitFrequency: Equatable {
       }
    }
    
+   /// For converting between a date and the weekday (for ex. M = 1, T = 2, W = 3, ...)
+   /// - Parameter date: The date to convert
+   /// - Returns: The integer value of that weekday
+   func dateToDaysInTheWeek(for date: Date) -> Int {
+      return Cal.component(.weekday, from: date) - 1
+   }
+   
    func equalType(to hf: HabitFrequency) -> Bool {
       return self.valueNS == hf.valueNS
    }
@@ -104,7 +111,7 @@ extension Habit {
       case .timesPerDay(_):
          return true
       case .daysInTheWeek(let days):
-         return days.contains(date.weekdayOffset)
+         return days.contains(date.weekdayInt)
       }
    }
 }

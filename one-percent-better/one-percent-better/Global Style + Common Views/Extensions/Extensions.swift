@@ -76,6 +76,10 @@ extension Calendar {
       let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
       return numberOfDays.day! + 1
    }
+   
+   func dayBefore(byAddingDays i: Int, to date: Date = Date()) -> Date {
+      return Cal.date(byAdding: .day, value: i, to: date)!
+   }
 }
 
 public var Cal = Calendar.autoupdatingCurrent

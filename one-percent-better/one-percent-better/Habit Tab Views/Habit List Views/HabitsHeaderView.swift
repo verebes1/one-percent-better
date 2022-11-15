@@ -94,6 +94,13 @@ class HeaderWeekViewModel: ObservableObject {
          currentDay = Date()
       }
       updateHeaderView()
+      updateImprovementScores()
+   }
+   
+   func updateImprovementScores() {
+      for habit in hlvm.habits {
+         habit.improvementTracker?.update(on: currentDay)
+      }
    }
    
    /// Date of the earliest start date for all habits

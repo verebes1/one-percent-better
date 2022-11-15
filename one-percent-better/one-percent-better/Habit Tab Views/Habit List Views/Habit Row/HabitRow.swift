@@ -23,20 +23,6 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimeTracker: Bool
    var hasTimerStarted: Bool
    
-//   lazy var improvementArr: [GraphPoint] = {
-//      print("Calculating imprArr for habit: \(self.habit.name)")
-//      var result = [GraphPoint]()
-//      for i in 0 ..< 5 {
-//         let day = Cal.date(byAdding: .day, value: -i, to: self.currentDay)!
-//         if let value = habit.improvementTracker?.score(on: day) {
-//            result.append(GraphPoint(date: day, value: value))
-//         } else {
-//            print("What")
-//         }
-//      }
-//      return result
-//   }()
-   
    init(moc: NSManagedObjectContext, habit: Habit, currentDay: Date) {
       print("initializing new habitRow: \(habit.name)")
       //      self.habit = habit.copy() as? Habit
@@ -287,10 +273,12 @@ struct HabitRow_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: 0, to: Date())!)
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
-      let h2 = try? Habit(context: context, name: "Basketball", id: id2)
-      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
-      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
-      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
+      let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
+      h2?.changeFrequency(to: .daysInTheWeek([2,3,5]))
+      h2?.markCompleted(on: Cal.dayBefore(byAddingDays: -1))
+//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       h3?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)

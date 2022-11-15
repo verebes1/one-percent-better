@@ -469,7 +469,7 @@ extension KeyedDecodingContainer {
 }
 
 extension Date {
-   var weekdayOffset: Int {
+   var weekdayInt: Int {
       return Cal.component(.weekday, from: self) - 1
    }
 }

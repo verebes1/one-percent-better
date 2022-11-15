@@ -131,18 +131,12 @@ struct HabitListView: View {
                         .onMove(perform: vm.move)
                         .onDelete(perform: vm.delete)
                      }
-//                     .listRowInsets(EdgeInsets(
-//                        top: 0,
-//                        leading: 0,
-//                        bottom: 0,
-//                        trailing: 0))
                   }
                   .listStyle(.insetGrouped)
                   .scrollContentBackground(.hidden)
                   .environment(\.defaultMinListRowHeight, 54)
                   .padding(.top, -25)
                   .clipShape(Rectangle())
-//                  .border(.black)
                }
             }
          }
@@ -159,12 +153,12 @@ struct HabitListView: View {
                   EditButton()
                }
                
-//               ToolbarItem(placement: .principal) {
-//                  Button("Help") {
-//                     print("Help tapped!")
-//                     showingPopover = true
-//                  }
-//               }
+               //               ToolbarItem(placement: .principal) {
+               //                  Button("Help") {
+               //                     print("Help tapped!")
+               //                     showingPopover = true
+               //                  }
+               //               }
                
                ToolbarItem(placement: .navigationBarTrailing) {
                   NavigationLink(value: HabitListViewRoute.createHabit) {
@@ -189,11 +183,11 @@ struct HabitListView: View {
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
-//            .popup(isPresented: $showingPopover) {
-//               BottomPopupView {
-//                  NamePopupView(isPresented: $showingPopover)
-//               }
-//            }
+         //            .popup(isPresented: $showingPopover) {
+         //               BottomPopupView {
+         //                  NamePopupView(isPresented: $showingPopover)
+         //               }
+         //            }
             .environmentObject(nav)
       )
    }
