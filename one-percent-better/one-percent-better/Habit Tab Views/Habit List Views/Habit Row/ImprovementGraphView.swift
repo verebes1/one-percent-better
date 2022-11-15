@@ -83,7 +83,7 @@ struct ImprovementGraphView: View {
             .symbol(.circle)
             .symbolSize(14)
             .interpolationMethod(.catmullRom)
-            .foregroundStyle(graphColor(last5: last5, avg: average))
+            .foregroundStyle(graphColor(last5: last5, avg: average).opacity(0.9))
          }
       }
       .animation(.easeInOut, value: last5)
