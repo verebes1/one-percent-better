@@ -8,6 +8,11 @@
 import Foundation
 import CoreData
 
+struct GraphPoint: Equatable {
+    var date: Date
+    var value: Double
+}
+
 @objc(ImprovementTracker)
 public class ImprovementTracker: GraphTracker {
    
@@ -32,6 +37,21 @@ public class ImprovementTracker: GraphTracker {
       let roundedScore = round(score)
       let string = String(Int(roundedScore))
       return string
+   }
+   
+   func lastFiveScores(on date: Date) -> [GraphPoint] {
+      var r = [GraphPoint]()
+      if var i = dates.sameDayBinarySearch(for: date) {
+         for _ in 0 ..< 5 {
+            if i >= 0 {
+               r.append(GraphPoint(date: dates[i], value: scores[i]))
+            } else {
+               break
+            }
+            i -= 1
+         }
+      }
+      return r.reversed()
    }
    
    func add(date: Date, score: Double) {

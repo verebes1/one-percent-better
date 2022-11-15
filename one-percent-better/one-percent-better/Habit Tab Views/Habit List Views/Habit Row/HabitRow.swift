@@ -23,8 +23,22 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimeTracker: Bool
    var hasTimerStarted: Bool
    
+//   lazy var improvementArr: [GraphPoint] = {
+//      print("Calculating imprArr for habit: \(self.habit.name)")
+//      var result = [GraphPoint]()
+//      for i in 0 ..< 5 {
+//         let day = Cal.date(byAdding: .day, value: -i, to: self.currentDay)!
+//         if let value = habit.improvementTracker?.score(on: day) {
+//            result.append(GraphPoint(date: day, value: value))
+//         } else {
+//            print("What")
+//         }
+//      }
+//      return result
+//   }()
+   
    init(moc: NSManagedObjectContext, habit: Habit, currentDay: Date) {
-      //      print("initializing new habit: \(habit.name)")
+      print("initializing new habitRow: \(habit.name)")
       //      self.habit = habit.copy() as? Habit
       self.habit = habit
       self.currentDay = currentDay
@@ -213,8 +227,8 @@ struct HabitRow: View {
                ImprovementGraphView()
                   .environmentObject(vm)
                   .frame(width: 80, height: 35)
-                  .padding(.trailing, 20)
 //                  .border(.black)
+                  .padding(.trailing, 20)
             }
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             

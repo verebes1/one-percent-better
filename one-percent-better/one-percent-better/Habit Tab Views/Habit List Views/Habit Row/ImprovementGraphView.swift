@@ -9,28 +9,41 @@ import SwiftUI
 import Charts
 
 extension HabitRowViewModel {
-   struct GraphPoint {
-       var date: Date
-       var value: Double
+   
+   
+}
+
+struct ImprovementGraphView: View {
+   
+//   var habit: Habit
+   @EnvironmentObject var vm: HabitRowViewModel
+   
+   func getLast5() -> [GraphPoint] {
+      return vm.habit.improvementTracker?.lastFiveScores(on: vm.currentDay) ?? []
    }
    
-   var improvementArr: [GraphPoint] {
-      var result = [GraphPoint]()
-      for i in 0 ..< 5 {
-         let day = Cal.date(byAdding: .day, value: -i, to: self.currentDay)!
-         if let value = habit.improvementTracker?.score(on: day) {
-            result.append(GraphPoint(date: day, value: value))
-         } else {
-            print("What")
-         }
+   func graphColor(last5: [GraphPoint]) -> Color {
+      
+      guard !last5.isEmpty else {
+         return .gray
       }
-      return result
+      // improvement array in reverse order
+      let first = last5.first!.value
+      let last = last5.last!.value
+      
+      if first < last {
+         return Color.green
+      } else if first > last {
+         return Color.red
+      } else {
+         return Color.gray
+      }
    }
    
-   var improvementRange: ClosedRange<Double> {
+   func improvementRange(last5: [GraphPoint]) -> ClosedRange<Double> {
       var smallest: Double!
       var largest: Double!
-      for gp in improvementArr {
+      for gp in last5 {
          if smallest == nil { smallest = gp.value }
          if largest == nil { largest = gp.value }
          if gp.value < smallest {
@@ -48,34 +61,10 @@ extension HabitRowViewModel {
       return smallest ... largest
    }
    
-   var graphColor: Color {
-      
-      guard !improvementArr.isEmpty else {
-         return .gray
-      }
-      // improvement array in reverse order
-      let first = improvementArr.last!.value
-      let last = improvementArr.first!.value
-      
-      if first < last {
-         return Color.green
-      } else if first > last {
-         return Color.red
-      } else {
-         return Color.gray
-      }
-   }
-   
-}
-
-struct ImprovementGraphView: View {
-   
-//   var habit: Habit
-   @EnvironmentObject var vm: HabitRowViewModel
-   
    var body: some View {
+      let last5 = getLast5()
       Chart {
-         ForEach(vm.improvementArr, id: \.date) { item in
+         ForEach(last5, id: \.date) { item in
                  LineMark(
                      x: .value("Date", item.date),
                      y: .value("Profit B", item.value),
@@ -84,10 +73,12 @@ struct ImprovementGraphView: View {
                  .symbol(.circle)
                  .symbolSize(14)
                  .interpolationMethod(.catmullRom)
-                 .foregroundStyle(vm.graphColor)
+                 .foregroundStyle(graphColor(last5: last5))
              }
       }
-      .chartYScale(domain: vm.improvementRange)
+      .animation(.easeInOut, value: last5)
+//      .animation(.easeInOut, value: vm.graphColor)
+      .chartYScale(domain: improvementRange(last5: last5))
       .chartXAxis(.hidden)
       .chartYAxis(.hidden)
 //      .frame(width: 300, height: 200)
