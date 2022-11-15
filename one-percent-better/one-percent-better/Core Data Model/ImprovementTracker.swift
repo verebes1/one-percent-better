@@ -42,7 +42,7 @@ public class ImprovementTracker: GraphTracker {
    func lastFiveScores(on date: Date) -> [GraphPoint] {
       var r = [GraphPoint]()
       if var i = dates.sameDayBinarySearch(for: date) {
-         for _ in 0 ..< 5 {
+         for _ in 0 ..< 7 {
             if i >= 0 {
                r.append(GraphPoint(date: dates[i], value: scores[i]))
             } else {

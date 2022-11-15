@@ -22,18 +22,17 @@ struct ImprovementGraphView: View {
       return vm.habit.improvementTracker?.lastFiveScores(on: vm.currentDay) ?? []
    }
    
-   func graphColor(last5: [GraphPoint]) -> Color {
+   func graphColor(last5: [GraphPoint], avg: Double) -> Color {
       
       guard !last5.isEmpty else {
          return .gray
       }
       // improvement array in reverse order
-      let first = last5.first!.value
       let last = last5.last!.value
       
-      if first < last {
+      if last > avg {
          return Color.green
-      } else if first > last {
+      } else if avg > last {
          return Color.red
       } else {
          return Color.gray
@@ -61,26 +60,47 @@ struct ImprovementGraphView: View {
       return smallest ... largest
    }
    
+   func average(last5: [GraphPoint]) -> Double {
+      if last5.isEmpty {
+         return 0
+      }
+      var avg: Double = 0
+      for gp in last5 {
+         avg += gp.value
+      }
+      avg /= Double(last5.count)
+      return avg
+   }
+   
    var body: some View {
       let last5 = getLast5()
+      let average = average(last5: last5)
       Chart {
+         RuleMark(y: .value("Average", average))
+            .lineStyle(.init(lineWidth: 1, dash: [1,5]))
+            .foregroundStyle(.gray.opacity(0.7))
+         
          ForEach(last5, id: \.date) { item in
-                 LineMark(
-                     x: .value("Date", item.date),
-                     y: .value("Profit B", item.value),
-                     series: .value("Company", "B")
-                 )
-                 .symbol(.circle)
-                 .symbolSize(14)
-                 .interpolationMethod(.catmullRom)
-                 .foregroundStyle(graphColor(last5: last5))
-             }
+            LineMark(
+               x: .value("Date", item.date),
+               y: .value("Profit B", item.value),
+               series: .value("Company", "B")
+            )
+            .symbol(.circle)
+            .symbolSize(14)
+            .interpolationMethod(.catmullRom)
+            .foregroundStyle(graphColor(last5: last5, avg: average))
+         }
+         
+//         RuleMark(yStart: last5[2].value, yEnd: last5[2].value)
+
       }
       .animation(.easeInOut, value: last5)
 //      .animation(.easeInOut, value: vm.graphColor)
       .chartYScale(domain: improvementRange(last5: last5))
       .chartXAxis(.hidden)
       .chartYAxis(.hidden)
+//      .onAppear()
 //      .frame(width: 300, height: 200)
    }
 }
