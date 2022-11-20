@@ -105,7 +105,6 @@ final class ImprovementTrackerTests: XCTestCase {
       XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
    }
    
-   // TODO: Tests: frequency tests like on Tuesday when due MWF
    func testSMTWTFSFrequency() throws {
       habit.startDate = Cal.dayBefore(byAddingDays: -2)
       let yesterday = Cal.dayBefore(byAddingDays: -1).weekdayInt
@@ -130,5 +129,16 @@ final class ImprovementTrackerTests: XCTestCase {
       //  0  -  1  2
       habit.markCompleted(on: Cal.dayBefore(byAddingDays: 0))
       XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
+   }
+   
+   func testSMTWTFSFrequency2() throws {
+      habit.startDate = Cal.dayBefore(byAddingDays: -2)
+      let yesterday = Cal.dayBefore(byAddingDays: -1).weekdayInt
+      habit.changeFrequency(to: .daysInTheWeek([yesterday]), on: habit.startDate)
+      
+      habit.markCompleted(on: Cal.dayBefore(byAddingDays: -2))
+      // -3 -2 -1  0
+      //  0  1  0  -
+      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
    }
 }

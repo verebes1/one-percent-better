@@ -159,8 +159,14 @@ extension RandomAccessCollection where Element == Date, Index == Int {
    
    func lessThanOrEqualSearch(for date: Date) -> Index?  {
       guard let i = binarySearch(predicate: { $0 < Cal.startOfDay(for: date) }) else {
-         return nil
+         if let last = self.last,
+            last.startOfDay() <= date.startOfDay() {
+            return self.count - 1
+         } else {
+            return nil
+         }
       }
+      
       if self[i].startOfDay() <= date.startOfDay() {
          return i
       } else {

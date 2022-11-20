@@ -12,17 +12,16 @@ struct ImprovementGraphView: View {
    
    @EnvironmentObject var vm: HabitRowViewModel
    
-   func getLast5() -> [GraphPoint] {
-      return vm.habit.improvementTracker?.lastFiveScores(on: vm.currentDay) ?? []
+   func getLast7() -> [GraphPoint] {
+      return vm.habit.improvementTracker?.lastNDays(n: 7, on: vm.currentDay) ?? []
    }
    
-   func graphColor(last5: [GraphPoint], avg: Double) -> Color {
-      
-      guard !last5.isEmpty else {
+   func graphColor(last7: [GraphPoint], avg: Double) -> Color {
+      guard !last7.isEmpty else {
          return .gray
       }
       // improvement array in reverse order
-      let last = last5.last!.value
+      let last = last7.last!.value
       
       if last > avg {
          return Color.green
@@ -67,7 +66,7 @@ struct ImprovementGraphView: View {
    }
    
    var body: some View {
-      let last5 = getLast5()
+      let last5 = getLast7()
       let average = average(last5: last5)
       Chart {
          RuleMark(y: .value("Average", average))
@@ -83,7 +82,7 @@ struct ImprovementGraphView: View {
             .symbol(.circle)
             .symbolSize(14)
             .interpolationMethod(.catmullRom)
-            .foregroundStyle(graphColor(last5: last5, avg: average).opacity(0.9))
+            .foregroundStyle(graphColor(last7: last5, avg: average).opacity(0.9))
          }
       }
       .animation(.easeInOut, value: last5)
@@ -109,7 +108,8 @@ struct ImprovementGraphView_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.changeFrequency(to: .daysInTheWeek([1,3,5]))
+      h2?.changeFrequency(to: .daysInTheWeek([1,3,5,6]))
+//      h2?.markCompleted(on: Date())
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       
@@ -127,7 +127,7 @@ struct ImprovementGraphView_Previews: PreviewProvider {
       let _ = data()
       let moc = CoreDataManager.previews.mainContext
       let hlvm = HabitListViewModel(moc)
-      let vm = HabitRowViewModel(moc: moc, habit: hlvm.habits[0], currentDay: Date())
+      let vm = HabitRowViewModel(moc: moc, habit: hlvm.habits[1], currentDay: Date())
       ImprovementGraphView()
          .environmentObject(vm)
          .frame(width: 300, height: 200)

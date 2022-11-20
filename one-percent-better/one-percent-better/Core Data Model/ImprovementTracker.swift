@@ -39,10 +39,13 @@ public class ImprovementTracker: GraphTracker {
       return string
    }
    
-   func lastFiveScores(on date: Date) -> [GraphPoint] {
+   /// Get the last n days of the improvement score starting from date
+   /// - Returns: Array of graph points
+   func lastNDays(n: Int, on date: Date) -> [GraphPoint] {
+//      update(on: date)
       var r = [GraphPoint]()
       if var i = dates.lessThanOrEqualSearch(for: date) {
-         for _ in 0 ..< 7 {
+         for _ in 0 ..< n {
             if i >= 0 {
                r.append(GraphPoint(date: dates[i], value: scores[i]))
             } else {
