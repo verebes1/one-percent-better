@@ -97,8 +97,8 @@ struct CompletedSquare: View {
    
    var body: some View {
       ForEach(0 ..< 365) { i in
-         
-         let curDay = Cal.date(byAdding: .day, value: -i, to: today)!
+         let j = 364 - i
+         let curDay = Cal.date(byAdding: .day, value: -j, to: today)!
          let isCompleted = habit.timesCompleted(on: curDay) >= 1
          
          
