@@ -143,6 +143,7 @@
 		80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */; };
 		80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */; };
 		80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */; };
+		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -316,6 +317,7 @@
 		80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCreateSymbol.swift; sourceTree = "<group>"; };
 		80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo_ikai10-to-11.xcmappingmodel"; sourceTree = "<group>"; };
 		80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MigrationModel10-to-11.swift"; sourceTree = "<group>"; };
+		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 				80385CDF285BEE5900CBDF71 /* Core Data Model */,
 				80385CAD285BEE5900CBDF71 /* Global Style + Common Views */,
 				80385CC5285BEE5900CBDF71 /* Habit Tab Views */,
+				80DAAC2E293478CD00E626D7 /* All Habits Tab Views */,
 				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
@@ -765,6 +768,14 @@
 			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
 		};
+		80DAAC2E293478CD00E626D7 /* All Habits Tab Views */ = {
+			isa = PBXGroup;
+			children = (
+				80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */,
+			);
+			path = "All Habits Tab Views";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1080,6 +1091,7 @@
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
 				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,
 				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,
+				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,

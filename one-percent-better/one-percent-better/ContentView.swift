@@ -33,6 +33,12 @@ struct ContentView: View {
          .tabItem {
             Label("Habits", systemImage: "checkmark.circle.fill")
          }
+         
+         AllHabitsGraph()
+            .environmentObject(HabitListViewModel(moc))
+            .tabItem {
+               Label("Insights", systemImage: "chart.bar.fill")
+            }
 
          SettingsView(vm: SettingsViewModel(moc))
             .tabItem {
