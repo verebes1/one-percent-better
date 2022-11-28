@@ -48,7 +48,7 @@ struct AllHabitsGraph: View {
          }
          .frame(height: 600)
 //         .animation(.easeInOut, value: last5)
-//         .chartYScale(domain: improvementRange(last5: last5))
+//         .chartYScale(domain: 0 ... 450)
       }
       .padding()
    }

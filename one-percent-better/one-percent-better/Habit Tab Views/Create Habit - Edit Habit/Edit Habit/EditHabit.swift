@@ -57,7 +57,7 @@ struct EditHabit: View {
    
    var freqTextView: some View {
       guard let freq = habit.frequency(on: Date()) else {
-         fatalError("Missing frequency")
+         return Text("N/A")
       }
       
       switch freq {
@@ -86,6 +86,8 @@ struct EditHabit: View {
                   EditHabitName(newHabitName: $newHabitName,
                                 emptyNameError: $emptyHabitNameError)
                   
+                  // MARK: - Edit Frequency
+                  
                   NavigationLink(value: EditHabitNavRoute.editFrequency) {
                      HStack {
                         Text("Frequency")
@@ -97,6 +99,8 @@ struct EditHabit: View {
                      }
                   }
                   
+                  // MARK: - Edit Start Date
+                  
                   HStack {
                      Text("Start date")
                         .fontWeight(.medium)
@@ -105,7 +109,11 @@ struct EditHabit: View {
                      DatePicker("", selection: $startDate, in: Cal.addDays(num: -10000) ... Date(), displayedComponents: [.date])
                   }
                   .onChange(of: startDate) { newValue in
-                     
+                     if newValue.startOfDay() > habit.startDate {
+                        // TODO: Pop up to ask if you're sure you want to potentially erase data
+                     } else {
+                        habit.updateStartDate(to: newValue)
+                     }
                   }
                                     
                }
@@ -123,8 +131,10 @@ struct EditHabit: View {
                
                Section {
                   Button {
-                     deleteHabit()
                      nav.path.removeLast(2)
+                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        deleteHabit()
+                     }
                   } label: {
                      HStack {
                         Text("Delete Habit")
