@@ -20,9 +20,12 @@ extension Habit {
    }
    
    func wasCompleted(on date: Date) -> Bool {
-      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return false }
+      guard let i = daysCompleted.sameDayBinarySearch(for: date),
+            let freq = frequency(on: date) else {
+         return false
+      }
       
-      switch frequency(on: date) {
+      switch freq {
       case .timesPerDay(let n):
          return timesCompleted[i] >= n
       case .daysInTheWeek(_):
@@ -47,9 +50,12 @@ extension Habit {
    }
    
    func percentCompleted(on date: Date) -> Double {
-      guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
+      guard let i = daysCompleted.sameDayBinarySearch(for: date),
+            let freq = frequency(on: date) else {
+         return 0
+      }
       
-      switch frequency(on: date) {
+      switch freq {
       case .timesPerDay(let n):
          return Double(timesCompleted[i]) / Double(n)
       case .daysInTheWeek(_):
@@ -84,12 +90,16 @@ extension Habit {
       if !wasCompleted(on: date) {
          if let i = daysCompleted.sameDayBinarySearch(for: date) {
             timesCompleted[i] += 1
+            
+            // Dictionary version
             if let v = timesCompletedDict[DMYDate(date: date)] {
                timesCompletedDict[DMYDate(date: date)] = v + 1
             }
          } else {
             daysCompleted.append(date)
             timesCompleted.append(1)
+            
+            // Dictionary version
             timesCompletedDict[DMYDate(date: date)] = 1
          }
          
@@ -98,8 +108,7 @@ extension Habit {
          timesCompleted = combined.map { $0.1 }
          
          if date < startDate {
-            startDate = Cal.startOfDay(for: date)
-            // TODO: Update frequency data as well
+            updateStartDate(to: date)
          }
       }
       

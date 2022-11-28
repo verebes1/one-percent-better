@@ -91,6 +91,8 @@ struct CompletedSquare: View {
          opacity = Double(habit.timesCompleted(on: curDay)) / Double(n)
       case .daysInTheWeek:
          opacity = Double(1)
+      case nil:
+         opacity = 0
       }
       return opacity
    }

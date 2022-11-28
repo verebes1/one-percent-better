@@ -49,7 +49,21 @@ enum HabitFrequency: Equatable {
 // Frequency Data Structure
 // frequencyDates: [Date] - LIST OF DATES OF WHEN FREQUENCY CHANGES
 // Use index of frequencyDates in order to get frequency data
-// All frequency data must be appeneded to keep the same length as frequencyDates array
+// All frequency data must be appended to keep the same length as frequencyDates array
+//
+// Example:
+// 1/1/2022  - Habit created with   1 time per day
+// 1/5/2022  - freq changed to      2 times per day
+// 1/14/2022 - freq changed to      MWF
+// 2/3/2022  - freq changed to      3 times per day
+//
+// frequencyDates = [1/1/2022, 1/5/2022, 1/14/2022, 2/3/2022]
+// frequency      = [0,        0,        1,         0       ]
+// timesPerDay    = [1,        2,        1,         3       ]
+// daysPerWeek    = [[0],      [0],      [0,2,4],   [0]     ]
+//
+// Note: the frequency dates array needs to match the start date of the habit, so it must
+// be updated when the start date is updated
 
 extension Habit {
    
@@ -88,10 +102,14 @@ extension Habit {
       moc.fatalSave()
    }
    
-   func frequency(on date: Date) -> HabitFrequency {
+   
+   /// Get the frequency of the habit on a specific date
+   /// - Parameter date: The date to get the frequency on
+   /// - Returns: The corresponding HabitFrequency
+   func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
-//         print("Requesting frequency on date which is after all dates in the frequencyDates array")
-         return .timesPerDay(1)
+         // Requesting frequency before start date
+         return nil
       }
          
       guard let freq = HabitFrequencyNSManaged(rawValue: frequency[index]) else {
@@ -107,7 +125,11 @@ extension Habit {
    }
    
    func isDue(on date: Date) -> Bool {
-      switch frequency(on: date) {
+      guard let freq = frequency(on: date) else {
+         return false
+      }
+      
+      switch freq {
       case .timesPerDay(_):
          return true
       case .daysInTheWeek(let days):

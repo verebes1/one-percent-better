@@ -25,7 +25,7 @@ struct EditHabit: View {
    /// Show empty habit name error if trying to save with empty habit name
    @State private var emptyHabitNameError = false
    
-   @State private var editFrequencyPresenting = false
+   @State private var startDate: Date
    
    enum EditHabitError: Error {
       case emptyHabitName
@@ -33,6 +33,7 @@ struct EditHabit: View {
    
    init(habit: Habit) {
       self._newHabitName = State(initialValue: habit.name)
+      self._startDate = State(initialValue: habit.startDate)
    }
    
    func deleteHabit() {
@@ -55,7 +56,11 @@ struct EditHabit: View {
    }
    
    var freqTextView: some View {
-      switch habit.frequency(on: Date()) {
+      guard let freq = habit.frequency(on: Date()) else {
+         fatalError("Missing frequency")
+      }
+      
+      switch freq {
       case .timesPerDay(let n):
          return Text("\(n)x daily")
       case .daysInTheWeek(let days):
@@ -85,8 +90,6 @@ struct EditHabit: View {
                      HStack {
                         Text("Frequency")
                            .fontWeight(.medium)
-//                        IconTextRow(title: "Frequency", icon: "clock.arrow.2.circlepath", color: .green)
-//                           .fontWeight(.medium)
                         
                         Spacer()
                         
@@ -94,6 +97,17 @@ struct EditHabit: View {
                      }
                   }
                   
+                  HStack {
+                     Text("Start date")
+                        .fontWeight(.medium)
+                     Spacer()
+                     
+                     DatePicker("", selection: $startDate, in: Cal.addDays(num: -10000) ... Date(), displayedComponents: [.date])
+                  }
+                  .onChange(of: startDate) { newValue in
+                     
+                  }
+                                    
                }
                if habit.editableTrackers.count > 0 {
                   Section(header: Text("Trackers")) {
@@ -128,7 +142,7 @@ struct EditHabit: View {
          .navigationBarTitleDisplayMode(.inline)
          .navigationDestination(for: EditHabitNavRoute.self) { route in
             if route == .editFrequency {
-               EditHabitFrequency(frequency: habit.frequency(on: Date()))
+               EditHabitFrequency(frequency: habit.frequency(on: Date())!)
                   .environmentObject(habit)
                   .environmentObject(nav)
             }

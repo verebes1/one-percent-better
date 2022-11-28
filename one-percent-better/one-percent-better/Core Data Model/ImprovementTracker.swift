@@ -151,31 +151,35 @@ public class ImprovementTracker: GraphTracker {
          
          var toRemove = false
          
-         switch habit.frequency(on: curDate) {
-         case .timesPerDay(let n):
-            let tc = Double(habit.timesCompleted(on: curDate))
-            let expected = Double(n)
-            if tc > 0 {
-               score *= (1 + (0.01 * tc / expected))
-            } else {
-               score *= 0.995
-            }
-         case .daysInTheWeek(let days):
-            if days.contains(curDate.weekdayInt) {
-               if habit.wasCompleted(on: curDate) {
-                  score *= 1.01
+         if let freq = habit.frequency(on: curDate) {
+            switch freq {
+            case .timesPerDay(let n):
+               let tc = Double(habit.timesCompleted(on: curDate))
+               let expected = Double(n)
+               if tc > 0 {
+                  score *= (1 + (0.01 * tc / expected))
                } else {
                   score *= 0.995
                }
-            } else {
-               // Only increase score if completed
-               // Remove score if not
-               if habit.wasCompleted(on: curDate) {
-                  score *= 1.01
+            case .daysInTheWeek(let days):
+               if days.contains(curDate.weekdayInt) {
+                  if habit.wasCompleted(on: curDate) {
+                     score *= 1.01
+                  } else {
+                     score *= 0.995
+                  }
                } else {
-                  toRemove = true
+                  // Only increase score if completed
+                  // Remove score if not
+                  if habit.wasCompleted(on: curDate) {
+                     score *= 1.01
+                  } else {
+                     toRemove = true
+                  }
                }
             }
+         } else {
+            fatalError("Trying to calculate score before start date?")
          }
          
          score = max(100, score)

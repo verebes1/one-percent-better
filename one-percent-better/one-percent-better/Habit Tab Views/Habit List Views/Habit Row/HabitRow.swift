@@ -275,7 +275,7 @@ struct HabitRow_Previews: PreviewProvider {
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
       h2?.changeFrequency(to: .daysInTheWeek([2,3,5]))
-      h2?.markCompleted(on: Cal.dayBefore(byAddingDays: -1))
+      h2?.markCompleted(on: Cal.addDays(num: -1))
 //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
 //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
 //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)

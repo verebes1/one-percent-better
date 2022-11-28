@@ -49,8 +49,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// An ordered set of all the trackers for the habit
    @NSManaged public var trackers: NSOrderedSet
    
-   /// The day the habit was first created (not completed)
-   @NSManaged public var startDate: Date
+   /// The start date of the habit. Any day before this start date doesn't display the habit in the habit list or count towards
+   /// the total percent completed for that day.
+   @NSManaged private(set) var startDate: Date
    
    /// An array of all the days where the habit was completed
    @NSManaged public var daysCompleted: [Date]
@@ -134,6 +135,18 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       sub = self.objectWillChange.sink { _ in
          print("Habit \(self.name) will change!!!")
+      }
+   }
+   
+   func updateStartDate(to date: Date) {
+      // Ensure start date is before tomorrow
+      let tmr = Cal.addDays(num: 1).startOfDay()
+      guard date < tmr else { return }
+      
+      startDate = date.startOfDay()
+      
+      if date < frequencyDates[0] {
+         frequencyDates[0] = date
       }
    }
    

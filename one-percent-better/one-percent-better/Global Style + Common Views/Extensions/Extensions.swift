@@ -77,7 +77,7 @@ extension Calendar {
       return numberOfDays.day! + 1
    }
    
-   func dayBefore(byAddingDays i: Int, to date: Date = Date()) -> Date {
+   func addDays(num i: Int, to date: Date = Date()) -> Date {
       return Cal.date(byAdding: .day, value: i, to: date)!
    }
 }
