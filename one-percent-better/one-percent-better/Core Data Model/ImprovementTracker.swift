@@ -185,13 +185,20 @@ public class ImprovementTracker: GraphTracker {
          score = max(100, score)
          let scaledScore = score - 100
          if !toRemove {
-            self.add(date: curDate, score: scaledScore)
+            add(date: curDate, score: scaledScore)
          } else {
-            self.remove(on: curDate)
+            remove(on: curDate)
          }
          curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
       }
       context.fatalSave()
+   }
+   
+   func recalculateScoreFromBeginning() {
+      dates = []
+      scores = []
+      values = []
+      update(on: habit.startDate)
    }
    
    // MARK: - Encodable

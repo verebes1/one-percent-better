@@ -26,6 +26,7 @@ struct EditHabit: View {
    @State private var emptyHabitNameError = false
    
    @State private var startDate: Date
+   @State private var confirmDeleteHabit: Bool = false
    
    enum EditHabitError: Error {
       case emptyHabitName
@@ -106,14 +107,11 @@ struct EditHabit: View {
                         .fontWeight(.medium)
                      Spacer()
                      
-                     DatePicker("", selection: $startDate, in: Cal.addDays(num: -10000) ... Date(), displayedComponents: [.date])
+                     let range = Cal.addDays(num: -10000) ... (habit.firstCompleted ?? Date())
+                     DatePicker("", selection: $startDate, in: range, displayedComponents: [.date])
                   }
                   .onChange(of: startDate) { newValue in
-                     if newValue.startOfDay() > habit.startDate {
-                        // TODO: Pop up to ask if you're sure you want to potentially erase data
-                     } else {
-                        habit.updateStartDate(to: newValue)
-                     }
+                     habit.updateStartDate(to: newValue)
                   }
                                     
                }
@@ -131,10 +129,7 @@ struct EditHabit: View {
                
                Section {
                   Button {
-                     nav.path.removeLast(2)
-                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        deleteHabit()
-                     }
+                     confirmDeleteHabit = true
                   } label: {
                      HStack {
                         Text("Delete Habit")
@@ -143,6 +138,18 @@ struct EditHabit: View {
                         Image(systemName: "trash")
                            .foregroundColor(.red)
                      }
+                  }
+                  .alert(
+                     "Are you sure you want to delete your habit \"\(habit.name)\"?",
+                     isPresented: $confirmDeleteHabit
+                  ) {
+                     Button("Delete", role: .destructive) {
+                        nav.path.removeLast(2)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                           deleteHabit()
+                        }
+                     }
+                     
                   }
                }
             }

@@ -19,6 +19,11 @@ extension Habit {
       return nil
    }
    
+   var firstCompleted: Date? {
+      guard let day = daysCompleted.first else { return nil }
+      return day
+   }
+   
    func wasCompleted(on date: Date) -> Bool {
       guard let i = daysCompleted.sameDayBinarySearch(for: date),
             let freq = frequency(on: date) else {

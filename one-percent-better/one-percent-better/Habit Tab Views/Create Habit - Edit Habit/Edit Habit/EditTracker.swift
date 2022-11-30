@@ -21,6 +21,8 @@ struct EditTracker: View {
    /// Show empty habit name error if trying to save with empty habit name
    @State private var emptyTrackerNameError = false
    
+   @State private var confirmDelete: Bool = false
+   
    enum EditTrackerError: Error {
       case emptyTrackerName
    }
@@ -86,8 +88,7 @@ struct EditTracker: View {
                
                Section {
                   Button {
-                     delete()
-                     nav.path.removeLast()
+                     confirmDelete = true
                   } label: {
                      HStack {
                         Text("Delete Tracker")
@@ -96,6 +97,18 @@ struct EditTracker: View {
                         Image(systemName: "trash")
                            .foregroundColor(.red)
                      }
+                  }
+                  .alert(
+                     "Are you sure you want to delete your tracker \"\(tracker.name)\"?",
+                     isPresented: $confirmDelete
+                  ) {
+                     Button("Delete", role: .destructive) {
+                        nav.path.removeLast()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                           delete()
+                        }
+                     }
+                     
                   }
                }
             }
@@ -148,7 +161,7 @@ struct EditTracker_Previews: PreviewProvider {
       }
       
       let habits = Habit.habits(from: context)
-      return (habits.first!, habits.first!.trackers.firstObject as! NumberTracker)
+      return (habits.first!, habits.first!.trackers.lastObject as! NumberTracker)
    }
    
    static var previews: some View {

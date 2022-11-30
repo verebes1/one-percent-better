@@ -95,7 +95,6 @@ struct AllHabitsGraph_Previews: PreviewProvider {
       let hlvm = HabitListViewModel(moc)
       AllHabitsGraph()
          .environmentObject(hlvm)
-//         .frame(width: 300, height: 200)
          .border(.black.opacity(0.2))
    }
 }

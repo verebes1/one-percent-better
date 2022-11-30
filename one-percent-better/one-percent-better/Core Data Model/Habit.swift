@@ -148,6 +148,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       if date < frequencyDates[0] {
          frequencyDates[0] = date
       }
+      
+      self.improvementTracker?.recalculateScoreFromBeginning()
    }
    
    // MARK: - Properties
