@@ -124,20 +124,6 @@ struct EditTracker: View {
             // do nothing
          }
       }
-      //        .overlay(
-      //            ZStack {
-      //                RoundedRectangle(cornerRadius: 10)
-      //                    .foregroundColor(.cardColor)
-      //                    .padding(.horizontal, 15)
-      //
-      //                Text("Are you sure you want to delete \(tracker.name)?")
-      //
-      //                HStack {
-      //
-      //                }
-      //            }
-      //            .frame(height: 100)
-      //        )
    }
 }
 
