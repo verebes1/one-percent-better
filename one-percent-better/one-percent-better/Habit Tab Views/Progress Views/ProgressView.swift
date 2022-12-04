@@ -35,17 +35,6 @@ struct ProgressView: View {
                   CalendarView(habit: habit)
                }
                
-               CardView {
-                  VStack {
-                     CardTitleWithRightDetail("Improvement Score") {
-                        EmptyView()
-                     }
-                     NewImprovementGraph(habit: habit)
-                        .frame(height: 200)
-                        .padding()
-                  }
-               }
-               
                Button {
                   nav.path.append(ProgressViewNavRoute.newTracker)
                } label: {

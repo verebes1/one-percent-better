@@ -116,6 +116,7 @@
 		8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA4029019FDB00903123 /* DailyReminderRow.swift */; };
 		8062AA432902F23000903123 /* ProgressCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA422902F23000903123 /* ProgressCards.swift */; };
 		8062AA452902F76200903123 /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA442902F76200903123 /* CalendarDayView.swift */; };
+		80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
@@ -146,6 +147,7 @@
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* HabitFrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
+		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -290,6 +292,7 @@
 		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
 		8062AA422902F23000903123 /* ProgressCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCards.swift; sourceTree = "<group>"; };
 		8062AA442902F76200903123 /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
+		80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementGraphCardView.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
@@ -322,6 +325,7 @@
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
+		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -618,6 +622,7 @@
 				80385CFC285BEE5900CBDF71 /* GraphUIKitView.swift */,
 				800F40F7285F913A0071CC70 /* GraphGestureTest.swift */,
 				80BF87A228E69EB2002A1347 /* ChartTest.swift */,
+				80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */,
 			);
 			path = "Graph Card";
 			sourceTree = "<group>";
@@ -662,6 +667,7 @@
 				80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */,
 				802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */,
 				80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */,
+				80DAAC352939A02600E626D7 /* ImportExportTest.swift */,
 			);
 			path = "one-percent-better-Tests";
 			sourceTree = "<group>";
@@ -1038,6 +1044,7 @@
 				802E92922917079B00A28EB1 /* NamePopupView.swift in Sources */,
 				807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */,
 				8062AA382900772E00903123 /* DailyReminder.swift in Sources */,
+				80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */,
 				8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */,
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
@@ -1158,6 +1165,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */,
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* HabitFrequencyTests.swift in Sources */,
 				8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */,
@@ -1326,7 +1334,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
 				PRODUCT_NAME = "1% Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1361,7 +1369,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.0.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
 				PRODUCT_NAME = "1% Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

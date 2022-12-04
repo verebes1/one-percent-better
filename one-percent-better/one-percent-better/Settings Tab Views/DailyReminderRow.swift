@@ -24,8 +24,9 @@ struct DailyReminderRow: View {
        HStack {
           IconTextRow(title: "Daily Reminder", icon: "bell.fill", color: .pink)
           Spacer()
-          if vm.settings.dailyReminderEnabled {
-             Text("\(formatter.string(from: vm.settings.dailyReminderTime))")
+          if let settings = vm.settings,
+             settings.dailyReminderEnabled {
+             Text("\(formatter.string(from: settings.dailyReminderTime))")
                 .foregroundColor(.secondaryLabel)
           } else {
              Text("None")

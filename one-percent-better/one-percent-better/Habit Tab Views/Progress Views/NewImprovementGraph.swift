@@ -10,7 +10,7 @@ import Charts
 
 struct NewImprovementGraph: View {
    
-   var habit: Habit
+   var it: ImprovementTracker
    
    struct GraphPoint {
        var date: Date
@@ -19,7 +19,6 @@ struct NewImprovementGraph: View {
    
    var improvementArr: [GraphPoint] {
       var result = [GraphPoint]()
-      guard let it = habit.improvementTracker else { return [] }
       for i in 0 ..< it.dates.count {
          result.append(GraphPoint(date: it.dates[i], value: it.scores[i]))
       }
@@ -112,7 +111,7 @@ struct NewImprovementGraph_Previews: PreviewProvider {
       let habit = progressData()
       return(
          NavigationView {
-            NewImprovementGraph(habit: habit)
+            NewImprovementGraph(it: habit.improvementTracker!)
                .frame(width: 300, height: 150)
 //               .environmentObject(habit)
 //               .environmentObject(HabitTabNavPath())

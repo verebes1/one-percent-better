@@ -13,10 +13,9 @@ struct ProgressCards: View {
    
    var body: some View {
       ZStack {
-         if let t = tracker as? GraphTracker {
-//            if let _t = tracker as? ImprovementTracker {
-//               let _ = _t.update()
-//            }
+         if let it = tracker as? ImprovementTracker {
+            ImprovementGraphCardView(it: it)
+         } else if let t = tracker as? GraphTracker {
             GraphCardView(tracker: t)
          } else if let t = tracker as? ImageTracker {
             let vm = ImageCardViewModel(imageTracker: t)

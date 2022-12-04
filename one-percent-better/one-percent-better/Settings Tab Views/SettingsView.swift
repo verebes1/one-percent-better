@@ -33,7 +33,7 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          let _ = Settings(myContext: moc)
          moc.fatalSave()
       } else if settingsArr.count > 1 {
-         fatalError("Too many settings entities")
+//         fatalError("Too many settings entities")
       }
    }
    
@@ -41,12 +41,14 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       objectWillChange.send()
    }
    
-   var settings: Settings {
+   var settings: Settings? {
       guard let settingsArr = settingsController.fetchedObjects else {
-         fatalError("Unable to retrieve settings")
+//         fatalError("Unable to retrieve settings")
+         return nil
       }
       guard settingsArr.count == 1 else {
-         fatalError("Not exactly 1 setting! Count: \(settingsArr.count)")
+//         fatalError("Not exactly 1 setting! Count: \(settingsArr.count)")
+         return nil
       }
       return settingsArr[0]
    }
@@ -62,6 +64,11 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    }
    
    func addNotification() {
+      
+      guard let settings = settings else {
+         return
+      }
+      
       let content = UNMutableNotificationContent()
       content.title = "Daily Reminder"
       content.subtitle = "Mark your habits as completed!"
@@ -83,6 +90,9 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    }
    
    func updateDailyReminder(to enabled: Bool) {
+      guard let settings = settings else {
+         return
+      }
       settings.dailyReminderEnabled = enabled
       
       if enabled {
@@ -94,6 +104,9 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    }
    
    func updateDailyReminder(time: Date) {
+      guard let settings = settings else {
+         return
+      }
       settings.dailyReminderTime = time
       
       if settings.dailyReminderEnabled {
@@ -115,6 +128,18 @@ struct SettingsView: View {
    @State private var showActivityController = false
    @State private var fileContent = ""
    @State private var showDocumentPicker = false
+   
+   var versionFooter: some View {
+      VStack {
+         HStack {
+            Spacer()
+            let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unkown"
+            Text("Version \(appVersion)")
+            Spacer()
+         }
+         Text("Made by ") + Text("Jeremy").foregroundColor(.primary) + Text(" from 🇺🇸")
+      }
+   }
    
    var body: some View {
       NavigationStack {
@@ -146,12 +171,16 @@ struct SettingsView: View {
                      }
                      .buttonStyle(PlainButtonStyle())
                   }
+                  
+                  Section(footer: versionFooter) {
+//                     Text("v1.0.6")
+                  }
                }
                .listStyle(.insetGrouped)
                .navigationDestination(for: SettingsNavRoute.self) { route in
                   switch route {
                   case .dailyReminder:
-                     DailyReminder(settings: vm.settings)
+                     DailyReminder(settings: vm.settings!)
                         .environmentObject(vm)
                   case .importData:
                      DocumentPicker()
