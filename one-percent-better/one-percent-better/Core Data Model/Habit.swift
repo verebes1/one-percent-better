@@ -154,6 +154,22 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    // MARK: - Properties
    
+   /// The streak as of today
+   var streak: Int {
+      var streak = 0
+      // start at yesterday, a streak is only broken if it's not completed by the end of the day
+      var day = Cal.date(byAdding: .day, value: -1, to: Date())!
+      while wasCompleted(on: day) {
+         streak += 1
+         day = Cal.date(byAdding: .day, value: -1, to: day)!
+      }
+      // add 1 if completed today
+      if wasCompleted(on: Date()) {
+         streak += 1
+      }
+      return streak
+   }
+   
    /// The longest streak the user has completed for this habit
    var longestStreak: Int {
       get {

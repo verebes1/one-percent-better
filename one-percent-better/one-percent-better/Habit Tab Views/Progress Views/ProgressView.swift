@@ -35,6 +35,8 @@ struct ProgressView: View {
                   CalendarView(habit: habit)
                }
                
+               StatisticsCardView(habit: habit)
+               
                Button {
                   nav.path.append(ProgressViewNavRoute.newTracker)
                } label: {
@@ -92,6 +94,8 @@ struct ProgressView_Previews: PreviewProvider {
          let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
          let patioBefore = UIImage(named: "patio-before")!
          t2.add(date: day0, value: patioBefore)
+         
+//         let t3 = 
       }
       
       let habits = Habit.habits(from: context)

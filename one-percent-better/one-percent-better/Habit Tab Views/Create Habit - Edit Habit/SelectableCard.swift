@@ -32,11 +32,11 @@ struct SelectableCard<Content>: View where Content: View {
             .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
             .shadow(color: scheme == .light ? Style.accentColor : Style.accentColor2, radius: 5)
             .padding(.horizontal, cardViewHorizontalInset)
-            .transition(.opacity)
+//            .transition(.opacity)
          :
          nil
       })
-      .animation(.easeInOut(duration: 0.2), value: selection.equalType(to: type))
+//      .animation(.easeInOut(duration: 0.2), value: selection.equalType(to: type))
    }
 }
 

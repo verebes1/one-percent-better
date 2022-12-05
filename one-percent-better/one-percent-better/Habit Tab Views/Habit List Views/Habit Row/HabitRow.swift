@@ -203,10 +203,12 @@ struct HabitRow: View {
       return (
          ZStack {
             // Actual row views
-            HStack {
+            HStack(spacing: 0) {
+               Spacer().frame(width: 15)
                HabitCompletionCircle(vm: vm,
                                      size: 28,
                                      completedPressed: $completePressed)
+               Spacer().frame(width: 15)
                HabitRowLabels(vm: vm)
                Spacer()
                //                ListChevron()
@@ -249,6 +251,10 @@ struct HabitRowPreviewer: View {
                      HabitRow(moc: CoreDataManager.previews.mainContext, habit: habit, day: currentDay)
                         .environmentObject(habit)
                   }
+                  .listRowInsets(.init(top: 0,
+                                       leading: 0,
+                                       bottom: 0,
+                                       trailing: 20))
                }
             }
             .environment(\.defaultMinListRowHeight, 54)

@@ -117,6 +117,8 @@
 		8062AA432902F23000903123 /* ProgressCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA422902F23000903123 /* ProgressCards.swift */; };
 		8062AA452902F76200903123 /* CalendarDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA442902F76200903123 /* CalendarDayView.swift */; };
 		80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */; };
+		80639E61293D685500A48F16 /* ExerciseGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E60293D685500A48F16 /* ExerciseGraphCard.swift */; };
+		80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E62293D6B1500A48F16 /* StatisticsCardView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
@@ -293,6 +295,8 @@
 		8062AA422902F23000903123 /* ProgressCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCards.swift; sourceTree = "<group>"; };
 		8062AA442902F76200903123 /* CalendarDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayView.swift; sourceTree = "<group>"; };
 		80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementGraphCardView.swift; sourceTree = "<group>"; };
+		80639E60293D685500A48F16 /* ExerciseGraphCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseGraphCard.swift; sourceTree = "<group>"; };
+		80639E62293D6B1500A48F16 /* StatisticsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCardView.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
@@ -393,6 +397,7 @@
 			children = (
 				8027BEF928DD164500EC3E66 /* ExerciseCard.swift */,
 				8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */,
+				80639E60293D685500A48F16 /* ExerciseGraphCard.swift */,
 			);
 			path = "Exercise Card";
 			sourceTree = "<group>";
@@ -588,6 +593,7 @@
 				8043A92428E7A414001D0E8C /* Timeline.swift */,
 				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
 				802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */,
+				80639E62293D6B1500A48F16 /* StatisticsCardView.swift */,
 			);
 			path = "Progress Views";
 			sourceTree = "<group>";
@@ -1039,6 +1045,7 @@
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
 				802E928E2917071A00A28EB1 /* BottomPopupView.swift in Sources */,
+				80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
 				8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */,
 				802E92922917079B00A28EB1 /* NamePopupView.swift in Sources */,
@@ -1155,6 +1162,7 @@
 				807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */,
 				80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */,
 				80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */,
+				80639E61293D685500A48F16 /* ExerciseGraphCard.swift in Sources */,
 				80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */,
 				802E92AE2922108000A28EB1 /* InteractiveGraph.swift in Sources */,
 				80385D1B285BEE5900CBDF71 /* NSManagedObjectModel+Resource.swift in Sources */,

@@ -99,7 +99,10 @@ struct ExerciseCard_Previews: PreviewProvider {
         }
         
         let habits = Habit.habits(from: context)
-        return (habits.first!.trackers.firstObject as! ExerciseTracker)
+       
+       var trackers = habits.first?.trackers.array as! [Tracker]
+       
+       return (trackers.first { $0 is ExerciseTracker }) as! ExerciseTracker
     }
     
     static var previews: some View {

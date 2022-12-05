@@ -126,6 +126,10 @@ struct HabitListView: View {
                               NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                                  HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)
                               }
+                              .listRowInsets(.init(top: 0,
+                                                   leading: 0,
+                                                   bottom: 0,
+                                                   trailing: 20))
                            }
                         }
                         .onMove(perform: vm.move)
