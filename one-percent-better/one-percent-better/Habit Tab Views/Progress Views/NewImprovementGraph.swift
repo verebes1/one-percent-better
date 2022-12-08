@@ -37,7 +37,7 @@ struct NewImprovementGraph: View {
                  )
 //                 .symbol(.circle)
 //                 .symbolSize(14)
-                 .interpolationMethod(.catmullRom)
+                 .interpolationMethod(.monotone)
 //                 .interpolationMethod(.cardinal)
 //                 .interpolationMethod(.linear)
                  .foregroundStyle(Color.mint)

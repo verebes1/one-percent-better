@@ -39,7 +39,7 @@ struct AllHabitsGraph: View {
                      x: .value("Date", item.date),
                      y: .value("Score", item.value)
                   )
-                  .interpolationMethod(.catmullRom)
+                  .interpolationMethod(.monotone)
                   .foregroundStyle(by: .value("Habit", habit.name))
                }
             }
