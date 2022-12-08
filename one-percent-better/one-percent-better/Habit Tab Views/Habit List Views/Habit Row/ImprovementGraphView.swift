@@ -81,7 +81,7 @@ struct ImprovementGraphView: View {
             )
             .symbol(.circle)
             .symbolSize(14)
-            .interpolationMethod(.catmullRom)
+            .interpolationMethod(.monotone)
             .foregroundStyle(graphColor(last7: last5, avg: average).opacity(0.9))
          }
       }

@@ -52,7 +52,6 @@ public class FeatureLog: NSManagedObject, Codable {
       }
       
       self.init(context: context)
-      self.hasTimesCompleted = try container.decode(Bool.self, forKey: .hasTimesCompleted)
       self.hasNotificationTimeAsDate = try container.decode(Bool.self, forKey: .hasNotificationTimeAsDate)
       self.hasTrackerIndices = try container.decode(Bool.self, forKey: .hasTrackerIndices)
       self.hasTrackerToHabitRelationship = try container.decode(Bool.self, forKey: .hasTrackerToHabitRelationship)
@@ -60,6 +59,7 @@ public class FeatureLog: NSManagedObject, Codable {
       self.hasFrequencyDates = try container.decode(Bool.self, forKey: .hasFrequencyDates)
       self.hasID = try container.decode(Bool.self, forKey: .hasID)
       self.hasNewImprovement = container.decodeOptional(key: .hasNewImprovement, type: Bool.self) ?? false
+      self.hasTimesCompleted = container.decodeOptional(key: .hasTimesCompleted, type: Bool.self) ?? false
    }
    
    public func encode(to encoder: Encoder) throws {

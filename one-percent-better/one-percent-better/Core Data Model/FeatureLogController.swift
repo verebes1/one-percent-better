@@ -38,7 +38,29 @@ class FeatureLogController {
       }
    }
    
+   func refetchFeatureLog() {
+      var featureLogs: [FeatureLog] = []
+      do {
+         // fetch all feature logs (should only be 1)
+         let fetchRequest: NSFetchRequest<FeatureLog> = FeatureLog.fetchRequest()
+         featureLogs = try context.fetch(fetchRequest)
+      } catch {
+         fatalError("FeatureLogController.swift \(#function) - unable to fetch feature log! Error: \(error)")
+      }
+      
+      if featureLogs.isEmpty {
+         self.featureLog = FeatureLog(context: context)
+      } else if featureLogs.count == 1 {
+         self.featureLog = featureLogs[0]
+      } else {
+         fatalError("Too many feature logs")
+      }
+   }
+   
    func setUp() {
+      
+      refetchFeatureLog()
+      
       setUpID()
       setUpTimesCompleted()
       setUpPercentImprovementTrackers()

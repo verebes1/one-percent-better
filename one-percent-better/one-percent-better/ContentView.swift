@@ -34,7 +34,7 @@ struct ContentView: View {
             Label("Habits", systemImage: "checkmark.circle.fill")
          }
          
-         AllHabitsGraph()
+         InsightsTabView()
             .environmentObject(HabitListViewModel(moc))
             .tabItem {
                Label("Insights", systemImage: "chart.bar.fill")

@@ -119,6 +119,7 @@
 		80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */; };
 		80639E61293D685500A48F16 /* ExerciseGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E60293D685500A48F16 /* ExerciseGraphCard.swift */; };
 		80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E62293D6B1500A48F16 /* StatisticsCardView.swift */; };
+		80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80639E64293FEFAB00A48F16 /* InsightsTabView.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
@@ -134,6 +135,7 @@
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */; };
+		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
 		80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A228E69EB2002A1347 /* ChartTest.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
 		80CC288028C0080300411ECB /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC287F28C0080300411ECB /* EditTracker.swift */; };
@@ -297,6 +299,7 @@
 		80639E5E293D641C00A48F16 /* ImprovementGraphCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementGraphCardView.swift; sourceTree = "<group>"; };
 		80639E60293D685500A48F16 /* ExerciseGraphCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseGraphCard.swift; sourceTree = "<group>"; };
 		80639E62293D6B1500A48F16 /* StatisticsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCardView.swift; sourceTree = "<group>"; };
+		80639E64293FEFAB00A48F16 /* InsightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsTabView.swift; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
@@ -313,6 +316,7 @@
 		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
 		80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStack.swift; sourceTree = "<group>"; };
+		80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyPercentGraphCard.swift; sourceTree = "<group>"; };
 		80BF87A228E69EB2002A1347 /* ChartTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTest.swift; sourceTree = "<group>"; };
 		80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitFrequency.swift; sourceTree = "<group>"; };
 		80CC287F28C0080300411ECB /* EditTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
@@ -790,6 +794,8 @@
 			isa = PBXGroup;
 			children = (
 				80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */,
+				80639E64293FEFAB00A48F16 /* InsightsTabView.swift */,
+				80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */,
 			);
 			path = "All Habits Tab Views";
 			sourceTree = "<group>";
@@ -1066,6 +1072,7 @@
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
 				8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */,
+				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */,
@@ -1108,6 +1115,7 @@
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
 				802E928F2917071A00A28EB1 /* View+CornerRadius.swift in Sources */,
+				80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */,
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
 				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,
 				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,

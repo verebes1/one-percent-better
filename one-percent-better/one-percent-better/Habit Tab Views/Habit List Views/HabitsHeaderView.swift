@@ -170,6 +170,10 @@ class HeaderWeekViewModel: ObservableObject {
    
    func percent(week: Int, day: Int) -> Double {
       let day = date(week: week, day: day)
+      return percent(on: day)
+   }
+   
+   func percent(on day: Date) -> Double {
       var numCompleted: Double = 0
       var total: Double = 0
       for habit in hlvm.habits {
