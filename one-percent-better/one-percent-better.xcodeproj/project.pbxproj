@@ -793,8 +793,8 @@
 		80DAAC2E293478CD00E626D7 /* All Habits Tab Views */ = {
 			isa = PBXGroup;
 			children = (
-				80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */,
 				80639E64293FEFAB00A48F16 /* InsightsTabView.swift */,
+				80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */,
 				80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */,
 			);
 			path = "All Habits Tab Views";

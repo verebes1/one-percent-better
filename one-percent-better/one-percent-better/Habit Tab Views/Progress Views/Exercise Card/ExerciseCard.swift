@@ -60,6 +60,9 @@ struct ExerciseCard: View {
                if let vm = vm {
                    ForEach(Array(vm.sets.enumerated()), id: \.offset) { (i, gymSet) in
                        ExerciseCardRow(i: i, gymSet: gymSet)
+                      if i != vm.sets.count - 1 {
+                         Divider()
+                      }
                    }
                } else {
                    Text("No data yet")
@@ -111,10 +114,10 @@ struct ExerciseCard_Previews: PreviewProvider {
         Group {
             NavigationView {
                 Background {
-                    CardView {
+//                    CardView {
                         ExerciseCard(tracker: tracker, vm: vm)
                         //                        .environmentObject(tracker)
-                    }
+//                    }
                 }
             }
         }

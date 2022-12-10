@@ -12,16 +12,16 @@ struct InsightsTabView: View {
    @EnvironmentObject var vm: HabitListViewModel
    
    var body: some View {
-      Background {
-         ScrollView {
-            VStack(spacing: 20) {
+//      Background {
+//         ScrollView {
+            VStack {
                AllHabitsGraphCard()
                
                WeeklyPercentGraphCard()
                   .environmentObject(HeaderWeekViewModel(hlvm: vm))
             }
-         }
-      }
+//         }
+//      }
    }
 }
 

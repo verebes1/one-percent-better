@@ -25,8 +25,9 @@ struct ProgressCards: View {
                Text("Time tracker: \(t.name), goalTime: \(t.goalTime)")
             }
          } else if let t = tracker as? ExerciseTracker {
-            let vm = t.getPreviousEntry(before: Date(), allowSameDay: true)
-            ExerciseCard(tracker: t, vm: vm)
+//            let vm = t.getPreviousEntry(before: Date(), allowSameDay: true)
+//            ExerciseCard(tracker: t, vm: vm)
+            ExerciseGraphCard(tracker: t)
          }
       }
    }

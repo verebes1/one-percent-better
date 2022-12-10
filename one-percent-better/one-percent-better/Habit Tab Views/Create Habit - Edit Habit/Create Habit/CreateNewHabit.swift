@@ -64,7 +64,7 @@ struct CreateNewHabit: View {
             }
          }
          .onAppear {
-           DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
              self.nameInFocus = true
            }
          }
@@ -73,7 +73,7 @@ struct CreateNewHabit: View {
       .toolbar {
          ToolbarItem(placement: .principal) {
             // This sets the back button as "Back" instead of the title of the previous screen
-            Text("    ")
+            Text("           ")
          }
       }
    }

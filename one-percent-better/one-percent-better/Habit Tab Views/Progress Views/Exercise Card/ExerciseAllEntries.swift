@@ -18,9 +18,7 @@ struct ExerciseAllEntries: View {
             ScrollView {
                 VStack {
                     ForEach(0 ..< entries.count) { i in
-                        CardView {
-                            ExerciseCard(tracker: tracker, vm: entries[i], viewAllButton: false, date: tracker.dates.reversed()[i])
-                        }
+                         ExerciseCard(tracker: tracker, vm: entries[i], viewAllButton: false, date: tracker.dates.reversed()[i])
                     }
                 }
             }

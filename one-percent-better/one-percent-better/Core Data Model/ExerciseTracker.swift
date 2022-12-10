@@ -48,7 +48,7 @@ public class ExerciseTracker: Tracker {
             var weightsArray = weights[dateIndex]
             
             let setIndex = set - 1
-            if setIndex <= repsArray.count {
+            if setIndex < repsArray.count {
                 repsArray[setIndex] = rep
                 weightsArray[setIndex] = weight
             } else {
