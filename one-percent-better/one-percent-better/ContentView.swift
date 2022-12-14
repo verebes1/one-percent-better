@@ -34,11 +34,13 @@ struct ContentView: View {
             Label("Habits", systemImage: "checkmark.circle.fill")
          }
          
-         InsightsTabView()
-            .environmentObject(HabitListViewModel(moc))
-            .tabItem {
-               Label("Insights", systemImage: "chart.bar.fill")
-            }
+         NavigationStack {
+            InsightsTabView()
+               .environmentObject(HabitListViewModel(moc))
+         }
+         .tabItem {
+            Label("Insights", systemImage: "chart.bar.fill")
+         }
 
          SettingsView(vm: SettingsViewModel(moc))
             .tabItem {

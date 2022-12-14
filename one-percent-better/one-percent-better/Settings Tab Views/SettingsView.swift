@@ -209,6 +209,8 @@ struct SettingsView_Previews: PreviewProvider {
    static var previews: some View {
       let moc = CoreDataManager.previews.mainContext
       let _ = data()
-      SettingsView(vm: SettingsViewModel(moc))
+      NavigationStack {
+         SettingsView(vm: SettingsViewModel(moc))
+      }
    }
 }

@@ -8,6 +8,31 @@
 import SwiftUI
 import Charts
 
+
+struct AllHabitsGraphCard: View {
+   
+   @EnvironmentObject var vm: HabitListViewModel
+   
+   var body: some View {
+      CardView {
+         VStack {
+            CardTitleWithRightDetail("All Habits") {
+               EmptyView()
+            }
+            
+            ZStack {
+               // TODO: missing case where habit exists but has never been completed
+               let graphHeight = 250 + 21 * CGFloat((vm.habits.count - 1) / 3)
+               AllHabitsGraph()
+                  .frame(minHeight: graphHeight)
+            }
+            .frame(width: UIScreen.main.bounds.width - 40)
+         }
+      }
+   }
+}
+
+
 struct AllHabitsGraph: View {
    
    @EnvironmentObject var vm: HabitListViewModel
@@ -24,33 +49,23 @@ struct AllHabitsGraph: View {
    }
    
    var body: some View {
-      VStack {
-//         Text("All Habits")
-//            .font(.title)
-//            .fontWeight(.medium)
-         
-         Chart {
-            
-            ForEach(vm.habits) { habit in
-               
-               let data = improvementScore(for: habit)
-               ForEach(data, id: \.date) { item in
-                  LineMark(
-                     x: .value("Date", item.date),
-                     y: .value("Score", item.value)
-                  )
-                  .interpolationMethod(.monotone)
-                  .foregroundStyle(by: .value("Habit", habit.name))
-               }
+      Chart {
+         ForEach(vm.habits) { habit in
+            let data = improvementScore(for: habit)
+            ForEach(data, id: \.date) { item in
+               LineMark(
+                  x: .value("Date", item.date),
+                  y: .value("Score", item.value)
+               )
+               .interpolationMethod(.monotone)
+               .foregroundStyle(by: .value("Habit", habit.name))
             }
-            
-            
          }
-//         .frame(height: 600)
-//         .animation(.easeInOut, value: last5)
-//         .chartYScale(domain: 0 ... 450)
       }
-//      .padding()
+      //         .padding(.horizontal, 10)
+      //         .frame(height: 600)
+      //         .animation(.easeInOut, value: last5)
+      //         .chartYScale(domain: 0 ... 450)
    }
 }
 
@@ -93,8 +108,10 @@ struct AllHabitsGraph_Previews: PreviewProvider {
       let _ = data()
       let moc = CoreDataManager.previews.mainContext
       let hlvm = HabitListViewModel(moc)
-      AllHabitsGraph()
-         .environmentObject(hlvm)
-         .border(.black.opacity(0.2))
+      Background {
+         AllHabitsGraphCard()
+            .environmentObject(hlvm)
+            .border(.black.opacity(0.2))
+      }
    }
 }

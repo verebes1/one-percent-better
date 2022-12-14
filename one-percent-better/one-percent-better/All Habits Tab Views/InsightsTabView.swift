@@ -12,16 +12,22 @@ struct InsightsTabView: View {
    @EnvironmentObject var vm: HabitListViewModel
    
    var body: some View {
-//      Background {
-//         ScrollView {
-            VStack {
+      Background {
+         ScrollView {
+            VStack(spacing: 20) {
                AllHabitsGraphCard()
-               
+//
                WeeklyPercentGraphCard()
                   .environmentObject(HeaderWeekViewModel(hlvm: vm))
+               
+//               CardView {
+//                  Text("Test Card")
+//                     .frame(maxWidth: .infinity)
+//               }
             }
-//         }
-//      }
+         }
+      }
+      .navigationTitle("Insights")
    }
 }
 
@@ -68,26 +74,5 @@ struct InsightsTabView_Previews: PreviewProvider {
       let hlvm = HabitListViewModel(moc)
       InsightsTabView()
          .environmentObject(hlvm)
-   }
-}
-
-struct AllHabitsGraphCard: View {
-   
-   @EnvironmentObject var vm: HabitListViewModel
-   
-   var body: some View {
-      CardView {
-         VStack {
-            CardTitleWithRightDetail("All Habits") {
-               EmptyView()
-            }
-            
-            // TODO: missing case where habit exists but has never been completed
-            let graphHeight = 200 + 21 * CGFloat((vm.habits.count - 1) / 3)
-            AllHabitsGraph()
-               .frame(height: graphHeight)
-               .padding()
-         }
-      }
    }
 }

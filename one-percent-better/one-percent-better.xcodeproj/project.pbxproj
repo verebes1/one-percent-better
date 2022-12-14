@@ -10,6 +10,7 @@
 		19CF0D768218FB3508F4576F /* Pods_one_percent_better_one_percent_betterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */; };
 		25DED7F8519112BE6213B886 /* Pods_one_percent_betterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 921CEC3E4014DCBC7FBEC377 /* Pods_one_percent_betterTests.framework */; };
 		46935B96311F43D4AC443FEE /* Pods_one_percent_better.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */; };
+		800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800034CE2945300B0086A2E1 /* OverlayTest2.swift */; };
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
 		8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* TimesADayText.swift */; };
@@ -179,6 +180,7 @@
 		3C8EA092FD50B09EDA971855 /* Pods_one_percent_better_one_percent_betterUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_better_one_percent_betterUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		435AEA6114432D59C8266079 /* Pods_one_percent_better.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_one_percent_better.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78A37493C9223186222A6039 /* Pods-one-percent-betterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-one-percent-betterTests.debug.xcconfig"; path = "Target Support Files/Pods-one-percent-betterTests/Pods-one-percent-betterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		800034CE2945300B0086A2E1 /* OverlayTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest2.swift; sourceTree = "<group>"; };
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
 		8006A09628F53D1C005D1A19 /* TimesADayText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesADayText.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 		80385CAD285BEE5900CBDF71 /* Global Style + Common Views */ = {
 			isa = PBXGroup;
 			children = (
+				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				802E92912917079B00A28EB1 /* NamePopupView.swift */,
 				802E928B2917071A00A28EB1 /* BottomPopupView.swift */,
 				802E928D2917071A00A28EB1 /* PopupModifier.swift */,
@@ -442,6 +445,7 @@
 				802E9297291A0CD600A28EB1 /* ColorFunctions.swift */,
 				802E92AD2922108000A28EB1 /* InteractiveGraph.swift */,
 				80DAAC3329371F1300E626D7 /* OverlayTest.swift */,
+				800034CE2945300B0086A2E1 /* OverlayTest2.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -587,7 +591,6 @@
 				80385CEE285BEE5900CBDF71 /* ProgressView.swift */,
 				8062AA422902F23000903123 /* ProgressCards.swift */,
 				80CC691E28E1184F00584340 /* NewProgress.swift */,
-				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
 				80385CF5285BEE5900CBDF71 /* Image Card */,
 				80385CF8285BEE5900CBDF71 /* Graph Card */,
@@ -1135,6 +1138,7 @@
 				8018589A2863A7AB003DE454 /* UIImage.swift in Sources */,
 				80385D2C285BEE5900CBDF71 /* CalendarScrollView.swift in Sources */,
 				80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */,
+				800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,

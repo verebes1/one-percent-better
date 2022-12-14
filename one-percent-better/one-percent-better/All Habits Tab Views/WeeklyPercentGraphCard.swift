@@ -41,7 +41,7 @@ struct WeeklyPercentGraphCard: View {
       // Create an array to store the moving average values
       var movingAverage: [Double] = []
       
-      let period = 4
+      let period = 3
       
       // Calculate the moving average for each point in the array
       for i in 0..<points.count {

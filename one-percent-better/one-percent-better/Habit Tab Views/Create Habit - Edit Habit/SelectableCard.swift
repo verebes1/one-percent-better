@@ -31,7 +31,7 @@ struct SelectableCard<Content>: View where Content: View {
          RoundedRectangle(cornerRadius: 10)
             .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
             .shadow(color: scheme == .light ? Style.accentColor : Style.accentColor2, radius: 5)
-            .padding(.horizontal, cardViewHorizontalInset)
+            .padding(.horizontal, 10)
 //            .transition(.opacity)
          :
          nil
