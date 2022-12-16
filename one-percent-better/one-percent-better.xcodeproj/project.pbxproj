@@ -109,6 +109,8 @@
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
+		805C1BC3294A9AC300F7CE48 /* EveryXTimesPerY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */; };
+		805C1BC5294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift */; };
 		8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3328F9FE5600903123 /* NotificationSelection.swift */; };
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
 		8062AA382900772E00903123 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA372900772E00903123 /* DailyReminder.swift */; };
@@ -153,6 +155,8 @@
 		80DAAC32293572F300E626D7 /* HabitFrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
+		80F7293C294C266F00F17B0B /* PickerMenuTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293B294C266F00F17B0B /* PickerMenuTest.swift */; };
+		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -289,6 +293,8 @@
 		8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleFitnessRings.swift; sourceTree = "<group>"; };
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
+		805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXTimesPerY.swift; sourceTree = "<group>"; };
+		805C1BC4294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeekMonthDropDown.swift; sourceTree = "<group>"; };
 		8062AA3328F9FE5600903123 /* NotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSelection.swift; sourceTree = "<group>"; };
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
 		8062AA372900772E00903123 /* DailyReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminder.swift; sourceTree = "<group>"; };
@@ -336,6 +342,8 @@
 		80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
+		80F7293B294C266F00F17B0B /* PickerMenuTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMenuTest.swift; sourceTree = "<group>"; };
+		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -460,6 +468,7 @@
 				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
 				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
 				807A47B5290C756D0022068B /* AnimatedBell.swift */,
+				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -760,6 +769,23 @@
 			path = "Old Code";
 			sourceTree = "<group>";
 		};
+		805C1BC1294A99F800F7CE48 /* Frequency */ = {
+			isa = PBXGroup;
+			children = (
+				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
+				80CC692128E27FC200584340 /* EveryDaily.swift */,
+				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
+				8006A09628F53D1C005D1A19 /* TimesADayText.swift */,
+				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
+				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
+				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
+				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
+				805C1BC4294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift */,
+				80F7293B294C266F00F17B0B /* PickerMenuTest.swift */,
+			);
+			path = Frequency;
+			sourceTree = "<group>";
+		};
 		80C14EF628BC0ADE0059BBA4 /* Edit Habit */ = {
 			isa = PBXGroup;
 			children = (
@@ -774,18 +800,12 @@
 		80CC692028E27EDC00584340 /* Create Habit - Edit Habit */ = {
 			isa = PBXGroup;
 			children = (
-				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
-				80CC692128E27FC200584340 /* EveryDaily.swift */,
 				803B4E8428B43381003EA859 /* Create Habit */,
 				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				805C1BC1294A99F800F7CE48 /* Frequency */,
 				80CC692328E39BA800584340 /* MyStepper.swift */,
 				80CC692528E3AF5400584340 /* ExpandingFillButton.swift */,
-				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
-				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
-				8006A09628F53D1C005D1A19 /* TimesADayText.swift */,
 				8006A09828F71812005D1A19 /* GrowingTapButton.swift */,
-				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
-				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
 				8062AA3328F9FE5600903123 /* NotificationSelection.swift */,
 				80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */,
 				807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */,
@@ -1079,6 +1099,7 @@
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */,
+				80F7293C294C266F00F17B0B /* PickerMenuTest.swift in Sources */,
 				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
@@ -1124,6 +1145,7 @@
 				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
+				805C1BC3294A9AC300F7CE48 /* EveryXTimesPerY.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
@@ -1141,6 +1163,7 @@
 				800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */,
+				805C1BC5294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
@@ -1149,6 +1172,7 @@
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
 				8043A92528E7A414001D0E8C /* Timeline.swift in Sources */,
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
+				80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
 				8062AA452902F76200903123 /* CalendarDayView.swift in Sources */,

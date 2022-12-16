@@ -27,16 +27,25 @@ struct SelectableCard<Content>: View where Content: View {
             }
       )
       .overlay(content: {
-         selection.equalType(to: type) ?
-         RoundedRectangle(cornerRadius: 10)
-            .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
-            .shadow(color: scheme == .light ? Style.accentColor : Style.accentColor2, radius: 5)
-            .padding(.horizontal, 10)
-//            .transition(.opacity)
-         :
-         nil
+         ZStack {
+            
+            if selection.equalType(to: type) {
+               RoundedRectangle(cornerRadius: 10)
+                  .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
+                  .padding(.horizontal, 10)
+            }
+            
+            VStack {
+               HStack {
+                  Spacer()
+                  CheckmarkToggleButton(state: selection.equalType(to: type))
+                     .padding(.horizontal, 12)
+                     .padding(.vertical, 7)
+               }
+               Spacer()
+            }
+         }
       })
-//      .animation(.easeInOut(duration: 0.2), value: selection.equalType(to: type))
    }
 }
 
@@ -82,7 +91,7 @@ struct CheckmarkToggleButton: View {
    
    var body: some View {
       Image(systemName: state ? "checkmark.circle.fill" : "circle")
-         .foregroundColor(.blue)
+         .foregroundColor(Style.accentColor)
          .padding(.trailing, 5)
    }
 }
