@@ -45,6 +45,12 @@ struct FrequencySelectionStack: View {
          } onSelection: {
             vm.selection = .daysInTheWeek(daysPerWeek)
          }
+         
+         SelectableCard(selection: $vm.selection, type: .daysInTheWeek([0])) {
+            EveryXTimesPerY(timesPerDay: $timesPerDay)
+         } onSelection: {
+            vm.selection = .daysInTheWeek(daysPerWeek)
+         }
       }
    }
 }

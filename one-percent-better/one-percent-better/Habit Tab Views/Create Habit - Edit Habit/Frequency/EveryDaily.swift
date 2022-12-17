@@ -50,7 +50,7 @@ struct EveryDaily: View {
                .frame(width: 50)
                .frame(height: 32)
                
-               TimesADayText(plural: isPlural)
+               AnimatedTimesText(plural: isPlural)
             }
             
             PlusStepper(value: $timesPerDay, range: 1 ... 100) { val in

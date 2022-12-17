@@ -13,7 +13,7 @@
 		800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800034CE2945300B0086A2E1 /* OverlayTest2.swift */; };
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
-		8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* TimesADayText.swift */; };
+		8006A09728F53D1C005D1A19 /* AnimatedTimesText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */; };
 		8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09828F71812005D1A19 /* GrowingTapButton.swift */; };
 		8006A09B28F719A1005D1A19 /* MinusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09A28F719A1005D1A19 /* MinusStepper.swift */; };
 		8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09C28F71BBC005D1A19 /* PlusStepper.swift */; };
@@ -110,7 +110,7 @@
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		805C1BC3294A9AC300F7CE48 /* EveryXTimesPerY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */; };
-		805C1BC5294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift */; };
+		805C1BC5294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift */; };
 		8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3328F9FE5600903123 /* NotificationSelection.swift */; };
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
 		8062AA382900772E00903123 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA372900772E00903123 /* DailyReminder.swift */; };
@@ -157,6 +157,7 @@
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
 		80F7293C294C266F00F17B0B /* PickerMenuTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293B294C266F00F17B0B /* PickerMenuTest.swift */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
+		80F72940294D7F1400F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293F294D7F1400F17B0B /* RandomNotifications.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -187,7 +188,7 @@
 		800034CE2945300B0086A2E1 /* OverlayTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest2.swift; sourceTree = "<group>"; };
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
-		8006A09628F53D1C005D1A19 /* TimesADayText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesADayText.swift; sourceTree = "<group>"; };
+		8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTimesText.swift; sourceTree = "<group>"; };
 		8006A09828F71812005D1A19 /* GrowingTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTapButton.swift; sourceTree = "<group>"; };
 		8006A09A28F719A1005D1A19 /* MinusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinusStepper.swift; sourceTree = "<group>"; };
 		8006A09C28F71BBC005D1A19 /* PlusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStepper.swift; sourceTree = "<group>"; };
@@ -294,7 +295,7 @@
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXTimesPerY.swift; sourceTree = "<group>"; };
-		805C1BC4294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayWeekMonthDropDown.swift; sourceTree = "<group>"; };
+		805C1BC4294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedDropDownMenuButton.swift; sourceTree = "<group>"; };
 		8062AA3328F9FE5600903123 /* NotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSelection.swift; sourceTree = "<group>"; };
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
 		8062AA372900772E00903123 /* DailyReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminder.swift; sourceTree = "<group>"; };
@@ -344,6 +345,7 @@
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
 		80F7293B294C266F00F17B0B /* PickerMenuTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMenuTest.swift; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
+		80F7293F294D7F1400F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
 				807A47B5290C756D0022068B /* AnimatedBell.swift */,
 				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
+				80F7293F294D7F1400F17B0B /* RandomNotifications.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -775,12 +778,12 @@
 				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
 				80CC692128E27FC200584340 /* EveryDaily.swift */,
 				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
-				8006A09628F53D1C005D1A19 /* TimesADayText.swift */,
+				8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */,
 				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
 				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
 				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
 				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
-				805C1BC4294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift */,
+				805C1BC4294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift */,
 				80F7293B294C266F00F17B0B /* PickerMenuTest.swift */,
 			);
 			path = Frequency;
@@ -1070,6 +1073,7 @@
 				802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */,
 				80385D36285BEE5900CBDF71 /* GraphUIKitView.swift in Sources */,
 				803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */,
+				80F72940294D7F1400F17B0B /* RandomNotifications.swift in Sources */,
 				80385D1F285BEE5900CBDF71 /* NSPersistentStoreCoordinator+SQLite.swift in Sources */,
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
@@ -1094,7 +1098,7 @@
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
-				8006A09728F53D1C005D1A19 /* TimesADayText.swift in Sources */,
+				8006A09728F53D1C005D1A19 /* AnimatedTimesText.swift in Sources */,
 				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
@@ -1163,7 +1167,7 @@
 				800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */,
-				805C1BC5294A9CFA00F7CE48 /* DayWeekMonthDropDown.swift in Sources */,
+				805C1BC5294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,

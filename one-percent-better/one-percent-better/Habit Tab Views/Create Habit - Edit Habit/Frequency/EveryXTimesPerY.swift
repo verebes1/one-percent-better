@@ -27,56 +27,33 @@ struct EveryXTimesPerY: View {
    }
    
    var body: some View {
-      VStack {
-         HStack(spacing: 20) {
+      HStack(spacing: 5) {
+         
+         Menu {
+            Button("1", action: {})
+            Button("2", action: {})
+            Button("3", action: {})
+            Button("4", action: {})
+            Button("5", action: {})
+            Button("Custom", action: {})
             
-            MinusStepper(value: $timesPerDay, range: 1 ... 100) { val in
-               self.vm.selection = .timesPerDay(val)
-            }
-            .frame(width: 50)
-            .frame(height: 42)
-            
-            VStack {
-               ZStack {
-                  
-                  RoundedRectangle(cornerRadius: 10)
-                     .foregroundColor(colorScheme == .light ? Style.accentColor : Style.accentColor2)
-                  
-                  Text("\(timesPerDay)")
-                     .font(.title3)
-                     .fontWeight(.semibold)
-                     .foregroundColor(colorScheme == .light ? backgroundColor : .black)
-               }
-               .frame(width: 50)
-               .frame(height: 32)
-               
-               TimesADayText(plural: isPlural)
-               
-               Menu {
-                  Button("Open in Preview", action: {})
-                  Button("Save as PDF", action: {})
-                  Button(action: {}) {
-                     Label("Add to Reading List", systemImage: "eyeglasses")
-                  }
-               } label: {
-                  DayWeekMonthDropDown()
-               }
-               
-            }
-            
-            PlusStepper(value: $timesPerDay, range: 1 ... 100) { val in
-               self.vm.selection = .timesPerDay(val)
-            }
-            .frame(width: 50)
-            .frame(height: 42)
-            
-            //            Spacer().frame(width: 50)
-            
-            //            MyStepper(value: $timesPerDay, range: 1 ... 100) { val in
-            //               self.vm.selection = .timesPerDay(val)
-            //            } onDecrement: { val in
-            //               self.vm.selection = .timesPerDay(val)
-            //            }
+         } label: {
+            RoundedDropDownMenuButton(text: "\(timesPerDay)", color: .blue)
+         }
+         
+         
+         HStack(spacing: 0) {
+            Text(" ")
+            AnimatedTimesText(plural: isPlural)
+            Text(" every ")
+         }
+         
+         Menu {
+            Button("Day", action: {})
+            Button("Week", action: {})
+            Button("Month", action: {})
+         } label: {
+            RoundedDropDownMenuButton(text: "Day", color: .blue)
          }
       }
       .padding(.vertical, 30)
