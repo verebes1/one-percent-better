@@ -53,10 +53,14 @@ struct ChooseHabitName: View {
                
                List {
                   ForEach(PrebuiltHabits.habitNames, id: \.self) { name in
-                     Text(name)
-                        .onTapGesture {
-                           habitName = name
-                        }
+                     HStack {
+                        Text(name)
+                        Spacer()
+                     }
+                     .contentShape(Rectangle())
+                     .onTapGesture {
+                        habitName = name
+                     }
                   }
                }
                .scrollContentBackground(.hidden)
@@ -64,7 +68,7 @@ struct ChooseHabitName: View {
                .clipShape(Rectangle())
             }
             
-            Spacer().frame(height: 20)
+            Spacer().frame(height: 10)
             
             BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
                .onTapGesture {
@@ -81,11 +85,10 @@ struct ChooseHabitName: View {
             }
          }
          .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now()) {
                self.nameInFocus = true
             }
          }
-         .toolbar(.hidden, for: .tabBar)
       }
       .toolbar {
          ToolbarItem(placement: .principal) {
