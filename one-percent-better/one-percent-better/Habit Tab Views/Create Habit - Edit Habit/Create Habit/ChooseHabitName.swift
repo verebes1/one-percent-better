@@ -1,5 +1,5 @@
 //
-//  CreateNewHabit.swift
+//  ChooseHabitName.swift
 //  one-percent-better-swiftui
 //
 //  Created by Jeremy Cook on 5/17/22.
@@ -12,14 +12,14 @@ enum CreateFrequencyRoute: Hashable {
    case createFrequency(String)
 }
 
-struct CreateNewHabit: View {
+struct ChooseHabitName: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
    
    @EnvironmentObject var vm: HabitListViewModel
    
    @State var habitName: String = ""
-//   @State private var isResponder: Bool? = true
+   //   @State private var isResponder: Bool? = true
    
    @FocusState private var nameInFocus: Bool
    
@@ -32,22 +32,39 @@ struct CreateNewHabit: View {
             HabitCreationHeader(systemImage: "square.and.pencil",
                                 title: "Create New Habit")
             
-            VStack {
-               ZStack {
-                  RoundedRectangle(cornerRadius: 10)
-                     .foregroundColor(.cardColor)
-                     .frame(height: 50)
-                  
-                  TextField("Name", text: $habitName)
-                     .focused($nameInFocus)
-                  
-                  .padding(.leading, 10)
-                  .frame(height: 50)
-               }
+            TextField("Name", text: $habitName)
+               .focused($nameInFocus)
+               .padding(.leading, 20)
+               .frame(height: 50)
+               .background(Color.cardColor)
+               .cornerRadius(radius: 10)
                .padding(.horizontal, 20)
+            
+            Spacer().frame(height: 20)
+            
+            VStack(spacing: 5) {
+               HStack {
+                  Text("Suggestions")
+                     .font(.system(size: 14))
+                     .foregroundColor(.secondaryLabel)
+                  Spacer()
+               }
+               .padding(.leading, 20)
+               
+               List {
+                  ForEach(PrebuiltHabits.habitNames, id: \.self) { name in
+                     Text(name)
+                        .onTapGesture {
+                           habitName = name
+                        }
+                  }
+               }
+               .scrollContentBackground(.hidden)
+               .padding(.top, -30)
+               .clipShape(Rectangle())
             }
             
-            Spacer()
+            Spacer().frame(height: 20)
             
             BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
                .onTapGesture {
@@ -64,9 +81,9 @@ struct CreateNewHabit: View {
             }
          }
          .onAppear {
-           DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-             self.nameInFocus = true
-           }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+               self.nameInFocus = true
+            }
          }
          .toolbar(.hidden, for: .tabBar)
       }
@@ -83,7 +100,7 @@ struct CreateNewHabit_Previews: PreviewProvider {
    
    static var previews: some View {
       let context = CoreDataManager.previews.mainContext
-      CreateNewHabit()
+      ChooseHabitName()
          .environment(\.managedObjectContext, context)
    }
 }

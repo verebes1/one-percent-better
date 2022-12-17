@@ -182,7 +182,7 @@ struct HabitListView: View {
                }
                
                if route == HabitListViewRoute.createHabit {
-                  CreateNewHabit()
+                  ChooseHabitName()
                      .environmentObject(nav)
                      .environmentObject(vm)
                }

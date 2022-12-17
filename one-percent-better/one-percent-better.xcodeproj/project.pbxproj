@@ -58,7 +58,7 @@
 		80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CCE285BEE5900CBDF71 /* CustomTextField.swift */; };
 		80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */; };
 		80385D15285BEE5900CBDF71 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD1285BEE5900CBDF71 /* RingView.swift */; };
-		80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD2285BEE5900CBDF71 /* CreateNewHabit.swift */; };
+		80385D16285BEE5900CBDF71 /* ChooseHabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD2285BEE5900CBDF71 /* ChooseHabitName.swift */; };
 		80385D17285BEE5900CBDF71 /* HabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */; };
 		80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */; };
 		80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */; };
@@ -153,6 +153,8 @@
 		80DAAC32293572F300E626D7 /* HabitFrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
+		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
+		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
 		80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79683286D0432002FDFDA /* TimeTracker.swift */; };
 		80F79688286E552C002FDFDA /* CreateTimeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F79687286E552C002FDFDA /* CreateTimeTracker.swift */; };
 		80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */; };
@@ -232,7 +234,7 @@
 		80385CCE285BEE5900CBDF71 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTests.swift; sourceTree = "<group>"; };
 		80385CD1285BEE5900CBDF71 /* RingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
-		80385CD2285BEE5900CBDF71 /* CreateNewHabit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewHabit.swift; sourceTree = "<group>"; };
+		80385CD2285BEE5900CBDF71 /* ChooseHabitName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseHabitName.swift; sourceTree = "<group>"; };
 		80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitCreationHeader.swift; sourceTree = "<group>"; };
 		80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewTracker.swift; sourceTree = "<group>"; };
 		80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateImageTracker.swift; sourceTree = "<group>"; };
@@ -336,6 +338,8 @@
 		80DAAC31293572F300E626D7 /* HabitFrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
+		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
+		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
 		80F79683286D0432002FDFDA /* TimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTracker.swift; sourceTree = "<group>"; };
 		80F79685286D04E7002FDFDA /* mo_ikai 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 5.xcdatamodel"; sourceTree = "<group>"; };
 		80F79687286E552C002FDFDA /* CreateTimeTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTimeTracker.swift; sourceTree = "<group>"; };
@@ -460,6 +464,7 @@
 				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
 				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
 				807A47B5290C756D0022068B /* AnimatedBell.swift */,
+				80F72941294D876800F17B0B /* RandomNotifications.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -644,9 +649,10 @@
 			isa = PBXGroup;
 			children = (
 				80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */,
-				80385CD2285BEE5900CBDF71 /* CreateNewHabit.swift */,
+				80385CD2285BEE5900CBDF71 /* ChooseHabitName.swift */,
 				803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */,
 				80385CCD285BEE5900CBDF71 /* ButtonViews.swift */,
+				80F72943294D89B700F17B0B /* PrebuiltHabits.swift */,
 			);
 			path = "Create Habit";
 			sourceTree = "<group>";
@@ -1046,6 +1052,7 @@
 				80385D17285BEE5900CBDF71 /* HabitCreationHeader.swift in Sources */,
 				80385D27285BEE5900CBDF71 /* ExportManager.swift in Sources */,
 				80385D1C285BEE5900CBDF71 /* NSManagedObjectModel+Compatible.swift in Sources */,
+				80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */,
 				8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */,
 				802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */,
 				80385D36285BEE5900CBDF71 /* GraphUIKitView.swift in Sources */,
@@ -1065,7 +1072,7 @@
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
-				80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */,
+				80385D16285BEE5900CBDF71 /* ChooseHabitName.swift in Sources */,
 				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
@@ -1144,6 +1151,7 @@
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
+				80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */,
 				80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */,
 				80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
