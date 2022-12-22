@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Introspect
+//import Introspect
 
 struct ImagesPagingView: View {
     var images: [UIImage]
@@ -14,8 +14,8 @@ struct ImagesPagingView: View {
     @Binding var showDetail: Bool
     @Binding var selectedIndex: Int
     
-    @State var uiTabarController: UITabBarController?
-    @State var uiNavController: UINavigationController?
+//    @State var uiTabarController: UITabBarController?
+//    @State var uiNavController: UINavigationController?
 
     var body: some View {
         if showDetail {
@@ -34,18 +34,18 @@ struct ImagesPagingView: View {
                     .tabViewStyle(.page(indexDisplayMode: .never))
                 }
             }
-            .introspectTabBarController { (UITabBarController) in
-                UITabBarController.tabBar.isHidden = true
-                uiTabarController = UITabBarController
-            }
-            .introspectNavigationController { (navController) in
-                navController.isNavigationBarHidden = true
-                uiNavController = navController
-            }
-            .onDisappear{
-                uiTabarController?.tabBar.isHidden = false
-                uiNavController?.isNavigationBarHidden = false
-            }
+//            .introspectTabBarController { (UITabBarController) in
+//                UITabBarController.tabBar.isHidden = true
+//                uiTabarController = UITabBarController
+//            }
+//            .introspectNavigationController { (navController) in
+//                navController.isNavigationBarHidden = true
+//                uiNavController = navController
+//            }
+//            .onDisappear{
+//                uiTabarController?.tabBar.isHidden = false
+//                uiNavController?.isNavigationBarHidden = false
+//            }
         }
     }
 }

@@ -60,10 +60,6 @@ struct CreateTimeTracker: View {
             }
          }
       }
-      .introspectTabBarController { (UITabBarController) in
-         UITabBarController.tabBar.isHidden = true
-         uiTabarController = UITabBarController
-      }
       .onDisappear{
          uiTabarController?.tabBar.isHidden = false
       }
