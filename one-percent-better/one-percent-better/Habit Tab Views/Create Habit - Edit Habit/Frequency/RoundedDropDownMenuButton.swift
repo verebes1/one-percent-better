@@ -17,6 +17,7 @@ struct RoundedDropDownMenuButton: View {
       HStack(spacing: fontSize/3.4) {
          Text(text)
             .font(.system(size: fontSize))
+            .fixedSize()
          
          Image(systemName: "chevron.down")
             .resizable()
@@ -34,7 +35,7 @@ struct RoundedDropDownMenuButton: View {
 struct DayWeekMonthDropDown_Previews: PreviewProvider {
    static var previews: some View {
       VStack {
-         RoundedDropDownMenuButton(text: "Drive all the way",
+         RoundedDropDownMenuButton(text: "Drive",
                                    color: .blue,
                                    fontSize: 10)
          

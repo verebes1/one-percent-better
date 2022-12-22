@@ -18,6 +18,15 @@ struct EveryXTimesPerY: View {
    
    private let backgroundColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
    
+   
+   enum Period: String {
+      case day = "Day"
+      case week = "Week"
+   //   case month = "Month"
+   }
+   
+   @State private var periodSelection: Period = .day
+   
    var isPlural: Binding<Bool> {
       Binding {
          timesPerDay > 1
@@ -29,12 +38,11 @@ struct EveryXTimesPerY: View {
    var body: some View {
       HStack(spacing: 5) {
          
+         // Times selection
          Menu {
             Button("1", action: {})
             Button("2", action: {})
             Button("3", action: {})
-            Button("4", action: {})
-            Button("5", action: {})
             Button("Custom", action: {})
             
          } label: {
@@ -47,13 +55,26 @@ struct EveryXTimesPerY: View {
             AnimatedTimesText(plural: isPlural)
             Text(" every ")
          }
+         .foregroundColor(.label)
          
+         // Period selection
          Menu {
-            Button("Day", action: {})
-            Button("Week", action: {})
-            Button("Month", action: {})
+            // Day
+            Button {
+               periodSelection = .day
+            } label: {
+               Label(Period.day.rawValue,
+                     systemImage: periodSelection == .day ? "checkmark" : "")
+            }
+            // Week
+            Button {
+               periodSelection = .week
+            } label: {
+               Label(Period.week.rawValue,
+                     systemImage: periodSelection == .week ? "checkmark" : "")
+            }
          } label: {
-            RoundedDropDownMenuButton(text: "Day", color: .blue)
+            RoundedDropDownMenuButton(text: periodSelection.rawValue, color: .blue)
          }
       }
       .padding(.vertical, 30)
