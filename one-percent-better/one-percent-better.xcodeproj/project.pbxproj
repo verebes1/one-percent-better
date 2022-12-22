@@ -282,7 +282,7 @@
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
+		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTracker.swift; sourceTree = "<group>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
 		8058174528D919F600E9816F /* DeletableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletableRow.swift; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
 		8062AA372900772E00903123 /* DailyReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminder.swift; sourceTree = "<group>"; };
 		8062AA392900813C00903123 /* mo_ikai 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 10.xcdatamodel"; sourceTree = "<group>"; };
-		8062AA3A2900AAE900903123 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Settings.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Settings.swift"; sourceTree = "<absolute>"; };
+		8062AA3A2900AAE900903123 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		8062AA3E29019E7F00903123 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		8062AA4029019FDB00903123 /* DailyReminderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderRow.swift; sourceTree = "<group>"; };
 		8062AA422902F23000903123 /* ProgressCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCards.swift; sourceTree = "<group>"; };
