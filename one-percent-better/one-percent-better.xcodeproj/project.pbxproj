@@ -104,6 +104,7 @@
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
+		80578573295520FC00028582 /* AppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80578572295520FC00028582 /* AppearanceRow.swift */; };
 		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
@@ -284,6 +285,7 @@
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		80578572295520FC00028582 /* AppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceRow.swift; sourceTree = "<group>"; };
 		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
@@ -463,6 +465,7 @@
 				8062AA372900772E00903123 /* DailyReminder.swift */,
 				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
 				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
+				80578572295520FC00028582 /* AppearanceRow.swift */,
 				807A47B5290C756D0022068B /* AnimatedBell.swift */,
 				80F72941294D876800F17B0B /* RandomNotifications.swift */,
 			);
@@ -1133,6 +1136,7 @@
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,
+				80578573295520FC00028582 /* AppearanceRow.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,

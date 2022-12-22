@@ -146,6 +146,14 @@ struct SettingsView: View {
          Background {
             VStack {
                List {
+                  
+                  Section(header: Text("Theme")) {
+                     NavigationLink(value: SettingsNavRoute.dailyReminder) {
+                        DailyReminderRow()
+                           .environmentObject(vm)
+                     }
+                  }
+                  
                   Section(header: Text("Notifications")) {
                      NavigationLink(value: SettingsNavRoute.dailyReminder) {
                         DailyReminderRow()
