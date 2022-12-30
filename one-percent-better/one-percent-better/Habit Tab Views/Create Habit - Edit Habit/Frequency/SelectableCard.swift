@@ -17,7 +17,7 @@ struct SelectableCard<Content>: View where Content: View {
    var onSelection: () -> Void = {}
    
    var body: some View {
-      CardView {
+      CardView(padding: 20) {
          content()
       }
       .simultaneousGesture(
@@ -32,14 +32,14 @@ struct SelectableCard<Content>: View where Content: View {
             if selection.equalType(to: type) {
                RoundedRectangle(cornerRadius: 10)
                   .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
-                  .padding(.horizontal, 10)
+                  .padding(.horizontal, 20)
             }
             
             VStack {
                HStack {
                   Spacer()
                   CheckmarkToggleButton(state: selection.equalType(to: type))
-                     .padding(.horizontal, 12)
+                     .padding(.horizontal, 22)
                      .padding(.vertical, 7)
                }
                Spacer()

@@ -40,21 +40,32 @@ struct EveryXTimesPerY: View {
          
          // Times selection
          Menu {
-            Button("1", action: {})
-            Button("2", action: {})
-            Button("3", action: {})
-            Button("Custom", action: {})
-            
+            Button("1", action: { timesPerDay = 1 })
+            Button("2", action: { timesPerDay = 2 })
+            Button("3", action: { timesPerDay = 3 })
+            Menu {
+               Button("4", action: { timesPerDay = 4 })
+               Button("5", action: { timesPerDay = 5 })
+               Button("6", action: { timesPerDay = 6 })
+               Button("7", action: { timesPerDay = 7 })
+               Button("8", action: { timesPerDay = 8 })
+               Button("9", action: { timesPerDay = 9 })
+               Button("10", action: { timesPerDay = 10 })
+            } label: {
+               Button("More...", action: {})
+            }
          } label: {
-            RoundedDropDownMenuButton(text: "\(timesPerDay)", color: .blue)
+            RoundedDropDownMenuButton(text: "\(timesPerDay)",
+                                      color: .blue,
+                                      fontSize: 17)
          }
-         
          
          HStack(spacing: 0) {
             Text(" ")
             AnimatedTimesText(plural: isPlural)
             Text(" every ")
          }
+         .font(.system(size: 17))
          .foregroundColor(.label)
          
          // Period selection
@@ -74,7 +85,9 @@ struct EveryXTimesPerY: View {
                      systemImage: periodSelection == .week ? "checkmark" : "")
             }
          } label: {
-            RoundedDropDownMenuButton(text: periodSelection.rawValue, color: .blue)
+            RoundedDropDownMenuButton(text: periodSelection.rawValue,
+                                      color: .blue,
+                                      fontSize: 17)
          }
       }
       .padding(.vertical, 30)

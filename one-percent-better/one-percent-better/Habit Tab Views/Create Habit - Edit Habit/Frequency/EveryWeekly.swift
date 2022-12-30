@@ -14,12 +14,10 @@ struct EveryWeekly: View {
    
    @EnvironmentObject var vm: FrequencySelectionModel
    
-   @State private var frequencyText = "1"
-   
    @Binding var selectedWeekdays: [Int]
    
    var body: some View {
-      VStack {
+      VStack(spacing: 15) {
          Text("Every week on")
          HStack(spacing: 3) {
             ForEach(0 ..< 7) { i in
@@ -28,7 +26,7 @@ struct EveryWeekly: View {
          }
          .padding(.horizontal, 25)
       }
-      .padding(.vertical, 30)
+      .padding(.vertical, 15)
    }
 }
 
@@ -79,7 +77,9 @@ struct WeekDayButton: View {
    
    var body: some View {
       Button {
-         updateSelection(i)
+         withAnimation(.easeInOut(duration: 0.2)) {
+            updateSelection(i)
+         }
       } label : {
          ZStack {
             let isSelected = selectedWeekdays.contains(i)
@@ -91,12 +91,7 @@ struct WeekDayButton: View {
                .foregroundColor(isSelected ? selectedTextColor : textColor)
          }
       }
-      
-//      .frame(width: 50)
       .frame(height: 32)
-      
-//      .frame(height: 30)
-//      .buttonStyle(<#T##style: PrimitiveButtonStyle##PrimitiveButtonStyle#>)
    }
 }
 

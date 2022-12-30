@@ -24,6 +24,7 @@ import Foundation
 enum HabitFrequency: Equatable {
    case timesPerDay(Int)
    case daysInTheWeek([Int])
+//   case timesPerWeek(Int) // TODO: finish implementing
    
    var valueNS: Int {
       switch self {
@@ -31,6 +32,8 @@ enum HabitFrequency: Equatable {
          return 0
       case .daysInTheWeek(_):
          return 1
+//      case .timesPerWeek(_):
+//         return 2
       }
    }
    
