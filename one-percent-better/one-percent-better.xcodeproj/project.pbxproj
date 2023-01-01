@@ -105,6 +105,10 @@
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */; };
+		805785B1295EEE9B00028582 /* FrequencySelection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B0295EEE9B00028582 /* FrequencySelection2.swift */; };
+		805785B3295EEFA900028582 /* EveryDaily2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDaily2.swift */; };
+		805785B6295F0AF000028582 /* EveryWeekly2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* EveryWeekly2.swift */; };
+		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
 		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
@@ -289,6 +293,10 @@
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeeklyNotSpecific.swift; sourceTree = "<group>"; };
+		805785B0295EEE9B00028582 /* FrequencySelection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelection2.swift; sourceTree = "<group>"; };
+		805785B2295EEFA900028582 /* EveryDaily2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily2.swift; sourceTree = "<group>"; };
+		805785B5295F0AF000028582 /* EveryWeekly2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekly2.swift; sourceTree = "<group>"; };
+		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
 		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
@@ -708,6 +716,18 @@
 			path = "one-percent-better-UITests";
 			sourceTree = "<group>";
 		};
+		805785B4295F08A200028582 /* New Options */ = {
+			isa = PBXGroup;
+			children = (
+				805785B2295EEFA900028582 /* EveryDaily2.swift */,
+				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
+				805785B0295EEE9B00028582 /* FrequencySelection2.swift */,
+				805785B5295F0AF000028582 /* EveryWeekly2.swift */,
+				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
+			);
+			path = "New Options";
+			sourceTree = "<group>";
+		};
 		8058174128D5692900E9816F /* Create Tracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,10 +797,10 @@
 		805C1BC1294A99F800F7CE48 /* Frequency */ = {
 			isa = PBXGroup;
 			children = (
+				805785B4295F08A200028582 /* New Options */,
 				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
 				805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */,
 				80CC692128E27FC200584340 /* EveryDaily.swift */,
-				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
 				8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */,
 				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
 				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
@@ -1093,6 +1113,7 @@
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
 				80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */,
+				805785B3295EEFA900028582 /* EveryDaily2.swift in Sources */,
 				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
@@ -1112,6 +1133,7 @@
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
 				802E92AC29220B8400A28EB1 /* NewImprovementGraph.swift in Sources */,
 				80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */,
+				805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */,
 				802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */,
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
 				80385D39285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift in Sources */,
@@ -1131,6 +1153,7 @@
 				807A47C9291223E50022068B /* Habit+Frequency.swift in Sources */,
 				807A47C52910B2600022068B /* DMYDate.swift in Sources */,
 				80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */,
+				805785B6295F0AF000028582 /* EveryWeekly2.swift in Sources */,
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
@@ -1177,6 +1200,7 @@
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
 				80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */,
 				80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */,
+				805785B1295EEE9B00028582 /* FrequencySelection2.swift in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
 				8043A92528E7A414001D0E8C /* Timeline.swift in Sources */,
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,

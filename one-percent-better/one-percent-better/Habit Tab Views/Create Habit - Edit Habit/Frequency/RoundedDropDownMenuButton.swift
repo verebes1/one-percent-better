@@ -27,6 +27,7 @@ struct RoundedDropDownMenuButton: View {
       .padding(.vertical, fontSize/3.5)
       .padding(.horizontal, fontSize * 0.7)
       .foregroundColor(.white)
+      .fontWeight(.medium)
       .background(color)
       .clipShape(Capsule())
    }
