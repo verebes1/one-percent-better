@@ -55,9 +55,9 @@ struct EveryXTimesPerY: View {
                Button("More...", action: {})
             }
          } label: {
-            RoundedDropDownMenuButton(text: "\(timesPerDay)",
-                                      color: .blue,
-                                      fontSize: 17)
+//            RoundedDropDownMenuButton(text: "\(timesPerDay)",
+//                                      color: .blue,
+//                                      fontSize: 17)
          }
          
          HStack(spacing: 0) {
@@ -85,9 +85,9 @@ struct EveryXTimesPerY: View {
                      systemImage: periodSelection == .week ? "checkmark" : "")
             }
          } label: {
-            RoundedDropDownMenuButton(text: periodSelection.rawValue,
-                                      color: .blue,
-                                      fontSize: 17)
+//            RoundedDropDownMenuButton(text: periodSelection.rawValue,
+//                                      color: .blue,
+//                                      fontSize: 17)
          }
       }
       .padding(.vertical, 30)

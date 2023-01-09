@@ -12,7 +12,7 @@ struct CheckmarkCardSelection: View {
    @Environment(\.colorScheme) var scheme
    
    var body: some View {
-      VStack(spacing: 15) {
+      VStack(spacing: 20) {
          HStack {
             
             Button {
@@ -51,16 +51,16 @@ struct CheckmarkCardSelection: View {
             }
             .padding(.leading, 20)
 
-            CardView {
+            CardView(shadow: false, color: .backgroundColor) {
                EveryWeekly2(color: Style.accentColor)
             }
-//            .overlay {
-//               ZStack {
-//                     RoundedRectangle(cornerRadius: 10)
-//                        .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
-//                        .padding(.horizontal, 10)
-//               }
-//            }
+            .overlay {
+               ZStack {
+                  RoundedRectangle(cornerRadius: 10)
+                     .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 1)
+                     .padding(.horizontal, 10)
+               }
+            }
          }
       }
    }

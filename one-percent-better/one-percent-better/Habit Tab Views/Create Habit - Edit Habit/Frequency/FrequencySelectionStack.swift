@@ -19,7 +19,7 @@ class FrequencySelectionModel: ObservableObject {
 enum FreqSegment: String, Identifiable, CaseIterable {
    case daily
    case weekly
-   case monthly
+//   case monthly
    var id: Self { self }
 }
 
@@ -57,8 +57,8 @@ struct FrequencySelectionStack: View {
                vm.selection = .timesPerDay(1)
             case .weekly:
                vm.selection = .daysInTheWeek([1,2,4])
-            case .monthly:
-               vm.selection = .timesPerDay(2)
+//            case .monthly:
+//               vm.selection = .timesPerDay(2)
             }
          }
          

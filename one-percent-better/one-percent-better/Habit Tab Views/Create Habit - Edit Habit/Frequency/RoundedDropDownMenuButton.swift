@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RoundedDropDownMenuButton: View {
    
-   var text: String
+   @Binding var text: String
    var color: Color
    var fontSize: CGFloat = 15
    
@@ -17,7 +17,7 @@ struct RoundedDropDownMenuButton: View {
       HStack(spacing: fontSize/3.4) {
          Text(text)
             .font(.system(size: fontSize))
-            .fixedSize()
+            .fixedSize(horizontal: false, vertical: true)
          
          Image(systemName: "chevron.down")
             .resizable()
@@ -33,26 +33,48 @@ struct RoundedDropDownMenuButton: View {
    }
 }
 
-struct DayWeekMonthDropDown_Previews: PreviewProvider {
-   static var previews: some View {
+struct DayWeekMonthDropDown_Previewer: View {
+   
+   @State private var text = "Drive"
+   
+   var body: some View {
       VStack {
-         RoundedDropDownMenuButton(text: "Drive",
-                                   color: .blue,
-                                   fontSize: 10)
+         HStack {
+            Text("Offset")
+            RoundedDropDownMenuButton(text: $text,
+                                      color: .blue,
+                                      fontSize: 10)
+            Text("both sides")
+         }
          
-         RoundedDropDownMenuButton(text: "Drive",
+         RoundedDropDownMenuButton(text: $text,
                                    color: .blue,
                                    fontSize: 15)
          
          
-         RoundedDropDownMenuButton(text: "Drive",
+         RoundedDropDownMenuButton(text: $text,
                                    color: .blue,
                                    fontSize: 20)
          
-         RoundedDropDownMenuButton(text: "Drive",
+         RoundedDropDownMenuButton(text: $text,
                                    color: .blue,
                                    fontSize: 25)
       }
+      .onTapGesture {
+         withAnimation(.easeInOut(duration: 3)) {
+            if text == "Drive" {
+               text = "Longer text"
+            } else {
+               text = "Drive"
+            }
+         }
+      }
       .scaleEffect(2.0)
+   }
+}
+
+struct DayWeekMonthDropDown_Previews: PreviewProvider {
+   static var previews: some View {
+      DayWeekMonthDropDown_Previewer()
    }
 }

@@ -9,22 +9,51 @@ import SwiftUI
 
 struct FrequencySelection2: View {
    
+   @Environment(\.colorScheme) var scheme
+   
    @State private var segmentSelection: FreqSegment = .daily
+   
+   @State private var freqSelection: HabitFrequency = .timesPerDay(1)
+   
+   let segmentBgColor: Color = Color( #colorLiteral(red: 0.8901956677, green: 0.8901965022, blue: 0.9074040651, alpha: 1)  )
    
    var body: some View {
       Background {
-         VStack {
-            Picker("", selection: $segmentSelection) {
-               ForEach(FreqSegment.allCases) { freq in
-                  Text(freq.rawValue.capitalized)
-               }
+         VStack(spacing: 0) {
+//            Picker("", selection: $segmentSelection) {
+//               ForEach(FreqSegment.allCases) { freq in
+//                  Text(freq.rawValue.capitalized)
+//               }
+//            }
+//            .pickerStyle(.segmented)
+//            .padding(10)
+            
+            HStack {
+               Text("Daily")
+                  .foregroundColor(.secondaryLabel)
+                  .padding(.leading, 60)
+               Spacer()
             }
-            .pickerStyle(.segmented)
-            .padding(10)
+            .padding(.bottom, 10)
+//            if segmentSelection == .daily {
+               SelectableCard2Wrapper(selection: $freqSelection, type: .timesPerDay(1)) {
+                  EveryDaily2()
+               }
+               .padding(.bottom, 20)
+//            }
             
-            EveryDaily2()
-            
-            EveryWeekly2()
+            HStack {
+               Text("Weekly")
+                  .foregroundColor(.secondaryLabel)
+                  .padding(.leading, 60)
+               Spacer()
+            }
+            .padding(.bottom, 10)
+//            if segmentSelection == .weekly {
+               SelectableCard2Wrapper(selection: $freqSelection, type: .daysInTheWeek([1,2,3])) {
+                  EveryWeekly2()
+               }
+//            }
             
             Spacer()
          }
