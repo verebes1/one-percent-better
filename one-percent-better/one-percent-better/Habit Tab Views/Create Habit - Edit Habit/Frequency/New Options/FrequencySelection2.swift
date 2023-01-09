@@ -11,23 +11,14 @@ struct FrequencySelection2: View {
    
    @Environment(\.colorScheme) var scheme
    
-   @State private var segmentSelection: FreqSegment = .daily
-   
    @State private var freqSelection: HabitFrequency = .timesPerDay(1)
    
-   let segmentBgColor: Color = Color( #colorLiteral(red: 0.8901956677, green: 0.8901965022, blue: 0.9074040651, alpha: 1)  )
+   let segmentBgColor: Color = Color( #colorLiteral(red: 0.8901956677, green: 0.8901965022, blue: 0.9074040651, alpha: 1) )
    
    var body: some View {
       Background {
          VStack(spacing: 0) {
-//            Picker("", selection: $segmentSelection) {
-//               ForEach(FreqSegment.allCases) { freq in
-//                  Text(freq.rawValue.capitalized)
-//               }
-//            }
-//            .pickerStyle(.segmented)
-//            .padding(10)
-            
+
             HStack {
                Text("Daily")
                   .foregroundColor(.secondaryLabel)
@@ -35,12 +26,10 @@ struct FrequencySelection2: View {
                Spacer()
             }
             .padding(.bottom, 10)
-//            if segmentSelection == .daily {
-               SelectableCard2Wrapper(selection: $freqSelection, type: .timesPerDay(1)) {
-                  EveryDaily2()
-               }
-               .padding(.bottom, 20)
-//            }
+            SelectableCard2Wrapper(selection: $freqSelection, type: .timesPerDay(1)) {
+               EveryDaily2()
+            }
+            .padding(.bottom, 20)
             
             HStack {
                Text("Weekly")
@@ -49,11 +38,9 @@ struct FrequencySelection2: View {
                Spacer()
             }
             .padding(.bottom, 10)
-//            if segmentSelection == .weekly {
-               SelectableCard2Wrapper(selection: $freqSelection, type: .daysInTheWeek([1,2,3])) {
-                  EveryWeekly2()
-               }
-//            }
+            SelectableCard2Wrapper(selection: $freqSelection, type: .daysInTheWeek([1,2,3])) {
+               EveryWeekly2()
+            }
             
             Spacer()
          }

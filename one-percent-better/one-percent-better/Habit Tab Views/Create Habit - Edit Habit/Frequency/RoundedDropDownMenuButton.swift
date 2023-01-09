@@ -15,15 +15,19 @@ struct RoundedDropDownMenuButton: View {
    
    var body: some View {
       HStack(spacing: fontSize/3.4) {
+         
+         // .id(text) is necessary to get the text to animate properly
+         // without .id() modifier, the text view animates with ... as it grows
          Text(text)
             .font(.system(size: fontSize))
-            .fixedSize(horizontal: false, vertical: true)
-         
+            .id(text)
+
          Image(systemName: "chevron.down")
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(height: fontSize * 0.35)
       }
+      .fixedSize()
       .padding(.vertical, fontSize/3.5)
       .padding(.horizontal, fontSize * 0.7)
       .foregroundColor(.white)

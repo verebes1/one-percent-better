@@ -38,15 +38,20 @@ struct EveryWeekly2: View {
                                      selection: $timesPerWeek)
                MenuItemWithCheckmark(text: "5",
                                      selection: $timesPerWeek)
-//               Menu {
-//                  Button("6", action: { timesPerWeek = 6 })
-//                  Button("7", action: { timesPerWeek = 7 })
-//                  Button("8", action: { timesPerWeek = 8 })
-//                  Button("9", action: { timesPerWeek = 9 })
-//                  Button("10", action: { timesPerWeek = 10 })
-//               } label: {
-//                  Button("More...", action: {})
-//               }
+               Menu {
+                  MenuItemWithCheckmark(text: "6",
+                                        selection: $timesPerWeek)
+                  MenuItemWithCheckmark(text: "7",
+                                        selection: $timesPerWeek)
+                  MenuItemWithCheckmark(text: "8",
+                                        selection: $timesPerWeek)
+                  MenuItemWithCheckmark(text: "9",
+                                        selection: $timesPerWeek)
+                  MenuItemWithCheckmark(text: "10",
+                                        selection: $timesPerWeek)
+               } label: {
+                  Button("More...", action: {})
+               }
             } label: {
                RoundedDropDownMenuButton(text: $timesPerWeek,
                                          color: color,

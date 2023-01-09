@@ -111,6 +111,8 @@
 		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
 		805785BA296C4C8600028582 /* SelectableCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B9296C4C8600028582 /* SelectableCard2.swift */; };
 		805785BC296C4EFD00028582 /* DepressTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BB296C4EFD00028582 /* DepressTest.swift */; };
+		805785BE296C6F5400028582 /* AnimatingDropDownMenuTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */; };
+		805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BF296C818800028582 /* FrequencySegmentSelection.swift */; };
 		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
@@ -301,6 +303,8 @@
 		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
 		805785B9296C4C8600028582 /* SelectableCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard2.swift; sourceTree = "<group>"; };
 		805785BB296C4EFD00028582 /* DepressTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepressTest.swift; sourceTree = "<group>"; };
+		805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatingDropDownMenuTest.swift; sourceTree = "<group>"; };
+		805785BF296C818800028582 /* FrequencySegmentSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySegmentSelection.swift; sourceTree = "<group>"; };
 		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
@@ -730,6 +734,8 @@
 				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
 				805785B9296C4C8600028582 /* SelectableCard2.swift */,
 				805785BB296C4EFD00028582 /* DepressTest.swift */,
+				805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */,
+				805785BF296C818800028582 /* FrequencySegmentSelection.swift */,
 			);
 			path = "New Options";
 			sourceTree = "<group>";
@@ -1107,6 +1113,7 @@
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
 				802E928E2917071A00A28EB1 /* BottomPopupView.swift in Sources */,
+				805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */,
 				80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
 				8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */,
@@ -1221,6 +1228,7 @@
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
 				802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */,
 				80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */,
+				805785BE296C6F5400028582 /* AnimatingDropDownMenuTest.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
 				8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */,
 				80385D20285BEE5900CBDF71 /* NumberTracker.swift in Sources */,
