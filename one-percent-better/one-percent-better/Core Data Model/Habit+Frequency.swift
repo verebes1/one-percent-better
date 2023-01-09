@@ -49,6 +49,24 @@ enum HabitFrequency: Equatable {
    }
 }
 
+// TEMP ENUM WHILE TESTING UI
+enum HabitFrequencyTest: Equatable {
+   case timesPerDay(Int)
+   case daysInTheWeek([Int])
+   case timesPerWeek(Int)
+   
+   var valueNS: Int {
+      switch self {
+      case .timesPerDay(_):
+         return 0
+      case .daysInTheWeek(_):
+         return 1
+      case .timesPerWeek(_):
+         return 2
+      }
+   }
+}
+
 // Frequency Data Structure
 // frequencyDates: [Date] - LIST OF DATES OF WHEN FREQUENCY CHANGES
 // Use index of frequencyDates in order to get frequency data

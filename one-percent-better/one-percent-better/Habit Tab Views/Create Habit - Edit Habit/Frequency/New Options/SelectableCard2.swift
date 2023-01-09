@@ -39,7 +39,7 @@ struct SelectableCard2<Content>: View where Content: View {
             if isSelected {
                ZStack {
                   RoundedRectangle(cornerRadius: 10)
-                     .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
+                     .stroke(Style.accentColor, lineWidth: 2)
                      .padding(.horizontal, 10)
                }
             }
@@ -69,8 +69,8 @@ struct SelectableCard2<Content>: View where Content: View {
 
 struct SelectableCard2Wrapper<Content>: View where Content: View {
    
-   @Binding var selection: HabitFrequency
-   let type: HabitFrequency
+   @Binding var selection: HabitFrequencyTest
+   let type: HabitFrequencyTest
    let content: () -> Content
    
    var body: some View {
@@ -84,7 +84,7 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
 
 struct SelectableCard2_Previewer: View {
    
-   @State private var selection: HabitFrequency = .timesPerDay(2)
+   @State private var selection: HabitFrequencyTest = .timesPerDay(2)
    
    var body: some View {
       Background {

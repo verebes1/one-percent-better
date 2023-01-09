@@ -17,7 +17,7 @@ struct EveryWeekly: View {
    @Binding var selectedWeekdays: [Int]
    
    var body: some View {
-      VStack(spacing: 15) {
+      VStack {
          Text("Every week on")
          HStack(spacing: 3) {
             ForEach(0 ..< 7) { i in
@@ -26,7 +26,7 @@ struct EveryWeekly: View {
          }
          .padding(.horizontal, 25)
       }
-      .padding(.vertical, 15)
+      .padding(.vertical, 10)
    }
 }
 
@@ -40,9 +40,7 @@ struct WeekDayButton: View {
    @Binding var selectedWeekdays: [Int]
    let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
    
-   private var selectedBackground: Color {
-      colorScheme == .light ? Style.accentColor : Style.accentColor2
-   }
+   var selectedBackground: Color = Style.accentColor
    
    private var backgroundColor: Color {
       colorScheme == .light ?
@@ -77,21 +75,20 @@ struct WeekDayButton: View {
    
    var body: some View {
       Button {
-         withAnimation(.easeInOut(duration: 0.2)) {
+         withAnimation(.easeInOut(duration: 0.15)) {
             updateSelection(i)
          }
       } label : {
-         ZStack {
-            let isSelected = selectedWeekdays.contains(i)
-            RoundedRectangle(cornerRadius: 7)
-               .foregroundColor(isSelected ? selectedBackground : backgroundColor)
-            
-            Text(weekdays[i])
-               .fontWeight(isSelected ? .semibold : .regular)
-               .foregroundColor(isSelected ? selectedTextColor : textColor)
-         }
+         let isSelected = selectedWeekdays.contains(i)
+         Text(weekdays[i])
+            .font(.system(size: 15))
+            .fontWeight(isSelected ? .semibold : .regular)
+            .padding(.vertical, 5)
+            .frame(width: 40)
+            .foregroundColor(isSelected ? selectedTextColor : textColor)
+            .background(isSelected ? selectedBackground : backgroundColor)
+            .clipShape(Capsule())
       }
-      .frame(height: 32)
    }
 }
 

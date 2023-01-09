@@ -9,9 +9,15 @@ import SwiftUI
 
 struct RoundedDropDownMenuButton: View {
    
+   @Environment(\.colorScheme) var scheme
+   
    @Binding var text: String
    var color: Color
    var fontSize: CGFloat = 15
+   
+   private var textColor: Color {
+      scheme == .light ? .white : .black
+   }
    
    var body: some View {
       HStack(spacing: fontSize/3.4) {
@@ -30,7 +36,7 @@ struct RoundedDropDownMenuButton: View {
       .fixedSize()
       .padding(.vertical, fontSize/3.5)
       .padding(.horizontal, fontSize * 0.7)
-      .foregroundColor(.white)
+      .foregroundColor(textColor)
       .fontWeight(.medium)
       .background(color)
       .clipShape(Capsule())

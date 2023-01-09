@@ -29,13 +29,14 @@ struct ChooseHabitFrequency: View {
       Background {
          VStack {
             Spacer()
-               .frame(height: 70)
+               .frame(height: 20)
             HabitCreationHeader(systemImage: "clock.arrow.2.circlepath",
                                 title: "Frequency",
-                                subtitle: "How often do you complete this habit?")
+                                subtitle: "")
             
-            FrequencySelectionStack(vm: vm)
-               .environmentObject(vm)
+//            Spacer().frame(height: 20)
+            
+            FrequencySelection2()
             
             Spacer()
             
