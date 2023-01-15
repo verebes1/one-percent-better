@@ -27,14 +27,6 @@ struct EveryXTimesPerY: View {
    
    @State private var periodSelection: Period = .day
    
-   var isPlural: Binding<Bool> {
-      Binding {
-         timesPerDay > 1
-      } set: { _, _ in
-         // do nothing
-      }
-   }
-   
    var body: some View {
       HStack(spacing: 5) {
          
@@ -62,7 +54,7 @@ struct EveryXTimesPerY: View {
          
          HStack(spacing: 0) {
             Text(" ")
-            AnimatedTimesText(plural: isPlural)
+//            AnimatedTimesText(plural: isPlural)
             Text(" every ")
          }
          .font(.system(size: 17))

@@ -13,7 +13,7 @@
 		800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800034CE2945300B0086A2E1 /* OverlayTest2.swift */; };
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
-		8006A09728F53D1C005D1A19 /* AnimatedTimesText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */; };
+		8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */; };
 		8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09828F71812005D1A19 /* GrowingTapButton.swift */; };
 		8006A09B28F719A1005D1A19 /* MinusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09A28F719A1005D1A19 /* MinusStepper.swift */; };
 		8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09C28F71BBC005D1A19 /* PlusStepper.swift */; };
@@ -113,6 +113,7 @@
 		805785BC296C4EFD00028582 /* DepressTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BB296C4EFD00028582 /* DepressTest.swift */; };
 		805785BE296C6F5400028582 /* AnimatingDropDownMenuTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */; };
 		805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BF296C818800028582 /* FrequencySegmentSelection.swift */; };
+		805785C2296DECCF00028582 /* EveryXDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C1296DECCF00028582 /* EveryXDays.swift */; };
 		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
@@ -197,7 +198,7 @@
 		800034CE2945300B0086A2E1 /* OverlayTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest2.swift; sourceTree = "<group>"; };
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
-		8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedTimesText.swift; sourceTree = "<group>"; };
+		8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPluralText.swift; sourceTree = "<group>"; };
 		8006A09828F71812005D1A19 /* GrowingTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTapButton.swift; sourceTree = "<group>"; };
 		8006A09A28F719A1005D1A19 /* MinusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinusStepper.swift; sourceTree = "<group>"; };
 		8006A09C28F71BBC005D1A19 /* PlusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStepper.swift; sourceTree = "<group>"; };
@@ -305,6 +306,7 @@
 		805785BB296C4EFD00028582 /* DepressTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepressTest.swift; sourceTree = "<group>"; };
 		805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatingDropDownMenuTest.swift; sourceTree = "<group>"; };
 		805785BF296C818800028582 /* FrequencySegmentSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySegmentSelection.swift; sourceTree = "<group>"; };
+		805785C1296DECCF00028582 /* EveryXDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXDays.swift; sourceTree = "<group>"; };
 		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
@@ -736,6 +738,7 @@
 				805785BB296C4EFD00028582 /* DepressTest.swift */,
 				805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */,
 				805785BF296C818800028582 /* FrequencySegmentSelection.swift */,
+				805785C1296DECCF00028582 /* EveryXDays.swift */,
 			);
 			path = "New Options";
 			sourceTree = "<group>";
@@ -813,7 +816,7 @@
 				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
 				805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */,
 				80CC692128E27FC200584340 /* EveryDaily.swift */,
-				8006A09628F53D1C005D1A19 /* AnimatedTimesText.swift */,
+				8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */,
 				803E1B8928A9D68B0010540B /* SelectableCard.swift */,
 				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
 				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
@@ -1135,9 +1138,10 @@
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
-				8006A09728F53D1C005D1A19 /* AnimatedTimesText.swift in Sources */,
+				8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */,
 				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
+				805785C2296DECCF00028582 /* EveryXDays.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				80AE860128E4E067006E8964 /* FrequencySelectionStack.swift in Sources */,
 				80F7293C294C266F00F17B0B /* PickerMenuTest.swift in Sources */,

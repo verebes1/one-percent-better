@@ -18,14 +18,6 @@ struct EveryDaily: View {
    
    private let backgroundColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
    
-   var isPlural: Binding<Bool> {
-      Binding {
-         timesPerDay > 1
-      } set: { _, _ in
-         // do nothing
-      }
-   }
-   
    var body: some View {
       VStack(spacing: 15) {
          Text("Every day,")
@@ -60,9 +52,9 @@ struct EveryDaily: View {
          }
          
          HStack(spacing: 0) {
-            AnimatedTimesText(plural: isPlural)
+            AnimatedPluralInt(text: "time", value: $timesPerDay)
             Text(" per day")
-               .animation(.easeInOut(duration: 0.3), value: timesPerDay > 1)
+               .animation(.easeInOut(duration: 0.3), value: timesPerDay)
          }
       }
       .padding(.vertical, 15)

@@ -79,6 +79,7 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
       } onSelection: {
          selection = type
       }
+      .contentShape(Rectangle())
    }
 }
 

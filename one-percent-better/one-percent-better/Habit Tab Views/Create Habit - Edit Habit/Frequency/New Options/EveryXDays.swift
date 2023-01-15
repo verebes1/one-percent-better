@@ -1,32 +1,26 @@
 //
-//  EveryDaily2.swift
+//  EveryXDays.swift
 //  one-percent-better
 //
-//  Created by Jeremy Cook on 12/30/22.
+//  Created by Jeremy Cook on 1/10/23.
 //
 
 import SwiftUI
 
-struct EveryDaily2: View {
-   
+struct EveryXDays: View {
    @State private var timesPerDay = "1"
    
    var color: Color = Style.accentColor
    
-   var timesPerDayInt: Binding<Int> {
+   var isPlural: Binding<Int> {
       Binding {
-         if let tpd = Int(timesPerDay) {
-            return tpd
-         }
-         return 0
-      } set: { _, _ in
-         // do nothing
-      }
+         Int(timesPerDay) ?? 0
+      } set: { _ in }
    }
    
    var body: some View {
-      HStack {
-         Text("Every day,")
+      HStack(spacing: 7) {
+         Text("Every")
          Menu {
             MenuItemWithCheckmark(text: "1",
                                   selection: $timesPerDay)
@@ -59,20 +53,20 @@ struct EveryDaily2: View {
          }
          
          HStack(spacing: 0) {
-            AnimatedPluralInt(text: "time", value: timesPerDayInt)
+            // TODO: fixme
+//            AnimatedTimesText(plural: isPlural)
             Text(" per day")
          }
       }
       .animation(.easeInOut(duration: 0.3), value: timesPerDay)
       .padding(10)
    }
-   
 }
 
-struct EveryDaily2_Previews: PreviewProvider {
+struct EveryXDays_Previews: PreviewProvider {
    static var previews: some View {
       Background {
-         EveryDaily2()
+         EveryXDays()
       }
    }
 }

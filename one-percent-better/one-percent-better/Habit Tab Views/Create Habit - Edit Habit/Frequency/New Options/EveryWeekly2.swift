@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EveryWeekly2: View {
+   @State private var timesPerWeekInt = 1
    @State private var timesPerWeek = "1"
    @State private var beginningDay = "Sunday"
    
@@ -28,30 +29,36 @@ struct EveryWeekly2: View {
       VStack {
          HStack(spacing: 0) {
             Menu {
-               MenuItemWithCheckmark(text: "1",
-                                     selection: $timesPerWeek)
-               MenuItemWithCheckmark(text: "2",
-                                     selection: $timesPerWeek)
-               MenuItemWithCheckmark(text: "3",
-                                     selection: $timesPerWeek)
-               MenuItemWithCheckmark(text: "4",
-                                     selection: $timesPerWeek)
-               MenuItemWithCheckmark(text: "5",
-                                     selection: $timesPerWeek)
-               Menu {
-                  MenuItemWithCheckmark(text: "6",
-                                        selection: $timesPerWeek)
-                  MenuItemWithCheckmark(text: "7",
-                                        selection: $timesPerWeek)
-                  MenuItemWithCheckmark(text: "8",
-                                        selection: $timesPerWeek)
-                  MenuItemWithCheckmark(text: "9",
-                                        selection: $timesPerWeek)
-                  MenuItemWithCheckmark(text: "10",
-                                        selection: $timesPerWeek)
-               } label: {
-                  Button("More...", action: {})
-               }
+               
+               MenuItemWithCheckmark2(value: 1,
+                                        selection: $timesPerWeekInt)
+               MenuItemWithCheckmark2(value: 2,
+                                        selection: $timesPerWeekInt)
+               
+//               MenuItemWithCheckmark(text: "1",
+//                                     selection: $timesPerWeek)
+//               MenuItemWithCheckmark(text: "2",
+//                                     selection: $timesPerWeek)
+//               MenuItemWithCheckmark(text: "3",
+//                                     selection: $timesPerWeek)
+//               MenuItemWithCheckmark(text: "4",
+//                                     selection: $timesPerWeek)
+//               MenuItemWithCheckmark(text: "5",
+//                                     selection: $timesPerWeek)
+//               Menu {
+//                  MenuItemWithCheckmark(text: "6",
+//                                        selection: $timesPerWeek)
+//                  MenuItemWithCheckmark(text: "7",
+//                                        selection: $timesPerWeek)
+//                  MenuItemWithCheckmark(text: "8",
+//                                        selection: $timesPerWeek)
+//                  MenuItemWithCheckmark(text: "9",
+//                                        selection: $timesPerWeek)
+//                  MenuItemWithCheckmark(text: "10",
+//                                        selection: $timesPerWeek)
+//               } label: {
+//                  Button("More...", action: {})
+//               }
             } label: {
                RoundedDropDownMenuButton(text: $timesPerWeek,
                                          color: color,
@@ -60,7 +67,8 @@ struct EveryWeekly2: View {
             
             HStack(spacing: 0) {
                Text(" ")
-               AnimatedTimesText(plural: isPlural)
+               // TODO: fixme
+               AnimatedPluralString(text: "time", value: $timesPerWeek)
                Text(" per week,")
             }
          }
@@ -121,6 +129,38 @@ struct MenuItemWithCheckmark: View {
          selection = text
       } label: {
          Label(text, systemImage: text == selection ? "checkmark" : "")
+      }
+   }
+}
+
+struct MenuIntItemWithCheckmark: View {
+   var value: Int
+   @Binding var selection: Int
+
+   var body: some View {
+      Button {
+         selection = value
+      } label: {
+         Label(String(value), systemImage: value == selection ? "checkmark" : "")
+      }
+   }
+}
+
+struct MenuItemWithCheckmark2<T>: View where T: Equatable {
+   
+   var value: T
+   @Binding var selection: T
+   
+   var stringValue: String {
+      "\(value)"
+   }
+
+   var body: some View {
+      Button {
+         selection = value
+      } label: {
+         Label(stringValue,
+               systemImage: value == selection ? "checkmark" : "")
       }
    }
 }

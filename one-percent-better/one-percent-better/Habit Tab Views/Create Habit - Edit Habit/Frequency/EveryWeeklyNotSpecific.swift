@@ -62,7 +62,8 @@ struct EveryWeeklyNotSpecific: View {
          }
          
          HStack(spacing: 0) {
-            AnimatedTimesText(plural: isPlural)
+            // TODO: fixme
+//            AnimatedTimesText(plural: isPlural)
             Text(" per week, resets on")
                .animation(.easeInOut(duration: 0.3), value: timesPerDay > 1)
          }
