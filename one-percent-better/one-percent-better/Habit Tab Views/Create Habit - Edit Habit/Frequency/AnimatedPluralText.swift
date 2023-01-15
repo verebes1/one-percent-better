@@ -83,6 +83,9 @@ struct AnimatedPluralText_Previewer: View {
 
 struct AnimatedPluralText_Previews: PreviewProvider {
    static var previews: some View {
-      AnimatedPluralText_Previewer()
+      // NOTE: A VStack is necessary to get transition animations to work properly
+      VStack {
+         AnimatedPluralText_Previewer()
+      }
    }
 }

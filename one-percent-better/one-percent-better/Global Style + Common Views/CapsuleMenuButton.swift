@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct RoundedDropDownMenuButton: View {
+struct CapsuleMenuButton: View {
    
    @Environment(\.colorScheme) var scheme
    
-   @Binding var text: String
+   var text: String
    var color: Color
    var fontSize: CGFloat = 15
    
@@ -23,7 +23,7 @@ struct RoundedDropDownMenuButton: View {
       HStack(spacing: fontSize/3.4) {
          
          // .id(text) is necessary to get the text to animate properly
-         // without .id() modifier, the text view animates with ... as it grows
+         // without .id() modifier, the text view is the same view and animates as T... Te... Tes... Test...
          Text(text)
             .font(.system(size: fontSize))
             .id(text)
@@ -43,7 +43,7 @@ struct RoundedDropDownMenuButton: View {
    }
 }
 
-struct DayWeekMonthDropDown_Previewer: View {
+struct CapsuleMenuButton_Previewer: View {
    
    @State private var text = "Drive"
    
@@ -51,27 +51,27 @@ struct DayWeekMonthDropDown_Previewer: View {
       VStack {
          HStack {
             Text("Offset")
-            RoundedDropDownMenuButton(text: $text,
+            CapsuleMenuButton(text: text,
                                       color: .blue,
                                       fontSize: 10)
             Text("both sides")
          }
          
-         RoundedDropDownMenuButton(text: $text,
+         CapsuleMenuButton(text: text,
                                    color: .blue,
                                    fontSize: 15)
          
          
-         RoundedDropDownMenuButton(text: $text,
+         CapsuleMenuButton(text: text,
                                    color: .blue,
                                    fontSize: 20)
          
-         RoundedDropDownMenuButton(text: $text,
+         CapsuleMenuButton(text: text,
                                    color: .blue,
                                    fontSize: 25)
       }
       .onTapGesture {
-         withAnimation(.easeInOut(duration: 3)) {
+         withAnimation(.easeInOut) {
             if text == "Drive" {
                text = "Longer text"
             } else {
@@ -83,8 +83,10 @@ struct DayWeekMonthDropDown_Previewer: View {
    }
 }
 
-struct DayWeekMonthDropDown_Previews: PreviewProvider {
+struct CapsuleMenuButton_Previews: PreviewProvider {
    static var previews: some View {
-      DayWeekMonthDropDown_Previewer()
+      VStack {
+         CapsuleMenuButton_Previewer()
+      }
    }
 }

@@ -107,20 +107,20 @@
 		805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */; };
 		805785B1295EEE9B00028582 /* FrequencySelection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B0295EEE9B00028582 /* FrequencySelection2.swift */; };
 		805785B3295EEFA900028582 /* EveryDaily2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDaily2.swift */; };
-		805785B6295F0AF000028582 /* EveryWeekly2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* EveryWeekly2.swift */; };
+		805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */; };
 		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
 		805785BA296C4C8600028582 /* SelectableCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B9296C4C8600028582 /* SelectableCard2.swift */; };
 		805785BC296C4EFD00028582 /* DepressTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BB296C4EFD00028582 /* DepressTest.swift */; };
-		805785BE296C6F5400028582 /* AnimatingDropDownMenuTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */; };
 		805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BF296C818800028582 /* FrequencySegmentSelection.swift */; };
 		805785C2296DECCF00028582 /* EveryXDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C1296DECCF00028582 /* EveryXDays.swift */; };
+		805785C62974AFF300028582 /* MenuItemWithCheckmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */; };
 		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		805C1BC3294A9AC300F7CE48 /* EveryXTimesPerY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */; };
-		805C1BC5294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift */; };
+		805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */; };
 		8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3328F9FE5600903123 /* NotificationSelection.swift */; };
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
 		8062AA382900772E00903123 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA372900772E00903123 /* DailyReminder.swift */; };
@@ -300,13 +300,13 @@
 		805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeeklyNotSpecific.swift; sourceTree = "<group>"; };
 		805785B0295EEE9B00028582 /* FrequencySelection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelection2.swift; sourceTree = "<group>"; };
 		805785B2295EEFA900028582 /* EveryDaily2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily2.swift; sourceTree = "<group>"; };
-		805785B5295F0AF000028582 /* EveryWeekly2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekly2.swift; sourceTree = "<group>"; };
+		805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekBeginningEveryY.swift; sourceTree = "<group>"; };
 		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
 		805785B9296C4C8600028582 /* SelectableCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard2.swift; sourceTree = "<group>"; };
 		805785BB296C4EFD00028582 /* DepressTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepressTest.swift; sourceTree = "<group>"; };
-		805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatingDropDownMenuTest.swift; sourceTree = "<group>"; };
 		805785BF296C818800028582 /* FrequencySegmentSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySegmentSelection.swift; sourceTree = "<group>"; };
 		805785C1296DECCF00028582 /* EveryXDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXDays.swift; sourceTree = "<group>"; };
+		805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemWithCheckmark.swift; sourceTree = "<group>"; };
 		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ExerciseTracker.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/ExerciseTracker.swift"; sourceTree = "<absolute>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
@@ -315,7 +315,7 @@
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXTimesPerY.swift; sourceTree = "<group>"; };
-		805C1BC4294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedDropDownMenuButton.swift; sourceTree = "<group>"; };
+		805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleMenuButton.swift; sourceTree = "<group>"; };
 		8062AA3328F9FE5600903123 /* NotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSelection.swift; sourceTree = "<group>"; };
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
 		8062AA372900772E00903123 /* DailyReminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminder.swift; sourceTree = "<group>"; };
@@ -476,6 +476,8 @@
 				802E92AD2922108000A28EB1 /* InteractiveGraph.swift */,
 				80DAAC3329371F1300E626D7 /* OverlayTest.swift */,
 				800034CE2945300B0086A2E1 /* OverlayTest2.swift */,
+				805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */,
+				805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -732,11 +734,10 @@
 				805785B2295EEFA900028582 /* EveryDaily2.swift */,
 				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
 				805785B0295EEE9B00028582 /* FrequencySelection2.swift */,
-				805785B5295F0AF000028582 /* EveryWeekly2.swift */,
+				805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */,
 				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
 				805785B9296C4C8600028582 /* SelectableCard2.swift */,
 				805785BB296C4EFD00028582 /* DepressTest.swift */,
-				805785BD296C6F5400028582 /* AnimatingDropDownMenuTest.swift */,
 				805785BF296C818800028582 /* FrequencySegmentSelection.swift */,
 				805785C1296DECCF00028582 /* EveryXDays.swift */,
 			);
@@ -821,7 +822,6 @@
 				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
 				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
 				80AE860028E4E067006E8964 /* FrequencySelectionStack.swift */,
-				805C1BC4294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift */,
 				80F7293B294C266F00F17B0B /* PickerMenuTest.swift */,
 			);
 			path = Frequency;
@@ -1124,6 +1124,7 @@
 				807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */,
 				8062AA382900772E00903123 /* DailyReminder.swift in Sources */,
 				80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */,
+				805785C62974AFF300028582 /* MenuItemWithCheckmark.swift in Sources */,
 				8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */,
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
@@ -1171,7 +1172,7 @@
 				807A47C9291223E50022068B /* Habit+Frequency.swift in Sources */,
 				807A47C52910B2600022068B /* DMYDate.swift in Sources */,
 				80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */,
-				805785B6295F0AF000028582 /* EveryWeekly2.swift in Sources */,
+				805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */,
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
@@ -1213,7 +1214,7 @@
 				800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */,
-				805C1BC5294A9CFA00F7CE48 /* RoundedDropDownMenuButton.swift in Sources */,
+				805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
@@ -1232,7 +1233,6 @@
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
 				802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */,
 				80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */,
-				805785BE296C6F5400028582 /* AnimatingDropDownMenuTest.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
 				8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */,
 				80385D20285BEE5900CBDF71 /* NumberTracker.swift in Sources */,

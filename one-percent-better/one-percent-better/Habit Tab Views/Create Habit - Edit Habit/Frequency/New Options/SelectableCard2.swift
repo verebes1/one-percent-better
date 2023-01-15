@@ -95,7 +95,7 @@ struct SelectableCard2_Previewer: View {
             }
             
             SelectableCard2Wrapper(selection: $selection, type: .daysInTheWeek([1,2,3])) {
-               EveryWeekly2()
+               XTimesPerWeekBeginningEveryY()
             }
          }
       }

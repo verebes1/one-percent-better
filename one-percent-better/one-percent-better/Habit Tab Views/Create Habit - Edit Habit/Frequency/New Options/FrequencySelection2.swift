@@ -43,7 +43,7 @@ struct FrequencySelection2: View {
          
          if segmentSelection == .weekly {
             SelectableCard2Wrapper(selection: $weeklyFreqSelection, type: .timesPerWeek(1)) {
-               EveryWeekly2()
+               XTimesPerWeekBeginningEveryY()
             }
             .transition(.move(edge: .trailing))
             
@@ -62,8 +62,10 @@ struct FrequencySelection2: View {
 
 struct FrequencySelection2_Previews: PreviewProvider {
    static var previews: some View {
-      Background {
-         FrequencySelection2()
+      VStack {
+         Background {
+            FrequencySelection2()
+         }
       }
    }
 }

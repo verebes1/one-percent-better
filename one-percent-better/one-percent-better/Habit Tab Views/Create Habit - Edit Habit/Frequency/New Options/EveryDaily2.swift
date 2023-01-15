@@ -28,32 +28,32 @@ struct EveryDaily2: View {
       HStack {
          Text("Every day,")
          Menu {
-            MenuItemWithCheckmark(text: "1",
+            MenuItemWithCheckmark(value: "1",
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(text: "2",
+            MenuItemWithCheckmark(value: "2",
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(text: "3",
+            MenuItemWithCheckmark(value: "3",
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(text: "4",
+            MenuItemWithCheckmark(value: "4",
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(text: "5",
+            MenuItemWithCheckmark(value: "5",
                                   selection: $timesPerDay)
             Menu {
-               MenuItemWithCheckmark(text: "6",
+               MenuItemWithCheckmark(value: "6",
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(text: "7",
+               MenuItemWithCheckmark(value: "7",
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(text: "8",
+               MenuItemWithCheckmark(value: "8",
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(text: "9",
+               MenuItemWithCheckmark(value: "9",
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(text: "10",
+               MenuItemWithCheckmark(value: "10",
                                      selection: $timesPerDay)
             } label: {
                Button("More...", action: {})
             }
          } label: {
-            RoundedDropDownMenuButton(text: $timesPerDay,
+            CapsuleMenuButton(text: timesPerDay,
                                       color: color,
                                       fontSize: 15)
          }

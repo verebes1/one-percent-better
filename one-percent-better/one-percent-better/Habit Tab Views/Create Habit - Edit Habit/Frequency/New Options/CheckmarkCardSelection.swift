@@ -52,7 +52,7 @@ struct CheckmarkCardSelection: View {
             .padding(.leading, 20)
 
             CardView(shadow: false, color: .backgroundColor) {
-               EveryWeekly2(color: Style.accentColor)
+               XTimesPerWeekBeginningEveryY(color: Style.accentColor)
             }
             .overlay {
                ZStack {
