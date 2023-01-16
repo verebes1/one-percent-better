@@ -72,7 +72,7 @@ struct FrequencySelectionStack: View {
          
          if segmentSelection == .weekly {
             SelectableCard(selection: $vm.selection, type: .daysInTheWeek([0])) {
-               EveryWeekly(selectedWeekdays: $daysPerWeek)
+               EveryWeekOnSpecificWeekDays(selectedWeekdays: $daysPerWeek)
             } onSelection: {
                vm.selection = .daysInTheWeek(daysPerWeek)
             }

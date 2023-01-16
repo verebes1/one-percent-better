@@ -156,7 +156,7 @@
 		80CC692228E27FC200584340 /* EveryDaily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692128E27FC200584340 /* EveryDaily.swift */; };
 		80CC692428E39BA800584340 /* MyStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692328E39BA800584340 /* MyStepper.swift */; };
 		80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692528E3AF5400584340 /* ExpandingFillButton.swift */; };
-		80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekly.swift */; };
+		80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */; };
 		80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C42290883F9005CD7B4 /* HabitObserver.swift */; };
 		80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */; };
 		80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */; };
@@ -353,7 +353,7 @@
 		80CC692128E27FC200584340 /* EveryDaily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily.swift; sourceTree = "<group>"; };
 		80CC692328E39BA800584340 /* MyStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStepper.swift; sourceTree = "<group>"; };
 		80CC692528E3AF5400584340 /* ExpandingFillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingFillButton.swift; sourceTree = "<group>"; };
-		80CC692728E3B5A700584340 /* EveryWeekly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekly.swift; sourceTree = "<group>"; };
+		80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekOnSpecificWeekDays.swift; sourceTree = "<group>"; };
 		80D88C42290883F9005CD7B4 /* HabitObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitObserver.swift; sourceTree = "<group>"; };
 		80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 11.xcdatamodel"; sourceTree = "<group>"; };
 		80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCreateSymbol.swift; sourceTree = "<group>"; };
@@ -814,7 +814,7 @@
 			isa = PBXGroup;
 			children = (
 				805785B4295F08A200028582 /* New Options */,
-				80CC692728E3B5A700584340 /* EveryWeekly.swift */,
+				80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */,
 				805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */,
 				80CC692128E27FC200584340 /* EveryDaily.swift */,
 				8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */,
@@ -1179,7 +1179,7 @@
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
 				8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
-				80CC692828E3B5A700584340 /* EveryWeekly.swift in Sources */,
+				80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* ProgressView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				8062AA432902F23000903123 /* ProgressCards.swift in Sources */,

@@ -68,7 +68,7 @@ struct WeeklyCards: View {
    var body: some View {
       VStack {
          //            SelectableCard(selection: $specificDaysSelected) {
-         //                EveryWeekly()
+         //                EveryWeekOnSpecificWeekDays()
          //            }
          //            .frame(height: 90)
          

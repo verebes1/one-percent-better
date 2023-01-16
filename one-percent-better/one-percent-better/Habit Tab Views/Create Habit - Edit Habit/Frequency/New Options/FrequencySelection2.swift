@@ -48,7 +48,7 @@ struct FrequencySelection2: View {
             .transition(.move(edge: .trailing))
             
             SelectableCard2Wrapper(selection: $weeklyFreqSelection, type: .daysInTheWeek([0])) {
-               EveryWeekly(selectedWeekdays: $selectedWeekdays)
+               EveryWeekOnSpecificWeekDays(selectedWeekdays: $selectedWeekdays)
                   .environmentObject(vm)
             }
             .transition(.move(edge: .trailing))
