@@ -31,6 +31,7 @@ struct SelectableCard2<Content>: View where Content: View {
             .frame(height: 23)
             .foregroundColor(Style.accentColor)
             .padding(.leading, 20)
+            .scaleEffect(scale)
          
          CardView {
             content()
@@ -46,7 +47,7 @@ struct SelectableCard2<Content>: View where Content: View {
          }
          .scaleEffect(scale)
       }
-      .gesture(
+      .simultaneousGesture(
          DragGesture(minimumDistance: 0)
             .onChanged({ _ in
                if !isSelected {
