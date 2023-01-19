@@ -27,7 +27,7 @@ struct CheckmarkCardSelection: View {
             .padding(.leading, 20)
 
             CardView {
-               EveryDaily2()
+               EveryDayXTimesPerDay()
             }
             .overlay {
                ZStack {

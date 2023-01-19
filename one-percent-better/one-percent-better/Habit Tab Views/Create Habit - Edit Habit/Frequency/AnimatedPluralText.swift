@@ -9,8 +9,8 @@ import SwiftUI
 
 struct AnimatedPluralInt: View {
    
-   var text: String
-   @Binding var value: Int
+   let text: String
+   let value: Int
    
    var slideIn: AnyTransition {
       .move(edge: .bottom)
@@ -30,8 +30,8 @@ struct AnimatedPluralInt: View {
 
 struct AnimatedPluralString: View {
    
-   var text: String
-   @Binding var value: String
+   let text: String
+   let value: String
    
    var slideIn: AnyTransition {
       .move(edge: .bottom)
@@ -60,7 +60,7 @@ struct AnimatedPluralText_Previewer: View {
       VStack {
          HStack {
             Text("Int version: ")
-            AnimatedPluralInt(text: "time", value: $valueInt)
+            AnimatedPluralInt(text: "time", value: valueInt)
                .onTapGesture {
                   withAnimation {
                      valueInt = valueInt == 1 ? 2 : 1
@@ -70,7 +70,7 @@ struct AnimatedPluralText_Previewer: View {
          
          HStack {
             Text("String version: ")
-            AnimatedPluralString(text: "time", value: $valueString)
+            AnimatedPluralString(text: "time", value: valueString)
                .onTapGesture {
                   withAnimation {
                      valueString = valueString == "1" ? "2" : "1"

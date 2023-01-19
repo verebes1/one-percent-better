@@ -52,7 +52,7 @@ struct EveryDaily: View {
          }
          
          HStack(spacing: 0) {
-            AnimatedPluralInt(text: "time", value: $timesPerDay)
+            AnimatedPluralInt(text: "time", value: timesPerDay)
             Text(" per day")
                .animation(.easeInOut(duration: 0.3), value: timesPerDay)
          }

@@ -51,7 +51,7 @@ struct XTimesPerWeekBeginningEveryY: View {
             
             HStack(spacing: 0) {
                Text(" ")
-               AnimatedPluralInt(text: "time", value: $timesPerWeek)
+               AnimatedPluralInt(text: "time", value: timesPerWeek)
                Text(" per week")
             }
          }

@@ -106,7 +106,7 @@
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */; };
 		805785B1295EEE9B00028582 /* FrequencySelection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B0295EEE9B00028582 /* FrequencySelection2.swift */; };
-		805785B3295EEFA900028582 /* EveryDaily2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDaily2.swift */; };
+		805785B3295EEFA900028582 /* EveryDayXTimesPerDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */; };
 		805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */; };
 		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
 		805785BA296C4C8600028582 /* SelectableCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B9296C4C8600028582 /* SelectableCard2.swift */; };
@@ -299,7 +299,7 @@
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeeklyNotSpecific.swift; sourceTree = "<group>"; };
 		805785B0295EEE9B00028582 /* FrequencySelection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelection2.swift; sourceTree = "<group>"; };
-		805785B2295EEFA900028582 /* EveryDaily2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily2.swift; sourceTree = "<group>"; };
+		805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDayXTimesPerDay.swift; sourceTree = "<group>"; };
 		805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekBeginningEveryY.swift; sourceTree = "<group>"; };
 		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
 		805785B9296C4C8600028582 /* SelectableCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard2.swift; sourceTree = "<group>"; };
@@ -731,7 +731,7 @@
 		805785B4295F08A200028582 /* New Options */ = {
 			isa = PBXGroup;
 			children = (
-				805785B2295EEFA900028582 /* EveryDaily2.swift */,
+				805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */,
 				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
 				805785B0295EEE9B00028582 /* FrequencySelection2.swift */,
 				805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */,
@@ -1130,7 +1130,7 @@
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
 				80385D16285BEE5900CBDF71 /* CreateNewHabit.swift in Sources */,
-				805785B3295EEFA900028582 /* EveryDaily2.swift in Sources */,
+				805785B3295EEFA900028582 /* EveryDayXTimesPerDay.swift in Sources */,
 				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,

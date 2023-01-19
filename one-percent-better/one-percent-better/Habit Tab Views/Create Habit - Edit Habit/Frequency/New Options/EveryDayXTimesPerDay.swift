@@ -1,5 +1,5 @@
 //
-//  EveryDaily2.swift
+//  EveryDayXTimesPerDay.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 12/30/22.
@@ -7,59 +7,48 @@
 
 import SwiftUI
 
-struct EveryDaily2: View {
+struct EveryDayXTimesPerDay: View {
    
-   @State private var timesPerDay = "1"
+   @State private var timesPerDay = 1
    
    var color: Color = Style.accentColor
-   
-   var timesPerDayInt: Binding<Int> {
-      Binding {
-         if let tpd = Int(timesPerDay) {
-            return tpd
-         }
-         return 0
-      } set: { _, _ in
-         // do nothing
-      }
-   }
    
    var body: some View {
       HStack {
          Text("Every day,")
          Menu {
-            MenuItemWithCheckmark(value: "1",
+            MenuItemWithCheckmark(value: 1,
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "2",
+            MenuItemWithCheckmark(value: 2,
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "3",
+            MenuItemWithCheckmark(value: 3,
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "4",
+            MenuItemWithCheckmark(value: 4,
                                   selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "5",
+            MenuItemWithCheckmark(value: 5,
                                   selection: $timesPerDay)
             Menu {
-               MenuItemWithCheckmark(value: "6",
+               MenuItemWithCheckmark(value: 6,
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "7",
+               MenuItemWithCheckmark(value: 7,
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "8",
+               MenuItemWithCheckmark(value: 8,
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "9",
+               MenuItemWithCheckmark(value: 9,
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "10",
+               MenuItemWithCheckmark(value: 10,
                                      selection: $timesPerDay)
             } label: {
                Button("More...", action: {})
             }
          } label: {
-            CapsuleMenuButton(text: timesPerDay,
+            CapsuleMenuButton(text: String(timesPerDay),
                                       color: color,
                                       fontSize: 15)
          }
          
          HStack(spacing: 0) {
-            AnimatedPluralInt(text: "time", value: timesPerDayInt)
+            AnimatedPluralInt(text: "time", value: timesPerDay)
             Text(" per day")
          }
       }
@@ -69,10 +58,10 @@ struct EveryDaily2: View {
    
 }
 
-struct EveryDaily2_Previews: PreviewProvider {
+struct EveryDayXTimesPerDay_Previews: PreviewProvider {
    static var previews: some View {
       Background {
-         EveryDaily2()
+         EveryDayXTimesPerDay()
       }
    }
 }

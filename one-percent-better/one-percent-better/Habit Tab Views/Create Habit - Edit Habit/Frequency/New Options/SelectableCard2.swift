@@ -92,7 +92,7 @@ struct SelectableCard2_Previewer: View {
       Background {
          VStack {
             SelectableCard2Wrapper(selection: $selection, type: .timesPerDay(2)) {
-               EveryDaily2()
+               EveryDayXTimesPerDay()
             }
             
             SelectableCard2Wrapper(selection: $selection, type: .daysInTheWeek([1,2,3])) {

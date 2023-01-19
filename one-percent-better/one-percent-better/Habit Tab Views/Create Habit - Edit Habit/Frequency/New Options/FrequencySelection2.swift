@@ -36,7 +36,7 @@ struct FrequencySelection2: View {
          
          if segmentSelection == .daily {
             SelectableCard2Wrapper(selection: $freqSelection, type: .timesPerDay(1)) {
-               EveryDaily2()
+               EveryDayXTimesPerDay()
             }
             .transition(.move(edge: .leading))
          }
