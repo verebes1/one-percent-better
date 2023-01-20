@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct AnimatedPluralInt: View {
+struct AnimatedPlural: View {
    
    let text: String
    let value: Int
    
-   var slideIn: AnyTransition {
-      .move(edge: .bottom)
+   var slideInOpacity: AnyTransition {
+      .opacity.combined(with: .move(edge: .bottom))
    }
    
    var body: some View {
@@ -21,28 +21,7 @@ struct AnimatedPluralInt: View {
          Text(text)
          if value > 1 {
             Text("s")
-               .transition(.opacity.combined(with: slideIn))
-         }
-      }
-      .animation(.easeInOut(duration: 0.3), value: value)
-   }
-}
-
-struct AnimatedPluralString: View {
-   
-   let text: String
-   let value: String
-   
-   var slideIn: AnyTransition {
-      .move(edge: .bottom)
-   }
-   
-   var body: some View {
-      HStack(spacing: 0) {
-         Text(text)
-         if let value = Int(value), value > 1 {
-            Text("s")
-               .transition(.opacity.combined(with: slideIn))
+               .transition(slideInOpacity)
          }
       }
       .animation(.easeInOut(duration: 0.3), value: value)
@@ -51,32 +30,14 @@ struct AnimatedPluralString: View {
 
 struct AnimatedPluralText_Previewer: View {
    
-   @State private var valueInt = 1
-   
-   @State private var valueString = "1"
+   @State private var value = 1
    
    var body: some View {
-      
       VStack {
-         HStack {
-            Text("Int version: ")
-            AnimatedPluralInt(text: "time", value: valueInt)
-               .onTapGesture {
-                  withAnimation {
-                     valueInt = valueInt == 1 ? 2 : 1
-                  }
-               }
-         }
-         
-         HStack {
-            Text("String version: ")
-            AnimatedPluralString(text: "time", value: valueString)
-               .onTapGesture {
-                  withAnimation {
-                     valueString = valueString == "1" ? "2" : "1"
-                  }
-               }
-         }
+         AnimatedPlural(text: "time", value: value)
+            .onTapGesture {
+               value = value == 1 ? 2 : 1
+            }
       }
    }
 }

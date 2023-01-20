@@ -48,7 +48,7 @@ struct EveryDayXTimesPerDay: View {
          }
          
          HStack(spacing: 0) {
-            AnimatedPluralInt(text: "time", value: timesPerDay)
+            AnimatedPlural(text: "time", value: timesPerDay)
             Text(" per day")
          }
       }
