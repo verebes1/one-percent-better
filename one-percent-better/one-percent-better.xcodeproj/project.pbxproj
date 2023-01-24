@@ -96,6 +96,8 @@
 		80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */; };
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
 		80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */; };
+		803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */; };
+		803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */; };
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
 		803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCard.swift */; };
@@ -285,6 +287,8 @@
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeginTouchesScrollView.swift; sourceTree = "<group>"; };
+		803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
+		803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabel.swift; sourceTree = "<group>"; };
 		803B4E8328B430F8003EA859 /* mo_ikai 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 7.xcdatamodel"; sourceTree = "<group>"; };
 		803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackerEntry.swift; sourceTree = "<group>"; };
 		803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitFrequency.swift; sourceTree = "<group>"; };
@@ -478,6 +482,8 @@
 				800034CE2945300B0086A2E1 /* OverlayTest2.swift */,
 				805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */,
 				805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */,
+				803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */,
+				803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -1139,6 +1145,7 @@
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
+				803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */,
 				8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */,
 				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
@@ -1189,6 +1196,7 @@
 				805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */,
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
 				802E928F2917071A00A28EB1 /* View+CornerRadius.swift in Sources */,
+				803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */,
 				80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */,
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
 				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,

@@ -21,7 +21,7 @@ import Foundation
    }
 }
 
-enum HabitFrequency: Equatable {
+enum HabitFrequency: Equatable, Hashable {
    case timesPerDay(Int)
    case daysInTheWeek([Int])
 //   case timesPerWeek(Int) // TODO: finish implementing

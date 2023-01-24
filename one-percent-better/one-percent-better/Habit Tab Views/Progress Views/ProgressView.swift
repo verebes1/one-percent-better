@@ -13,6 +13,14 @@ enum ProgressViewNavRoute: Hashable {
    case newTracker
 }
 
+struct CreateNewTrackerRoute: Hashable {
+   let habit: Habit
+}
+
+struct EditHabitRoute: Hashable {
+   let habit: Habit
+}
+
 struct ProgressView: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
@@ -37,13 +45,9 @@ struct ProgressView: View {
                
                StatisticsCardView(habit: habit)
                
-               Button {
-                  nav.path.append(ProgressViewNavRoute.newTracker)
-               } label: {
-                  Label("New Tracker", systemImage: "plus.circle")
+               NavigationLink(value: CreateNewTrackerRoute(habit: habit)) {
+                  CapsuleLabel(text: "New Tracker", systemImage: "plus")
                }
-               .buttonStyle(PillButtonStyle(color: Style.accentColor))
-               .padding(.top, 15)
                
                Spacer()
             }
@@ -53,21 +57,30 @@ struct ProgressView: View {
       }
       .toolbar {
          ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink("Edit", value: ProgressViewNavRoute.editHabit)
+            NavigationLink("Edit", value: EditHabitRoute(habit: habit))
          }
       }
-      .navigationDestination(for: ProgressViewNavRoute.self) { route in
-         if route == .editHabit {
-            EditHabit(habit: habit)
-               .environmentObject(habit)
-               .environmentObject(nav)
-         }
-         
-         if route == .newTracker {
-            CreateNewTracker(habit: habit)
-               .environmentObject(nav)
-         }
+      .navigationDestination(for: CreateNewTrackerRoute.self) { route in
+         CreateNewTracker(habit: route.habit)
+            .environmentObject(nav)
       }
+      .navigationDestination(for: EditHabitRoute.self) { route in
+         EditHabit(habit: route.habit)
+            .environmentObject(route.habit)
+            .environmentObject(nav)
+      }
+//      .navigationDestination(for: ProgressViewNavRoute.self) { route in
+//         if route == .editHabit {
+//            EditHabit(habit: habit)
+//               .environmentObject(habit)
+//               .environmentObject(nav)
+//         }
+//
+//         if route == .newTracker {
+//            CreateNewTracker(habit: habit)
+//               .environmentObject(nav)
+//         }
+//      }
    }
 }
 
