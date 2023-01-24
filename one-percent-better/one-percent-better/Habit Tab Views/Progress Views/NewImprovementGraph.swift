@@ -110,7 +110,7 @@ struct NewImprovementGraph_Previews: PreviewProvider {
    static var previews: some View {
       let habit = progressData()
       return(
-         NavigationView {
+         NavigationStack {
             NewImprovementGraph(it: habit.improvementTracker!)
                .frame(width: 300, height: 150)
 //               .environmentObject(habit)

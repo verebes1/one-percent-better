@@ -49,7 +49,7 @@ struct CustomToolbarView_Previews: PreviewProvider {
     static let toolbarHeight: CGFloat = 100
     
     static var previews: some View {
-        NavigationView {
+        NavigationStack {
             Background {
                 ZStack {
                     ScrollView {

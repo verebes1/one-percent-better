@@ -112,7 +112,7 @@ struct ExerciseCard_Previews: PreviewProvider {
         let tracker = data()
         let vm = ExerciseEntryModel(reps: [8, 10, 12], weights: ["225", "245", "250"])
         Group {
-            NavigationView {
+            NavigationStack {
                 Background {
 //                    CardView {
                         ExerciseCard(tracker: tracker, vm: vm)

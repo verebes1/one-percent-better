@@ -42,7 +42,6 @@ struct CreateGraphTracker: View {
               nav.path.removeLast(2)
             }
           }
-        
       }
     }
   }

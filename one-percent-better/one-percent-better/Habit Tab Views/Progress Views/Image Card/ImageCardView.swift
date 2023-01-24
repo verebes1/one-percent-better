@@ -117,7 +117,7 @@ struct ImageCardView_Previews: PreviewProvider {
         let patioImages = Array<UIImage>(repeating: patio, count: 20)
         let _ = vm.loadImages(images: patioImages)
         
-        NavigationView {
+        NavigationStack {
             Background {
                 ImageCardView(vm: vm)
             }

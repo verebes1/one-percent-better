@@ -43,7 +43,7 @@ struct EditHabitFrequency: View {
 
 struct EditHabitFrequency_Previews: PreviewProvider {
    static var previews: some View {
-      NavigationView {
+      NavigationStack {
          EditHabitFrequency(frequency: .timesPerDay(2))
       }
    }

@@ -67,21 +67,21 @@ struct CreateNewTracker: View {
             
             Spacer()
          }
-         .navigationDestination(for: CreateTrackerNavRoute.self) { route in
-            switch route {
-            case .graphTracker:
-               CreateGraphTracker(habit: habit)
-                  .environmentObject(nav)
-            case .imageTracker:
-               CreateImageTracker(habit: habit)
-                  .environmentObject(nav)
-            case .exerciseTracker:
-               CreateExerciseTracker(habit: habit)
-                  .environmentObject(nav)
-            case .timeTracker:
-               CreateTimeTracker(habit: habit)
-                  .environmentObject(nav)
-            }
+      }
+      .navigationDestination(for: CreateTrackerNavRoute.self) { route in
+         switch route {
+         case .graphTracker:
+            CreateGraphTracker(habit: habit)
+               .environmentObject(nav)
+         case .imageTracker:
+            CreateImageTracker(habit: habit)
+               .environmentObject(nav)
+         case .exerciseTracker:
+            CreateExerciseTracker(habit: habit)
+               .environmentObject(nav)
+         case .timeTracker:
+            CreateTimeTracker(habit: habit)
+               .environmentObject(nav)
          }
       }
    }

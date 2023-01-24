@@ -66,7 +66,7 @@ struct AllImagesView_Previews: PreviewProvider {
     static var previews: some View {
         let patio = UIImage(named: "patio-done")!
         let patioImages = Array<UIImage>(repeating: patio, count: 20)
-        NavigationView {
+        NavigationStack {
             AllImagesView(images: patioImages)
         }
     }

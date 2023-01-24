@@ -149,7 +149,7 @@ struct EnterTrackerDataView: View {
    @ObservedObject var vm: EnterTrackerDataViewModel
    
    var body: some View {
-      NavigationView {
+      NavigationStack {
          Background(color: scheme == .light ? .white : .black) {
             ScrollView {
                VStack {

@@ -13,6 +13,10 @@ enum ProgressViewNavRoute: Hashable {
    case newTracker
 }
 
+struct CreateNewTrackerRoute: Hashable {
+   let habit: Habit
+}
+
 struct ProgressView: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
@@ -45,6 +49,10 @@ struct ProgressView: View {
                .buttonStyle(PillButtonStyle(color: Style.accentColor))
                .padding(.top, 15)
                
+//               NavigationLink(value: CreateNewTrackerRoute(habit: habit)) {
+//                  <#code#>
+//               }
+               
                Spacer()
             }
          }
@@ -62,7 +70,7 @@ struct ProgressView: View {
                .environmentObject(habit)
                .environmentObject(nav)
          }
-         
+
          if route == .newTracker {
             CreateNewTracker(habit: habit)
                .environmentObject(nav)
@@ -105,7 +113,7 @@ struct ProgressView_Previews: PreviewProvider {
    static var previews: some View {
       let habit = progressData()
       return(
-         NavigationView {
+         NavigationStack {
             ProgressView()
                .environmentObject(habit)
                .environmentObject(HabitTabNavPath())

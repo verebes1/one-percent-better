@@ -152,7 +152,7 @@ struct EditTracker_Previews: PreviewProvider {
    
    static var previews: some View {
       let t = data()
-      NavigationView {
+      NavigationStack {
          EditTracker(habit: t.0, tracker: t.1)
       }
    }

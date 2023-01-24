@@ -231,9 +231,8 @@ struct EditHabit_Previews: PreviewProvider {
    
    static var previews: some View {
       let habit = data()
-      NavigationView {
+      NavigationStack {
          EditHabitPreviewer(habit: habit)
-//         EditHabit(habit: habit)
       }
    }
 }

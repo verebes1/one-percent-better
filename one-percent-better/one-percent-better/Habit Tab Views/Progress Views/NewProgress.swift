@@ -92,7 +92,7 @@
 //    static var previews: some View {
 //        let habit = progressData()
 //        return(
-//            NavigationView {
+//            NavigationStack {
 //                NewProgress(habit: habit, active: .constant(true))
 //            }
 //        )
