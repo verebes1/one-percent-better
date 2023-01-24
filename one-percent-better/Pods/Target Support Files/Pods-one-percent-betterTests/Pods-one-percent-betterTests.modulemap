@@ -1,6 +1,0 @@
-framework module Pods_one_percent_betterTests {
-  umbrella header "Pods-one-percent-betterTests-umbrella.h"
-
-  export *
-  module * { export * }
-}

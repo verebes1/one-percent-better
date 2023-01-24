@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Introspect
 
 enum HabitFrequencyError: Error {
   case zeroFrequency
