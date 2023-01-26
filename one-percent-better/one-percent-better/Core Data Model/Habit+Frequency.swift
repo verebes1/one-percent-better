@@ -98,7 +98,6 @@ extension Habit {
       }
       
       if let i = frequencyDates.sameDayBinarySearch(for: date) {
-      
          frequency[i] = freq.valueNS
          switch freq {
          case .timesPerDay(let n):
@@ -130,6 +129,7 @@ extension Habit {
    func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          // Requesting frequency before start date
+//         print("ERROR!!! frequency is nil on date: \(String(describing: date))")
          return nil
       }
          

@@ -7,19 +7,9 @@
 
 import SwiftUI
 
-struct EditHabitFrequencyRoute: Hashable {
-   let habit: Habit
-   let frequency: HabitFrequency
-   
-   init(habit: Habit) {
-      self.habit = habit
-      self.frequency = habit.frequency(on: Date()) ?? .timesPerDay(1)
-   }
-}
-
-struct EditTrackerRoute: Hashable {
-   let habit: Habit
-   let tracker: Tracker
+enum EditHabitNavRoute: Hashable {
+   case editFrequency(Habit)
+   case editTracker(Habit, Tracker)
 }
 
 struct EditHabit: View {
@@ -99,7 +89,7 @@ struct EditHabit: View {
                   
                   // MARK: - Edit Frequency
                   
-                  NavigationLink(value: EditHabitFrequencyRoute(habit: habit)) {
+                  NavigationLink(value: EditHabitNavRoute.editFrequency(habit)) {
                      HStack {
                         Text("Frequency")
                            .fontWeight(.medium)
@@ -129,8 +119,9 @@ struct EditHabit: View {
                   Section(header: Text("Trackers")) {
                      ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
                         let tracker = habit.editableTrackers[i]
-                        NavigationLink(value: EditTrackerRoute(habit: habit, tracker: tracker)) {
+                        NavigationLink(value: EditHabitNavRoute.editTracker(habit, tracker)) {
                            EditTrackerRow(tracker: tracker)
+//                           EditTrackerRowSimple(name: tracker.name)
                         }
                      }
                   }
@@ -166,14 +157,17 @@ struct EditHabit: View {
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
-         .navigationDestination(for: EditHabitFrequencyRoute.self) { route in
-            EditHabitFrequency(frequency: route.frequency)
-               .environmentObject(route.habit)
-               .environmentObject(nav)
-         }
-         .navigationDestination(for: EditTrackerRoute.self) { route in
-            EditTracker(habit: route.habit, tracker: route.tracker)
-               .environmentObject(nav)
+         .navigationDestination(for: EditHabitNavRoute.self) { route in
+            if case let .editFrequency(habit) = route,
+               let freq = habit.frequency(on: Date()) {
+               EditHabitFrequency(frequency: freq)
+                  .environmentObject(habit)
+            }
+            
+            if case let .editTracker(habit, tracker) = route {
+               EditTracker(habit: habit, tracker: tracker)
+                  .environmentObject(nav)
+            }
          }
          .onDisappear {
             do {

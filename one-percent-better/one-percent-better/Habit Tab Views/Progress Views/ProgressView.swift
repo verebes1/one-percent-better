@@ -9,16 +9,8 @@ import SwiftUI
 import CoreData
 
 enum ProgressViewNavRoute: Hashable {
-   case editHabit
-   case newTracker
-}
-
-struct CreateNewTrackerRoute: Hashable {
-   let habit: Habit
-}
-
-struct EditHabitRoute: Hashable {
-   let habit: Habit
+   case editHabit(Habit)
+   case newTracker(Habit)
 }
 
 struct ProgressView: View {
@@ -45,7 +37,7 @@ struct ProgressView: View {
                
                StatisticsCardView(habit: habit)
                
-               NavigationLink(value: CreateNewTrackerRoute(habit: habit)) {
+               NavigationLink(value: ProgressViewNavRoute.newTracker(habit)) {
                   CapsuleLabel(text: "New Tracker", systemImage: "plus")
                }
                
@@ -57,30 +49,21 @@ struct ProgressView: View {
       }
       .toolbar {
          ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink("Edit", value: EditHabitRoute(habit: habit))
+            NavigationLink("Edit", value: ProgressViewNavRoute.editHabit(habit))
          }
       }
-      .navigationDestination(for: CreateNewTrackerRoute.self) { route in
-         CreateNewTracker(habit: route.habit)
-            .environmentObject(nav)
+      .navigationDestination(for: ProgressViewNavRoute.self) { [nav] route in
+         if case .editHabit(let habit) = route {
+            EditHabit(habit: habit)
+               .environmentObject(habit)
+               .environmentObject(nav)
+         }
+         
+         if case .newTracker(let habit) = route {
+            CreateNewTracker(habit: habit)
+               .environmentObject(nav)
+         }
       }
-      .navigationDestination(for: EditHabitRoute.self) { route in
-         EditHabit(habit: route.habit)
-            .environmentObject(route.habit)
-            .environmentObject(nav)
-      }
-//      .navigationDestination(for: ProgressViewNavRoute.self) { route in
-//         if route == .editHabit {
-//            EditHabit(habit: habit)
-//               .environmentObject(habit)
-//               .environmentObject(nav)
-//         }
-//
-//         if route == .newTracker {
-//            CreateNewTracker(habit: habit)
-//               .environmentObject(nav)
-//         }
-//      }
    }
 }
 

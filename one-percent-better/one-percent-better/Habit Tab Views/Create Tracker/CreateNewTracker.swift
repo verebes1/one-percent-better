@@ -8,10 +8,10 @@
 import SwiftUI
 
 enum CreateTrackerNavRoute: Hashable {
-   case graphTracker
-   case imageTracker
-   case exerciseTracker
-   case timeTracker
+   case graphTracker(Habit)
+   case imageTracker(Habit)
+   case exerciseTracker(Habit)
+   case timeTracker(Habit)
 }
 
 struct CreateNewTracker: View {
@@ -35,32 +35,35 @@ struct CreateNewTracker: View {
             
             LazyVGrid(columns: columns, spacing: columnSpacing) {
                
-               CreateTrackerButton(systemImage: "chart.xyaxis.line",
-                                   color: .blue,
-                                   title: "Graph",
-                                   navPath: CreateTrackerNavRoute.graphTracker)
+               
+               NavigationLink(value: CreateTrackerNavRoute.graphTracker(habit)) {
+                  CreateTrackerButton(systemImage: "chart.xyaxis.line",
+                                      color: .blue,
+                                      title: "Graph",
+                                      navPath: CreateTrackerNavRoute.graphTracker(habit))
+               }
                
                CreateTrackerButton(systemImage: "photo",
                                    color: .mint,
                                    title: "Photo",
-                                   navPath: CreateTrackerNavRoute.imageTracker)
+                                   navPath: CreateTrackerNavRoute.imageTracker(habit))
                
                CreateTrackerButton(systemImage: "figure.walk",
                                    color: .red,
                                    title: "Exercise",
-                                   navPath: CreateTrackerNavRoute.exerciseTracker)
+                                   navPath: CreateTrackerNavRoute.exerciseTracker(habit))
                
                CreateTrackerButton(systemImage: "timer",
                                    color: .yellow,
                                    title: "Time",
                                    available: false,
-                                   navPath: CreateTrackerNavRoute.timeTracker)
+                                   navPath: CreateTrackerNavRoute.timeTracker(habit))
                
                CreateTrackerButton(systemImage: "note.text",
                                    color: .systemOrange,
                                    title: "Notes",
                                    available: false,
-                                   navPath: CreateTrackerNavRoute.timeTracker)
+                                   navPath: CreateTrackerNavRoute.timeTracker(habit))
                
             }
             .padding(.horizontal, columnSpacing)
@@ -69,16 +72,16 @@ struct CreateNewTracker: View {
          }
          .navigationDestination(for: CreateTrackerNavRoute.self) { route in
             switch route {
-            case .graphTracker:
+            case .graphTracker(let habit):
                CreateGraphTracker(habit: habit)
                   .environmentObject(nav)
-            case .imageTracker:
+            case .imageTracker(let habit):
                CreateImageTracker(habit: habit)
                   .environmentObject(nav)
-            case .exerciseTracker:
+            case .exerciseTracker(let habit):
                CreateExerciseTracker(habit: habit)
                   .environmentObject(nav)
-            case .timeTracker:
+            case .timeTracker(let habit):
                CreateTimeTracker(habit: habit)
                   .environmentObject(nav)
             }
@@ -113,11 +116,11 @@ struct CreateTrackerButton: View {
    let navPath: CreateTrackerNavRoute
    
    var body: some View {
-      Button {
-         if available {
-            nav.path.append(navPath)
-         }
-      } label: {
+//      Button {
+//         if available {
+//            nav.path.append(navPath)
+//         }
+//      } label: {
          VStack {
             Image(systemName: systemImage)
                .resizable()
@@ -138,8 +141,8 @@ struct CreateTrackerButton: View {
          }
          .frame(maxWidth: .infinity, maxHeight: .infinity)
          .aspectRatio(1.0, contentMode: .fill)
-      }
-      .buttonStyle(RoundedRectButtonStyle(cornerRadius: 20,
-                                          color: color))
+//      }
+//      .buttonStyle(RoundedRectButtonStyle(cornerRadius: 20,
+//                                          color: color))
    }
 }

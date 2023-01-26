@@ -10,7 +10,7 @@ import CoreData
 
 enum SettingsNavRoute: Hashable {
    case appearance
-   case dailyReminder
+   case dailyReminder(Settings?)
    case importData
 }
 
@@ -159,7 +159,7 @@ struct SettingsView: View {
                   }
                   
                   Section(header: Text("Notifications")) {
-                     NavigationLink(value: SettingsNavRoute.dailyReminder) {
+                     NavigationLink(value: SettingsNavRoute.dailyReminder(vm.settings)) {
                         DailyReminderRow()
                            .environmentObject(vm)
                      }
@@ -195,9 +195,11 @@ struct SettingsView: View {
                      // TODO: Make this a menu, or a whole view?
                      // Maybe a whole view with an animated sun/moon which show and hide
                      EmptyView()
-                  case .dailyReminder:
-                     DailyReminder(settings: vm.settings!)
-                        .environmentObject(vm)
+                  case .dailyReminder(let settings):
+                     if let set = settings {
+                        DailyReminder(settings: set)
+                           .environmentObject(vm)
+                     }
                   case .importData:
                      DocumentPicker()
                   }
