@@ -12,6 +12,14 @@ enum CreateTrackerNavRoute: Hashable {
    case imageTracker(Habit)
    case exerciseTracker(Habit)
    case timeTracker(Habit)
+   case noteTracker(Habit)
+}
+
+struct TrackerListItem: Hashable {
+   let title: String
+   let description: String
+   let systemImage: String
+   let color: Color
 }
 
 struct CreateNewTracker: View {
@@ -23,54 +31,62 @@ struct CreateNewTracker: View {
    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 20), count: 3)
    let columnSpacing: CGFloat = 20
    
+   let graphTrackerItem = TrackerListItem(title: "Graph",
+                      description: "Track a number which changes over time, like body weight.",
+                      systemImage: "chart.xyaxis.line",
+                      color: .blue)
+   let photoTrackerItem = TrackerListItem(title: "Photo",
+                      description: "Track visual progress using a photo, such as an image of a plant growing over time.",
+                      systemImage: "photo",
+                      color: .mint)
+   
+   let exerciseTrackerItem = TrackerListItem(title: "Exercise",
+                      description: "Track the weights and reps you do at the gym, and visualize your net gains.",
+                      systemImage: "figure.walk",
+                      color: .red)
+   
+   let timeTrackerItem = TrackerListItem(title: "Time (Coming Soon)",
+                      description: "Track the time you spend doing this habit.",
+                      systemImage: "timer",
+                      color: .yellow)
+   
+   let noteTrackerItem = TrackerListItem(title: "Note (Coming Soon)",
+                      description: "Take notes to track your progress for this habit.",
+                      systemImage: "note.text",
+                      color: .systemOrange)
+   
    var body: some View {
       Background {
          VStack {
-            Spacer()
-               .frame(height: 50)
             HabitCreationHeader(systemImage: "chart.xyaxis.line",
                                 title: "Add a Tracker",
                                 subtitle: "Track your progress and visualize your gains to stay motivated")
             
             
-            LazyVGrid(columns: columns, spacing: columnSpacing) {
-               
-               
+            List {
                NavigationLink(value: CreateTrackerNavRoute.graphTracker(habit)) {
-                  CreateTrackerButton(systemImage: "chart.xyaxis.line",
-                                      color: .blue,
-                                      title: "Graph",
-                                      navPath: CreateTrackerNavRoute.graphTracker(habit))
+                  CreateTrackerListItem(tracker: graphTrackerItem)
                }
                
-               CreateTrackerButton(systemImage: "photo",
-                                   color: .mint,
-                                   title: "Photo",
-                                   navPath: CreateTrackerNavRoute.imageTracker(habit))
+               NavigationLink(value: CreateTrackerNavRoute.imageTracker(habit)) {
+                  CreateTrackerListItem(tracker: photoTrackerItem)
+               }
                
-               CreateTrackerButton(systemImage: "figure.walk",
-                                   color: .red,
-                                   title: "Exercise",
-                                   navPath: CreateTrackerNavRoute.exerciseTracker(habit))
+               NavigationLink(value: CreateTrackerNavRoute.exerciseTracker(habit)) {
+                  CreateTrackerListItem(tracker: exerciseTrackerItem)
+               }
                
-               CreateTrackerButton(systemImage: "timer",
-                                   color: .yellow,
-                                   title: "Time",
-                                   available: false,
-                                   navPath: CreateTrackerNavRoute.timeTracker(habit))
+//               NavigationLink(value: CreateTrackerNavRoute.timeTracker(habit)) {
+                  CreateTrackerListItem(tracker: timeTrackerItem)
+//               }
                
-               CreateTrackerButton(systemImage: "note.text",
-                                   color: .systemOrange,
-                                   title: "Notes",
-                                   available: false,
-                                   navPath: CreateTrackerNavRoute.timeTracker(habit))
-               
+//               NavigationLink(value: CreateTrackerNavRoute.noteTracker(habit)) {
+                  CreateTrackerListItem(tracker: noteTrackerItem)
+//               }
             }
-            .padding(.horizontal, columnSpacing)
             
-            Spacer()
          }
-         .navigationDestination(for: CreateTrackerNavRoute.self) { route in
+         .navigationDestination(for: CreateTrackerNavRoute.self) { [nav] route in
             switch route {
             case .graphTracker(let habit):
                CreateGraphTracker(habit: habit)
@@ -84,6 +100,9 @@ struct CreateNewTracker: View {
             case .timeTracker(let habit):
                CreateTimeTracker(habit: habit)
                   .environmentObject(nav)
+            case .noteTracker(_):
+               // TODO
+               EmptyView()
             }
          }
       }
@@ -105,44 +124,31 @@ struct CreateNewTracker_Previews: PreviewProvider {
    }
 }
 
-struct CreateTrackerButton: View {
+struct CreateTrackerListItem: View {
    
-   @EnvironmentObject var nav: HabitTabNavPath
-   
-   let systemImage: String
-   let color: Color
-   let title: String
-   var available: Bool = true
-   let navPath: CreateTrackerNavRoute
+   let tracker: TrackerListItem
    
    var body: some View {
-//      Button {
-//         if available {
-//            nav.path.append(navPath)
-//         }
-//      } label: {
-         VStack {
-            Image(systemName: systemImage)
-               .resizable()
-               .aspectRatio(contentMode: .fit)
-               .frame(width: 35, height: 35)
-               .shadow(color: .black.opacity(0.2), radius: 3, x: 3, y: 3)
+      HStack(alignment: .top) {
+         Image(systemName: tracker.systemImage)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 20, height: 20)
+            .foregroundColor(.white)
+            .padding(8)
+            .background(tracker.color)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .padding(5)
+         
+         VStack(alignment: .leading, spacing: 4) {
+            Text(tracker.title)
+               .fontWeight(.medium)
             
-            Text(title)
+            Text(tracker.description)
+               .foregroundColor(.secondaryLabel)
                .font(.system(size: 14))
-               .fontWeight(.bold)
-               .shadow(color: .black.opacity(0.2), radius: 3, x: 3, y: 3)
-            
-            if !available {
-               Text("Coming Soon")
-                  .font(.system(size: 8))
-                  .shadow(color: .black.opacity(0.2), radius: 3, x: 3, y: 3)
-            }
          }
-         .frame(maxWidth: .infinity, maxHeight: .infinity)
-         .aspectRatio(1.0, contentMode: .fill)
-//      }
-//      .buttonStyle(RoundedRectButtonStyle(cornerRadius: 20,
-//                                          color: color))
+      }
+      .padding(.vertical, 5)
    }
 }
