@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EveryDayXTimesPerDay: View {
    
-   @State private var timesPerDay = 1
+   @Binding var timesPerDay: Int
    
    var color: Color = Style.accentColor
    
@@ -58,10 +58,18 @@ struct EveryDayXTimesPerDay: View {
    
 }
 
+struct EveryDayXTimesPerDayPreviewer: View {
+   @State private var tpd = 1
+   var body: some View {
+      Background {
+         EveryDayXTimesPerDay(timesPerDay: $tpd)
+      }
+   }
+}
+
 struct EveryDayXTimesPerDay_Previews: PreviewProvider {
    static var previews: some View {
-      Background {
-         EveryDayXTimesPerDay()
-      }
+      EveryDayXTimesPerDayPreviewer()
+      
    }
 }

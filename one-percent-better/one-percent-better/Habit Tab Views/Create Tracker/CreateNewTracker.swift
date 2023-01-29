@@ -36,22 +36,22 @@ struct CreateNewTracker: View {
                       systemImage: "chart.xyaxis.line",
                       color: .blue)
    let photoTrackerItem = TrackerListItem(title: "Photo",
-                      description: "Track visual progress using a photo, such as an image of a plant growing over time.",
+                      description: "Track visual progress using a photo, such as a plant growing over time.",
                       systemImage: "photo",
                       color: .mint)
    
    let exerciseTrackerItem = TrackerListItem(title: "Exercise",
-                      description: "Track the weights and reps you do at the gym, and visualize your net gains.",
+                      description: "Track the sets of weights and reps you do at the gym.",
                       systemImage: "figure.walk",
                       color: .red)
    
    let timeTrackerItem = TrackerListItem(title: "Time (Coming Soon)",
-                      description: "Track the time you spend doing this habit.",
+                      description: "Track the time you spend on this habit.",
                       systemImage: "timer",
                       color: .yellow)
    
    let noteTrackerItem = TrackerListItem(title: "Note (Coming Soon)",
-                      description: "Take notes to track your progress for this habit.",
+                      description: "Take custom notes to track progress for this habit.",
                       systemImage: "note.text",
                       color: .systemOrange)
    
@@ -61,7 +61,6 @@ struct CreateNewTracker: View {
             HabitCreationHeader(systemImage: "chart.xyaxis.line",
                                 title: "Add a Tracker",
                                 subtitle: "Track your progress and visualize your gains to stay motivated")
-            
             
             List {
                NavigationLink(value: CreateTrackerNavRoute.graphTracker(habit)) {
@@ -133,9 +132,9 @@ struct CreateTrackerListItem: View {
          Image(systemName: tracker.systemImage)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: 20, height: 20)
+            .frame(width: 18, height: 18)
             .foregroundColor(.white)
-            .padding(8)
+            .padding(7)
             .background(tracker.color)
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .padding(5)

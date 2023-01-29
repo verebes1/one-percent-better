@@ -35,7 +35,8 @@ struct ChooseHabitFrequency: View {
             
 //            Spacer().frame(height: 20)
             
-            FrequencySelection2()
+            FrequencySelectionStack2(vm: vm)
+               .environmentObject(vm)
             
             Spacer()
             

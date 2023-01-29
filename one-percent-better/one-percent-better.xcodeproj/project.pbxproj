@@ -104,7 +104,7 @@
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */; };
-		805785B1295EEE9B00028582 /* FrequencySelection2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B0295EEE9B00028582 /* FrequencySelection2.swift */; };
+		805785B1295EEE9B00028582 /* FrequencySelectionStack2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B0295EEE9B00028582 /* FrequencySelectionStack2.swift */; };
 		805785B3295EEFA900028582 /* EveryDayXTimesPerDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */; };
 		805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */; };
 		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
@@ -118,7 +118,6 @@
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
-		805C1BC3294A9AC300F7CE48 /* EveryXTimesPerY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */; };
 		805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */; };
 		8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3328F9FE5600903123 /* NotificationSelection.swift */; };
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
@@ -296,7 +295,7 @@
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeeklyNotSpecific.swift; sourceTree = "<group>"; };
-		805785B0295EEE9B00028582 /* FrequencySelection2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelection2.swift; sourceTree = "<group>"; };
+		805785B0295EEE9B00028582 /* FrequencySelectionStack2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStack2.swift; sourceTree = "<group>"; };
 		805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDayXTimesPerDay.swift; sourceTree = "<group>"; };
 		805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekBeginningEveryY.swift; sourceTree = "<group>"; };
 		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
@@ -312,7 +311,6 @@
 		8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleFitnessRings.swift; sourceTree = "<group>"; };
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
-		805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXTimesPerY.swift; sourceTree = "<group>"; };
 		805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleMenuButton.swift; sourceTree = "<group>"; };
 		8062AA3328F9FE5600903123 /* NotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSelection.swift; sourceTree = "<group>"; };
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
@@ -455,6 +453,7 @@
 				805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */,
 				803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */,
 				803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */,
+				805785BB296C4EFD00028582 /* DepressTest.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -708,12 +707,10 @@
 			isa = PBXGroup;
 			children = (
 				805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */,
-				805C1BC2294A9AC300F7CE48 /* EveryXTimesPerY.swift */,
-				805785B0295EEE9B00028582 /* FrequencySelection2.swift */,
+				805785B0295EEE9B00028582 /* FrequencySelectionStack2.swift */,
 				805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */,
 				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
 				805785B9296C4C8600028582 /* SelectableCard2.swift */,
-				805785BB296C4EFD00028582 /* DepressTest.swift */,
 				805785BF296C818800028582 /* FrequencySegmentSelection.swift */,
 				805785C1296DECCF00028582 /* EveryXDays.swift */,
 			);
@@ -1133,7 +1130,6 @@
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				805785BA296C4C8600028582 /* SelectableCard2.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
-				805C1BC3294A9AC300F7CE48 /* EveryXTimesPerY.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
@@ -1157,7 +1153,7 @@
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
 				80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */,
 				80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */,
-				805785B1295EEE9B00028582 /* FrequencySelection2.swift in Sources */,
+				805785B1295EEE9B00028582 /* FrequencySelectionStack2.swift in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
 				8043A92528E7A414001D0E8C /* Timeline.swift in Sources */,
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,

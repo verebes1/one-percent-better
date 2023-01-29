@@ -11,6 +11,8 @@ struct CheckmarkCardSelection: View {
    
    @Environment(\.colorScheme) var scheme
    
+   @State private var tpd = 1
+   
    var body: some View {
       VStack(spacing: 20) {
          HStack {
@@ -27,7 +29,7 @@ struct CheckmarkCardSelection: View {
             .padding(.leading, 20)
 
             CardView {
-               EveryDayXTimesPerDay()
+               EveryDayXTimesPerDay(timesPerDay: $tpd)
             }
             .overlay {
                ZStack {

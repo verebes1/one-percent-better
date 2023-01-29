@@ -55,7 +55,7 @@ struct CreateNewHabit: View {
                   }
                }
          }
-         .navigationDestination(for: CreateFrequencyRoute.self) { route in
+         .navigationDestination(for: CreateFrequencyRoute.self) { [nav, vm] route in
             if case let .createFrequency(habitName) = route {
                ChooseHabitFrequency(habitName: habitName)
                   .environmentObject(vm)

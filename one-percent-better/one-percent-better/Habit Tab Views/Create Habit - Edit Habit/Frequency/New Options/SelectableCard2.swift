@@ -70,12 +70,26 @@ struct SelectableCard2<Content>: View where Content: View {
 
 struct SelectableCard2Wrapper<Content>: View where Content: View {
    
-   @Binding var selection: HabitFrequencyTest
-   let type: HabitFrequencyTest
+   @Binding var selection: HabitFrequency
+   let type: HabitFrequency
    let content: () -> Content
    
+   func isSameType(selection: HabitFrequency, type: HabitFrequency) -> Bool {
+      switch type {
+      case .timesPerDay(_):
+         if case .timesPerDay(_) = selection {
+            return true
+         }
+      case.daysInTheWeek(_):
+         if case .daysInTheWeek(_) = selection {
+            return true
+         }
+      }
+      return false
+   }
+   
    var body: some View {
-      SelectableCard2(isSelected: selection == type) {
+      SelectableCard2(isSelected: isSameType(selection: selection, type: type)) {
          content()
       } onSelection: {
          selection = type
@@ -86,13 +100,15 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
 
 struct SelectableCard2_Previewer: View {
    
-   @State private var selection: HabitFrequencyTest = .timesPerDay(2)
+   @State private var selection: HabitFrequency = .timesPerDay(2)
+   
+   @State private var tpd = 2
    
    var body: some View {
       Background {
          VStack {
             SelectableCard2Wrapper(selection: $selection, type: .timesPerDay(2)) {
-               EveryDayXTimesPerDay()
+               EveryDayXTimesPerDay(timesPerDay: $tpd)
             }
             
             SelectableCard2Wrapper(selection: $selection, type: .daysInTheWeek([1,2,3])) {

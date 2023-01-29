@@ -151,12 +151,12 @@ struct SettingsView: View {
          Background {
             VStack {
                List {
-                  Section(header: Text("Appearance")) {
-                     NavigationLink(value: SettingsNavRoute.appearance) {
-                        ChangeAppearanceRow()
-                           .environmentObject(vm)
-                     }
-                  }
+//                  Section(header: Text("Appearance (Coming Soon)")) {
+//                     NavigationLink(value: SettingsNavRoute.appearance) {
+//                        ChangeAppearanceRow()
+//                           .environmentObject(vm)
+//                     }
+//                  }
                   
                   Section(header: Text("Notifications")) {
                      NavigationLink(value: SettingsNavRoute.dailyReminder(vm.settings)) {
@@ -189,7 +189,7 @@ struct SettingsView: View {
                   }
                }
                .listStyle(.insetGrouped)
-               .navigationDestination(for: SettingsNavRoute.self) { route in
+               .navigationDestination(for: SettingsNavRoute.self) { [vm] route in
                   switch route {
                   case .appearance:
                      // TODO: Make this a menu, or a whole view?

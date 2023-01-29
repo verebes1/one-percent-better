@@ -157,7 +157,7 @@ struct EditHabit: View {
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
-         .navigationDestination(for: EditHabitNavRoute.self) { route in
+         .navigationDestination(for: EditHabitNavRoute.self) { [nav] route in
             if case let .editFrequency(habit) = route,
                let freq = habit.frequency(on: Date()) {
                EditHabitFrequency(frequency: freq)
