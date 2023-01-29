@@ -73,6 +73,7 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
    @Binding var selection: HabitFrequency
    let type: HabitFrequency
    let content: () -> Content
+   var onSelection: () -> Void = {}
    
    func isSameType(selection: HabitFrequency, type: HabitFrequency) -> Bool {
       switch type {
@@ -92,7 +93,7 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
       SelectableCard2(isSelected: isSameType(selection: selection, type: type)) {
          content()
       } onSelection: {
-         selection = type
+         onSelection()
       }
       .contentShape(Rectangle())
    }

@@ -47,6 +47,11 @@ struct FrequencySelectionStack2: View {
 //         if segmentSelection == .daily {
             SelectableCard2Wrapper(selection: $vm.selection, type: .timesPerDay(1)) {
                EveryDayXTimesPerDay(timesPerDay: $timesPerDay)
+                  .onChange(of: timesPerDay) { newValue in
+                     vm.selection = .timesPerDay(timesPerDay)
+                  }
+            } onSelection: {
+               vm.selection = .timesPerDay(timesPerDay)
             }
             .transition(.move(edge: .leading))
 //         }
@@ -54,7 +59,12 @@ struct FrequencySelectionStack2: View {
 //         if segmentSelection == .weekly {
             SelectableCard2Wrapper(selection: $vm.selection, type: .daysInTheWeek([0])) {
                EveryWeekOnSpecificWeekDays(selectedWeekdays: $daysPerWeek)
+                  .onChange(of: daysPerWeek) { newValue in
+                     vm.selection = .daysInTheWeek(daysPerWeek)
+                  }
                   .environmentObject(vm)
+            } onSelection: {
+               vm.selection = .daysInTheWeek(daysPerWeek)
             }
             .transition(.move(edge: .trailing))
             

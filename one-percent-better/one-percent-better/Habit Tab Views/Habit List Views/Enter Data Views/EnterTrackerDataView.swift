@@ -12,6 +12,22 @@ struct NumberTrackerFieldModel {
    var validField: Bool = true
 }
 
+extension String {
+   static let numberFormatter = NumberFormatter()
+   var doubleValue: Double? {
+      String.numberFormatter.decimalSeparator = "."
+      if let result =  String.numberFormatter.number(from: self) {
+         return result.doubleValue
+      } else {
+         String.numberFormatter.decimalSeparator = ","
+         if let result = String.numberFormatter.number(from: self) {
+            return result.doubleValue
+         }
+      }
+      return nil
+   }
+}
+
 class EnterTrackerDataViewModel: ObservableObject {
    
    @Published var numberTrackerFields: [NumberTracker: NumberTrackerFieldModel] = [:]
@@ -72,7 +88,7 @@ class EnterTrackerDataViewModel: ObservableObject {
       var allFieldsValid = true
       for tracker in numberTrackerFields.keys {
          if !numberTrackerFields[tracker]!.text.isEmpty {
-            if let _ = Double(numberTrackerFields[tracker]!.text) {
+            if let _ = numberTrackerFields[tracker]!.text.doubleValue {
                numberTrackerFields[tracker]!.validField = true
             } else {
                allFieldsValid = false
@@ -103,7 +119,7 @@ class EnterTrackerDataViewModel: ObservableObject {
       
       for tracker in numberTrackerFields.keys {
          if !numberTrackerFields[tracker]!.text.isEmpty {
-            if let _ = Double(numberTrackerFields[tracker]!.text) {
+            if let _ = numberTrackerFields[tracker]!.text.doubleValue {
                tracker.add(date: currentDay, value: numberTrackerFields[tracker]!.text)
                atLeastOneEntry = true
             }

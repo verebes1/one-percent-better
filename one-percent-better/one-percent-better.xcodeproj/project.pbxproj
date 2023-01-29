@@ -418,7 +418,7 @@
 				80385CDF285BEE5900CBDF71 /* Core Data Model */,
 				80385CAD285BEE5900CBDF71 /* Global Style + Common Views */,
 				80385CC5285BEE5900CBDF71 /* Habit Tab Views */,
-				80DAAC2E293478CD00E626D7 /* All Habits Tab Views */,
+				80DAAC2E293478CD00E626D7 /* Insights Tab Views */,
 				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
@@ -827,14 +827,14 @@
 			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
 		};
-		80DAAC2E293478CD00E626D7 /* All Habits Tab Views */ = {
+		80DAAC2E293478CD00E626D7 /* Insights Tab Views */ = {
 			isa = PBXGroup;
 			children = (
 				80639E64293FEFAB00A48F16 /* InsightsTabView.swift */,
 				80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */,
 				80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */,
 			);
-			path = "All Habits Tab Views";
+			path = "Insights Tab Views";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

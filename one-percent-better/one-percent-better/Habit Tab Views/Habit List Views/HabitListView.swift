@@ -130,9 +130,6 @@ struct HabitListView: View {
                                                    leading: 0,
                                                    bottom: 0,
                                                    trailing: 20))
-                              .swipeActions(edge: SwiftUI.HorizontalEdge.trailing, allowsFullSwipe: false) {
-                                 Button("Delete", role: .destructive) {}
-                              }
                            }
                         }
                         .onMove(perform: vm.move)
