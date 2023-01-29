@@ -150,6 +150,10 @@ extension Habit {
          return false
       }
       
+//      guard started(after: date) else {
+//         return false
+//      }
+      
       switch freq {
       case .timesPerDay(_):
          return true
