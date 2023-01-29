@@ -185,7 +185,8 @@ class HeaderWeekViewModel: ObservableObject {
       guard total > 0 else { return 0 }
       
       for habit in hlvm.habits {
-         if habit.isDue(on: day) {
+         if Cal.startOfDay(for: habit.startDate) <= Cal.startOfDay(for: day),
+            habit.isDue(on: day) {
             numCompleted += habit.percentCompleted(on: day)
          }
       }

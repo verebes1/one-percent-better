@@ -14,13 +14,14 @@ struct CardView<Content>: View where Content: View {
    
    var shadow = true
    var padding: CGFloat = 10
+   var color: Color = .cardColor
    let content: () -> Content
    
    var body: some View {
       content()
          .padding(.vertical, 5)
          .frame(maxWidth: .infinity)
-         .background(Color.cardColor)
+         .background(color)
          .cornerRadius(10)
          .shadow(color: Color.cardColorOpposite.opacity(shadow ? 0.05 : 0.0), radius: colorScheme == .light ? 7 : 0)
          .padding(.horizontal, padding)

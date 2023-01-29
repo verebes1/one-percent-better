@@ -9,8 +9,8 @@ import SwiftUI
 import CoreData
 
 enum ProgressViewNavRoute: Hashable {
-   case editHabit
-   case newTracker
+   case editHabit(Habit)
+   case newTracker(Habit)
 }
 
 struct ProgressView: View {
@@ -37,13 +37,9 @@ struct ProgressView: View {
                
                StatisticsCardView(habit: habit)
                
-               Button {
-                  nav.path.append(ProgressViewNavRoute.newTracker)
-               } label: {
-                  Label("New Tracker", systemImage: "plus.circle")
+               NavigationLink(value: ProgressViewNavRoute.newTracker(habit)) {
+                  CapsuleLabel(text: "New Tracker", systemImage: "plus")
                }
-               .buttonStyle(PillButtonStyle(color: Style.accentColor))
-               .padding(.top, 15)
                
                Spacer()
             }
@@ -53,17 +49,17 @@ struct ProgressView: View {
       }
       .toolbar {
          ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink("Edit", value: ProgressViewNavRoute.editHabit)
+            NavigationLink("Edit", value: ProgressViewNavRoute.editHabit(habit))
          }
       }
-      .navigationDestination(for: ProgressViewNavRoute.self) { route in
-         if route == .editHabit {
+      .navigationDestination(for: ProgressViewNavRoute.self) { [nav] route in
+         if case .editHabit(let habit) = route {
             EditHabit(habit: habit)
                .environmentObject(habit)
                .environmentObject(nav)
          }
          
-         if route == .newTracker {
+         if case .newTracker(let habit) = route {
             CreateNewTracker(habit: habit)
                .environmentObject(nav)
          }

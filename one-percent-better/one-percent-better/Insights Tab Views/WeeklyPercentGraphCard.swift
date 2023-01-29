@@ -46,10 +46,14 @@ struct WeeklyPercentGraphCard: View {
       // Calculate the moving average for each point in the array
       for i in 0..<points.count {
          // Calculate the sum of the 5 points leading up to the current point
-         let sum = points[max(0, i - period)...i].reduce(0, +)
+         let sum = points[max(0, i - period)..<i].reduce(0, +)
          
          // Calculate the moving average by dividing the sum by the number of points (5)
          let average = sum / Double(period)
+         
+         if average > 100 {
+            print("JJJJ something wrong!")
+         }
          
          // Add the moving average value to the array
          movingAverage.append(average)
@@ -61,10 +65,15 @@ struct WeeklyPercentGraphCard: View {
    
    var body: some View {
       CardView {
-         VStack {
+         VStack(alignment: .leading) {
             CardTitleWithRightDetail("Daily Percent Completed") {
                EmptyView()
             }
+            
+            Text("3 day moving average")
+               .font(.system(size: 15))
+               .foregroundColor(.secondaryLabel)
+               .padding(.horizontal, 20)
             
             Chart {
                let data = dailyPercent()

@@ -1,0 +1,127 @@
+//
+//  SelectableCard2.swift
+//  one-percent-better
+//
+//  Created by Jeremy Cook on 1/9/23.
+//
+
+import SwiftUI
+
+struct SelectableCard2<Content>: View where Content: View {
+   
+   @Environment(\.colorScheme) var scheme
+   
+   var isSelected: Bool
+   
+   let content: () -> Content
+   
+   var onSelection: () -> Void = {}
+   
+   @State private var scale = 1.0
+   
+   var checkmarkImageName: String {
+      isSelected ? "checkmark.circle.fill" : "circle"
+   }
+   
+   var body: some View {
+      HStack {
+         Image(systemName: checkmarkImageName)
+            .resizable()
+            .aspectRatio(1, contentMode: .fit)
+            .frame(height: 23)
+            .foregroundColor(Style.accentColor)
+            .padding(.leading, 20)
+            .scaleEffect(scale)
+         
+         CardView {
+            content()
+         }
+         .overlay {
+            if isSelected {
+               ZStack {
+                  RoundedRectangle(cornerRadius: 10)
+                     .stroke(Style.accentColor, lineWidth: 2)
+                     .padding(.horizontal, 10)
+               }
+            }
+         }
+         .scaleEffect(scale)
+      }
+      .simultaneousGesture(
+         DragGesture(minimumDistance: 0)
+            .onChanged({ _ in
+               if !isSelected {
+                  withAnimation(.easeInOut(duration: 0.15)) {
+                     scale = 0.95
+                  }
+               }
+            })
+            .onEnded({ _ in
+               withAnimation(.easeInOut(duration: 0.15)) {
+                  scale = 1
+                  onSelection()
+               }
+            })
+      )
+//      .border(.black)
+//      .fontWeight(isSelected ? .medium : .regular)
+   }
+}
+
+struct SelectableCard2Wrapper<Content>: View where Content: View {
+   
+   @Binding var selection: HabitFrequency
+   let type: HabitFrequency
+   let content: () -> Content
+   var onSelection: () -> Void = {}
+   
+   func isSameType(selection: HabitFrequency, type: HabitFrequency) -> Bool {
+      switch type {
+      case .timesPerDay(_):
+         if case .timesPerDay(_) = selection {
+            return true
+         }
+      case.daysInTheWeek(_):
+         if case .daysInTheWeek(_) = selection {
+            return true
+         }
+      }
+      return false
+   }
+   
+   var body: some View {
+      SelectableCard2(isSelected: isSameType(selection: selection, type: type)) {
+         content()
+      } onSelection: {
+         onSelection()
+      }
+      .contentShape(Rectangle())
+   }
+}
+
+struct SelectableCard2_Previewer: View {
+   
+   @State private var selection: HabitFrequency = .timesPerDay(2)
+   
+   @State private var tpd = 2
+   
+   var body: some View {
+      Background {
+         VStack {
+            SelectableCard2Wrapper(selection: $selection, type: .timesPerDay(2)) {
+               EveryDayXTimesPerDay(timesPerDay: $tpd)
+            }
+            
+            SelectableCard2Wrapper(selection: $selection, type: .daysInTheWeek([1,2,3])) {
+               XTimesPerWeekBeginningEveryY()
+            }
+         }
+      }
+   }
+}
+
+struct SelectableCard2_Previews: PreviewProvider {
+   static var previews: some View {
+      SelectableCard2_Previewer()
+   }
+}

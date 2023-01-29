@@ -21,9 +21,10 @@ import Foundation
    }
 }
 
-enum HabitFrequency: Equatable {
+enum HabitFrequency: Equatable, Hashable {
    case timesPerDay(Int)
    case daysInTheWeek([Int])
+//   case timesPerWeek(Int) // TODO: finish implementing
    
    var valueNS: Int {
       switch self {
@@ -31,6 +32,8 @@ enum HabitFrequency: Equatable {
          return 0
       case .daysInTheWeek(_):
          return 1
+//      case .timesPerWeek(_):
+//         return 2
       }
    }
    
@@ -43,6 +46,24 @@ enum HabitFrequency: Equatable {
    
    func equalType(to hf: HabitFrequency) -> Bool {
       return self.valueNS == hf.valueNS
+   }
+}
+
+// TEMP ENUM WHILE TESTING UI
+enum HabitFrequencyTest: Equatable {
+   case timesPerDay(Int)
+   case daysInTheWeek([Int])
+   case timesPerWeek(Int)
+   
+   var valueNS: Int {
+      switch self {
+      case .timesPerDay(_):
+         return 0
+      case .daysInTheWeek(_):
+         return 1
+      case .timesPerWeek(_):
+         return 2
+      }
    }
 }
 
@@ -77,7 +98,6 @@ extension Habit {
       }
       
       if let i = frequencyDates.sameDayBinarySearch(for: date) {
-      
          frequency[i] = freq.valueNS
          switch freq {
          case .timesPerDay(let n):
@@ -109,6 +129,7 @@ extension Habit {
    func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          // Requesting frequency before start date
+//         print("ERROR!!! frequency is nil on date: \(String(describing: date))")
          return nil
       }
          
@@ -128,6 +149,10 @@ extension Habit {
       guard let freq = frequency(on: date) else {
          return false
       }
+      
+//      guard started(after: date) else {
+//         return false
+//      }
       
       switch freq {
       case .timesPerDay(_):

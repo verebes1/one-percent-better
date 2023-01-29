@@ -1,5 +1,5 @@
 //
-//  EveryWeekly.swift
+//  EveryWeekOnSpecificWeekDays.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 9/27/22.
@@ -8,13 +8,11 @@
 import SwiftUI
 
 
-struct EveryWeekly: View {
+struct EveryWeekOnSpecificWeekDays: View {
    
    @Environment(\.colorScheme) var colorScheme
    
    @EnvironmentObject var vm: FrequencySelectionModel
-   
-   @State private var frequencyText = "1"
    
    @Binding var selectedWeekdays: [Int]
    
@@ -28,7 +26,7 @@ struct EveryWeekly: View {
          }
          .padding(.horizontal, 25)
       }
-      .padding(.vertical, 30)
+      .padding(.vertical, 10)
    }
 }
 
@@ -41,24 +39,6 @@ struct WeekDayButton: View {
    let i: Int
    @Binding var selectedWeekdays: [Int]
    let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
-   
-   private var selectedBackground: Color {
-      colorScheme == .light ? Style.accentColor : Style.accentColor2
-   }
-   
-   private var backgroundColor: Color {
-      colorScheme == .light ?
-      Color(#colorLiteral(red: 0.9310173988, green: 0.9355356693, blue: 0.935390532, alpha: 1))
-      :
-      Color(#colorLiteral(red: 0.1921563745, green: 0.1921573281, blue: 0.2135840654, alpha: 1))
-      
-   }
-   private var selectedTextColor: Color {
-      colorScheme == .light ?
-      Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
-      :
-         .black
-   }
    
    func updateSelection(_ i: Int) {
       if selectedWeekdays.count == 1 && i == selectedWeekdays[0] {
@@ -77,37 +57,37 @@ struct WeekDayButton: View {
       colorScheme == .light ? .black : .white
    }
    
+   private var selectedTextColor: Color {
+      colorScheme == .light ? .white : .black
+   }
+   
    var body: some View {
       Button {
-         updateSelection(i)
-      } label : {
-         ZStack {
-            let isSelected = selectedWeekdays.contains(i)
-            RoundedRectangle(cornerRadius: 7)
-               .foregroundColor(isSelected ? selectedBackground : backgroundColor)
-            
-            Text(weekdays[i])
-               .fontWeight(isSelected ? .semibold : .regular)
-               .foregroundColor(isSelected ? selectedTextColor : textColor)
+         withAnimation(.easeInOut(duration: 0.15)) {
+            updateSelection(i)
          }
+      } label : {
+         let isSelected = selectedWeekdays.contains(i)
+         Text(weekdays[i])
+            .font(.system(size: 15))
+            .fontWeight(isSelected ? .semibold : .regular)
+            .padding(.vertical, 5)
+            .frame(width: 40)
+            .foregroundColor(isSelected ? selectedTextColor : textColor)
+            .background(isSelected ? Style.accentColor : .grayButton)
+            .clipShape(Capsule())
       }
-      
-//      .frame(width: 50)
-      .frame(height: 32)
-      
-//      .frame(height: 30)
-//      .buttonStyle(<#T##style: PrimitiveButtonStyle##PrimitiveButtonStyle#>)
    }
 }
 
-struct EveryWeeklyPreviews: View {
+struct EveryWeekOnSpecificWeekDaysPreviews: View {
    @State var selectedWeekdays: [Int] = [1,2]
    @StateObject var vm = FrequencySelectionModel(selection: .daysInTheWeek([0, 2, 4]))
    
    var body: some View {
       Background {
          CardView {
-            EveryWeekly(selectedWeekdays: $selectedWeekdays)
+            EveryWeekOnSpecificWeekDays(selectedWeekdays: $selectedWeekdays)
                .environmentObject(vm)
          }
       }
@@ -115,9 +95,9 @@ struct EveryWeeklyPreviews: View {
 }
 
 
-struct EveryWeekly_Previews: PreviewProvider {
+struct EveryWeekOnSpecificWeekDays_Previews: PreviewProvider {
    static var previews: some View {
-      EveryWeeklyPreviews()
+      EveryWeekOnSpecificWeekDaysPreviews()
    }
 }
 

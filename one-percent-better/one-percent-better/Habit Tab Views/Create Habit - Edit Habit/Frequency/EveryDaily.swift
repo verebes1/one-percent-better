@@ -18,16 +18,9 @@ struct EveryDaily: View {
    
    private let backgroundColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
    
-   var isPlural: Binding<Bool> {
-      Binding {
-         timesPerDay > 1
-      } set: { _, _ in
-         // do nothing
-      }
-   }
-   
    var body: some View {
-      VStack {
+      VStack(spacing: 15) {
+         Text("Every day,")
          HStack(spacing: 20) {
             
             MinusStepper(value: $timesPerDay, range: 1 ... 100) { val in
@@ -48,27 +41,23 @@ struct EveryDaily: View {
                      .foregroundColor(colorScheme == .light ? backgroundColor : .black)
                }
                .frame(width: 50)
-               .frame(height: 32)
-               
-               TimesADayText(plural: isPlural)
+               .frame(height: 42)
             }
             
-            PlusStepper(value: $timesPerDay, range: 1 ... 100) { val in
+            PlusStepper(value: $timesPerDay, range: 1 ... 20) { val in
                self.vm.selection = .timesPerDay(val)
             }
             .frame(width: 50)
             .frame(height: 42)
-            
-//            Spacer().frame(width: 50)
-            
-//            MyStepper(value: $timesPerDay, range: 1 ... 100) { val in
-//               self.vm.selection = .timesPerDay(val)
-//            } onDecrement: { val in
-//               self.vm.selection = .timesPerDay(val)
-//            }
+         }
+         
+         HStack(spacing: 0) {
+            AnimatedPlural(text: "time", value: timesPerDay)
+            Text(" per day")
+               .animation(.easeInOut(duration: 0.3), value: timesPerDay)
          }
       }
-      .padding(.vertical, 30)
+      .padding(.vertical, 15)
    }
 }
 

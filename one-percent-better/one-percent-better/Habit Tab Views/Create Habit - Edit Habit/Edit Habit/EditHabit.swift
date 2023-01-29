@@ -8,8 +8,8 @@
 import SwiftUI
 
 enum EditHabitNavRoute: Hashable {
-   case editFrequency
-   case editTracker(Tracker)
+   case editFrequency(Habit)
+   case editTracker(Habit, Tracker)
 }
 
 struct EditHabit: View {
@@ -89,7 +89,7 @@ struct EditHabit: View {
                   
                   // MARK: - Edit Frequency
                   
-                  NavigationLink(value: EditHabitNavRoute.editFrequency) {
+                  NavigationLink(value: EditHabitNavRoute.editFrequency(habit)) {
                      HStack {
                         Text("Frequency")
                            .fontWeight(.medium)
@@ -119,7 +119,7 @@ struct EditHabit: View {
                   Section(header: Text("Trackers")) {
                      ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
                         let tracker = habit.editableTrackers[i]
-                        NavigationLink(value: EditHabitNavRoute.editTracker(tracker)) {
+                        NavigationLink(value: EditHabitNavRoute.editTracker(habit, tracker)) {
                            EditTrackerRow(tracker: tracker)
 //                           EditTrackerRowSimple(name: tracker.name)
                         }
@@ -157,14 +157,14 @@ struct EditHabit: View {
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
-         .navigationDestination(for: EditHabitNavRoute.self) { route in
-            if route == .editFrequency {
-               EditHabitFrequency(frequency: habit.frequency(on: Date())!)
+         .navigationDestination(for: EditHabitNavRoute.self) { [nav] route in
+            if case let .editFrequency(habit) = route,
+               let freq = habit.frequency(on: Date()) {
+               EditHabitFrequency(frequency: freq)
                   .environmentObject(habit)
-                  .environmentObject(nav)
             }
             
-            if case let .editTracker(tracker) = route {
+            if case let .editTracker(habit, tracker) = route {
                EditTracker(habit: habit, tracker: tracker)
                   .environmentObject(nav)
             }

@@ -9,7 +9,8 @@ import SwiftUI
 import CoreData
 
 enum SettingsNavRoute: Hashable {
-   case dailyReminder
+   case appearance
+   case dailyReminder(Settings?)
    case importData
 }
 
@@ -114,6 +115,10 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          addNotification()
       }
    }
+   
+//   func updateAppearance(to mode: Appearance) {
+//      
+//   }
 }
 
 struct SettingsView: View {
@@ -146,8 +151,15 @@ struct SettingsView: View {
          Background {
             VStack {
                List {
+//                  Section(header: Text("Appearance (Coming Soon)")) {
+//                     NavigationLink(value: SettingsNavRoute.appearance) {
+//                        ChangeAppearanceRow()
+//                           .environmentObject(vm)
+//                     }
+//                  }
+                  
                   Section(header: Text("Notifications")) {
-                     NavigationLink(value: SettingsNavRoute.dailyReminder) {
+                     NavigationLink(value: SettingsNavRoute.dailyReminder(vm.settings)) {
                         DailyReminderRow()
                            .environmentObject(vm)
                      }
@@ -177,11 +189,17 @@ struct SettingsView: View {
                   }
                }
                .listStyle(.insetGrouped)
-               .navigationDestination(for: SettingsNavRoute.self) { route in
+               .navigationDestination(for: SettingsNavRoute.self) { [vm] route in
                   switch route {
-                  case .dailyReminder:
-                     DailyReminder(settings: vm.settings!)
-                        .environmentObject(vm)
+                  case .appearance:
+                     // TODO: Make this a menu, or a whole view?
+                     // Maybe a whole view with an animated sun/moon which show and hide
+                     EmptyView()
+                  case .dailyReminder(let settings):
+                     if let set = settings {
+                        DailyReminder(settings: set)
+                           .environmentObject(vm)
+                     }
                   case .importData:
                      DocumentPicker()
                   }
