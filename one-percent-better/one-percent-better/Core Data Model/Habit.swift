@@ -354,9 +354,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.init(context: context)
       self.name = name
       self.id = container.decodeOptional(key: .id, type: UUID.self) ?? UUID()
-      self.startDate = try container.decode(Date.self, forKey: .startDate)
-      self.daysCompleted = try container.decode([Date].self, forKey: .daysCompleted)
-      self.notificationTime = try container.decode(Date?.self, forKey: .notificationTime)
+      self.startDate = container.decodeOptional(key: .startDate, type: Date.self) ?? Date()
+      self.daysCompleted = container.decodeOptional(key: .daysCompleted, type: [Date].self) ?? []
+      self.notificationTime = container.decodeOptional(key: .notificationTime, type: Date.self)
       self.frequency = container.decodeOptional(key: .frequency, type: [Int].self) ?? [HabitFrequencyNSManaged.timesPerDay.rawValue]
       self.frequencyDates = container.decodeOptional(key: .frequencyDates, type: [Date].self) ?? [startDate]
       self.timesPerDay = container.decodeOptional(key: .timesPerDay, type: [Int].self) ?? [1]
@@ -380,7 +380,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          Habit.nextLargestIndexBeforeImporting = existingIndex
       }
       self.orderIndex = existingIndex + importedIndex
-      
+
       if let trackersContainer = try? container.decode(TrackersContainer.self, forKey: .trackersContainer) {
          for nt in trackersContainer.numberTrackers {
             nt.habit = self
