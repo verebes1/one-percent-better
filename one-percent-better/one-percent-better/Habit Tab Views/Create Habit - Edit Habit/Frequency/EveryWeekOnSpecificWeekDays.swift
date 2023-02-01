@@ -50,7 +50,6 @@ struct WeekDayButton: View {
          selectedWeekdays.append(i)
       }
       selectedWeekdays = selectedWeekdays.sorted()
-      vm.selection = .daysInTheWeek(selectedWeekdays)
    }
    
    private var textColor: Color {

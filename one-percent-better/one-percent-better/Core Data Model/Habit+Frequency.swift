@@ -49,11 +49,15 @@ enum HabitFrequency: Equatable, Hashable {
    }
 }
 
+enum Weekday {
+   case monday, tuesday, wednesday, thursday, friday, saturday, sunday
+}
+
 // TEMP ENUM WHILE TESTING UI
 enum HabitFrequencyTest: Equatable {
    case timesPerDay(Int)
    case daysInTheWeek([Int])
-   case timesPerWeek(Int)
+   case timesPerWeek(times: Int, resetDay: Weekday)
    
    var valueNS: Int {
       switch self {
@@ -61,7 +65,7 @@ enum HabitFrequencyTest: Equatable {
          return 0
       case .daysInTheWeek(_):
          return 1
-      case .timesPerWeek(_):
+      case .timesPerWeek(_, _):
          return 2
       }
    }

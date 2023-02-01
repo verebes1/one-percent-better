@@ -24,45 +24,51 @@ struct SelectableCard2<Content>: View where Content: View {
    }
    
    var body: some View {
-      HStack {
-         Image(systemName: checkmarkImageName)
-            .resizable()
-            .aspectRatio(1, contentMode: .fit)
-            .frame(height: 23)
-            .foregroundColor(Style.accentColor)
-            .padding(.leading, 20)
-            .scaleEffect(scale)
-         
-         CardView {
-            content()
-         }
-         .overlay {
+      CardView {
+         content()
+      }
+      .overlay {
+         ZStack {
             if isSelected {
-               ZStack {
-                  RoundedRectangle(cornerRadius: 10)
-                     .stroke(Style.accentColor, lineWidth: 2)
-                     .padding(.horizontal, 10)
+               RoundedRectangle(cornerRadius: 10)
+                  .stroke(Style.accentColor, lineWidth: 2)
+                  .padding(.horizontal, 10)
+            }
+               
+            VStack {
+               HStack {
+                  Spacer()
+                  CheckmarkToggleButton(state: isSelected)
+                     .padding(.trailing, 10)
+                     .padding(7)
                }
+               Spacer()
             }
          }
-         .scaleEffect(scale)
       }
       .simultaneousGesture(
-         DragGesture(minimumDistance: 0)
-            .onChanged({ _ in
-               if !isSelected {
-                  withAnimation(.easeInOut(duration: 0.15)) {
-                     scale = 0.95
-                  }
-               }
-            })
-            .onEnded({ _ in
-               withAnimation(.easeInOut(duration: 0.15)) {
-                  scale = 1
-                  onSelection()
-               }
-            })
+         TapGesture()
+            .onEnded { _ in
+               onSelection()
+            }
       )
+//      .simultaneousGesture(
+//         DragGesture(minimumDistance: 0)
+//            .onChanged({ _ in
+//               if !isSelected {
+//                  withAnimation(.easeInOut(duration: 0.15)) {
+//                     scale = 0.95
+//                  }
+//               }
+//            })
+//            .onEnded({ _ in
+//               print("TOUCH ENDED!!")
+//               withAnimation(.easeInOut(duration: 0.15)) {
+//                  scale = 1
+//                  onSelection()
+//               }
+//            })
+//      )
 //      .border(.black)
 //      .fontWeight(isSelected ? .medium : .regular)
    }
@@ -70,12 +76,12 @@ struct SelectableCard2<Content>: View where Content: View {
 
 struct SelectableCard2Wrapper<Content>: View where Content: View {
    
-   @Binding var selection: HabitFrequency
-   let type: HabitFrequency
+   @Binding var selection: HabitFrequencyTest
+   let type: HabitFrequencyTest
    let content: () -> Content
    var onSelection: () -> Void = {}
    
-   func isSameType(selection: HabitFrequency, type: HabitFrequency) -> Bool {
+   func isSameType(selection: HabitFrequencyTest, type: HabitFrequencyTest) -> Bool {
       switch type {
       case .timesPerDay(_):
          if case .timesPerDay(_) = selection {
@@ -83,6 +89,10 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
          }
       case.daysInTheWeek(_):
          if case .daysInTheWeek(_) = selection {
+            return true
+         }
+      case .timesPerWeek(_, _):
+         if case .timesPerWeek(_, _) = selection {
             return true
          }
       }
@@ -101,7 +111,7 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
 
 struct SelectableCard2_Previewer: View {
    
-   @State private var selection: HabitFrequency = .timesPerDay(2)
+   @State private var selection: HabitFrequencyTest = .timesPerDay(2)
    
    @State private var tpd = 2
    

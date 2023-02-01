@@ -22,7 +22,7 @@ struct ChooseHabitFrequency: View {
    
    var habitName: String
    
-   @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay(1))
+   @ObservedObject var vm = FrequencySelectionModel2(selection: .timesPerDay(1))
    
    var body: some View {
       Background {
@@ -44,7 +44,9 @@ struct ChooseHabitFrequency: View {
                .onTapGesture {
                   let _ = try? Habit(context: moc,
                                      name: habitName,
-                                     frequency: vm.selection)
+                                     // TODO: 1.0.8 RESET THIS WHEN FINISHED WORKING ON NEW FREQUENCIES
+//                                     frequency: vm.selection)
+                                     frequency: .timesPerDay(1))
                   nav.path.removeLast(2)
                }
          }

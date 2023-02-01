@@ -709,8 +709,8 @@
 		805785B4295F08A200028582 /* New Options */ = {
 			isa = PBXGroup;
 			children = (
-				805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */,
 				805785B0295EEE9B00028582 /* FrequencySelectionStack2.swift */,
+				805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */,
 				805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */,
 				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
 				805785B9296C4C8600028582 /* SelectableCard2.swift */,

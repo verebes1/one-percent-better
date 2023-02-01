@@ -46,14 +46,17 @@ struct WeeklyPercentGraphCard: View {
       // Calculate the moving average for each point in the array
       for i in 0..<points.count {
          // Calculate the sum of the 5 points leading up to the current point
-         let sum = points[max(0, i - period)..<i].reduce(0, +)
+         
+         let lowerRange = max(0, i - period)
+         let upperRange = max(1, i)
+         let sum = points[lowerRange ..< upperRange].reduce(0, +)
+         
+         
+         let numPoints = i - max(0, i - period)
+         let div = max(1, numPoints)
          
          // Calculate the moving average by dividing the sum by the number of points (5)
-         let average = sum / Double(period)
-         
-         if average > 100 {
-            print("JJJJ something wrong!")
-         }
+         let average = sum / Double(div)
          
          // Add the moving average value to the array
          movingAverage.append(average)

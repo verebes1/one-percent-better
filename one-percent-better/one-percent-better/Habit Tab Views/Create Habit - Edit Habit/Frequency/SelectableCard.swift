@@ -88,10 +88,13 @@ struct SelectableCard_Previews: PreviewProvider {
 struct CheckmarkToggleButton: View {
    
    var state: Bool = true
+   var size: CGFloat = 18
    
    var body: some View {
       Image(systemName: state ? "checkmark.circle.fill" : "circle")
+         .resizable()
+         .aspectRatio(contentMode: .fit)
+         .frame(width: size, height: size)
          .foregroundColor(Style.accentColor)
-         .padding(.trailing, 5)
    }
 }
