@@ -130,6 +130,7 @@ struct HabitListView: View {
                                                    leading: 0,
                                                    bottom: 0,
                                                    trailing: 20))
+                              .listRowBackground(Color.cardColor)
                            }
                         }
                         .onMove(perform: vm.move)

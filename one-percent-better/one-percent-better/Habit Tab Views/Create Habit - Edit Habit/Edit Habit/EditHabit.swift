@@ -115,6 +115,8 @@ struct EditHabit: View {
                   }
                                     
                }
+               .listRowBackground(Color.cardColor)
+               
                if habit.editableTrackers.count > 0 {
                   Section(header: Text("Trackers")) {
                      ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
@@ -125,6 +127,7 @@ struct EditHabit: View {
                         }
                      }
                   }
+                  .listRowBackground(Color.cardColor)
                }
                
                Section {
@@ -152,8 +155,10 @@ struct EditHabit: View {
                      
                   }
                }
+               .listRowBackground(Color.cardColor)
             }
             .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)

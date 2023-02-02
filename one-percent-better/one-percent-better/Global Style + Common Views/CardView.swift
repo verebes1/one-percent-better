@@ -13,10 +13,12 @@ struct CardView<Content>: View where Content: View {
    @Environment(\.colorScheme) var colorScheme
    
    var shadow = true
-   var shadowOpacity: CGFloat = 0.05
+   var shadowOpacity: CGFloat {
+      colorScheme == .light ? 0.05 : 0.1
+   }
    var padding: CGFloat = 10
    var color: Color = .cardColor
-   var cornerRadius: CGFloat = 10
+   var cornerRadius: CGFloat = 17
    let content: () -> Content
    
    var body: some View {

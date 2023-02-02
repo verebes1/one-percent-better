@@ -56,6 +56,7 @@ struct ChooseHabitName: View {
                         Text(name)
                         Spacer()
                      }
+                     .listRowBackground(Color.cardColor)
                      .contentShape(Rectangle())
                      .onTapGesture {
                         habitName = name

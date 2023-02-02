@@ -117,9 +117,8 @@ struct FrequencySelectionStack2: View {
 struct FrequencySelection2_Previews: PreviewProvider {
    static var previews: some View {
       let vm = FrequencySelectionModel2(selection: .timesPerDay(1))
-      let newBg = Color( #colorLiteral(red: 0.1098036841, green: 0.1098041013, blue: 0.1183908954, alpha: 1) )
       VStack {
-         Background(color: newBg) {
+         Background {
             FrequencySelectionStack2(vm: vm)
                .environmentObject(vm)
          }

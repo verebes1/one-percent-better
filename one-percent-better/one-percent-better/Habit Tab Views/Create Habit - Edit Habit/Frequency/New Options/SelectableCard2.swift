@@ -28,7 +28,7 @@ struct SelectableCard2<Content>: View where Content: View {
    let cardColor = Color( #colorLiteral(red: 0.1725487709, green: 0.1725491583, blue: 0.1811430752, alpha: 1) )
    
    var body: some View {
-      CardView(shadowOpacity: 0.25, color: cardColor, cornerRadius: cornerRadius) {
+      CardView(cornerRadius: cornerRadius) {
          content()
       }
       .overlay {

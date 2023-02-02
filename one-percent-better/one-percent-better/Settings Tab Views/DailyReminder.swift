@@ -33,12 +33,15 @@ struct DailyReminder: View {
             List {
                
                Toggle("Notification", isOn: $sendNotif)
+                  .listRowBackground(Color.cardColor)
                
                DatePicker(selection: $timeSelection, displayedComponents: [.hourAndMinute]) {
                   Text("Every day at ")
                }
                .frame(height: 37)
+               .listRowBackground(Color.cardColor)
             }
+            .scrollContentBackground(.hidden)
             .frame(height: 180)
             
             Spacer()
@@ -60,24 +63,24 @@ struct DailyReminder: View {
    }
 }
 
-struct DailyReminder_Previews: PreviewProvider {
-   
-   static func data() -> Settings {
-      let moc = CoreDataManager.previews.mainContext
-      let _ = Settings(context: moc)
-      
-      let settings = Settings.settings(from: moc)
-      
-      return settings.first!
-   }
-   
-   static var previews: some View {
-      let moc = CoreDataManager.previews.mainContext
-      let settings = data()
-      let vm = SettingsViewModel(moc)
-      return (
-         DailyReminder(settings: settings)
-            .environmentObject(vm)
-      )
-   }
-}
+//struct DailyReminder_Previews: PreviewProvider {
+//
+//   static func data() -> Settings {
+//      let moc = CoreDataManager.previews.mainContext
+//      let _ = Settings(context: moc)
+//
+//      let settings = Settings.settings(from: moc)
+//
+//      return settings.first!
+//   }
+//
+//   static var previews: some View {
+//      let moc = CoreDataManager.previews.mainContext
+//      let settings = data()
+//      let vm = SettingsViewModel(moc)
+//      return (
+//         DailyReminder(settings: settings)
+//            .environmentObject(vm)
+//      )
+//   }
+//}

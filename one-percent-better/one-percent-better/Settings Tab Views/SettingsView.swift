@@ -157,6 +157,7 @@ struct SettingsView: View {
 //                           .environmentObject(vm)
 //                     }
 //                  }
+//                  .listRowBackground(Color.cardColor)
                   
                   Section(header: Text("Notifications")) {
                      NavigationLink(value: SettingsNavRoute.dailyReminder(vm.settings)) {
@@ -164,6 +165,7 @@ struct SettingsView: View {
                            .environmentObject(vm)
                      }
                   }
+                  .listRowBackground(Color.cardColor)
                   
                   Section(header: Text("Data")) {
                      Button {
@@ -183,12 +185,15 @@ struct SettingsView: View {
                      }
                      .buttonStyle(PlainButtonStyle())
                   }
+                  .listRowBackground(Color.cardColor)
                   
                   Section(footer: versionFooter) {
 //                     Text("v1.0.6")
                   }
+                  .listRowBackground(Color.cardColor)
                }
                .listStyle(.insetGrouped)
+               .scrollContentBackground(.hidden)
                .navigationDestination(for: SettingsNavRoute.self) { [vm] route in
                   switch route {
                   case .appearance:

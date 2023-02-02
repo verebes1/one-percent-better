@@ -43,6 +43,7 @@ struct YearView: View {
             }
             .padding(.horizontal, 5)
             .frame(height: yearHeight)
+            .padding(3)
 //            .padding(.vertical, 10)
          }
       }
@@ -107,7 +108,7 @@ struct CompletedSquare: View {
          let opacity = opacity(on: curDay)
          
          Rectangle()
-            .fill(isCompleted ? .green.opacity(opacity) : .systemGray5)
+            .fill(isCompleted ? .green.opacity(opacity) : .systemGray3)
             .aspectRatio(1, contentMode: .fit)
          
       }

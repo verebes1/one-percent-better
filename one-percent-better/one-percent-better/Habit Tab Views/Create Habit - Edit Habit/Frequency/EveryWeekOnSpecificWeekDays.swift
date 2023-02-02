@@ -60,6 +60,10 @@ struct WeekDayButton: View {
       colorScheme == .light ? .white : .black
    }
    
+   private var buttonGray: Color {
+      colorScheme == .light ? .systemGray5 : .systemGray3
+   }
+   
    var body: some View {
       Button {
          withAnimation(.easeInOut(duration: 0.15)) {
@@ -73,7 +77,7 @@ struct WeekDayButton: View {
             .padding(.vertical, 5)
             .frame(width: 40)
             .foregroundColor(isSelected ? selectedTextColor : textColor)
-            .background(isSelected ? Style.accentColor : .grayButton)
+            .background(isSelected ? Style.accentColor : buttonGray)
             .clipShape(Capsule())
       }
    }

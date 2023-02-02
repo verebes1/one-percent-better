@@ -31,7 +31,7 @@ struct ChooseHabitFrequency: View {
                .frame(height: 20)
             HabitCreationHeader(systemImage: "clock.arrow.2.circlepath",
                                 title: "Frequency",
-                                subtitle: "")
+                                subtitle: "How often do you want to complete this habit?")
             
 //            Spacer().frame(height: 20)
             
