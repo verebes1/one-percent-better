@@ -95,6 +95,6 @@ struct CheckmarkToggleButton: View {
          .resizable()
          .aspectRatio(contentMode: .fit)
          .frame(width: size, height: size)
-         .foregroundColor(Style.accentColor)
+         .foregroundColor(state ? Style.accentColor : .systemGray)
    }
 }

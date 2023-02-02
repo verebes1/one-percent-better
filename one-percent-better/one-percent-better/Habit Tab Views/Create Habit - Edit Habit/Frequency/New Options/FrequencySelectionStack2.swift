@@ -29,6 +29,7 @@ struct FrequencySelectionStack2: View {
    @State private var weeklyFreqSelection: HabitFrequencyTest = .daysInTheWeek([1, 5])
    
    @State private var timesPerDay: Int = 1
+   @State private var everyXDays: Int = 2
    @State private var daysPerWeek: [Int] = [1,5]
    @State private var timesPerWeek: (times: Int, resetDay: Weekday) = (times: 1, resetDay: .sunday)
    
@@ -36,6 +37,8 @@ struct FrequencySelectionStack2: View {
       switch vm.selection {
       case .timesPerDay(let n):
          self._timesPerDay = State(initialValue: n)
+      case .everyXDays(let n):
+         self._everyXDays = State(initialValue: n)
       case .daysInTheWeek(let days):
          self._daysPerWeek = State(initialValue: days)
       case .timesPerWeek(times: let times, resetDay: let resetDay):
@@ -53,6 +56,7 @@ struct FrequencySelectionStack2: View {
          }
          .pickerStyle(.segmented)
          .padding(.horizontal, 10)
+         .padding(.bottom, 7)
          
          if segmentSelection == .daily {
             SelectableCard2Wrapper(selection: $dailyFreqSelection, type: .timesPerDay(1)) {
@@ -63,6 +67,17 @@ struct FrequencySelectionStack2: View {
             } onSelection: {
                dailyFreqSelection = .timesPerDay(timesPerDay)
                vm.selection = .timesPerDay(timesPerDay)
+            }
+            .transition(.move(edge: .leading))
+            
+            SelectableCard2Wrapper(selection: $dailyFreqSelection, type: .everyXDays(1)) {
+               EveryXDays(everyXDays: $everyXDays)
+                  .onChange(of: everyXDays) { newValue in
+                     vm.selection = .everyXDays(everyXDays)
+                  }
+            } onSelection: {
+               dailyFreqSelection = .everyXDays(everyXDays)
+               vm.selection = .everyXDays(everyXDays)
             }
             .transition(.move(edge: .leading))
          }
@@ -102,8 +117,9 @@ struct FrequencySelectionStack2: View {
 struct FrequencySelection2_Previews: PreviewProvider {
    static var previews: some View {
       let vm = FrequencySelectionModel2(selection: .timesPerDay(1))
+      let newBg = Color( #colorLiteral(red: 0.1098036841, green: 0.1098041013, blue: 0.1183908954, alpha: 1) )
       VStack {
-         Background {
+         Background(color: newBg) {
             FrequencySelectionStack2(vm: vm)
                .environmentObject(vm)
          }

@@ -15,7 +15,7 @@ struct XTimesPerWeekBeginningEveryY: View {
    
    var body: some View {
       VStack {
-         HStack(spacing: 0) {
+         HStack(spacing: 7) {
             Menu {
                
                MenuItemWithCheckmark(value: 1,
@@ -50,15 +50,14 @@ struct XTimesPerWeekBeginningEveryY: View {
             }
             
             HStack(spacing: 0) {
-               Text(" ")
                AnimatedPlural(text: "time", value: timesPerWeek)
                Text(" per week")
             }
          }
          .animation(.easeInOut, value: timesPerWeek)
          
-         HStack(spacing: 0) {
-            Text("beginning every ")
+         HStack(spacing: 7) {
+            Text("beginning every")
             Menu {
                MenuItemWithCheckmark(value: "Saturday",
                                      selection: $beginningDay)

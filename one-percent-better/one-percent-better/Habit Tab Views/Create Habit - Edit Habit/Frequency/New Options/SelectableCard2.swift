@@ -23,14 +23,18 @@ struct SelectableCard2<Content>: View where Content: View {
       isSelected ? "checkmark.circle.fill" : "circle"
    }
    
+   let cornerRadius: CGFloat = 17
+   
+   let cardColor = Color( #colorLiteral(red: 0.1725487709, green: 0.1725491583, blue: 0.1811430752, alpha: 1) )
+   
    var body: some View {
-      CardView {
+      CardView(shadowOpacity: 0.25, color: cardColor, cornerRadius: cornerRadius) {
          content()
       }
       .overlay {
          ZStack {
             if isSelected {
-               RoundedRectangle(cornerRadius: 10)
+               RoundedRectangle(cornerRadius: cornerRadius)
                   .stroke(Style.accentColor, lineWidth: 2)
                   .padding(.horizontal, 10)
             }
@@ -40,7 +44,7 @@ struct SelectableCard2<Content>: View where Content: View {
                   Spacer()
                   CheckmarkToggleButton(state: isSelected)
                      .padding(.trailing, 10)
-                     .padding(7)
+                     .padding(10)
                }
                Spacer()
             }
@@ -95,6 +99,10 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
          if case .timesPerWeek(_, _) = selection {
             return true
          }
+      case .everyXDays(_):
+         if case .everyXDays(_) = selection {
+            return true
+         }
       }
       return false
    }
@@ -102,6 +110,7 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
    var body: some View {
       SelectableCard2(isSelected: isSameType(selection: selection, type: type)) {
          content()
+            .padding(.vertical, 5)
       } onSelection: {
          onSelection()
       }
