@@ -76,6 +76,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
    @NSManaged public var daysPerWeek: [[Int]]
    
+   // TODO: 1.0.8 implement this in Core Data
+   /// How many times they've committed to completing this habit this week
+   @NSManaged public var timesPerWeekTimes: [Int]
+   
+   // TODO: 1.0.8 implement this in Core Data
+   /// Which day of the week does this weekly habit frequency reset
+   @NSManaged public var timesPerWeekResetDay: [Int]
+   
    // MARK: - Properties
    
    lazy var timesCompletedDict: [DMYDate: Int] = {
@@ -127,6 +135,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          self.timesPerDay = [n]
       case .daysInTheWeek(let days):
          self.daysPerWeek = [days]
+      case .timesPerWeek(times: let n, resetDay: let day):
+         self.timesPerWeekTimes = [n]
+         self.timesPerWeekResetDay = [day.rawValue]
       }
       
       // Auto trackers

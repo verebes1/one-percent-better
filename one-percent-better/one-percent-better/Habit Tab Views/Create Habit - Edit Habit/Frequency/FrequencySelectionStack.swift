@@ -30,7 +30,10 @@ struct FrequencySelectionStack: View {
    @State private var segmentSelection: FreqSegment = .daily
    
    @State private var timesPerDay: Int = 1
+   @State private var everyXDays: Int = 2
    @State private var daysPerWeek: [Int] = [2,4]
+   @State private var timesPerWeek: (times: Int, resetDay: Weekday) = (times: 1, resetDay: .sunday)
+
    
    init(vm: FrequencySelectionModel) {
       switch vm.selection {
@@ -38,6 +41,8 @@ struct FrequencySelectionStack: View {
          self._timesPerDay = State(initialValue: n)
       case .daysInTheWeek(let days):
          self._daysPerWeek = State(initialValue: days)
+      case .timesPerWeek(times: let n, resetDay: let resetDay):
+         self._timesPerWeek = State(initialValue: (n, resetDay))
       }
    }
    

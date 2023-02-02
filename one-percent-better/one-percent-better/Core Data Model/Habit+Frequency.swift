@@ -10,6 +10,7 @@ import Foundation
 @objc public enum HabitFrequencyNSManaged: Int {
    case timesPerDay = 0
    case daysInTheWeek = 1
+   case timesPerWeek = 2
    
    init(_ freq: HabitFrequency) {
       switch freq {
@@ -17,6 +18,8 @@ import Foundation
          self = .timesPerDay
       case .daysInTheWeek(_):
          self = .daysInTheWeek
+      case .timesPerWeek(_,_):
+         self = .timesPerWeek
       }
    }
 }
@@ -24,7 +27,7 @@ import Foundation
 enum HabitFrequency: Equatable, Hashable {
    case timesPerDay(Int)
    case daysInTheWeek([Int])
-//   case timesPerWeek(Int) // TODO: finish implementing
+   case timesPerWeek(times: Int, resetDay: Weekday)
    
    var valueNS: Int {
       switch self {
@@ -32,8 +35,8 @@ enum HabitFrequency: Equatable, Hashable {
          return 0
       case .daysInTheWeek(_):
          return 1
-//      case .timesPerWeek(_):
-//         return 2
+      case .timesPerWeek(_,_):
+         return 2
       }
    }
    
@@ -49,8 +52,8 @@ enum HabitFrequency: Equatable, Hashable {
    }
 }
 
-enum Weekday {
-   case monday, tuesday, wednesday, thursday, friday, saturday, sunday
+enum Weekday: Int {
+   case monday = 0, tuesday, wednesday, thursday, friday, saturday, sunday
 }
 
 // TEMP ENUM WHILE TESTING UI
@@ -111,6 +114,9 @@ extension Habit {
             timesPerDay[i] = n
          case .daysInTheWeek(let days):
             daysPerWeek[i] = days
+         case .timesPerWeek(times: let n, resetDay: let day):
+            timesPerWeekTimes[i] = n
+            timesPerWeekResetDay[i] = day.rawValue
          }
       } else {
          frequencyDates.append(date)
@@ -118,12 +124,17 @@ extension Habit {
          
          timesPerDay.append(1)
          daysPerWeek.append([0])
+         timesPerWeekTimes.append(1)
+         timesPerWeekResetDay.append(0)
          
          switch freq {
          case .timesPerDay(let n):
             timesPerDay[timesPerDay.count - 1] = n
          case .daysInTheWeek(let days):
             daysPerWeek[daysPerWeek.count - 1] = days
+         case .timesPerWeek(times: let n, resetDay: let day):
+            timesPerWeekTimes[timesPerWeekTimes.count - 1] = n
+            timesPerWeekResetDay[timesPerWeekResetDay.count - 1] = day.rawValue
          }
       }
       moc.fatalSave()
@@ -136,7 +147,7 @@ extension Habit {
    func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          // Requesting frequency before start date
-//         print("ERROR!!! frequency is nil on date: \(String(describing: date))")
+         // TODO: 1.0.8 what is going on here exactly?
          return nil
       }
          
@@ -149,6 +160,12 @@ extension Habit {
          return .timesPerDay(timesPerDay[index])
       case .daysInTheWeek:
          return .daysInTheWeek(daysPerWeek[index])
+      case .timesPerWeek:
+         guard let weekday = Weekday(rawValue: timesPerWeekResetDay[index]) else {
+            fatalError("Something wrong with weekday!")
+            return nil
+         }
+         return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: weekday)
       }
    }
    
@@ -166,6 +183,13 @@ extension Habit {
          return true
       case .daysInTheWeek(let days):
          return days.contains(date.weekdayInt)
+      case .timesPerWeek(times: let n, resetDay: let day):
+         // TODO: 1.0.8
+         // Let's say the user set timesPerWeek = 5, reset day = Wednesday
+         // Let's say today is Friday
+         // Loop backwards from today until Wednesday, tally up how many times the habit was completed
+         // If it's less than the timesPerWeek, then this habit is due, if it's greater than it's no longer due
+         return false
       }
    }
 }
