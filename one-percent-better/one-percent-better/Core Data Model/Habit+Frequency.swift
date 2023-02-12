@@ -7,6 +7,13 @@
 
 import Foundation
 
+extension Date {
+   // 0 = S, 1 = M, 2 = T, 3 = W, 4 = T, 5 = F, 6 = S
+   var weekdayInt: Int {
+      return Cal.component(.weekday, from: self) - 1
+   }
+}
+
 @objc public enum HabitFrequencyNSManaged: Int {
    case timesPerDay = 0
    case daysInTheWeek = 1
@@ -31,20 +38,13 @@ enum HabitFrequency: Equatable, Hashable {
    
    var valueNS: Int {
       switch self {
-      case .timesPerDay(_):
+      case .timesPerDay:
          return 0
-      case .daysInTheWeek(_):
+      case .daysInTheWeek:
          return 1
-      case .timesPerWeek(_,_):
+      case .timesPerWeek:
          return 2
       }
-   }
-   
-   /// For converting between a date and the weekday (for ex. M = 1, T = 2, W = 3, ...)
-   /// - Parameter date: The date to convert
-   /// - Returns: The integer value of that weekday
-   func dateToDaysInTheWeek(for date: Date) -> Int {
-      return Cal.component(.weekday, from: date) - 1
    }
    
    func equalType(to hf: HabitFrequency) -> Bool {
@@ -53,7 +53,7 @@ enum HabitFrequency: Equatable, Hashable {
 }
 
 enum Weekday: Int {
-   case monday = 0, tuesday, wednesday, thursday, friday, saturday, sunday
+   case sunday = 0, monday, tuesday, wednesday, thursday, friday, saturday
 }
 
 // TEMP ENUM WHILE TESTING UI
@@ -137,6 +137,7 @@ extension Habit {
             timesPerWeekResetDay[timesPerWeekResetDay.count - 1] = day.rawValue
          }
       }
+      self.improvementTracker?.update(on: date)
       moc.fatalSave()
    }
    
@@ -163,7 +164,6 @@ extension Habit {
       case .timesPerWeek:
          guard let weekday = Weekday(rawValue: timesPerWeekResetDay[index]) else {
             fatalError("Something wrong with weekday!")
-            return nil
          }
          return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: weekday)
       }
@@ -183,13 +183,9 @@ extension Habit {
          return true
       case .daysInTheWeek(let days):
          return days.contains(date.weekdayInt)
-      case .timesPerWeek(times: let n, resetDay: let day):
-         // TODO: 1.0.8
-         // Let's say the user set timesPerWeek = 5, reset day = Wednesday
-         // Let's say today is Friday
-         // Loop backwards from today until Wednesday, tally up how many times the habit was completed
-         // If it's less than the timesPerWeek, then this habit is due, if it's greater than it's no longer due
-         return false
+      case .timesPerWeek(_, resetDay: let resetDay):
+         // Habit due all at once on the reset day, otherwise it would mess with daily percent calculations
+         return date.weekdayInt == resetDay.rawValue
       }
    }
 }

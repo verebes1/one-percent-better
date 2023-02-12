@@ -1,5 +1,5 @@
 //
-//  HabitFrequencyTests.swift
+//  FrequencyTests.swift
 //  one-percent-betterTests
 //
 //  Created by Jeremy Cook on 11/28/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import ___Better
 
-final class HabitFrequencyTests: XCTestCase {
+final class FrequencyTests: XCTestCase {
 
    let context = CoreDataManager.previews.mainContext
    

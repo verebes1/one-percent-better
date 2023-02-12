@@ -30,7 +30,7 @@ struct EditHabitFrequency: View {
 //               .environmentObject(vm)
             
             // TODO: 1.0.8 RESET THIS WHEN DONE WITH NEW FREQUENCIES
-//            FrequencySelectionStack2(vm: vm)
+//            FrequencySelectionStack(vm: vm)
 //               .environmentObject(vm)
             
             Spacer()

@@ -33,7 +33,7 @@ extension Habit {
       switch freq {
       case .timesPerDay(let n):
          return timesCompleted[i] >= n
-      case .daysInTheWeek(_):
+      case .daysInTheWeek(_), .timesPerWeek(_, _):
          return timesCompleted[i] >= 1
       }
    
@@ -63,7 +63,7 @@ extension Habit {
       switch freq {
       case .timesPerDay(let n):
          return Double(timesCompleted[i]) / Double(n)
-      case .daysInTheWeek(_):
+      case .daysInTheWeek(_), .timesPerWeek(_, _):
          return timesCompleted[i] >= 1 ? 1 : 0
       }
       

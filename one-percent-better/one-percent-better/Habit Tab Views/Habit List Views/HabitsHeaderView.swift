@@ -32,7 +32,7 @@ class HeaderHabitsChanged: NSObject, NSFetchedResultsControllerDelegate, Observa
    }
    
    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      print("Header habits changed")
+//      print("Header habits changed")
       objectWillChange.send()
    }
 }
@@ -204,8 +204,8 @@ struct HabitsHeaderView: View {
    var color: Color = .systemTeal
    
    var body: some View {
-      print(" - HabitsHeaderView body")
-      let _ = Self._printChanges()
+//      print(" - HabitsHeaderView body")
+//      let _ = Self._printChanges()
       return (
          VStack(spacing: 0) {
          HStack {

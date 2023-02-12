@@ -76,11 +76,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
    @NSManaged public var daysPerWeek: [[Int]]
    
-   // TODO: 1.0.8 implement this in Core Data
    /// How many times they've committed to completing this habit this week
    @NSManaged public var timesPerWeekTimes: [Int]
    
-   // TODO: 1.0.8 implement this in Core Data
    /// Which day of the week does this weekly habit frequency reset
    @NSManaged public var timesPerWeekResetDay: [Int]
    
@@ -128,7 +126,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       // Default values
       self.timesPerDay = [1]
-      self.daysPerWeek = [[2,4]]
+      self.daysPerWeek = [[Weekday.tuesday.rawValue, Weekday.thursday.rawValue]]
+      self.timesPerWeekTimes = [1]
+      self.timesPerWeekResetDay = [Weekday.sunday.rawValue]
       
       switch frequency {
       case .timesPerDay(let n):
@@ -507,11 +507,5 @@ extension KeyedDecodingContainer {
          return value
       }
       return nil
-   }
-}
-
-extension Date {
-   var weekdayInt: Int {
-      return Cal.component(.weekday, from: self) - 1
    }
 }

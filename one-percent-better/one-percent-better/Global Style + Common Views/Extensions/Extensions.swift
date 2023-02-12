@@ -80,6 +80,17 @@ extension Calendar {
    func addDays(num i: Int, to date: Date = Date()) -> Date {
       return Cal.date(byAdding: .day, value: i, to: date)!
    }
+   
+   /// Get the last day that matches this weekday, going backward
+   /// - Parameter weekday: The desired weekday
+   /// - Returns: Date which is on that weekday
+   func getLast(weekday: Weekday) -> Date {
+      let todayIndex = Date().weekdayInt
+      var diff = todayIndex - weekday.rawValue
+      diff = diff >= 0 ? diff : diff + 7
+      let date = Cal.addDays(num: -diff)
+      return date
+   }
 }
 
 public var Cal = Calendar.autoupdatingCurrent

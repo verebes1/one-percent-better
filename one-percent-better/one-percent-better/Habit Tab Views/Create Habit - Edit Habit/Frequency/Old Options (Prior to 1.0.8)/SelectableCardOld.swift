@@ -1,5 +1,5 @@
 //
-//  SelectableCard.swift
+//  SelectableCardOld.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 8/14/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectableCard<Content>: View where Content: View {
+struct SelectableCardOld<Content>: View where Content: View {
    
    @Environment(\.colorScheme) var scheme
    
@@ -28,7 +28,6 @@ struct SelectableCard<Content>: View where Content: View {
       )
       .overlay(content: {
          ZStack {
-            
             if selection.equalType(to: type) {
                RoundedRectangle(cornerRadius: 10)
                   .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
@@ -56,23 +55,27 @@ struct SelectableCardPreviewer: View {
    var body: some View {
       Background {
          VStack {
-            SelectableCard(selection: $selection, type: .timesPerDay(1), content: {
+            SelectableCardOld(selection: $selection, type: .timesPerDay(1), content: {
                VStack {
                   Text("Hello World")
                   Text("Hello World")
                   Text("Hello World")
                   Text("Hello World")
                }
-            })
+            }) {
+               selection = .timesPerDay(1)
+            }
             
-            SelectableCard(selection: $selection, type: .daysInTheWeek([2,4]), content: {
+            SelectableCardOld(selection: $selection, type: .daysInTheWeek([2,4]), content: {
                VStack {
                   Text("What's good baby")
                   Text("What's good baby")
                   Text("What's good baby")
                   Text("What's good baby")
                }
-            })
+            }) {
+               selection = .daysInTheWeek([2,4])
+            }
          }
       }
    }

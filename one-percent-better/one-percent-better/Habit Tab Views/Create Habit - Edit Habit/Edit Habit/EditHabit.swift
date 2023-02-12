@@ -74,6 +74,8 @@ struct EditHabit: View {
             }
          }
          return Text(finalString)
+      case .timesPerWeek(times: let n, resetDay: _):
+         return Text("\(n) times per week")
       }
    }
    

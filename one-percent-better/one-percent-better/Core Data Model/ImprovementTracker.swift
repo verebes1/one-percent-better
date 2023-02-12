@@ -177,6 +177,29 @@ public class ImprovementTracker: GraphTracker {
                      toRemove = true
                   }
                }
+            case .timesPerWeek(times: let n, resetDay: let resetDay):
+               let tc = Double(habit.timesCompleted(on: curDate))
+               let expected = Double(n)
+                  
+               var timesCompletedThisWeek = 0
+               for i in 0 ..< 7 {
+                  let day = Cal.date(byAdding: .day, value: -i, to: curDate)!
+                  timesCompletedThisWeek += habit.timesCompleted(on: day)
+               }
+               
+               if timesCompletedThisWeek > 0 || curDate.weekdayInt != resetDay.rawValue {
+                  if tc == 0 {
+                     toRemove = true
+                  } else {
+                     score *= (1 + (0.01 * tc / expected))
+                  }
+               } else {
+                  if curDate.weekdayInt == resetDay.rawValue {
+                     score *= 0.995
+                  } else {
+                     toRemove = true
+                  }
+               }
             }
          } else {
             fatalError("Trying to calculate score before start date?")

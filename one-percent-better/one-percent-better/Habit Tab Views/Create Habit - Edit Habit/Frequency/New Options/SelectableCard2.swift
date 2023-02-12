@@ -25,12 +25,11 @@ struct SelectableCard2<Content>: View where Content: View {
    
    let cornerRadius: CGFloat = 17
    
-   let cardColor = Color( #colorLiteral(red: 0.1725487709, green: 0.1725491583, blue: 0.1811430752, alpha: 1) )
-   
    var body: some View {
-      CardView(cornerRadius: cornerRadius) {
+      CardView {
          content()
       }
+      .contentShape(Rectangle())
       .overlay {
          ZStack {
             if isSelected {
@@ -56,51 +55,30 @@ struct SelectableCard2<Content>: View where Content: View {
                onSelection()
             }
       )
-//      .simultaneousGesture(
-//         DragGesture(minimumDistance: 0)
-//            .onChanged({ _ in
-//               if !isSelected {
-//                  withAnimation(.easeInOut(duration: 0.15)) {
-//                     scale = 0.95
-//                  }
-//               }
-//            })
-//            .onEnded({ _ in
-//               print("TOUCH ENDED!!")
-//               withAnimation(.easeInOut(duration: 0.15)) {
-//                  scale = 1
-//                  onSelection()
-//               }
-//            })
-//      )
-//      .border(.black)
-//      .fontWeight(isSelected ? .medium : .regular)
+      .transition(.opacity)
+      .animation(.easeInOut(duration: 0.1), value: isSelected)
    }
 }
 
-struct SelectableCard2Wrapper<Content>: View where Content: View {
+struct SelectableFrequencyCard<Content>: View where Content: View {
    
-   @Binding var selection: HabitFrequencyTest
-   let type: HabitFrequencyTest
+   @Binding var selection: HabitFrequency
+   let type: HabitFrequency
    let content: () -> Content
    var onSelection: () -> Void = {}
    
-   func isSameType(selection: HabitFrequencyTest, type: HabitFrequencyTest) -> Bool {
+   func isSameType(selection: HabitFrequency, type: HabitFrequency) -> Bool {
       switch type {
-      case .timesPerDay(_):
-         if case .timesPerDay(_) = selection {
+      case .timesPerDay:
+         if case .timesPerDay = selection {
             return true
          }
-      case.daysInTheWeek(_):
-         if case .daysInTheWeek(_) = selection {
+      case.daysInTheWeek:
+         if case .daysInTheWeek = selection {
             return true
          }
-      case .timesPerWeek(_, _):
-         if case .timesPerWeek(_, _) = selection {
-            return true
-         }
-      case .everyXDays(_):
-         if case .everyXDays(_) = selection {
+      case .timesPerWeek:
+         if case .timesPerWeek = selection {
             return true
          }
       }
@@ -114,25 +92,28 @@ struct SelectableCard2Wrapper<Content>: View where Content: View {
       } onSelection: {
          onSelection()
       }
-      .contentShape(Rectangle())
    }
 }
 
 struct SelectableCard2_Previewer: View {
    
-   @State private var selection: HabitFrequencyTest = .timesPerDay(2)
+   @State private var selection: HabitFrequency = .timesPerDay(2)
    
    @State private var tpd = 2
    
    var body: some View {
       Background {
          VStack {
-            SelectableCard2Wrapper(selection: $selection, type: .timesPerDay(2)) {
+            SelectableFrequencyCard(selection: $selection, type: .timesPerDay(2)) {
                EveryDayXTimesPerDay(timesPerDay: $tpd)
+            } onSelection: {
+               selection = .timesPerDay(2)
             }
             
-            SelectableCard2Wrapper(selection: $selection, type: .daysInTheWeek([1,2,3])) {
+            SelectableFrequencyCard(selection: $selection, type: .daysInTheWeek([1,2,3])) {
                XTimesPerWeekBeginningEveryY()
+            } onSelection: {
+               selection = .daysInTheWeek([1,2])
             }
          }
       }

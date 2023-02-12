@@ -22,7 +22,7 @@ struct ChooseHabitFrequency: View {
    
    var habitName: String
    
-   @ObservedObject var vm = FrequencySelectionModel2(selection: .timesPerDay(1))
+   @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay(1))
    
    var body: some View {
       Background {
@@ -35,7 +35,7 @@ struct ChooseHabitFrequency: View {
             
 //            Spacer().frame(height: 20)
             
-            FrequencySelectionStack2(vm: vm)
+            FrequencySelectionStack(vm: vm)
                .environmentObject(vm)
             
             Spacer()

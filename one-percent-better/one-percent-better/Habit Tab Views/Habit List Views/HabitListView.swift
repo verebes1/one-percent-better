@@ -106,7 +106,7 @@ struct HabitListView: View {
    }
    
    var body: some View {
-      let _ = Self._printChanges()
+//      let _ = Self._printChanges()
       return (
          Background {
             VStack {
@@ -121,7 +121,7 @@ struct HabitListView: View {
                      Section {
                         ForEach(vm.habits, id: \.self.id) { habit in
                            if habit.started(before: hwvm.currentDay) {
-                              let _ = print("Habit row \(habit.name) is being loaded")
+//                              let _ = print("Habit row \(habit.name) is being loaded")
                               // Habit Row
                               NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                                  HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)

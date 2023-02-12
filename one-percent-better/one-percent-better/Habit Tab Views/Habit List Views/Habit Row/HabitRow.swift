@@ -24,7 +24,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimerStarted: Bool
    
    init(moc: NSManagedObjectContext, habit: Habit, currentDay: Date) {
-      print("initializing new habitRow: \(habit.name)")
+//      print("initializing new habitRow: \(habit.name)")
       //      self.habit = habit.copy() as? Habit
       self.habit = habit
       self.currentDay = currentDay
@@ -198,8 +198,8 @@ struct HabitRow: View {
    }
    
    var body: some View {
-      print("   - HabitRow(\(vm.habit.name)) body")
-      let _ = Self._printChanges()
+//      print("   - HabitRow(\(vm.habit.name)) body")
+//      let _ = Self._printChanges()
       return (
          ZStack {
             // Actual row views

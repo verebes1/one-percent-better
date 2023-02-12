@@ -90,7 +90,7 @@ struct CompletedSquare: View {
       switch habit.frequency(on: curDay) {
       case .timesPerDay(let n):
          opacity = Double(habit.timesCompleted(on: curDay)) / Double(n)
-      case .daysInTheWeek:
+      case .daysInTheWeek, .timesPerWeek:
          opacity = Double(1)
       case nil:
          opacity = 0

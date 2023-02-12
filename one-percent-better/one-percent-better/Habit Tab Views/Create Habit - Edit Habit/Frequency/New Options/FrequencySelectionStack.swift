@@ -1,5 +1,5 @@
 //
-//  FrequencySelectionStack2.swift
+//  FrequencySelectionStack.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 12/30/22.
@@ -7,38 +7,49 @@
 
 import SwiftUI
 
-class FrequencySelectionModel2: ObservableObject {
+class FrequencySelectionModel: ObservableObject {
    
-   @Published var selection: HabitFrequencyTest
+   @Published var selection: HabitFrequency
    
-   init(selection: HabitFrequencyTest) {
+   init(selection: HabitFrequency) {
       self.selection = selection
    }
 }
 
-struct FrequencySelectionStack2: View {
+class TempFrequencySelectionModel: ObservableObject {
+   
+}
+
+enum FreqSegment: String, Identifiable, CaseIterable {
+   case daily
+   case weekly
+//   case monthly
+   var id: Self { self }
+}
+
+struct FrequencySelectionStack: View {
    
    @Environment(\.colorScheme) var scheme
    
-   @EnvironmentObject var vm: FrequencySelectionModel2
+   @EnvironmentObject var vm: FrequencySelectionModel
    
    @State private var segmentSelection: FreqSegment = .daily
    
-   @State private var dailyFreqSelection: HabitFrequencyTest = .timesPerDay(1)
+   @State private var dailyFreqSelection: HabitFrequency = .timesPerDay(1)
    
-   @State private var weeklyFreqSelection: HabitFrequencyTest = .daysInTheWeek([1, 5])
+   @State private var weeklyFreqSelection: HabitFrequency = .daysInTheWeek([1, 5])
    
    @State private var timesPerDay: Int = 1
    @State private var everyXDays: Int = 2
    @State private var daysPerWeek: [Int] = [1,5]
    @State private var timesPerWeek: (times: Int, resetDay: Weekday) = (times: 1, resetDay: .sunday)
    
-   init(vm: FrequencySelectionModel2) {
+   init(vm: FrequencySelectionModel) {
       switch vm.selection {
       case .timesPerDay(let n):
          self._timesPerDay = State(initialValue: n)
-      case .everyXDays(let n):
-         self._everyXDays = State(initialValue: n)
+//      case .everyXDays(let n):
+//         self._everyXDays = State(initialValue: n)
       case .daysInTheWeek(let days):
          self._daysPerWeek = State(initialValue: days)
       case .timesPerWeek(times: let times, resetDay: let resetDay):
@@ -59,7 +70,7 @@ struct FrequencySelectionStack2: View {
          .padding(.bottom, 7)
          
          if segmentSelection == .daily {
-            SelectableCard2Wrapper(selection: $dailyFreqSelection, type: .timesPerDay(1)) {
+            SelectableFrequencyCard(selection: $dailyFreqSelection, type: .timesPerDay(1)) {
                EveryDayXTimesPerDay(timesPerDay: $timesPerDay)
                   .onChange(of: timesPerDay) { newValue in
                      vm.selection = .timesPerDay(timesPerDay)
@@ -69,21 +80,10 @@ struct FrequencySelectionStack2: View {
                vm.selection = .timesPerDay(timesPerDay)
             }
             .transition(.move(edge: .leading))
-            
-            SelectableCard2Wrapper(selection: $dailyFreqSelection, type: .everyXDays(1)) {
-               EveryXDays(everyXDays: $everyXDays)
-                  .onChange(of: everyXDays) { newValue in
-                     vm.selection = .everyXDays(everyXDays)
-                  }
-            } onSelection: {
-               dailyFreqSelection = .everyXDays(everyXDays)
-               vm.selection = .everyXDays(everyXDays)
-            }
-            .transition(.move(edge: .leading))
          }
          
          if segmentSelection == .weekly {
-            SelectableCard2Wrapper(selection: $weeklyFreqSelection, type: .daysInTheWeek([0])) {
+            SelectableFrequencyCard(selection: $weeklyFreqSelection, type: .daysInTheWeek([0])) {
                EveryWeekOnSpecificWeekDays(selectedWeekdays: $daysPerWeek)
                   .onChange(of: daysPerWeek) { newValue in
                      vm.selection = .daysInTheWeek(daysPerWeek)
@@ -95,7 +95,7 @@ struct FrequencySelectionStack2: View {
             }
             .transition(.move(edge: .trailing))
             
-            SelectableCard2Wrapper(selection: $weeklyFreqSelection, type: .timesPerWeek(times: 1, resetDay: .sunday)) {
+            SelectableFrequencyCard(selection: $weeklyFreqSelection, type: .timesPerWeek(times: 1, resetDay: .sunday)) {
                XTimesPerWeekBeginningEveryY()
             } onSelection: {
                weeklyFreqSelection = .timesPerWeek(times: timesPerWeek.times, resetDay: timesPerWeek.resetDay)
@@ -116,10 +116,10 @@ struct FrequencySelectionStack2: View {
 
 struct FrequencySelection2_Previews: PreviewProvider {
    static var previews: some View {
-      let vm = FrequencySelectionModel2(selection: .timesPerDay(1))
+      let vm = FrequencySelectionModel(selection: .timesPerDay(1))
       VStack {
          Background {
-            FrequencySelectionStack2(vm: vm)
+            FrequencySelectionStack(vm: vm)
                .environmentObject(vm)
          }
       }
