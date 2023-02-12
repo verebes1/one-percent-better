@@ -55,8 +55,8 @@ struct SelectableCard2<Content>: View where Content: View {
                onSelection()
             }
       )
-      .transition(.opacity)
-      .animation(.easeInOut(duration: 0.1), value: isSelected)
+//      .transition(.opacity)
+//      .animation(.easeInOut(duration: 0.1), value: isSelected)
    }
 }
 
