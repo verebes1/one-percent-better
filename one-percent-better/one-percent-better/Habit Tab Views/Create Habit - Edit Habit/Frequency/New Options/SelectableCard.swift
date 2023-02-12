@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectableCard2<Content>: View where Content: View {
+struct SelectableCard<Content>: View where Content: View {
    
    @Environment(\.colorScheme) var scheme
    
@@ -86,7 +86,7 @@ struct SelectableFrequencyCard<Content>: View where Content: View {
    }
    
    var body: some View {
-      SelectableCard2(isSelected: isSameType(selection: selection, type: type)) {
+      SelectableCard(isSelected: isSameType(selection: selection, type: type)) {
          content()
             .padding(.vertical, 5)
       } onSelection: {
@@ -101,6 +101,9 @@ struct SelectableCard2_Previewer: View {
    
    @State private var tpd = 2
    
+   @State private var tpw = 3
+   @State private var resetDay: Weekday = .sunday
+   
    var body: some View {
       Background {
          VStack {
@@ -111,7 +114,7 @@ struct SelectableCard2_Previewer: View {
             }
             
             SelectableFrequencyCard(selection: $selection, type: .daysInTheWeek([1,2,3])) {
-               XTimesPerWeekBeginningEveryY()
+               XTimesPerWeekBeginningEveryY(timesPerWeek: $tpw, beginningDay: $resetDay)
             } onSelection: {
                selection = .daysInTheWeek([1,2])
             }

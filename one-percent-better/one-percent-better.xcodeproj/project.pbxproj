@@ -108,7 +108,7 @@
 		805785B3295EEFA900028582 /* EveryDayXTimesPerDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */; };
 		805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */; };
 		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
-		805785BA296C4C8600028582 /* SelectableCard2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B9296C4C8600028582 /* SelectableCard2.swift */; };
+		805785BA296C4C8600028582 /* SelectableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B9296C4C8600028582 /* SelectableCard.swift */; };
 		805785BC296C4EFD00028582 /* DepressTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BB296C4EFD00028582 /* DepressTest.swift */; };
 		805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BF296C818800028582 /* FrequencySegmentSelection.swift */; };
 		805785C2296DECCF00028582 /* EveryXDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C1296DECCF00028582 /* EveryXDays.swift */; };
@@ -301,7 +301,7 @@
 		805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDayXTimesPerDay.swift; sourceTree = "<group>"; };
 		805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekBeginningEveryY.swift; sourceTree = "<group>"; };
 		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
-		805785B9296C4C8600028582 /* SelectableCard2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard2.swift; sourceTree = "<group>"; };
+		805785B9296C4C8600028582 /* SelectableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard.swift; sourceTree = "<group>"; };
 		805785BB296C4EFD00028582 /* DepressTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepressTest.swift; sourceTree = "<group>"; };
 		805785BF296C818800028582 /* FrequencySegmentSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySegmentSelection.swift; sourceTree = "<group>"; };
 		805785C1296DECCF00028582 /* EveryXDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXDays.swift; sourceTree = "<group>"; };
@@ -720,7 +720,7 @@
 				805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */,
 				805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */,
 				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
-				805785B9296C4C8600028582 /* SelectableCard2.swift */,
+				805785B9296C4C8600028582 /* SelectableCard.swift */,
 				805785BF296C818800028582 /* FrequencySegmentSelection.swift */,
 				805785C1296DECCF00028582 /* EveryXDays.swift */,
 			);
@@ -1121,7 +1121,7 @@
 				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,
 				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
-				805785BA296C4C8600028582 /* SelectableCard2.swift in Sources */,
+				805785BA296C4C8600028582 /* SelectableCard.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,

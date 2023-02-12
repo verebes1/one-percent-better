@@ -9,8 +9,8 @@ import SwiftUI
 
 struct XTimesPerWeekBeginningEveryY: View {
    
-   @State private var timesPerWeek = 1
-   @State private var beginningDay = "Sunday"
+   @Binding var timesPerWeek: Int
+   @Binding var beginningDay: Weekday
    var color: Color = Style.accentColor
    
    var body: some View {
@@ -59,28 +59,28 @@ struct XTimesPerWeekBeginningEveryY: View {
          HStack(spacing: 7) {
             Text("beginning every")
             Menu {
-               MenuItemWithCheckmark(value: "Saturday",
+               MenuItemWithCheckmark(value: .saturday,
                                      selection: $beginningDay)
                
-               MenuItemWithCheckmark(value: "Friday",
+               MenuItemWithCheckmark(value: .friday,
                                      selection: $beginningDay)
-               
-               MenuItemWithCheckmark(value: "Thursday",
+
+               MenuItemWithCheckmark(value: .thursday,
                                      selection: $beginningDay)
-               
-               MenuItemWithCheckmark(value: "Wednesday",
+
+               MenuItemWithCheckmark(value: .wednesday,
                                      selection: $beginningDay)
-               
-               MenuItemWithCheckmark(value: "Tuesday",
+
+               MenuItemWithCheckmark(value: .tuesday,
                                      selection: $beginningDay)
-               
-               MenuItemWithCheckmark(value: "Monday",
+
+               MenuItemWithCheckmark(value: .monday,
                                      selection: $beginningDay)
-               
-               MenuItemWithCheckmark(value: "Sunday",
+
+               MenuItemWithCheckmark(value: .sunday,
                                      selection: $beginningDay)
             } label: {
-               CapsuleMenuButton(text: beginningDay,
+               CapsuleMenuButton(text: "\(beginningDay)",
                                          color: color,
                                          fontSize: 15)
             }
@@ -91,10 +91,20 @@ struct XTimesPerWeekBeginningEveryY: View {
    }
 }
 
+struct XTimesPerWeekBeginningEveryYPreviewer: View {
+   
+   @State private var timesPerWeek = 1
+   @State private var beginningDay: Weekday = .sunday
+   
+   var body: some View {
+      Background {
+         XTimesPerWeekBeginningEveryY(timesPerWeek: $timesPerWeek, beginningDay: $beginningDay)
+      }
+   }
+}
+
 struct XTimesPerWeekBeginningEveryY_Previews: PreviewProvider {
    static var previews: some View {
-      Background {
-         XTimesPerWeekBeginningEveryY()
-      }
+      XTimesPerWeekBeginningEveryYPreviewer()
    }
 }

@@ -12,6 +12,7 @@
         <attribute name="hasNewImprovement" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasNotificationTimeAsDate" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTimesCompleted" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="hasTimesPerWeekFrequency" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTrackerIndices" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTrackerToHabitRelationship" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>

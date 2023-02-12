@@ -52,8 +52,20 @@ enum HabitFrequency: Equatable, Hashable {
    }
 }
 
-enum Weekday: Int {
-   case sunday = 0, monday, tuesday, wednesday, thursday, friday, saturday
+enum Weekday: Int, CustomStringConvertible {
+   case sunday, monday, tuesday, wednesday, thursday, friday, saturday
+   
+   var description: String {
+      switch self {
+      case .sunday: return "Sunday"
+      case .monday: return "Saturday"
+      case .tuesday: return "Tuesday"
+      case .wednesday: return "Wednesday"
+      case .thursday: return "Thursday"
+      case .friday: return "Friday"
+      case .saturday: return "Saturday"
+      }
+   }
 }
 
 // TEMP ENUM WHILE TESTING UI

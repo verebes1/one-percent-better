@@ -44,9 +44,7 @@ struct ChooseHabitFrequency: View {
                .onTapGesture {
                   let _ = try? Habit(context: moc,
                                      name: habitName,
-                                     // TODO: 1.0.8 RESET THIS WHEN FINISHED WORKING ON NEW FREQUENCIES
-//                                     frequency: vm.selection)
-                                     frequency: .timesPerDay(1))
+                                     frequency: vm.selection)
                   nav.path.removeLast(2)
                }
          }

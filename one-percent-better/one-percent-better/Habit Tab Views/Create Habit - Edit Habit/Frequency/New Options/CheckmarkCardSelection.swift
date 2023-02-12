@@ -12,6 +12,8 @@ struct CheckmarkCardSelection: View {
    @Environment(\.colorScheme) var scheme
    
    @State private var tpd = 1
+   @State private var tpw = 3
+   @State private var resetDay: Weekday = .sunday
    
    var body: some View {
       VStack(spacing: 20) {
@@ -54,7 +56,7 @@ struct CheckmarkCardSelection: View {
             .padding(.leading, 20)
 
             CardView(shadow: false, color: .backgroundColor) {
-               XTimesPerWeekBeginningEveryY(color: Style.accentColor)
+               XTimesPerWeekBeginningEveryY(timesPerWeek: $tpw, beginningDay: $resetDay, color: Style.accentColor)
             }
             .overlay {
                ZStack {

@@ -63,7 +63,8 @@ struct EditHabit: View {
       
       switch freq {
       case .timesPerDay(let n):
-         return Text("\(n)x daily")
+         let timesString = n == 1 ? "time" : "times"
+         return Text("\(n) \(timesString) per day")
       case .daysInTheWeek(let days):
          var finalString = ""
          let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -74,8 +75,10 @@ struct EditHabit: View {
             }
          }
          return Text(finalString)
-      case .timesPerWeek(times: let n, resetDay: _):
-         return Text("\(n) times per week")
+      case .timesPerWeek(times: let n, resetDay: let resetDay):
+         let timesString = n == 1 ? "time" : "times"
+         let finalString = "\(n) \(timesString) per week, every \(resetDay)"
+         return Text(finalString)
       }
    }
    

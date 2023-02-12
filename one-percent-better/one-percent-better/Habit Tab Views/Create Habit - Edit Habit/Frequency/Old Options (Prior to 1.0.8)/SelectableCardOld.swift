@@ -48,7 +48,7 @@ struct SelectableCardOld<Content>: View where Content: View {
    }
 }
 
-struct SelectableCardPreviewer: View {
+struct SelectableCardOldPreviewer: View {
    
    @State private var selection: HabitFrequency = .timesPerDay(1)
    
@@ -81,9 +81,9 @@ struct SelectableCardPreviewer: View {
    }
 }
 
-struct SelectableCard_Previews: PreviewProvider {
+struct SelectableCardOld_Previews: PreviewProvider {
    static var previews: some View {
-      SelectableCardPreviewer()
+      SelectableCardOldPreviewer()
    }
 }
 

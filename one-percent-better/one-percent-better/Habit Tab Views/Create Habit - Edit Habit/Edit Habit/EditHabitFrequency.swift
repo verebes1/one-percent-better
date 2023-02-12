@@ -26,12 +26,8 @@ struct EditHabitFrequency: View {
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
             
-//            FrequencySelectionStack(vm: vm)
-//               .environmentObject(vm)
-            
-            // TODO: 1.0.8 RESET THIS WHEN DONE WITH NEW FREQUENCIES
-//            FrequencySelectionStack(vm: vm)
-//               .environmentObject(vm)
+            FrequencySelectionStack(vm: vm)
+               .environmentObject(vm)
             
             Spacer()
          }
