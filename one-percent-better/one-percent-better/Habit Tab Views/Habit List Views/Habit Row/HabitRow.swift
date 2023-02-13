@@ -211,11 +211,9 @@ struct HabitRow: View {
                Spacer().frame(width: 15)
                HabitRowLabels(vm: vm)
                Spacer()
-               //                ListChevron()
                ImprovementGraphView()
                   .environmentObject(vm)
                   .frame(width: 80, height: 35)
-//                  .border(.black)
                   .padding(.trailing, 20)
             }
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
@@ -306,74 +304,5 @@ struct HabitRow_Previews: PreviewProvider {
       let _ = data()
       let moc = CoreDataManager.previews.mainContext
       HabitRowPreviewer(vm: HabitListViewModel(moc))
-   }
-}
-
-struct ListChevron: View {
-   var body: some View {
-      Image(systemName: "chevron.right")
-         .resizable()
-         .aspectRatio(contentMode: .fit)
-         .frame(height: 12)
-         .foregroundColor(.gray)
-         .padding(.trailing, 5)
-   }
-}
-
-struct HabitRowLabels: View {
-   
-   @ObservedObject var vm: HabitRowViewModel
-   
-   var body: some View {
-      VStack(alignment: .leading) {
-         
-         Text(vm.habit.name)
-            .font(.system(size: 16))
-            .fontWeight(vm.isTimerRunning ? .bold : .regular)
-         
-         HStack(spacing: 0) {
-            if vm.hasTimeTracker && vm.hasTimerStarted {
-               HStack {
-                  Text(vm.timerLabel)
-                     .font(.system(size: 11))
-                     .foregroundColor(.secondaryLabel)
-                     .fixedSize()
-                     .frame(minWidth: 40)
-                     .padding(.horizontal, 4)
-                     .background(.gray.opacity(0.1))
-                     .cornerRadius(10)
-                  
-                  Spacer().frame(width: 5)
-               }
-            }
-            
-            if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
-               tpd > 1 {
-               HStack {
-                  Text("\(vm.habit.timesCompleted(on: vm.currentDay)) / \(tpd)")
-                     .font(.system(size: 11))
-                     .foregroundColor(.secondaryLabel)
-                     .fixedSize()
-                     .frame(minWidth: 25)
-                     .padding(.horizontal, 7)
-                     .background(.gray.opacity(0.1))
-                     .cornerRadius(5)
-                  
-                  Spacer().frame(width: 5)
-               }
-            }
-            
-            if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
-               !vm.habit.isDue(on: vm.currentDay) {
-               Text("Not due today")
-                  .font(.system(size: 11))
-                  .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
-            } else {
-               Text(vm.streakLabel)
-                  .font(.system(size: 11))
-                  .foregroundColor(vm.streakLabelColor)
-            }
-         }
-      }
    }
 }

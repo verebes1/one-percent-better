@@ -98,7 +98,7 @@ struct HabitListView: View {
    /// Habits header view model
    @ObservedObject var hwvm: HeaderWeekViewModel
    
-   @State private var showingPopover = false
+   @State private var hideTabBar = false
    
    init(vm: HabitListViewModel) {
       self.vm = vm
@@ -172,7 +172,7 @@ struct HabitListView: View {
                }
             }
             .toolbarBackground(Color.backgroundColor, for: .tabBar)
-            .navigationDestination(for: HabitListViewRoute.self) { [nav, vm] route in
+            .navigationDestination(for: HabitListViewRoute.self) { [nav] route in
                if case let .showProgress(habit) = route {
                   ProgressView()
                      .environmentObject(nav)
@@ -180,20 +180,15 @@ struct HabitListView: View {
                }
                
                if route == HabitListViewRoute.createHabit {
-                  ChooseHabitName()
+                  ChooseHabitName(hideTabBar: $hideTabBar)
                      .environmentObject(nav)
-                     .environmentObject(vm)
                }
             }
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
-         //            .popup(isPresented: $showingPopover) {
-         //               BottomPopupView {
-         //                  NamePopupView(isPresented: $showingPopover)
-         //               }
-         //            }
             .environmentObject(nav)
+            .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
       )
    }
 }

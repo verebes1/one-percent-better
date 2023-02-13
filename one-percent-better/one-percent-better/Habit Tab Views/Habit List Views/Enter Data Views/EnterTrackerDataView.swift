@@ -185,7 +185,7 @@ struct EnterTrackerDataView: View {
                            ExerciseTrackerEntry(tracker: t)
                               .environmentObject(vm.exerciseTrackerFields[t]!)
                         }
-                        
+                        Divider()
                      }
                   }
                   //                        }

@@ -15,12 +15,11 @@ struct ChooseHabitName: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
    
-   @EnvironmentObject var vm: HabitListViewModel
-   
    @State var habitName: String = ""
-   //   @State private var isResponder: Bool? = true
    
    @FocusState private var nameInFocus: Bool
+   
+   @Binding var hideTabBar: Bool
    
    var body: some View {
       Background {
@@ -77,17 +76,15 @@ struct ChooseHabitName: View {
                   }
                }
          }
-         .navigationDestination(for: CreateFrequencyRoute.self) { [nav, vm] route in
+         .navigationDestination(for: CreateFrequencyRoute.self) { [nav] route in
             if case let .createFrequency(habitName) = route {
-               ChooseHabitFrequency(habitName: habitName)
-                  .environmentObject(vm)
+               ChooseHabitFrequency(habitName: habitName, hideTabBar: $hideTabBar)
                   .environmentObject(nav)
             }
          }
          .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now()) {
-               self.nameInFocus = true
-            }
+            nameInFocus = true
+            hideTabBar = true
          }
       }
       .toolbar {
@@ -102,8 +99,10 @@ struct ChooseHabitName: View {
 struct CreateNewHabit_Previews: PreviewProvider {
    
    static var previews: some View {
-      let context = CoreDataManager.previews.mainContext
-      ChooseHabitName()
-         .environment(\.managedObjectContext, context)
+      let moc = CoreDataManager.previews.mainContext
+      ChooseHabitName(hideTabBar: .constant(true))
+         .environment(\.managedObjectContext, moc)
+         .environmentObject(HabitListViewModel(moc))
+         .environmentObject(HabitTabNavPath())
    }
 }

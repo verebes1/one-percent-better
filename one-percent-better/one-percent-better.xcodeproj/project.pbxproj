@@ -145,6 +145,7 @@
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80AE0CA329930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */; };
+		80AE0CA72999D09900B565DE /* HabitRowLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA62999D09900B565DE /* HabitRowLabels.swift */; };
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
@@ -342,6 +343,7 @@
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
 		80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XTimesPerWeekBeginningEveryY-FrequencyTests.swift"; sourceTree = "<group>"; };
 		80AE0CA42995F17900B565DE /* opb 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 13.xcdatamodel"; sourceTree = "<group>"; };
+		80AE0CA62999D09900B565DE /* HabitRowLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowLabels.swift; sourceTree = "<group>"; };
 		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
 		80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStackOld.swift; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
 				80A6D9F828949F43009BF024 /* HabitRow.swift */,
 				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
+				80AE0CA62999D09900B565DE /* HabitRowLabels.swift */,
 				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
 				802E9299291A147F00A28EB1 /* ImprovementGraphView.swift */,
 			);
@@ -1048,6 +1051,7 @@
 				807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */,
 				8062AA382900772E00903123 /* DailyReminder.swift in Sources */,
 				80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */,
+				80AE0CA72999D09900B565DE /* HabitRowLabels.swift in Sources */,
 				805785C62974AFF300028582 /* MenuItemWithCheckmark.swift in Sources */,
 				8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */,
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
