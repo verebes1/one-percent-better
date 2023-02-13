@@ -36,31 +36,39 @@ struct HabitRowLabels: View {
             
             if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
                tpd > 1 {
-               HStack {
-                  Text("\(vm.habit.timesCompleted(on: vm.currentDay)) / \(tpd)")
-                     .font(.system(size: 11))
-                     .foregroundColor(.secondaryLabel)
-                     .fixedSize()
-                     .frame(minWidth: 25)
-                     .padding(.horizontal, 7)
-                     .background(.gray.opacity(0.1))
-                     .cornerRadius(5)
-                  
-                  Spacer().frame(width: 5)
-               }
+               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
+            } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
+               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay), timesExpected: tpw)
+               
             }
             
-            if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
-               !vm.habit.isDue(on: vm.currentDay) {
-               Text("Not due today")
-                  .font(.system(size: 11))
-                  .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
-            } else {
-               Text(vm.streakLabel)
-                  .font(.system(size: 11))
-                  .foregroundColor(vm.streakLabelColor)
-            }
+            Text(vm.streakLabel)
+               .font(.system(size: 11))
+               .foregroundColor(vm.streakLabelColor)
          }
+         
+         switch vm.habit.frequency(on: vm.currentDay) {
+         case .timesPerDay(_):
+            EmptyView()
+         case .daysInTheWeek(let days):
+            let finalString = "Not due until Wednesday"
+            Text(finalString)
+               .font(.system(size: 11))
+               .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
+         case .timesPerWeek(_, resetDay: let resetDay):
+            let finalString = "Complete before \(resetDay)"
+            Text(finalString)
+               .font(.system(size: 11))
+               .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
+         case .none:
+            EmptyView()
+         }
+//         if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
+//            !vm.habit.isDue(on: vm.currentDay) {
+//            Text("Not due today")
+//               .font(.system(size: 11))
+//               .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
+//         } else {
       }
    }
 }
@@ -73,6 +81,7 @@ struct HabitRowLabels_Previews: PreviewProvider {
    static let id2 = UUID()
    static let id3 = UUID()
    static let id4 = UUID()
+   static let id5 = UUID()
    
    static func data() -> [Habit] {
       let context = CoreDataManager.previews.mainContext
@@ -85,9 +94,9 @@ struct HabitRowLabels_Previews: PreviewProvider {
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
       h2?.changeFrequency(to: .daysInTheWeek([2,3,5]))
       h2?.markCompleted(on: Cal.addDays(num: -1))
-//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
-//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
-//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
+      //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+      //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+      //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       h3?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
@@ -100,6 +109,13 @@ struct HabitRowLabels_Previews: PreviewProvider {
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+      
+      let in3daysWeedayInt = (Date().weekdayInt + 3) % 7
+      let in3DaysWeekday = Weekday(rawValue: in3daysWeedayInt)!
+      let h5 = try? Habit(context: context, name: "3 times a week, reset in 3 days, completed twice", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
+      
+      h5?.markCompleted(on: Cal.addDays(num: -1))
+      h5?.markCompleted(on: Cal.addDays(num: -2))
       
       let habits = Habit.habits(from: context)
       return habits
@@ -114,8 +130,29 @@ struct HabitRowLabels_Previews: PreviewProvider {
          ForEach(vm.habits) { habit in
             HabitRowLabels(vm: HabitRowViewModel(moc: moc, habit: habit, currentDay: Date()))
                .padding(.leading, 20)
+               .border(.black)
             Divider()
          }
+      }
+   }
+}
+
+struct TimesCompletedIndicator: View {
+   
+   var timesCompleted: Int
+   var timesExpected: Int
+   
+   var body: some View {
+      HStack {
+         Text("\(timesCompleted) / \(timesExpected)")
+            .font(.system(size: 11))
+            .foregroundColor(.secondaryLabel)
+            .fixedSize()
+            .frame(minWidth: 25)
+            .padding(.horizontal, 7)
+            .background(.gray.opacity(0.1))
+            .cornerRadius(5)
+         Spacer().frame(width: 5)
       }
    }
 }

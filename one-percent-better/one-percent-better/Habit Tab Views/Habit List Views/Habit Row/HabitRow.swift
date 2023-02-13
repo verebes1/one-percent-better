@@ -268,6 +268,7 @@ struct HabitRow_Previews: PreviewProvider {
    static let id2 = UUID()
    static let id3 = UUID()
    static let id4 = UUID()
+   static let id5 = UUID()
    
    static func data() -> [Habit] {
       let context = CoreDataManager.previews.mainContext
@@ -295,6 +296,13 @@ struct HabitRow_Previews: PreviewProvider {
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+      
+      let in3daysWeedayInt = (Date().weekdayInt + 3) % 7
+      let in3DaysWeekday = Weekday(rawValue: in3daysWeedayInt)!
+      let h5 = try? Habit(context: context, name: "3 tpw, reset in 3, done 2", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
+      
+      h5?.markCompleted(on: Cal.addDays(num: -1))
+      h5?.markCompleted(on: Cal.addDays(num: -2))
       
       let habits = Habit.habits(from: context)
       return habits

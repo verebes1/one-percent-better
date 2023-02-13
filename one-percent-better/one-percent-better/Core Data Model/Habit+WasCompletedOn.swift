@@ -89,6 +89,23 @@ extension Habit {
       return timesCompleted[i]
    }
    
+   /// Only valid for habits with a frequency of timesPerWeek, returns how many times they've completed
+   /// the habit this week, going back as far as the reset day
+   /// - Parameter date: The day of the week to check against
+   /// - Returns: Number of times completed that week
+   func timesCompletedThisWeek(on date: Date) -> Int {
+      guard let f = frequency(on: date), case .timesPerWeek(_, resetDay: let resetDay) = f else { return 0 }
+      var timesCompletedThisWeek = 0
+      for i in 0 ..< 7 {
+         let day = Cal.date(byAdding: .day, value: -i, to: date)!
+         if day.weekdayInt == resetDay.rawValue {
+            break
+         }
+         timesCompletedThisWeek += timesCompleted(on: day)
+      }
+      return timesCompletedThisWeek
+   }
+   
    /// Mark habit as completed for a date
    /// - Parameter date: The day to mark the habit completed
    func markCompleted(on date: Date) {
