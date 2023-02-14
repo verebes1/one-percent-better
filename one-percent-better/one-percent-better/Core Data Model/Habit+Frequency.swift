@@ -160,7 +160,6 @@ extension Habit {
    func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          // Requesting frequency before start date
-         // TODO: 1.0.8 what is going on here exactly?
          return nil
       }
          

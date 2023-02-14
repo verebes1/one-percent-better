@@ -96,14 +96,24 @@ extension Habit {
    func timesCompletedThisWeek(on date: Date) -> Int {
       guard let f = frequency(on: date), case .timesPerWeek(_, resetDay: let resetDay) = f else { return 0 }
       var timesCompletedThisWeek = 0
+      
+      let startOffset = date.weekdayInt - resetDay.rawValue
+      let startDay = Cal.addDays(num: -startOffset, to: date)
+      
       for i in 0 ..< 7 {
-         let day = Cal.date(byAdding: .day, value: -i, to: date)!
-         if day.weekdayInt == resetDay.rawValue {
-            break
-         }
+         let day = Cal.addDays(num: i, to: startDay)
          timesCompletedThisWeek += timesCompleted(on: day)
       }
       return timesCompletedThisWeek
+   }
+   
+   /// Only valid for habits with a frequency of timesPerWeek, returns true if they've completed
+   /// the habit more than or equal to the times expected for that week
+   /// - Parameter date: The day of the week to check against
+   /// - Returns: Whether or not they've completed the habit that week
+   func wasCompletedThisWeek(on date: Date) -> Bool {
+      guard let f = frequency(on: date), case .timesPerWeek(let times, _) = f else { return false }
+      return timesCompletedThisWeek(on: date) >= times
    }
    
    /// Mark habit as completed for a date
@@ -165,5 +175,51 @@ extension Habit {
          markCompleted(on: day)
          HapticEngineManager.playHaptic()
       }
+   }
+   
+   /// The streak of this habit calculated on specific date
+   /// - Parameter date: The streak on this date
+   /// - Returns: The streak number
+   func streak(on date: Date) -> Int {
+      var streak = 0
+      
+      // add 1 if completed today
+      if wasCompleted(on: date) {
+         streak += 1
+      }
+      
+      let dayBeforeDate = Cal.addDays(num: -1, to: date)
+      // TODO: 1.0.8 number of days between isn't working as it should (adding 1 for some reason)
+      let totalDays = Cal.numberOfDaysBetween(startDate, and: dayBeforeDate)
+      guard totalDays >= 0 else { return 0 }
+      for i in 0 ... totalDays {
+         let day = Cal.addDays(num: -i, to: dayBeforeDate)
+         guard let freq = frequency(on: date) else { return streak }
+         switch freq {
+         case .timesPerDay:
+            if wasCompleted(on: day) {
+               streak += 1
+            } else {
+               return streak
+            }
+         case .daysInTheWeek:
+            if isDue(on: day) {
+               if wasCompleted(on: day) {
+                  streak += 1
+               } else {
+                  return streak
+               }
+            }
+         case .timesPerWeek(_, let resetDay):
+            if day.weekdayInt == resetDay.rawValue {
+               if wasCompletedThisWeek(on: day) {
+                  streak += 1
+               } else {
+                  return streak
+               }
+            }
+         }
+      }
+      return streak
    }
 }

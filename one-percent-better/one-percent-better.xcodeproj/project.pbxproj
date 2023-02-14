@@ -146,6 +146,7 @@
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80AE0CA329930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */; };
 		80AE0CA72999D09900B565DE /* HabitRowLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA62999D09900B565DE /* HabitRowLabels.swift */; };
+		80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */; };
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
@@ -344,6 +345,7 @@
 		80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XTimesPerWeekBeginningEveryY-FrequencyTests.swift"; sourceTree = "<group>"; };
 		80AE0CA42995F17900B565DE /* opb 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 13.xcdatamodel"; sourceTree = "<group>"; };
 		80AE0CA62999D09900B565DE /* HabitRowLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowLabels.swift; sourceTree = "<group>"; };
+		80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+WasCompletedOnTests.swift"; sourceTree = "<group>"; };
 		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
 		80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStackOld.swift; sourceTree = "<group>"; };
@@ -702,6 +704,7 @@
 				80DAAC31293572F300E626D7 /* FrequencyTests.swift */,
 				80DAAC352939A02600E626D7 /* ImportExportTest.swift */,
 				80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */,
+				80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */,
 			);
 			path = "one-percent-better-Tests";
 			sourceTree = "<group>";
@@ -897,11 +900,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8055A99A2831BAA8009A1881 /* Build configuration list for PBXNativeTarget "one-percent-betterUITests" */;
 			buildPhases = (
-				47A79073677C70892EC2BEF7 /* [CP] Check Pods Manifest.lock */,
 				8055A9862831BAA8009A1881 /* Sources */,
 				8055A9872831BAA8009A1881 /* Frameworks */,
 				8055A9882831BAA8009A1881 /* Resources */,
-				7F22D8D598FE54C3672AB447 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -981,48 +982,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		47A79073677C70892EC2BEF7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-one-percent-better-one-percent-betterUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7F22D8D598FE54C3672AB447 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-one-percent-better-one-percent-betterUITests/Pods-one-percent-better-one-percent-betterUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8055A96C2831BAA5009A1881 /* Sources */ = {
@@ -1194,6 +1153,7 @@
 			files = (
 				80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */,
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
+				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */,
 				8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */,

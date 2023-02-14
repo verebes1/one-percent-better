@@ -7,16 +7,60 @@
 
 import SwiftUI
 
+struct HabitRowSubLabel: ViewModifier {
+   
+   var color: Color
+   
+   func body(content: Content) -> some View {
+      content
+         .font(.system(size: 11))
+         .foregroundColor(color)
+   }
+}
+
+extension View {
+   func subLabel(color: Color) -> some View {
+      modifier(HabitRowSubLabel(color: color))
+   }
+}
+
 struct HabitRowLabels: View {
    
    @ObservedObject var vm: HabitRowViewModel
    
+   let subGray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
+   
+   func daysInTheWeekLabel(days: [Int]) -> String {
+      if days.contains(Date().weekdayInt) {
+         return "Due today"
+      }
+      
+      var finalString = "Due on "
+      let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+      for (i, day) in days.enumerated() {
+         finalString += "\(dayString[day])"
+         if i != days.count - 1 {
+            finalString += ", "
+         }
+      }
+      return finalString
+   }
+   
    var body: some View {
       VStack(alignment: .leading) {
          
-         Text(vm.habit.name)
-            .font(.system(size: 16))
-            .fontWeight(vm.isTimerRunning ? .bold : .regular)
+         HStack {
+            Text(vm.habit.name)
+               .font(.system(size: 16))
+               .fontWeight(vm.isTimerRunning ? .bold : .regular)
+            
+            if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
+               tpd > 1 {
+               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
+            } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
+               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay), timesExpected: tpw)
+            }
+         }
          
          HStack(spacing: 0) {
             if vm.hasTimeTracker && vm.hasTimerStarted {
@@ -34,32 +78,21 @@ struct HabitRowLabels: View {
                }
             }
             
-            if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
-               tpd > 1 {
-               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
-            } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
-               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay), timesExpected: tpw)
-               
-            }
             
             Text(vm.streakLabel)
-               .font(.system(size: 11))
-               .foregroundColor(vm.streakLabelColor)
+               .subLabel(color: vm.streakLabelColor)
          }
          
          switch vm.habit.frequency(on: vm.currentDay) {
          case .timesPerDay(_):
             EmptyView()
          case .daysInTheWeek(let days):
-            let finalString = "Not due until Wednesday"
-            Text(finalString)
-               .font(.system(size: 11))
-               .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
+            Text(daysInTheWeekLabel(days: days))
+               .subLabel(color: subGray)
          case .timesPerWeek(_, resetDay: let resetDay):
-            let finalString = "Complete before \(resetDay)"
+            let finalString = "Due by \(resetDay)"
             Text(finalString)
-               .font(.system(size: 11))
-               .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
+               .subLabel(color: subGray)
          case .none:
             EmptyView()
          }
@@ -73,6 +106,26 @@ struct HabitRowLabels: View {
    }
 }
 
+
+struct TimesCompletedIndicator: View {
+   
+   var timesCompleted: Int
+   var timesExpected: Int
+   
+   var body: some View {
+      HStack {
+         Text("\(timesCompleted) / \(timesExpected)")
+            .font(.system(size: 11))
+            .foregroundColor(.secondaryLabel)
+            .fixedSize()
+            .frame(minWidth: 25)
+            .padding(.horizontal, 7)
+            .background(.gray.opacity(0.1))
+            .cornerRadius(5)
+         Spacer().frame(width: 5)
+      }
+   }
+}
 
 
 struct HabitRowLabels_Previews: PreviewProvider {
@@ -133,26 +186,6 @@ struct HabitRowLabels_Previews: PreviewProvider {
                .border(.black)
             Divider()
          }
-      }
-   }
-}
-
-struct TimesCompletedIndicator: View {
-   
-   var timesCompleted: Int
-   var timesExpected: Int
-   
-   var body: some View {
-      HStack {
-         Text("\(timesCompleted) / \(timesExpected)")
-            .font(.system(size: 11))
-            .foregroundColor(.secondaryLabel)
-            .fixedSize()
-            .frame(minWidth: 25)
-            .padding(.horizontal, 7)
-            .background(.gray.opacity(0.1))
-            .cornerRadius(5)
-         Spacer().frame(width: 5)
       }
    }
 }

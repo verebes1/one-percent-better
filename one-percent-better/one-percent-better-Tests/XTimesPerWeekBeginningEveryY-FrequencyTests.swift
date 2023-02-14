@@ -46,6 +46,43 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.percentCompleted(on: startSunday), 1)
    }
    
+   /// Test if `wasCompletedThisWeek` works.
+   /// Test that you can ask for any day of the week and get the same answer
+   func testCompletedOn2() {
+      let startSunday = df.date(from: "01-29-2023")!
+      habit.updateStartDate(to: startSunday)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
+      
+      for i in 0 ..< 7 {
+         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+      }
+      habit.markCompleted(on: startSunday)
+      for i in 0 ..< 7 {
+         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+      }
+      habit.markCompleted(on: Cal.addDays(num: 1, to: startSunday))
+      for i in 0 ..< 7 {
+         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+      }
+      habit.markCompleted(on: Cal.addDays(num: 2, to: startSunday))
+      for i in 0 ..< 7 {
+         XCTAssertTrue(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+      }
+   }
+   
+   /// Test `wasCompletedThisWeek` works if your start date is tuesday, and you reset every monday, and you complete it your first week
+   func testCompletedOn3() {
+      let startTuesday = df.date(from: "12-6-2022")!
+      habit.updateStartDate(to: startTuesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .monday), on: startTuesday)
+      
+      XCTAssertFalse(habit.wasCompletedThisWeek(on: startTuesday))
+      habit.markCompleted(on: startTuesday)
+      habit.markCompleted(on: Cal.addDays(num: 1, to: startTuesday))
+      habit.markCompleted(on: Cal.addDays(num: 2, to: startTuesday))
+      XCTAssertTrue(habit.wasCompletedThisWeek(on: startTuesday))
+   }
+   
    /// Test that the habit is only due on the reset day
    func testIsDue() {
       let startSunday = df.date(from: "1-29-2023")!
@@ -61,6 +98,18 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
          
       let nextSunday = Cal.addDays(num: 7, to: startSunday)
       XCTAssertTrue(habit.isDue(on: nextSunday))
+   }
+   
+   func testStreak() {
+      let startWednesday = df.date(from: "12-7-2022")!
+      habit.updateStartDate(to: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: .tuesday), on: startWednesday)
+
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      habit.markCompleted(on: startWednesday)
+      XCTAssertEqual(habit.streak(on: startWednesday), 1)
+      habit.markCompleted(on: Cal.addDays(num: 7, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 7, to: startWednesday)), 2)
    }
    
 //   func testImprovementScore() {
