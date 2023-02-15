@@ -184,17 +184,29 @@ extension Habit {
       var streak = 0
       
       // add 1 if completed today
-      if wasCompleted(on: date) {
+      if isDue(on: date), wasCompleted(on: date) {
          streak += 1
       }
       
-      let dayBeforeDate = Cal.addDays(num: -1, to: date)
-      // TODO: 1.0.8 number of days between isn't working as it should (adding 1 for some reason)
-      let totalDays = Cal.numberOfDaysBetween(startDate, and: dayBeforeDate)
-      guard totalDays >= 0 else { return 0 }
-      for i in 0 ... totalDays {
-         let day = Cal.addDays(num: -i, to: dayBeforeDate)
+      let totalDays = Cal.numberOfDaysBetween(startDate, and: date)
+      guard totalDays >= 1 else {
          guard let freq = frequency(on: date) else { return streak }
+         
+         switch freq {
+         case .timesPerDay, .daysInTheWeek:
+            break
+         case .timesPerWeek:
+            if !isDue(on: date), wasCompletedThisWeek(on: date) {
+               streak += 1
+            }
+         }
+         return streak
+      }
+      
+      
+      for i in 1 ... totalDays {
+         let day = Cal.addDays(num: -i, to: date)
+         guard let freq = frequency(on: day) else { return streak }
          switch freq {
          case .timesPerDay:
             if wasCompleted(on: day) {
@@ -210,8 +222,8 @@ extension Habit {
                   return streak
                }
             }
-         case .timesPerWeek(_, let resetDay):
-            if day.weekdayInt == resetDay.rawValue {
+         case .timesPerWeek:
+            if isDue(on: day) || (i == totalDays) {
                if wasCompletedThisWeek(on: day) {
                   streak += 1
                } else {

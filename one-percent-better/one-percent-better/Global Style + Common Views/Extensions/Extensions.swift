@@ -74,7 +74,7 @@ extension Calendar {
       let fromDate = startOfDay(for: from)
       let toDate = startOfDay(for: to)
       let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
-      return numberOfDays.day! + 1
+      return numberOfDays.day!
    }
    
    func addDays(num i: Int, to date: Date = Date()) -> Date {

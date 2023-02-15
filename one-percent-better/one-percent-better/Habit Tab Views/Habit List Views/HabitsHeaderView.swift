@@ -124,7 +124,7 @@ class HeaderWeekViewModel: ObservableObject {
    
    func getSelectedWeek(for day: Date) -> Int {
       let weekDayOffset = thisWeekDayOffset(day)
-      let totalDayOffset = -(Cal.numberOfDaysBetween(day, and: Date()) - 1)
+      let totalDayOffset = -(Cal.numberOfDaysBetween(day, and: Date()))
       let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
       let result = numWeeksSinceEarliest - 1 - weekNum
       return result
@@ -150,7 +150,7 @@ class HeaderWeekViewModel: ObservableObject {
    }
    
    func dayOffsetToToday(from date: Date) -> Int {
-      let result = -(Cal.numberOfDaysBetween(date, and: Date()) - 1)
+      let result = -(Cal.numberOfDaysBetween(date, and: Date()))
       return result
    }
    

@@ -110,6 +110,14 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: startWednesday), 1)
       habit.markCompleted(on: Cal.addDays(num: 7, to: startWednesday))
       XCTAssertEqual(habit.streak(on: Cal.addDays(num: 7, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 8, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 9, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 10, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 11, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 12, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 13, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 14, to: startWednesday)), 0)
+      
    }
    
 //   func testImprovementScore() {
