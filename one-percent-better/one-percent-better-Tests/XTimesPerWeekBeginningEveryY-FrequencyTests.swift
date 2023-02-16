@@ -129,6 +129,8 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: Cal.addDays(num: 1, to: startWednesday))
       XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
+      
+      // TODO: Test this again, but with resetDay being 1 day after or 1 day before start day
    }
    
    
