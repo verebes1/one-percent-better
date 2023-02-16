@@ -117,8 +117,22 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: Cal.addDays(num: 12, to: startWednesday)), 2)
       XCTAssertEqual(habit.streak(on: Cal.addDays(num: 13, to: startWednesday)), 2)
       XCTAssertEqual(habit.streak(on: Cal.addDays(num: 14, to: startWednesday)), 0)
-      
    }
+   
+   func testStreak2() {
+      let startWednesday = df.date(from: "12-7-2022")!
+      habit.updateStartDate(to: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 2, resetDay: .saturday), on: startWednesday)
+      
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      habit.markCompleted(on: startWednesday)
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      habit.markCompleted(on: Cal.addDays(num: 1, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
+   }
+   
+   
+   // TODO: 1.0.8 test case where start date is past reset day. I.e. start date is Wednesday 2-1-2023, reset day is sunday (1-29 or 2-5). Should habit still be marked as not completed if they didn't do it that week? I guess so
    
 //   func testImprovementScore() {
 //      let startSunday = df.date(from: "1-29-2023")!
@@ -128,5 +142,4 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
 //      XCTAssertEqual(habit.improvementTracker!.values, ["0"])
 //   }
    
-   // TODO: 1.0.8 test case where start date is past reset day. I.e. start date is Wednesday 2-1-2023, reset day is sunday (1-29 or 2-5). Should habit still be marked as not completed if they didn't do it that week? I guess so
 }

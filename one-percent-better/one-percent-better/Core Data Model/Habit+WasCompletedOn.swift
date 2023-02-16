@@ -97,7 +97,10 @@ extension Habit {
       guard let f = frequency(on: date), case .timesPerWeek(_, resetDay: let resetDay) = f else { return 0 }
       var timesCompletedThisWeek = 0
       
-      let startOffset = date.weekdayInt - resetDay.rawValue
+      var startOffset = date.weekdayInt - resetDay.rawValue % 7
+      if startOffset < 0 {
+         startOffset += 7
+      }
       let startDay = Cal.addDays(num: -startOffset, to: date)
       
       for i in 0 ..< 7 {
