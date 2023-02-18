@@ -142,7 +142,7 @@ public class ImprovementTracker: GraphTracker {
          curDate = habit.startDate
          score = 100
          // Start of graph needs to be a 0 from the day before beginning
-         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
+//         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
       }
       
       let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!

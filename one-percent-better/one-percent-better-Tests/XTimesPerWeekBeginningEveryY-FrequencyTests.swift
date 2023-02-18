@@ -95,7 +95,7 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
          let day = Cal.addDays(num: i, to: startSunday)
          XCTAssertFalse(habit.isDue(on: day))
       }
-         
+      
       let nextSunday = Cal.addDays(num: 7, to: startSunday)
       XCTAssertTrue(habit.isDue(on: nextSunday))
    }
@@ -104,7 +104,7 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       let startWednesday = df.date(from: "12-7-2022")!
       habit.updateStartDate(to: startWednesday)
       habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: .tuesday), on: startWednesday)
-
+      
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: startWednesday)
       XCTAssertEqual(habit.streak(on: startWednesday), 1)
@@ -129,19 +129,42 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: Cal.addDays(num: 1, to: startWednesday))
       XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
-      
-      // TODO: Test this again, but with resetDay being 1 day after or 1 day before start day
    }
    
+   func testStreak3() {
+      let startWednesday = df.date(from: "12-7-2022")!
+      habit.updateStartDate(to: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 2, resetDay: .thursday), on: startWednesday)
+      
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      habit.markCompleted(on: startWednesday)
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      habit.markCompleted(on: Cal.addDays(num: 1, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
+      habit.markCompleted(on: Cal.addDays(num: 2, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
+   }
    
-   // TODO: 1.0.8 test case where start date is past reset day. I.e. start date is Wednesday 2-1-2023, reset day is sunday (1-29 or 2-5). Should habit still be marked as not completed if they didn't do it that week? I guess so
-   
-//   func testImprovementScore() {
-//      let startSunday = df.date(from: "1-29-2023")!
-//      habit.updateStartDate(to: startSunday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
-//      
-//      XCTAssertEqual(habit.improvementTracker!.values, ["0"])
-//   }
+   func testImprovementScore() {
+      let today = Date().weekdayInt
+      let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
+      habit.updateStartDate(to: startDate)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startDate)
+      
+      XCTAssertEqual(habit.improvementTracker!.values, ["0"])
+      XCTAssertEqual(habit.improvementTracker!.scores, [0])
+      
+      habit.markCompleted(on: startDate)
+      XCTAssertEqual(habit.improvementTracker!.values, ["0"])
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0.33, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.addDays(num: 1, to: startDate))
+      XCTAssertEqual(habit.improvementTracker!.values, ["0", "1"])
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 0.66, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.addDays(num: 2, to: startDate))
+      XCTAssertEqual(habit.improvementTracker!.values, ["0", "1", "1"])
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 1.0, accuracy: 0.01)
+   }
    
 }

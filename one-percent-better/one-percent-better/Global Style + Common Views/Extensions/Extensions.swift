@@ -81,14 +81,15 @@ extension Calendar {
       return Cal.date(byAdding: .day, value: i, to: date)!
    }
    
-   /// Get the last day that matches this weekday, going backward
+   /// Get the last day that matches this weekday, going backward from date
    /// - Parameter weekday: The desired weekday
+   /// - Parameter date: Going backward from this date
    /// - Returns: Date which is on that weekday
-   func getLast(weekday: Weekday) -> Date {
-      let todayIndex = Date().weekdayInt
+   func getLast(weekday: Weekday, from date: Date = Date()) -> Date {
+      let todayIndex = date.weekdayInt
       var diff = todayIndex - weekday.rawValue
-      diff = diff >= 0 ? diff : diff + 7
-      let date = Cal.addDays(num: -diff)
+      diff = diff > 0 ? diff : diff + 7
+      let date = Cal.addDays(num: -diff, to: date)
       return date
    }
 }
