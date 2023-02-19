@@ -147,6 +147,7 @@
 		80AE0CA329930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */; };
 		80AE0CA72999D09900B565DE /* HabitRowLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA62999D09900B565DE /* HabitRowLabels.swift */; };
 		80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */; };
+		80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */; };
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
@@ -346,6 +347,7 @@
 		80AE0CA42995F17900B565DE /* opb 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 13.xcdatamodel"; sourceTree = "<group>"; };
 		80AE0CA62999D09900B565DE /* HabitRowLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowLabels.swift; sourceTree = "<group>"; };
 		80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+WasCompletedOnTests.swift"; sourceTree = "<group>"; };
+		80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayTests.swift; sourceTree = "<group>"; };
 		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
 		80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStackOld.swift; sourceTree = "<group>"; };
@@ -705,6 +707,7 @@
 				80DAAC352939A02600E626D7 /* ImportExportTest.swift */,
 				80AE0CA229930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift */,
 				80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */,
+				80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */,
 			);
 			path = "one-percent-better-Tests";
 			sourceTree = "<group>";
@@ -1153,6 +1156,7 @@
 			files = (
 				80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */,
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
+				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekBeginningEveryY-FrequencyTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */,

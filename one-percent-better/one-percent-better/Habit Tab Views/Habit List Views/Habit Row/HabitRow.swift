@@ -93,22 +93,6 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    //      objectWillChange.send()
    //   }
    
-   /// Current streak (streak = 1 if completed today, streak = 2 if completed today and yesterday, streak = 1 if completed yesterday and not today, etc.)
-   var streak: Int {
-      var streak = 0
-      // start at yesterday, a streak is only broken if it's not completed by the end of the day
-      var day = Cal.date(byAdding: .day, value: -1, to: currentDay)!
-      while habit.wasCompleted(on: day) {
-         streak += 1
-         day = Cal.date(byAdding: .day, value: -1, to: day)!
-      }
-      // add 1 if completed today
-      if habit.wasCompleted(on: currentDay) {
-         streak += 1
-      }
-      return streak
-   }
-   
    var notDoneIn: Int {
       var difference = 0
       var day = Cal.startOfDay(for: currentDay)
@@ -129,20 +113,29 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
    /// Streak label used in habit view
    var streakLabel: String {
+      let streak = habit.streak(on: currentDay)
       if streak > 0 {
-         return "\(streak) day streak"
-      } else if habit.daysCompleted.isEmpty || notDoneIn == -1 {
-         return "Never done"
+         var timePeriodText: String
+         switch habit.frequency(on: currentDay) {
+         case .timesPerDay, .daysInTheWeek:
+            timePeriodText = "day"
+         case .timesPerWeek:
+            timePeriodText = "week"
+         }
+         return "\(streak) \(timePeriodText) streak"
+      } else if let days = habit.notDoneInDays(on: currentDay) {
+         let dayText = days == 1 ? "day" : "days"
+         return "Not done in \(days) \(dayText)"
+      } else if !habit.daysCompleted.isEmpty {
+         return "Never completed"
       } else {
-         let diff = notDoneIn
-         let dayText = diff == 1 ? "day" : "days"
-         return "Not done in \(diff) \(dayText)"
+         return "Never done"
       }
    }
    
    /// Color of streak label used in habit view
    var streakLabelColor: Color {
-      if streak > 0 {
+      if habit.streak(on: currentDay) > 0 {
          return .green
       } else if habit.daysCompleted.isEmpty || notDoneIn == -1 {
          return Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
@@ -227,7 +220,7 @@ struct HabitRow: View {
                   }
             }
          }
-         //            .background(Color.random)
+//            .background(Color.random)
       )
    }
 }
@@ -280,7 +273,7 @@ struct HabitRow_Previews: PreviewProvider {
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
       h2?.changeFrequency(to: .daysInTheWeek([2,3,5]))
-      h2?.markCompleted(on: Cal.addDays(num: -1))
+      h2?.markCompleted(on: Cal.add(days: -1))
 //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
 //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
 //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
@@ -301,8 +294,8 @@ struct HabitRow_Previews: PreviewProvider {
       let in3DaysWeekday = Weekday(rawValue: in3daysWeedayInt)!
       let h5 = try? Habit(context: context, name: "3 tpw, reset in 3, done 2", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
       
-      h5?.markCompleted(on: Cal.addDays(num: -1))
-      h5?.markCompleted(on: Cal.addDays(num: -2))
+      h5?.markCompleted(on: Cal.add(days: -1))
+      h5?.markCompleted(on: Cal.add(days: -2))
       
       let habits = Habit.habits(from: context)
       return habits

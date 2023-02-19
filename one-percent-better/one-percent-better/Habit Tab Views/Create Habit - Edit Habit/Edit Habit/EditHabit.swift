@@ -56,12 +56,8 @@ struct EditHabit: View {
       return true
    }
    
-   var freqTextView: some View {
-      guard let freq = habit.frequency(on: Date()) else {
-         return Text("N/A")
-      }
-      
-      switch freq {
+   var freqTextView: some View {      
+      switch habit.frequency(on: Date()) {
       case .timesPerDay(let n):
          let timesString = n == 1 ? "time" : "times"
          return Text("\(n) \(timesString) per day")
@@ -112,7 +108,7 @@ struct EditHabit: View {
                         .fontWeight(.medium)
                      Spacer()
                      
-                     let range = Cal.addDays(num: -10000) ... (habit.firstCompleted ?? Date())
+                     let range = Cal.add(days: -10000) ... (habit.firstCompleted ?? Date())
                      DatePicker("", selection: $startDate, in: range, displayedComponents: [.date])
                   }
                   .onChange(of: startDate) { newValue in

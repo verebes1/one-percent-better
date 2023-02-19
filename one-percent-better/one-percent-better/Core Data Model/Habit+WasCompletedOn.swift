@@ -7,6 +7,9 @@
 
 import Foundation
 
+// TODO: At some point, also implement dictionary containing completed days for faster lookup than binary search
+// Dictionary style (key must be hashable, and equatable for same day):
+// let dmyDate = DMYDate(date: date)
 
 extension Habit {
    
@@ -25,8 +28,11 @@ extension Habit {
    }
    
    func wasCompleted(on date: Date) -> Bool {
-      guard let i = daysCompleted.sameDayBinarySearch(for: date),
-            let freq = frequency(on: date) else {
+      return wasCompleted(on: date, withFrequency: frequency(on: date))
+   }
+   
+   func wasCompleted(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
+      guard let i = daysCompleted.sameDayBinarySearch(for: date) else {
          return false
       }
       
@@ -36,52 +42,19 @@ extension Habit {
       case .daysInTheWeek(_), .timesPerWeek(_, _):
          return timesCompleted[i] >= 1
       }
-   
-      // Dictionary style
-//      let dmyDate = DMYDate(date: date)
-//
-//      switch frequency(on: date) {
-//      case .timesPerDay(let n):
-//         if let t = timesCompletedDict[dmyDate], t >= n {
-//            return true
-//         }
-//         return false
-//      case .daysInTheWeek(_):
-//         if let t = timesCompletedDict[dmyDate], t >= 1 {
-//            return true
-//         }
-//         return false
-//      }
    }
    
    func percentCompleted(on date: Date) -> Double {
-      guard let i = daysCompleted.sameDayBinarySearch(for: date),
-            let freq = frequency(on: date) else {
+      guard let i = daysCompleted.sameDayBinarySearch(for: date) else {
          return 0
       }
       
-      switch freq {
+      switch frequency(on: date) {
       case .timesPerDay(let n):
          return Double(timesCompleted[i]) / Double(n)
       case .daysInTheWeek(_), .timesPerWeek(_, _):
          return timesCompleted[i] >= 1 ? 1 : 0
       }
-      
-      // Dictionary style
-//      let dmyDate = DayMonthYearDate(date: date)
-//
-//      switch frequency(on: date) {
-//      case .timesPerDay(let n):
-//         if let t = timesCompletedDict[dmyDate] {
-//            return Double(t) / Double(n)
-//         }
-//         return 0
-//      case .daysInTheWeek(_):
-//         if let t = timesCompletedDict[dmyDate], t >= 1 {
-//            return 1
-//         }
-//         return 0
-//      }
    }
    
    func timesCompleted(on date: Date) -> Int {
@@ -92,19 +65,20 @@ extension Habit {
    /// Only valid for habits with a frequency of timesPerWeek, returns how many times they've completed
    /// the habit this week, going back as far as the reset day
    /// - Parameter date: The day of the week to check against
+   /// - Parameter freq: The frequency to check against
    /// - Returns: Number of times completed that week
-   func timesCompletedThisWeek(on date: Date) -> Int {
-      guard let f = frequency(on: date), case .timesPerWeek(_, resetDay: let resetDay) = f else { return 0 }
+   func timesCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency) -> Int {
+      guard case .timesPerWeek(_, resetDay: let resetDay) = freq else { return 0 }
       var timesCompletedThisWeek = 0
       
-      var startOffset = date.weekdayInt - resetDay.rawValue % 7
-      if startOffset < 0 {
-         startOffset += 7
+      var startOffset = date.weekdayInt - resetDay.rawValue
+      if startOffset <= 0 {
+         startOffset += 6
       }
-      let startDay = Cal.addDays(num: -startOffset, to: date)
+      let startDay = Cal.add(days: -startOffset, to: date)
       
       for i in 0 ..< 7 {
-         let day = Cal.addDays(num: i, to: startDay)
+         let day = Cal.add(days: i, to: startDay)
          timesCompletedThisWeek += timesCompleted(on: day)
       }
       return timesCompletedThisWeek
@@ -113,10 +87,11 @@ extension Habit {
    /// Only valid for habits with a frequency of timesPerWeek, returns true if they've completed
    /// the habit more than or equal to the times expected for that week
    /// - Parameter date: The day of the week to check against
+   /// - Parameter freq: The frequency to check against
    /// - Returns: Whether or not they've completed the habit that week
-   func wasCompletedThisWeek(on date: Date) -> Bool {
-      guard let f = frequency(on: date), case .timesPerWeek(let times, _) = f else { return false }
-      return timesCompletedThisWeek(on: date) >= times
+   func wasCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
+      guard case .timesPerWeek(let times, _) = freq else { return false }
+      return timesCompletedThisWeek(on: date, withFrequency: freq) >= times
    }
    
    /// Mark habit as completed for a date
@@ -186,18 +161,57 @@ extension Habit {
    func streak(on date: Date) -> Int {
       var streak = 0
       
-      // add 1 if completed today
-      if isDue(on: date), wasCompleted(on: date) {
-         streak += 1
+      let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
+      let freq = frequency(on: date)
+      
+      for i in 0 ... numDaysToCheck {
+         let day = Cal.add(days: -i, to: date)
+         switch freq {
+         case .timesPerDay:
+            if wasCompleted(on: day) {
+               streak += 1
+            } else {
+               return streak
+            }
+         case .daysInTheWeek:
+            if isDue(on: day, withFrequency: freq) {
+               if wasCompleted(on: day) {
+                  streak += 1
+               } else {
+                  return streak
+               }
+            }
+         case .timesPerWeek(_, resetDay: let resetDay):
+            if isDue(on: day, withFrequency: freq) {
+               if wasCompletedThisWeek(on: day, withFrequency: freq) {
+                  streak += 1
+               } else {
+                  return streak
+               }
+            } else if Cal.isDate(day, inSameDayAs: startDate) {
+               // Edge case: reached start date before reaching reset day
+               // Check if we've already computed if it was completed this week or not
+               let diff = Weekday.positiveDifference(from: Weekday(day), to: resetDay)
+               if numDaysToCheck < diff {
+                  if wasCompletedThisWeek(on: day, withFrequency: freq) {
+                     streak += 1
+                  } else {
+                     return streak
+                  }
+               }
+            }
+         }
       }
       
-      let totalDays = Cal.numberOfDaysBetween(startDate, and: date)
-      guard totalDays >= 1 else {
-         guard let freq = frequency(on: date) else { return streak }
-         
-         switch freq {
+      return streak
+      /*
+      // Check if date > startDate
+      guard numDaysToCheck >= 1 else {
+         switch frequency(on: date) {
          case .timesPerDay, .daysInTheWeek:
-            break
+            if isDue(on: date), wasCompleted(on: date) {
+               streak += 1
+            }
          case .timesPerWeek:
             if !isDue(on: date), wasCompletedThisWeek(on: date) {
                streak += 1
@@ -206,11 +220,9 @@ extension Habit {
          return streak
       }
       
-      
-      for i in 1 ... totalDays {
-         let day = Cal.addDays(num: -i, to: date)
-         guard let freq = frequency(on: day) else { return streak }
-         switch freq {
+      for i in 0 ... numDaysToCheck {
+         let day = Cal.add(days: -i, to: date)
+         switch frequency(on: day) {
          case .timesPerDay:
             if wasCompleted(on: day) {
                streak += 1
@@ -225,16 +237,53 @@ extension Habit {
                   return streak
                }
             }
-         case .timesPerWeek:
-            if isDue(on: day) || (i == totalDays) {
+         case .timesPerWeek(_, resetDay: let resetDay):
+            
+            
+            
+            
+            if isDue(on: day) {
                if wasCompletedThisWeek(on: day) {
                   streak += 1
                } else {
                   return streak
                }
+            } else if Cal.isDate(day, inSameDayAs: startDate) {
+               // Edge case where we are asking if this habit was completed this week before the reset day is reached
+               // Check if we've already computed if it was completed this week or not
+               let diff = Weekday.positiveDifference(from: Weekday(day), to: resetDay)
+               if numDaysToCheck < diff {
+                  if wasCompletedThisWeek(on: day) {
+                     streak += 1
+                  } else {
+                     return streak
+                  }
+               }
             }
          }
       }
       return streak
+       */
+   }
+   
+   /// How many days since the last time this habit was completed
+   /// - Parameter on: The date to check against
+   func notDoneInDays(on date: Date) -> Int? {
+      guard started(after: date) else { return nil }
+      var difference = 0
+      var day = Cal.startOfDay(for: date)
+      day = Cal.add(days: -1, to: day)
+      if day > startDate {
+         while !wasCompleted(on: day) {
+            difference += 1
+            day = Cal.add(days: -1, to: day)
+            if day < startDate {
+               break
+            }
+         }
+         return difference
+      } else {
+         return nil
+      }
    }
 }

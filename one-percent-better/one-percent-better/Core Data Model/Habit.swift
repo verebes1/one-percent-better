@@ -151,7 +151,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    func updateStartDate(to date: Date) {
       // Ensure start date is before tomorrow
-      let tmr = Cal.addDays(num: 1).startOfDay()
+      let tmr = Cal.add(days: 1).startOfDay()
       guard date < tmr else { return }
       
       startDate = date.startOfDay()
@@ -165,22 +165,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    // MARK: - Properties
    
-   /// The streak as of today
-   var streak: Int {
-      var streak = 0
-      // start at yesterday, a streak is only broken if it's not completed by the end of the day
-      var day = Cal.date(byAdding: .day, value: -1, to: Date())!
-      while wasCompleted(on: day) {
-         streak += 1
-         day = Cal.date(byAdding: .day, value: -1, to: day)!
-      }
-      // add 1 if completed today
-      if wasCompleted(on: Date()) {
-         streak += 1
-      }
-      return streak
-   }
-   
+   // TODO: fix this for 1.0.8!!
    /// The longest streak the user has completed for this habit
    var longestStreak: Int {
       get {
@@ -249,13 +234,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       return habits.isEmpty ? 0 : habits.count
    }
    
-   /// Whether or not this habit started after a certain date
+   /// Whether or not this habits start date is after a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
       return Cal.startOfDay(for: startDate) >= Cal.startOfDay(for: day)
    }
    
+   /// Whether or not this habits start date is before a certain date
+   /// - Parameter day: The day to check against
+   /// - Returns: True if the habit started on or before the date, and false otherwise
    func started(before day: Date) -> Bool {
       return Cal.startOfDay(for: startDate) <= Cal.startOfDay(for: day)
    }

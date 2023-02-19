@@ -77,8 +77,11 @@ extension Calendar {
       return numberOfDays.day!
    }
    
-   func addDays(num i: Int, to date: Date = Date()) -> Date {
-      return Cal.date(byAdding: .day, value: i, to: date)!
+   func add(days i: Int, to date: Date = Date()) -> Date {
+      guard let newDay = Cal.date(byAdding: .day, value: i, to: date) else {
+         fatalError("Asking for a bad date")
+      }
+      return newDay
    }
    
    /// Get the last day that matches this weekday, going backward from date
@@ -89,7 +92,7 @@ extension Calendar {
       let todayIndex = date.weekdayInt
       var diff = todayIndex - weekday.rawValue
       diff = diff > 0 ? diff : diff + 7
-      let date = Cal.addDays(num: -diff, to: date)
+      let date = Cal.add(days: -diff, to: date)
       return date
    }
 }

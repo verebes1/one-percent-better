@@ -54,19 +54,19 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
       
       for i in 0 ..< 7 {
-         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
       }
       habit.markCompleted(on: startSunday)
       for i in 0 ..< 7 {
-         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
       }
-      habit.markCompleted(on: Cal.addDays(num: 1, to: startSunday))
+      habit.markCompleted(on: Cal.add(days: 1, to: startSunday))
       for i in 0 ..< 7 {
-         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
       }
-      habit.markCompleted(on: Cal.addDays(num: 2, to: startSunday))
+      habit.markCompleted(on: Cal.add(days: 2, to: startSunday))
       for i in 0 ..< 7 {
-         XCTAssertTrue(habit.wasCompletedThisWeek(on: Cal.addDays(num: i, to: startSunday)))
+         XCTAssertTrue(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
       }
    }
    
@@ -78,8 +78,8 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       
       XCTAssertFalse(habit.wasCompletedThisWeek(on: startTuesday))
       habit.markCompleted(on: startTuesday)
-      habit.markCompleted(on: Cal.addDays(num: 1, to: startTuesday))
-      habit.markCompleted(on: Cal.addDays(num: 2, to: startTuesday))
+      habit.markCompleted(on: Cal.add(days: 1, to: startTuesday))
+      habit.markCompleted(on: Cal.add(days: 2, to: startTuesday))
       XCTAssertTrue(habit.wasCompletedThisWeek(on: startTuesday))
    }
    
@@ -92,11 +92,11 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertTrue(habit.isDue(on: startSunday))
       
       for i in 1 ..< 7 {
-         let day = Cal.addDays(num: i, to: startSunday)
+         let day = Cal.add(days: i, to: startSunday)
          XCTAssertFalse(habit.isDue(on: day))
       }
       
-      let nextSunday = Cal.addDays(num: 7, to: startSunday)
+      let nextSunday = Cal.add(days: 7, to: startSunday)
       XCTAssertTrue(habit.isDue(on: nextSunday))
    }
    
@@ -108,15 +108,15 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: startWednesday)
       XCTAssertEqual(habit.streak(on: startWednesday), 1)
-      habit.markCompleted(on: Cal.addDays(num: 7, to: startWednesday))
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 7, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 8, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 9, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 10, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 11, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 12, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 13, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 14, to: startWednesday)), 0)
+      habit.markCompleted(on: Cal.add(days: 7, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 7, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 8, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 9, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 10, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 11, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 12, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 13, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 14, to: startWednesday)), 0)
    }
    
    func testStreak2() {
@@ -127,8 +127,8 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: startWednesday)
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
-      habit.markCompleted(on: Cal.addDays(num: 1, to: startWednesday))
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
+      habit.markCompleted(on: Cal.add(days: 1, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
    }
    
    func testStreak3() {
@@ -137,19 +137,40 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       habit.changeFrequency(to: .timesPerWeek(times: 2, resetDay: .thursday), on: startWednesday)
       
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      
       habit.markCompleted(on: startWednesday)
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
-      habit.markCompleted(on: Cal.addDays(num: 1, to: startWednesday))
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
-      habit.markCompleted(on: Cal.addDays(num: 2, to: startWednesday))
-      XCTAssertEqual(habit.streak(on: Cal.addDays(num: 1, to: startWednesday)), 1)
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
+      
+      habit.markCompleted(on: Cal.add(days: 2, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
+   }
+   
+   func testStreak4() {
+      let startWednesday = df.date(from: "12-7-2022")!
+      habit.updateStartDate(to: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 2, resetDay: .friday), on: startWednesday)
+      
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      
+      habit.markCompleted(on: startWednesday)
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
+      
+      habit.markCompleted(on: Cal.add(days: 2, to: startWednesday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
    }
    
    func testImprovementScore() {
       let today = Date().weekdayInt
       let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
       habit.updateStartDate(to: startDate)
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startDate)
+      let resetDay = (today + 3) % 7
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
       
       XCTAssertEqual(habit.improvementTracker!.values, ["0"])
       XCTAssertEqual(habit.improvementTracker!.scores, [0])
@@ -158,13 +179,32 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.improvementTracker!.values, ["0"])
       XCTAssertEqual(habit.improvementTracker!.scores[0], 0.33, accuracy: 0.01)
       
-      habit.markCompleted(on: Cal.addDays(num: 1, to: startDate))
+      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       XCTAssertEqual(habit.improvementTracker!.values, ["0", "1"])
       XCTAssertEqual(habit.improvementTracker!.scores[1], 0.66, accuracy: 0.01)
       
-      habit.markCompleted(on: Cal.addDays(num: 2, to: startDate))
+      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       XCTAssertEqual(habit.improvementTracker!.values, ["0", "1", "1"])
       XCTAssertEqual(habit.improvementTracker!.scores[2], 1.0, accuracy: 0.01)
    }
    
+   func testStreakLabel() {
+      let today = Date().weekdayInt
+      let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
+      habit.updateStartDate(to: startDate)
+      let resetDay = (today + 3) % 7
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
+      
+      let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
+      
+      XCTAssertEqual(vm.streakLabel, "Never done")
+      habit.markCompleted(on: startDate)
+      XCTAssertEqual(vm.streakLabel, "Never completed")
+      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
+      vm.currentDay = Cal.add(days: 1, to: startDate)
+      XCTAssertEqual(vm.streakLabel, "Never completed")
+      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
+      vm.currentDay = Cal.add(days: 2, to: startDate)
+      XCTAssertEqual(vm.streakLabel, "1 week streak")
+   }
 }

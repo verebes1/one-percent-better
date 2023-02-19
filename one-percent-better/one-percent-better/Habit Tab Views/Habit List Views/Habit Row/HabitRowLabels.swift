@@ -93,8 +93,6 @@ struct HabitRowLabels: View {
             let finalString = "Due by \(resetDay)"
             Text(finalString)
                .subLabel(color: subGray)
-         case .none:
-            EmptyView()
          }
 //         if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
 //            !vm.habit.isDue(on: vm.currentDay) {
@@ -146,7 +144,7 @@ struct HabitRowLabels_Previews: PreviewProvider {
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
       h2?.changeFrequency(to: .daysInTheWeek([2,3,5]))
-      h2?.markCompleted(on: Cal.addDays(num: -1))
+      h2?.markCompleted(on: Cal.add(days: -1))
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
@@ -167,8 +165,8 @@ struct HabitRowLabels_Previews: PreviewProvider {
       let in3DaysWeekday = Weekday(rawValue: in3daysWeedayInt)!
       let h5 = try? Habit(context: context, name: "3 times a week, reset in 3 days, completed twice", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
       
-      h5?.markCompleted(on: Cal.addDays(num: -1))
-      h5?.markCompleted(on: Cal.addDays(num: -2))
+      h5?.markCompleted(on: Cal.add(days: -1))
+      h5?.markCompleted(on: Cal.add(days: -2))
       
       let habits = Habit.habits(from: context)
       return habits

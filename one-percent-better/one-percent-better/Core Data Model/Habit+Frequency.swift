@@ -55,6 +55,10 @@ enum HabitFrequency: Equatable, Hashable {
 enum Weekday: Int, CustomStringConvertible {
    case sunday, monday, tuesday, wednesday, thursday, friday, saturday
    
+   init(_ date: Date) {
+      self.init(rawValue: date.weekdayInt)!
+   }
+   
    var description: String {
       switch self {
       case .sunday: return "Sunday"
@@ -65,6 +69,14 @@ enum Weekday: Int, CustomStringConvertible {
       case .friday: return "Friday"
       case .saturday: return "Saturday"
       }
+   }
+   
+   static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
+      var diff = b.rawValue - a.rawValue
+      if diff < 0 {
+         diff += 7
+      }
+      return diff
    }
 }
 
@@ -157,10 +169,9 @@ extension Habit {
    /// Get the frequency of the habit on a specific date
    /// - Parameter date: The date to get the frequency on
    /// - Returns: The corresponding HabitFrequency
-   func frequency(on date: Date) -> HabitFrequency? {
+   func frequency(on date: Date) -> HabitFrequency {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
-         // Requesting frequency before start date
-         return nil
+         fatalError("Requesting frequency before start date")
       }
          
       guard let freq = HabitFrequencyNSManaged(rawValue: frequency[index]) else {
@@ -181,14 +192,19 @@ extension Habit {
    }
    
    func isDue(on date: Date) -> Bool {
-      guard let freq = frequency(on: date) else {
+      // TODO: 1.0.8 test this method
+      guard started(after: date) else {
          return false
       }
-      
-//      guard started(after: date) else {
-//         return false
-//      }
-      
+      return isDue(on: date, withFrequency: frequency(on: date))
+   }
+   
+   /// Check whether the habit is due on this date with this frequency
+   /// - Parameters:
+   ///   - date: The date to check against
+   ///   - freq: The frequency to check against
+   /// - Returns: True if due on this date with this frequency, false otherwise
+   func isDue(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
       switch freq {
       case .timesPerDay(_):
          return true

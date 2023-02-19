@@ -21,11 +21,13 @@ struct StatisticsCardView: View {
       var stats: [Statistic] = []
       
       // Current Streak
-      let curStreak = habit.streak
+      // TODO: fix this for 1.0.8!!
+      let curStreak = habit.streak(on: Date())
       let curStreakString = curStreak == 0 ? "None" : "\(curStreak) \(dayString(curStreak))"
       stats.append(Statistic(title: "Current Streak", value: curStreakString))
       
       // Longest Streak
+      // TODO: fix this for 1.0.8!!
       let longestStreak = habit.longestStreak
       let longestStreakString = longestStreak == 0 ? "None" : "\(longestStreak) \(dayString(longestStreak))"
       stats.append(Statistic(title: "Longest Streak", value: longestStreakString))
@@ -81,8 +83,8 @@ struct StatisticsCardView_Previews: PreviewProvider {
       let context = CoreDataManager.previews.mainContext
       let h1 = try? Habit(context: context, name: "Swimming")
       h1?.markCompleted(on: Date())
-      h1?.markCompleted(on: Cal.addDays(num: -1))
-      h1?.markCompleted(on: Cal.addDays(num: -2))
+      h1?.markCompleted(on: Cal.add(days: -1))
+      h1?.markCompleted(on: Cal.add(days: -2))
       
       let habits = Habit.habits(from: context)
       return habits.first!
