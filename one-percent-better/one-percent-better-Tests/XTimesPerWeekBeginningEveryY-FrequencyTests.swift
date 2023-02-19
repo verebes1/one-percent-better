@@ -51,7 +51,7 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
    func testCompletedOn2() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .saturday), on: startSunday)
       
       for i in 0 ..< 7 {
          XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))

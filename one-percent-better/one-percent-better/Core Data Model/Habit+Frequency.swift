@@ -193,7 +193,7 @@ extension Habit {
    
    func isDue(on date: Date) -> Bool {
       // TODO: 1.0.8 test this method
-      guard started(after: date) else {
+      guard started(before: date) else {
          return false
       }
       return isDue(on: date, withFrequency: frequency(on: date))
