@@ -204,14 +204,14 @@ struct HabitsViewPreviewer: View {
    func data() {
       let context = CoreDataManager.previews.mainContext
       
-      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
-      
-      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
-      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
-      h1?.markCompleted(on: yesterday)
-      
-      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
-      h2?.markCompleted(on: Date())
+//      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
+//
+//      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
+//      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
+//      h1?.markCompleted(on: yesterday)
+//
+//      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
+//      h2?.markCompleted(on: Date())
    }
    
    var body: some View {
@@ -236,8 +236,8 @@ struct NoHabitsView: View {
    @Environment(\.colorScheme) var scheme
    
    var body: some View {
-      HStack {
-         Text("To create a habit, press")
+      HStack(spacing: 0) {
+         Text("To create a habit, press ")
          Image(systemName: "square.and.pencil")
       }
       .foregroundColor(scheme == .light ? Color(hue: 1.0, saturation: 0.008, brightness: 0.279) : .secondaryLabel)

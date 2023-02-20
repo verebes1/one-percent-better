@@ -75,6 +75,8 @@ struct EditHabit: View {
          let timesString = n == 1 ? "time" : "times"
          let finalString = "\(n) \(timesString) per week, every \(resetDay)"
          return Text(finalString)
+      case .none:
+         return Text("Unknown frequency")
       }
    }
    

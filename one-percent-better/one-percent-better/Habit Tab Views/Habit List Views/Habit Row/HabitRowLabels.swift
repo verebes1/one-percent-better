@@ -46,6 +46,31 @@ struct HabitRowLabels: View {
       return finalString
    }
    
+   var streakLabel: some View {
+      let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
+      let streak = vm.habit.streak(on: vm.currentDay)
+      if streak > 0 {
+         var timePeriodText: String
+         guard let freq = vm.habit.frequency(on: vm.currentDay) else {
+            return Text("Error").subLabel(color: .red)
+         }
+         switch freq {
+         case .timesPerDay, .daysInTheWeek:
+            timePeriodText = "day"
+         case .timesPerWeek:
+            timePeriodText = "week"
+         }
+         return Text("\(streak) \(timePeriodText) streak").subLabel(color: .green)
+      } else if let days = vm.habit.notDoneInDays(on: vm.currentDay) {
+         let dayText = days == 1 ? "day" : "days"
+         return Text("Not done in \(days) \(dayText)").subLabel(color: .red)
+      } else if !vm.habit.daysCompleted.isEmpty {
+         return Text("No streak").subLabel(color: gray)
+      } else {
+         return Text("Never done").subLabel(color: gray)
+      }
+   }
+   
    var body: some View {
       VStack(alignment: .leading) {
          
@@ -79,8 +104,9 @@ struct HabitRowLabels: View {
             }
             
             
-            Text(vm.streakLabel)
-               .subLabel(color: vm.streakLabelColor)
+//            Text(vm.streakLabel)
+//               .subLabel(color: vm.streakLabelColor)
+            streakLabel
          }
          
          switch vm.habit.frequency(on: vm.currentDay) {
@@ -93,6 +119,8 @@ struct HabitRowLabels: View {
             let finalString = "Due by \(resetDay)"
             Text(finalString)
                .subLabel(color: subGray)
+         case .none:
+            EmptyView()
          }
 //         if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
 //            !vm.habit.isDue(on: vm.currentDay) {

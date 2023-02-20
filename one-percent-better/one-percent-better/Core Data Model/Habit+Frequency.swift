@@ -62,7 +62,7 @@ enum Weekday: Int, CustomStringConvertible {
    var description: String {
       switch self {
       case .sunday: return "Sunday"
-      case .monday: return "Saturday"
+      case .monday: return "Monday"
       case .tuesday: return "Tuesday"
       case .wednesday: return "Wednesday"
       case .thursday: return "Thursday"
@@ -169,9 +169,9 @@ extension Habit {
    /// Get the frequency of the habit on a specific date
    /// - Parameter date: The date to get the frequency on
    /// - Returns: The corresponding HabitFrequency
-   func frequency(on date: Date) -> HabitFrequency {
+   func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
-         fatalError("Requesting frequency before start date")
+         return nil
       }
          
       guard let freq = HabitFrequencyNSManaged(rawValue: frequency[index]) else {
@@ -192,11 +192,11 @@ extension Habit {
    }
    
    func isDue(on date: Date) -> Bool {
-      // TODO: 1.0.8 test this method
       guard started(before: date) else {
          return false
       }
-      return isDue(on: date, withFrequency: frequency(on: date))
+      guard let freq = frequency(on: date) else { return false }
+      return isDue(on: date, withFrequency: freq)
    }
    
    /// Check whether the habit is due on this date with this frequency

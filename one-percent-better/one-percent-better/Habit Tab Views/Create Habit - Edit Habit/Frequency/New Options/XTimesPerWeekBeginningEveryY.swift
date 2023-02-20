@@ -84,6 +84,7 @@ struct XTimesPerWeekBeginningEveryY: View {
                                          color: color,
                                          fontSize: 15)
             }
+            Text("at midnight")
          }
          .animation(.easeInOut, value: beginningDay)
       }

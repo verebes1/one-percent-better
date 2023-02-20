@@ -148,10 +148,10 @@ public class ImprovementTracker: GraphTracker {
       let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
       
       while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-         
          var toRemove = false
+         guard let freq = habit.frequency(on: curDate) else { return }
          
-         switch habit.frequency(on: curDate) {
+         switch freq {
          case .timesPerDay(let n):
             let tc = Double(habit.timesCompleted(on: curDate))
             let expected = Double(n)

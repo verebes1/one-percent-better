@@ -116,7 +116,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       let streak = habit.streak(on: currentDay)
       if streak > 0 {
          var timePeriodText: String
-         switch habit.frequency(on: currentDay) {
+         guard let freq = habit.frequency(on: currentDay) else { return "" }
+         switch freq {
          case .timesPerDay, .daysInTheWeek:
             timePeriodText = "day"
          case .timesPerWeek:
@@ -127,7 +128,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          let dayText = days == 1 ? "day" : "days"
          return "Not done in \(days) \(dayText)"
       } else if !habit.daysCompleted.isEmpty {
-         return "Never completed"
+         return "No streak"
       } else {
          return "Never done"
       }
@@ -135,10 +136,11 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
    /// Color of streak label used in habit view
    var streakLabelColor: Color {
+      let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
       if habit.streak(on: currentDay) > 0 {
          return .green
-      } else if habit.daysCompleted.isEmpty || notDoneIn == -1 {
-         return Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
+      } else if habit.notDoneInDays(on: currentDay) != nil || !habit.daysCompleted.isEmpty {
+         return gray
       } else {
          return .red
       }

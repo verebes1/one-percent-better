@@ -28,7 +28,8 @@ extension Habit {
    }
    
    func wasCompleted(on date: Date) -> Bool {
-      return wasCompleted(on: date, withFrequency: frequency(on: date))
+      guard let freq = frequency(on: date) else { return false }
+      return wasCompleted(on: date, withFrequency: freq)
    }
    
    func wasCompleted(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
@@ -48,8 +49,9 @@ extension Habit {
       guard let i = daysCompleted.sameDayBinarySearch(for: date) else {
          return 0
       }
+      guard let freq = frequency(on: date) else { return 0 }
       
-      switch frequency(on: date) {
+      switch freq {
       case .timesPerDay(let n):
          return Double(timesCompleted[i]) / Double(n)
       case .daysInTheWeek(_), .timesPerWeek(_, _):
@@ -63,7 +65,8 @@ extension Habit {
    }
    
    func timesCompletedThisWeek(on date: Date) -> Int {
-      return timesCompletedThisWeek(on: date, withFrequency: frequency(on: date))
+      guard let freq = frequency(on: date) else { return 0 }
+      return timesCompletedThisWeek(on: date, withFrequency: freq)
    }
    
    /// Only valid for habits with a frequency of timesPerWeek, returns how many times they've completed
@@ -89,7 +92,8 @@ extension Habit {
    }
    
    func wasCompletedThisWeek(on date: Date) -> Bool {
-      return wasCompletedThisWeek(on: date, withFrequency: frequency(on: date))
+      guard let freq = frequency(on: date) else { return false }
+      return wasCompletedThisWeek(on: date, withFrequency: freq)
    }
    
    /// Only valid for habits with a frequency of timesPerWeek, returns true if they've completed
@@ -169,8 +173,8 @@ extension Habit {
    func streak(on date: Date) -> Int {
       var streak = 0
       
+      guard let freq = frequency(on: date) else { return 0 }
       let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
-      let freq = frequency(on: date)
       
       // Flags to keep track if the streak was increased for this week already,
       // so that it's not increased multiple times for the same week
