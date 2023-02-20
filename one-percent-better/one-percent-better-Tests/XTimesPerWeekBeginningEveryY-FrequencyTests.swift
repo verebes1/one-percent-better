@@ -165,29 +165,6 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
    }
    
-   func testImprovementScore() {
-      let today = Date().weekdayInt
-      let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
-      habit.updateStartDate(to: startDate)
-      let resetDay = (today + 3) % 7
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
-      
-      XCTAssertEqual(habit.improvementTracker!.values, ["0"])
-      XCTAssertEqual(habit.improvementTracker!.scores, [0])
-      
-      habit.markCompleted(on: startDate)
-      XCTAssertEqual(habit.improvementTracker!.values, ["0"])
-      XCTAssertEqual(habit.improvementTracker!.scores[0], 0.33, accuracy: 0.01)
-      
-      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
-      XCTAssertEqual(habit.improvementTracker!.values, ["0", "1"])
-      XCTAssertEqual(habit.improvementTracker!.scores[1], 0.66, accuracy: 0.01)
-      
-      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
-      XCTAssertEqual(habit.improvementTracker!.values, ["0", "1", "1"])
-      XCTAssertEqual(habit.improvementTracker!.scores[2], 1.0, accuracy: 0.01)
-   }
-   
    func testStreakLabel() {
       let today = Date().weekdayInt
       let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
@@ -199,12 +176,67 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       
       XCTAssertEqual(vm.streakLabel, "Never done")
       habit.markCompleted(on: startDate)
-      XCTAssertEqual(vm.streakLabel, "Never completed")
+      XCTAssertEqual(vm.streakLabel, "No streak")
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       vm.currentDay = Cal.add(days: 1, to: startDate)
-      XCTAssertEqual(vm.streakLabel, "Never completed")
+      XCTAssertEqual(vm.streakLabel, "No streak")
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       vm.currentDay = Cal.add(days: 2, to: startDate)
       XCTAssertEqual(vm.streakLabel, "1 week streak")
+   }
+   
+   // MARK: Improvement Score Tests
+   
+   func testImprovementScore() {
+      let today = Date().weekdayInt
+      let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
+      habit.updateStartDate(to: startDate)
+      let resetDay = (today + 3) % 7
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
+      
+      // 0 for start date, and 0 for first week failed
+      XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
+      
+      habit.markCompleted(on: startDate)
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 1, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 2.01, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 3.03, accuracy: 0.01)
+   }
+   
+   func testImprovementScore2() {
+      let today = Date()
+      let resetDay = (today.weekdayInt + 3) % 7
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: today)
+      
+      XCTAssertEqual(habit.improvementTracker?.score(on: today), 0)
+
+      let startDate = Cal.getLast(weekday: Weekday(rawValue: today.weekdayInt)!)
+      habit.updateStartDate(to: startDate)
+      XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
+      XCTAssertEqual(habit.improvementTracker!.scores, [0, 1, 0])
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 0.33, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
+      // [0.0, 1.0, 2.01, 1.49]
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0)
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 1)
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 2.01, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[3], 1.49, accuracy: 0.01)
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 0.66, accuracy: 0.01)
+      
+      
+      habit.markCompleted(on: Cal.add(days: 3, to: startDate))
+      // [0.0, 1.0, 2.01, 3.03]
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0)
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 1)
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 2.01, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[3], 3.03, accuracy: 0.01)
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 1.0)
    }
 }

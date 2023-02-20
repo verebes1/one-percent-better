@@ -141,11 +141,9 @@ public class ImprovementTracker: GraphTracker {
       } else {
          curDate = habit.startDate
          score = 100
-         // Start of graph needs to be a 0 from the day before beginning
-         //         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
       }
       
-      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+      let tomorrow = Cal.add(days: 1)
       
       while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
          var toRemove = false
@@ -176,26 +174,27 @@ public class ImprovementTracker: GraphTracker {
                   toRemove = true
                }
             }
-         case .timesPerWeek(times: let n, resetDay: let resetDay):
+         case .timesPerWeek(times: let n, _):
             let tc = Double(habit.timesCompleted(on: curDate))
             let expected = Double(n)
             
-            var timesCompletedThisWeek = 0
-            for i in 0 ..< 7 {
-               let day = Cal.date(byAdding: .day, value: -i, to: curDate)!
-               timesCompletedThisWeek += habit.timesCompleted(on: day)
-            }
-            
-            if timesCompletedThisWeek > 0 || curDate.weekdayInt != resetDay.rawValue {
-               if tc == 0 {
-                  toRemove = true
-               } else {
-                  score *= (1 + (0.01 * tc / expected))
+            if habit.isDue(on: curDate) {
+               // Increase score for today
+               if tc > 0 {
+                  score *= (1 + (0.01 * tc))
+               }
+               
+               // Decrease score if not fully completed this week
+               // No need to increase score if fully completed, as it was done every day the habit was completed
+               let tctw = habit.timesCompletedThisWeek(on: curDate)
+               if tctw < n {
+                  let diff = expected - Double(tctw)
+                  score *= pow(0.995, diff)
                }
             } else {
-               if curDate.weekdayInt == resetDay.rawValue {
-                  score *= 0.995
-               } else {
+               if tc > 0 {
+                  score *= (1 + (0.01 * tc))
+               } else if tc == 0 {
                   toRemove = true
                }
             }
@@ -203,7 +202,7 @@ public class ImprovementTracker: GraphTracker {
          
          score = max(100, score)
          let scaledScore = score - 100
-         if !toRemove {
+         if !toRemove || curDate == habit.startDate {
             add(date: curDate, score: scaledScore)
          } else {
             remove(on: curDate)

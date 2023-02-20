@@ -46,16 +46,20 @@ extension Habit {
    }
    
    func percentCompleted(on date: Date) -> Double {
-      guard let i = daysCompleted.sameDayBinarySearch(for: date) else {
-         return 0
-      }
       guard let freq = frequency(on: date) else { return 0 }
-      
       switch freq {
       case .timesPerDay(let n):
+         guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
          return Double(timesCompleted[i]) / Double(n)
-      case .daysInTheWeek(_), .timesPerWeek(_, _):
+      case .daysInTheWeek(_):
+         guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
          return timesCompleted[i] >= 1 ? 1 : 0
+      case .timesPerWeek(times: let n, resetDay: let resetDay):
+         if date.weekdayInt == resetDay.rawValue {
+            return Double(timesCompletedThisWeek(on: date)) / Double(n)
+         } else {
+            return 0
+         }
       }
    }
    

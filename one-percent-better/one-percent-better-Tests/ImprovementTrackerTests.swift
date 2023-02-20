@@ -117,18 +117,18 @@ final class ImprovementTrackerTests: XCTestCase {
       
       habit.markNotCompleted(on: Cal.add(days: -2))
       // -2 -1  0
-      //  -  0  -
-      XCTAssertEqual(["0"], habit.improvementTracker?.values)
+      //  0  0  -
+      XCTAssertEqual(["0", "0"], habit.improvementTracker?.values)
       
       // -2 -1  0
-      //  -  1  -
+      //  0  1  -
       habit.markCompleted(on: Cal.add(days: -1))
-      XCTAssertEqual(["1"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "1"], habit.improvementTracker?.values)
       
       // -2 -1  0
-      //  -  1  2
+      //  0  1  2
       habit.markCompleted(on: Cal.add(days: 0))
-      XCTAssertEqual(["1", "2"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
    }
    
    func testSMTWTFSFrequency2() throws {
