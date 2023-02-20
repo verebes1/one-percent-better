@@ -180,12 +180,32 @@ extension Habit {
       guard let freq = frequency(on: date) else { return 0 }
       let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
       
+      // A streak isn't broken until the user doesn't complete it when it's due,
+      // so first we calculate how many days to go backward to start calculating
+      // the streak. For daily habits, we need to go to yesterday (if the habit
+      // wasn't completed today), and for weekly habits, we need to go back to the
+      // start of the previous week (if the habit wasn't completed this week)
+      var goBackStart = 0
+      switch freq {
+      case .timesPerDay:
+         if !wasCompleted(on: date) && numDaysToCheck > 0 {
+            goBackStart = 1
+         }
+      case .daysInTheWeek:
+         // TODO: 1.0.8
+         break
+      case .timesPerWeek:
+         // TODO: 1.0.8
+         break
+      }
+      
+      
       // Flags to keep track if the streak was increased for this week already,
       // so that it's not increased multiple times for the same week
       var dayBeforeNewWeek = false
       var alreadyCompletedThisWeek = false
       
-      for i in 0 ... numDaysToCheck {
+      for i in goBackStart ... numDaysToCheck {
          let day = Cal.add(days: -i, to: date)
          switch freq {
          case .timesPerDay:

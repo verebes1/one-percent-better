@@ -46,6 +46,8 @@ struct HabitRowLabels: View {
       return finalString
    }
    
+   
+   
    var streakLabel: some View {
       let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
       let streak = vm.habit.streak(on: vm.currentDay)

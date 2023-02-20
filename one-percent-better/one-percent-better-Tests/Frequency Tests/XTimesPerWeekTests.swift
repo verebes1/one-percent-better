@@ -1,5 +1,5 @@
 //
-//  XTimesPerWeekBeginningEveryY-FrequencyTests.swift
+//  XTimesPerWeekTests.swift
 //  one-percent-betterTests
 //
 //  Created by Jeremy Cook on 2/7/23.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import ___Better
 
-final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
+final class XTimesPerWeekTests: XCTestCase {
    
    let context = CoreDataManager.previews.mainContext
    
@@ -32,6 +32,8 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       }
       try context.save()
    }
+   
+   // MARK: Completed On Tests
    
    func testCompletedOn() {
       let startSunday = df.date(from: "01-29-2023")!
@@ -83,6 +85,8 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertTrue(habit.wasCompletedThisWeek(on: startTuesday))
    }
    
+   // MARK: Is Due On Tests
+   
    /// Test that the habit is only due on the reset day
    func testIsDue() {
       let startSunday = df.date(from: "1-29-2023")!
@@ -99,6 +103,8 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       let nextSunday = Cal.add(days: 7, to: startSunday)
       XCTAssertTrue(habit.isDue(on: nextSunday))
    }
+   
+   // MARK: Streak Tests
    
    func testStreak() {
       let startWednesday = df.date(from: "12-7-2022")!
@@ -182,6 +188,32 @@ final class XTimesPerWeekBeginningEveryY_FrequencyTests: XCTestCase {
       XCTAssertEqual(vm.streakLabel, "No streak")
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       vm.currentDay = Cal.add(days: 2, to: startDate)
+      XCTAssertEqual(vm.streakLabel, "1 week streak")
+   }
+   
+   func testStreakLabel2() {
+      let today = Date().weekdayInt
+      let backOneWeek = Cal.getLast(weekday: Weekday(rawValue: today)!)
+      let backTwoWeeks = Cal.getLast(weekday: Weekday(rawValue: today)!, from: backOneWeek)
+      let backThreeWeeks = Cal.getLast(weekday: Weekday(rawValue: today)!, from: backTwoWeeks)
+      let startDate = backThreeWeeks
+      habit.updateStartDate(to: startDate)
+      let resetDay = (today + 3) % 7
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
+      
+      let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
+      
+      XCTAssertEqual(vm.streakLabel, "Never done")
+      habit.markCompleted(on: startDate)
+      XCTAssertEqual(vm.streakLabel, "No streak")
+      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
+      vm.currentDay = Cal.add(days: 1, to: startDate)
+      XCTAssertEqual(vm.streakLabel, "No streak")
+      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
+      vm.currentDay = Cal.add(days: 2, to: startDate)
+      XCTAssertEqual(vm.streakLabel, "1 week streak")
+      
+      vm.currentDay = Cal.add(days: 7, to: startDate)
       XCTAssertEqual(vm.streakLabel, "1 week streak")
    }
    
