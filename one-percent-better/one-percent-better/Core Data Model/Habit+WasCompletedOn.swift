@@ -186,17 +186,24 @@ extension Habit {
       // wasn't completed today), and for weekly habits, we need to go back to the
       // start of the previous week (if the habit wasn't completed this week)
       var goBackStart = 0
-      switch freq {
-      case .timesPerDay:
-         if !wasCompleted(on: date) && numDaysToCheck > 0 {
-            goBackStart = 1
+      if numDaysToCheck > 0 {
+         switch freq {
+         case .timesPerDay:
+            if !wasCompleted(on: date, withFrequency: freq) {
+               goBackStart = 1
+            }
+         case .daysInTheWeek:
+            // TODO: 1.0.8
+            break
+         case .timesPerWeek(_, resetDay: let resetDay):
+            if !wasCompletedThisWeek(on: date, withFrequency: freq) {
+               let lastResetDay = Cal.getLast(weekday: resetDay, from: date)
+               let diff = Cal.numberOfDaysBetween(lastResetDay, and: date)
+               if diff <= numDaysToCheck {
+                  goBackStart = diff
+               }
+            }
          }
-      case .daysInTheWeek:
-         // TODO: 1.0.8
-         break
-      case .timesPerWeek:
-         // TODO: 1.0.8
-         break
       }
       
       
@@ -209,21 +216,21 @@ extension Habit {
          let day = Cal.add(days: -i, to: date)
          switch freq {
          case .timesPerDay:
-            if wasCompleted(on: day) {
+            if wasCompleted(on: day, withFrequency: freq) {
                streak += 1
             } else {
                return streak
             }
          case .daysInTheWeek:
             if isDue(on: day, withFrequency: freq) {
-               if wasCompleted(on: day) {
+               if wasCompleted(on: day, withFrequency: freq) {
                   streak += 1
                } else {
                   return streak
                }
             }
          case .timesPerWeek:
-            if isDue(on: day) && dayBeforeNewWeek {
+            if isDue(on: day, withFrequency: freq) && dayBeforeNewWeek {
                alreadyCompletedThisWeek = false
                dayBeforeNewWeek = false
             }

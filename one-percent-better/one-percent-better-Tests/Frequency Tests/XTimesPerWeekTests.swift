@@ -45,7 +45,7 @@ final class XTimesPerWeekTests: XCTestCase {
       
       habit.markCompleted(on: startSunday)
       XCTAssertTrue(habit.wasCompleted(on: startSunday))
-      XCTAssertEqual(habit.percentCompleted(on: startSunday), 1)
+      XCTAssertEqual(habit.percentCompleted(on: startSunday), 0.33, accuracy: 0.01)
    }
    
    /// Test if `wasCompletedThisWeek` works.
@@ -122,7 +122,15 @@ final class XTimesPerWeekTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: Cal.add(days: 11, to: startWednesday)), 2)
       XCTAssertEqual(habit.streak(on: Cal.add(days: 12, to: startWednesday)), 2)
       XCTAssertEqual(habit.streak(on: Cal.add(days: 13, to: startWednesday)), 2)
-      XCTAssertEqual(habit.streak(on: Cal.add(days: 14, to: startWednesday)), 0)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 14, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 15, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 16, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 17, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 18, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 19, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 20, to: startWednesday)), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 21, to: startWednesday)), 0)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 22, to: startWednesday)), 0)
    }
    
    func testStreak2() {
@@ -135,6 +143,9 @@ final class XTimesPerWeekTests: XCTestCase {
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: Cal.add(days: 1, to: startWednesday))
       XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 1)
+      
+      let sundayFollowingStartWednesday = Cal.add(days: 4, to: startWednesday)
+      XCTAssertEqual(habit.streak(on: sundayFollowingStartWednesday), 1)
    }
    
    func testStreak3() {

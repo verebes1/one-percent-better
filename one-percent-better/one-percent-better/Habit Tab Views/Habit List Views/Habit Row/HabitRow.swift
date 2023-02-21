@@ -56,6 +56,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    }
    
    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      print("JJJJ habit row changing!!! for habit: \(habit.name)")
       objectWillChange.send()
    }
    
@@ -111,38 +112,28 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
    }
    
-   /// Streak label used in habit view
-   var streakLabel: String {
+   func streakLabel() -> (String, Color) {
+      let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
       let streak = habit.streak(on: currentDay)
       if streak > 0 {
          var timePeriodText: String
-         guard let freq = habit.frequency(on: currentDay) else { return "" }
+         guard let freq = habit.frequency(on: currentDay) else {
+            return ("Error", .red)
+         }
          switch freq {
          case .timesPerDay, .daysInTheWeek:
             timePeriodText = "day"
          case .timesPerWeek:
             timePeriodText = "week"
          }
-         return "\(streak) \(timePeriodText) streak"
+         return ("\(streak) \(timePeriodText) streak", .green)
       } else if let days = habit.notDoneInDays(on: currentDay) {
          let dayText = days == 1 ? "day" : "days"
-         return "Not done in \(days) \(dayText)"
+         return ("Not done in \(days) \(dayText)", .red)
       } else if !habit.daysCompleted.isEmpty {
-         return "No streak"
+         return ("No streak", gray)
       } else {
-         return "Never done"
-      }
-   }
-   
-   /// Color of streak label used in habit view
-   var streakLabelColor: Color {
-      let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
-      if habit.streak(on: currentDay) > 0 {
-         return .green
-      } else if habit.notDoneInDays(on: currentDay) != nil || !habit.daysCompleted.isEmpty {
-         return gray
-      } else {
-         return .red
+         return ("Never done", gray)
       }
    }
    
@@ -204,7 +195,47 @@ struct HabitRow: View {
                                      size: 28,
                                      completedPressed: $completePressed)
                Spacer().frame(width: 15)
-               HabitRowLabels(vm: vm)
+//               HabitRowLabels()
+//                  .environmentObject(vm)
+               
+               
+               VStack(alignment: .leading) {
+                  
+                  HStack {
+                     Text(vm.habit.name)
+                        .font(.system(size: 16))
+                        .fontWeight(vm.isTimerRunning ? .bold : .regular)
+                     
+                     if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
+                        tpd > 1 {
+                        TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
+                     } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
+                        TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay), timesExpected: tpw)
+                     }
+                  }
+                  
+                  HStack(spacing: 0) {
+                     if vm.hasTimeTracker && vm.hasTimerStarted {
+                        HStack {
+                           Text(vm.timerLabel)
+                              .font(.system(size: 11))
+                              .foregroundColor(.secondaryLabel)
+                              .fixedSize()
+                              .frame(minWidth: 40)
+                              .padding(.horizontal, 4)
+                              .background(.gray.opacity(0.1))
+                              .cornerRadius(10)
+                           
+                           Spacer().frame(width: 5)
+                        }
+                     }
+                     
+                     let streakLabel = vm.streakLabel()
+                     Text(streakLabel.0)
+                        .subLabel(color: streakLabel.1)
+                  }
+               }
+               
                Spacer()
                ImprovementGraphView()
                   .environmentObject(vm)
