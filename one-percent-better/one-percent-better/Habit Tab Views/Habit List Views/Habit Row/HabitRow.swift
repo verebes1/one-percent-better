@@ -130,10 +130,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       } else if let days = habit.notDoneInDays(on: currentDay) {
          let dayText = days == 1 ? "day" : "days"
          return ("Not done in \(days) \(dayText)", .red)
-      } else if !habit.daysCompleted.isEmpty {
-         return ("No streak", gray)
       } else {
-         return ("Never done", gray)
+         return ("No streak", gray)
       }
    }
    
