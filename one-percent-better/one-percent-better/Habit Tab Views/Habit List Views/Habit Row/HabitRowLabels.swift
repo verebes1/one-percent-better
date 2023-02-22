@@ -30,15 +30,15 @@ struct HabitRowLabels: View {
    
    let subGray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
    
-   func daysInTheWeekLabel(days: [Int]) -> String {
-      if days.contains(Date().weekdayInt) {
+   func daysInTheWeekLabel(days: [Weekday]) -> String {
+      if days.contains(Weekday(Date())) {
          return "Due today"
       }
       
       var finalString = "Due on "
       let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
       for (i, day) in days.enumerated() {
-         finalString += "\(dayString[day])"
+         finalString += "\(dayString[day.rawValue])"
          if i != days.count - 1 {
             finalString += ", "
          }
@@ -145,7 +145,7 @@ struct HabitRowLabels_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.changeFrequency(to: .daysInTheWeek([2,3,5]))
+      h2?.changeFrequency(to: .daysInTheWeek([.tuesday, .wednesday, .friday]))
       h2?.markCompleted(on: Cal.add(days: -1))
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
@@ -164,7 +164,7 @@ struct HabitRowLabels_Previews: PreviewProvider {
       h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
       
       let in3daysWeedayInt = (Date().weekdayInt + 3) % 7
-      let in3DaysWeekday = Weekday(rawValue: in3daysWeedayInt)!
+      let in3DaysWeekday = Weekday(in3daysWeedayInt)
       let h5 = try? Habit(context: context, name: "3 times a week, reset in 3 days, completed twice", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
       
       h5?.markCompleted(on: Cal.add(days: -1))

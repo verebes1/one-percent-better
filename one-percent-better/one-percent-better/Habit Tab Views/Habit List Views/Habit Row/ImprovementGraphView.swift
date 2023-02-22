@@ -108,7 +108,7 @@ struct ImprovementGraphView_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.changeFrequency(to: .daysInTheWeek([1,3,5,6]))
+      h2?.changeFrequency(to: .daysInTheWeek([.monday, .wednesday, .friday, .saturday]))
       h2?.markCompleted(on: Date())
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)

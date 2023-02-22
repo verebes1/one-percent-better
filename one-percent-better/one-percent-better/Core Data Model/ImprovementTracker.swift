@@ -159,7 +159,7 @@ public class ImprovementTracker: GraphTracker {
                score *= 0.995
             }
          case .daysInTheWeek(let days):
-            if days.contains(curDate.weekdayInt) {
+            if days.contains(Weekday(curDate)) {
                if habit.wasCompleted(on: curDate) {
                   score *= 1.01
                } else {

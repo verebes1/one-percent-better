@@ -65,7 +65,7 @@ struct EditHabit: View {
          var finalString = ""
          let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
          for (i, day) in days.enumerated() {
-            finalString += "\(dayString[day])"
+            finalString += "\(dayString[day.rawValue])"
             if i != days.count - 1 {
                finalString += ", "
             }

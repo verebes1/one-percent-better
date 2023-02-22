@@ -240,10 +240,10 @@ final class SpecificWeekdaysPerWeekTests: XCTestCase {
 //   
 //   func testStreakLabel() {
 //      let today = Date().weekdayInt
-//      let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
+//      let startDate = Cal.getLast(weekday: Weekday(today)!)
 //      habit.updateStartDate(to: startDate)
 //      let resetDay = (today + 3) % 7
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
+//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)!), on: startDate)
 //      
 //      let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
 //      
@@ -260,13 +260,13 @@ final class SpecificWeekdaysPerWeekTests: XCTestCase {
 //   
 //   func testStreakLabel2() {
 //      let today = Date().weekdayInt
-//      let backOneWeek = Cal.getLast(weekday: Weekday(rawValue: today)!)
-//      let backTwoWeeks = Cal.getLast(weekday: Weekday(rawValue: today)!, from: backOneWeek)
-//      let backThreeWeeks = Cal.getLast(weekday: Weekday(rawValue: today)!, from: backTwoWeeks)
+//      let backOneWeek = Cal.getLast(weekday: Weekday(today)!)
+//      let backTwoWeeks = Cal.getLast(weekday: Weekday(today)!, from: backOneWeek)
+//      let backThreeWeeks = Cal.getLast(weekday: Weekday(today)!, from: backTwoWeeks)
 //      let startDate = backThreeWeeks
 //      habit.updateStartDate(to: startDate)
 //      let resetDay = (today + 3) % 7
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
+//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)!), on: startDate)
 //      
 //      let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
 //      
@@ -288,10 +288,10 @@ final class SpecificWeekdaysPerWeekTests: XCTestCase {
 //   
 //   func testImprovementScore() {
 //      let today = Date().weekdayInt
-//      let startDate = Cal.getLast(weekday: Weekday(rawValue: today)!)
+//      let startDate = Cal.getLast(weekday: Weekday(today)!)
 //      habit.updateStartDate(to: startDate)
 //      let resetDay = (today + 3) % 7
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: startDate)
+//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)!), on: startDate)
 //      
 //      // 0 for start date, and 0 for first week failed
 //      XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
@@ -309,11 +309,11 @@ final class SpecificWeekdaysPerWeekTests: XCTestCase {
 //   func testImprovementScore2() {
 //      let today = Date()
 //      let resetDay = (today.weekdayInt + 3) % 7
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(rawValue: resetDay)!), on: today)
+//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)!), on: today)
 //      
 //      XCTAssertEqual(habit.improvementTracker?.score(on: today), 0)
 //
-//      let startDate = Cal.getLast(weekday: Weekday(rawValue: today.weekdayInt)!)
+//      let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt)!)
 //      habit.updateStartDate(to: startDate)
 //      XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
 //      

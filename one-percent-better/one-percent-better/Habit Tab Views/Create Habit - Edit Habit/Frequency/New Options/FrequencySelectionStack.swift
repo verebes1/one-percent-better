@@ -41,13 +41,13 @@ struct FrequencySelectionStack: View {
    
    @State private var timesPerDay: Int = 1
    @State private var everyXDays: Int = 2
-   @State private var daysPerWeek: [Int] = [1,5]
+   @State private var daysPerWeek: [Weekday] = [.monday, .friday]
    @State private var timesPerWeek: (times: Int, resetDay: Weekday) = (times: 1, resetDay: .sunday)
    
    init(vm: FrequencySelectionModel) {
       
       self._dailyFreqSelection = State(initialValue: .timesPerDay(1))
-      self._weeklyFreqSelection = State(initialValue: .daysInTheWeek([1, 5]))
+      self._weeklyFreqSelection = State(initialValue: .daysInTheWeek([.monday, .friday]))
       
       switch vm.selection {
       case .timesPerDay(let n):
@@ -104,7 +104,7 @@ struct FrequencySelectionStack: View {
          }
          
          if segmentSelection == .weekly {
-            SelectableFrequencyCard(selection: $weeklyFreqSelection, type: .daysInTheWeek([0])) {
+            SelectableFrequencyCard(selection: $weeklyFreqSelection, type: .daysInTheWeek([.sunday])) {
                EveryWeekOnSpecificWeekDays(selectedWeekdays: $daysPerWeek)
                   .onChange(of: daysPerWeek) { newValue in
                      changeFrequency(to: .daysInTheWeek(daysPerWeek))

@@ -33,7 +33,7 @@ extension Date {
 
 enum HabitFrequency: Equatable, Hashable {
    case timesPerDay(Int)
-   case daysInTheWeek([Int])
+   case daysInTheWeek([Weekday])
    case timesPerWeek(times: Int, resetDay: Weekday)
    
    var valueNS: Int {
@@ -52,11 +52,19 @@ enum HabitFrequency: Equatable, Hashable {
    }
 }
 
-enum Weekday: Int, CustomStringConvertible {
+enum Weekday: Int, CustomStringConvertible, Comparable {
    case sunday, monday, tuesday, wednesday, thursday, friday, saturday
    
    init(_ date: Date) {
       self.init(rawValue: date.weekdayInt)!
+   }
+   
+   init(_ weekdayInt: Int) {
+      let modulo = weekdayInt % 7
+      if modulo != weekdayInt {
+         assertionFailure("Creating a Weekday with a weekdayInt out of range: \(weekdayInt)")
+      }
+      self.init(rawValue: modulo)!
    }
    
    var description: String {
@@ -69,6 +77,10 @@ enum Weekday: Int, CustomStringConvertible {
       case .friday: return "Friday"
       case .saturday: return "Saturday"
       }
+   }
+   
+   static func < (lhs: Weekday, rhs: Weekday) -> Bool {
+      return lhs.rawValue < rhs.rawValue
    }
    
    static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
@@ -137,7 +149,7 @@ extension Habit {
          case .timesPerDay(let n):
             timesPerDay[i] = n
          case .daysInTheWeek(let days):
-            daysPerWeek[i] = days
+            daysPerWeek[i] = days.map { $0.rawValue }
          case .timesPerWeek(times: let n, resetDay: let day):
             timesPerWeekTimes[i] = n
             timesPerWeekResetDay[i] = day.rawValue
@@ -155,7 +167,7 @@ extension Habit {
          case .timesPerDay(let n):
             timesPerDay[timesPerDay.count - 1] = n
          case .daysInTheWeek(let days):
-            daysPerWeek[daysPerWeek.count - 1] = days
+            daysPerWeek[daysPerWeek.count - 1] = days.map { $0.rawValue }
          case .timesPerWeek(times: let n, resetDay: let day):
             timesPerWeekTimes[timesPerWeekTimes.count - 1] = n
             timesPerWeekResetDay[timesPerWeekResetDay.count - 1] = day.rawValue
@@ -182,12 +194,10 @@ extension Habit {
       case .timesPerDay:
          return .timesPerDay(timesPerDay[index])
       case .daysInTheWeek:
-         return .daysInTheWeek(daysPerWeek[index])
+         let weekdayArray = daysPerWeek[index].map { Weekday($0) }
+         return .daysInTheWeek(weekdayArray)
       case .timesPerWeek:
-         guard let weekday = Weekday(rawValue: timesPerWeekResetDay[index]) else {
-            fatalError("Something wrong with weekday!")
-         }
-         return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: weekday)
+         return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: Weekday(timesPerWeekResetDay[index]))
       }
    }
    
@@ -209,7 +219,7 @@ extension Habit {
       case .timesPerDay(_):
          return true
       case .daysInTheWeek(let days):
-         return days.contains(date.weekdayInt)
+         return days.contains(Weekday(date))
       case .timesPerWeek(_, resetDay: let resetDay):
          // Habit due all at once on the reset day, otherwise it would mess with daily percent calculations
          return date.weekdayInt == resetDay.rawValue

@@ -113,10 +113,10 @@ struct SelectableCard2_Previewer: View {
                selection = .timesPerDay(2)
             }
             
-            SelectableFrequencyCard(selection: $selection, type: .daysInTheWeek([1,2,3])) {
+            SelectableFrequencyCard(selection: $selection, type: .daysInTheWeek([.monday, .tuesday, .wednesday])) {
                XTimesPerWeekBeginningEveryY(timesPerWeek: $tpw, beginningDay: $resetDay)
             } onSelection: {
-               selection = .daysInTheWeek([1,2])
+               selection = .daysInTheWeek([.monday, .tuesday])
             }
          }
       }
