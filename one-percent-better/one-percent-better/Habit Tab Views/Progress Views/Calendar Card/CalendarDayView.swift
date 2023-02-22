@@ -14,6 +14,16 @@ struct CalendarDayView: View {
    let fontSize: CGFloat
    var circleSize: CGFloat
    
+   func percent() -> Double {
+      guard let freq = habit.frequency(on: day.date) else { return 0 }
+      switch freq {
+      case .timesPerDay, .daysInTheWeek:
+         return habit.percentCompleted(on: day.date)
+      case .timesPerWeek:
+         return habit.wasCompleted(on: day.date) ? 1 : 0
+      }
+   }
+   
    var body: some View {
       VStack (spacing: 0) {
          if day.isWithinDisplayedMonth {
@@ -22,7 +32,7 @@ struct CalendarDayView: View {
                .foregroundColor(.calendarNumberColor)
             
             
-            let percent = habit.percentCompleted(on: day.date)
+            let percent = percent()
             if percent > 0 {
                if percent == 1 && Cal.isDateInToday(day.date) {
                   Image(systemName: "checkmark.circle.fill")

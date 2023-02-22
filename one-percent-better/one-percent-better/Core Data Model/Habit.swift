@@ -51,7 +51,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// The start date of the habit. Any day before this start date doesn't display the habit in the habit list or count towards
    /// the total percent completed for that day.
-   @NSManaged private(set) var startDate: Date
+   @NSManaged private(set) var startDate: Date!
    
    /// An array of all the days where the habit was completed
    @NSManaged public var daysCompleted: [Date]
@@ -171,7 +171,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       get {
          var longest = 0
          var current = 0
-         var curDay = startDate
+         guard var curDay = startDate else { return 0 }
          while !Cal.isDateInTomorrow(curDay) {
             if self.wasCompleted(on: curDay) {
                current += 1
@@ -238,6 +238,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
+      guard let startDate = startDate else { return false }
       return Cal.startOfDay(for: startDate) >= Cal.startOfDay(for: day)
    }
    
@@ -245,6 +246,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or before the date, and false otherwise
    func started(before day: Date) -> Bool {
+      guard let startDate = startDate else { return false }
       return Cal.startOfDay(for: startDate) <= Cal.startOfDay(for: day)
    }
    

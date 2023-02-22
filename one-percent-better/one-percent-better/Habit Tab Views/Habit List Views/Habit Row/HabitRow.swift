@@ -193,46 +193,8 @@ struct HabitRow: View {
                                      size: 28,
                                      completedPressed: $completePressed)
                Spacer().frame(width: 15)
-//               HabitRowLabels()
-//                  .environmentObject(vm)
-               
-               
-               VStack(alignment: .leading) {
-                  
-                  HStack {
-                     Text(vm.habit.name)
-                        .font(.system(size: 16))
-                        .fontWeight(vm.isTimerRunning ? .bold : .regular)
-                     
-                     if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
-                        tpd > 1 {
-                        TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
-                     } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
-                        TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay), timesExpected: tpw)
-                     }
-                  }
-                  
-                  HStack(spacing: 0) {
-                     if vm.hasTimeTracker && vm.hasTimerStarted {
-                        HStack {
-                           Text(vm.timerLabel)
-                              .font(.system(size: 11))
-                              .foregroundColor(.secondaryLabel)
-                              .fixedSize()
-                              .frame(minWidth: 40)
-                              .padding(.horizontal, 4)
-                              .background(.gray.opacity(0.1))
-                              .cornerRadius(10)
-                           
-                           Spacer().frame(width: 5)
-                        }
-                     }
-                     
-                     let streakLabel = vm.streakLabel()
-                     Text(streakLabel.0)
-                        .subLabel(color: streakLabel.1)
-                  }
-               }
+               HabitRowLabels()
+                  .environmentObject(vm)
                
                Spacer()
                ImprovementGraphView()

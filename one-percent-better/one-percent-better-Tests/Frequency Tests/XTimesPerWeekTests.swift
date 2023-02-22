@@ -85,6 +85,62 @@ final class XTimesPerWeekTests: XCTestCase {
       XCTAssertTrue(habit.wasCompletedThisWeek(on: startTuesday))
    }
    
+   func testTimesCompletedThisWeek() {
+      let startSunday = df.date(from: "2-12-2023")!
+      habit.updateStartDate(to: startSunday)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
+      
+      let monday = df.date(from: "2-20-2023")!
+      let sunday = Cal.add(days: -1, to: monday)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday), 0)
+      
+      habit.markCompleted(on: sunday)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday), 1)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday)), 1)
+      
+      habit.markCompleted(on: Cal.add(days: -1, to: sunday))
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday), 2)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday)), 2)
+   }
+   
+   func testTimesCompletedThisWeekUpTo() {
+      let startSunday = df.date(from: "2-12-2023")!
+      habit.updateStartDate(to: startSunday)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
+      
+      let monday = df.date(from: "2-20-2023")!
+      let sunday = Cal.add(days: -1, to: monday)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
+      
+      habit.markCompleted(on: sunday)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 1)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday), upTo: true), 0)
+      
+      habit.markCompleted(on: Cal.add(days: -1, to: sunday))
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 2)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: -1, to: sunday), upTo: true), 1)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday), upTo: true), 0)
+                     
+      habit.markCompleted(on: Cal.add(days: 1, to: startSunday))
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 3)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: -1, to: sunday), upTo: true), 2)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
+      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday), upTo: true), 1)
+   }
+   
    // MARK: Is Due On Tests
    
    /// Test that the habit is only due on the reset day
@@ -191,15 +247,15 @@ final class XTimesPerWeekTests: XCTestCase {
       
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
       
-      XCTAssertEqual(vm.streakLabel, "Never done")
+      XCTAssertEqual(vm.streakLabel().0, "No streak")
       habit.markCompleted(on: startDate)
-      XCTAssertEqual(vm.streakLabel, "No streak")
+      XCTAssertEqual(vm.streakLabel().0, "No streak")
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       vm.currentDay = Cal.add(days: 1, to: startDate)
-      XCTAssertEqual(vm.streakLabel, "No streak")
+      XCTAssertEqual(vm.streakLabel().0, "No streak")
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       vm.currentDay = Cal.add(days: 2, to: startDate)
-      XCTAssertEqual(vm.streakLabel, "1 week streak")
+      XCTAssertEqual(vm.streakLabel().0, "1 week streak")
    }
    
    func testStreakLabel2() {
@@ -214,18 +270,18 @@ final class XTimesPerWeekTests: XCTestCase {
       
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
       
-      XCTAssertEqual(vm.streakLabel, "Never done")
+      XCTAssertEqual(vm.streakLabel().0, "No streak")
       habit.markCompleted(on: startDate)
-      XCTAssertEqual(vm.streakLabel, "No streak")
+      XCTAssertEqual(vm.streakLabel().0, "No streak")
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       vm.currentDay = Cal.add(days: 1, to: startDate)
-      XCTAssertEqual(vm.streakLabel, "No streak")
+      XCTAssertEqual(vm.streakLabel().0, "No streak")
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       vm.currentDay = Cal.add(days: 2, to: startDate)
-      XCTAssertEqual(vm.streakLabel, "1 week streak")
+      XCTAssertEqual(vm.streakLabel().0, "1 week streak")
       
       vm.currentDay = Cal.add(days: 7, to: startDate)
-      XCTAssertEqual(vm.streakLabel, "1 week streak")
+      XCTAssertEqual(vm.streakLabel().0, "1 week streak")
    }
    
    // MARK: Improvement Score Tests

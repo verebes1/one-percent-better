@@ -56,7 +56,8 @@ extension Habit {
          return timesCompleted[i] >= 1 ? 1 : 0
       case .timesPerWeek(times: let n, resetDay: let resetDay):
          if date.weekdayInt == resetDay.rawValue {
-            return Double(timesCompletedThisWeek(on: date)) / Double(n)
+            let ans = Double(timesCompletedThisWeek(on: date)) / Double(n)
+            return min(1, ans)
          } else {
             return 0
          }
@@ -68,29 +69,33 @@ extension Habit {
       return timesCompleted[i]
    }
    
-   func timesCompletedThisWeek(on date: Date) -> Int {
+   func timesCompletedThisWeek(on date: Date, upTo: Bool = false) -> Int {
       guard let freq = frequency(on: date) else { return 0 }
-      return timesCompletedThisWeek(on: date, withFrequency: freq)
+      return timesCompletedThisWeek(on: date, withFrequency: freq, upTo: upTo)
    }
    
    /// Only valid for habits with a frequency of timesPerWeek, returns how many times they've completed
    /// the habit this week, going back as far as the reset day
    /// - Parameter date: The day of the week to check against
    /// - Parameter freq: The frequency to check against
+   /// - Parameter upTo: Calculate only up to this date
    /// - Returns: Number of times completed that week
-   func timesCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency) -> Int {
+   func timesCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency, upTo: Bool = false) -> Int {
       guard case .timesPerWeek(_, resetDay: let resetDay) = freq else { return 0 }
       var timesCompletedThisWeek = 0
       
-      var startOffset = date.weekdayInt - resetDay.rawValue
-      if startOffset <= 0 {
-         startOffset += 6
+      var startOffset = Weekday.positiveDifference(from: resetDay, to: Weekday(date)) - 1
+      if startOffset < 0 {
+         startOffset += 7
       }
       let startDay = Cal.add(days: -startOffset, to: date)
       
       for i in 0 ..< 7 {
          let day = Cal.add(days: i, to: startDay)
          timesCompletedThisWeek += timesCompleted(on: day)
+         if upTo && Cal.isDate(day, inSameDayAs: date) {
+            break
+         }
       }
       return timesCompletedThisWeek
    }

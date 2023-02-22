@@ -58,7 +58,7 @@ struct HabitRowLabels: View {
                tpd > 1 {
                TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
             } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
-               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay), timesExpected: tpw)
+               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay, upTo: true), timesExpected: tpw)
             }
          }
          
@@ -81,9 +81,6 @@ struct HabitRowLabels: View {
             let streakLabel = vm.streakLabel()
             Text(streakLabel.0)
                .subLabel(color: streakLabel.1)
-//            Text(vm.streakLabel)
-//               .subLabel(color: vm.streakLabelColor)
-//            streakLabel
          }
          
          switch vm.habit.frequency(on: vm.currentDay) {
