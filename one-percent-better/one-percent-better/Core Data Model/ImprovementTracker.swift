@@ -158,7 +158,7 @@ public class ImprovementTracker: GraphTracker {
             } else {
                score *= 0.995
             }
-         case .daysInTheWeek(let days):
+         case .specificWeekdays(let days):
             if days.contains(Weekday(curDate)) {
                if habit.wasCompleted(on: curDate) {
                   score *= 1.01
@@ -179,17 +179,18 @@ public class ImprovementTracker: GraphTracker {
             let expected = Double(n)
             
             if habit.isDue(on: curDate) {
-               // Increase score for today
-               if tc > 0 {
-                  score *= (1 + (0.01 * tc))
-               }
-               
-               // Decrease score if not fully completed this week
-               // No need to increase score if fully completed, as it was done every day the habit was completed
                let tctw = habit.timesCompletedThisWeek(on: curDate)
-               if tctw < n {
+               if tc > 0 {
+                  // Increase score for today
+                  score *= (1 + (0.01 * tc))
+               }else if tctw < n {
+                  // Decrease score if not fully completed this week
+                  // No need to increase score if fully completed, as it was done every day the habit was completed
                   let diff = expected - Double(tctw)
                   score *= pow(0.995, diff)
+               } else {
+                  // Was completed earlier in the week, no need to add a score for today
+                  toRemove = true
                }
             } else {
                if tc > 0 {

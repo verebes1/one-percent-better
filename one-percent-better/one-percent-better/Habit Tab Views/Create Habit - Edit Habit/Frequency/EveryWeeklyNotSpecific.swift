@@ -21,14 +21,6 @@ struct EveryWeeklyNotSpecific: View {
    
    private let backgroundColor = Color(#colorLiteral(red: 0.9061154127, green: 0.9810385108, blue: 1, alpha: 1))
    
-   var isPlural: Binding<Bool> {
-      Binding {
-         timesPerDay > 1
-      } set: { _, _ in
-         // do nothing
-      }
-   }
-   
    var body: some View {
       VStack(spacing: 18) {
          HStack(spacing: 20) {
@@ -62,8 +54,6 @@ struct EveryWeeklyNotSpecific: View {
          }
          
          HStack(spacing: 0) {
-            // TODO: fixme
-//            AnimatedTimesText(plural: isPlural)
             Text(" per week, resets on")
                .animation(.easeInOut(duration: 0.3), value: timesPerDay > 1)
          }
@@ -86,7 +76,7 @@ struct EveryWeeklyNotSpecific: View {
 struct EveryWeeklyNotSpecificPreview: View {
    @State private var timesPerDay = 1
    @State var selectedWeekdays: [Weekday] = [.monday, .tuesday]
-   @StateObject var vm = FrequencySelectionModel(selection: .daysInTheWeek([.sunday, .tuesday, .thursday]))
+   @StateObject var vm = FrequencySelectionModel(selection: .specificWeekdays([.sunday, .tuesday, .thursday]))
    
    var body: some View {
       Background {

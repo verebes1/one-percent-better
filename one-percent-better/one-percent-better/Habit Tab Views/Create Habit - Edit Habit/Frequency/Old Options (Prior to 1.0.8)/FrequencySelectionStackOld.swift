@@ -39,7 +39,7 @@
 //      switch vm.selection {
 //      case .timesPerDay(let n):
 //         self._timesPerDay = State(initialValue: n)
-//      case .daysInTheWeek(let days):
+//      case .specificWeekdays(let days):
 //         self._daysPerWeek = State(initialValue: days)
 //      case .timesPerWeek(times: let n, resetDay: let resetDay):
 //         self._timesPerWeek = State(initialValue: (n, resetDay))
@@ -61,7 +61,7 @@
 //            case .daily:
 //               vm.selection = .timesPerDay(1)
 //            case .weekly:
-//               vm.selection = .daysInTheWeek([1,2,4])
+//               vm.selection = .specificWeekdays([1,2,4])
 ////            case .monthly:
 ////               vm.selection = .timesPerDay(2)
 //            }
@@ -76,7 +76,7 @@
 //         }
 //
 //         if segmentSelection == .weekly {
-//            SelectableCard(selection: $vm.selection, type: .daysInTheWeek([0])) {
+//            SelectableCard(selection: $vm.selection, type: .specificWeekdays([0])) {
 //               EveryWeekOnSpecificWeekDays(selectedWeekdays: $daysPerWeek)
 //            } onSelection: {
 //               vm.selection = .daysInTheWeek(daysPerWeek)

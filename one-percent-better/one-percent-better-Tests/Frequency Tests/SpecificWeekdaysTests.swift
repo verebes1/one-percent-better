@@ -1,5 +1,5 @@
 //
-//  SpecificWeekdaysPerWeekTests.swift
+//  SpecificWeekdaysTests.swift
 //  one-percent-betterTests
 //
 //  Created by Jeremy Cook on 2/21/23.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import ___Better
 
-final class SpecificWeekdaysPerWeekTests: XCTestCase {
+final class SpecificWeekdaysTests: XCTestCase {
 
    let context = CoreDataManager.previews.mainContext
    
@@ -38,156 +38,92 @@ final class SpecificWeekdaysPerWeekTests: XCTestCase {
    func testCompletedOn() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
+      habit.changeFrequency(to: .specificWeekdays([.monday, .wednesday, .friday]), on: startSunday)
       
       XCTAssertFalse(habit.wasCompleted(on: startSunday))
       XCTAssertEqual(habit.percentCompleted(on: startSunday), 0)
       
       habit.markCompleted(on: startSunday)
       XCTAssertTrue(habit.wasCompleted(on: startSunday))
-      XCTAssertEqual(habit.percentCompleted(on: startSunday), 0.33, accuracy: 0.01)
+      XCTAssertEqual(habit.percentCompleted(on: startSunday), 1.0)
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: startSunday))
+      XCTAssertTrue(habit.wasCompleted(on: Cal.add(days: 1, to: startSunday)))
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 1, to: startSunday)), 1.0)
+      
+      XCTAssertFalse(habit.wasCompleted(on: Cal.add(days: 2, to: startSunday)))
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 2, to: startSunday)), 0.0)
    }
    
-//   /// Test if `wasCompletedThisWeek` works.
-//   /// Test that you can ask for any day of the week and get the same answer
-//   func testCompletedOn2() {
-//      let startSunday = df.date(from: "01-29-2023")!
-//      habit.updateStartDate(to: startSunday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .saturday), on: startSunday)
-//      
-//      for i in 0 ..< 7 {
-//         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
-//      }
-//      habit.markCompleted(on: startSunday)
-//      for i in 0 ..< 7 {
-//         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
-//      }
-//      habit.markCompleted(on: Cal.add(days: 1, to: startSunday))
-//      for i in 0 ..< 7 {
-//         XCTAssertFalse(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
-//      }
-//      habit.markCompleted(on: Cal.add(days: 2, to: startSunday))
-//      for i in 0 ..< 7 {
-//         XCTAssertTrue(habit.wasCompletedThisWeek(on: Cal.add(days: i, to: startSunday)))
-//      }
-//   }
-//   
-//   /// Test `wasCompletedThisWeek` works if your start date is tuesday, and you reset every monday, and you complete it your first week
-//   func testCompletedOn3() {
-//      let startTuesday = df.date(from: "12-6-2022")!
-//      habit.updateStartDate(to: startTuesday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .monday), on: startTuesday)
-//      
-//      XCTAssertFalse(habit.wasCompletedThisWeek(on: startTuesday))
-//      habit.markCompleted(on: startTuesday)
-//      habit.markCompleted(on: Cal.add(days: 1, to: startTuesday))
-//      habit.markCompleted(on: Cal.add(days: 2, to: startTuesday))
-//      XCTAssertTrue(habit.wasCompletedThisWeek(on: startTuesday))
-//   }
-//   
-//   func testTimesCompletedThisWeek() {
-//      let startSunday = df.date(from: "2-12-2023")!
-//      habit.updateStartDate(to: startSunday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
-//      
-//      let monday = df.date(from: "2-20-2023")!
-//      let sunday = Cal.add(days: -1, to: monday)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday), 0)
-//      
-//      habit.markCompleted(on: sunday)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday), 1)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday)), 1)
-//      
-//      habit.markCompleted(on: Cal.add(days: -1, to: sunday))
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday), 2)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday)), 2)
-//   }
-//   
-//   func testTimesCompletedThisWeekUpTo() {
-//      let startSunday = df.date(from: "2-12-2023")!
-//      habit.updateStartDate(to: startSunday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
-//      
-//      let monday = df.date(from: "2-20-2023")!
-//      let sunday = Cal.add(days: -1, to: monday)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
-//      
-//      habit.markCompleted(on: sunday)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 1)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday), upTo: true), 0)
-//      
-//      habit.markCompleted(on: Cal.add(days: -1, to: sunday))
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 2)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: -1, to: sunday), upTo: true), 1)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday), upTo: true), 0)
-//                     
-//      habit.markCompleted(on: Cal.add(days: 1, to: startSunday))
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: monday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: sunday, upTo: true), 3)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: -1, to: sunday), upTo: true), 2)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: startSunday, upTo: true), 0)
-//      XCTAssertEqual(habit.timesCompletedThisWeek(on: Cal.add(days: 1, to: startSunday), upTo: true), 1)
-//   }
-//   
-//   // MARK: Is Due On Tests
-//   
-//   /// Test that the habit is only due on the reset day
-//   func testIsDue() {
-//      let startSunday = df.date(from: "1-29-2023")!
-//      habit.updateStartDate(to: startSunday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startSunday)
-//      
-//      XCTAssertTrue(habit.isDue(on: startSunday))
-//      
-//      for i in 1 ..< 7 {
-//         let day = Cal.add(days: i, to: startSunday)
-//         XCTAssertFalse(habit.isDue(on: day))
-//      }
-//      
-//      let nextSunday = Cal.add(days: 7, to: startSunday)
-//      XCTAssertTrue(habit.isDue(on: nextSunday))
-//   }
-//   
-//   // MARK: Streak Tests
-//   
-//   func testStreak() {
-//      let startWednesday = df.date(from: "12-7-2022")!
-//      habit.updateStartDate(to: startWednesday)
-//      habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: .tuesday), on: startWednesday)
-//      
-//      XCTAssertEqual(habit.streak(on: startWednesday), 0)
-//      habit.markCompleted(on: startWednesday)
-//      XCTAssertEqual(habit.streak(on: startWednesday), 1)
-//      habit.markCompleted(on: Cal.add(days: 7, to: startWednesday))
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 7, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 8, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 9, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 10, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 11, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 12, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 13, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 14, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 15, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 16, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 17, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 18, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 19, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 20, to: startWednesday)), 2)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 21, to: startWednesday)), 0)
-//      XCTAssertEqual(habit.streak(on: Cal.add(days: 22, to: startWednesday)), 0)
-//   }
+   // MARK: Is Due On Tests
+   
+   /// Test that the habit is only due on the reset day
+   func testIsDue() {
+      let startSunday = df.date(from: "1-29-2023")!
+      habit.updateStartDate(to: startSunday)
+      habit.changeFrequency(to: .specificWeekdays([.monday, .tuesday, .wednesday]), on: startSunday)
+      
+      XCTAssertFalse(habit.isDue(on: startSunday))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 1, to: startSunday)))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 2, to: startSunday)))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 3, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 4, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 5, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 6, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 7, to: startSunday)))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 8, to: startSunday)))
+   }
+   
+   func testIsDue2() {
+      let startSunday = df.date(from: "1-29-2023")!
+      habit.updateStartDate(to: startSunday)
+      habit.changeFrequency(to: .specificWeekdays([.sunday, .friday, .saturday]), on: startSunday)
+      
+      XCTAssertTrue(habit.isDue(on: startSunday))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 2, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 3, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 4, to: startSunday)))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 5, to: startSunday)))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 6, to: startSunday)))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 7, to: startSunday)))
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 8, to: startSunday)))
+   }
+   
+   // MARK: Streak Tests
+   
+   func testStreak() {
+      let startWednesday = df.date(from: "12-7-2022")!
+      habit.updateStartDate(to: startWednesday)
+      habit.changeFrequency(to: .specificWeekdays([.wednesday, .thursday]), on: startWednesday)
+      
+      XCTAssertEqual(habit.streak(on: startWednesday), 0)
+      habit.markCompleted(on: startWednesday)
+      XCTAssertEqual(habit.streak(on: startWednesday), 1)
+      let thursday = Cal.add(days: 1, to: startWednesday)
+      XCTAssertEqual(habit.streak(on: thursday), 1)
+      
+      habit.markCompleted(on: thursday)
+      XCTAssertEqual(habit.streak(on: thursday), 2)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 2, to: startWednesday)), 2) // friday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 3, to: startWednesday)), 2) // saturday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 4, to: startWednesday)), 2) // sunday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 5, to: startWednesday)), 2) // monday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 6, to: startWednesday)), 2) // tuesday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 7, to: startWednesday)), 2) // wednesday (DUE)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 8, to: startWednesday)), 0) // thursday (DUE)
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: thursday))
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 1, to: startWednesday)), 2) // thursday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 2, to: startWednesday)), 3) // friday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 3, to: startWednesday)), 3) // saturday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 4, to: startWednesday)), 3) // sunday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 5, to: startWednesday)), 3) // monday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 6, to: startWednesday)), 3) // tuesday
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 7, to: startWednesday)), 3) // wednesday (DUE)
+      XCTAssertEqual(habit.streak(on: Cal.add(days: 8, to: startWednesday)), 0) // thursday (DUE)
+   }
+   
 //   
 //   func testStreak2() {
 //      let startWednesday = df.date(from: "12-7-2022")!

@@ -288,10 +288,10 @@ final class XTimesPerWeekTests: XCTestCase {
    
    func testImprovementScore() {
       let today = Date().weekdayInt
-      let startDate = Cal.getLast(weekday: Weekday(today)!)
+      let startDate = Cal.getLast(weekday: Weekday(today))
       habit.updateStartDate(to: startDate)
       let resetDay = (today + 3) % 7
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)!), on: startDate)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
       
       // 0 for start date, and 0 for first week failed
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
@@ -309,11 +309,61 @@ final class XTimesPerWeekTests: XCTestCase {
    func testImprovementScore2() {
       let today = Date()
       let resetDay = (today.weekdayInt + 3) % 7
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)!), on: today)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: today)
       
       XCTAssertEqual(habit.improvementTracker?.score(on: today), 0)
 
-      let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt)!)
+      let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt))
+      habit.updateStartDate(to: startDate)
+      XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
+      
+      habit.markCompleted(on: Cal.add(days: 1, to: startDate))
+      XCTAssertEqual(habit.improvementTracker!.scores, [0, 1, 0])
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 0.33, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.add(days: 2, to: startDate))
+      // [0.0, 1.0, 2.01, 1.49]
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0)
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 1)
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 2.01, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[3], 1.49, accuracy: 0.01)
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 0.66, accuracy: 0.01)
+      
+      
+      habit.markCompleted(on: Cal.add(days: 3, to: startDate))
+      // [0.0, 1.0, 2.01, 3.03]
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0)
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 1)
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 2.01, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[3], 3.03, accuracy: 0.01)
+      XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 1.0)
+      
+      habit.markCompleted(on: Cal.add(days: 5, to: startDate))
+      // [0.0, 1.0, 2.01, 3.03, 4.06]
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0)
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 1)
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 2.01, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[3], 3.03, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[4], 4.06, accuracy: 0.01)
+      
+      habit.markCompleted(on: Cal.add(days: 6, to: startDate))
+      // [0.0, 1.0, 2.01, 3.03, 4.96]
+      XCTAssertEqual(habit.improvementTracker!.scores[0], 0)
+      XCTAssertEqual(habit.improvementTracker!.scores[1], 1)
+      XCTAssertEqual(habit.improvementTracker!.scores[2], 2.01, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[3], 3.03, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[4], 4.06, accuracy: 0.01)
+      XCTAssertEqual(habit.improvementTracker!.scores[5], 5.10, accuracy: 0.01)
+   }
+   
+   func testImprovementScore3() {
+      let today = Date()
+      let resetDay = (today.weekdayInt + 3) % 7
+      habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: Weekday(resetDay)), on: today)
+      
+      XCTAssertEqual(habit.improvementTracker?.score(on: today), 0)
+
+      let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt))
       habit.updateStartDate(to: startDate)
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
       

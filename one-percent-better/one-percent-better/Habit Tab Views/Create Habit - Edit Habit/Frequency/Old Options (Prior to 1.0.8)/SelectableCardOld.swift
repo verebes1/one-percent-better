@@ -66,7 +66,7 @@ struct SelectableCardOldPreviewer: View {
                selection = .timesPerDay(1)
             }
             
-            SelectableCardOld(selection: $selection, type: .daysInTheWeek([.tuesday, .thursday]), content: {
+            SelectableCardOld(selection: $selection, type: .specificWeekdays([.tuesday, .thursday]), content: {
                VStack {
                   Text("What's good baby")
                   Text("What's good baby")
@@ -74,7 +74,7 @@ struct SelectableCardOldPreviewer: View {
                   Text("What's good baby")
                }
             }) {
-               selection = .daysInTheWeek([.tuesday, .thursday])
+               selection = .specificWeekdays([.tuesday, .thursday])
             }
          }
       }

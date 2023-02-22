@@ -9,15 +9,21 @@ import SwiftUI
 
 struct CalendarDayView: View {
    
+   @Environment(\.colorScheme) var scheme
+   
    let habit: Habit
    let day: Day
    let fontSize: CGFloat
    var circleSize: CGFloat
    
+   var notFilledColor: Color {
+      scheme == .light ? .systemGray5 : .systemGray3
+   }
+   
    func percent() -> Double {
       guard let freq = habit.frequency(on: day.date) else { return 0 }
       switch freq {
-      case .timesPerDay, .daysInTheWeek:
+      case .timesPerDay, .specificWeekdays:
          return habit.percentCompleted(on: day.date)
       case .timesPerWeek:
          return habit.wasCompleted(on: day.date) ? 1 : 0
@@ -48,7 +54,7 @@ struct CalendarDayView: View {
                } else {
                   ZStack {
                      Circle()
-                        .foregroundColor(.systemGray6)
+                        .foregroundColor(notFilledColor)
                         .frame(width: circleSize, height: circleSize)
                      Circle()
                         .foregroundColor(.green)
@@ -68,7 +74,7 @@ struct CalendarDayView: View {
                      .frame(width: circleSize, height: circleSize)
                } else {
                   Circle()
-                     .foregroundColor(.systemGray3)
+                     .foregroundColor(notFilledColor)
                      .frame(width: circleSize, height: circleSize)
                }
             }

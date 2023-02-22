@@ -40,7 +40,7 @@ extension Habit {
       switch freq {
       case .timesPerDay(let n):
          return timesCompleted[i] >= n
-      case .daysInTheWeek(_), .timesPerWeek(_, _):
+      case .specificWeekdays(_), .timesPerWeek(_, _):
          return timesCompleted[i] >= 1
       }
    }
@@ -51,7 +51,7 @@ extension Habit {
       case .timesPerDay(let n):
          guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
          return Double(timesCompleted[i]) / Double(n)
-      case .daysInTheWeek(_):
+      case .specificWeekdays(_):
          guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
          return timesCompleted[i] >= 1 ? 1 : 0
       case .timesPerWeek(times: let n, resetDay: let resetDay):
@@ -197,9 +197,16 @@ extension Habit {
             if !wasCompleted(on: date, withFrequency: freq) {
                goBackStart = 1
             }
-         case .daysInTheWeek:
-            // TODO: 1.0.8
-            break
+         case .specificWeekdays:
+            if !wasCompleted(on: date, withFrequency: freq) {
+               goBackStart += 1
+               var curDate = Cal.add(days: -1, to: date)
+               while !wasCompleted(on: curDate, withFrequency: freq) && !isDue(on: curDate, withFrequency: freq) {
+                  goBackStart += 1
+                  if Cal.isDate(curDate, inSameDayAs: startDate) { break }
+                  curDate = Cal.add(days: -1, to: curDate)
+               }
+            }
          case .timesPerWeek(_, resetDay: let resetDay):
             if !wasCompletedThisWeek(on: date, withFrequency: freq) {
                let lastResetDay = Cal.getLast(weekday: resetDay, from: date)
@@ -226,8 +233,8 @@ extension Habit {
             } else {
                return streak
             }
-         case .daysInTheWeek:
-            if isDue(on: day, withFrequency: freq) {
+         case .specificWeekdays:
+            if isDue(on: day, withFrequency: freq) || wasCompleted(on: day, withFrequency: freq) {
                if wasCompleted(on: day, withFrequency: freq) {
                   streak += 1
                } else {

@@ -61,7 +61,7 @@ struct EditHabit: View {
       case .timesPerDay(let n):
          let timesString = n == 1 ? "time" : "times"
          return Text("\(n) \(timesString) per day")
-      case .daysInTheWeek(let days):
+      case .specificWeekdays(let days):
          var finalString = ""
          let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
          for (i, day) in days.enumerated() {

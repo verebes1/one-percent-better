@@ -27,7 +27,7 @@ struct HabitCompletionCircle: View {
 //      let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
       
       switch freq {
-      case .timesPerDay, .daysInTheWeek:
+      case .timesPerDay, .specificWeekdays:
          return vm.habit.percentCompleted(on: vm.currentDay)
       case .timesPerWeek:
          return vm.habit.wasCompleted(on: vm.currentDay) ? 1.0 : 0.0

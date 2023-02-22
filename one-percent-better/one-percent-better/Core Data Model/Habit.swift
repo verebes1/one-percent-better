@@ -133,7 +133,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       switch frequency {
       case .timesPerDay(let n):
          self.timesPerDay = [n]
-      case .daysInTheWeek(let days):
+      case .specificWeekdays(let days):
          self.daysPerWeek = [days.map { $0.rawValue }]
       case .timesPerWeek(times: let n, resetDay: let day):
          self.timesPerWeekTimes = [n]

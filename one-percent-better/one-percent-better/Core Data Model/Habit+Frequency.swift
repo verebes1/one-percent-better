@@ -16,15 +16,15 @@ extension Date {
 
 @objc public enum HabitFrequencyNSManaged: Int {
    case timesPerDay = 0
-   case daysInTheWeek = 1
+   case specificWeekdays = 1
    case timesPerWeek = 2
    
    init(_ freq: HabitFrequency) {
       switch freq {
       case .timesPerDay(_):
          self = .timesPerDay
-      case .daysInTheWeek(_):
-         self = .daysInTheWeek
+      case .specificWeekdays(_):
+         self = .specificWeekdays
       case .timesPerWeek(_,_):
          self = .timesPerWeek
       }
@@ -33,14 +33,14 @@ extension Date {
 
 enum HabitFrequency: Equatable, Hashable {
    case timesPerDay(Int)
-   case daysInTheWeek([Weekday])
+   case specificWeekdays([Weekday])
    case timesPerWeek(times: Int, resetDay: Weekday)
    
    var valueNS: Int {
       switch self {
       case .timesPerDay:
          return 0
-      case .daysInTheWeek:
+      case .specificWeekdays:
          return 1
       case .timesPerWeek:
          return 2
@@ -95,7 +95,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable {
 // TEMP ENUM WHILE TESTING UI
 enum HabitFrequencyTest: Equatable {
    case timesPerDay(Int)
-   case daysInTheWeek([Int])
+   case specificWeekdays([Int])
    case timesPerWeek(times: Int, resetDay: Weekday)
    case everyXDays(Int)
    
@@ -103,7 +103,7 @@ enum HabitFrequencyTest: Equatable {
       switch self {
       case .timesPerDay(_):
          return 0
-      case .daysInTheWeek(_):
+      case .specificWeekdays(_):
          return 1
       case .timesPerWeek(_, _):
          return 2
@@ -148,7 +148,7 @@ extension Habit {
          switch freq {
          case .timesPerDay(let n):
             timesPerDay[i] = n
-         case .daysInTheWeek(let days):
+         case .specificWeekdays(let days):
             daysPerWeek[i] = days.map { $0.rawValue }
          case .timesPerWeek(times: let n, resetDay: let day):
             timesPerWeekTimes[i] = n
@@ -166,7 +166,7 @@ extension Habit {
          switch freq {
          case .timesPerDay(let n):
             timesPerDay[timesPerDay.count - 1] = n
-         case .daysInTheWeek(let days):
+         case .specificWeekdays(let days):
             daysPerWeek[daysPerWeek.count - 1] = days.map { $0.rawValue }
          case .timesPerWeek(times: let n, resetDay: let day):
             timesPerWeekTimes[timesPerWeekTimes.count - 1] = n
@@ -193,9 +193,9 @@ extension Habit {
       switch freq {
       case .timesPerDay:
          return .timesPerDay(timesPerDay[index])
-      case .daysInTheWeek:
+      case .specificWeekdays:
          let weekdayArray = daysPerWeek[index].map { Weekday($0) }
-         return .daysInTheWeek(weekdayArray)
+         return .specificWeekdays(weekdayArray)
       case .timesPerWeek:
          return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: Weekday(timesPerWeekResetDay[index]))
       }
@@ -218,7 +218,7 @@ extension Habit {
       switch freq {
       case .timesPerDay(_):
          return true
-      case .daysInTheWeek(let days):
+      case .specificWeekdays(let days):
          return days.contains(Weekday(date))
       case .timesPerWeek(_, resetDay: let resetDay):
          // Habit due all at once on the reset day, otherwise it would mess with daily percent calculations

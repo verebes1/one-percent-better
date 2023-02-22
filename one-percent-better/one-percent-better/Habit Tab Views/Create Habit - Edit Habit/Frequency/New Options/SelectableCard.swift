@@ -73,8 +73,8 @@ struct SelectableFrequencyCard<Content>: View where Content: View {
          if case .timesPerDay = selection {
             return true
          }
-      case.daysInTheWeek:
-         if case .daysInTheWeek = selection {
+      case.specificWeekdays:
+         if case .specificWeekdays = selection {
             return true
          }
       case .timesPerWeek:
@@ -113,10 +113,10 @@ struct SelectableCard2_Previewer: View {
                selection = .timesPerDay(2)
             }
             
-            SelectableFrequencyCard(selection: $selection, type: .daysInTheWeek([.monday, .tuesday, .wednesday])) {
+            SelectableFrequencyCard(selection: $selection, type: .specificWeekdays([.monday, .tuesday, .wednesday])) {
                XTimesPerWeekBeginningEveryY(timesPerWeek: $tpw, beginningDay: $resetDay)
             } onSelection: {
-               selection = .daysInTheWeek([.monday, .tuesday])
+               selection = .specificWeekdays([.monday, .tuesday])
             }
          }
       }

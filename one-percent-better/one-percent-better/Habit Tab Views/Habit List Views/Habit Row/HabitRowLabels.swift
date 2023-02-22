@@ -30,7 +30,7 @@ struct HabitRowLabels: View {
    
    let subGray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
    
-   func daysInTheWeekLabel(days: [Weekday]) -> String {
+   func specificWeekdaysLabel(days: [Weekday]) -> String {
       if days.contains(Weekday(Date())) {
          return "Due today"
       }
@@ -86,8 +86,8 @@ struct HabitRowLabels: View {
          switch vm.habit.frequency(on: vm.currentDay) {
          case .timesPerDay(_):
             EmptyView()
-         case .daysInTheWeek(let days):
-            Text(daysInTheWeekLabel(days: days))
+         case .specificWeekdays(let days):
+            Text(specificWeekdaysLabel(days: days))
                .subLabel(color: subGray)
          case .timesPerWeek(_, resetDay: let resetDay):
             let finalString = "Due by \(resetDay)"
@@ -96,7 +96,7 @@ struct HabitRowLabels: View {
          case .none:
             EmptyView()
          }
-//         if case .daysInTheWeek(_) = vm.habit.frequency(on: vm.currentDay),
+//         if case .specificWeekdays(_) = vm.habit.frequency(on: vm.currentDay),
 //            !vm.habit.isDue(on: vm.currentDay) {
 //            Text("Not due today")
 //               .font(.system(size: 11))
@@ -145,7 +145,7 @@ struct HabitRowLabels_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.changeFrequency(to: .daysInTheWeek([.tuesday, .wednesday, .friday]))
+      h2?.changeFrequency(to: .specificWeekdays([.tuesday, .wednesday, .friday]))
       h2?.markCompleted(on: Cal.add(days: -1))
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       //      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)

@@ -28,21 +28,10 @@ struct XTimesPerWeekBeginningEveryY: View {
                                         selection: $timesPerWeek)
                MenuItemWithCheckmark(value: 5,
                                         selection: $timesPerWeek)
-               
-               Menu {
-                  MenuItemWithCheckmark(value: 6,
-                                           selection: $timesPerWeek)
-                  MenuItemWithCheckmark(value: 7,
-                                           selection: $timesPerWeek)
-                  MenuItemWithCheckmark(value: 8,
-                                           selection: $timesPerWeek)
-                  MenuItemWithCheckmark(value: 9,
-                                           selection: $timesPerWeek)
-                  MenuItemWithCheckmark(value: 10,
-                                           selection: $timesPerWeek)
-               } label: {
-                  Button("More...", action: {})
-               }
+               MenuItemWithCheckmark(value: 6,
+                                        selection: $timesPerWeek)
+               MenuItemWithCheckmark(value: 7,
+                                        selection: $timesPerWeek)
             } label: {
                CapsuleMenuButton(text: String(timesPerWeek),
                                          color: color,
