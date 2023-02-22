@@ -202,8 +202,8 @@ extension Habit {
                goBackStart += 1
                var curDate = Cal.add(days: -1, to: date)
                while !wasCompleted(on: curDate, withFrequency: freq) && !isDue(on: curDate, withFrequency: freq) {
+                  if Cal.isDate(curDate, inSameDayAs: startDate) { return 0 }
                   goBackStart += 1
-                  if Cal.isDate(curDate, inSameDayAs: startDate) { break }
                   curDate = Cal.add(days: -1, to: curDate)
                }
             }
