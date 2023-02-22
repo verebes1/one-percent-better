@@ -183,7 +183,7 @@ public class ImprovementTracker: GraphTracker {
                if tc > 0 {
                   // Increase score for today
                   score *= (1 + (0.01 * tc))
-               }else if tctw < n {
+               } else if tctw < n {
                   // Decrease score if not fully completed this week
                   // No need to increase score if fully completed, as it was done every day the habit was completed
                   let diff = expected - Double(tctw)

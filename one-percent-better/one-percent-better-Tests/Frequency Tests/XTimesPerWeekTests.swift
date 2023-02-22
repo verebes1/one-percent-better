@@ -309,12 +309,13 @@ final class XTimesPerWeekTests: XCTestCase {
    func testImprovementScore2() {
       let today = Date()
       let resetDay = (today.weekdayInt + 3) % 7
-      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: today)
-      
-      XCTAssertEqual(habit.improvementTracker?.score(on: today), 0)
-
       let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt))
       habit.updateStartDate(to: startDate)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
+      
+      // No score for today bc it's not due today
+      XCTAssertNil(habit.improvementTracker?.score(on: today))
+      
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
       
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
@@ -359,14 +360,15 @@ final class XTimesPerWeekTests: XCTestCase {
    func testImprovementScore3() {
       let today = Date()
       let resetDay = (today.weekdayInt + 3) % 7
-      habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: Weekday(resetDay)), on: today)
-      
-      XCTAssertEqual(habit.improvementTracker?.score(on: today), 0)
-
       let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt))
       habit.updateStartDate(to: startDate)
+      habit.changeFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
+      
+      XCTAssertNil(habit.improvementTracker?.score(on: today))
+
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
       
+      // Increases score to 1 for this week
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 1, 0])
       XCTAssertEqual(habit.percentCompleted(on: Cal.add(days: 3, to: startDate)), 0.33, accuracy: 0.01)
