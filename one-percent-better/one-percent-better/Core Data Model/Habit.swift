@@ -332,6 +332,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case timesPerDay
       case timesCompleted
       case daysPerWeek
+      case timesPerWeekTimes
+      case timesPerWeekResetDay
       
       case trackersContainer
    }
@@ -362,11 +364,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.frequencyDates = container.decodeOptional(key: .frequencyDates, type: [Date].self) ?? [startDate]
       self.timesPerDay = container.decodeOptional(key: .timesPerDay, type: [Int].self) ?? [1]
       self.timesCompleted = container.decodeOptional(key: .timesCompleted, type: [Int].self) ?? Array(repeating: 1, count: daysCompleted.count)
-      self.daysPerWeek = container.decodeOptional(key: .daysPerWeek, type: [[Int]].self) ?? [[0]]
+      self.daysPerWeek = container.decodeOptional(key: .daysPerWeek, type: [[Int]].self) ?? Array(repeating: [2,4], count: self.frequency.count)
       
       if self.daysPerWeek.isEmpty {
          self.daysPerWeek = Array(repeating: [2,4], count: self.frequency.count)
       }
+      
+      self.timesPerWeekTimes = container.decodeOptional(key: .timesPerWeekTimes, type: [Int].self) ?? Array(repeating: 1, count: self.frequency.count)
+      self.timesPerWeekResetDay = container.decodeOptional(key: .timesPerWeekResetDay, type: [Int].self) ?? Array(repeating: 0, count: self.frequency.count)
       
       // If importing data on top of existing data, then we must add
       // the imported index on top of the largest existing index
@@ -437,6 +442,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       try container.encode(timesPerDay, forKey: .timesPerDay)
       try container.encode(timesCompleted, forKey: .timesCompleted)
       try container.encode(daysPerWeek, forKey: .daysPerWeek)
+      try container.encode(timesPerWeekTimes, forKey: .timesPerWeekTimes)
+      try container.encode(timesPerWeekResetDay, forKey: .timesPerWeekResetDay)
    }
 }
 

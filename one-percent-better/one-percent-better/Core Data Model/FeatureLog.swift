@@ -29,6 +29,9 @@ public class FeatureLog: NSManagedObject, Codable {
    /// With 1.0.8, there's a new frequency option which needs its array filled to match the other frequency array lengths
    @NSManaged public var hasTimesPerWeekFrequency: Bool
    
+   /// With 1.0.8, the improvment score starts on the start date, not one day before, so we must recalculate all the improvement scores
+   @NSManaged public var hasNewImprovementScore: Bool
+   
    // MARK: - Encodable
    
    enum CodingKeys: CodingKey {
@@ -41,6 +44,7 @@ public class FeatureLog: NSManagedObject, Codable {
       case hasID
       case hasNewImprovement
       case hasTimesPerWeekFrequency
+      case hasNewImprovementScore
    }
    
    required convenience public init(from decoder: Decoder) throws {
@@ -65,6 +69,7 @@ public class FeatureLog: NSManagedObject, Codable {
       self.hasNewImprovement = container.decodeOptional(key: .hasNewImprovement, type: Bool.self) ?? false
       self.hasTimesCompleted = container.decodeOptional(key: .hasTimesCompleted, type: Bool.self) ?? false
       self.hasTimesPerWeekFrequency = container.decodeOptional(key: .hasTimesPerWeekFrequency, type: Bool.self) ?? false
+      self.hasNewImprovementScore = container.decodeOptional(key: .hasNewImprovementScore, type: Bool.self) ?? false
    }
    
    public func encode(to encoder: Encoder) throws {
@@ -78,6 +83,7 @@ public class FeatureLog: NSManagedObject, Codable {
       try container.encode(hasID, forKey: .hasID)
       try container.encode(hasNewImprovement, forKey: .hasNewImprovement)
       try container.encode(hasTimesPerWeekFrequency, forKey: .hasTimesPerWeekFrequency)
+      try container.encode(hasNewImprovementScore, forKey: .hasNewImprovementScore)
    }
    
    // MARK: Fetch Request

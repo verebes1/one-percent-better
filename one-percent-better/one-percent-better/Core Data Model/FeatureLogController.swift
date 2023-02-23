@@ -68,6 +68,7 @@ class FeatureLogController {
       setUpFrequencyDates()
       setUpNewImprovement()
       setUpTimesPerWeekFrequency()
+      setUpNewImprovementScore()
    }
    
    /// Add percent improvement trackers if the user doesn't have them already
@@ -223,6 +224,18 @@ class FeatureLogController {
          }
          
          featureLog.hasTimesPerWeekFrequency = true
+         CoreDataManager.shared.saveContext()
+      }
+   }
+   
+   func setUpNewImprovementScore() {
+      if !featureLog.hasNewImprovementScore {
+         let habits = Habit.habits(from: context)
+         for habit in habits {
+            habit.improvementTracker?.recalculateScoreFromBeginning()
+         }
+         
+         featureLog.hasNewImprovementScore = true
          CoreDataManager.shared.saveContext()
       }
    }

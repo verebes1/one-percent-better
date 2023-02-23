@@ -335,6 +335,7 @@
 		806BB18529A4388F006549A9 /* XTimesPerDayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerDayTests.swift; sourceTree = "<group>"; };
 		806BB18729A57F2F006549A9 /* opb 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 14.xcdatamodel"; sourceTree = "<group>"; };
 		806BB18829A5B751006549A9 /* SpecificWeekdaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificWeekdaysTests.swift; sourceTree = "<group>"; };
+		806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 15.xcdatamodel"; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
@@ -1327,7 +1328,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"one-percent-better/Preview Content\"";
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				ENABLE_PREVIEWS = YES;
@@ -1360,7 +1361,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"one-percent-better/Preview Content\"";
 				DEVELOPMENT_TEAM = A2AB5UMPJF;
 				ENABLE_PREVIEWS = YES;
@@ -1511,6 +1512,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */,
 				806BB18729A57F2F006549A9 /* opb 14.xcdatamodel */,
 				80AE0CA42995F17900B565DE /* opb 13.xcdatamodel */,
 				802E929B291CC7DF00A28EB1 /* opb 12.xcdatamodel */,
@@ -1526,7 +1528,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 806BB18729A57F2F006549A9 /* opb 14.xcdatamodel */;
+			currentVersion = 806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
