@@ -129,9 +129,10 @@ struct ExerciseTrackerEntry: View {
       VStack {
          HStack {
             Text(tracker.name)
-               .fontWeight(.medium)
+               .fontWeight(.semibold)
+               .font(.system(size: 17))
                .foregroundColor(Style.accentColor)
-               .padding(.leading, 20)
+               .padding(.leading, 21)
             Spacer()
          }
          
@@ -174,6 +175,11 @@ struct ExerciseTrackerEntry_Previews: PreviewProvider {
       }
       
       let habits = Habit.habits(from: context)
+      for tracker in habits.first!.trackers {
+         if let t = tracker as? ExerciseTracker {
+            return t
+         }
+      }
       return (habits.first!.trackers.firstObject as! ExerciseTracker)
    }
    

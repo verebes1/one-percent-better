@@ -24,7 +24,7 @@ struct WeeklyPercentGraphCard: View {
 //         r.append(GraphPoint(date: curDay, value: percent))
          dates.append(curDay)
          values.append(percent)
-         curDay = Cal.addDays(num: 1, to: curDay)
+         curDay = Cal.add(days: 1, to: curDay)
       }
       
       values = movingAverage(points: values)
@@ -46,14 +46,17 @@ struct WeeklyPercentGraphCard: View {
       // Calculate the moving average for each point in the array
       for i in 0..<points.count {
          // Calculate the sum of the 5 points leading up to the current point
-         let sum = points[max(0, i - period)..<i].reduce(0, +)
+         
+         let lowerRange = max(0, i - period)
+         let upperRange = max(1, i)
+         let sum = points[lowerRange ..< upperRange].reduce(0, +)
+         
+         
+         let numPoints = i - max(0, i - period)
+         let div = max(1, numPoints)
          
          // Calculate the moving average by dividing the sum by the number of points (5)
-         let average = sum / Double(period)
-         
-         if average > 100 {
-            print("JJJJ something wrong!")
-         }
+         let average = sum / Double(div)
          
          // Add the moving average value to the array
          movingAverage.append(average)
@@ -106,14 +109,14 @@ struct WeeklyPercentGraphCard_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: 0, to: Date())!)
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
-      h1?.markCompleted(on: Cal.addDays(num: -10))
-      h1?.markCompleted(on: Cal.addDays(num: -11))
-      h1?.markCompleted(on: Cal.addDays(num: -12))
+      h1?.markCompleted(on: Cal.add(days: -10))
+      h1?.markCompleted(on: Cal.add(days: -11))
+      h1?.markCompleted(on: Cal.add(days: -12))
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.changeFrequency(to: .daysInTheWeek([1,3,5,6]))
+      h2?.changeFrequency(to: .specificWeekdays([.monday, .wednesday, .friday, .saturday]))
       h2?.markCompleted(on: Date())
-      h2?.markCompleted(on: Cal.addDays(num: -1))
+      h2?.markCompleted(on: Cal.add(days: -1))
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       
@@ -123,7 +126,7 @@ struct WeeklyPercentGraphCard_Previews: PreviewProvider {
       h3?.markCompleted(on: Date())
       
       let h4 = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2), id: id4)
-      h4?.markCompleted(on: Cal.addDays(num: -3))
+      h4?.markCompleted(on: Cal.add(days: -3))
       
       let habits = Habit.habits(from: context)
       return habits

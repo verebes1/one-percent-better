@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 
 struct GraphPoint: Equatable {
-    var date: Date
-    var value: Double
+   var date: Date
+   var value: Double
 }
 
 @objc(ImprovementTracker)
@@ -42,7 +42,7 @@ public class ImprovementTracker: GraphTracker {
    /// Get the last n days of the improvement score starting from date
    /// - Returns: Array of graph points
    func lastNDays(n: Int, on date: Date) -> [GraphPoint] {
-//      update(on: date)
+      //      update(on: date)
       var r = [GraphPoint]()
       if var i = dates.lessThanOrEqualSearch(for: date) {
          for _ in 0 ..< n {
@@ -58,7 +58,7 @@ public class ImprovementTracker: GraphTracker {
    }
    
    func add(date: Date, score: Double) {
-//      let value = String(Int(score))
+      //      let value = String(Int(score))
       let value = scoreToValue(for: score)
       // check for duplicate date
       if let dateIndex = dates.sameDayBinarySearch(for: date) {
@@ -136,55 +136,74 @@ public class ImprovementTracker: GraphTracker {
       
       if let i = dates.lessThanOrEqualSearch(for: date),
          i > 0 {
-            curDate = dates[i]
-            score = scores[i-1] + 100
+         curDate = dates[i]
+         score = scores[i-1] + 100
       } else {
          curDate = habit.startDate
          score = 100
-         // Start of graph needs to be a 0 from the day before beginning
-         self.add(date: Cal.date(byAdding: .day, value: -1, to: habit.startDate)!, score: 0)
       }
       
-      let tomorrow = Cal.date(byAdding: .day, value: 1, to: Date())!
+      let tomorrow = Cal.add(days: 1)
       
       while !Cal.isDate(curDate, inSameDayAs: tomorrow) {
-         
          var toRemove = false
+         guard let freq = habit.frequency(on: curDate) else { return }
          
-         if let freq = habit.frequency(on: curDate) {
-            switch freq {
-            case .timesPerDay(let n):
-               let tc = Double(habit.timesCompleted(on: curDate))
-               let expected = Double(n)
-               if tc > 0 {
-                  score *= (1 + (0.01 * tc / expected))
+         switch freq {
+         case .timesPerDay(let n):
+            let tc = Double(habit.timesCompleted(on: curDate))
+            let expected = Double(n)
+            if tc > 0 {
+               score *= (1 + (0.01 * tc / expected))
+            } else {
+               score *= 0.995
+            }
+         case .specificWeekdays(let days):
+            if days.contains(Weekday(curDate)) {
+               if habit.wasCompleted(on: curDate) {
+                  score *= 1.01
                } else {
                   score *= 0.995
                }
-            case .daysInTheWeek(let days):
-               if days.contains(curDate.weekdayInt) {
-                  if habit.wasCompleted(on: curDate) {
-                     score *= 1.01
-                  } else {
-                     score *= 0.995
-                  }
+            } else {
+               // Only increase score if completed
+               // Remove score if not
+               if habit.wasCompleted(on: curDate) {
+                  score *= 1.01
                } else {
-                  // Only increase score if completed
-                  // Remove score if not
-                  if habit.wasCompleted(on: curDate) {
-                     score *= 1.01
-                  } else {
-                     toRemove = true
-                  }
+                  toRemove = true
                }
             }
-         } else {
-            fatalError("Trying to calculate score before start date?")
+         case .timesPerWeek(times: let n, _):
+            let tc = Double(habit.timesCompleted(on: curDate))
+            let expected = Double(n)
+            
+            if habit.isDue(on: curDate) {
+               let tctw = habit.timesCompletedThisWeek(on: curDate)
+               if tc > 0 {
+                  // Increase score for today
+                  score *= (1 + (0.01 * tc))
+               } else if tctw < n {
+                  // Decrease score if not fully completed this week
+                  // No need to increase score if fully completed, as it was done every day the habit was completed
+                  let diff = expected - Double(tctw)
+                  score *= pow(0.995, diff)
+               } else {
+                  // Was completed earlier in the week, no need to add a score for today
+                  toRemove = true
+               }
+            } else {
+               if tc > 0 {
+                  score *= (1 + (0.01 * tc))
+               } else if tc == 0 {
+                  toRemove = true
+               }
+            }
          }
          
          score = max(100, score)
          let scaledScore = score - 100
-         if !toRemove {
+         if !toRemove || curDate == habit.startDate {
             add(date: curDate, score: scaledScore)
          } else {
             remove(on: curDate)

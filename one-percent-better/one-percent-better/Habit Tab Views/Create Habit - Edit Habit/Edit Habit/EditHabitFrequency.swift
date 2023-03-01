@@ -26,10 +26,7 @@ struct EditHabitFrequency: View {
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
             
-//            FrequencySelectionStack(vm: vm)
-//               .environmentObject(vm)
-            
-            FrequencySelectionStack2(vm: vm)
+            FrequencySelectionStack(vm: vm)
                .environmentObject(vm)
             
             Spacer()

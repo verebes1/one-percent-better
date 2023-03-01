@@ -74,11 +74,26 @@ extension Calendar {
       let fromDate = startOfDay(for: from)
       let toDate = startOfDay(for: to)
       let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
-      return numberOfDays.day! + 1
+      return numberOfDays.day!
    }
    
-   func addDays(num i: Int, to date: Date = Date()) -> Date {
-      return Cal.date(byAdding: .day, value: i, to: date)!
+   func add(days i: Int, to date: Date = Date()) -> Date {
+      guard let newDay = Cal.date(byAdding: .day, value: i, to: date) else {
+         fatalError("Asking for a bad date")
+      }
+      return newDay
+   }
+   
+   /// Get the last day that matches this weekday, going backward from date
+   /// - Parameter weekday: The desired weekday
+   /// - Parameter date: Going backward from this date
+   /// - Returns: Date which is on that weekday
+   func getLast(weekday: Weekday, from date: Date = Date()) -> Date {
+      let todayIndex = date.weekdayInt
+      var diff = todayIndex - weekday.rawValue
+      diff = diff > 0 ? diff : diff + 7
+      let date = Cal.add(days: -diff, to: date)
+      return date
    }
 }
 
@@ -158,7 +173,7 @@ extension RandomAccessCollection where Element == Date, Index == Int {
    }
    
    func lessThanOrEqualSearch(for date: Date) -> Index?  {
-      guard let i = binarySearch(predicate: { $0 < Cal.startOfDay(for: date) }) else {
+      guard let i = binarySearch(predicate: { $0.startOfDay() <= date.startOfDay() }) else {
          if let last = self.last,
             last.startOfDay() <= date.startOfDay() {
             return self.count - 1
@@ -167,8 +182,9 @@ extension RandomAccessCollection where Element == Date, Index == Int {
          }
       }
       
-      if self[i].startOfDay() <= date.startOfDay() {
-         return i
+      let j = i - 1
+      if j >= 0, self[j].startOfDay() <= date.startOfDay() {
+         return j
       } else {
          return nil
       }

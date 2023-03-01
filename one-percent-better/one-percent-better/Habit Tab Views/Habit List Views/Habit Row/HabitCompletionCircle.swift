@@ -20,6 +20,20 @@ struct HabitCompletionCircle: View {
    
    @State var show: Bool = false
    
+   func percentCompleted() -> Double {
+      guard let freq = vm.habit.frequency(on: vm.currentDay) else { return 0 }
+      
+      // TODO: Time tracker
+//      let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
+      
+      switch freq {
+      case .timesPerDay, .specificWeekdays:
+         return vm.habit.percentCompleted(on: vm.currentDay)
+      case .timesPerWeek:
+         return vm.habit.wasCompleted(on: vm.currentDay) ? 1.0 : 0.0
+      }
+   }
+   
    func handleTap() {
       if !vm.habit.manualTrackers.isEmpty {
          show = true
@@ -45,8 +59,7 @@ struct HabitCompletionCircle: View {
    var body: some View {
       ZStack {
          
-         let wasCompleted = vm.habit.percentCompleted(on: vm.currentDay)
-         let percent = vm.habit.hasTimeTracker ? vm.timePercentComplete : wasCompleted
+         let percent = percentCompleted()
          
          GradientRing(percent: percent,
                       startColor: startColor,

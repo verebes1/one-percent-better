@@ -98,7 +98,7 @@ struct HabitListView: View {
    /// Habits header view model
    @ObservedObject var hwvm: HeaderWeekViewModel
    
-   @State private var showingPopover = false
+   @State private var hideTabBar = false
    
    init(vm: HabitListViewModel) {
       self.vm = vm
@@ -106,7 +106,7 @@ struct HabitListView: View {
    }
    
    var body: some View {
-      let _ = Self._printChanges()
+//      let _ = Self._printChanges()
       return (
          Background {
             VStack {
@@ -121,7 +121,7 @@ struct HabitListView: View {
                      Section {
                         ForEach(vm.habits, id: \.self.id) { habit in
                            if habit.started(before: hwvm.currentDay) {
-                              let _ = print("Habit row \(habit.name) is being loaded")
+//                              let _ = print("Habit row \(habit.name) is being loaded")
                               // Habit Row
                               NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                                  HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)
@@ -130,6 +130,7 @@ struct HabitListView: View {
                                                    leading: 0,
                                                    bottom: 0,
                                                    trailing: 20))
+                              .listRowBackground(Color.cardColor)
                            }
                         }
                         .onMove(perform: vm.move)
@@ -171,7 +172,7 @@ struct HabitListView: View {
                }
             }
             .toolbarBackground(Color.backgroundColor, for: .tabBar)
-            .navigationDestination(for: HabitListViewRoute.self) { [nav, vm] route in
+            .navigationDestination(for: HabitListViewRoute.self) { [nav] route in
                if case let .showProgress(habit) = route {
                   ProgressView()
                      .environmentObject(nav)
@@ -179,20 +180,15 @@ struct HabitListView: View {
                }
                
                if route == HabitListViewRoute.createHabit {
-                  ChooseHabitName()
+                  ChooseHabitName(hideTabBar: $hideTabBar)
                      .environmentObject(nav)
-                     .environmentObject(vm)
                }
             }
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
             .navigationViewStyle(StackNavigationViewStyle())
-         //            .popup(isPresented: $showingPopover) {
-         //               BottomPopupView {
-         //                  NamePopupView(isPresented: $showingPopover)
-         //               }
-         //            }
             .environmentObject(nav)
+            .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
       )
    }
 }
@@ -208,14 +204,14 @@ struct HabitsViewPreviewer: View {
    func data() {
       let context = CoreDataManager.previews.mainContext
       
-      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
-      
-      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
-      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
-      h1?.markCompleted(on: yesterday)
-      
-      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
-      h2?.markCompleted(on: Date())
+//      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
+//
+//      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
+//      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
+//      h1?.markCompleted(on: yesterday)
+//
+//      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
+//      h2?.markCompleted(on: Date())
    }
    
    var body: some View {
@@ -240,8 +236,8 @@ struct NoHabitsView: View {
    @Environment(\.colorScheme) var scheme
    
    var body: some View {
-      HStack {
-         Text("To create a habit, press")
+      HStack(spacing: 0) {
+         Text("To create a habit, press ")
          Image(systemName: "square.and.pencil")
       }
       .foregroundColor(scheme == .light ? Color(hue: 1.0, saturation: 0.008, brightness: 0.279) : .secondaryLabel)

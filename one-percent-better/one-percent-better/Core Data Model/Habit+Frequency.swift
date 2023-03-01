@@ -7,41 +7,44 @@
 
 import Foundation
 
+extension Date {
+   // 0 = S, 1 = M, 2 = T, 3 = W, 4 = T, 5 = F, 6 = S
+   var weekdayInt: Int {
+      return Cal.component(.weekday, from: self) - 1
+   }
+}
+
 @objc public enum HabitFrequencyNSManaged: Int {
    case timesPerDay = 0
-   case daysInTheWeek = 1
+   case specificWeekdays = 1
+   case timesPerWeek = 2
    
    init(_ freq: HabitFrequency) {
       switch freq {
       case .timesPerDay(_):
          self = .timesPerDay
-      case .daysInTheWeek(_):
-         self = .daysInTheWeek
+      case .specificWeekdays(_):
+         self = .specificWeekdays
+      case .timesPerWeek(_,_):
+         self = .timesPerWeek
       }
    }
 }
 
 enum HabitFrequency: Equatable, Hashable {
    case timesPerDay(Int)
-   case daysInTheWeek([Int])
-//   case timesPerWeek(Int) // TODO: finish implementing
+   case specificWeekdays([Weekday])
+   case timesPerWeek(times: Int, resetDay: Weekday)
    
    var valueNS: Int {
       switch self {
-      case .timesPerDay(_):
+      case .timesPerDay:
          return 0
-      case .daysInTheWeek(_):
+      case .specificWeekdays:
          return 1
-//      case .timesPerWeek(_):
-//         return 2
+      case .timesPerWeek:
+         return 2
       }
-   }
-   
-   /// For converting between a date and the weekday (for ex. M = 1, T = 2, W = 3, ...)
-   /// - Parameter date: The date to convert
-   /// - Returns: The integer value of that weekday
-   func dateToDaysInTheWeek(for date: Date) -> Int {
-      return Cal.component(.weekday, from: date) - 1
    }
    
    func equalType(to hf: HabitFrequency) -> Bool {
@@ -49,20 +52,63 @@ enum HabitFrequency: Equatable, Hashable {
    }
 }
 
+enum Weekday: Int, CustomStringConvertible, Comparable {
+   case sunday, monday, tuesday, wednesday, thursday, friday, saturday
+   
+   init(_ date: Date) {
+      self.init(rawValue: date.weekdayInt)!
+   }
+   
+   init(_ weekdayInt: Int) {
+      let modulo = weekdayInt % 7
+      if modulo != weekdayInt {
+         assertionFailure("Creating a Weekday with a weekdayInt out of range: \(weekdayInt)")
+      }
+      self.init(rawValue: modulo)!
+   }
+   
+   var description: String {
+      switch self {
+      case .sunday: return "Sunday"
+      case .monday: return "Monday"
+      case .tuesday: return "Tuesday"
+      case .wednesday: return "Wednesday"
+      case .thursday: return "Thursday"
+      case .friday: return "Friday"
+      case .saturday: return "Saturday"
+      }
+   }
+   
+   static func < (lhs: Weekday, rhs: Weekday) -> Bool {
+      return lhs.rawValue < rhs.rawValue
+   }
+   
+   static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
+      var diff = b.rawValue - a.rawValue
+      if diff < 0 {
+         diff += 7
+      }
+      return diff
+   }
+}
+
 // TEMP ENUM WHILE TESTING UI
 enum HabitFrequencyTest: Equatable {
    case timesPerDay(Int)
-   case daysInTheWeek([Int])
-   case timesPerWeek(Int)
+   case specificWeekdays([Int])
+   case timesPerWeek(times: Int, resetDay: Weekday)
+   case everyXDays(Int)
    
    var valueNS: Int {
       switch self {
       case .timesPerDay(_):
          return 0
-      case .daysInTheWeek(_):
+      case .specificWeekdays(_):
          return 1
-      case .timesPerWeek(_):
+      case .timesPerWeek(_, _):
          return 2
+      case .everyXDays(_):
+         return 3
       }
    }
 }
@@ -102,8 +148,11 @@ extension Habit {
          switch freq {
          case .timesPerDay(let n):
             timesPerDay[i] = n
-         case .daysInTheWeek(let days):
-            daysPerWeek[i] = days
+         case .specificWeekdays(let days):
+            daysPerWeek[i] = days.map { $0.rawValue }
+         case .timesPerWeek(times: let n, resetDay: let day):
+            timesPerWeekTimes[i] = n
+            timesPerWeekResetDay[i] = day.rawValue
          }
       } else {
          frequencyDates.append(date)
@@ -111,14 +160,20 @@ extension Habit {
          
          timesPerDay.append(1)
          daysPerWeek.append([0])
+         timesPerWeekTimes.append(1)
+         timesPerWeekResetDay.append(0)
          
          switch freq {
          case .timesPerDay(let n):
             timesPerDay[timesPerDay.count - 1] = n
-         case .daysInTheWeek(let days):
-            daysPerWeek[daysPerWeek.count - 1] = days
+         case .specificWeekdays(let days):
+            daysPerWeek[daysPerWeek.count - 1] = days.map { $0.rawValue }
+         case .timesPerWeek(times: let n, resetDay: let day):
+            timesPerWeekTimes[timesPerWeekTimes.count - 1] = n
+            timesPerWeekResetDay[timesPerWeekResetDay.count - 1] = day.rawValue
          }
       }
+      self.improvementTracker?.update(on: date)
       moc.fatalSave()
    }
    
@@ -128,8 +183,6 @@ extension Habit {
    /// - Returns: The corresponding HabitFrequency
    func frequency(on date: Date) -> HabitFrequency? {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
-         // Requesting frequency before start date
-//         print("ERROR!!! frequency is nil on date: \(String(describing: date))")
          return nil
       }
          
@@ -140,25 +193,36 @@ extension Habit {
       switch freq {
       case .timesPerDay:
          return .timesPerDay(timesPerDay[index])
-      case .daysInTheWeek:
-         return .daysInTheWeek(daysPerWeek[index])
+      case .specificWeekdays:
+         let weekdayArray = daysPerWeek[index].map { Weekday($0) }
+         return .specificWeekdays(weekdayArray)
+      case .timesPerWeek:
+         return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: Weekday(timesPerWeekResetDay[index]))
       }
    }
    
    func isDue(on date: Date) -> Bool {
-      guard let freq = frequency(on: date) else {
+      guard started(before: date) else {
          return false
       }
-      
-//      guard started(after: date) else {
-//         return false
-//      }
-      
+      guard let freq = frequency(on: date) else { return false }
+      return isDue(on: date, withFrequency: freq)
+   }
+   
+   /// Check whether the habit is due on this date with this frequency
+   /// - Parameters:
+   ///   - date: The date to check against
+   ///   - freq: The frequency to check against
+   /// - Returns: True if due on this date with this frequency, false otherwise
+   func isDue(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
       switch freq {
       case .timesPerDay(_):
          return true
-      case .daysInTheWeek(let days):
-         return days.contains(date.weekdayInt)
+      case .specificWeekdays(let days):
+         return days.contains(Weekday(date))
+      case .timesPerWeek(_, resetDay: let resetDay):
+         // Habit due all at once on the reset day, otherwise it would mess with daily percent calculations
+         return date.weekdayInt == resetDay.rawValue
       }
    }
 }

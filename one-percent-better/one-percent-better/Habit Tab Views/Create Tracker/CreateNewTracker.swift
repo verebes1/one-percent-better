@@ -66,23 +66,29 @@ struct CreateNewTracker: View {
                NavigationLink(value: CreateTrackerNavRoute.graphTracker(habit)) {
                   CreateTrackerListItem(tracker: graphTrackerItem)
                }
+               .listRowBackground(Color.cardColor)
                
                NavigationLink(value: CreateTrackerNavRoute.imageTracker(habit)) {
                   CreateTrackerListItem(tracker: photoTrackerItem)
                }
+               .listRowBackground(Color.cardColor)
                
                NavigationLink(value: CreateTrackerNavRoute.exerciseTracker(habit)) {
                   CreateTrackerListItem(tracker: exerciseTrackerItem)
                }
+               .listRowBackground(Color.cardColor)
                
 //               NavigationLink(value: CreateTrackerNavRoute.timeTracker(habit)) {
                   CreateTrackerListItem(tracker: timeTrackerItem)
 //               }
+                  .listRowBackground(Color.cardColor)
                
 //               NavigationLink(value: CreateTrackerNavRoute.noteTracker(habit)) {
                   CreateTrackerListItem(tracker: noteTrackerItem)
 //               }
+                  .listRowBackground(Color.cardColor)
             }
+            .scrollContentBackground(.hidden)
             
          }
          .navigationDestination(for: CreateTrackerNavRoute.self) { [nav] route in

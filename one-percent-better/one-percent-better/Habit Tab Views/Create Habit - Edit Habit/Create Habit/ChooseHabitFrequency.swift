@@ -18,11 +18,11 @@ struct ChooseHabitFrequency: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
    
-   @EnvironmentObject var hlvm: HabitListViewModel
-   
    var habitName: String
    
    @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay(1))
+   
+   @Binding var hideTabBar: Bool
    
    var body: some View {
       Background {
@@ -31,11 +31,11 @@ struct ChooseHabitFrequency: View {
                .frame(height: 20)
             HabitCreationHeader(systemImage: "clock.arrow.2.circlepath",
                                 title: "Frequency",
-                                subtitle: "")
+                                subtitle: "How often do you want to complete this habit?")
             
 //            Spacer().frame(height: 20)
             
-            FrequencySelectionStack2(vm: vm)
+            FrequencySelectionStack(vm: vm)
                .environmentObject(vm)
             
             Spacer()
@@ -45,6 +45,7 @@ struct ChooseHabitFrequency: View {
                   let _ = try? Habit(context: moc,
                                      name: habitName,
                                      frequency: vm.selection)
+                  hideTabBar = false
                   nav.path.removeLast(2)
                }
          }
@@ -55,7 +56,7 @@ struct ChooseHabitFrequency: View {
 
 struct HabitFrequency_Previews: PreviewProvider {
    static var previews: some View {
-      ChooseHabitFrequency(habitName: "Horseback Riding")
+      ChooseHabitFrequency(habitName: "Horseback Riding", hideTabBar: .constant(true))
    }
 }
 

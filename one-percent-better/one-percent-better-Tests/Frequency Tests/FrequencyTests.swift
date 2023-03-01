@@ -1,5 +1,5 @@
 //
-//  HabitFrequencyTests.swift
+//  FrequencyTests.swift
 //  one-percent-betterTests
 //
 //  Created by Jeremy Cook on 11/28/22.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import ___Better
 
-final class HabitFrequencyTests: XCTestCase {
+final class FrequencyTests: XCTestCase {
 
    let context = CoreDataManager.previews.mainContext
    
@@ -35,14 +35,14 @@ final class HabitFrequencyTests: XCTestCase {
       XCTAssertEqual(habit.startDate, today)
       XCTAssertEqual(habit.frequencyDates[0].startOfDay(), today)
       
-      let threeDaysAgo = Cal.addDays(num: -3)
+      let threeDaysAgo = Cal.add(days: -3)
       habit.updateStartDate(to: threeDaysAgo)
       XCTAssertEqual(habit.startDate, threeDaysAgo.startOfDay())
       XCTAssertEqual(habit.frequencyDates[0].startOfDay(), threeDaysAgo.startOfDay())
    }
    
    func testFrequencyBeforeAllFrequencyDates() throws {
-      let threeDaysAgo = Cal.addDays(num: -3)
+      let threeDaysAgo = Cal.add(days: -3)
       XCTAssertNil(habit.frequency(on: threeDaysAgo))
    }
 

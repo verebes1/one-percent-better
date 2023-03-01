@@ -8,10 +8,16 @@
 import SwiftUI
 
 struct BottomButton: View {
+   
+   @Environment(\.colorScheme) var scheme
     
     let label: String
     
     var withBottomPadding: Bool = true
+   
+   private var textColor: Color {
+      scheme == .light ? .white : .black
+   }
     
     var body: some View {
         ZStack {
@@ -20,8 +26,8 @@ struct BottomButton: View {
                 .frame(height: 50)
                 .padding(.horizontal, 20)
             Text(label)
-                .fontWeight(.bold)
-                .foregroundColor(.white)
+                .fontWeight(.medium)
+                .foregroundColor(textColor)
         }
         .padding(.bottom, withBottomPadding ? 10 : 0)
     }
@@ -39,11 +45,17 @@ struct BottomButton_Previews: PreviewProvider {
 }
 
 struct BottomButtonDisabledWhenEmpty: View {
+   
+   @Environment(\.colorScheme) var scheme
     
     let text: String
     @Binding var dependingLabel: String
     
     var withBottomPadding: Bool = true
+   
+   private var textColor: Color {
+      scheme == .light ? .white : .black
+   }
     
     var body: some View {
         ZStack {
@@ -52,8 +64,8 @@ struct BottomButtonDisabledWhenEmpty: View {
                 .frame(height: 50)
                 .padding(.horizontal, 20)
             Text(text)
-                .fontWeight(.bold)
-                .foregroundColor(dependingLabel.isEmpty ? .tertiaryLabel : .white)
+                .fontWeight(.medium)
+                .foregroundColor(dependingLabel.isEmpty ? .tertiaryLabel : textColor)
         }
         .padding(.bottom, withBottomPadding ? 10 : 0)
     }

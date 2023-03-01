@@ -14,7 +14,7 @@ struct EveryWeekOnSpecificWeekDays: View {
    
    @EnvironmentObject var vm: FrequencySelectionModel
    
-   @Binding var selectedWeekdays: [Int]
+   @Binding var selectedWeekdays: [Weekday]
    
    var body: some View {
       VStack {
@@ -37,20 +37,19 @@ struct WeekDayButton: View {
    @EnvironmentObject var vm: FrequencySelectionModel
    
    let i: Int
-   @Binding var selectedWeekdays: [Int]
+   @Binding var selectedWeekdays: [Weekday]
    let weekdays = ["S", "M", "T", "W", "T", "F", "S"]
    
    func updateSelection(_ i: Int) {
-      if selectedWeekdays.count == 1 && i == selectedWeekdays[0] {
+      if selectedWeekdays.count == 1 && i == selectedWeekdays[0].rawValue {
          return
       }
-      if let index = selectedWeekdays.firstIndex(of: i) {
+      if let index = selectedWeekdays.firstIndex(of: Weekday(i)) {
          selectedWeekdays.remove(at: index)
       } else {
-         selectedWeekdays.append(i)
+         selectedWeekdays.append(Weekday(i))
       }
       selectedWeekdays = selectedWeekdays.sorted()
-      vm.selection = .daysInTheWeek(selectedWeekdays)
    }
    
    private var textColor: Color {
@@ -61,28 +60,32 @@ struct WeekDayButton: View {
       colorScheme == .light ? .white : .black
    }
    
+   private var buttonGray: Color {
+      colorScheme == .light ? .systemGray5 : .systemGray3
+   }
+   
    var body: some View {
       Button {
          withAnimation(.easeInOut(duration: 0.15)) {
             updateSelection(i)
          }
       } label : {
-         let isSelected = selectedWeekdays.contains(i)
+         let isSelected = selectedWeekdays.contains(Weekday(i))
          Text(weekdays[i])
             .font(.system(size: 15))
             .fontWeight(isSelected ? .semibold : .regular)
             .padding(.vertical, 5)
             .frame(width: 40)
             .foregroundColor(isSelected ? selectedTextColor : textColor)
-            .background(isSelected ? Style.accentColor : .grayButton)
+            .background(isSelected ? Style.accentColor : buttonGray)
             .clipShape(Capsule())
       }
    }
 }
 
 struct EveryWeekOnSpecificWeekDaysPreviews: View {
-   @State var selectedWeekdays: [Int] = [1,2]
-   @StateObject var vm = FrequencySelectionModel(selection: .daysInTheWeek([0, 2, 4]))
+   @State var selectedWeekdays: [Weekday] = [.monday, .tuesday]
+   @StateObject var vm = FrequencySelectionModel(selection: .specificWeekdays([.sunday, .tuesday, .thursday]))
    
    var body: some View {
       Background {

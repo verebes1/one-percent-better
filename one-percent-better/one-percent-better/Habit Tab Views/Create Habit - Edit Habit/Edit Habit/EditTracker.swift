@@ -85,6 +85,7 @@ struct EditTracker: View {
                                 showError: $emptyTrackerNameError)
                   }
                }
+               .listRowBackground(Color.cardColor)
                
                Section {
                   Button {
@@ -111,8 +112,10 @@ struct EditTracker: View {
                      
                   }
                }
+               .listRowBackground(Color.cardColor)
             }
             .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
          }
       }
       .onDisappear {

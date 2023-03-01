@@ -1,5 +1,5 @@
 //
-//  SelectableCard.swift
+//  SelectableCardOld.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 8/14/22.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectableCard<Content>: View where Content: View {
+struct SelectableCardOld<Content>: View where Content: View {
    
    @Environment(\.colorScheme) var scheme
    
@@ -28,7 +28,6 @@ struct SelectableCard<Content>: View where Content: View {
       )
       .overlay(content: {
          ZStack {
-            
             if selection.equalType(to: type) {
                RoundedRectangle(cornerRadius: 10)
                   .stroke(scheme == .light ? Style.accentColor : Style.accentColor2, lineWidth: 2)
@@ -49,38 +48,42 @@ struct SelectableCard<Content>: View where Content: View {
    }
 }
 
-struct SelectableCardPreviewer: View {
+struct SelectableCardOldPreviewer: View {
    
    @State private var selection: HabitFrequency = .timesPerDay(1)
    
    var body: some View {
       Background {
          VStack {
-            SelectableCard(selection: $selection, type: .timesPerDay(1), content: {
+            SelectableCardOld(selection: $selection, type: .timesPerDay(1), content: {
                VStack {
                   Text("Hello World")
                   Text("Hello World")
                   Text("Hello World")
                   Text("Hello World")
                }
-            })
+            }) {
+               selection = .timesPerDay(1)
+            }
             
-            SelectableCard(selection: $selection, type: .daysInTheWeek([2,4]), content: {
+            SelectableCardOld(selection: $selection, type: .specificWeekdays([.tuesday, .thursday]), content: {
                VStack {
                   Text("What's good baby")
                   Text("What's good baby")
                   Text("What's good baby")
                   Text("What's good baby")
                }
-            })
+            }) {
+               selection = .specificWeekdays([.tuesday, .thursday])
+            }
          }
       }
    }
 }
 
-struct SelectableCard_Previews: PreviewProvider {
+struct SelectableCardOld_Previews: PreviewProvider {
    static var previews: some View {
-      SelectableCardPreviewer()
+      SelectableCardOldPreviewer()
    }
 }
 
@@ -88,10 +91,13 @@ struct SelectableCard_Previews: PreviewProvider {
 struct CheckmarkToggleButton: View {
    
    var state: Bool = true
+   var size: CGFloat = 18
    
    var body: some View {
       Image(systemName: state ? "checkmark.circle.fill" : "circle")
-         .foregroundColor(Style.accentColor)
-         .padding(.trailing, 5)
+         .resizable()
+         .aspectRatio(contentMode: .fit)
+         .frame(width: size, height: size)
+         .foregroundColor(state ? Style.accentColor : .systemGray)
    }
 }

@@ -8,65 +8,59 @@
 import SwiftUI
 
 struct EveryXDays: View {
-   @State private var timesPerDay = "1"
    
-   var color: Color = Style.accentColor
-   
-   var isPlural: Binding<Int> {
-      Binding {
-         Int(timesPerDay) ?? 0
-      } set: { _ in }
-   }
+   @Binding var everyXDays: Int
    
    var body: some View {
       HStack(spacing: 7) {
-         Text("Every")
+         Text("Once every")
          Menu {
-            MenuItemWithCheckmark(value: "1",
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "2",
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "3",
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "4",
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: "5",
-                                  selection: $timesPerDay)
+            MenuItemWithCheckmark(value: 2,
+                                  selection: $everyXDays)
+            MenuItemWithCheckmark(value: 3,
+                                  selection: $everyXDays)
+            MenuItemWithCheckmark(value: 4,
+                                  selection: $everyXDays)
+            MenuItemWithCheckmark(value: 5,
+                                  selection: $everyXDays)
             Menu {
-               MenuItemWithCheckmark(value: "6",
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "7",
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "8",
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "9",
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: "10",
-                                     selection: $timesPerDay)
+               MenuItemWithCheckmark(value: 6,
+                                     selection: $everyXDays)
+               MenuItemWithCheckmark(value: 7,
+                                     selection: $everyXDays)
+               MenuItemWithCheckmark(value: 8,
+                                     selection: $everyXDays)
+               MenuItemWithCheckmark(value: 9,
+                                     selection: $everyXDays)
+               MenuItemWithCheckmark(value: 10,
+                                     selection: $everyXDays)
             } label: {
                Button("More...", action: {})
             }
          } label: {
-            CapsuleMenuButton(text: timesPerDay,
-                                      color: color,
+            CapsuleMenuButton(text: String(everyXDays),
+                                      color: Style.accentColor,
                                       fontSize: 15)
          }
          
-         HStack(spacing: 0) {
-            // TODO: fixme
-//            AnimatedTimesText(plural: isPlural)
-            Text(" per day")
-         }
+         Text("days")
       }
-      .animation(.easeInOut(duration: 0.3), value: timesPerDay)
+      .animation(.easeInOut(duration: 0.3), value: everyXDays)
       .padding(10)
+   }
+}
+
+struct EveryXDaysPreviewer: View {
+   @State private var everyXDays = 2
+   var body: some View {
+      Background {
+         EveryXDays(everyXDays: $everyXDays)
+      }
    }
 }
 
 struct EveryXDays_Previews: PreviewProvider {
    static var previews: some View {
-      Background {
-         EveryXDays()
-      }
+      EveryXDaysPreviewer()
    }
 }

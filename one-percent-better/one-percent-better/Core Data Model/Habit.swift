@@ -51,7 +51,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// The start date of the habit. Any day before this start date doesn't display the habit in the habit list or count towards
    /// the total percent completed for that day.
-   @NSManaged private(set) var startDate: Date
+   @NSManaged private(set) var startDate: Date!
    
    /// An array of all the days where the habit was completed
    @NSManaged public var daysCompleted: [Date]
@@ -75,6 +75,12 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// A length 7 array for the days per week to complete this habit, stored as [S, M, T, W, T, F, S]
    /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
    @NSManaged public var daysPerWeek: [[Int]]
+   
+   /// How many times they've committed to completing this habit this week
+   @NSManaged public var timesPerWeekTimes: [Int]
+   
+   /// Which day of the week does this weekly habit frequency reset
+   @NSManaged public var timesPerWeekResetDay: [Int]
    
    // MARK: - Properties
    
@@ -120,13 +126,18 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       // Default values
       self.timesPerDay = [1]
-      self.daysPerWeek = [[2,4]]
+      self.daysPerWeek = [[Weekday.tuesday.rawValue, Weekday.thursday.rawValue]]
+      self.timesPerWeekTimes = [1]
+      self.timesPerWeekResetDay = [Weekday.sunday.rawValue]
       
       switch frequency {
       case .timesPerDay(let n):
          self.timesPerDay = [n]
-      case .daysInTheWeek(let days):
-         self.daysPerWeek = [days]
+      case .specificWeekdays(let days):
+         self.daysPerWeek = [days.map { $0.rawValue }]
+      case .timesPerWeek(times: let n, resetDay: let day):
+         self.timesPerWeekTimes = [n]
+         self.timesPerWeekResetDay = [day.rawValue]
       }
       
       // Auto trackers
@@ -140,7 +151,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    func updateStartDate(to date: Date) {
       // Ensure start date is before tomorrow
-      let tmr = Cal.addDays(num: 1).startOfDay()
+      let tmr = Cal.add(days: 1).startOfDay()
       guard date < tmr else { return }
       
       startDate = date.startOfDay()
@@ -154,28 +165,13 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    // MARK: - Properties
    
-   /// The streak as of today
-   var streak: Int {
-      var streak = 0
-      // start at yesterday, a streak is only broken if it's not completed by the end of the day
-      var day = Cal.date(byAdding: .day, value: -1, to: Date())!
-      while wasCompleted(on: day) {
-         streak += 1
-         day = Cal.date(byAdding: .day, value: -1, to: day)!
-      }
-      // add 1 if completed today
-      if wasCompleted(on: Date()) {
-         streak += 1
-      }
-      return streak
-   }
-   
+   // TODO: fix this for 1.0.8!!
    /// The longest streak the user has completed for this habit
    var longestStreak: Int {
       get {
          var longest = 0
          var current = 0
-         var curDay = startDate
+         guard var curDay = startDate else { return 0 }
          while !Cal.isDateInTomorrow(curDay) {
             if self.wasCompleted(on: curDay) {
                current += 1
@@ -238,14 +234,19 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       return habits.isEmpty ? 0 : habits.count
    }
    
-   /// Whether or not this habit started after a certain date
+   /// Whether or not this habits start date is after a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
+      guard let startDate = startDate else { return false }
       return Cal.startOfDay(for: startDate) >= Cal.startOfDay(for: day)
    }
    
+   /// Whether or not this habits start date is before a certain date
+   /// - Parameter day: The day to check against
+   /// - Returns: True if the habit started on or before the date, and false otherwise
    func started(before day: Date) -> Bool {
+      guard let startDate = startDate else { return false }
       return Cal.startOfDay(for: startDate) <= Cal.startOfDay(for: day)
    }
    
@@ -331,6 +332,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case timesPerDay
       case timesCompleted
       case daysPerWeek
+      case timesPerWeekTimes
+      case timesPerWeekResetDay
       
       case trackersContainer
    }
@@ -354,18 +357,21 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.init(context: context)
       self.name = name
       self.id = container.decodeOptional(key: .id, type: UUID.self) ?? UUID()
-      self.startDate = try container.decode(Date.self, forKey: .startDate)
-      self.daysCompleted = try container.decode([Date].self, forKey: .daysCompleted)
-      self.notificationTime = try container.decode(Date?.self, forKey: .notificationTime)
+      self.startDate = container.decodeOptional(key: .startDate, type: Date.self) ?? Date()
+      self.daysCompleted = container.decodeOptional(key: .daysCompleted, type: [Date].self) ?? []
+      self.notificationTime = container.decodeOptional(key: .notificationTime, type: Date.self)
       self.frequency = container.decodeOptional(key: .frequency, type: [Int].self) ?? [HabitFrequencyNSManaged.timesPerDay.rawValue]
       self.frequencyDates = container.decodeOptional(key: .frequencyDates, type: [Date].self) ?? [startDate]
       self.timesPerDay = container.decodeOptional(key: .timesPerDay, type: [Int].self) ?? [1]
       self.timesCompleted = container.decodeOptional(key: .timesCompleted, type: [Int].self) ?? Array(repeating: 1, count: daysCompleted.count)
-      self.daysPerWeek = container.decodeOptional(key: .daysPerWeek, type: [[Int]].self) ?? [[0]]
+      self.daysPerWeek = container.decodeOptional(key: .daysPerWeek, type: [[Int]].self) ?? Array(repeating: [2,4], count: self.frequency.count)
       
       if self.daysPerWeek.isEmpty {
          self.daysPerWeek = Array(repeating: [2,4], count: self.frequency.count)
       }
+      
+      self.timesPerWeekTimes = container.decodeOptional(key: .timesPerWeekTimes, type: [Int].self) ?? Array(repeating: 1, count: self.frequency.count)
+      self.timesPerWeekResetDay = container.decodeOptional(key: .timesPerWeekResetDay, type: [Int].self) ?? Array(repeating: 0, count: self.frequency.count)
       
       // If importing data on top of existing data, then we must add
       // the imported index on top of the largest existing index
@@ -380,7 +386,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          Habit.nextLargestIndexBeforeImporting = existingIndex
       }
       self.orderIndex = existingIndex + importedIndex
-      
+
       if let trackersContainer = try? container.decode(TrackersContainer.self, forKey: .trackersContainer) {
          for nt in trackersContainer.numberTrackers {
             nt.habit = self
@@ -436,6 +442,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       try container.encode(timesPerDay, forKey: .timesPerDay)
       try container.encode(timesCompleted, forKey: .timesCompleted)
       try container.encode(daysPerWeek, forKey: .daysPerWeek)
+      try container.encode(timesPerWeekTimes, forKey: .timesPerWeekTimes)
+      try container.encode(timesPerWeekResetDay, forKey: .timesPerWeekResetDay)
    }
 }
 
@@ -496,11 +504,5 @@ extension KeyedDecodingContainer {
          return value
       }
       return nil
-   }
-}
-
-extension Date {
-   var weekdayInt: Int {
-      return Cal.component(.weekday, from: self) - 1
    }
 }

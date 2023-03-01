@@ -13,8 +13,12 @@ struct CardView<Content>: View where Content: View {
    @Environment(\.colorScheme) var colorScheme
    
    var shadow = true
+   var shadowOpacity: CGFloat {
+      colorScheme == .light ? 0.05 : 0.1
+   }
    var padding: CGFloat = 10
    var color: Color = .cardColor
+   var cornerRadius: CGFloat = 17
    let content: () -> Content
    
    var body: some View {
@@ -22,8 +26,9 @@ struct CardView<Content>: View where Content: View {
          .padding(.vertical, 5)
          .frame(maxWidth: .infinity)
          .background(color)
-         .cornerRadius(10)
-         .shadow(color: Color.cardColorOpposite.opacity(shadow ? 0.05 : 0.0), radius: colorScheme == .light ? 7 : 0)
+         .cornerRadius(cornerRadius)
+//         .shadow(color: Color.cardColorOpposite.opacity(shadow ? shadowOpacity : 0.0), radius: colorScheme == .light ? 7 : 0)
+         .shadow(color: .black.opacity(shadowOpacity), radius: 7)
          .padding(.horizontal, padding)
    }
 }

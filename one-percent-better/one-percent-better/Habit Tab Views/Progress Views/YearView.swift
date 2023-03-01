@@ -43,6 +43,7 @@ struct YearView: View {
             }
             .padding(.horizontal, 5)
             .frame(height: yearHeight)
+            .padding(3)
 //            .padding(.vertical, 10)
          }
       }
@@ -82,6 +83,8 @@ struct CompletedSquare: View {
    
    @EnvironmentObject var habit: Habit
    
+   @Environment(\.colorScheme) var scheme
+   
    let today = Date()
    
    func opacity(on curDay: Date) -> Double {
@@ -89,7 +92,7 @@ struct CompletedSquare: View {
       switch habit.frequency(on: curDay) {
       case .timesPerDay(let n):
          opacity = Double(habit.timesCompleted(on: curDay)) / Double(n)
-      case .daysInTheWeek:
+      case .specificWeekdays, .timesPerWeek:
          opacity = Double(1)
       case nil:
          opacity = 0
@@ -103,11 +106,10 @@ struct CompletedSquare: View {
          let curDay = Cal.date(byAdding: .day, value: -j, to: today)!
          let isCompleted = habit.timesCompleted(on: curDay) >= 1
          
-         
          let opacity = opacity(on: curDay)
-         
+         let notFilledColor: Color = scheme == .light ? .systemGray5 : .systemGray3
          Rectangle()
-            .fill(isCompleted ? .green.opacity(opacity) : .systemGray5)
+            .fill(isCompleted ? .green.opacity(opacity) : notFilledColor)
             .aspectRatio(1, contentMode: .fit)
          
       }

@@ -33,10 +33,10 @@ final class ImprovementTrackerTests: XCTestCase {
       let today = Date()
       
       habit.markCompleted(on: today)
-      XCTAssertEqual(["0", "1"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1"], habit.improvementTracker?.values)
       
       habit.markNotCompleted(on: today)
-      XCTAssertEqual(["0", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0"], habit.improvementTracker?.values)
    }
    
    func testTwoDays() throws {
@@ -44,9 +44,9 @@ final class ImprovementTrackerTests: XCTestCase {
       let yesterday = Cal.date(byAdding: .day, value: -1, to: today)!
       
       habit.markCompleted(on: yesterday)
-      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "0"], habit.improvementTracker?.values)
       habit.markCompleted(on: today)
-      XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "2"], habit.improvementTracker?.values)
    }
    
    func testThreeDays() throws {
@@ -56,27 +56,27 @@ final class ImprovementTrackerTests: XCTestCase {
       
       habit.updateStartDate(to: d0)
       habit.improvementTracker?.update(on: Date())
-      XCTAssertEqual(["0", "0", "0", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "0", "0"], habit.improvementTracker?.values)
       
       habit.markCompleted(on: d0)
-      XCTAssertEqual(["0", "1", "0", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "0", "0"], habit.improvementTracker?.values)
       
       habit.markNotCompleted(on: d0)
       habit.markCompleted(on: d1)
-      XCTAssertEqual(["0", "0", "1", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
       
       habit.markNotCompleted(on: d1)
       habit.markCompleted(on: d2)
-      XCTAssertEqual(["0", "0", "0", "1"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "0", "1"], habit.improvementTracker?.values)
       
       habit.markCompleted(on: d1)
-      XCTAssertEqual(["0", "0", "1", "2"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
       
       habit.markCompleted(on: d0)
-      XCTAssertEqual(["0", "1", "2", "3"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "2", "3"], habit.improvementTracker?.values)
       
       habit.markNotCompleted(on: d1)
-      XCTAssertEqual(["0", "1", "0", "1"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "0", "1"], habit.improvementTracker?.values)
    }
    
    func testCompletionDayBeforeStartDay() throws {
@@ -86,59 +86,59 @@ final class ImprovementTrackerTests: XCTestCase {
       
       habit.updateStartDate(to: d0)
       habit.improvementTracker?.update(on: Date())
-      XCTAssertEqual(["0", "0", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["0", "0"], habit.improvementTracker?.values)
       
       habit.markCompleted(on: dn1)
-      XCTAssertEqual(["0", "1", "0", "0"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "0", "0"], habit.improvementTracker?.values)
    }
    
    func testTimesPerDayFrequency() throws {
-      habit.updateStartDate(to: Cal.addDays(num: -1))
+      habit.updateStartDate(to: Cal.add(days: -1))
       habit.changeFrequency(to: .timesPerDay(2), on: habit.startDate)
       
-      habit.markCompleted(on: Cal.addDays(num: -1))
-      XCTAssertEqual(["0", "0", "0"], habit.improvementTracker?.values)
-      habit.markCompleted(on: Cal.addDays(num: -1))
-      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
-      habit.markCompleted(on: Cal.addDays(num: 0))
+      habit.markCompleted(on: Cal.add(days: -1))
+      XCTAssertEqual(["0", "0"], habit.improvementTracker?.values)
+      habit.markCompleted(on: Cal.add(days: -1))
+      XCTAssertEqual(["1", "0"], habit.improvementTracker?.values)
+      habit.markCompleted(on: Cal.add(days: 0))
       // 0, 1, 1.501
-      XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
+      XCTAssertEqual(["1", "2"], habit.improvementTracker?.values)
    }
    
    func testSMTWTFSFrequency() throws {
-      habit.updateStartDate(to: Cal.addDays(num: -2))
-      let yesterday = Cal.addDays(num: -1).weekdayInt
-      habit.changeFrequency(to: .daysInTheWeek([yesterday]), on: habit.startDate)
+      habit.updateStartDate(to: Cal.add(days: -2))
+      let yesterday = Cal.add(days: -1).weekdayInt
+      habit.changeFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
       
-      habit.markCompleted(on: Cal.addDays(num: -2))
-      // -3 -2 -1  0
-      //  0  1  0  -
-      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
+      habit.markCompleted(on: Cal.add(days: -2))
+      // -2 -1  0
+      //  1  0  -
+      XCTAssertEqual(["1", "0"], habit.improvementTracker?.values)
       
-      habit.markNotCompleted(on: Cal.addDays(num: -2))
-      // -3 -2 -1  0
-      //  0  -  0  -
+      habit.markNotCompleted(on: Cal.add(days: -2))
+      // -2 -1  0
+      //  0  0  -
       XCTAssertEqual(["0", "0"], habit.improvementTracker?.values)
       
-      // -3 -2 -1  0
-      //  0  -  1  -
-      habit.markCompleted(on: Cal.addDays(num: -1))
+      // -2 -1  0
+      //  0  1  -
+      habit.markCompleted(on: Cal.add(days: -1))
       XCTAssertEqual(["0", "1"], habit.improvementTracker?.values)
       
-      // -3 -2 -1  0
-      //  0  -  1  2
-      habit.markCompleted(on: Cal.addDays(num: 0))
+      // -2 -1  0
+      //  0  1  2
+      habit.markCompleted(on: Cal.add(days: 0))
       XCTAssertEqual(["0", "1", "2"], habit.improvementTracker?.values)
    }
    
    func testSMTWTFSFrequency2() throws {
-      habit.updateStartDate(to: Cal.addDays(num: -2))
-      let yesterday = Cal.addDays(num: -1).weekdayInt
-      habit.changeFrequency(to: .daysInTheWeek([yesterday]), on: habit.startDate)
+      habit.updateStartDate(to: Cal.add(days: -2))
+      let yesterday = Cal.add(days: -1).weekdayInt
+      habit.changeFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
       
-      habit.markCompleted(on: Cal.addDays(num: -2))
-      // -3 -2 -1  0
-      //  0  1  0  -
-      XCTAssertEqual(["0", "1", "0"], habit.improvementTracker?.values)
+      habit.markCompleted(on: Cal.add(days: -2))
+      // -2 -1  0
+      //  1  0  -
+      XCTAssertEqual(["1", "0"], habit.improvementTracker?.values)
    }
 }

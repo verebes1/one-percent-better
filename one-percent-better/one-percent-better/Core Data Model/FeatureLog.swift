@@ -18,13 +18,19 @@ public class FeatureLog: NSManagedObject, Codable {
    @NSManaged public var hasTrackerToHabitRelationship: Bool
    @NSManaged public var hasImprovement: Bool
    
-   /// Starting with 1.0.3, habit frequency is an array and must be paired with a frequency date array
+   /// With 1.0.3, habit frequency is an array and must be paired with a frequency date array
    /// to know when the user changed the frequency
    @NSManaged public var hasFrequencyDates: Bool
    @NSManaged public var hasID: Bool
    
-   /// With 1.0.5 theres a new way to calculate the improvement score
+   /// With 1.0.5, there's a new way to calculate the improvement score
    @NSManaged public var hasNewImprovement: Bool
+   
+   /// With 1.0.8, there's a new frequency option which needs its array filled to match the other frequency array lengths
+   @NSManaged public var hasTimesPerWeekFrequency: Bool
+   
+   /// With 1.0.8, the improvment score starts on the start date, not one day before, so we must recalculate all the improvement scores
+   @NSManaged public var hasNewImprovementScore: Bool
    
    // MARK: - Encodable
    
@@ -37,6 +43,8 @@ public class FeatureLog: NSManagedObject, Codable {
       case hasFrequencyDates
       case hasID
       case hasNewImprovement
+      case hasTimesPerWeekFrequency
+      case hasNewImprovementScore
    }
    
    required convenience public init(from decoder: Decoder) throws {
@@ -60,6 +68,8 @@ public class FeatureLog: NSManagedObject, Codable {
       self.hasID = try container.decode(Bool.self, forKey: .hasID)
       self.hasNewImprovement = container.decodeOptional(key: .hasNewImprovement, type: Bool.self) ?? false
       self.hasTimesCompleted = container.decodeOptional(key: .hasTimesCompleted, type: Bool.self) ?? false
+      self.hasTimesPerWeekFrequency = container.decodeOptional(key: .hasTimesPerWeekFrequency, type: Bool.self) ?? false
+      self.hasNewImprovementScore = container.decodeOptional(key: .hasNewImprovementScore, type: Bool.self) ?? false
    }
    
    public func encode(to encoder: Encoder) throws {
@@ -72,6 +82,8 @@ public class FeatureLog: NSManagedObject, Codable {
       try container.encode(hasFrequencyDates, forKey: .hasFrequencyDates)
       try container.encode(hasID, forKey: .hasID)
       try container.encode(hasNewImprovement, forKey: .hasNewImprovement)
+      try container.encode(hasTimesPerWeekFrequency, forKey: .hasTimesPerWeekFrequency)
+      try container.encode(hasNewImprovementScore, forKey: .hasNewImprovementScore)
    }
    
    // MARK: Fetch Request

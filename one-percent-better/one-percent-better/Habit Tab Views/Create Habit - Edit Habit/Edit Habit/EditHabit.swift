@@ -56,24 +56,27 @@ struct EditHabit: View {
       return true
    }
    
-   var freqTextView: some View {
-      guard let freq = habit.frequency(on: Date()) else {
-         return Text("N/A")
-      }
-      
-      switch freq {
+   var freqTextView: some View {      
+      switch habit.frequency(on: Date()) {
       case .timesPerDay(let n):
-         return Text("\(n)x daily")
-      case .daysInTheWeek(let days):
+         let timesString = n == 1 ? "time" : "times"
+         return Text("\(n) \(timesString) per day")
+      case .specificWeekdays(let days):
          var finalString = ""
          let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
          for (i, day) in days.enumerated() {
-            finalString += "\(dayString[day])"
+            finalString += "\(dayString[day.rawValue])"
             if i != days.count - 1 {
                finalString += ", "
             }
          }
          return Text(finalString)
+      case .timesPerWeek(times: let n, resetDay: let resetDay):
+         let timesString = n == 1 ? "time" : "times"
+         let finalString = "\(n) \(timesString) per week, every \(resetDay)"
+         return Text(finalString)
+      case .none:
+         return Text("Unknown frequency")
       }
    }
    
@@ -107,7 +110,7 @@ struct EditHabit: View {
                         .fontWeight(.medium)
                      Spacer()
                      
-                     let range = Cal.addDays(num: -10000) ... (habit.firstCompleted ?? Date())
+                     let range = Cal.add(days: -10000) ... (habit.firstCompleted ?? Date())
                      DatePicker("", selection: $startDate, in: range, displayedComponents: [.date])
                   }
                   .onChange(of: startDate) { newValue in
@@ -115,6 +118,8 @@ struct EditHabit: View {
                   }
                                     
                }
+               .listRowBackground(Color.cardColor)
+               
                if habit.editableTrackers.count > 0 {
                   Section(header: Text("Trackers")) {
                      ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
@@ -125,6 +130,7 @@ struct EditHabit: View {
                         }
                      }
                   }
+                  .listRowBackground(Color.cardColor)
                }
                
                Section {
@@ -152,8 +158,10 @@ struct EditHabit: View {
                      
                   }
                }
+               .listRowBackground(Color.cardColor)
             }
             .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)

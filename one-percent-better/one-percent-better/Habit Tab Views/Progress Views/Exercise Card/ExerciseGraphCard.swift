@@ -78,13 +78,13 @@ struct ExerciseGraphCard_Previews: PreviewProvider {
          e.addSet(set: 2, rep: 10, weight: "10", on: Date())
          e.addSet(set: 3, rep: 10, weight: "15", on: Date())
          
-         e.addSet(set: 1, rep: 10, weight: "10", on: Cal.addDays(num: -1))
-         e.addSet(set: 2, rep: 10, weight: "10", on: Cal.addDays(num: -1))
-         e.addSet(set: 3, rep: 10, weight: "10", on: Cal.addDays(num: -1))
+         e.addSet(set: 1, rep: 10, weight: "10", on: Cal.add(days: -1))
+         e.addSet(set: 2, rep: 10, weight: "10", on: Cal.add(days: -1))
+         e.addSet(set: 3, rep: 10, weight: "10", on: Cal.add(days: -1))
          
-         e.addSet(set: 1, rep: 10, weight: "5", on: Cal.addDays(num: -2))
-         e.addSet(set: 2, rep: 10, weight: "5", on: Cal.addDays(num: -2))
-         e.addSet(set: 3, rep: 10, weight: "10", on: Cal.addDays(num: -2))
+         e.addSet(set: 1, rep: 10, weight: "5", on: Cal.add(days: -2))
+         e.addSet(set: 2, rep: 10, weight: "5", on: Cal.add(days: -2))
+         e.addSet(set: 3, rep: 10, weight: "10", on: Cal.add(days: -2))
       }
       
       let habits = Habit.habits(from: context)
