@@ -59,34 +59,3 @@ struct HabitFrequency_Previews: PreviewProvider {
       ChooseHabitFrequency(habitName: "Horseback Riding", hideTabBar: .constant(true))
    }
 }
-
-struct WeeklyCards: View {
-   
-   @State private var selectedCard: Int = 0
-   
-   @State private var specificDaysSelected = true
-   
-   var body: some View {
-      VStack {
-         //            SelectableCard(selection: $specificDaysSelected) {
-         //                EveryWeekOnSpecificWeekDays()
-         //            }
-         //            .frame(height: 90)
-         
-         //            CardView {
-         //                EveryWeekly()
-         //                    .padding()
-         //            }
-         
-         
-         //            CardView {
-         //                Text("Every 1 week(s) at anytime during that period")
-         //            }
-         //            .border(selectedCard == 1 ? .blue : .clear)
-         //            .onTapGesture {
-         //                selectedCard = 1
-         //            }
-      }
-   }
-}
-

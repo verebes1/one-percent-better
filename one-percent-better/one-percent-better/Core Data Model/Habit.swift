@@ -56,8 +56,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// An array of all the days where the habit was completed
    @NSManaged public var daysCompleted: [Date]
    
-   /// The time when the notification should be sent
-   @NSManaged public var notificationTime: Date?
+   /// The times when a notification reminder should be sent
+   @NSManaged public var notificationTimes: [Date]
    
    /// How frequently the user wants to complete the habit (daily, weekly, monthly)
    @NSManaged public var frequency: [Int]
@@ -326,7 +326,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case orderIndex
       case startDate
       case daysCompleted
-      case notificationTime
+      case notificationTimes
       case frequency
       case frequencyDates
       case timesPerDay
@@ -359,7 +359,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.id = container.decodeOptional(key: .id, type: UUID.self) ?? UUID()
       self.startDate = container.decodeOptional(key: .startDate, type: Date.self) ?? Date()
       self.daysCompleted = container.decodeOptional(key: .daysCompleted, type: [Date].self) ?? []
-      self.notificationTime = container.decodeOptional(key: .notificationTime, type: Date.self)
+      self.notificationTimes = container.decodeOptional(key: .notificationTimes, type: [Date].self) ?? []
       self.frequency = container.decodeOptional(key: .frequency, type: [Int].self) ?? [HabitFrequencyNSManaged.timesPerDay.rawValue]
       self.frequencyDates = container.decodeOptional(key: .frequencyDates, type: [Date].self) ?? [startDate]
       self.timesPerDay = container.decodeOptional(key: .timesPerDay, type: [Int].self) ?? [1]
@@ -436,7 +436,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       try container.encode(startDate, forKey: .startDate)
       try container.encode(daysCompleted, forKey: .daysCompleted)
-      try container.encode(notificationTime, forKey: .notificationTime)
+      try container.encode(notificationTimes, forKey: .notificationTimes)
       try container.encode(frequency, forKey: .frequency)
       try container.encode(frequencyDates, forKey: .frequencyDates)
       try container.encode(timesPerDay, forKey: .timesPerDay)

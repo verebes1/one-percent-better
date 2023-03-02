@@ -64,7 +64,6 @@ struct DailyReminder: View {
 }
 
 //struct DailyReminder_Previews: PreviewProvider {
-//
 //   static func data() -> Settings {
 //      let moc = CoreDataManager.previews.mainContext
 //      let _ = Settings(context: moc)

@@ -33,6 +33,7 @@ struct AnimatedBellWrapper: View {
             .onChange(of: isAnimating) { newValue in
                if !newValue {
                   x = 0.0
+                  animateBell = false
                }
             }
             .onChange(of: animateBell) { newValue in
