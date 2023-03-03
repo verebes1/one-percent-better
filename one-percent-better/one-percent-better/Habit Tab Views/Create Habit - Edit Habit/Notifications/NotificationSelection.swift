@@ -7,40 +7,53 @@
 
 import SwiftUI
 
-enum NotificationType: Identifiable, Equatable {
-   //   var id: ObjectIdentifier
+
+class Notification: Identifiable, Equatable, ObservableObject {
+   var id = UUID()
    
-   
-   var id: UUID {
-      switch self {
-      case .specificTimeDaily(_, let id):
-         return id
-      case .randomTimeDaily(_, _, let id):
-         return id
-      }
+   static func == (lhs: Notification, rhs: Notification) -> Bool {
+      lhs.id == rhs.id
    }
-   
-   case specificTimeDaily(time: Date, id: UUID)
-   case randomTimeDaily(from: Date, to: Date, id: UUID)
-   //   case specificDayAndTimeWeekly
-   //   case randomTimeWeekly
 }
 
-struct NotificationSelection: View {
-   
-   @State private var sendNotif = false
-   @State private var timeSelection: Date = Date()
-   @State private var animateBell = false
-   
-   @State private var frequencySelection: String = "Test"
-   
-   @State private var selectFrequency = false
-   
-   @State private var notifications: [NotificationType] = [.specificTimeDaily(time: Date(), id: UUID()), .randomTimeDaily(from: Date(), to: Date(), id: UUID())]
+class SpecificTimeNotification: Notification {
+   @Published var time = Date()
+}
+
+class RandomTimeNotification: Notification {
+   @Published var fromTime = {
+      var components = DateComponents()
+      components.hour = 9
+      components.minute = 0
+      return Cal.date(from: components) ?? Date()
+   }()
+   @Published var toTime = {
+      var components = DateComponents()
+      components.hour = 17
+      components.minute = 0
+      return Cal.date(from: components) ?? Date()
+   }()
+}
+
+class NotificationSelectionModel: ObservableObject {
+   @Published var notifications: [Notification] = [
+      SpecificTimeNotification(),
+      RandomTimeNotification()
+   ]
    
    func deleteNotification(from source: IndexSet) {
       notifications.remove(atOffsets: source)
    }
+}
+
+struct NotificationSelection: View {
+   
+   @ObservedObject var vm = NotificationSelectionModel()
+   
+   @State private var sendNotif = false
+   @State private var animateBell = false
+   
+   @State private var selectFrequency = false
    
    var body: some View {
       Background {
@@ -51,13 +64,18 @@ struct NotificationSelection: View {
                                         subtitle: "Add a reminder to complete your habit.")
             
             Menu {
-               Button("Specific Time") {
+               Button {
                   animateBell = true
-                  notifications.append(NotificationType.specificTimeDaily(time: Date(), id: UUID()))
+                  vm.notifications.append(SpecificTimeNotification())
+               } label: {
+                  Label("Specific Time", systemImage: "clock")
                }
-               Button("Random Time") {
+               
+               Button {
                   animateBell = true
-                  notifications.append(NotificationType.randomTimeDaily(from: Date(), to: Date(), id: UUID()))
+                  vm.notifications.append(RandomTimeNotification())
+               } label: {
+                  Label("Random Time", systemImage: "dice")
                }
             } label: {
                VStack {
@@ -79,35 +97,19 @@ struct NotificationSelection: View {
                .padding(.horizontal, 20)
             }
             
-            if !notifications.isEmpty {
+            if !vm.notifications.isEmpty {
                VStack {
                   List {
                      Section {
-                        ForEach(notifications) { notification in
-                           switch notification {
-                           case .specificTimeDaily:
-                              DatePicker(selection: $timeSelection, displayedComponents: [.hourAndMinute]) {
-                                 Text("Every day at ")
-                              }
-                              .frame(height: 37)
+                        ForEach(vm.notifications) { notification in
+                           NotificationRow(notification: notification)
                               .listRowBackground(Color.cardColor)
-                           case .randomTimeDaily:
-                              VStack {
-                                 DatePicker("Random time between ", selection: $timeSelection, displayedComponents: [.hourAndMinute])
-                                 HStack {
-//                                    DatePicker(selection: $timeSelection, displayedComponents: [.hourAndMinute])
-                                    
-                                    
-//                                    .frame(height: 37)
-                                    DatePicker(selection: $timeSelection, displayedComponents: [.hourAndMinute]) {
-                                       Text(" and ")
-                                    }
-                                 }
+                              .listRowSeparatorTint(.gray, edges: .bottom)
+                              .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
+                                  return -20
                               }
-                              .listRowBackground(Color.cardColor)
-                           }
                         }
-                        .onDelete(perform: deleteNotification)
+                        .onDelete(perform: vm.deleteNotification)
                      } footer: {
                         HStack {
                            Spacer()
@@ -119,24 +121,16 @@ struct NotificationSelection: View {
                      }
                   }
                   .scrollContentBackground(.hidden)
-                  .animation(.easeInOut, value: notifications)
-                  
+                  .animation(.easeInOut, value: vm.notifications)
                }
             }
-            
-            
             Spacer()
          }
       }
       .onChange(of: sendNotif) { newBool in
-         
          if newBool && !animateBell {
             animateBell = true
          }
-         
-      }
-      .onChange(of: timeSelection) { newTime in
-         
       }
    }
 }
@@ -146,5 +140,64 @@ struct NotificationSelection_Previews: PreviewProvider {
       Background {
          NotificationSelection()
       }
+   }
+}
+
+struct SpecificTimeNotificationRow: View {
+   
+   @ObservedObject var notification: SpecificTimeNotification
+   
+   var body: some View {
+      HStack {
+         Spacer()
+         Text("Every day at ")
+         JustDatePicker(time: $notification.time)
+         Spacer()
+      }
+      .padding(.vertical, 1)
+   }
+}
+
+struct RandomTimeNotificationRow: View {
+   
+   @ObservedObject var notification: RandomTimeNotification
+   
+   var body: some View {
+      VStack {
+         Text("Random time between")
+         HStack {
+            Spacer()
+            JustDatePicker(time: $notification.fromTime)
+            Text(" and ")
+            JustDatePicker(time: $notification.toTime)
+            Spacer()
+         }
+      }
+   }
+}
+
+struct NotificationRow: View {
+   
+   @ObservedObject var notification: Notification
+   
+   var specificTimeBinding: Binding<SpecificTimeNotification>?
+   
+   var body: some View {
+      if let specificTime = notification as? SpecificTimeNotification {
+         SpecificTimeNotificationRow(notification: specificTime)
+      } else if let randomTime = notification as? RandomTimeNotification {
+         RandomTimeNotificationRow(notification: randomTime)
+      }
+   }
+}
+
+struct JustDatePicker: View {
+   
+   @Binding var time: Date
+   
+   var body: some View {
+      DatePicker("", selection: $time, displayedComponents: [.hourAndMinute])
+         .frame(width: 90)
+         .offset(x: -4)
    }
 }
