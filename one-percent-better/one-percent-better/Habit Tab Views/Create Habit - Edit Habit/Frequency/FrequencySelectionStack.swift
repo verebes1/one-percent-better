@@ -16,10 +16,6 @@ class FrequencySelectionModel: ObservableObject {
    }
 }
 
-class TempFrequencySelectionModel: ObservableObject {
-   
-}
-
 enum FreqSegment: String, Identifiable, CaseIterable {
    case daily
    case weekly
@@ -31,7 +27,7 @@ struct FrequencySelectionStack: View {
    
    @Environment(\.colorScheme) var scheme
    
-   @EnvironmentObject var vm: FrequencySelectionModel
+   @Binding var selection: HabitFrequency
    
    @State private var segmentSelection: FreqSegment
    
@@ -44,12 +40,12 @@ struct FrequencySelectionStack: View {
    @State private var daysPerWeek: [Weekday] = [.monday, .friday]
    @State private var timesPerWeek: (times: Int, resetDay: Weekday) = (times: 1, resetDay: .sunday)
    
-   init(vm: FrequencySelectionModel) {
-      
+   init(selection: Binding<HabitFrequency>) {
+      self._selection = selection
       self._dailyFreqSelection = State(initialValue: .timesPerDay(1))
       self._weeklyFreqSelection = State(initialValue: .specificWeekdays([.monday, .friday]))
       
-      switch vm.selection {
+      switch selection.wrappedValue {
       case .timesPerDay(let n):
          self._timesPerDay = State(initialValue: n)
          self._segmentSelection = State(initialValue: .daily)
@@ -66,22 +62,22 @@ struct FrequencySelectionStack: View {
    }
    
    func changeFrequency(to freq: HabitFrequency) {
-//      switch freq {
-//      case .timesPerDay(let n):
-//         dailyFreqSelection = .timesPerDay(n)
-//         vm.selection = .timesPerDay(n)
-//      case .specificWeekdays(let days):
-//         weeklyFreqSelection = .specificWeekdays(days)
-//         vm.selection = .specificWeekdays(days)
-//      case let .timesPerWeek(times: n, resetDay: resetDay):
-//         weeklyFreqSelection = .timesPerWeek(times: n, resetDay: resetDay)
-//         vm.selection = .timesPerWeek(times: n, resetDay: resetDay)
-//      }
+      switch freq {
+      case .timesPerDay(let n):
+         dailyFreqSelection = .timesPerDay(n)
+         selection = .timesPerDay(n)
+      case .specificWeekdays(let days):
+         weeklyFreqSelection = .specificWeekdays(days)
+         selection = .specificWeekdays(days)
+      case let .timesPerWeek(times: n, resetDay: resetDay):
+         weeklyFreqSelection = .timesPerWeek(times: n, resetDay: resetDay)
+         selection = .timesPerWeek(times: n, resetDay: resetDay)
+      }
    }
    
    var body: some View {
-      print("Frequency selection stack body")
-      let _ = Self._printChanges()
+//      print("Frequency selection stack body")
+//      let _ = Self._printChanges()
       return (
       VStack(spacing: 20) {
          
@@ -112,7 +108,6 @@ struct FrequencySelectionStack: View {
                   .onChange(of: daysPerWeek) { newValue in
                      changeFrequency(to: .specificWeekdays(daysPerWeek))
                   }
-                  .environmentObject(vm)
             } onSelection: {
                changeFrequency(to: .specificWeekdays(daysPerWeek))
             }
@@ -155,14 +150,19 @@ struct FrequencySelectionStack: View {
    }
 }
 
-struct FrequencySelection2_Previews: PreviewProvider {
-   static var previews: some View {
-      let vm = FrequencySelectionModel(selection: .timesPerDay(1))
+struct FrequencySelectionStack_Previewer: View {
+   @State private var selection: HabitFrequency = .timesPerDay(1)
+   var body: some View {
       VStack {
          Background {
-            FrequencySelectionStack(vm: vm)
-               .environmentObject(vm)
+            FrequencySelectionStack(selection: $selection)
          }
       }
+   }
+}
+
+struct FrequencySelectionStack_Previews: PreviewProvider {
+   static var previews: some View {
+      FrequencySelectionStack_Previewer()
    }
 }

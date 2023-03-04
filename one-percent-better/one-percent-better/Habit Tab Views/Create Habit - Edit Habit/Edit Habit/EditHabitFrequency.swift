@@ -13,10 +13,10 @@ struct EditHabitFrequency: View {
    
    @EnvironmentObject var habit: Habit
    
-   @ObservedObject var vm: FrequencySelectionModel
+   @State private var selection: HabitFrequency
    
    init(frequency: HabitFrequency) {
-      self.vm = FrequencySelectionModel(selection: frequency)
+      self._selection = State(initialValue: frequency)
    }
    
    var body: some View {
@@ -26,14 +26,13 @@ struct EditHabitFrequency: View {
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
             
-            FrequencySelectionStack(vm: vm)
-               .environmentObject(vm)
+            FrequencySelectionStack(selection: $selection)
             
             Spacer()
          }
          .onDisappear {
-            if vm.selection != habit.frequency(on: Date()) {
-               habit.changeFrequency(to: vm.selection)
+            if selection != habit.frequency(on: Date()) {
+               habit.changeFrequency(to: selection)
             }
          }
          .navigationBarTitleDisplayMode(.inline)

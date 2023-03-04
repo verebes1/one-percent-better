@@ -24,7 +24,7 @@ struct ChooseHabitFrequency: View {
    
    var habitName: String
    
-   @ObservedObject var vm = FrequencySelectionModel(selection: .timesPerDay(1))
+   @State private var frequencySelection: HabitFrequency = .timesPerDay(1)
    
    @Binding var hideTabBar: Bool
    
@@ -39,12 +39,11 @@ struct ChooseHabitFrequency: View {
             
 //            Spacer().frame(height: 20)
             
-            FrequencySelectionStack(vm: vm)
-               .environmentObject(vm)
+            FrequencySelectionStack(selection: $frequencySelection)
             
             Spacer()
             
-            NavigationLink(value: ChooseFrequencyRoute.next(vm.selection)) {
+            NavigationLink(value: ChooseFrequencyRoute.next(frequencySelection)) {
                BottomButton(label: "Next")
             }
          }

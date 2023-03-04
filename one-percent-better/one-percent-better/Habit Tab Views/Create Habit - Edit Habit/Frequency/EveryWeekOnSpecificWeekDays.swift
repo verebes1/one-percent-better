@@ -12,8 +12,6 @@ struct EveryWeekOnSpecificWeekDays: View {
    
    @Environment(\.colorScheme) var colorScheme
    
-   @EnvironmentObject var vm: FrequencySelectionModel
-   
    @Binding var selectedWeekdays: [Weekday]
    
    var body: some View {
@@ -33,8 +31,6 @@ struct EveryWeekOnSpecificWeekDays: View {
 struct WeekDayButton: View {
    
    @Environment(\.colorScheme) var colorScheme
-   
-   @EnvironmentObject var vm: FrequencySelectionModel
    
    let i: Int
    @Binding var selectedWeekdays: [Weekday]
@@ -85,13 +81,13 @@ struct WeekDayButton: View {
 
 struct EveryWeekOnSpecificWeekDaysPreviews: View {
    @State var selectedWeekdays: [Weekday] = [.monday, .tuesday]
-   @StateObject var vm = FrequencySelectionModel(selection: .specificWeekdays([.sunday, .tuesday, .thursday]))
+//   @StateObject var vm = FrequencySelectionModel(selection: .specificWeekdays([.sunday, .tuesday, .thursday]))
    
    var body: some View {
       Background {
          CardView {
             EveryWeekOnSpecificWeekDays(selectedWeekdays: $selectedWeekdays)
-               .environmentObject(vm)
+//               .environmentObject(vm)
          }
       }
    }
