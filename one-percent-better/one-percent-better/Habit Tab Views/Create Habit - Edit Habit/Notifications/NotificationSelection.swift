@@ -41,16 +41,13 @@ class NotificationSelectionModel: ObservableObject {
       RandomTimeNotification()
    ]
    
-   func deleteNotification(from source: IndexSet) {
-      notifications.remove(atOffsets: source)
-   }
 }
 
 struct NotificationSelection: View {
    
    @Environment(\.colorScheme) var scheme
    
-   @ObservedObject var vm = NotificationSelectionModel()
+   @Binding var notifications: [Notification]
    
    @State private var sendNotif = false
    @State private var animateBell = false
@@ -59,6 +56,10 @@ struct NotificationSelection: View {
    
    private var textColor: Color {
       scheme == .light ? .white : .black
+   }
+   
+   func deleteNotification(from source: IndexSet) {
+      notifications.remove(atOffsets: source)
    }
    
    var body: some View {
@@ -72,14 +73,14 @@ struct NotificationSelection: View {
             Menu {
                Button {
                   animateBell.toggle()
-                  vm.notifications.append(SpecificTimeNotification())
+                  notifications.append(SpecificTimeNotification())
                } label: {
                   Label("Specific Time", systemImage: "clock")
                }
                
                Button {
                   animateBell.toggle()
-                  vm.notifications.append(RandomTimeNotification())
+                  notifications.append(RandomTimeNotification())
                } label: {
                   Label("Random Time", systemImage: "dice")
                }
@@ -105,12 +106,12 @@ struct NotificationSelection: View {
                .padding(.horizontal, 20)
             }
             
-            if !vm.notifications.isEmpty {
+            if !notifications.isEmpty {
                VStack {
                   List {
                      Section {
-                        ForEach(0 ..< vm.notifications.count, id: \.self) { i in
-                           let notification = vm.notifications[i]
+                        ForEach(0 ..< notifications.count, id: \.self) { i in
+                           let notification = notifications[i]
                            NotificationRow(notification: notification, index: i)
                               .listRowBackground(Color.cardColor)
                               .listRowSeparatorTint(.gray, edges: .bottom)
@@ -118,7 +119,7 @@ struct NotificationSelection: View {
                                   return -20
                               }
                         }
-                        .onDelete(perform: vm.deleteNotification)
+                        .onDelete(perform: deleteNotification)
                      } footer: {
                         HStack {
                            Spacer()
@@ -130,7 +131,7 @@ struct NotificationSelection: View {
                      }
                   }
                   .scrollContentBackground(.hidden)
-                  .animation(.easeInOut, value: vm.notifications)
+                  .animation(.easeInOut, value: notifications)
                }
             }
             Spacer()
@@ -144,11 +145,18 @@ struct NotificationSelection: View {
    }
 }
 
+struct MyViewNotificationSelection_Previewer: View {
+   @State private var notifications: [Notification] = []
+   var body: some View {
+      Background {
+         NotificationSelection(notifications: $notifications)
+      }
+   }
+}
+
 struct NotificationSelection_Previews: PreviewProvider {
    static var previews: some View {
-      Background {
-         NotificationSelection()
-      }
+      MyViewNotificationSelection_Previewer()
    }
 }
 

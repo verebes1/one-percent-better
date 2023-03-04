@@ -101,6 +101,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    convenience init(context: NSManagedObjectContext,
                     name: String,
                     frequency: HabitFrequency = .timesPerDay(1),
+                    notifications: [Notification] = [],
                     id: UUID = UUID()) throws {
       // Check for a duplicate habit. Habits are unique by name
       let habits = Habit.habits(from: context)
@@ -143,6 +144,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       // Auto trackers
       let it = ImprovementTracker(context: moc, habit: self)
       self.addToTrackers(it)
+      
+      // Add notifications
+      // TODO: 1.0.9
       
       sub = self.objectWillChange.sink { _ in
          print("Habit \(self.name) will change!!!")

@@ -18,7 +18,8 @@ struct HabitCreationHeader: View {
          Image(systemName: systemImage)
             .fitToFrame()
             .frame(width: 65, height: 65)
-            .foregroundColor(Style.accentColor)
+            .foregroundStyle(LinearGradient(colors: [Style.accentColor, Style.accentColor2], startPoint: UnitPoint(x: 0.0, y: 0.0), endPoint: UnitPoint(x: 1.5, y: 0.6)))
+//            .foregroundColor(Style.accentColor)
          
          Text(title)
             .font(.system(size: 31))

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class NotificationHandler {
    static var shared = NotificationHandler()

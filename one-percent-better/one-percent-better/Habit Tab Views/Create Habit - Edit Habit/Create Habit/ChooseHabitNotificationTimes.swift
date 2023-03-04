@@ -18,6 +18,8 @@ struct ChooseHabitNotificationTimes: View {
    
    var frequency: HabitFrequency
    
+   @State private var notifications: [Notification] = []
+   
    @Binding var hideTabBar: Bool
    
    var body: some View {
@@ -26,7 +28,7 @@ struct ChooseHabitNotificationTimes: View {
             Spacer()
                .frame(height: 20)
             
-            NotificationSelection()
+            NotificationSelection(notifications: $notifications)
             
             Spacer()
             
@@ -34,10 +36,10 @@ struct ChooseHabitNotificationTimes: View {
                .onTapGesture {
                   let _ = try? Habit(context: moc,
                                      name: habitName,
-                                     frequency: frequency)
+                                     frequency: frequency,
+                                     notifications: notifications)
                   hideTabBar = false
                   nav.path.removeLast(3)
-//                  Task { await NotificationHandler.shared.createNotifications() }
                }
          }
          .toolbar(.hidden, for: .tabBar)

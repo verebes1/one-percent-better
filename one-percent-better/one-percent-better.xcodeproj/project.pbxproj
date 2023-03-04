@@ -139,6 +139,8 @@
 		80744F5829B2E4CC00DAF196 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 80744F5729B2E4CC00DAF196 /* OpenAI */; };
 		80744F5A29B2FA2700DAF196 /* DailyReminderNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */; };
 		80744F5C29B2FC9F00DAF196 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */; };
+		80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5D29B3091400DAF196 /* Habit+Notifications.swift */; };
+		80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5F29B30A7300DAF196 /* OpenAI.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
 		807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */; };
@@ -347,6 +349,8 @@
 		80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderSelection.swift; sourceTree = "<group>"; };
 		80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderNotifications.swift; sourceTree = "<group>"; };
 		80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
+		80744F5D29B3091400DAF196 /* Habit+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+Notifications.swift"; sourceTree = "<group>"; };
+		80744F5F29B30A7300DAF196 /* OpenAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAI.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
 		807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+WasCompletedOn.swift"; sourceTree = "<group>"; };
@@ -488,6 +492,7 @@
 				80CC692528E3AF5400584340 /* ExpandingFillButton.swift */,
 				8006A09828F71812005D1A19 /* GrowingTapButton.swift */,
 				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
+				80744F5F29B30A7300DAF196 /* OpenAI.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -612,8 +617,9 @@
 			isa = PBXGroup;
 			children = (
 				80385CE6285BEE5900CBDF71 /* Habit.swift */,
-				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
 				807A47C8291223E50022068B /* Habit+Frequency.swift */,
+				80744F5D29B3091400DAF196 /* Habit+Notifications.swift */,
+				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
 				80385CE2285BEE5900CBDF71 /* Tracker.swift */,
 				80385CE3285BEE5900CBDF71 /* GraphTracker.swift */,
 				80385CE0285BEE5900CBDF71 /* NumberTracker.swift */,
@@ -1151,6 +1157,7 @@
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
+				80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */,
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
 				8062AA452902F76200903123 /* CalendarDayView.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
@@ -1166,6 +1173,7 @@
 				806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */,
 				8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */,
 				802E92942919EB7900A28EB1 /* PillButton.swift in Sources */,
+				80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */,
 				80385D1D285BEE5900CBDF71 /* Extensions.swift in Sources */,
 				80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */,
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,
