@@ -17,7 +17,8 @@ struct AnimatedHabitCreationHeader: View {
       VStack {
          AnimatedBellWrapper(animateBell: $animateBell)
             .frame(width: 65, height: 65)
-            .foregroundColor(Style.accentColor)
+            .foregroundStyle(LinearGradient(colors: [Style.accentColor, Style.accentColor2], startPoint: UnitPoint(x: 0.0, y: 0.0), endPoint: UnitPoint(x: 1.5, y: 0.6)))
+//            .foregroundColor(Style.accentColor)
 //            .animate
          
          Text(title)

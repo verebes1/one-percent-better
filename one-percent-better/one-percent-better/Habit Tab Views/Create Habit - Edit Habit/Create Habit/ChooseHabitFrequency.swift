@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum ChooseFrequencyRoute: Hashable {
+   case next(HabitFrequency)
+}
+
 enum HabitFrequencyError: Error {
    case zeroFrequency
    case emptyFrequency
@@ -40,16 +44,17 @@ struct ChooseHabitFrequency: View {
             
             Spacer()
             
-            BottomButton(label: "Finish")
-               .onTapGesture {
-                  let _ = try? Habit(context: moc,
-                                     name: habitName,
-                                     frequency: vm.selection)
-                  hideTabBar = false
-                  nav.path.removeLast(2)
-               }
+            NavigationLink(value: ChooseFrequencyRoute.next(vm.selection)) {
+               BottomButton(label: "Next")
+            }
          }
          .toolbar(.hidden, for: .tabBar)
+         .navigationDestination(for: ChooseFrequencyRoute.self) { [nav] route in
+            if case .next(let habitFrequency) = route {
+               ChooseHabitNotificationTimes(habitName: habitName, frequency: habitFrequency, hideTabBar: $hideTabBar)
+                  .environmentObject(nav)
+            }
+         }
       }
    }
 }

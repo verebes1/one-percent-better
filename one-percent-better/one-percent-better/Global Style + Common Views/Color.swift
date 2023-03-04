@@ -12,6 +12,7 @@ extension Color {
    static let backgroundColor = Color("BackgroundColor")
    static let cardColor = Color("CardColor")
    static let cardColorOpposite = Color("CardColorOpposite")
+   static let cardColorLighter = Color("CardColorLighter")
    static let grayButton = Color("GrayButton")
    
    static let calendarGray = Color(#colorLiteral(red: 0.7812705636, green: 0.7763053775, blue: 0.7978962064, alpha: 1))

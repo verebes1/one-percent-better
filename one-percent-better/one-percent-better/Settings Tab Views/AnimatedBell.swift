@@ -33,13 +33,10 @@ struct AnimatedBellWrapper: View {
             .onChange(of: isAnimating) { newValue in
                if !newValue {
                   x = 0.0
-                  animateBell = false
                }
             }
             .onChange(of: animateBell) { newValue in
-               if newValue {
-                  animate()
-               }
+               animate()
             }
       }
    }
@@ -53,8 +50,8 @@ struct AnimatedBell: View, Animatable {
    @Binding var animateBell: Bool
    
    var animatableData: Double {
-       get { x }
-       set { x = newValue }
+      get { x }
+      set { x = newValue }
    }
    
    var rotationAngle: Angle {
@@ -75,25 +72,24 @@ struct AnimatedBell: View, Animatable {
       return three
    }
    
-    var body: some View {
-       ZStack {
-          Image("custom.bell.top.fill")
-             .fitToFrame()
-             .rotationEffect(rotationAngle)
-          
-          Image("custom.bell.bottom.fill")
-             .fitToFrame()
-             .offset(x: offset)
-             .rotationEffect(rotationAngle)
-       }
-       .contentShape(Rectangle())
-       .onChange(of: x) { newValue in
-          if newValue == 10.0 {
-             isAnimating = false
-             animateBell = false
-          }
-       }
-    }
+   var body: some View {
+      ZStack {
+         Image("custom.bell.top.fill")
+            .fitToFrame()
+            .rotationEffect(rotationAngle)
+         
+         Image("custom.bell.bottom.fill")
+            .fitToFrame()
+            .offset(x: offset)
+            .rotationEffect(rotationAngle)
+      }
+      .contentShape(Rectangle())
+      .onChange(of: x) { newValue in
+         if newValue == 10.0 {
+            isAnimating = false
+         }
+      }
+   }
 }
 
 struct AnimatedBell_Previews: PreviewProvider {

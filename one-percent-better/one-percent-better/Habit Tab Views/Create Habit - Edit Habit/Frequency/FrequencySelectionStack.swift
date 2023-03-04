@@ -66,20 +66,23 @@ struct FrequencySelectionStack: View {
    }
    
    func changeFrequency(to freq: HabitFrequency) {
-      switch freq {
-      case .timesPerDay(let n):
-         dailyFreqSelection = .timesPerDay(n)
-         vm.selection = .timesPerDay(n)
-      case .specificWeekdays(let days):
-         weeklyFreqSelection = .specificWeekdays(days)
-         vm.selection = .specificWeekdays(days)
-      case let .timesPerWeek(times: n, resetDay: resetDay):
-         weeklyFreqSelection = .timesPerWeek(times: n, resetDay: resetDay)
-         vm.selection = .timesPerWeek(times: n, resetDay: resetDay)
-      }
+//      switch freq {
+//      case .timesPerDay(let n):
+//         dailyFreqSelection = .timesPerDay(n)
+//         vm.selection = .timesPerDay(n)
+//      case .specificWeekdays(let days):
+//         weeklyFreqSelection = .specificWeekdays(days)
+//         vm.selection = .specificWeekdays(days)
+//      case let .timesPerWeek(times: n, resetDay: resetDay):
+//         weeklyFreqSelection = .timesPerWeek(times: n, resetDay: resetDay)
+//         vm.selection = .timesPerWeek(times: n, resetDay: resetDay)
+//      }
    }
    
    var body: some View {
+      print("Frequency selection stack body")
+      let _ = Self._printChanges()
+      return (
       VStack(spacing: 20) {
          
          Picker("", selection: $segmentSelection) {
@@ -148,6 +151,7 @@ struct FrequencySelectionStack: View {
          }
       }
       .animation(.easeInOut(duration: 0.2), value: segmentSelection)
+      )
    }
 }
 

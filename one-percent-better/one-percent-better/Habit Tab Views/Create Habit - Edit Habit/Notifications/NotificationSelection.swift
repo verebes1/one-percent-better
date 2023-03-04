@@ -48,12 +48,18 @@ class NotificationSelectionModel: ObservableObject {
 
 struct NotificationSelection: View {
    
+   @Environment(\.colorScheme) var scheme
+   
    @ObservedObject var vm = NotificationSelectionModel()
    
    @State private var sendNotif = false
    @State private var animateBell = false
    
    @State private var selectFrequency = false
+   
+   private var textColor: Color {
+      scheme == .light ? .white : .black
+   }
    
    var body: some View {
       Background {
@@ -65,14 +71,14 @@ struct NotificationSelection: View {
             
             Menu {
                Button {
-                  animateBell = true
+                  animateBell.toggle()
                   vm.notifications.append(SpecificTimeNotification())
                } label: {
                   Label("Specific Time", systemImage: "clock")
                }
                
                Button {
-                  animateBell = true
+                  animateBell.toggle()
                   vm.notifications.append(RandomTimeNotification())
                } label: {
                   Label("Random Time", systemImage: "dice")
@@ -90,6 +96,8 @@ struct NotificationSelection: View {
                      .padding(.horizontal, 20)
                      .fontWeight(.medium)
                      .foregroundColor(Style.accentColor)
+//                     .background(Style.accentColor)
+//                     .foregroundColor(textColor)
                   }
                }
                .background(Color.cardColor)
@@ -101,8 +109,9 @@ struct NotificationSelection: View {
                VStack {
                   List {
                      Section {
-                        ForEach(vm.notifications) { notification in
-                           NotificationRow(notification: notification)
+                        ForEach(0 ..< vm.notifications.count, id: \.self) { i in
+                           let notification = vm.notifications[i]
+                           NotificationRow(notification: notification, index: i)
                               .listRowBackground(Color.cardColor)
                               .listRowSeparatorTint(.gray, edges: .bottom)
                               .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
@@ -180,13 +189,32 @@ struct NotificationRow: View {
    
    @ObservedObject var notification: Notification
    
+   var index: Int
+   
    var specificTimeBinding: Binding<SpecificTimeNotification>?
    
    var body: some View {
-      if let specificTime = notification as? SpecificTimeNotification {
-         SpecificTimeNotificationRow(notification: specificTime)
-      } else if let randomTime = notification as? RandomTimeNotification {
-         RandomTimeNotificationRow(notification: randomTime)
+      ZStack {
+         if let specificTime = notification as? SpecificTimeNotification {
+            SpecificTimeNotificationRow(notification: specificTime)
+         } else if let randomTime = notification as? RandomTimeNotification {
+            RandomTimeNotificationRow(notification: randomTime)
+         }
+         
+         HStack {
+            ZStack {
+
+               Circle()
+                  .foregroundColor(Color.cardColorLighter)
+
+               Text("\(index + 1)")
+                  .font(.system(size: 13))
+                  .foregroundColor(.label)
+                  .padding(6)
+            }
+            .fixedSize()
+            Spacer()
+         }
       }
    }
 }

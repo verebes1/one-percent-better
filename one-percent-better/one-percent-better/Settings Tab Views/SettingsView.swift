@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import OpenAI
 
 enum SettingsNavRoute: Hashable {
    case appearance
@@ -18,6 +19,7 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
    private let settingsController: NSFetchedResultsController<Settings>
    private let moc: NSManagedObjectContext
+   let client = Client(apiKey: "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")
    
    init(_ context: NSManagedObjectContext) {
       settingsController = Settings.resultsController(context: context, sortDescriptors: [])
@@ -34,7 +36,7 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          let _ = Settings(myContext: moc)
          moc.fatalSave()
       } else if settingsArr.count > 1 {
-//         fatalError("Too many settings entities")
+         //         fatalError("Too many settings entities")
       }
    }
    
@@ -44,11 +46,11 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
    var settings: Settings? {
       guard let settingsArr = settingsController.fetchedObjects else {
-//         fatalError("Unable to retrieve settings")
+         //         fatalError("Unable to retrieve settings")
          return nil
       }
       guard settingsArr.count == 1 else {
-//         fatalError("Not exactly 1 setting! Count: \(settingsArr.count)")
+         //         fatalError("Not exactly 1 setting! Count: \(settingsArr.count)")
          return nil
       }
       return settingsArr[0]
@@ -57,7 +59,7 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    func requestNotifPermission() {
       UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
          if success {
-            print("All set!")
+            print("Notification permission granted!")
          } else if let error = error {
             print(error.localizedDescription)
          }
@@ -65,29 +67,64 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    }
    
    func addNotification() {
-      
       guard let settings = settings else {
          return
       }
       
-      let content = UNMutableNotificationContent()
-      content.title = "Daily Reminder"
-      content.subtitle = "Mark your habits as completed!"
-      content.sound = UNNotificationSound.default
+      let notifications = generateNotifications(n: 64)
       
       var date = DateComponents()
       date.hour = Cal.component(.hour, from: settings.dailyReminderTime)
       date.minute = Cal.component(.minute, from: settings.dailyReminderTime)
-      let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
       
-      let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder", content: content, trigger: trigger)
+      setupNotifications(from: Date(), index: 0, time: date, notifications: notifications)
+   }
+   
+   func generateNotifications(n: Int) -> [UNMutableNotificationContent] {      
+      var notifs: [UNMutableNotificationContent] = []
+      for _ in 0 ..< n {
+         let content = UNMutableNotificationContent()
+         content.title = "Daily Reminder"
+         content.subtitle = DailyReminderNotifications.messages.randomElement()!
+         content.sound = UNNotificationSound.default
+         notifs.append(content)
+      }
+      return notifs
+   }
+   
+   /// Set up the next N notifications, where N = messages.count
+   /// - Parameters:
+   ///   - date: The start date (including this day)
+   ///   - time: What time to send the notification
+   ///   - messages: The next N notification messages to use
+   ///
+   func setupNotifications(from date: Date, index: Int, time: DateComponents, notifications: [UNMutableNotificationContent]) {
       
-      // add our notification request
-      UNUserNotificationCenter.current().add(request)
+      for i in 0 ..< notifications.count {
+         if (i + index) >= 64 {
+            break
+         }
+         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: Cal.add(days: i, to: date))
+         var dayAndTime = time
+         dayAndTime.day = dayComponents.day
+         dayAndTime.month = dayComponents.month
+         dayAndTime.year = dayComponents.year
+         let trigger = UNCalendarNotificationTrigger(dateMatching: dayAndTime, repeats: false)
+         
+         let offset = index + i
+         let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder-\(offset)", content: notifications[i], trigger: trigger)
+         UNUserNotificationCenter.current().add(request)
+      }
    }
    
    func removeNotification() {
       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-DailyReminder"])
+   }
+   
+   func removeAllNotifications() {
+      for i in 0 ..< 64 {
+         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-DailyReminder-\(i)"])
+      }
    }
    
    func updateDailyReminder(to enabled: Bool) {
@@ -116,9 +153,9 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
    }
    
-//   func updateAppearance(to mode: Appearance) {
-//      
-//   }
+   //   func updateAppearance(to mode: Appearance) {
+   //
+   //   }
 }
 
 struct SettingsView: View {
@@ -151,13 +188,13 @@ struct SettingsView: View {
          Background {
             VStack {
                List {
-//                  Section(header: Text("Appearance (Coming Soon)")) {
-//                     NavigationLink(value: SettingsNavRoute.appearance) {
-//                        ChangeAppearanceRow()
-//                           .environmentObject(vm)
-//                     }
-//                  }
-//                  .listRowBackground(Color.cardColor)
+                  //                  Section(header: Text("Appearance (Coming Soon)")) {
+                  //                     NavigationLink(value: SettingsNavRoute.appearance) {
+                  //                        ChangeAppearanceRow()
+                  //                           .environmentObject(vm)
+                  //                     }
+                  //                  }
+                  //                  .listRowBackground(Color.cardColor)
                   
                   Section(header: Text("Notifications")) {
                      NavigationLink(value: SettingsNavRoute.dailyReminder(vm.settings)) {
@@ -188,7 +225,7 @@ struct SettingsView: View {
                   .listRowBackground(Color.cardColor)
                   
                   Section(footer: versionFooter) {
-//                     Text("v1.0.6")
+                     //                     Text("v1.0.6")
                   }
                   .listRowBackground(Color.cardColor)
                }

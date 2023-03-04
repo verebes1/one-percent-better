@@ -69,24 +69,28 @@ struct ChooseHabitName: View {
             
             Spacer().frame(height: 10)
             
-            BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
-               .onTapGesture {
-                  if !habitName.isEmpty {
-                     nav.path.append(CreateFrequencyRoute.createFrequency(habitName))
-                  }
-               }
+            NavigationLink(value: CreateFrequencyRoute.createFrequency(habitName)) {
+               BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
+            }
          }
          .navigationDestination(for: CreateFrequencyRoute.self) { [nav] route in
-            if case let .createFrequency(habitName) = route {
+            if case .createFrequency(let habitName) = route,
+               !habitName.isEmpty {
                ChooseHabitFrequency(habitName: habitName, hideTabBar: $hideTabBar)
                   .environmentObject(nav)
             }
          }
-         .onAppear {
-            nameInFocus = true
-            hideTabBar = true
-         }
       }
+      .onAppear {
+         nameInFocus = true
+         hideTabBar = true
+      }
+      // TODO: 1.0.9 FIX THIS
+//      .onDisappear {
+//         if releaseTabBar {
+//            hideTabBar = false
+//         }
+//      }
       .toolbar {
          ToolbarItem(placement: .principal) {
             // This sets the back button as "Back" instead of the title of the previous screen

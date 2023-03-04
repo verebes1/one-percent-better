@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ChooseHabitNotificationTimes: View {
    
@@ -36,6 +37,7 @@ struct ChooseHabitNotificationTimes: View {
                                      frequency: frequency)
                   hideTabBar = false
                   nav.path.removeLast(3)
+//                  Task { await NotificationHandler.shared.createNotifications() }
                }
          }
          .toolbar(.hidden, for: .tabBar)
@@ -44,9 +46,9 @@ struct ChooseHabitNotificationTimes: View {
 }
 
 struct ChooseHabitNotificationTimes_Previews: PreviewProvider {
-    static var previews: some View {
-       ChooseHabitNotificationTimes(habitName: "Horseback Riding",
-                                    frequency: .timesPerDay(2),
-                                    hideTabBar: .constant(true))
-    }
+   static var previews: some View {
+      ChooseHabitNotificationTimes(habitName: "Horseback Riding",
+                                   frequency: .timesPerDay(2),
+                                   hideTabBar: .constant(true))
+   }
 }

@@ -136,6 +136,9 @@
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		80744F5229B0096700DAF196 /* ChooseHabitNotificationTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5129B0096700DAF196 /* ChooseHabitNotificationTimes.swift */; };
 		80744F5529B013FF00DAF196 /* DailyReminderSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */; };
+		80744F5829B2E4CC00DAF196 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 80744F5729B2E4CC00DAF196 /* OpenAI */; };
+		80744F5A29B2FA2700DAF196 /* DailyReminderNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */; };
+		80744F5C29B2FC9F00DAF196 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
 		807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */; };
@@ -342,6 +345,8 @@
 		80744F5029B0084C00DAF196 /* opb 16.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 16.xcdatamodel"; sourceTree = "<group>"; };
 		80744F5129B0096700DAF196 /* ChooseHabitNotificationTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitNotificationTimes.swift; sourceTree = "<group>"; };
 		80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderSelection.swift; sourceTree = "<group>"; };
+		80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderNotifications.swift; sourceTree = "<group>"; };
+		80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
 		807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+WasCompletedOn.swift"; sourceTree = "<group>"; };
@@ -395,6 +400,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80744F5829B2E4CC00DAF196 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +504,8 @@
 				807A47B5290C756D0022068B /* AnimatedBell.swift */,
 				80F72941294D876800F17B0B /* RandomNotifications.swift */,
 				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
+				80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */,
+				80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -892,6 +900,9 @@
 			dependencies = (
 			);
 			name = "one-percent-better";
+			packageProductDependencies = (
+				80744F5729B2E4CC00DAF196 /* OpenAI */,
+			);
 			productName = "one-percent-better-swiftui";
 			productReference = 8055A9702831BAA5009A1881 /* 1% Better.app */;
 			productType = "com.apple.product-type.application";
@@ -964,6 +975,9 @@
 				Base,
 			);
 			mainGroup = 8055A9672831BAA5009A1881;
+			packageReferences = (
+				80744F5629B2E4CC00DAF196 /* XCRemoteSwiftPackageReference "OpenAI" */,
+			);
 			productRefGroup = 8055A9712831BAA5009A1881 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1063,6 +1077,7 @@
 				80744F5529B013FF00DAF196 /* DailyReminderSelection.swift in Sources */,
 				805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */,
 				802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */,
+				80744F5C29B2FC9F00DAF196 /* NotificationHandler.swift in Sources */,
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
 				80385D39285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift in Sources */,
 				802E9298291A0CD600A28EB1 /* ColorFunctions.swift in Sources */,
@@ -1164,6 +1179,7 @@
 				80385D0D285BEE5900CBDF71 /* HabitListView.swift in Sources */,
 				802E92AE2922108000A28EB1 /* InteractiveGraph.swift in Sources */,
 				80385D1B285BEE5900CBDF71 /* NSManagedObjectModel+Resource.swift in Sources */,
+				80744F5A29B2FA2700DAF196 /* DailyReminderNotifications.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1508,6 +1524,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80744F5629B2E4CC00DAF196 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mattt/OpenAI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80744F5729B2E4CC00DAF196 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80744F5629B2E4CC00DAF196 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
