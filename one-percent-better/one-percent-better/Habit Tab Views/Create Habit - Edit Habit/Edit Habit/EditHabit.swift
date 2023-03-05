@@ -9,6 +9,7 @@ import SwiftUI
 
 enum EditHabitNavRoute: Hashable {
    case editFrequency(Habit)
+   case editNotification(Habit)
    case editTracker(Habit, Tracker)
 }
 
@@ -103,6 +104,17 @@ struct EditHabit: View {
                      }
                   }
                   
+                  // MARK: - Edit Notifications
+                  
+                  NavigationLink(value: EditHabitNavRoute.editNotification(habit)) {
+                     HStack {
+                        Text("Notifications")
+                           .fontWeight(.medium)
+                        
+                        Spacer()
+                     }
+                  }
+                  
                   // MARK: - Edit Start Date
                   
                   HStack {
@@ -175,6 +187,11 @@ struct EditHabit: View {
             if case let .editTracker(habit, tracker) = route {
                EditTracker(habit: habit, tracker: tracker)
                   .environmentObject(nav)
+            }
+            
+            if case let .editNotification(habit) = route {
+               EditHabitNotifications(notifications: [])
+                  .environmentObject(habit)
             }
          }
          .onDisappear {

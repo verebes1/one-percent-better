@@ -10,7 +10,7 @@ import CoreData
 
 struct ExportContainer: Codable {
     let habits: [Habit]
-    let tasks: [Task]
+//    let tasks: [Task]
     let featureLog: FeatureLog
 }
 
@@ -43,9 +43,9 @@ class ExportManager: NSObject {
     func createJSON(context: NSManagedObjectContext) -> URL? {
         // Create ExportContainer object
         let habits = Habit.habits(from: context)
-        let tasks = Task.updateTaskList(from: context)
+//        let tasks = Task.updateTaskList(from: context)
         let featureLog = FeatureLog.getFeatureLog(from: context)
-        let container = ExportContainer(habits: habits, tasks: tasks, featureLog: featureLog!)
+        let container = ExportContainer(habits: habits, featureLog: featureLog!)
         
         if let jsonData = try? encoder.encode(container) {
             if let jsonString = String(data: jsonData, encoding: .utf8) {

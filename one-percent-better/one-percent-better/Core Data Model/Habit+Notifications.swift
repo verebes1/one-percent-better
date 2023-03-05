@@ -10,13 +10,16 @@ import UIKit
 
 extension Habit {
    
-   // TODO: 1.0.9 fix this
+   // TODO: 1.0.9 figure out this max
    var MAX_NOTIFS: Int {
       20
    }
    
-   var NOTIF_PROMPT: String {
-      "Using less than 50 characters, what is an example of a creative notification to encourage someone to do their \(name) habit?"
+   func notificationPrompt() -> String {
+      let adjective = ["creative", "funny", "motivating", "inspiring"]
+      return "Using less than 50 characters, what is an example of a \(adjective.randomElement()!) notification to encourage someone to do their \(name) habit?"
+      
+      //"Using less than 50 characters, what are \(n) examples of a creative notification to encourage someone to do their \(name) habit? List the answer as an array of Strings in JSON format, without using numerics or bullet points."
    }
    
    func addNotifications(notifications: [Notification]) {
@@ -33,7 +36,7 @@ extension Habit {
          }
       }
    }
-
+   
    func requestNotifPermission() {
       UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
          if success {
@@ -45,18 +48,20 @@ extension Habit {
    }
    
    func addNotification(time: DateComponents) {
-      let notifications = generateNotifications(n: 10)
-      setupNotifications(from: Date(), index: 0, time: time, notifications: notifications)
+      Task {
+         let notifications = await generateNotifications(n: 1)
+         setupNotifications(from: Date(), index: 0, time: time, notifications: notifications)
+      }
    }
    
-   func generateNotifications(n: Int) -> [UNMutableNotificationContent] {
+   func generateNotifications(n: Int) async -> [UNMutableNotificationContent] {
       var notifs: [UNMutableNotificationContent] = []
       
-      let messages = getChatGPTAnswers(n)
+      let messages = await getChatGPTAnswers(n)
       
       for i in 0 ..< n {
          let content = UNMutableNotificationContent()
-         content.title = "\(self.name) Reminder"
+         content.title = self.name
          content.subtitle = messages[i]
          content.sound = UNNotificationSound.default
          notifs.append(content)
@@ -68,8 +73,12 @@ extension Habit {
       var answers: [String] = []
       for _ in 0 ..< n {
          do {
-            if let notif = try await OpenAI.shared.completion(prompt: NOTIF_PROMPT) {
+            if var notif = try await OpenAI.shared.completionModel(prompt: notificationPrompt()) {
+               print("---------------------")
+               notif = notif.replacingOccurrences(of: "\n", with: "")
+               notif = notif.replacingOccurrences(of: "\"", with: "")
                answers.append(notif)
+               print("ChatGPT answer: \(notif)")
             }
          } catch {
             print("ERROR: \(error.localizedDescription)")
@@ -89,10 +98,12 @@ extension Habit {
    func setupNotifications(from date: Date, index: Int, time: DateComponents, notifications: [UNMutableNotificationContent]) {
       
       for i in 0 ..< notifications.count {
+         print("i: \(i), index: \(index), i + index: \(i + index)")
          if (i + index) >= MAX_NOTIFS {
             break
          }
-         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: Cal.add(days: i, to: date))
+         let day = Cal.add(days: i, to: date)
+         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          var dayAndTime = time
          dayAndTime.day = dayComponents.day
          dayAndTime.month = dayComponents.month
@@ -100,14 +111,15 @@ extension Habit {
          let trigger = UNCalendarNotificationTrigger(dateMatching: dayAndTime, repeats: false)
          
          let offset = index + i
-         let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder-\(offset)", content: notifications[i], trigger: trigger)
+         print("GENERATING NOTIFICATION \(offset) for habit \(name), on date: \(dayAndTime) and time: \(time), with message: \(notifications[i].subtitle)")
+         let request = UNNotificationRequest(identifier: "OnePercentBetter-\(id)-\(offset)", content: notifications[i], trigger: trigger)
          UNUserNotificationCenter.current().add(request)
       }
    }
    
    func removeAllNotifications() {
       for i in 0 ..< MAX_NOTIFS {
-         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-DailyReminder-\(i)"])
+         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-\(id)-\(i)"])
       }
    }
 }

@@ -147,6 +147,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       // Add notifications
       // TODO: 1.0.9
+      addNotifications(notifications: notifications)
       
       sub = self.objectWillChange.sink { _ in
          print("Habit \(self.name) will change!!!")

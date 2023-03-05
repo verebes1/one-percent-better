@@ -141,6 +141,7 @@
 		80744F5C29B2FC9F00DAF196 /* NotificationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */; };
 		80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5D29B3091400DAF196 /* Habit+Notifications.swift */; };
 		80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5F29B30A7300DAF196 /* OpenAI.swift */; };
+		80744F6329B548F400DAF196 /* EditHabitNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F6229B548F400DAF196 /* EditHabitNotifications.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
 		807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */; };
@@ -351,6 +352,8 @@
 		80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
 		80744F5D29B3091400DAF196 /* Habit+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+Notifications.swift"; sourceTree = "<group>"; };
 		80744F5F29B30A7300DAF196 /* OpenAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAI.swift; sourceTree = "<group>"; };
+		80744F6129B4255100DAF196 /* opb 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 17.xcdatamodel"; sourceTree = "<group>"; };
+		80744F6229B548F400DAF196 /* EditHabitNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitNotifications.swift; sourceTree = "<group>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
 		807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+WasCompletedOn.swift"; sourceTree = "<group>"; };
@@ -863,6 +866,7 @@
 				809AF27C286607AE005A6D58 /* EditTrackersList.swift */,
 				80CC287F28C0080300411ECB /* EditTracker.swift */,
 				80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */,
+				80744F6229B548F400DAF196 /* EditHabitNotifications.swift */,
 			);
 			path = "Edit Habit";
 			sourceTree = "<group>";
@@ -1146,6 +1150,7 @@
 				8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */,
 				805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */,
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
+				80744F6329B548F400DAF196 /* EditHabitNotifications.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
 				80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */,
@@ -1556,6 +1561,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				80744F6129B4255100DAF196 /* opb 17.xcdatamodel */,
 				80744F5029B0084C00DAF196 /* opb 16.xcdatamodel */,
 				806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */,
 				806BB18729A57F2F006549A9 /* opb 14.xcdatamodel */,
@@ -1573,7 +1579,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 80744F5029B0084C00DAF196 /* opb 16.xcdatamodel */;
+			currentVersion = 80744F6129B4255100DAF196 /* opb 17.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -13,11 +13,11 @@ class OpenAI {
    
    let client = Client(apiKey: "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")
    
-   func completion(prompt: String) async throws -> String? {
+   func completionModel(prompt: String) async throws -> String? {
       return try await withCheckedThrowingContinuation { continuation in
          client.completions(engine: .other("text-davinci-003"),
                             prompt: prompt,
-                            numberOfTokens: ...50,
+                            numberOfTokens: ...400,
                             numberOfCompletions: 1) { result in
             switch result {
             case .success(let completions):
@@ -29,4 +29,6 @@ class OpenAI {
          }
       }
    }
+   
+   // Other models
 }
