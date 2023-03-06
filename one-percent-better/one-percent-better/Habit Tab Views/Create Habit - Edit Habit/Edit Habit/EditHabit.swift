@@ -112,6 +112,8 @@ struct EditHabit: View {
                            .fontWeight(.medium)
                         
                         Spacer()
+                        
+                        Text("\(habit.notificationsArray.count)")
                      }
                   }
                   

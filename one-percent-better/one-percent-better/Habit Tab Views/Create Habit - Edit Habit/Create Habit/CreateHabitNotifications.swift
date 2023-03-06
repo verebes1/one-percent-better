@@ -33,6 +33,8 @@ struct CreateHabitNotifications: View {
             BottomButton(label: "Done")
                .onTapGesture {
                   
+                  Task { habit.addNotifications(habit.notificationsArray) }
+                  
                   hideTabBar = false
                   nav.path.removeLast(3)
                }

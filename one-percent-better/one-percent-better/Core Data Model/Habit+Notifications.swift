@@ -30,21 +30,25 @@ extension Habit {
       //"Using less than 50 characters, what are \(n) examples of a creative notification to encourage someone to do their \(name) habit? List the answer as an array of Strings in JSON format, without using numerics or bullet points."
    }
    
-   func addNotifications(to notifications: [Notification]) {
-      for notification in notifications {
-         if let specificTime = notification as? SpecificTimeNotification,
-            let date = specificTime.time {
-            let time = Cal.dateComponents([.hour, .minute], from: date)
-            addNotification(time: time)
-         }
-         
-         if let randomTime = notification as? RandomTimeNotification,
-            let date = randomTime.startTime {
-            // TODO: 1.0.9 make this logic correct
-            let time = Cal.dateComponents([.hour, .minute], from: date)
-            addNotification(time: time)
-         }
-         self.addToNotifications(notification)
+   func addNotification(_ notification: Notification) {
+      if let specificTime = notification as? SpecificTimeNotification,
+         let date = specificTime.time {
+         let time = Cal.dateComponents([.hour, .minute], from: date)
+         addNotification(time: time)
+      }
+      
+      if let randomTime = notification as? RandomTimeNotification,
+         let date = randomTime.startTime {
+         // TODO: 1.0.9 make this logic correct
+         let time = Cal.dateComponents([.hour, .minute], from: date)
+         addNotification(time: time)
+      }
+      self.addToNotifications(notification)
+   }
+   
+   func addNotifications(_ notifications: [Notification]) {
+      for notif in notifications {
+         addNotification(notif)
       }
    }
    
@@ -60,7 +64,7 @@ extension Habit {
    
    func addNotification(time: DateComponents) {
       Task {
-         let notifications = await generateNotifications(n: 1)
+         let notifications = await generateNotifications(n: 10)
          setupNotifications(from: Date(), index: 0, time: time, notifications: notifications)
       }
    }
@@ -128,9 +132,12 @@ extension Habit {
       }
    }
    
-   func removeAllNotifications() {
-      for i in 0 ..< MAX_NOTIFS {
-         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-\(id)-\(i)"])
+   func removeAllNotifications(notifs: [Notification]) {
+      for notif in notifs {
+         guard let id = notif.id else { continue }
+         for i in 0 ..< MAX_NOTIFS {
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-\(id)-\(i)"])
+         }
       }
    }
 }

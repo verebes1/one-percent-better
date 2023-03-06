@@ -40,9 +40,8 @@ struct NotificationSelection: View {
    @Environment(\.colorScheme) var scheme
    @Environment(\.managedObjectContext) var moc
    
-   var habit: Habit
+   @ObservedObject var habit: Habit
    
-   @State private var sendNotif = false
    @State private var animateBell = false
 //
    @State private var selectFrequency = false
@@ -75,6 +74,7 @@ struct NotificationSelection: View {
                   animateBell.toggle()
                   let notif = SpecificTimeNotification(context: moc, time: Date())
                   habit.addToNotifications(notif)
+//                  habit.addNotification(notif)
                } label: {
                   Label("Specific Time", systemImage: "clock")
                }
@@ -83,6 +83,7 @@ struct NotificationSelection: View {
                   animateBell.toggle()
                   let notif = RandomTimeNotification(myContext: moc)
                   habit.addToNotifications(notif)
+//                  habit.addNotification(notif)
                } label: {
                   Label("Random Time", systemImage: "dice")
                }
@@ -139,11 +140,6 @@ struct NotificationSelection: View {
             Spacer()
          }
       }
-//      .onChange(of: sendNotif) { newBool in
-//         if newBool && !animateBell {
-//            animateBell = true
-//         }
-//      }
       )
    }
 }
@@ -257,6 +253,8 @@ struct RandomTimeNotificationRow: View {
 
 struct NotificationRow: View {
    
+   @EnvironmentObject var habit: Habit
+   
    @ObservedObject var notification: Notification
    
    var index: Int
@@ -283,6 +281,10 @@ struct NotificationRow: View {
             .fixedSize()
             Spacer()
          }
+      }
+      .onChange(of: notification) { newValue in
+         print("Notification updated!!!!!")
+//         habit.addNotification(newValue)
       }
    }
 }

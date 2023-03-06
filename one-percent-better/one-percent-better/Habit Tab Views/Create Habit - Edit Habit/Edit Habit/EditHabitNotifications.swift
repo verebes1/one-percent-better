@@ -14,8 +14,11 @@ struct EditHabitNotifications: View {
    
    var habit: Habit
    
+   var originalNotifications: [Notification] = []
+   
    init(habit: Habit) {
       self.habit = habit
+//      self.originalNotifications = habit.notificationsArray.map { $0.copy() as! Notification }
    }
    
    var body: some View {
@@ -29,14 +32,10 @@ struct EditHabitNotifications: View {
             Spacer()
          }
          .onDisappear {
-            // TODO: 1.0.9
-            //            if notifications != habit.notifications() {
-            //               habit.changeNotifications(to: notifications)
-            //            }
-//            if notifications != habit.notifications?.array as? [Notification] {
-//               habit.removeAllNotifications()
-//               // TODO: 1.0.9 better logic to add and remove
-//               habit.addNotifications(to: notifications)
+//            if originalNotifications != habit.notificationsArray {
+               print("notifications array is different!! Need to update")
+               habit.removeAllNotifications(notifs: originalNotifications)
+               habit.addNotifications(habit.notificationsArray)
 //            }
          }
          .toolbar(.hidden, for: .tabBar)

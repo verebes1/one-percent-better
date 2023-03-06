@@ -29,11 +29,6 @@ struct CreateHabitFrequency: View {
    
    @Binding var hideTabBar: Bool
    
-//   init(moc: NSManagedObjectContext, habitName: String, hideTabBar: Binding<Bool>) {
-//      self._hideTabBar = hideTabBar
-//      self.habit = Habit(moc: moc, name: habitName, id: UUID())
-//   }
-   
    var body: some View {
       Background {
          VStack {
@@ -42,8 +37,6 @@ struct CreateHabitFrequency: View {
             HabitCreationHeader(systemImage: "clock.arrow.2.circlepath",
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
-            
-//            Spacer().frame(height: 20)
             
             FrequencySelectionStack(selection: $frequencySelection)
             
@@ -66,7 +59,6 @@ struct CreateHabitFrequency: View {
 }
 
 struct HabitFrequency_Previews: PreviewProvider {
-   
    
    static func data() -> Habit {
       let context = CoreDataManager.previews.mainContext
