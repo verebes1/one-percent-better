@@ -11,15 +11,11 @@ struct EditHabitNotifications: View {
    @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var nav: HabitTabNavPath
-   @EnvironmentObject var habit: Habit
    
-   var originalNotifications: [Notification]
+   var habit: Habit
    
-   @State private var notifications: [Notification] = []
-   
-   init(notifications: [Notification]) {
-      self.originalNotifications = notifications
-      self._notifications = State(initialValue: notifications)
+   init(habit: Habit) {
+      self.habit = habit
    }
    
    var body: some View {
@@ -28,20 +24,20 @@ struct EditHabitNotifications: View {
             Spacer()
                .frame(height: 20)
             
-            NotificationSelection(notifications: $notifications)
+            NotificationSelection(habit: habit)
             
             Spacer()
          }
          .onDisappear {
             // TODO: 1.0.9
-//            if notifications != habit.notifications() {
-//               habit.changeNotifications(to: notifications)
+            //            if notifications != habit.notifications() {
+            //               habit.changeNotifications(to: notifications)
+            //            }
+//            if notifications != habit.notifications?.array as? [Notification] {
+//               habit.removeAllNotifications()
+//               // TODO: 1.0.9 better logic to add and remove
+//               habit.addNotifications(to: notifications)
 //            }
-            if notifications != originalNotifications {
-               habit.removeAllNotifications()
-               // TODO: 1.0.9 better logic to add and remove
-               habit.addNotifications(notifications: notifications)
-            }
          }
          .toolbar(.hidden, for: .tabBar)
       }
@@ -49,7 +45,38 @@ struct EditHabitNotifications: View {
 }
 
 struct EditHabitNotifications_Previews: PreviewProvider {
-    static var previews: some View {
-        EditHabitNotifications(notifications: [])
-    }
+   
+   static func data() -> Habit {
+      let context = CoreDataManager.previews.mainContext
+      
+      let day0 = Date()
+      let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+      let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
+      
+      let h1 = try? Habit(context: context, name: "Swimming")
+      h1?.markCompleted(on: day0)
+      h1?.markCompleted(on: day1)
+      h1?.markCompleted(on: day2)
+      
+      if let h1 = h1 {
+         let t1 = NumberTracker(context: context, habit: h1, name: "Laps")
+         t1.add(date: day0, value: "3")
+         t1.add(date: day1, value: "2")
+         t1.add(date: day2, value: "1")
+         
+         let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
+         let patioBefore = UIImage(named: "patio-before")!
+         t2.add(date: day0, value: patioBefore)
+         
+         let _ = ExerciseTracker(context: context, habit: h1, name: "Bench Press")
+      }
+      
+      let habits = Habit.habits(from: context)
+      return habits.first!
+   }
+   
+   static var previews: some View {
+      let habit = data()
+      EditHabitNotifications(habit: habit)
+   }
 }

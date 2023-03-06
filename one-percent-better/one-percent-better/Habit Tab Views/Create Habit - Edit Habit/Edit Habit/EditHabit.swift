@@ -190,8 +190,8 @@ struct EditHabit: View {
             }
             
             if case let .editNotification(habit) = route {
-               EditHabitNotifications(notifications: [])
-                  .environmentObject(habit)
+               EditHabitNotifications(habit: habit)
+                  .environmentObject(nav)
             }
          }
          .onDisappear {

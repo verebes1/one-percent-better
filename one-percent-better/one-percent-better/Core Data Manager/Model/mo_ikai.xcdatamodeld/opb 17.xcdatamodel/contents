@@ -35,7 +35,7 @@
         <attribute name="timesPerDay" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
         <attribute name="timesPerWeekResetDay" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
         <attribute name="timesPerWeekTimes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
-        <relationship name="notifications" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Notification" inverseName="habit" inverseEntity="Notification"/>
+        <relationship name="notifications" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Notification" inverseName="habit" inverseEntity="Notification"/>
         <relationship name="trackers" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Tracker" inverseName="habit" inverseEntity="Tracker"/>
     </entity>
     <entity name="ImageTracker" representedClassName="ImageTracker" parentEntity="Tracker" syncable="YES">
@@ -50,7 +50,7 @@
         <relationship name="habit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="notifications" inverseEntity="Habit"/>
     </entity>
     <entity name="NumberTracker" representedClassName="NumberTracker" parentEntity="GraphTracker" syncable="YES"/>
-    <entity name="RandomTimeNotification" representedClassName="RandomTimeNotification" parentEntity="Notification" syncable="YES" codeGenerationType="class">
+    <entity name="RandomTimeNotification" representedClassName="RandomTimeNotification" parentEntity="Notification" syncable="YES">
         <attribute name="endTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="startTime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
@@ -58,7 +58,7 @@
         <attribute name="dailyReminderEnabled" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="dailyReminderTime" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="SpecificTimeNotification" representedClassName="SpecificTimeNotification" parentEntity="Notification" syncable="YES" codeGenerationType="class">
+    <entity name="SpecificTimeNotification" representedClassName="SpecificTimeNotification" parentEntity="Notification" syncable="YES">
         <attribute name="time" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
     <entity name="TimeTracker" representedClassName="TimeTracker" parentEntity="Tracker" syncable="YES">

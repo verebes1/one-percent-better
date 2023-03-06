@@ -50,7 +50,7 @@ struct ChooseHabitFrequency: View {
          .toolbar(.hidden, for: .tabBar)
          .navigationDestination(for: ChooseFrequencyRoute.self) { [nav] route in
             if case .next(let habitFrequency) = route {
-               ChooseHabitNotificationTimes(habitName: habitName, frequency: habitFrequency, hideTabBar: $hideTabBar)
+               ChooseHabitNotificationTimes(habitName: habitName, habitFrequency: habitFrequency, hideTabBar: $hideTabBar)
                   .environmentObject(nav)
             }
          }

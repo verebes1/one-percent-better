@@ -8,61 +8,62 @@
 import SwiftUI
 
 
-class Notification: Identifiable, Equatable, ObservableObject {
-   var id = UUID()
-   
-   static func == (lhs: Notification, rhs: Notification) -> Bool {
-      lhs.id == rhs.id
-   }
-}
-
-class SpecificTimeNotification: Notification {
-   @Published var time = Date()
-}
-
-class RandomTimeNotification: Notification {
-   @Published var fromTime = {
-      var components = DateComponents()
-      components.hour = 9
-      components.minute = 0
-      return Cal.date(from: components) ?? Date()
-   }()
-   @Published var toTime = {
-      var components = DateComponents()
-      components.hour = 17
-      components.minute = 0
-      return Cal.date(from: components) ?? Date()
-   }()
-}
-
-class NotificationSelectionModel: ObservableObject {
-   @Published var notifications: [Notification] = [
-      SpecificTimeNotification(),
-      RandomTimeNotification()
-   ]
-   
-}
+//class Notification: Identifiable, Equatable, ObservableObject {
+//   var id = UUID()
+//
+//   static func == (lhs: Notification, rhs: Notification) -> Bool {
+//      lhs.id == rhs.id
+//   }
+//}
+//
+//class SpecificTimeNotification: Notification {
+//   @Published var time = Date()
+//}
+//
+//class RandomTimeNotification: Notification {
+//   @Published var fromTime = {
+//      var components = DateComponents()
+//      components.hour = 9
+//      components.minute = 0
+//      return Cal.date(from: components) ?? Date()
+//   }()
+//   @Published var toTime = {
+//      var components = DateComponents()
+//      components.hour = 17
+//      components.minute = 0
+//      return Cal.date(from: components) ?? Date()
+//   }()
+//}
 
 struct NotificationSelection: View {
    
    @Environment(\.colorScheme) var scheme
+   @Environment(\.managedObjectContext) var moc
    
-   @Binding var notifications: [Notification]
+   var habit: Habit
    
    @State private var sendNotif = false
    @State private var animateBell = false
-   
+//
    @State private var selectFrequency = false
    
    private var textColor: Color {
       scheme == .light ? .white : .black
    }
    
-   func deleteNotification(from source: IndexSet) {
-      notifications.remove(atOffsets: source)
-   }
+//   func deleteNotification(from source: IndexSet) {
+//      guard let index = source.first else { return }
+//      let notifToBeDeleted = habit.notificationsArray[index]
+//      habit.removeFromNotifications(notifToBeDeleted)
+//      moc.delete(notifToBeDeleted)
+//
+//      moc.fatalSave()
+//   }
    
    var body: some View {
+      let _ = Self.printChanges(self)
+//      print("Notification selection updating, habit.notificationsArray = \(habit.notificationsArray)")
+      return (
       Background {
          VStack(spacing: 10) {
             
@@ -73,14 +74,16 @@ struct NotificationSelection: View {
             Menu {
                Button {
                   animateBell.toggle()
-                  notifications.append(SpecificTimeNotification())
+                  let notif = SpecificTimeNotification(context: moc, time: Date())
+                  habit.addToNotifications(notif)
                } label: {
                   Label("Specific Time", systemImage: "clock")
                }
-               
+
                Button {
                   animateBell.toggle()
-                  notifications.append(RandomTimeNotification())
+                  let notif = RandomTimeNotification(myContext: moc)
+                  habit.addToNotifications(notif)
                } label: {
                   Label("Random Time", systemImage: "dice")
                }
@@ -97,8 +100,8 @@ struct NotificationSelection: View {
                      .padding(.horizontal, 20)
                      .fontWeight(.medium)
                      .foregroundColor(Style.accentColor)
-//                     .background(Style.accentColor)
-//                     .foregroundColor(textColor)
+                     //                     .background(Style.accentColor)
+                     //                     .foregroundColor(textColor)
                   }
                }
                .background(Color.cardColor)
@@ -106,17 +109,17 @@ struct NotificationSelection: View {
                .padding(.horizontal, 20)
             }
             
-            if !notifications.isEmpty {
+            if !habit.notificationsArray.isEmpty {
                VStack {
                   List {
                      Section {
-                        ForEach(0 ..< notifications.count, id: \.self) { i in
-                           let notification = notifications[i]
+                        ForEach(0 ..< habit.notificationsArray.count, id: \.self) { i in
+                           let notification = habit.notificationsArray[i]
                            NotificationRow(notification: notification, index: i)
                               .listRowBackground(Color.cardColor)
                               .listRowSeparatorTint(.gray, edges: .bottom)
                               .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
-                                  return -20
+                                 return -20
                               }
                         }
                         .onDelete(perform: deleteNotification)
@@ -131,26 +134,60 @@ struct NotificationSelection: View {
                      }
                   }
                   .scrollContentBackground(.hidden)
-                  .animation(.easeInOut, value: notifications)
+                  .animation(.easeInOut, value: habit.notifications)
                }
             }
             Spacer()
          }
       }
-      .onChange(of: sendNotif) { newBool in
-         if newBool && !animateBell {
-            animateBell = true
-         }
-      }
+//      .onChange(of: sendNotif) { newBool in
+//         if newBool && !animateBell {
+//            animateBell = true
+//         }
+//      }
+      )
    }
 }
 
 struct MyViewNotificationSelection_Previewer: View {
    @State private var notifications: [Notification] = []
-   var body: some View {
-      Background {
-         NotificationSelection(notifications: $notifications)
+   
+   func data() -> Habit {
+      let context = CoreDataManager.previews.mainContext
+      
+      let day0 = Date()
+      let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+      let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
+      
+      let h1 = try? Habit(context: context, name: "Swimming")
+      h1?.markCompleted(on: day0)
+      h1?.markCompleted(on: day1)
+      h1?.markCompleted(on: day2)
+      
+      if let h1 = h1 {
+         let t1 = NumberTracker(context: context, habit: h1, name: "Laps")
+         t1.add(date: day0, value: "3")
+         t1.add(date: day1, value: "2")
+         t1.add(date: day2, value: "1")
+         
+         let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
+         let patioBefore = UIImage(named: "patio-before")!
+         t2.add(date: day0, value: patioBefore)
+         
+         let _ = ExerciseTracker(context: context, habit: h1, name: "Bench Press")
       }
+      
+      let habits = Habit.habits(from: context)
+      return habits.first!
+   }
+   
+   var body: some View {
+      let habit = data()
+      return (
+         Background {
+            NotificationSelection(habit: habit)
+         }
+      )
    }
 }
 
@@ -164,11 +201,21 @@ struct SpecificTimeNotificationRow: View {
    
    @ObservedObject var notification: SpecificTimeNotification
    
+   var timeBinding: Binding<Date> {
+      return Binding {
+         notification.time ?? Date()
+      } set: { newDate, _ in
+         notification.time = newDate
+      }
+   }
+   
    var body: some View {
       HStack {
          Spacer()
          Text("Every day at ")
-         JustDatePicker(time: $notification.time)
+         if notification.time != nil {
+            JustDatePicker(time: timeBinding)
+         }
          Spacer()
       }
       .padding(.vertical, 1)
@@ -179,14 +226,30 @@ struct RandomTimeNotificationRow: View {
    
    @ObservedObject var notification: RandomTimeNotification
    
+   var startTimeBinding: Binding<Date> {
+      return Binding {
+         notification.startTime ?? Date()
+      } set: { newDate, _ in
+         notification.startTime = newDate
+      }
+   }
+   
+   var endTimeBinding: Binding<Date> {
+      return Binding {
+         notification.endTime ?? Date()
+      } set: { newDate, _ in
+         notification.endTime = newDate
+      }
+   }
+   
    var body: some View {
       VStack {
          Text("Random time between")
          HStack {
             Spacer()
-            JustDatePicker(time: $notification.fromTime)
+            JustDatePicker(time: startTimeBinding)
             Text(" and ")
-            JustDatePicker(time: $notification.toTime)
+            JustDatePicker(time: endTimeBinding)
             Spacer()
          }
       }
@@ -199,8 +262,6 @@ struct NotificationRow: View {
    
    var index: Int
    
-   var specificTimeBinding: Binding<SpecificTimeNotification>?
-   
    var body: some View {
       ZStack {
          if let specificTime = notification as? SpecificTimeNotification {
@@ -211,10 +272,10 @@ struct NotificationRow: View {
          
          HStack {
             ZStack {
-
+               
                Circle()
                   .foregroundColor(Color.cardColorLighter)
-
+               
                Text("\(index + 1)")
                   .font(.system(size: 13))
                   .foregroundColor(.label)

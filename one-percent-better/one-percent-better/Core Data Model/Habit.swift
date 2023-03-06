@@ -82,6 +82,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// Which day of the week does this weekly habit frequency reset
    @NSManaged public var timesPerWeekResetDay: [Int]
    
+   /// A set of notifications for this habit
+   @NSManaged public var notifications: NSOrderedSet?
+   
    // MARK: - Properties
    
    lazy var timesCompletedDict: [DMYDate: Int] = {
@@ -147,7 +150,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       // Add notifications
       // TODO: 1.0.9
-      addNotifications(notifications: notifications)
+      addNotifications(to: notifications)
       
       sub = self.objectWillChange.sink { _ in
          print("Habit \(self.name) will change!!!")
@@ -489,6 +492,41 @@ extension Habit {
    @objc(removeTrackers:)
    @NSManaged public func removeFromTrackers(_ values: NSOrderedSet)
    
+}
+
+// MARK: Generated accessors for notifications
+extension Habit {
+
+    @objc(insertObject:inNotificationsAtIndex:)
+    @NSManaged public func insertIntoNotifications(_ value: Notification, at idx: Int)
+
+    @objc(removeObjectFromNotificationsAtIndex:)
+    @NSManaged public func removeFromNotifications(at idx: Int)
+
+    @objc(insertNotifications:atIndexes:)
+    @NSManaged public func insertIntoNotifications(_ values: [Notification], at indexes: NSIndexSet)
+
+    @objc(removeNotificationsAtIndexes:)
+    @NSManaged public func removeFromNotifications(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInNotificationsAtIndex:withObject:)
+    @NSManaged public func replaceNotifications(at idx: Int, with value: Notification)
+
+    @objc(replaceNotificationsAtIndexes:withNotifications:)
+    @NSManaged public func replaceNotifications(at indexes: NSIndexSet, with values: [Notification])
+
+    @objc(addNotificationsObject:)
+    @NSManaged public func addToNotifications(_ value: Notification)
+
+    @objc(removeNotificationsObject:)
+    @NSManaged public func removeFromNotifications(_ value: Notification)
+
+    @objc(addNotifications:)
+    @NSManaged public func addToNotifications(_ values: NSOrderedSet)
+
+    @objc(removeNotifications:)
+    @NSManaged public func removeFromNotifications(_ values: NSOrderedSet)
+
 }
 
 extension Habit {

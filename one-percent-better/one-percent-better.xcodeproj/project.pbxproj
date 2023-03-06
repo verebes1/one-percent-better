@@ -70,7 +70,6 @@
 		80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE2285BEE5900CBDF71 /* Tracker.swift */; };
 		80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE3285BEE5900CBDF71 /* GraphTracker.swift */; };
 		80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE4285BEE5900CBDF71 /* ImageTracker.swift */; };
-		80385D25285BEE5900CBDF71 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE5285BEE5900CBDF71 /* Task.swift */; };
 		80385D26285BEE5900CBDF71 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE6285BEE5900CBDF71 /* Habit.swift */; };
 		80385D27285BEE5900CBDF71 /* ExportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CE8285BEE5900CBDF71 /* ExportManager.swift */; };
 		80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */; };
@@ -142,6 +141,9 @@
 		80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5D29B3091400DAF196 /* Habit+Notifications.swift */; };
 		80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5F29B30A7300DAF196 /* OpenAI.swift */; };
 		80744F6329B548F400DAF196 /* EditHabitNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F6229B548F400DAF196 /* EditHabitNotifications.swift */; };
+		80744F6529B558A800DAF196 /* SpecificTimeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */; };
+		80744F6929B5592B00DAF196 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F6829B5592B00DAF196 /* Notification.swift */; };
+		80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */; };
 		807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B5290C756D0022068B /* AnimatedBell.swift */; };
 		807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */; };
 		807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */; };
@@ -271,7 +273,6 @@
 		80385CE2285BEE5900CBDF71 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		80385CE3285BEE5900CBDF71 /* GraphTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphTracker.swift; sourceTree = "<group>"; };
 		80385CE4285BEE5900CBDF71 /* ImageTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageTracker.swift; sourceTree = "<group>"; };
-		80385CE5285BEE5900CBDF71 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		80385CE6285BEE5900CBDF71 /* Habit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Habit.swift; sourceTree = "<group>"; };
 		80385CE8285BEE5900CBDF71 /* ExportManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportManager.swift; sourceTree = "<group>"; };
 		80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticEngineManager.swift; sourceTree = "<group>"; };
@@ -354,6 +355,9 @@
 		80744F5F29B30A7300DAF196 /* OpenAI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAI.swift; sourceTree = "<group>"; };
 		80744F6129B4255100DAF196 /* opb 17.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 17.xcdatamodel"; sourceTree = "<group>"; };
 		80744F6229B548F400DAF196 /* EditHabitNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitNotifications.swift; sourceTree = "<group>"; };
+		80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpecificTimeNotification.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/SpecificTimeNotification.swift"; sourceTree = "<absolute>"; };
+		80744F6829B5592B00DAF196 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Notification.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Notification.swift"; sourceTree = "<absolute>"; };
+		80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RandomTimeNotification.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/RandomTimeNotification.swift"; sourceTree = "<absolute>"; };
 		807A47B5290C756D0022068B /* AnimatedBell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedBell.swift; sourceTree = "<group>"; };
 		807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedHabitCreationHeader.swift; sourceTree = "<group>"; };
 		807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+WasCompletedOn.swift"; sourceTree = "<group>"; };
@@ -630,7 +634,9 @@
 				80385CE4285BEE5900CBDF71 /* ImageTracker.swift */,
 				80F79683286D0432002FDFDA /* TimeTracker.swift */,
 				8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */,
-				80385CE5285BEE5900CBDF71 /* Task.swift */,
+				80744F6829B5592B00DAF196 /* Notification.swift */,
+				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
+				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
@@ -1123,6 +1129,7 @@
 				805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */,
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
 				802E928F2917071A00A28EB1 /* View+CornerRadius.swift in Sources */,
+				80744F6529B558A800DAF196 /* SpecificTimeNotification.swift in Sources */,
 				803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */,
 				80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */,
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
@@ -1131,6 +1138,7 @@
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				805785BA296C4C8600028582 /* SelectableCard.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
+				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
@@ -1152,7 +1160,6 @@
 				80385D31285BEE5900CBDF71 /* ImageCardView.swift in Sources */,
 				80744F6329B548F400DAF196 /* EditHabitNotifications.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
-				80385D25285BEE5900CBDF71 /* Task.swift in Sources */,
 				80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */,
 				80D88C43290883F9005CD7B4 /* HabitObserver.swift in Sources */,
 				80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */,
@@ -1186,6 +1193,7 @@
 				80385D29285BEE5900CBDF71 /* OnePercentBetterApp.swift in Sources */,
 				80CC691F28E1184F00584340 /* NewProgress.swift in Sources */,
 				807A47B8290DEB930022068B /* AnimatedHabitCreationHeader.swift in Sources */,
+				80744F6929B5592B00DAF196 /* Notification.swift in Sources */,
 				80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */,
 				80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */,
 				80639E61293D685500A48F16 /* ExerciseGraphCard.swift in Sources */,

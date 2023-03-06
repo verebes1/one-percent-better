@@ -8,7 +8,15 @@
 import Foundation
 import UIKit
 
+
 extension Habit {
+   
+   var notificationsArray: [Notification] {
+      guard let arr = notifications?.array as? [Notification] else {
+         fatalError("Should always be able to convert")
+      }
+      return arr
+   }
    
    // TODO: 1.0.9 figure out this max
    var MAX_NOTIFS: Int {
@@ -22,18 +30,21 @@ extension Habit {
       //"Using less than 50 characters, what are \(n) examples of a creative notification to encourage someone to do their \(name) habit? List the answer as an array of Strings in JSON format, without using numerics or bullet points."
    }
    
-   func addNotifications(notifications: [Notification]) {
+   func addNotifications(to notifications: [Notification]) {
       for notification in notifications {
-         if let specificTime = notification as? SpecificTimeNotification {
-            let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
+         if let specificTime = notification as? SpecificTimeNotification,
+            let date = specificTime.time {
+            let time = Cal.dateComponents([.hour, .minute], from: date)
             addNotification(time: time)
          }
          
-         if let randomTime = notification as? RandomTimeNotification {
+         if let randomTime = notification as? RandomTimeNotification,
+            let date = randomTime.startTime {
             // TODO: 1.0.9 make this logic correct
-            let time = Cal.dateComponents([.hour, .minute], from: randomTime.fromTime)
+            let time = Cal.dateComponents([.hour, .minute], from: date)
             addNotification(time: time)
          }
+         self.addToNotifications(notification)
       }
    }
    
