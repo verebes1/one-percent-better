@@ -51,14 +51,13 @@ struct NotificationSelection: View {
       scheme == .light ? .white : .black
    }
    
-//   func deleteNotification(from source: IndexSet) {
-//      guard let index = source.first else { return }
-//      let notifToBeDeleted = habit.notificationsArray[index]
-//      habit.removeFromNotifications(notifToBeDeleted)
-//      moc.delete(notifToBeDeleted)
-//
-//      moc.fatalSave()
-//   }
+   func deleteNotification(from source: IndexSet) {
+      guard let index = source.first else { return }
+      let notifToBeDeleted = habit.notificationsArray[index]
+      habit.removeFromNotifications(notifToBeDeleted)
+      moc.delete(notifToBeDeleted)
+      moc.fatalSave()
+   }
    
    var body: some View {
       let _ = Self.printChanges(self)

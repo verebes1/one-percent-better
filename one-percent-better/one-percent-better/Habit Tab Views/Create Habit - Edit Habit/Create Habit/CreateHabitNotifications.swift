@@ -1,5 +1,5 @@
 //
-//  ChooseHabitNotificationTimes.swift
+//  CreateHabitNotifications.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 3/1/23.
@@ -8,15 +8,13 @@
 import SwiftUI
 import Combine
 
-struct ChooseHabitNotificationTimes: View {
+struct CreateHabitNotifications: View {
    
    @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var nav: HabitTabNavPath
    
-   var habitName: String
-   
-   var habitFrequency: HabitFrequency
+   var habit: Habit
    
    @Binding var hideTabBar: Bool
    
@@ -35,9 +33,6 @@ struct ChooseHabitNotificationTimes: View {
             BottomButton(label: "Done")
                .onTapGesture {
                   
-                  let habit = try? Habit(context: moc,
-                                         name: habitName,
-                                         frequency: habitFrequency)
                   hideTabBar = false
                   nav.path.removeLast(3)
                }
@@ -80,8 +75,6 @@ struct ChooseHabitNotificationTimes_Previews: PreviewProvider {
    }
    
    static var previews: some View {
-      ChooseHabitNotificationTimes(habitName: data().name,
-                                   habitFrequency: data().frequency(on: Date())!,
-                                   hideTabBar: .constant(true))
+      CreateHabitNotifications(habit: data(), hideTabBar: .constant(true))
    }
 }

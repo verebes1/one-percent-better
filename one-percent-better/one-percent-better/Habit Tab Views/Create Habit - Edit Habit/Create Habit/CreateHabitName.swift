@@ -1,5 +1,5 @@
 //
-//  ChooseHabitName.swift
+//  CreateHabitName.swift
 //  one-percent-better-swiftui
 //
 //  Created by Jeremy Cook on 5/17/22.
@@ -8,14 +8,18 @@
 import SwiftUI
 
 enum CreateFrequencyRoute: Hashable {
-   case createFrequency(String)
+   case createFrequency(Habit)
 }
 
-struct ChooseHabitName: View {
+struct CreateHabitName: View {
+   
+   @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var nav: HabitTabNavPath
    
    @State var habitName: String = ""
+   
+   @State private var nextPressed = false
    
    @FocusState private var nameInFocus: Bool
    
@@ -69,14 +73,27 @@ struct ChooseHabitName: View {
             
             Spacer().frame(height: 10)
             
-            NavigationLink(value: CreateFrequencyRoute.createFrequency(habitName)) {
+//            if habitName.isEmpty {
+//               BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
+//            } else {
+//               NavigationLink(value: CreateFrequencyRoute.createFrequency(habitName)) {
+//                  BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
+//               }
+//            }
+            
+            Button {
+               if !habitName.isEmpty {
+                  let habit = Habit(moc: moc, name: habitName, id: UUID())
+                  nav.path.append(CreateFrequencyRoute.createFrequency(habit))
+               }
+            } label: {
                BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
             }
+
          }
-         .navigationDestination(for: CreateFrequencyRoute.self) { [nav] route in
-            if case .createFrequency(let habitName) = route,
-               !habitName.isEmpty {
-               ChooseHabitFrequency(habitName: habitName, hideTabBar: $hideTabBar)
+         .navigationDestination(for: CreateFrequencyRoute.self) { route in
+            if case .createFrequency(let habit) = route {
+               CreateHabitFrequency(habit: habit, hideTabBar: $hideTabBar)
                   .environmentObject(nav)
             }
          }
@@ -104,7 +121,7 @@ struct CreateNewHabit_Previews: PreviewProvider {
    
    static var previews: some View {
       let moc = CoreDataManager.previews.mainContext
-      ChooseHabitName(hideTabBar: .constant(true))
+      CreateHabitName(hideTabBar: .constant(true))
          .environment(\.managedObjectContext, moc)
          .environmentObject(HabitListViewModel(moc))
          .environmentObject(HabitTabNavPath())

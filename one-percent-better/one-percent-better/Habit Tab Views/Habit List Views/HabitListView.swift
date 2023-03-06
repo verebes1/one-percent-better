@@ -179,8 +179,8 @@ struct HabitListView: View {
                      .environmentObject(habit)
                }
                
-               if route == HabitListViewRoute.createHabit {
-                  ChooseHabitName(hideTabBar: $hideTabBar)
+               if case .createHabit = route {
+                  CreateHabitName(hideTabBar: $hideTabBar)
                      .environmentObject(nav)
                }
             }

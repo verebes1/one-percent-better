@@ -106,7 +106,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
                     frequency: HabitFrequency = .timesPerDay(1),
                     notifications: [Notification] = [],
                     id: UUID = UUID()) throws {
-      // Check for a duplicate habit. Habits are unique by name
+      // Check for a duplicate habit. Habits are unique by id
       let habits = Habit.habits(from: context)
       for habit in habits {
          if habit.id == id {
@@ -155,6 +155,12 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       sub = self.objectWillChange.sink { _ in
          print("Habit \(self.name) will change!!!")
       }
+   }
+   
+   convenience init(moc: NSManagedObjectContext,
+                    name: String,
+                    id: UUID) {
+      try! self.init(context: moc, name: name, id: id)
    }
    
    func updateStartDate(to date: Date) {

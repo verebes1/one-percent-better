@@ -55,7 +55,7 @@
 		80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CCE285BEE5900CBDF71 /* CustomTextField.swift */; };
 		80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */; };
 		80385D15285BEE5900CBDF71 /* RingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD1285BEE5900CBDF71 /* RingView.swift */; };
-		80385D16285BEE5900CBDF71 /* ChooseHabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD2285BEE5900CBDF71 /* ChooseHabitName.swift */; };
+		80385D16285BEE5900CBDF71 /* CreateHabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD2285BEE5900CBDF71 /* CreateHabitName.swift */; };
 		80385D17285BEE5900CBDF71 /* HabitCreationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */; };
 		80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */; };
 		80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */; };
@@ -95,7 +95,7 @@
 		803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */; };
 		803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */; };
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
-		803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */; };
+		803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* CreateHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCardOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCardOld.swift */; };
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8043A92528E7A414001D0E8C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043A92428E7A414001D0E8C /* Timeline.swift */; };
@@ -133,7 +133,7 @@
 		806BB18629A4388F006549A9 /* XTimesPerDayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806BB18529A4388F006549A9 /* XTimesPerDayTests.swift */; };
 		806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806BB18829A5B751006549A9 /* SpecificWeekdaysTests.swift */; };
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
-		80744F5229B0096700DAF196 /* ChooseHabitNotificationTimes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5129B0096700DAF196 /* ChooseHabitNotificationTimes.swift */; };
+		80744F5229B0096700DAF196 /* CreateHabitNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */; };
 		80744F5529B013FF00DAF196 /* DailyReminderSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */; };
 		80744F5829B2E4CC00DAF196 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 80744F5729B2E4CC00DAF196 /* OpenAI */; };
 		80744F5A29B2FA2700DAF196 /* DailyReminderNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */; };
@@ -258,7 +258,7 @@
 		80385CCE285BEE5900CBDF71 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTests.swift; sourceTree = "<group>"; };
 		80385CD1285BEE5900CBDF71 /* RingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
-		80385CD2285BEE5900CBDF71 /* ChooseHabitName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChooseHabitName.swift; sourceTree = "<group>"; };
+		80385CD2285BEE5900CBDF71 /* CreateHabitName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateHabitName.swift; sourceTree = "<group>"; };
 		80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitCreationHeader.swift; sourceTree = "<group>"; };
 		80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewTracker.swift; sourceTree = "<group>"; };
 		80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateImageTracker.swift; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 		803A787029823B3A0045BD06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		803B4E8328B430F8003EA859 /* mo_ikai 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 7.xcdatamodel"; sourceTree = "<group>"; };
 		803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackerEntry.swift; sourceTree = "<group>"; };
-		803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitFrequency.swift; sourceTree = "<group>"; };
+		803E1B8728A34E930010540B /* CreateHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitFrequency.swift; sourceTree = "<group>"; };
 		803E1B8928A9D68B0010540B /* SelectableCardOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCardOld.swift; sourceTree = "<group>"; };
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		8043A92428E7A414001D0E8C /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
@@ -347,7 +347,7 @@
 		806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 15.xcdatamodel"; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
 		80744F5029B0084C00DAF196 /* opb 16.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 16.xcdatamodel"; sourceTree = "<group>"; };
-		80744F5129B0096700DAF196 /* ChooseHabitNotificationTimes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseHabitNotificationTimes.swift; sourceTree = "<group>"; };
+		80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitNotifications.swift; sourceTree = "<group>"; };
 		80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderSelection.swift; sourceTree = "<group>"; };
 		80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderNotifications.swift; sourceTree = "<group>"; };
 		80744F5B29B2FC9F00DAF196 /* NotificationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHandler.swift; sourceTree = "<group>"; };
@@ -705,9 +705,9 @@
 			isa = PBXGroup;
 			children = (
 				80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */,
-				80385CD2285BEE5900CBDF71 /* ChooseHabitName.swift */,
-				803E1B8728A34E930010540B /* ChooseHabitFrequency.swift */,
-				80744F5129B0096700DAF196 /* ChooseHabitNotificationTimes.swift */,
+				80385CD2285BEE5900CBDF71 /* CreateHabitName.swift */,
+				803E1B8728A34E930010540B /* CreateHabitFrequency.swift */,
+				80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */,
 				80385CCD285BEE5900CBDF71 /* ButtonViews.swift */,
 				80F72943294D89B700F17B0B /* PrebuiltHabits.swift */,
 			);
@@ -1064,13 +1064,13 @@
 				80385D23285BEE5900CBDF71 /* GraphTracker.swift in Sources */,
 				8081A3602874E09900D0CB1B /* TimerCompletionCircle.swift in Sources */,
 				80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */,
-				80385D16285BEE5900CBDF71 /* ChooseHabitName.swift in Sources */,
-				80385D16285BEE5900CBDF71 /* ChooseHabitName.swift in Sources */,
+				80385D16285BEE5900CBDF71 /* CreateHabitName.swift in Sources */,
+				80385D16285BEE5900CBDF71 /* CreateHabitName.swift in Sources */,
 				805785B3295EEFA900028582 /* EveryDayXTimesPerDay.swift in Sources */,
 				80385D26285BEE5900CBDF71 /* Habit.swift in Sources */,
 				80385D01285BEE5900CBDF71 /* CoreDataManager.swift in Sources */,
 				80385D05285BEE5900CBDF71 /* mo-ikai1-to-2.xcmappingmodel in Sources */,
-				80744F5229B0096700DAF196 /* ChooseHabitNotificationTimes.swift in Sources */,
+				80744F5229B0096700DAF196 /* CreateHabitNotifications.swift in Sources */,
 				80385D2D285BEE5900CBDF71 /* CalendarSpacingView.swift in Sources */,
 				8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */,
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
@@ -1173,7 +1173,7 @@
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
 				8062AA452902F76200903123 /* CalendarDayView.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
-				803E1B8828A34E930010540B /* ChooseHabitFrequency.swift in Sources */,
+				803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
 				802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */,
 				80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */,

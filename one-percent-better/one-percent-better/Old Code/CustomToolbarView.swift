@@ -25,7 +25,7 @@ struct CustomToolbarView: View {
                     Text("Toolbar")
                     Spacer()
                     NavigationLink(
-                        destination: ChooseHabitName(),
+                        destination: CreateHabitName(),
                         isActive: $isPresenting) {
                             Image(systemName: "square.and.pencil")
                                 .resizable()

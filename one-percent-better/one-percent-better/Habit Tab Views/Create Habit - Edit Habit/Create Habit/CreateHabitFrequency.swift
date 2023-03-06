@@ -1,14 +1,15 @@
 //
-//  ChooseHabitFrequency.swift
+//  CreateHabitFrequency.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 8/9/22.
 //
 
 import SwiftUI
+import CoreData
 
 enum ChooseFrequencyRoute: Hashable {
-   case next(HabitFrequency)
+   case next(Habit, HabitFrequency)
 }
 
 enum HabitFrequencyError: Error {
@@ -16,17 +17,22 @@ enum HabitFrequencyError: Error {
    case emptyFrequency
 }
 
-struct ChooseHabitFrequency: View {
+struct CreateHabitFrequency: View {
    
    @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var nav: HabitTabNavPath
    
-   var habitName: String
+   var habit: Habit
    
    @State private var frequencySelection: HabitFrequency = .timesPerDay(1)
    
    @Binding var hideTabBar: Bool
+   
+//   init(moc: NSManagedObjectContext, habitName: String, hideTabBar: Binding<Bool>) {
+//      self._hideTabBar = hideTabBar
+//      self.habit = Habit(moc: moc, name: habitName, id: UUID())
+//   }
    
    var body: some View {
       Background {
@@ -43,14 +49,15 @@ struct ChooseHabitFrequency: View {
             
             Spacer()
             
-            NavigationLink(value: ChooseFrequencyRoute.next(frequencySelection)) {
+            NavigationLink(value: ChooseFrequencyRoute.next(habit, frequencySelection)) {
                BottomButton(label: "Next")
             }
          }
          .toolbar(.hidden, for: .tabBar)
          .navigationDestination(for: ChooseFrequencyRoute.self) { [nav] route in
-            if case .next(let habitFrequency) = route {
-               ChooseHabitNotificationTimes(habitName: habitName, habitFrequency: habitFrequency, hideTabBar: $hideTabBar)
+            if case let .next(habit, habitFrequency) = route {
+               let _ = habit.changeFrequency(to: habitFrequency)
+               CreateHabitNotifications(habit: habit, hideTabBar: $hideTabBar)
                   .environmentObject(nav)
             }
          }
@@ -59,7 +66,25 @@ struct ChooseHabitFrequency: View {
 }
 
 struct HabitFrequency_Previews: PreviewProvider {
+   
+   
+   static func data() -> Habit {
+      let context = CoreDataManager.previews.mainContext
+      
+      let day0 = Date()
+      let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+      let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
+      
+      let h1 = try? Habit(context: context, name: "Horseback Riding")
+      h1?.markCompleted(on: day0)
+      h1?.markCompleted(on: day1)
+      h1?.markCompleted(on: day2)
+      
+      let habits = Habit.habits(from: context)
+      return habits.first!
+   }
+   
    static var previews: some View {
-      ChooseHabitFrequency(habitName: "Horseback Riding", hideTabBar: .constant(true))
+      CreateHabitFrequency(habit: data(), hideTabBar: .constant(true))
    }
 }
