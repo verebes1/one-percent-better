@@ -54,8 +54,19 @@ struct NotificationSelection: View {
       guard let index = source.first else { return }
       let notifToBeDeleted = habit.notificationsArray[index]
       habit.removeFromNotifications(notifToBeDeleted)
+      habit.removeAllNotifications(notifs: [notifToBeDeleted])
       moc.delete(notifToBeDeleted)
       moc.fatalSave()
+   }
+   
+   func requestNotifPermission() {
+      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+         if success {
+            print("Notification permission granted!")
+         } else if let error = error {
+            print(error.localizedDescription)
+         }
+      }
    }
    
    var body: some View {
@@ -73,6 +84,7 @@ struct NotificationSelection: View {
                Button {
                   animateBell.toggle()
                   let notif = SpecificTimeNotification(context: moc, time: Date())
+                  requestNotifPermission()
                   habit.addToNotifications(notif)
 //                  habit.addNotification(notif)
                } label: {
@@ -82,6 +94,7 @@ struct NotificationSelection: View {
                Button {
                   animateBell.toggle()
                   let notif = RandomTimeNotification(myContext: moc)
+                  requestNotifPermission()
                   habit.addToNotifications(notif)
 //                  habit.addNotification(notif)
                } label: {

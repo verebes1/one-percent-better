@@ -69,6 +69,31 @@ class FeatureLogController {
       setUpNewImprovement()
       setUpTimesPerWeekFrequency()
       setUpNewImprovementScore()
+      
+      // TODO: TEMP 1.0.9
+//      resetNotifications()
+   }
+   
+   func resetNotifications() {
+      let habits = Habit.habits(from: context)
+      
+//      let pendingNotifi
+      
+      UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+         print("JJJJ notification requests pending: \(requests)")
+      }
+      
+      for habit in habits {
+         let notifs = habit.notificationsArray
+         for notif in notifs {
+            guard let id = notif.id else { continue }
+            for i in 0 ..< 20 {
+               let notifID = "OnePercentBetter-\(id)-\(i)"
+               print("Removing notification \(notifID)")
+               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+            }
+         }
+      }
    }
    
    /// Add percent improvement trackers if the user doesn't have them already

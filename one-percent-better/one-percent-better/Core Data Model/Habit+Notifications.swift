@@ -13,7 +13,7 @@ extension Habit {
    
    var notificationsArray: [Notification] {
       guard let arr = notifications?.array as? [Notification] else {
-         fatalError("Should always be able to convert")
+         return []
       }
       return arr
    }
@@ -82,6 +82,7 @@ extension Habit {
    }
    
    func addNotifications(_ notifications: [Notification]) {
+      removeAllNotifications(notifs: notifications)
       for notif in notifications {
          addNotification(notif)
       }
@@ -99,8 +100,12 @@ extension Habit {
    
    func addNotification(time: DateComponents, id: UUID) {
       Task {
-         let notifications = await generateNotifications(n: 20)
+         let notifications = await generateNotifications(n: 5)
          setupNotifications(from: Date(), index: 0, id: id, time: time, notifications: notifications)
+         
+         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            print("JJJJ notification requests pending: \(requests)")
+         }
       }
    }
    
@@ -121,7 +126,7 @@ extension Habit {
    
    func getAINotifications(_ n: Int, level: Int = 0) async -> [String] {
       var notifs: [String] = []
-      let adjectiveArray = ["creative", "funny", "motivating", "inspiring", "Gen Z"]
+      let adjectiveArray = ["funny"]//["creative", "funny", "motivating", "inspiring", "Gen Z"]
       for i in 0 ..< adjectiveArray.count {
          let count = n / adjectiveArray.count
          let someNotifs = await getAINotifications(count, adjective: adjectiveArray[i])
@@ -154,13 +159,7 @@ extension Habit {
       print("Getting \(n) notifications from ChatGPT")
       do {
          if let answer = try await OpenAI.shared.chatModel(prompt: notificationPrompt(n: n, adjective: adjective)) {
-            
-            print("--------- \(adjective) ------------")
-            
-//            answer = answer.replacingOccurrences(of: "\n", with: "")
-//            answer = answer.replacingOccurrences(of: "\"", with: "")
-//            answer = answer.replacingOccurrences(of: "\'", with: "'")
-            print("ChatGPT answer: \(answer)")
+            print("ChatGPT \(adjective) answer: \(answer)")
             
             
             guard let jsonList = parseGPTAnswer(answer: answer) else {
@@ -187,7 +186,9 @@ extension Habit {
          }
       } catch {
          print("ERROR: \(error.localizedDescription)")
+         return await getAINotifications(n, adjective: adjective, level: level + 1)
       }
+      list.shuffle()
       return list
    }
    
@@ -207,6 +208,7 @@ extension Habit {
          let day = Cal.add(days: i, to: date)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          var dayAndTime = time
+         dayAndTime.calendar = Cal
          dayAndTime.day = dayComponents.day
          dayAndTime.month = dayComponents.month
          dayAndTime.year = dayComponents.year
@@ -215,8 +217,14 @@ extension Habit {
          let offset = index + i
          let identifier = "OnePercentBetter-\(id)-\(offset)"
          print("GENERATING NOTIFICATION \(offset) for habit \(name), on date: \(dayAndTime), id: \(identifier), and time: \(time), with message: \(notifications[i].body)")
+         let date = trigger.nextTriggerDate()
+         print("Next trigger date: \(String(describing: date))")
          let request = UNNotificationRequest(identifier: identifier, content: notifications[i], trigger: trigger)
-         UNUserNotificationCenter.current().add(request)
+         UNUserNotificationCenter.current().add(request) { error in
+            if error != nil {
+               print("ERROR GENERATING NOTIFICATION")
+            }
+         }
       }
    }
    
@@ -224,7 +232,9 @@ extension Habit {
       for notif in notifs {
          guard let id = notif.id else { continue }
          for i in 0 ..< MAX_NOTIFS {
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-\(id)-\(i)"])
+            let notifID = "OnePercentBetter-\(id)-\(i)"
+            print("Removing notification \(notifID)")
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
          }
       }
    }

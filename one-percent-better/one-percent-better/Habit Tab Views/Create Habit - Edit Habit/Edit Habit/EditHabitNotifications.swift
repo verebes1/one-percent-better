@@ -34,7 +34,6 @@ struct EditHabitNotifications: View {
          .onDisappear {
 //            if originalNotifications != habit.notificationsArray {
                print("notifications array is different!! Need to update")
-               habit.removeAllNotifications(notifs: originalNotifications)
                habit.addNotifications(habit.notificationsArray)
 //            }
          }

@@ -12,6 +12,7 @@ import OpenAI
 enum SettingsNavRoute: Hashable {
    case appearance
    case dailyReminder(Settings?)
+   case habitNotifications
    case importData
 }
 
@@ -201,6 +202,10 @@ struct SettingsView: View {
                         DailyReminderRow()
                            .environmentObject(vm)
                      }
+                     
+                     NavigationLink(value: SettingsNavRoute.habitNotifications) {
+                        IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
+                     }
                   }
                   .listRowBackground(Color.cardColor)
                   
@@ -242,6 +247,8 @@ struct SettingsView: View {
                         DailyReminder(settings: set)
                            .environmentObject(vm)
                      }
+                  case .habitNotifications:
+                     AllHabitNotifications()
                   case .importData:
                      DocumentPicker()
                   }
