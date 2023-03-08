@@ -8,10 +8,14 @@
 import Foundation
 import OpenAI
 
+import OpenAISwift
+
 class OpenAI {
    static var shared = OpenAI()
    
    let client = Client(apiKey: "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")
+   
+   let openAI = OpenAISwift(authToken: "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")
    
    func completionModel(prompt: String) async throws -> String? {
       return try await withCheckedThrowingContinuation { continuation in
@@ -31,4 +35,33 @@ class OpenAI {
    }
    
    // Other models
+   
+   func chatModel(prompt: String) async throws -> String? {
+      return try await withCheckedThrowingContinuation { continuation in
+         openAI.sendChat(with: [ChatMessage(role: .user, content: prompt)], model: .chat(.chatgpt), maxTokens: 400) { result in
+            switch result {
+            case .success(let success):
+               let ans = success.choices.first?.message.content
+               continuation.resume(returning: ans)
+            case .failure(let failure):
+               continuation.resume(throwing: failure)
+            }
+         }
+      }
+   }
+   
+   
+   func engines() async throws -> String? {
+      return try await withCheckedThrowingContinuation { continuation in
+         client.engines { result in
+            print(result)
+            switch result {
+            case .success(let success):
+               continuation.resume(returning: success.debugDescription)
+            case .failure(let failure):
+               continuation.resume(throwing: failure)
+            }
+         }
+      }
+   }
 }
