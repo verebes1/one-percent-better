@@ -91,15 +91,15 @@ struct NotificationSelection: View {
                   Label("Specific Time", systemImage: "clock")
                }
 
-               Button {
-                  animateBell.toggle()
-                  let notif = RandomTimeNotification(myContext: moc)
-                  requestNotifPermission()
-                  habit.addToNotifications(notif)
-//                  habit.addNotification(notif)
-               } label: {
-                  Label("Random Time", systemImage: "dice")
-               }
+//               Button {
+//                  animateBell.toggle()
+//                  let notif = RandomTimeNotification(myContext: moc)
+//                  requestNotifPermission()
+//                  habit.addToNotifications(notif)
+////                  habit.addNotification(notif)
+//               } label: {
+//                  Label("Random Time", systemImage: "dice")
+//               }
             } label: {
                VStack {
                   Button {

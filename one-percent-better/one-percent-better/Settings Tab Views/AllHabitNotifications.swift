@@ -40,25 +40,27 @@ struct AllHabitNotifications: View {
    @State private var notifications: [NotificationDetail] = []
    
    var body: some View {
-      VStack {
-         if notifications.isEmpty {
-            Text("No notifications")
-         } else {
-            List {
-               ForEach(notifications, id: \.self.id) { notif in
-                  VStack(alignment: .leading) {
-                     let dc = notif.dateComponents
-                     Text("id: ").bold() + Text("\(notif.id)")
-                     Text("date: ").bold() + Text("\(String(describing: dc.month!))/\(String(describing:dc.day!))/\(String(describing:dc.year!)) \(String(describing:dc.hour!)):\(String(describing:dc.minute!))")
-                     Text("title: ").bold() + Text("\(notif.title)")
-                     Text("body: ").bold() + Text("\(notif.body)")
+      Background {
+         VStack {
+            if notifications.isEmpty {
+               Text("No notifications")
+            } else {
+               List {
+                  ForEach(notifications, id: \.self.id) { notif in
+                     VStack(alignment: .leading) {
+                        let dc = notif.dateComponents
+                        Text("id: ").bold() + Text("\(notif.id)")
+                        Text("date: ").bold() + Text("\(String(describing: dc.month!))/\(String(describing:dc.day!))/\(String(describing:dc.year!)) \(String(describing:dc.hour!)):\(String(describing:dc.minute!))")
+                        Text("title: ").bold() + Text("\(notif.title)")
+                        Text("body: ").bold() + Text("\(notif.body)")
+                     }
                   }
                }
             }
          }
-      }
-      .onAppear {
-         Task { notifications = await fetchNotifications() }
+         .onAppear {
+            Task { notifications = await fetchNotifications() }
+         }
       }
    }
 }

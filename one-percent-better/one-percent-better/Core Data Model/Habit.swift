@@ -318,12 +318,17 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    public override func prepareForDeletion() {
+      // Delete trackers
       guard let trackerArray = self.trackers.array as? [Tracker] else {
          fatalError("Can't convert habit.trackers into [Tracker]")
       }
       for tracker in trackerArray {
          moc.delete(tracker)
       }
+      
+      // Delete notifications
+      removeAllNotifications(notifs: notificationsArray)
+      
       moc.fatalSave()
    }
    
@@ -343,6 +348,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case daysPerWeek
       case timesPerWeekTimes
       case timesPerWeekResetDay
+      // TODO: 1.0.9 Add notifications container
       
       case trackersContainer
    }

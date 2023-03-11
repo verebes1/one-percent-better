@@ -631,16 +631,8 @@
 				807A47C8291223E50022068B /* Habit+Frequency.swift */,
 				80744F5D29B3091400DAF196 /* Habit+Notifications.swift */,
 				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
-				80385CE2285BEE5900CBDF71 /* Tracker.swift */,
-				80385CE3285BEE5900CBDF71 /* GraphTracker.swift */,
-				80385CE0285BEE5900CBDF71 /* NumberTracker.swift */,
-				80385CE1285BEE5900CBDF71 /* ImprovementTracker.swift */,
-				80385CE4285BEE5900CBDF71 /* ImageTracker.swift */,
-				80F79683286D0432002FDFDA /* TimeTracker.swift */,
-				8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */,
-				80744F6829B5592B00DAF196 /* Notification.swift */,
-				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
-				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
+				80D957D229BA765000142C75 /* Trackers */,
+				80D957D129BA763900142C75 /* Notifications */,
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
@@ -901,6 +893,30 @@
 				807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */,
 			);
 			path = "Create Habit - Edit Habit";
+			sourceTree = "<group>";
+		};
+		80D957D129BA763900142C75 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				80744F6829B5592B00DAF196 /* Notification.swift */,
+				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
+				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		80D957D229BA765000142C75 /* Trackers */ = {
+			isa = PBXGroup;
+			children = (
+				80385CE2285BEE5900CBDF71 /* Tracker.swift */,
+				80385CE3285BEE5900CBDF71 /* GraphTracker.swift */,
+				80385CE0285BEE5900CBDF71 /* NumberTracker.swift */,
+				80385CE1285BEE5900CBDF71 /* ImprovementTracker.swift */,
+				80385CE4285BEE5900CBDF71 /* ImageTracker.swift */,
+				80F79683286D0432002FDFDA /* TimeTracker.swift */,
+				8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */,
+			);
+			path = Trackers;
 			sourceTree = "<group>";
 		};
 		80DAAC2E293478CD00E626D7 /* Insights Tab Views */ = {

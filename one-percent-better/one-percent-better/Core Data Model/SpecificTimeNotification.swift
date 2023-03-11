@@ -16,11 +16,14 @@ public class SpecificTimeNotification: Notification {
        return NSFetchRequest<SpecificTimeNotification>(entityName: "SpecificTimeNotification")
    }
 
-   @NSManaged public var time: Date?
+   @NSManaged public var time: Date
    
    convenience init(context: NSManagedObjectContext, time: Date? = nil) {
       self.init(context: context)
       self.id = UUID()
+      self.unscheduledNotificationStrings = []
+      self.scheduledNotificationDates = []
+      self.scheduledNotificationStrings = []
       self.time = time ?? Date()
    }
 }

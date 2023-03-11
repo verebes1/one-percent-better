@@ -86,7 +86,7 @@ class FeatureLogController {
       for habit in habits {
          let notifs = habit.notificationsArray
          for notif in notifs {
-            guard let id = notif.id else { continue }
+            let id = notif.id
             for i in 0 ..< 20 {
                let notifID = "OnePercentBetter-\(id)-\(i)"
                print("Removing notification \(notifID)")

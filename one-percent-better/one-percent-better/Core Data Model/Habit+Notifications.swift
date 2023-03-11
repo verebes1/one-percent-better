@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 
-
 extension Habit {
    
    var notificationsArray: [Notification] {
@@ -18,9 +17,9 @@ extension Habit {
       return arr
    }
    
-   // TODO: 1.0.9 figure out this max
+   // TODO: 1.0.9 set this to 64
    var MAX_NOTIFS: Int {
-      20
+      25
    }
    
    func notificationPrompt(n: Int, adjective: String) -> String {
@@ -31,54 +30,15 @@ extension Habit {
    }
    
    func addNotification(_ notification: Notification) {
-      if let specificTime = notification as? SpecificTimeNotification,
-         let date = specificTime.time,
-         let id = specificTime.id {
-         let time = Cal.dateComponents([.hour, .minute], from: date)
-         addNotification(time: time, id: id)
-      }
-      
-      if let randomTime = notification as? RandomTimeNotification,
-         let date = randomTime.startTime,
-         let id = randomTime.id {
-         // TODO: 1.0.9 make this logic correct
-         let time = Cal.dateComponents([.hour, .minute], from: date)
-         addNotification(time: time, id: id)
-      }
       self.addToNotifications(notification)
-   }
-   
-   func randomTimes(between startDate: Date, and endDate: Date, n: Int) -> [DateComponents] {
-      let startTime = Cal.dateComponents([.hour, .minute], from: startDate)
-      let endTime = Cal.dateComponents([.hour, .minute], from: endDate)
-      
-      guard let startHour = startTime.hour,
-            let startMinute = startTime.minute,
-            let endHour = endTime.hour,
-            let endMinute = endTime.minute else {
-         fatalError("Unable to get hour and minutes for random notification")
-      }
-      
-      let startMinutes = startHour * 60 + startMinute
-      let endMinutes = endHour * 60 + endMinute
-      
-      guard startMinutes <= endMinutes else {
-         fatalError("Bad random time notification start and end times")
-      }
-      
-      var times: [DateComponents] = []
-      
-      for _ in 0 ..< n {
-         let randomTime = Int.random(in: startMinutes ..< endMinutes)
-         let randomHour = randomTime / 60
-         let randomMinute = randomTime % 60
+      Task {
+         let notificationMessages = await getAINotifications(MAX_NOTIFS)
+         await setupNotifications(notification: notification, notificationMessages: notificationMessages)
          
-         var components = DateComponents()
-         components.hour = randomHour
-         components.minute = randomMinute
-         times.append(components)
+         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            print("JJJJ notification requests pending: \(requests)")
+         }
       }
-      return times
    }
    
    func addNotifications(_ notifications: [Notification]) {
@@ -98,41 +58,23 @@ extension Habit {
       }
    }
    
-   func addNotification(time: DateComponents, id: UUID) {
-      Task {
-         let notifications = await generateNotifications(n: 5)
-         setupNotifications(from: Date(), index: 0, id: id, time: time, notifications: notifications)
-         
-         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-            print("JJJJ notification requests pending: \(requests)")
-         }
-      }
-   }
-   
-   func generateNotifications(n: Int) async -> [UNMutableNotificationContent] {
-      var notifs: [UNMutableNotificationContent] = []
-      
-      let messages = await getAINotifications(n)
-      
-      for i in 0 ..< messages.count {
-         let content = UNMutableNotificationContent()
-         content.title = self.name
-         content.body = messages[i]
-         content.sound = UNNotificationSound.default
-         notifs.append(content)
-      }
-      return notifs
+   func generateNotificationContent(message: String) -> UNMutableNotificationContent {
+      let content = UNMutableNotificationContent()
+      content.title = self.name
+      content.body = message
+      content.sound = UNNotificationSound.default
+      return content
    }
    
    func getAINotifications(_ n: Int, level: Int = 0) async -> [String] {
       var notifs: [String] = []
-      let adjectiveArray = ["funny"]//["creative", "funny", "motivating", "inspiring", "Gen Z"]
+      let adjectiveArray = ["creative", "funny", "motivating", "inspiring", "funny Gen Z"]
       for i in 0 ..< adjectiveArray.count {
          let count = n / adjectiveArray.count
          let someNotifs = await getAINotifications(count, adjective: adjectiveArray[i])
          notifs.append(contentsOf: someNotifs)
-         print("notifs: \(notifs)")
       }
+      print("notifs: \(notifs)")
       return notifs
    }
    
@@ -192,47 +134,184 @@ extension Habit {
       return list
    }
    
+   func pendingNotifications() async -> [UNNotificationRequest] {
+      return await withCheckedContinuation { continuation in
+         UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+            print("JJJJ notification requests pending: \(requests)")
+         }
+      }
+   }
+   
+   struct PendingNotification: Comparable {
+      let notifIDString: String
+      let id: String
+      let num: Int
+      let date: Date
+      let message: String
+      
+      static func < (lhs: PendingNotification, rhs: PendingNotification) -> Bool {
+         lhs.date < rhs.date
+      }
+   }
+   
    /// Set up the next N notifications, where N = messages.count
    /// - Parameters:
    ///   - date: The start date (including this day)
    ///   - time: What time to send the notification
    ///   - messages: The next N notification messages to use
    ///
-   func setupNotifications(from date: Date, index: Int, id: UUID, time: DateComponents, notifications: [UNMutableNotificationContent]) {
+   func setupNotifications(notification: Notification, notificationMessages: [String]) async {
       
-      for i in 0 ..< notifications.count {
-         print("i: \(i), index: \(index), i + index: \(i + index)")
-         if (i + index) >= MAX_NOTIFS {
-            break
+      // Step 1: Store AI notification messages
+      notification.unscheduledNotificationStrings = notificationMessages
+      
+      // Step 2: Get list of pending notifications
+      let pendingNotificationRequests = await UNUserNotificationCenter.current().pendingNotificationRequests()
+      
+      // Step 3: Sort pending notifications by date scheduled
+      var pendingNotifications: [PendingNotification] = []
+      for notif in pendingNotificationRequests {
+         guard let calTrigger = notif.trigger as? UNCalendarNotificationTrigger else {
+            assert(false)
+            continue
          }
-         let day = Cal.add(days: i, to: date)
+         
+         let dateComponents = calTrigger.dateComponents
+         guard dateComponents.day != nil,
+               dateComponents.month != nil,
+               dateComponents.year != nil,
+               dateComponents.hour != nil,
+               dateComponents.minute != nil else {
+            assert(false)
+            continue
+         }
+         
+         guard let date = Cal.date(from: dateComponents) else {
+            assert(false)
+            continue
+         }
+         
+         let idComponents = notif.identifier.components(separatedBy: "&")
+         
+         guard idComponents.count == 3 else {
+            assert(false)
+            continue
+         }
+         
+         let id = idComponents[1]
+         guard let num = Int(idComponents[2]) else {
+            assert(false)
+            continue
+         }
+         let body = notif.content.body
+         let pendingNotification = PendingNotification(notifIDString: notif.identifier, id: id, num: num, date: date, message: body)
+         pendingNotifications.append(pendingNotification)
+      }
+      pendingNotifications = pendingNotifications.sorted()
+      
+      assert(pendingNotificationRequests.count == pendingNotifications.count, "Pending notifications doesn't match calendar triggered notifications")
+      
+      // Step 4: Loop over list until new scheduled > last list element
+      for i in 0 ..< MAX_NOTIFS {
+         let day = Cal.add(days: i, to: Date())
+         var dayAndTime = notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
-         var dayAndTime = time
          dayAndTime.calendar = Cal
          dayAndTime.day = dayComponents.day
          dayAndTime.month = dayComponents.month
          dayAndTime.year = dayComponents.year
-         let trigger = UNCalendarNotificationTrigger(dateMatching: dayAndTime, repeats: false)
          
-         let offset = index + i
-         let identifier = "OnePercentBetter-\(id)-\(offset)"
-         print("GENERATING NOTIFICATION \(offset) for habit \(name), on date: \(dayAndTime), id: \(identifier), and time: \(time), with message: \(notifications[i].body)")
-         let date = trigger.nextTriggerDate()
-         print("Next trigger date: \(String(describing: date))")
-         let request = UNNotificationRequest(identifier: identifier, content: notifications[i], trigger: trigger)
-         UNUserNotificationCenter.current().add(request) { error in
-            if error != nil {
-               print("ERROR GENERATING NOTIFICATION")
+         let newDate = Cal.date(from: dayAndTime)!
+         if let lastPendingNotif = pendingNotifications.last {
+            if newDate < lastPendingNotif.date {
+               pendingNotifications.removeLast()
+               // Add notification message back in unscheduledNotifications list for that notif id
+               addMessageBackToNotification(message: lastPendingNotif.message, id: lastPendingNotif.id)
+               
+               // Remove the scheduled notification
+               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
+               
+               // Add new notification
+               addNewNotification(index: i, id: notification.id.uuidString, date: dayAndTime, message: notificationMessages[i])
+            } else {
+               break
+            }
+         } else {
+            // Add new notification
+            addNewNotification(index: i, id: notification.id.uuidString, date: dayAndTime, message: notificationMessages[i])
+         }
+      }
+   }
+   
+   func addNewNotification(index: Int, id: String, date: DateComponents, message: String) {
+      let identifier = "OnePercentBetter&\(id)&\(index)"
+      print("GENERATING NOTIFICATION \(index) for habit \(name), on date: \(date), id: \(id), with message: \(message)")
+      let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
+      let notifContent = generateNotificationContent(message: message)
+      let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
+      UNUserNotificationCenter.current().add(request) { error in
+         if error != nil {
+            print("ERROR GENERATING NOTIFICATION")
+         }
+      }
+   }
+   
+   func addMessageBackToNotification(message: String, id: String) {
+      // TODO: 1.0.9 Use Core data fetch to get this more efficiently
+      let habits = Habit.habits(from: moc)
+      for habit in habits {
+         for notif in habit.notificationsArray {
+            if notif.id.uuidString == id {
+               notif.unscheduledNotificationStrings.append(message)
+               break
             }
          }
       }
    }
    
+   func notificationTime(for notification: Notification) -> DateComponents {
+      if let specificTime = notification as? SpecificTimeNotification {
+         let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
+         return time
+      } else if let randomTime = notification as? RandomTimeNotification {
+         let time = getRandomTime(between: randomTime.startTime, and: randomTime.endTime)
+         return time
+      }
+      fatalError("Unable to get time for notification")
+   }
+   
+   func getRandomTime(between startDate: Date, and endDate: Date) -> DateComponents {
+      let startTime = Cal.dateComponents([.hour, .minute], from: startDate)
+      let endTime = Cal.dateComponents([.hour, .minute], from: endDate)
+      
+      guard let startHour = startTime.hour,
+            let startMinute = startTime.minute,
+            let endHour = endTime.hour,
+            let endMinute = endTime.minute else {
+         fatalError("Unable to get hour and minutes for random notification")
+      }
+      
+      let startMinutes = startHour * 60 + startMinute
+      let endMinutes = endHour * 60 + endMinute
+      
+      guard startMinutes <= endMinutes else {
+         fatalError("Bad random time notification start and end times")
+      }
+      let randomTime = Int.random(in: startMinutes ..< endMinutes)
+      let randomHour = randomTime / 60
+      let randomMinute = randomTime % 60
+      
+      var components = DateComponents()
+      components.hour = randomHour
+      components.minute = randomMinute
+      return components
+   }
+   
    func removeAllNotifications(notifs: [Notification]) {
       for notif in notifs {
-         guard let id = notif.id else { continue }
+         let id = notif.id
          for i in 0 ..< MAX_NOTIFS {
-            let notifID = "OnePercentBetter-\(id)-\(i)"
+            let notifID = "OnePercentBetter&\(id)&\(i)"
             print("Removing notification \(notifID)")
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
          }

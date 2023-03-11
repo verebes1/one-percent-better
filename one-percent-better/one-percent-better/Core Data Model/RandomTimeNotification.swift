@@ -15,8 +15,8 @@ public class RandomTimeNotification: Notification {
        return NSFetchRequest<RandomTimeNotification>(entityName: "RandomTimeNotification")
    }
 
-   @NSManaged public var startTime: Date?
-   @NSManaged public var endTime: Date?
+   @NSManaged public var startTime: Date
+   @NSManaged public var endTime: Date
    
    lazy var startTimeDefault: Date = {
       var components = DateComponents()
@@ -34,6 +34,7 @@ public class RandomTimeNotification: Notification {
    
    convenience init(myContext: NSManagedObjectContext, startTime: Date? = nil, endTime: Date? = nil) {
       self.init(context: myContext)
+      self.id = UUID()
       self.startTime = startTime ?? startTimeDefault
       self.endTime = endTime ?? endTimeDefault
    }
