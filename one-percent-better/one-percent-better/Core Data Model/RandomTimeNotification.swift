@@ -35,6 +35,9 @@ public class RandomTimeNotification: Notification {
    convenience init(myContext: NSManagedObjectContext, startTime: Date? = nil, endTime: Date? = nil) {
       self.init(context: myContext)
       self.id = UUID()
+      self.unscheduledNotificationStrings = []
+      self.scheduledNotificationDates = []
+      self.scheduledNotificationStrings = []
       self.startTime = startTime ?? startTimeDefault
       self.endTime = endTime ?? endTimeDefault
    }

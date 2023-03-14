@@ -28,4 +28,10 @@ public class Notification: NSManagedObject {
    /// This array contains notification strings that can be used in the future, so that we don't need to call OpenAI every time.
    /// Instead, OpenAI is called in batches (for ex: give me 10 notifications), and the overflow notifications are stored here
    @NSManaged public var unscheduledNotificationStrings: [String]
+   
+   
+   func isDue(on date: Date) -> Bool {
+      // TODO: 1.0.9 add support for frequencies?
+      return true
+   }
 }
