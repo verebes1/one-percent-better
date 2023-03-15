@@ -95,6 +95,17 @@ extension Calendar {
       let date = Cal.add(days: -diff, to: date)
       return date
    }
+   
+   func date(time: DateComponents, dayMonthYear: Date) -> Date {
+      var dayAndTime = time
+      let dayComponents = Cal.dateComponents([.day, .month, .year,], from: dayMonthYear)
+      dayAndTime.calendar = Cal
+      dayAndTime.day = dayComponents.day
+      dayAndTime.month = dayComponents.month
+      dayAndTime.year = dayComponents.year
+      let newDate = Cal.date(from: dayAndTime)!
+      return newDate
+   }
 }
 
 public var Cal = Calendar.autoupdatingCurrent

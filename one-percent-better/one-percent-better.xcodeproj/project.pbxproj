@@ -475,6 +475,7 @@
 		80385CAD285BEE5900CBDF71 /* Global Style + Common Views */ = {
 			isa = PBXGroup;
 			children = (
+				80385CD7285BEE5900CBDF71 /* Extensions */,
 				80CC692328E39BA800584340 /* MyStepper.swift */,
 				80385CED285BEE5900CBDF71 /* CardView.swift */,
 				802E92912917079B00A28EB1 /* NamePopupView.swift */,
@@ -486,7 +487,6 @@
 				80385CCC285BEE5900CBDF71 /* Background.swift */,
 				80385CAE285BEE5900CBDF71 /* Style.swift */,
 				80385CDC285BEE5900CBDF71 /* Color.swift */,
-				80385CD7285BEE5900CBDF71 /* Extensions */,
 				802E92932919EB7900A28EB1 /* PillButton.swift */,
 				802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */,
 				802E9297291A0CD600A28EB1 /* ColorFunctions.swift */,

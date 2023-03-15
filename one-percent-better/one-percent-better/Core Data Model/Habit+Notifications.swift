@@ -24,7 +24,7 @@ extension Habit {
    
    func notificationPrompt(n: Int, adjective: String) -> String {
       return """
-            Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their \(name.lowercased()) habit.
+            Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(name.lowercased())".
             Requirements: For each notification, use between 10 and 60 characters. Return them as a JSON array named "notifications".
             """
    }
@@ -223,7 +223,6 @@ extension Habit {
          dayAndTime.day = dayComponents.day
          dayAndTime.month = dayComponents.month
          dayAndTime.year = dayComponents.year
-         
          let newDate = Cal.date(from: dayAndTime)!
          
          guard let lastPendingNotif = pendingNotifications.last else {
@@ -269,7 +268,7 @@ extension Habit {
       let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
       UNUserNotificationCenter.current().add(request) { error in
          if error != nil {
-            print("ERROR GENERATING NOTIFICATION")
+            print("ERROR GENERATING NOTIFICATION: \(error!.localizedDescription)")
          }
       }
    }
@@ -325,7 +324,7 @@ extension Habit {
       return components
    }
    
-   func removeAllNotifications(notifs: [Notification]) {
+   func removeAllNotifications(notifs: [Notification]) async {
       for notif in notifs {
          let id = notif.id
          for i in 0 ..< MAX_NOTIFS {
@@ -336,72 +335,83 @@ extension Habit {
       }
       
       // Rebalance
-//      Task { await rebalanceCurrentNotifications() }
+      await rebalanceCurrentNotifications()
    }
    
-//   func rebalanceCurrentNotifications() async {
-//      var pendingNotifications = await pendingNotifications()
-//
-//      var notificationAllowance = MAX_NOTIFS - pendingNotifications.count
-//
-//      // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
-//      // maximum number of notification requests is reached
-//      let today = Date()
-//      for i in 0 ..< notificationAllowance {
-//         let day = Cal.add(days: i, to: today)
-//         let nextNotification = getNextNotification(date: day)
-//         var dayAndTime = notificationTime(for: notification)
-//         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
-//         dayAndTime.calendar = Cal
-//         dayAndTime.day = dayComponents.day
-//         dayAndTime.month = dayComponents.month
-//         dayAndTime.year = dayComponents.year
-//
-//         let newDate = Cal.date(from: dayAndTime)!
-//
-//         guard let lastPendingNotif = pendingNotifications.last else {
-//            // No pending notification requests, add new notification
-//            let message = notification.unscheduledNotificationStrings.removeLast()
-//            addNewNotification(index: i, id: notification.id.uuidString, date: dayAndTime, message: message)
-//            notificationAllowance -= 1
-//            continue
-//         }
-//
-//         if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
-//            pendingNotifications.removeLast()
-//            // Add notification message back in unscheduledNotifications list for that notif id
-//            addMessageBackToNotification(message: lastPendingNotif.message, id: lastPendingNotif.id)
-//
-//            // Remove the scheduled notification
-//            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
-//
-//            // Add new notification
-//            let message = notification.unscheduledNotificationStrings.removeLast()
-//            addNewNotification(index: i, id: notification.id.uuidString, date: dayAndTime, message: message)
-//            notificationAllowance -= 1
-//         } else {
-//            // todo check if max is reached
-//            if notificationAllowance > 0 {
-//               let message = notification.unscheduledNotificationStrings.removeLast()
-//               addNewNotification(index: i, id: notification.id.uuidString, date: dayAndTime, message: message)
-//               notificationAllowance -= 1
-//            } else {
-//               // Can't schedule any more notifications
-//               break
-//            }
-//         }
-//      }
-//   }
+   func rebalanceCurrentNotifications() async {
+      var pendingNotifications = await pendingNotifications()
+
+      var notificationAllowance = MAX_NOTIFS - pendingNotifications.count
+
+      // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
+      // maximum number of notification requests is reached
+      let today = Date()
+      for i in 0 ..< notificationAllowance {
+         let day = Cal.add(days: i, to: today)
+         guard let (notification, day, index) = getNextNotification() else {
+            return
+         }
+         var dayAndTime = notificationTime(for: notification)
+         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
+         dayAndTime.calendar = Cal
+         dayAndTime.day = dayComponents.day
+         dayAndTime.month = dayComponents.month
+         dayAndTime.year = dayComponents.year
+         let newDate = Cal.date(from: dayAndTime)!
+         
+         guard let lastPendingNotif = pendingNotifications.last else {
+            // No pending notification requests, add new notification
+            addNewNotification(notification: notification, index: i, date: dayAndTime)
+            notificationAllowance -= 1
+            continue
+         }
+         
+         if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
+            pendingNotifications.removeLast()
+            // Add notification message back in unscheduledNotifications list for that notif id
+            addMessageBackToNotification(message: lastPendingNotif.message, id: lastPendingNotif.id)
+            
+            // Remove the scheduled notification
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
+            
+            // Add new notification
+            addNewNotification(notification: notification, index: i, date: dayAndTime)
+            notificationAllowance -= 1
+         } else {
+            if notificationAllowance > 0 {
+               addNewNotification(notification: notification, index: i, date: dayAndTime)
+               notificationAllowance -= 1
+            } else {
+               // Can't schedule any more notifications
+               break
+            }
+         }
+      }
+   }
    
-//   func getNextNotification(date: Date) -> UNNotificationContent {
-//      let habits = Habit.habits(from: moc)
-//
-//      for habit in habits {
-//         for notif in habit.notificationsArray {
-//            // TODO: 1.0.9 notification frequency
-////            if notif.isDue(on: date)
-//
-//         }
-//      }
-//   }
+   func getNextNotification() -> (notification: Notification, date: Date, index: Int)? {
+      let habits = Habit.habits(from: moc)
+
+      var nextNotifsAndDates: [(Notification, Date)] = []
+      
+      for habit in habits {
+         for notif in habit.notificationsArray {
+            if let specificTime = notif as? SpecificTimeNotification {
+               let nextDate = specificTime.nextDue()
+               nextNotifsAndDates.append((notif, nextDate))
+            } else if let randomTime = notif as? RandomTimeNotification {
+               let nextDate = randomTime.nextDue()
+               nextNotifsAndDates.append((notif, nextDate))
+            }
+         }
+      }
+      
+      nextNotifsAndDates = nextNotifsAndDates.sorted { $0.1 < $1.1 }
+      
+      if let hasNext = nextNotifsAndDates.first {
+         return hasNext
+      } else {
+         return nil
+      }
+   }
 }

@@ -26,4 +26,15 @@ public class SpecificTimeNotification: Notification {
       self.scheduledNotificationStrings = []
       self.time = time ?? Date()
    }
+   
+   func nextDue() -> Date {
+      if let last = scheduledNotificationDates.last {
+         let next = Cal.add(days: 1, to: last)
+         return next
+      } else {
+         let time = Cal.dateComponents([.hour, .minute], from: time)
+         let newDate = Cal.date(time: time, dayMonthYear: Date())
+         return newDate
+      }
+   }
 }
