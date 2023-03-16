@@ -42,7 +42,7 @@ extension Habit {
    }
    
    func addNotifications(_ notifications: [Notification]) {
-      removeAllNotifications(notifs: notifications)
+//      removeAllNotifications(notifs: notifications)
       for notif in notifications {
          addNotification(notif)
       }
@@ -236,6 +236,7 @@ extension Habit {
             pendingNotifications.removeLast()
             // Add notification message back in unscheduledNotifications list for that notif id
             addMessageBackToNotification(message: lastPendingNotif.message, id: lastPendingNotif.id)
+            removeNotification(lastPendingNotif)
             
             // Remove the scheduled notification
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
@@ -260,7 +261,9 @@ extension Habit {
       let identifier = "OnePercentBetter&\(id)&\(index)"
       // TODO: 1.0.9 what to do if unscheduledNotificationStrings is running low?
       assert(!notification.unscheduledNotificationStrings.isEmpty)
-      let message = notification.unscheduledNotificationStrings.removeLast()
+      let dateObject = Cal.date(from: date)!
+      let message = notification.createScheduledNotification(index: index, on: dateObject)
+      
       print("GENERATING NOTIFICATION \(index) for habit \(name), on date: \(date), id: \(id), with message: \(message)")
       
       let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
@@ -280,6 +283,23 @@ extension Habit {
          for notif in habit.notificationsArray {
             if notif.id.uuidString == id {
                notif.unscheduledNotificationStrings.append(message)
+               
+               
+               return
+            }
+         }
+      }
+   }
+   
+   func removeNotification(_ notification: PendingNotification) {
+      let habits = Habit.habits(from: moc)
+      for habit in habits {
+         for notif in habit.notificationsArray {
+            if notif.id.uuidString == notification.id {
+               
+               notif.unscheduledNotificationStrings.append(notification.message)
+               
+               
                return
             }
          }
@@ -291,40 +311,13 @@ extension Habit {
          let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
          return time
       } else if let randomTime = notification as? RandomTimeNotification {
-         let time = getRandomTime(between: randomTime.startTime, and: randomTime.endTime)
+         let time = randomTime.getRandomTime()
          return time
       }
       fatalError("Unable to get time for notification")
    }
    
-   func getRandomTime(between startDate: Date, and endDate: Date) -> DateComponents {
-      let startTime = Cal.dateComponents([.hour, .minute], from: startDate)
-      let endTime = Cal.dateComponents([.hour, .minute], from: endDate)
-      
-      guard let startHour = startTime.hour,
-            let startMinute = startTime.minute,
-            let endHour = endTime.hour,
-            let endMinute = endTime.minute else {
-         fatalError("Unable to get hour and minutes for random notification")
-      }
-      
-      let startMinutes = startHour * 60 + startMinute
-      let endMinutes = endHour * 60 + endMinute
-      
-      guard startMinutes <= endMinutes else {
-         fatalError("Bad random time notification start and end times")
-      }
-      let randomTime = Int.random(in: startMinutes ..< endMinutes)
-      let randomHour = randomTime / 60
-      let randomMinute = randomTime % 60
-      
-      var components = DateComponents()
-      components.hour = randomHour
-      components.minute = randomMinute
-      return components
-   }
-   
-   func removeAllNotifications(notifs: [Notification]) async {
+   func removeAllNotifications(notifs: [Notification]) {
       for notif in notifs {
          let id = notif.id
          for i in 0 ..< MAX_NOTIFS {
@@ -335,7 +328,7 @@ extension Habit {
       }
       
       // Rebalance
-      await rebalanceCurrentNotifications()
+      Task { await rebalanceCurrentNotifications() }
    }
    
    func rebalanceCurrentNotifications() async {
@@ -345,12 +338,11 @@ extension Habit {
 
       // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
       // maximum number of notification requests is reached
-      let today = Date()
-      for i in 0 ..< notificationAllowance {
-         let day = Cal.add(days: i, to: today)
+      for _ in 0 ..< notificationAllowance {
          guard let (notification, day, index) = getNextNotification() else {
             return
          }
+         let nextIndex = index + 1
          var dayAndTime = notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          dayAndTime.calendar = Cal
@@ -361,7 +353,7 @@ extension Habit {
          
          guard let lastPendingNotif = pendingNotifications.last else {
             // No pending notification requests, add new notification
-            addNewNotification(notification: notification, index: i, date: dayAndTime)
+            addNewNotification(notification: notification, index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
             continue
          }
@@ -375,11 +367,11 @@ extension Habit {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
             
             // Add new notification
-            addNewNotification(notification: notification, index: i, date: dayAndTime)
+            addNewNotification(notification: notification, index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
          } else {
             if notificationAllowance > 0 {
-               addNewNotification(notification: notification, index: i, date: dayAndTime)
+               addNewNotification(notification: notification, index: nextIndex, date: dayAndTime)
                notificationAllowance -= 1
             } else {
                // Can't schedule any more notifications
@@ -396,20 +388,16 @@ extension Habit {
       
       for habit in habits {
          for notif in habit.notificationsArray {
-            if let specificTime = notif as? SpecificTimeNotification {
-               let nextDate = specificTime.nextDue()
-               nextNotifsAndDates.append((notif, nextDate))
-            } else if let randomTime = notif as? RandomTimeNotification {
-               let nextDate = randomTime.nextDue()
-               nextNotifsAndDates.append((notif, nextDate))
-            }
+            let nextDate = notif.nextDue()
+            nextNotifsAndDates.append((notif, nextDate))
          }
       }
       
       nextNotifsAndDates = nextNotifsAndDates.sorted { $0.1 < $1.1 }
       
       if let hasNext = nextNotifsAndDates.first {
-         return hasNext
+         let lastScheduledIndex = hasNext.0.scheduledNotificationsArray.last?.index ?? 0
+         return (hasNext.0, hasNext.1, lastScheduledIndex)
       } else {
          return nil
       }

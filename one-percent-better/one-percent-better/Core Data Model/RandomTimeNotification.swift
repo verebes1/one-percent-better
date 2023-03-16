@@ -36,20 +36,45 @@ public class RandomTimeNotification: Notification {
       self.init(context: myContext)
       self.id = UUID()
       self.unscheduledNotificationStrings = []
-      self.scheduledNotificationDates = []
-      self.scheduledNotificationStrings = []
       self.startTime = startTime ?? startTimeDefault
       self.endTime = endTime ?? endTimeDefault
    }
    
-   func nextDue() -> Date {
-      if let last = scheduledNotificationDates.last {
-         let next = Cal.add(days: 1, to: last)
+   override func nextDue() -> Date {
+      if let last = scheduledNotificationsArray.last {
+         let next = Cal.add(days: 1, to: last.date)
          return next
       } else {
          let time = Cal.dateComponents([.hour, .minute], from: startTime)
          let newDate = Cal.date(time: time, dayMonthYear: Date())
          return newDate
       }
+   }
+   
+   func getRandomTime() -> DateComponents {
+      let startTime = Cal.dateComponents([.hour, .minute], from: self.startTime)
+      let endTime = Cal.dateComponents([.hour, .minute], from: self.endTime)
+      
+      guard let startHour = startTime.hour,
+            let startMinute = startTime.minute,
+            let endHour = endTime.hour,
+            let endMinute = endTime.minute else {
+         fatalError("Unable to get hour and minutes for random notification")
+      }
+      
+      let startMinutes = startHour * 60 + startMinute
+      let endMinutes = endHour * 60 + endMinute
+      
+      guard startMinutes <= endMinutes else {
+         fatalError("Bad random time notification start and end times")
+      }
+      let randomTime = Int.random(in: startMinutes ..< endMinutes)
+      let randomHour = randomTime / 60
+      let randomMinute = randomTime % 60
+      
+      var components = DateComponents()
+      components.hour = randomHour
+      components.minute = randomMinute
+      return components
    }
 }

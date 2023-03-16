@@ -98,6 +98,8 @@
 		803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* CreateHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCardOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCardOld.swift */; };
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
+		8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282629C2B384003D27CE /* ScheduledNotification.swift */; };
+		8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */; };
 		8043A92528E7A414001D0E8C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043A92428E7A414001D0E8C /* Timeline.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
@@ -305,6 +307,8 @@
 		803E1B8728A34E930010540B /* CreateHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitFrequency.swift; sourceTree = "<group>"; };
 		803E1B8928A9D68B0010540B /* SelectableCardOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCardOld.swift; sourceTree = "<group>"; };
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
+		8040282629C2B384003D27CE /* ScheduledNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScheduledNotification.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Notifications/ScheduledNotification.swift"; sourceTree = "<absolute>"; };
+		8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsForHabitDebug.swift; sourceTree = "<group>"; };
 		8043A92428E7A414001D0E8C /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -522,6 +526,7 @@
 				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
 				80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */,
 				80FCB17B29B931CA00CAEE12 /* AllHabitNotifications.swift */,
+				8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -899,6 +904,7 @@
 			isa = PBXGroup;
 			children = (
 				80744F6829B5592B00DAF196 /* Notification.swift */,
+				8040282629C2B384003D27CE /* ScheduledNotification.swift */,
 				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
 				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
 			);
@@ -1084,6 +1090,7 @@
 				805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */,
 				80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
+				8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */,
 				8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */,
 				802E92922917079B00A28EB1 /* NamePopupView.swift in Sources */,
 				807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */,
@@ -1107,6 +1114,7 @@
 				80385D7F285F8B9900CBDF71 /* BeginTouchesScrollView.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
+				8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */,
 				803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */,
 				8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */,
 				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,

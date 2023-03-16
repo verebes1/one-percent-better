@@ -14,7 +14,13 @@ struct NotificationDetail {
    var body: String
 }
 
+enum AllHabitsNotificationsRoute: Hashable {
+   case chooseHabit(Habit)
+}
+
 struct AllHabitNotifications: View {
+   
+   @Environment(\.managedObjectContext) var moc
    
    func fetchNotifications() async -> [NotificationDetail] {
       print("Fetching notification details")
@@ -39,28 +45,61 @@ struct AllHabitNotifications: View {
    
    @State private var notifications: [NotificationDetail] = []
    
+   var habits: [Habit] {
+      var habits = Habit.habits(from: moc)
+      habits.removeAll { habit in
+         habit.notificationsArray.isEmpty
+      }
+      return habits
+   }
+   
+   func totalNotifications(for habit: Habit) -> Int {
+      var sum = 0
+      for notif in habit.notificationsArray {
+         sum += notif.scheduledNotificationsArray.count
+      }
+      return sum
+   }
+   
    var body: some View {
       Background {
          VStack {
-            if notifications.isEmpty {
+            if habits.isEmpty {
                Text("No notifications")
             } else {
                List {
-                  ForEach(notifications, id: \.self.id) { notif in
-                     VStack(alignment: .leading) {
-                        let dc = notif.dateComponents
-                        Text("id: ").bold() + Text("\(notif.id)")
-                        Text("date: ").bold() + Text("\(String(describing: dc.month!))/\(String(describing:dc.day!))/\(String(describing:dc.year!)) \(String(describing:dc.hour!)):\(String(describing:dc.minute!))")
-                        Text("title: ").bold() + Text("\(notif.title)")
-                        Text("body: ").bold() + Text("\(notif.body)")
+                  
+                  ForEach(habits, id: \.self.id) { habit in
+                     NavigationLink(value: AllHabitsNotificationsRoute.chooseHabit(habit)) {
+                        HStack {
+                           Text(habit.name)
+                           Spacer()
+                           Text("\(totalNotifications(for: habit))")
+                        }
                      }
                   }
+                  //                  ForEach(notifications, id: \.self.id) { notif in
+                  //                     VStack(alignment: .leading) {
+                  //                        let dc = notif.dateComponents
+                  //                        Text("id: ").bold() + Text("\(notif.id)")
+                  //                        Text("date: ").bold() + Text("\(String(describing: dc.month!))/\(String(describing:dc.day!))/\(String(describing:dc.year!)) \(String(describing:dc.hour!)):\(String(describing:dc.minute!))")
+                  //                        Text("title: ").bold() + Text("\(notif.title)")
+                  //                        Text("body: ").bold() + Text("\(notif.body)")
+                  //                     }
+                  //                  }
+                  
+                  
                }
             }
          }
-         .onAppear {
-            Task { notifications = await fetchNotifications() }
+         .navigationDestination(for: AllHabitsNotificationsRoute.self) { route in
+            if case let .chooseHabit(habit) = route {
+               NotificationsForHabitDebug(habit: habit)
+            }
          }
+//         .onAppear {
+//            Task { notifications = await fetchNotifications() }
+//         }
       }
    }
 }

@@ -22,14 +22,12 @@ public class SpecificTimeNotification: Notification {
       self.init(context: context)
       self.id = UUID()
       self.unscheduledNotificationStrings = []
-      self.scheduledNotificationDates = []
-      self.scheduledNotificationStrings = []
       self.time = time ?? Date()
    }
    
-   func nextDue() -> Date {
-      if let last = scheduledNotificationDates.last {
-         let next = Cal.add(days: 1, to: last)
+   override func nextDue() -> Date {
+      if let last = scheduledNotificationsArray.last {
+         let next = Cal.add(days: 1, to: last.date)
          return next
       } else {
          let time = Cal.dateComponents([.hour, .minute], from: time)
