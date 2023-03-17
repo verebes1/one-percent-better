@@ -100,6 +100,7 @@
 		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282629C2B384003D27CE /* ScheduledNotification.swift */; };
 		8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */; };
+		8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282A29C413E2003D27CE /* NotificationManager.swift */; };
 		8043A92528E7A414001D0E8C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043A92428E7A414001D0E8C /* Timeline.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
@@ -309,6 +310,7 @@
 		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		8040282629C2B384003D27CE /* ScheduledNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScheduledNotification.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Notifications/ScheduledNotification.swift"; sourceTree = "<absolute>"; };
 		8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsForHabitDebug.swift; sourceTree = "<group>"; };
+		8040282A29C413E2003D27CE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		8043A92428E7A414001D0E8C /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -903,6 +905,7 @@
 		80D957D129BA763900142C75 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				8040282A29C413E2003D27CE /* NotificationManager.swift */,
 				80744F6829B5592B00DAF196 /* Notification.swift */,
 				8040282629C2B384003D27CE /* ScheduledNotification.swift */,
 				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
@@ -1175,6 +1178,7 @@
 				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				805785BA296C4C8600028582 /* SelectableCard.swift in Sources */,
+				8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,

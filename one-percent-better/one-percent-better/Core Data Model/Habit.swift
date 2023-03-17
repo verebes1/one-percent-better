@@ -327,7 +327,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
       
       // Delete notifications
-      removeAllNotifications(notifs: notificationsArray)
+      NotificationManager.shared.removeAllNotifications(notifs: notificationsArray)
       
       moc.fatalSave()
    }

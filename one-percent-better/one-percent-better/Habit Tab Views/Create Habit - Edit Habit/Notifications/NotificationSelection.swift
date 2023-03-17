@@ -54,7 +54,7 @@ struct NotificationSelection: View {
       guard let index = source.first else { return }
       let notifToBeDeleted = habit.notificationsArray[index]
       habit.removeFromNotifications(notifToBeDeleted)
-      habit.removeAllNotifications(notifs: [notifToBeDeleted])
+      NotificationManager.shared.removeAllNotifications(notifs: [notifToBeDeleted])
       moc.delete(notifToBeDeleted)
       moc.fatalSave()
    }

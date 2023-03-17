@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 @objc(Notification)
 public class Notification: NSManagedObject {
@@ -17,7 +18,7 @@ public class Notification: NSManagedObject {
 
    @NSManaged public var id: UUID
    
-   @NSManaged public var habit: Habit?
+   @NSManaged public var habit: Habit
    
    /// An array of scheduled notifications, which contain an index, date, and string per scheduled notification
    @NSManaged public var scheduledNotifications: NSOrderedSet?
@@ -46,6 +47,14 @@ public class Notification: NSManagedObject {
    
    func nextDue() -> Date {
       fatalError("Override in subclass")
+   }
+   
+   func generateNotificationContent(message: String) -> UNMutableNotificationContent {
+      let content = UNMutableNotificationContent()
+      content.title = self.habit.name
+      content.body = message
+      content.sound = UNNotificationSound.default
+      return content
    }
 }
 

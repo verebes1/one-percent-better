@@ -18,6 +18,12 @@ struct CreateHabitNotifications: View {
    
    @Binding var hideTabBar: Bool
    
+   init(habit: Habit, habitFrequency: HabitFrequency, hideTabBar: Binding<Bool>) {
+      self.habit = habit
+      self._hideTabBar = hideTabBar
+      let _ = habit.changeFrequency(to: habitFrequency)
+   }
+   
    var body: some View {
       let _ = Self.printChanges(self)
       return (
@@ -77,6 +83,6 @@ struct ChooseHabitNotificationTimes_Previews: PreviewProvider {
    }
    
    static var previews: some View {
-      CreateHabitNotifications(habit: data(), hideTabBar: .constant(true))
+      CreateHabitNotifications(habit: data(), habitFrequency: .timesPerDay(1), hideTabBar: .constant(true))
    }
 }

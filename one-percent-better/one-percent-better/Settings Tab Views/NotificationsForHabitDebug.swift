@@ -21,6 +21,7 @@ struct NotificationsForHabitDebug: View {
                      VStack(alignment: .leading) {
                         Text("index: ").bold() + Text("\(notif.index)")
                         Text("string: ").bold() + Text("\(notif.string)")
+                        Text("date: ").bold() + Text("\(notif.date)")
                      }
                   }
                }
