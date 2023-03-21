@@ -42,6 +42,7 @@ public class Notification: NSManagedObject {
       
       let scheduledNotification = ScheduledNotification(context: moc, index: index, date: date, string: message, notification: self)
       self.addToScheduledNotifications(scheduledNotification)
+      print("Adding to scheduled notification for id: \(self.id), index: \(index), date: \(date)")
       return message
    }
    
@@ -55,6 +56,13 @@ public class Notification: NSManagedObject {
       content.body = message
       content.sound = UNNotificationSound.default
       return content
+   }
+   
+   func reset() {
+      for sn in scheduledNotificationsArray {
+         self.removeFromScheduledNotifications(sn)
+         moc.delete(sn)
+      }
    }
 }
 

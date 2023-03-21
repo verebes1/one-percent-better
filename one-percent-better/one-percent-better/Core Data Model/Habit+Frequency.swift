@@ -174,7 +174,7 @@ extension Habit {
          }
       }
       self.improvementTracker?.update(on: date)
-      moc.fatalSave()
+      Task { @MainActor in moc.fatalSave() }
    }
    
    

@@ -210,7 +210,7 @@ public class ImprovementTracker: GraphTracker {
          }
          curDate = Cal.date(byAdding: .day, value: 1, to: curDate)!
       }
-      context.fatalSave()
+//      context.fatalSave()
    }
    
    func recalculateScoreFromBeginning() {

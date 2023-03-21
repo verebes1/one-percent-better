@@ -27,6 +27,7 @@ public class SpecificTimeNotification: Notification {
    
    override func nextDue() -> Date {
       if let last = scheduledNotificationsArray.last {
+         // Add frequency stuff in here eventually
          let next = Cal.add(days: 1, to: last.date)
          return next
       } else {

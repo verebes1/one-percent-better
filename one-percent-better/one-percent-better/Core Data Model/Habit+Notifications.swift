@@ -17,13 +17,6 @@ extension Habit {
       return arr
    }
    
-   func notificationPrompt(n: Int, adjective: String) -> String {
-      return """
-            Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(name.lowercased())".
-            Requirements: For each notification, use between 10 and 60 characters. Return them as a JSON array named "notifications".
-            """
-   }
-   
    func addNotification(_ notification: Notification) {
       self.addToNotifications(notification)
       Task {

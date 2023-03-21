@@ -18,6 +18,8 @@ struct CreateHabitNotifications: View {
    
    @Binding var hideTabBar: Bool
    
+   @State private var hasChanged: [Notification : Bool] = [:]
+   
    init(habit: Habit, habitFrequency: HabitFrequency, hideTabBar: Binding<Bool>) {
       self.habit = habit
       self._hideTabBar = hideTabBar
@@ -32,7 +34,7 @@ struct CreateHabitNotifications: View {
             Spacer()
                .frame(height: 20)
             
-            NotificationSelection(habit: habit)
+            NotificationSelection(habit: habit, hasChanged: $hasChanged)
             
             Spacer()
             

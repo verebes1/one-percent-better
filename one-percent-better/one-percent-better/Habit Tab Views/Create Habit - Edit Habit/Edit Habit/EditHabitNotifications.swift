@@ -14,11 +14,11 @@ struct EditHabitNotifications: View {
    
    var habit: Habit
    
-   var originalNotifications: [Notification] = []
+   @State private var hasChanged: [Notification : Bool] = [:]
    
    init(habit: Habit) {
       self.habit = habit
-//      self.originalNotifications = habit.notificationsArray.map { $0.copy() as! Notification }
+      //      self.originalNotifications = habit.notificationsArray.map { $0.copy() as! Notification }
    }
    
    var body: some View {
@@ -27,15 +27,19 @@ struct EditHabitNotifications: View {
             Spacer()
                .frame(height: 20)
             
-            NotificationSelection(habit: habit)
+            NotificationSelection(habit: habit, hasChanged: $hasChanged)
             
             Spacer()
          }
          .onDisappear {
-//            if originalNotifications != habit.notificationsArray {
-               print("notifications array is different!! Need to update")
-               habit.addNotifications(habit.notificationsArray)
-//            }
+            //            if originalNotifications != habit.notificationsArray {
+            for (notif, hasChanged) in hasChanged {
+               if hasChanged {
+                  NotificationManager.shared.resetNotification(notif)
+                  habit.addNotification(notif)
+               }
+            }
+//            habit.addNotifications(habit.notificationsArray)
          }
          .toolbar(.hidden, for: .tabBar)
       }

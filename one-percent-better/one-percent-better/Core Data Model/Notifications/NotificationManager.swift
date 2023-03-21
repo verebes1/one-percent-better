@@ -20,13 +20,22 @@ class NotificationManager {
       25
    }
    
+   func notificationPrompt(n: Int, name: String, adjective: String) -> String {
+      return """
+            Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(name.lowercased())".
+            Requirements: For each notification, use between 10 and 60 characters. Return them as a JSON array named "notifications".
+            """
+   }
+   
    func setupNotification(notification: Notification) async {
-      let notificationMessages = await getAINotifications(MAX_NOTIFS)
-      await setupNotifications(notification: notification, notificationMessages: notificationMessages)
+      let notificationMessages = await getAINotifications(MAX_NOTIFS, name: notification.habit.name)
+      notification.unscheduledNotificationStrings = notificationMessages
+      await rebalanceCurrentNotifications()
+//      await setupNotifications(notification: notification, notificationMessages: notificationMessages)
       
-      UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-         print("JJJJ notification requests pending: \(requests)")
-      }
+//      UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+//         print("JJJJ notification requests pending: \(requests)")
+//      }
    }
    
    func requestNotifPermission() {
@@ -39,18 +48,16 @@ class NotificationManager {
       }
    }
    
-   func getAINotifications(_ n: Int, level: Int = 0) async -> [String] {
-//      var notifs: [String] = []
-//      let adjectiveArray = ["creative", "funny", "motivating", "inspiring", "funny Gen Z"]
-//      for i in 0 ..< adjectiveArray.count {
-//         let count = n / adjectiveArray.count
-//         let someNotifs = await getAINotifications(count, adjective: adjectiveArray[i])
-//         notifs.append(contentsOf: someNotifs)
-//      }
-//      print("notifs: \(notifs)")
-//      return notifs
-      
-      return ["Find paradise in the sun!", "Vitamin D boost awaits you.", "Beaming sun and endless fun!", "Sunny day ahead! Get outside.", "Tans fade, memories last.", "Time to turn up the heat and get your tan on!", "Don\'t be a vampire, embrace the sunshine!", "Vitamin D is your friend, go soak up some rays!", "You\'re looking a bit pale, get some sun!", "Your tan lines miss you, get outside!", "Enjoy the sunshine for a healthy dose of Vitamin D!", "Sunshine is free therapy, soak it up!", "A day spent in the sun is a day well spent!", "Get out and let the sun work its magic on you!", "Soak up the sun and let your worries melt away!", "Sunshine is a natural mood booster", "Soak up some vitamin D today", "Enjoy the warmth of the sun on your skin", "A sunny day awaits you, go outside!", "Take a break and catch some rays", "Vitamin D is a mood booster. Go out and catch some sun vibes!", "Let\'s get tan and sandy, hit the beach and forget your worries!", "Yo fam, it\'s lit outside, put on some shades & get some Vit D!", "The sun is a natural highlighter. Get that summer glow on fleek fam!", "Can\'t make gains laying on the couch. Get outside and catch some rays!"]
+   func getAINotifications(_ n: Int, name: String, level: Int = 0) async -> [String] {
+      var notifs: [String] = []
+      let adjectiveArray = ["creative", "funny", "motivating", "inspiring", "funny Gen Z"]
+      for i in 0 ..< adjectiveArray.count {
+         let count = n / adjectiveArray.count
+         let someNotifs = await getAINotifications(count, name: name, adjective: adjectiveArray[i])
+         notifs.append(contentsOf: someNotifs)
+      }
+      print("notifs: \(notifs)")
+      return notifs
    }
    
    func parseGPTAnswer(answer: String) -> [String]? {
@@ -70,44 +77,44 @@ class NotificationManager {
       return nil
    }
    
-//   func getAINotifications(_ n: Int, adjective: String, level: Int = 0) async -> [String] {
-//      var list: [String] = []
-//      guard level <= 3 else { return list }
-//      print("Getting \(n) notifications from ChatGPT")
-//      do {
-//         if let answer = try await OpenAI.shared.chatModel(prompt: notificationPrompt(n: n, adjective: adjective)) {
-//            print("ChatGPT \(adjective) answer: \(answer)")
-//            
-//            
-//            guard let jsonList = parseGPTAnswer(answer: answer) else {
-//               print("ChatGPT answer failed to parse JSON trying again with level: \(level + 1)")
-//               return await getAINotifications(n, adjective: adjective, level: level + 1)
-//            }
-//            list = jsonList
-//            //            list = answer.components(separatedBy: ",")
-//            
-//            guard list.count >= n else {
-//               print("ChatGPT answer failed, COUNT = \(list.count) trying again with level: \(level + 1)")
-//               return await getAINotifications(n, adjective: adjective, level: level + 1)
-//            }
-//            
-//            list.removeLast(list.count - n)
-//            
-//            for i in 0 ..< list.count {
-//               list[i] = list[i].trimmingCharacters(in: .whitespaces)
-//            }
-//            
-//            list.removeAll { $0.isEmpty || $0 == "" }
-//            
-//            print("List: \(list)")
-//         }
-//      } catch {
-//         print("ERROR: \(error.localizedDescription)")
-//         return await getAINotifications(n, adjective: adjective, level: level + 1)
-//      }
-//      list.shuffle()
-//      return list
-//   }
+   func getAINotifications(_ n: Int, name: String, adjective: String, level: Int = 0) async -> [String] {
+      var list: [String] = []
+      guard level <= 3 else { return list }
+      print("Getting \(n) notifications from ChatGPT")
+      do {
+         if let answer = try await OpenAI.shared.chatModel(prompt: notificationPrompt(n: n, name: name, adjective: adjective)) {
+            print("ChatGPT \(adjective) answer: \(answer)")
+            
+            
+            guard let jsonList = parseGPTAnswer(answer: answer) else {
+               print("ChatGPT answer failed to parse JSON trying again with level: \(level + 1)")
+               return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
+            }
+            list = jsonList
+            //            list = answer.components(separatedBy: ",")
+            
+            guard list.count >= n else {
+               print("ChatGPT answer failed, COUNT = \(list.count) trying again with level: \(level + 1)")
+               return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
+            }
+            
+            list.removeLast(list.count - n)
+            
+            for i in 0 ..< list.count {
+               list[i] = list[i].trimmingCharacters(in: .whitespaces)
+            }
+            
+            list.removeAll { $0.isEmpty || $0 == "" }
+            
+            print("List: \(list)")
+         }
+      } catch {
+         print("ERROR: \(error.localizedDescription)")
+         return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
+      }
+      list.shuffle()
+      return list
+   }
    
    struct PendingNotification: Comparable {
       let notifIDString: String
@@ -236,7 +243,7 @@ class NotificationManager {
       // TODO: 1.0.9 what to do if unscheduledNotificationStrings is running low?
       assert(!notification.unscheduledNotificationStrings.isEmpty)
       if notification.unscheduledNotificationStrings.isEmpty {
-         await notification.unscheduledNotificationStrings = getAINotifications(MAX_NOTIFS)
+         await notification.unscheduledNotificationStrings = getAINotifications(MAX_NOTIFS, name: notification.habit.name)
       }
       
       let dateObject = Cal.date(from: date)!
@@ -309,24 +316,40 @@ class NotificationManager {
             print("Removing notification \(notifID)")
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
          }
+         notif.reset()
       }
       
       // Rebalance
       Task { await rebalanceCurrentNotifications() }
    }
    
+   func resetNotification(_ notification: Notification) {
+      let id = notification.id
+      for i in 0 ..< MAX_NOTIFS {
+         let notifID = "OnePercentBetter&\(id)&\(i)"
+         print("Removing notification \(notifID)")
+         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+      }
+      notification.reset()
+   }
+   
+   
    func rebalanceCurrentNotifications() async {
+      
+      print("REBALANCING HABIT NOTIFICAITIONS!!!!")
+      
       var pendingNotifications = await pendingNotifications()
 
       var notificationAllowance = MAX_NOTIFS - pendingNotifications.count
 
       // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
       // maximum number of notification requests is reached
-      for _ in 0 ..< notificationAllowance {
+      for _ in 0 ..< MAX_NOTIFS {
          guard let (notification, day, index) = getNextNotification() else {
             return
          }
-         let nextIndex = index + 1 // TODO: ADD % MAX_NOTIFS
+         let nextIndex = (index + 1) % MAX_NOTIFS
+         print("nextIndex: \(nextIndex)")
          var dayAndTime = notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          dayAndTime.calendar = Cal
@@ -366,6 +389,8 @@ class NotificationManager {
       }
       
       cleanUpScheduledNotifications()
+      
+      Task { @MainActor [weak self] in self?.moc.fatalSave() }
    }
    
    func getNextNotification() -> (notification: Notification, date: Date, index: Int)? {
@@ -383,7 +408,9 @@ class NotificationManager {
       nextNotifsAndDates = nextNotifsAndDates.sorted { $0.1 < $1.1 }
       
       if let hasNext = nextNotifsAndDates.first {
-         let lastScheduledIndex = hasNext.0.scheduledNotificationsArray.last?.index ?? 0
+         let lastScheduledIndex = hasNext.0.scheduledNotificationsArray.last?.index ?? -1
+//         print("")
+         print("Next to-be scheduled notification: \(hasNext.0.habit.name), date: \(hasNext.1), index: \(lastScheduledIndex)")
          return (hasNext.0, hasNext.1, lastScheduledIndex)
       } else {
          return nil

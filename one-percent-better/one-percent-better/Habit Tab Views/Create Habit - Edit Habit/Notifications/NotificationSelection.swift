@@ -7,34 +7,6 @@
 
 import SwiftUI
 
-
-//class Notification: Identifiable, Equatable, ObservableObject {
-//   var id = UUID()
-//
-//   static func == (lhs: Notification, rhs: Notification) -> Bool {
-//      lhs.id == rhs.id
-//   }
-//}
-//
-//class SpecificTimeNotification: Notification {
-//   @Published var time = Date()
-//}
-//
-//class RandomTimeNotification: Notification {
-//   @Published var fromTime = {
-//      var components = DateComponents()
-//      components.hour = 9
-//      components.minute = 0
-//      return Cal.date(from: components) ?? Date()
-//   }()
-//   @Published var toTime = {
-//      var components = DateComponents()
-//      components.hour = 17
-//      components.minute = 0
-//      return Cal.date(from: components) ?? Date()
-//   }()
-//}
-
 struct NotificationSelection: View {
    
    @Environment(\.colorScheme) var scheme
@@ -45,6 +17,9 @@ struct NotificationSelection: View {
    @State private var animateBell = false
 //
    @State private var selectFrequency = false
+   
+   @Binding var hasChanged: [Notification : Bool]
+   
    
    private var textColor: Color {
       scheme == .light ? .white : .black
@@ -86,6 +61,7 @@ struct NotificationSelection: View {
                   let notif = SpecificTimeNotification(context: moc, time: Date())
                   requestNotifPermission()
                   habit.addToNotifications(notif)
+                  hasChanged[notif] = true
 //                  habit.addNotification(notif)
                } label: {
                   Label("Specific Time", systemImage: "clock")
@@ -128,7 +104,7 @@ struct NotificationSelection: View {
                      Section {
                         ForEach(0 ..< habit.notificationsArray.count, id: \.self) { i in
                            let notification = habit.notificationsArray[i]
-                           NotificationRow(notification: notification, index: i)
+                           NotificationRow(notification: notification, index: i, hasChanged: $hasChanged)
                               .listRowBackground(Color.cardColor)
                               .listRowSeparatorTint(.gray, edges: .bottom)
                               .alignmentGuide(.listRowSeparatorLeading) { viewDimensions in
@@ -158,7 +134,8 @@ struct NotificationSelection: View {
 }
 
 struct MyViewNotificationSelection_Previewer: View {
-   @State private var notifications: [Notification] = []
+   
+   @State private var hasChanged: [Notification : Bool] = [:]
    
    func data() -> Habit {
       let context = CoreDataManager.previews.mainContext
@@ -193,7 +170,7 @@ struct MyViewNotificationSelection_Previewer: View {
       let habit = data()
       return (
          Background {
-            NotificationSelection(habit: habit)
+            NotificationSelection(habit: habit, hasChanged: $hasChanged)
          }
       )
    }
@@ -211,7 +188,7 @@ struct SpecificTimeNotificationRow: View {
    
    var timeBinding: Binding<Date> {
       return Binding {
-         notification.time ?? Date()
+         notification.time
       } set: { newDate, _ in
          notification.time = newDate
       }
@@ -221,9 +198,7 @@ struct SpecificTimeNotificationRow: View {
       HStack {
          Spacer()
          Text("Every day at ")
-         if notification.time != nil {
-            JustDatePicker(time: timeBinding)
-         }
+         JustDatePicker(time: timeBinding)
          Spacer()
       }
       .padding(.vertical, 1)
@@ -236,7 +211,7 @@ struct RandomTimeNotificationRow: View {
    
    var startTimeBinding: Binding<Date> {
       return Binding {
-         notification.startTime ?? Date()
+         notification.startTime
       } set: { newDate, _ in
          notification.startTime = newDate
       }
@@ -244,7 +219,7 @@ struct RandomTimeNotificationRow: View {
    
    var endTimeBinding: Binding<Date> {
       return Binding {
-         notification.endTime ?? Date()
+         notification.endTime
       } set: { newDate, _ in
          notification.endTime = newDate
       }
@@ -272,12 +247,25 @@ struct NotificationRow: View {
    
    var index: Int
    
+   @Binding var hasChanged: [Notification: Bool]
+   
    var body: some View {
       ZStack {
          if let specificTime = notification as? SpecificTimeNotification {
             SpecificTimeNotificationRow(notification: specificTime)
+               .onChange(of: specificTime.time) { newValue in
+                  print("new Value: \(newValue)")
+                  print("specificTime.time: \(specificTime.time)")
+                  hasChanged[specificTime] = true
+               }
          } else if let randomTime = notification as? RandomTimeNotification {
             RandomTimeNotificationRow(notification: randomTime)
+               .onChange(of: randomTime.startTime) { newValue in
+                  hasChanged[randomTime] = true
+               }
+               .onChange(of: randomTime.endTime) { newValue in
+                  hasChanged[randomTime] = true
+               }
          }
          
          HStack {
@@ -294,10 +282,6 @@ struct NotificationRow: View {
             .fixedSize()
             Spacer()
          }
-      }
-      .onChange(of: notification) { newValue in
-         print("Notification updated!!!!!")
-//         habit.addNotification(newValue)
       }
    }
 }
