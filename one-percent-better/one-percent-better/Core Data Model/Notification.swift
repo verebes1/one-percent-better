@@ -36,15 +36,98 @@ public class Notification: NSManagedObject {
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
-   func createScheduledNotification(index: Int, on date: Date) -> String {
-      assert(!unscheduledNotificationStrings.isEmpty) // TODO: add ChatGPT async query here
-      let message = unscheduledNotificationStrings.removeLast()
-      
-      let scheduledNotification = ScheduledNotification(context: moc, index: index, date: date, string: message, notification: self)
-      self.addToScheduledNotifications(scheduledNotification)
+   func createScheduledNotification(index: Int, on date: Date) async -> String {
+      if unscheduledNotificationStrings.isEmpty {
+         let messages = await getAINotifications(NotificationManager.MAX_NOTIFS, name: habit.name)
+         await moc.perform {
+            self.unscheduledNotificationStrings = messages
+         }
+      }
+      var message: String!
+      await moc.perform {
+         message = self.unscheduledNotificationStrings.removeLast()
+         let scheduledNotification = ScheduledNotification(context: self.moc, index: index, date: date, string: message, notification: self)
+         self.addToScheduledNotifications(scheduledNotification)
+      }
       print("Adding to scheduled notification for id: \(self.id), index: \(index), date: \(date)")
       return message
    }
+   
+   func notificationPrompt(n: Int, name: String, adjective: String) -> String {
+      return """
+            Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(name.lowercased())".
+            Requirements: For each notification, use between 10 and 60 characters. Return them as a JSON array named "notifications".
+            """
+   }
+   
+   func getAINotifications(_ n: Int, name: String, level: Int = 0) async -> [String] {
+      var notifs: [String] = []
+      let adjectiveArray = ["creative", "funny", "motivating", "inspiring", "funny Gen Z"]
+      for i in 0 ..< adjectiveArray.count {
+         let count = n / adjectiveArray.count
+         let someNotifs = await getAINotifications(count, name: name, adjective: adjectiveArray[i])
+         notifs.append(contentsOf: someNotifs)
+      }
+      print("notifs: \(notifs)")
+      return notifs
+   }
+   
+   func parseGPTAnswer(answer: String) -> [String]? {
+      do {
+         if let jsonData = answer.data(using: .utf8) {
+            if let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
+               if let jsonArray = jsonDict["notifications"] as? [String] {
+                  return jsonArray
+               }
+            } else if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String] {
+               return jsonArray
+            }
+         }
+      } catch {
+         print("Error parsing JSON: \(error)")
+      }
+      return nil
+   }
+   
+   func getAINotifications(_ n: Int, name: String, adjective: String, level: Int = 0) async -> [String] {
+      var list: [String] = []
+      guard level <= 3 else { return list }
+      print("Getting \(n) notifications from ChatGPT")
+      do {
+         if let answer = try await OpenAI.shared.chatModel(prompt: notificationPrompt(n: n, name: name, adjective: adjective)) {
+            print("ChatGPT \(adjective) answer: \(answer)")
+            
+            
+            guard let jsonList = parseGPTAnswer(answer: answer) else {
+               print("ChatGPT answer failed to parse JSON trying again with level: \(level + 1)")
+               return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
+            }
+            list = jsonList
+            //            list = answer.components(separatedBy: ",")
+            
+            guard list.count >= n else {
+               print("ChatGPT answer failed, COUNT = \(list.count) trying again with level: \(level + 1)")
+               return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
+            }
+            
+            list.removeLast(list.count - n)
+            
+            for i in 0 ..< list.count {
+               list[i] = list[i].trimmingCharacters(in: .whitespaces)
+            }
+            
+            list.removeAll { $0.isEmpty || $0 == "" }
+            
+            print("List: \(list)")
+         }
+      } catch {
+         print("ERROR: \(error.localizedDescription)")
+         return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
+      }
+      list.shuffle()
+      return list
+   }
+   
    
    func nextDue() -> Date {
       fatalError("Override in subclass")

@@ -51,7 +51,6 @@ struct EditTracker: View {
                                  by: -1) {
          revisedItems[reverseIndex].index = Int(reverseIndex)
       }
-      //        moc.fatalSave()
    }
    
    /// Check if the user can save or needs to make changes

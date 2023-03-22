@@ -16,26 +16,10 @@ class NotificationManager {
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
    // TODO: 1.0.9 set this to 64
-   var MAX_NOTIFS: Int {
-      25
-   }
-   
-   func notificationPrompt(n: Int, name: String, adjective: String) -> String {
-      return """
-            Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(name.lowercased())".
-            Requirements: For each notification, use between 10 and 60 characters. Return them as a JSON array named "notifications".
-            """
-   }
+   static let MAX_NOTIFS = 25
    
    func setupNotification(notification: Notification) async {
-      let notificationMessages = await getAINotifications(MAX_NOTIFS, name: notification.habit.name)
-      notification.unscheduledNotificationStrings = notificationMessages
       await rebalanceCurrentNotifications()
-//      await setupNotifications(notification: notification, notificationMessages: notificationMessages)
-      
-//      UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
-//         print("JJJJ notification requests pending: \(requests)")
-//      }
    }
    
    func requestNotifPermission() {
@@ -46,74 +30,6 @@ class NotificationManager {
             print(error.localizedDescription)
          }
       }
-   }
-   
-   func getAINotifications(_ n: Int, name: String, level: Int = 0) async -> [String] {
-      var notifs: [String] = []
-      let adjectiveArray = ["creative", "funny", "motivating", "inspiring", "funny Gen Z"]
-      for i in 0 ..< adjectiveArray.count {
-         let count = n / adjectiveArray.count
-         let someNotifs = await getAINotifications(count, name: name, adjective: adjectiveArray[i])
-         notifs.append(contentsOf: someNotifs)
-      }
-      print("notifs: \(notifs)")
-      return notifs
-   }
-   
-   func parseGPTAnswer(answer: String) -> [String]? {
-      do {
-         if let jsonData = answer.data(using: .utf8) {
-            if let jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
-               if let jsonArray = jsonDict["notifications"] as? [String] {
-                  return jsonArray
-               }
-            } else if let jsonArray = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String] {
-               return jsonArray
-            }
-         }
-      } catch {
-         print("Error parsing JSON: \(error)")
-      }
-      return nil
-   }
-   
-   func getAINotifications(_ n: Int, name: String, adjective: String, level: Int = 0) async -> [String] {
-      var list: [String] = []
-      guard level <= 3 else { return list }
-      print("Getting \(n) notifications from ChatGPT")
-      do {
-         if let answer = try await OpenAI.shared.chatModel(prompt: notificationPrompt(n: n, name: name, adjective: adjective)) {
-            print("ChatGPT \(adjective) answer: \(answer)")
-            
-            
-            guard let jsonList = parseGPTAnswer(answer: answer) else {
-               print("ChatGPT answer failed to parse JSON trying again with level: \(level + 1)")
-               return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
-            }
-            list = jsonList
-            //            list = answer.components(separatedBy: ",")
-            
-            guard list.count >= n else {
-               print("ChatGPT answer failed, COUNT = \(list.count) trying again with level: \(level + 1)")
-               return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
-            }
-            
-            list.removeLast(list.count - n)
-            
-            for i in 0 ..< list.count {
-               list[i] = list[i].trimmingCharacters(in: .whitespaces)
-            }
-            
-            list.removeAll { $0.isEmpty || $0 == "" }
-            
-            print("List: \(list)")
-         }
-      } catch {
-         print("ERROR: \(error.localizedDescription)")
-         return await getAINotifications(n, name: name, adjective: adjective, level: level + 1)
-      }
-      list.shuffle()
-      return list
    }
    
    struct PendingNotification: Comparable {
@@ -176,88 +92,22 @@ class NotificationManager {
       return pendingNotifications
    }
    
-   /// Set up the next N notifications, where N = messages.count
-   /// - Parameters:
-   ///   - date: The start date (including this day)
-   ///   - time: What time to send the notification
-   ///   - messages: The next N notification messages to use
-   ///
-   func setupNotifications(notification: Notification, notificationMessages: [String]) async {
-      
-      // Step 1: Store AI notification messages
-      notification.unscheduledNotificationStrings = notificationMessages
-      
-      // Step 2: Get list of pending notifications
-      var pendingNotifications = await pendingNotifications()
-      
-      var notificationAllowance = MAX_NOTIFS - pendingNotifications.count
-      
-      // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
-      // maximum number of notification requests is reached
-      let today = Date()
-      for i in 0 ..< MAX_NOTIFS {
-         let day = Cal.add(days: i, to: today)
-         var dayAndTime = notificationTime(for: notification)
-         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
-         dayAndTime.calendar = Cal
-         dayAndTime.day = dayComponents.day
-         dayAndTime.month = dayComponents.month
-         dayAndTime.year = dayComponents.year
-         let newDate = Cal.date(from: dayAndTime)!
-         
-         guard let lastPendingNotif = pendingNotifications.last else {
-            // No pending notification requests, add new notification
-            await addNewNotification(notification: notification, index: i, date: dayAndTime)
-            notificationAllowance -= 1
-            continue
-         }
-         
-         if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
-            pendingNotifications.removeLast()
-            // Add notification message back in unscheduledNotifications list for that notif id
-//            addMessageBackToNotification(message: lastPendingNotif.message, id: lastPendingNotif.id)
-            removeNotification(lastPendingNotif)
-            
-            // Remove the scheduled notification
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
-            
-            // Add new notification
-            await addNewNotification(notification: notification, index: i, date: dayAndTime)
-            notificationAllowance -= 1
-         } else {
-            if notificationAllowance > 0 {
-               await addNewNotification(notification: notification, index: i, date: dayAndTime)
-               notificationAllowance -= 1
-            } else {
-               // Can't schedule any more notifications
-               break
-            }
-         }
-      }
-      cleanUpScheduledNotifications()
-   }
-   
    func addNewNotification(notification: Notification, index: Int, date: DateComponents) async {
       let id = notification.id.uuidString
       let identifier = "OnePercentBetter&\(id)&\(index)"
-      // TODO: 1.0.9 what to do if unscheduledNotificationStrings is running low?
-      assert(!notification.unscheduledNotificationStrings.isEmpty)
-      if notification.unscheduledNotificationStrings.isEmpty {
-         await notification.unscheduledNotificationStrings = getAINotifications(MAX_NOTIFS, name: notification.habit.name)
-      }
       
       let dateObject = Cal.date(from: date)!
-      let message = notification.createScheduledNotification(index: index, on: dateObject)
+      let message = await notification.createScheduledNotification(index: index, on: dateObject)
       
       print("GENERATING NOTIFICATION \(index) for habit \(notification.habit.name), on date: \(date), id: \(id), with message: \(message)")
       
       let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
       let notifContent = notification.generateNotificationContent(message: message)
       let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
-      UNUserNotificationCenter.current().add(request) { error in
-         if error != nil {
-            print("ERROR GENERATING NOTIFICATION: \(error!.localizedDescription)")
-         }
+      do {
+         try await UNUserNotificationCenter.current().add(request)
+      } catch {
+         print("ERROR GENERATING NOTIFICATION: \(error.localizedDescription)")
       }
    }
    
@@ -311,7 +161,7 @@ class NotificationManager {
    func removeAllNotifications(notifs: [Notification]) {
       for notif in notifs {
          let id = notif.id
-         for i in 0 ..< MAX_NOTIFS {
+         for i in 0 ..< Self.MAX_NOTIFS {
             let notifID = "OnePercentBetter&\(id)&\(i)"
             print("Removing notification \(notifID)")
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
@@ -325,7 +175,7 @@ class NotificationManager {
    
    func resetNotification(_ notification: Notification) {
       let id = notification.id
-      for i in 0 ..< MAX_NOTIFS {
+      for i in 0 ..< Self.MAX_NOTIFS {
          let notifID = "OnePercentBetter&\(id)&\(i)"
          print("Removing notification \(notifID)")
          UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
@@ -340,15 +190,15 @@ class NotificationManager {
       
       var pendingNotifications = await pendingNotifications()
 
-      var notificationAllowance = MAX_NOTIFS - pendingNotifications.count
+      var notificationAllowance = Self.MAX_NOTIFS - pendingNotifications.count
 
       // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
       // maximum number of notification requests is reached
-      for _ in 0 ..< MAX_NOTIFS {
+      for _ in 0 ..< Self.MAX_NOTIFS {
          guard let (notification, day, index) = getNextNotification() else {
             return
          }
-         let nextIndex = (index + 1) % MAX_NOTIFS
+         let nextIndex = (index + 1) % Self.MAX_NOTIFS
          print("nextIndex: \(nextIndex)")
          var dayAndTime = notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
@@ -390,7 +240,7 @@ class NotificationManager {
       
       cleanUpScheduledNotifications()
       
-      Task { @MainActor [weak self] in self?.moc.fatalSave() }
+      moc.fatalSave()
    }
    
    func getNextNotification() -> (notification: Notification, date: Date, index: Int)? {

@@ -54,10 +54,11 @@ struct DailyReminder: View {
          }
          
          vm.updateDailyReminder(to: newBool)
-         moc.fatalSave()
       }
       .onChange(of: timeSelection) { newTime in
          vm.updateDailyReminder(time: newTime)
+      }
+      .onDisappear {
          moc.fatalSave()
       }
    }

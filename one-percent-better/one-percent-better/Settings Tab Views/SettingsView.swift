@@ -37,7 +37,7 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          let _ = Settings(myContext: moc)
          moc.fatalSave()
       } else if settingsArr.count > 1 {
-         //         fatalError("Too many settings entities")
+         assert(false, "Too many settings entities")
       }
    }
    

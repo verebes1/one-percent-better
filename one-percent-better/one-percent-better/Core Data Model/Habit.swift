@@ -328,8 +328,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       // Delete notifications
       NotificationManager.shared.removeAllNotifications(notifs: notificationsArray)
-      
-      moc.fatalSave()
    }
    
    // MARK: - Encodable

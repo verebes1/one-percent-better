@@ -147,6 +147,7 @@ class EnterTrackerDataViewModel: ObservableObject {
          }
       }
       
+      // moc will save in both branches
       if atLeastOneEntry {
          habit.markCompleted(on: currentDay)
       } else {
