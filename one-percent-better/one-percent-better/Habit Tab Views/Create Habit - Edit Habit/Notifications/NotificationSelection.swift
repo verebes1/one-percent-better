@@ -18,8 +18,9 @@ struct NotificationSelection: View {
 //
    @State private var selectFrequency = false
    
-   @Binding var hasChanged: [Notification : Bool]
+   @Binding var hasChanged: Set<Notification>
    
+   @State private var grantedPermission: Bool? = nil
    
    private var textColor: Color {
       scheme == .light ? .white : .black
@@ -29,18 +30,22 @@ struct NotificationSelection: View {
       guard let index = source.first else { return }
       let notifToBeDeleted = habit.notificationsArray[index]
       habit.removeFromNotifications(notifToBeDeleted)
-      NotificationManager.shared.removeAllNotifications(notifs: [notifToBeDeleted])
+      notifToBeDeleted.reset()
       moc.delete(notifToBeDeleted)
       moc.fatalSave()
    }
    
-   func requestNotifPermission() {
-      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-         if success {
-            print("Notification permission granted!")
-         } else if let error = error {
-            print(error.localizedDescription)
-         }
+   @MainActor func addNotification(_ notification: Notification) async {
+      guard let permission = await NotificationManager.shared.requestNotificationPermission() else {
+         return
+      }
+      grantedPermission = permission
+      if permission {
+         habit.addToNotifications(notification)
+         hasChanged.insert(notification)
+      } else {
+         habit.removeFromNotifications(notification)
+         hasChanged.remove(notification)
       }
    }
    
@@ -59,10 +64,7 @@ struct NotificationSelection: View {
                Button {
                   animateBell.toggle()
                   let notif = SpecificTimeNotification(context: moc, time: Date())
-                  requestNotifPermission()
-                  habit.addToNotifications(notif)
-                  hasChanged[notif] = true
-//                  habit.addNotification(notif)
+                  Task { await addNotification(notif) }
                } label: {
                   Label("Specific Time", systemImage: "clock")
                }
@@ -125,6 +127,9 @@ struct NotificationSelection: View {
                   .scrollContentBackground(.hidden)
                   .animation(.easeInOut, value: habit.notifications)
                }
+            } else if let p = grantedPermission, !p {
+               Text("Notification permission is not enabled, change this in settings.")
+                  .foregroundColor(.red)
             }
             Spacer()
          }
@@ -135,7 +140,7 @@ struct NotificationSelection: View {
 
 struct MyViewNotificationSelection_Previewer: View {
    
-   @State private var hasChanged: [Notification : Bool] = [:]
+   @State private var hasChanged: Set<Notification> = []
    
    func data() -> Habit {
       let context = CoreDataManager.previews.mainContext
@@ -247,7 +252,7 @@ struct NotificationRow: View {
    
    var index: Int
    
-   @Binding var hasChanged: [Notification: Bool]
+   @Binding var hasChanged: Set<Notification>
    
    var body: some View {
       ZStack {
@@ -256,15 +261,15 @@ struct NotificationRow: View {
                .onChange(of: specificTime.time) { newValue in
                   print("new Value: \(newValue)")
                   print("specificTime.time: \(specificTime.time)")
-                  hasChanged[specificTime] = true
+                  hasChanged.insert(specificTime)
                }
          } else if let randomTime = notification as? RandomTimeNotification {
             RandomTimeNotificationRow(notification: randomTime)
                .onChange(of: randomTime.startTime) { newValue in
-                  hasChanged[randomTime] = true
+                  hasChanged.insert(randomTime)
                }
                .onChange(of: randomTime.endTime) { newValue in
-                  hasChanged[randomTime] = true
+                  hasChanged.insert(randomTime)
                }
          }
          

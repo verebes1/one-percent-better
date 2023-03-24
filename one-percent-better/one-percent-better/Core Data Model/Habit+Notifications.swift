@@ -19,13 +19,10 @@ extension Habit {
    
    func addNotification(_ notification: Notification) {
       self.addToNotifications(notification)
-      Task {
-         await NotificationManager.shared.setupNotification(notification: notification)
-      }
+      NotificationManager.shared.rebalanceHabitNotifications()
    }
    
    func addNotifications(_ notifications: [Notification]) {
-//      removeAllNotifications(notifs: notifications)
       for notif in notifications {
          addNotification(notif)
       }

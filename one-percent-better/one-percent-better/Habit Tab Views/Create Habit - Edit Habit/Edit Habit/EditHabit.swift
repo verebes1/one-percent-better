@@ -200,7 +200,9 @@ struct EditHabit: View {
             do {
                if try canSave() {
                   habit.name = newHabitName
-                  moc.fatalSave()
+                  moc.perform {
+                     self.moc.fatalSave()
+                  }
                }
             } catch {
                // do nothing

@@ -12,23 +12,20 @@ import CoreData
 class NotificationManager {
    
    static var shared = NotificationManager()
-   
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
+   static let MAX_NOTIFS = 64
    
-   // TODO: 1.0.9 set this to 64
-   static let MAX_NOTIFS = 25
+   lazy var queue = DispatchQueue(label: "NotificationManager", qos: .userInitiated)
    
-   func setupNotification(notification: Notification) async {
-      await rebalanceCurrentNotifications()
-   }
-   
-   func requestNotifPermission() {
-      UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
-         if success {
-            print("Notification permission granted!")
-         } else if let error = error {
-            print(error.localizedDescription)
-         }
+   var permissionGranted = false
+
+   func requestNotificationPermission() async -> Bool? {
+      do {
+         permissionGranted = try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
+         return permissionGranted
+      } catch {
+         print("Error getting notification permission")
+         return nil
       }
    }
    
@@ -92,25 +89,6 @@ class NotificationManager {
       return pendingNotifications
    }
    
-   func addNewNotification(notification: Notification, index: Int, date: DateComponents) async {
-      let id = notification.id.uuidString
-      let identifier = "OnePercentBetter&\(id)&\(index)"
-      
-      let dateObject = Cal.date(from: date)!
-      let message = await notification.createScheduledNotification(index: index, on: dateObject)
-      
-      print("GENERATING NOTIFICATION \(index) for habit \(notification.habit.name), on date: \(date), id: \(id), with message: \(message)")
-      
-      let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
-      let notifContent = notification.generateNotificationContent(message: message)
-      let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
-      do {
-         try await UNUserNotificationCenter.current().add(request)
-      } catch {
-         print("ERROR GENERATING NOTIFICATION: \(error.localizedDescription)")
-      }
-   }
-   
    func cleanUpScheduledNotifications() {
       let habits = Habit.habits(from: moc)
       let today = Date()
@@ -119,7 +97,6 @@ class NotificationManager {
             for scheduledNotification in notif.scheduledNotificationsArray {
                if scheduledNotification.date < today {
                   notif.removeFromScheduledNotifications(scheduledNotification)
-                  moc.delete(scheduledNotification)
                }
             }
          }
@@ -127,23 +104,19 @@ class NotificationManager {
    }
    
    func removeNotification(_ notification: PendingNotification) {
-      // TODO: JJJJ make this more efficient in 1.0.9
       let habits = Habit.habits(from: moc)
       for habit in habits {
-         for notif in habit.notificationsArray {
-            if notif.id.uuidString == notification.id {
-               
-               notif.unscheduledNotificationStrings.append(notification.message)
-               
-               for scheduledNotification in notif.scheduledNotificationsArray {
-                  if scheduledNotification.index == notification.num {
-                     notif.removeFromScheduledNotifications(scheduledNotification)
-                     moc.delete(scheduledNotification)
-                     return
-                  }
-               }
-            }
+         guard let notif = habit.notificationsArray.first(where: { $0.id.uuidString == notification.id }) else {
+            continue
          }
+         
+         guard let scheduledNotif = notif.scheduledNotificationsArray.first(where: { $0.index == notification.num }) else {
+            continue
+         }
+         
+         notif.unscheduledNotificationStrings.append(notification.message)
+         notif.removeFromScheduledNotifications(scheduledNotif)
+         return
       }
    }
    
@@ -158,48 +131,39 @@ class NotificationManager {
       fatalError("Unable to get time for notification")
    }
    
-   func removeAllNotifications(notifs: [Notification]) {
-      for notif in notifs {
-         let id = notif.id
-         for i in 0 ..< Self.MAX_NOTIFS {
-            let notifID = "OnePercentBetter&\(id)&\(i)"
-            print("Removing notification \(notifID)")
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+   // MARK: Rebalance
+   
+   let semaphore = DispatchSemaphore(value: 0)
+   
+   func rebalanceHabitNotifications() {
+      queue.async {
+         print("~1~ Starting rebalance")
+         Task {
+            await NotificationManager.shared.rebalanceHabitNotifications()
+            self.semaphore.signal()
+            print("~3~ Finish rebalance")
          }
-         notif.reset()
+         print("~2~ Before wait rebalance")
+         self.semaphore.wait()
+         print("~4~ Done wait rebalance")
       }
-      
-      // Rebalance
-      Task { await rebalanceCurrentNotifications() }
    }
    
-   func resetNotification(_ notification: Notification) {
-      let id = notification.id
-      for i in 0 ..< Self.MAX_NOTIFS {
-         let notifID = "OnePercentBetter&\(id)&\(i)"
-         print("Removing notification \(notifID)")
-         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
-      }
-      notification.reset()
-   }
-   
-   
-   func rebalanceCurrentNotifications() async {
+   func rebalanceHabitNotifications() async {
       
-      print("REBALANCING HABIT NOTIFICAITIONS!!!!")
+      print("~~~ Rebalancing habit notifications! ~~~")
       
+      // Step 1: Get pending notifications
       var pendingNotifications = await pendingNotifications()
-
       var notificationAllowance = Self.MAX_NOTIFS - pendingNotifications.count
 
-      // Step 3: Keep adding new notifications until new scheduled date > latest pending notification request, or
+      // Step 2: Keep adding new notifications until new scheduled date > latest pending notification request, or
       // maximum number of notification requests is reached
       for _ in 0 ..< Self.MAX_NOTIFS {
          guard let (notification, day, index) = getNextNotification() else {
-            return
+            break
          }
          let nextIndex = (index + 1) % Self.MAX_NOTIFS
-         print("nextIndex: \(nextIndex)")
          var dayAndTime = notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          dayAndTime.calendar = Cal
@@ -210,7 +174,7 @@ class NotificationManager {
          
          guard let lastPendingNotif = pendingNotifications.last else {
             // No pending notification requests, add new notification
-            await addNewNotification(notification: notification, index: nextIndex, date: dayAndTime)
+            await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
             continue
          }
@@ -218,18 +182,17 @@ class NotificationManager {
          if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
             pendingNotifications.removeLast()
             // Add notification message back in unscheduledNotifications list for that notif id
-//            addMessageBackToNotification(message: lastPendingNotif.message, id: lastPendingNotif.id)
             removeNotification(lastPendingNotif)
             
             // Remove the scheduled notification
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
             
             // Add new notification
-            await addNewNotification(notification: notification, index: nextIndex, date: dayAndTime)
+            await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
          } else {
             if notificationAllowance > 0 {
-               await addNewNotification(notification: notification, index: nextIndex, date: dayAndTime)
+               await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
                notificationAllowance -= 1
             } else {
                // Can't schedule any more notifications
@@ -238,9 +201,14 @@ class NotificationManager {
          }
       }
       
+      // Step 3: Remove any already sent notifications from scheduled list
       cleanUpScheduledNotifications()
       
-      moc.fatalSave()
+      await moc.perform {
+         self.moc.fatalSave()
+      }
+      
+      print("~o~ Finished rebalancing habit notifications! ~o~")
    }
    
    func getNextNotification() -> (notification: Notification, date: Date, index: Int)? {
@@ -259,7 +227,6 @@ class NotificationManager {
       
       if let hasNext = nextNotifsAndDates.first {
          let lastScheduledIndex = hasNext.0.scheduledNotificationsArray.last?.index ?? -1
-//         print("")
          print("Next to-be scheduled notification: \(hasNext.0.habit.name), date: \(hasNext.1), index: \(lastScheduledIndex)")
          return (hasNext.0, hasNext.1, lastScheduledIndex)
       } else {

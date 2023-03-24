@@ -10,6 +10,10 @@ import OpenAI
 
 import OpenAISwift
 
+enum OpenAIError: Error {
+   case emptyMessageResponse
+}
+
 class OpenAI {
    static var shared = OpenAI()
    
@@ -36,13 +40,16 @@ class OpenAI {
    
    // Other models
    
-   func chatModel(prompt: String) async throws -> String? {
+   func chatModel(prompt: String) async throws -> String {
       return try await withCheckedThrowingContinuation { continuation in
          openAI.sendChat(with: [ChatMessage(role: .user, content: prompt)], model: .chat(.chatgpt), maxTokens: 400) { result in
             switch result {
             case .success(let success):
-               let ans = success.choices.first?.message.content
-               continuation.resume(returning: ans)
+               if let ans = success.choices.first?.message.content {
+                  continuation.resume(returning: ans)
+               } else {
+                  continuation.resume(throwing: OpenAIError.emptyMessageResponse)
+               }
             case .failure(let failure):
                continuation.resume(throwing: failure)
             }

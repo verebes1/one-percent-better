@@ -317,19 +317,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
    }
    
-   public override func prepareForDeletion() {
-      // Delete trackers
-      guard let trackerArray = self.trackers.array as? [Tracker] else {
-         fatalError("Can't convert habit.trackers into [Tracker]")
-      }
-      for tracker in trackerArray {
-         moc.delete(tracker)
-      }
-      
-      // Delete notifications
-      NotificationManager.shared.removeAllNotifications(notifs: notificationsArray)
-   }
-   
    // MARK: - Encodable
    
    enum CodingKeys: CodingKey {

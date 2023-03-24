@@ -10,16 +10,9 @@ import SwiftUI
 struct EditHabitNotifications: View {
    @Environment(\.managedObjectContext) var moc
    
-   @EnvironmentObject var nav: HabitTabNavPath
-   
    var habit: Habit
    
-   @State private var hasChanged: [Notification : Bool] = [:]
-   
-   init(habit: Habit) {
-      self.habit = habit
-      //      self.originalNotifications = habit.notificationsArray.map { $0.copy() as! Notification }
-   }
+   @State private var hasChanged: Set<Notification> = []
    
    var body: some View {
       Background {
@@ -31,18 +24,14 @@ struct EditHabitNotifications: View {
             
             Spacer()
          }
-         .onDisappear {
-            //            if originalNotifications != habit.notificationsArray {
-            for (notif, hasChanged) in hasChanged {
-               if hasChanged {
-                  NotificationManager.shared.resetNotification(notif)
-                  habit.addNotification(notif)
-               }
-            }
-//            habit.addNotifications(habit.notificationsArray)
-         }
-         .toolbar(.hidden, for: .tabBar)
       }
+      .onDisappear {
+         for notif in hasChanged {
+            notif.reset()
+            habit.addNotification(notif)
+         }
+      }
+      .toolbar(.hidden, for: .tabBar)
    }
 }
 
@@ -56,22 +45,6 @@ struct EditHabitNotifications_Previews: PreviewProvider {
       let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
       
       let h1 = try? Habit(context: context, name: "Swimming")
-      h1?.markCompleted(on: day0)
-      h1?.markCompleted(on: day1)
-      h1?.markCompleted(on: day2)
-      
-      if let h1 = h1 {
-         let t1 = NumberTracker(context: context, habit: h1, name: "Laps")
-         t1.add(date: day0, value: "3")
-         t1.add(date: day1, value: "2")
-         t1.add(date: day2, value: "1")
-         
-         let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
-         let patioBefore = UIImage(named: "patio-before")!
-         t2.add(date: day0, value: patioBefore)
-         
-         let _ = ExerciseTracker(context: context, habit: h1, name: "Bench Press")
-      }
       
       let habits = Habit.habits(from: context)
       return habits.first!

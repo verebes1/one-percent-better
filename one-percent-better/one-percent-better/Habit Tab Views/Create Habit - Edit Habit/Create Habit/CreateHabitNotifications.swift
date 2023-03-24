@@ -18,7 +18,7 @@ struct CreateHabitNotifications: View {
    
    @Binding var hideTabBar: Bool
    
-   @State private var hasChanged: [Notification : Bool] = [:]
+   @State private var hasChanged: Set<Notification> = []
    
    init(habit: Habit, habitFrequency: HabitFrequency, hideTabBar: Binding<Bool>) {
       self.habit = habit

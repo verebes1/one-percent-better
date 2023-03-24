@@ -19,7 +19,7 @@ struct OnePercentBetterApp: App {
             .onAppear {
                print("NSHomeDirectory: \(NSHomeDirectory())")
                FeatureLogController.shared.setUp()
-               Task { await NotificationManager.shared.rebalanceCurrentNotifications() }
+               NotificationManager.shared.rebalanceHabitNotifications()
             }
       }
    }
