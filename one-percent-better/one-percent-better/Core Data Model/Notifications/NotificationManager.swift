@@ -134,16 +134,17 @@ class NotificationManager {
    // MARK: Rebalance
    
    let semaphore = DispatchSemaphore(value: 0)
+//   let tasks =
    
    func rebalanceHabitNotifications() {
       queue.async {
          print("~1~ Starting rebalance")
-         Task {
+         let _ = Task {
             await NotificationManager.shared.rebalanceHabitNotifications()
             self.semaphore.signal()
-            print("~3~ Finish rebalance")
+//            print("~3~ Finish rebalance")
          }
-         print("~2~ Before wait rebalance")
+//         print("~2~ Before wait rebalance")
          self.semaphore.wait()
          print("~4~ Done wait rebalance")
       }
@@ -206,6 +207,7 @@ class NotificationManager {
       
       await moc.perform {
          self.moc.fatalSave()
+         self.moc.refreshAllObjects()
       }
       
       print("~o~ Finished rebalancing habit notifications! ~o~")

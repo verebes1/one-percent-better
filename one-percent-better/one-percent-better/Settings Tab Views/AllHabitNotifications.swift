@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct NotificationDetail {
    var id: String
@@ -45,21 +46,8 @@ struct AllHabitNotifications: View {
    
    @State private var notifications: [NotificationDetail] = []
    
-   var habits: [Habit] {
-      var habits = Habit.habits(from: moc)
-      habits.removeAll { habit in
-         habit.notificationsArray.isEmpty
-      }
-      return habits
-   }
-   
-   func totalNotifications(for habit: Habit) -> Int {
-      var sum = 0
-      for notif in habit.notificationsArray {
-         sum += notif.scheduledNotificationsArray.count
-      }
-      return sum
-   }
+   @FetchRequest(entity: Habit.entity(),
+                 sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]) var habits: FetchedResults<Habit>
    
    var body: some View {
       Background {
@@ -74,21 +62,13 @@ struct AllHabitNotifications: View {
                         HStack {
                            Text(habit.name)
                            Spacer()
-                           Text("\(totalNotifications(for: habit))")
+                           let totalNum = habit.notificationsArray.reduce(0) { partialResult, nextResult in
+                              partialResult + nextResult.scheduledNotificationsArray.count
+                           }
+                           Text("\(totalNum)")
                         }
                      }
                   }
-                  //                  ForEach(notifications, id: \.self.id) { notif in
-                  //                     VStack(alignment: .leading) {
-                  //                        let dc = notif.dateComponents
-                  //                        Text("id: ").bold() + Text("\(notif.id)")
-                  //                        Text("date: ").bold() + Text("\(String(describing: dc.month!))/\(String(describing:dc.day!))/\(String(describing:dc.year!)) \(String(describing:dc.hour!)):\(String(describing:dc.minute!))")
-                  //                        Text("title: ").bold() + Text("\(notif.title)")
-                  //                        Text("body: ").bold() + Text("\(notif.body)")
-                  //                     }
-                  //                  }
-                  
-                  
                }
             }
          }
@@ -97,9 +77,6 @@ struct AllHabitNotifications: View {
                NotificationsForHabitDebug(habit: habit)
             }
          }
-//         .onAppear {
-//            Task { notifications = await fetchNotifications() }
-//         }
       }
    }
 }

@@ -189,21 +189,27 @@ struct NotificationSelection_Previews: PreviewProvider {
 
 struct SpecificTimeNotificationRow: View {
    
-   @ObservedObject var notification: SpecificTimeNotification
+   var notification: SpecificTimeNotification
    
-   var timeBinding: Binding<Date> {
-      return Binding {
-         notification.time
-      } set: { newDate, _ in
-         notification.time = newDate
-      }
+   @State private var specificTime: Date
+   
+   @Binding var hasChanged: Set<Notification>
+   
+   init(notification: SpecificTimeNotification, hasChanged: Binding<Set<Notification>>) {
+      self.notification = notification
+      self._hasChanged = hasChanged
+      self._specificTime = State(initialValue: notification.time)
    }
    
    var body: some View {
       HStack {
          Spacer()
          Text("Every day at ")
-         JustDatePicker(time: timeBinding)
+         JustDatePicker(time: $specificTime)
+            .onChange(of: specificTime) { newValue in
+               notification.time = newValue
+               hasChanged.insert(notification)
+            }
          Spacer()
       }
       .padding(.vertical, 1)
@@ -212,7 +218,7 @@ struct SpecificTimeNotificationRow: View {
 
 struct RandomTimeNotificationRow: View {
    
-   @ObservedObject var notification: RandomTimeNotification
+   var notification: RandomTimeNotification
    
    var startTimeBinding: Binding<Date> {
       return Binding {
@@ -248,7 +254,7 @@ struct NotificationRow: View {
    
    @EnvironmentObject var habit: Habit
    
-   @ObservedObject var notification: Notification
+   var notification: Notification
    
    var index: Int
    
@@ -256,13 +262,8 @@ struct NotificationRow: View {
    
    var body: some View {
       ZStack {
-         if let specificTime = notification as? SpecificTimeNotification {
-            SpecificTimeNotificationRow(notification: specificTime)
-               .onChange(of: specificTime.time) { newValue in
-                  print("new Value: \(newValue)")
-                  print("specificTime.time: \(specificTime.time)")
-                  hasChanged.insert(specificTime)
-               }
+         if let specificTimeNotification = notification as? SpecificTimeNotification {
+            SpecificTimeNotificationRow(notification: specificTimeNotification, hasChanged: $hasChanged)
          } else if let randomTime = notification as? RandomTimeNotification {
             RandomTimeNotificationRow(notification: randomTime)
                .onChange(of: randomTime.startTime) { newValue in
