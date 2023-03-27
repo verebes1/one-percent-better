@@ -262,17 +262,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
       var habits: [Habit] = []
       do {
-         // fetch all habits
          let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
          habits = try context.fetch(fetchRequest)
       } catch {
          fatalError("Habit.swift \(#function) - unable to fetch habits! Error: \(error)")
       }
       
-      // Sort habits by order index
-      habits.sort(by: { habit1, habit2 in
-         habit1.orderIndex < habit2.orderIndex
-      })
+      // Sort by order index
+      habits.sort { $0.orderIndex < $1.orderIndex }
       
       // Ensure that habits are properly indexed 0 ... highest
       for (i, habit) in habits.enumerated() {
@@ -282,24 +279,18 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          }
       }
       
-      // Debug habit index order
-      //        print("---------")
-      //        for habit in habits {
-      //            print("index: \(habit.orderIndex), name: \(habit.name)")
-      //        }
-      
       return habits
    }
    
    /// Sort trackers by their index property
    func sortTrackers() {
       guard var trackerArray = self.trackers.array as? [Tracker] else {
-         fatalError("Can't convert habit.trackers into [Tracker]")
+         assertionFailure("Can't convert habit.trackers into [Tracker]")
+         return
       }
       
-      trackerArray.sort { tracker1, tracker2 in
-         tracker1.index < tracker2.index
-      }
+      // Sort by index
+      trackerArray.sort { $0.index < $1.index }
       
       // Ensure that trackers are properly indexed 0 ... highest
       for (i, tracker) in trackerArray.enumerated() {

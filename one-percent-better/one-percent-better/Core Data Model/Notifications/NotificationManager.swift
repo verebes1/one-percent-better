@@ -134,20 +134,22 @@ class NotificationManager {
    // MARK: Rebalance
    
    let semaphore = DispatchSemaphore(value: 0)
-//   let tasks =
+   var tasks: [Task<Void, Never>] = []
+   var notificationTaskDict: [Notification: Task<Void, Never>] = [:]
    
    func rebalanceHabitNotifications() {
+      // Force Task into serial queue
       queue.async {
-         print("~1~ Starting rebalance")
-         let _ = Task {
-            await NotificationManager.shared.rebalanceHabitNotifications()
-            self.semaphore.signal()
-//            print("~3~ Finish rebalance")
-         }
-//         print("~2~ Before wait rebalance")
-         self.semaphore.wait()
-         print("~4~ Done wait rebalance")
+         self.startRebalanceTask()
       }
+   }
+   
+   func startRebalanceTask() {
+      let task = Task {
+         await NotificationManager.shared.rebalanceHabitNotifications()
+         self.semaphore.signal()
+      }
+      self.semaphore.wait()
    }
    
    func rebalanceHabitNotifications() async {
@@ -215,7 +217,6 @@ class NotificationManager {
    
    func getNextNotification() -> (notification: Notification, date: Date, index: Int)? {
       let habits = Habit.habits(from: moc)
-
       var nextNotifsAndDates: [(Notification, Date)] = []
       
       for habit in habits {
