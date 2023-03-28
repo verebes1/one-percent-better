@@ -33,9 +33,9 @@ public class Notification: NSManagedObject {
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
-   func createScheduledNotification(index: Int, on date: Date) async -> String {
+   func createScheduledNotification(index: Int, on date: Date) async throws -> String {
       if unscheduledNotificationStrings.isEmpty {
-         let messages = await getAINotifications(NotificationManager.MAX_NOTIFS / 2)
+         let messages = try await getAINotifications(NotificationManager.MAX_NOTIFS / 2)
          await moc.perform {
             self.unscheduledNotificationStrings = messages
          }
@@ -50,10 +50,10 @@ public class Notification: NSManagedObject {
       return message
    }
    
-   func addNotificationRequest(index: Int, date: DateComponents) async {
+   func addNotificationRequest(index: Int, date: DateComponents) async throws {
       let identifier = "OnePercentBetter&\(id.uuidString)&\(index)"
       let dateObject = Cal.date(from: date)!
-      let message = await createScheduledNotification(index: index, on: dateObject)
+      let message = try await createScheduledNotification(index: index, on: dateObject)
       let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
       let notifContent = generateNotificationContent(message: message)
       let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
@@ -71,11 +71,11 @@ public class Notification: NSManagedObject {
              """
    }
    
-   func getAINotifications(_ n: Int) async -> [String] {
+   func getAINotifications(_ n: Int) async throws -> [String] {
       var notifs: [String] = []
       let adjectiveArray = ["creative": 7, "motivating": 5, "inspiring": 5, "funny": 7, "funny Gen Z": 8]
       for (adjective, count) in adjectiveArray {
-         if let someNotifs = await getAINotifications(count, adjective: adjective) {
+         if let someNotifs = try await getAINotifications(count, adjective: adjective) {
             notifs.append(contentsOf: someNotifs)
          }
       }
@@ -117,8 +117,10 @@ public class Notification: NSManagedObject {
       }
    }
    
-   func getAINotifications(_ n: Int, adjective: String, level: Int = 0) async -> [String]? {
+   func getAINotifications(_ n: Int, adjective: String, level: Int = 0) async throws -> [String]? {
       guard level <= 3 else { return nil }
+      
+      try Task.checkCancellation()
       
       var list: [String] = []
       var answer: String!
@@ -128,17 +130,17 @@ public class Notification: NSManagedObject {
          answer = chatGPTAnswer
       } catch {
          print("Error getting response from ChatGPT: \(error.localizedDescription)")
-         return await getAINotifications(n, adjective: adjective, level: level + 1)
+         return try await getAINotifications(n, adjective: adjective, level: level + 1)
       }
       
       guard let parsedList = parseGPTAnswerIntoArray(answer) else {
-         return await getAINotifications(n, adjective: adjective, level: level + 1)
+         return try await getAINotifications(n, adjective: adjective, level: level + 1)
       }
       list = parsedList
       
       // accept if received 80% or more of requested notifications
       guard list.count >= Int(0.8 * Double(n)) else {
-         return await getAINotifications(n, adjective: adjective, level: level + 1)
+         return try await getAINotifications(n, adjective: adjective, level: level + 1)
       }
       
       list = list.map { $0.trimmingCharacters(in: .whitespaces) }
@@ -180,6 +182,7 @@ public class Notification: NSManagedObject {
    }
    
    public override func prepareForDeletion() {
+      // Remove pending notification requests
       removePendingNotifications()
       NotificationManager.shared.rebalanceHabitNotifications()
    }

@@ -147,9 +147,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       let it = ImprovementTracker(context: moc, habit: self)
       self.addToTrackers(it)
       
-      sub = self.objectWillChange.sink { _ in
-         print("Habit \(self.name) will change!!!")
-      }
+//      sub = self.objectWillChange.sink { _ in
+//         print("Habit \(self.name) will change!!!")
+//      }
    }
    
    convenience init(moc: NSManagedObjectContext,

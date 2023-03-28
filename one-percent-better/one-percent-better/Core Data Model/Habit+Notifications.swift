@@ -24,7 +24,10 @@ extension Habit {
    
    func addNotifications(_ notifications: [Notification]) {
       for notif in notifications {
-         addNotification(notif)
+         self.addToNotifications(notif)
+      }
+      if !notifications.isEmpty {
+         NotificationManager.shared.rebalanceHabitNotifications()
       }
    }
 }
