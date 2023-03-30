@@ -30,10 +30,6 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
    /// The order index of the tracker
    @NSManaged public var index: Int
    
-   func toString() -> String {
-      return "Tracker"
-   }
-   
    func add<T>(dates: inout [Date], values: inout [T], date: Date, value: T) {
       // check for duplicate date
       if let dateIndex = dates.firstIndex(where: {day in Cal.isDate(day, inSameDayAs: date) }) {
@@ -47,7 +43,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
          dates = combined.map { $0.0 }
          values = combined.map { $0.1 }
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    func remove(on date: Date) {
@@ -56,7 +52,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
       } else if let t = self as? ImageTracker {
          t.remove(on: date)
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    func remove<T>(dates: inout [Date], values: inout [T], date: Date) {

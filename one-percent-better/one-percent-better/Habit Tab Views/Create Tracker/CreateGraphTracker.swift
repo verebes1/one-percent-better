@@ -38,7 +38,7 @@ struct CreateGraphTracker: View {
                .onTapGesture {
                   if !trackerName.isEmpty {
                      let _ = NumberTracker(context: moc, habit: habit, name: trackerName)
-                     moc.fatalSave()
+                     moc.assertSave()
                      nav.path.removeLast(2)
                   }
                }

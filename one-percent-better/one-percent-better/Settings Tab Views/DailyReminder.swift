@@ -59,7 +59,7 @@ struct DailyReminder: View {
          vm.updateDailyReminder(time: newTime)
       }
       .onDisappear {
-         moc.fatalSave()
+         moc.assertSave()
       }
    }
 }

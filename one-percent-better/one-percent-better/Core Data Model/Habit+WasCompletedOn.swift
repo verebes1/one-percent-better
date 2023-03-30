@@ -141,10 +141,12 @@ extension Habit {
          if date < startDate {
             updateStartDate(to: date)
          }
+         
+         removeNotifications(on: date)
       }
       
       improvementTracker?.update(on: date)
-      moc.fatalSave()
+      moc.assertSave()
    }
    
    func markNotCompleted(on date: Date) {
@@ -164,7 +166,8 @@ extension Habit {
       
       // Fix this at some point
       improvementTracker?.update(on: date)
-      moc.fatalSave()
+      addNotificationsBack(on: date)
+      moc.assertSave()
    }
    
    func toggle(on day: Date) {

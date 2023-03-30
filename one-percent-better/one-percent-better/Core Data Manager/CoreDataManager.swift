@@ -108,7 +108,7 @@ class CoreDataManager: ObservableObject {
 
 extension NSManagedObjectContext {
    
-   func fatalSave() {
+   func assertSave() {
       if self.hasChanges {
          do {
             try self.save()

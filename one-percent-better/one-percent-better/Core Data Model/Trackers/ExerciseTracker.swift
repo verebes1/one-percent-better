@@ -69,7 +69,7 @@ public class ExerciseTracker: Tracker {
          reps = combined.map { $0.1.0 }
          weights = combined.map { $0.1.1 }
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    func updateSets(sets: [WeightRep], on date: Date = Date()) {
@@ -100,7 +100,7 @@ public class ExerciseTracker: Tracker {
          reps = combined.map { $0.1.0 }
          weights = combined.map { $0.1.1 }
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    func getEntry(on date: Date) -> ExerciseEntryModel? {

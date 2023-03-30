@@ -19,6 +19,7 @@ public class ScheduledNotification: NSManagedObject {
    @NSManaged public var date: Date
    @NSManaged public var string: String
    @NSManaged public var notification: Notification
+   @NSManaged public var isScheduled: Bool
    
    convenience init(context: NSManagedObjectContext, index: Int, date: Date, string: String, notification: Notification) {
       self.init(context: context)
@@ -26,5 +27,6 @@ public class ScheduledNotification: NSManagedObject {
       self.date = date
       self.string = string
       self.notification = notification
+      self.isScheduled = true
    }
 }

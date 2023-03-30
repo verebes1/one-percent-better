@@ -13,7 +13,7 @@ class NotificationManager {
    
    static var shared = NotificationManager()
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
-   static let MAX_NOTIFS = 64
+   static let MAX_NOTIFS = 60
    
    lazy var queue = DispatchQueue(label: "NotificationManager", qos: .userInitiated)
    
@@ -90,7 +90,6 @@ class NotificationManager {
    }
    
    func cleanUpScheduledNotifications() throws {
-      let habits = Habit.habits(from: moc)
       let today = Date()
       var nextNotifDate: Date?
       if let (_, date, _) = try getNextNotification() {
@@ -154,7 +153,6 @@ class NotificationManager {
    let semaphore = DispatchSemaphore(value: 0)
    var rebalanceTask: Task<Void, Never>?
    var shouldRestartRebalance = false
-   var notificationTaskDict: [Notification: Task<Void, Never>] = [:]
    
    func rebalanceHabitNotifications() {
       if let rt = rebalanceTask {
@@ -175,6 +173,10 @@ class NotificationManager {
             rebalanceTask = nil
          }
       }
+   }
+   
+   func cancelRebalance() {
+      rebalanceTask?.cancel()
    }
    
    func rebalanceHabitNotificationsTask() async throws {
@@ -236,8 +238,7 @@ class NotificationManager {
       try cleanUpScheduledNotifications()
       
       await moc.perform {
-         self.moc.fatalSave()
-         self.moc.refreshAllObjects()
+         self.moc.assertSave()
       }
       
       print("~o~ Finished rebalancing habit notifications! ~o~")

@@ -32,7 +32,7 @@ struct NotificationSelection: View {
       habit.removeFromNotifications(notifToBeDeleted)
       notifToBeDeleted.reset()
       moc.delete(notifToBeDeleted)
-      moc.fatalSave()
+      moc.assertSave()
    }
    
    @MainActor func addNotification(_ notification: Notification) async {

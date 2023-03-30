@@ -25,10 +25,6 @@ public class ImageTracker: Tracker {
         self.values = []
     }
     
-    override func toString() -> String {
-        return "Image"
-    }
-    
     func add(date: Date, value: UIImage) {
         guard let imageData = value.png() else {
             return

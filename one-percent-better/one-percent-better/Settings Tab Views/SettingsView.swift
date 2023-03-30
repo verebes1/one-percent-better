@@ -35,7 +35,7 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       
       if settingsArr.isEmpty {
          let _ = Settings(myContext: moc)
-         moc.fatalSave()
+         moc.assertSave()
       } else if settingsArr.count > 1 {
          assert(false, "Too many settings entities")
       }
@@ -72,60 +72,21 @@ class SettingsViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          return
       }
       
-      let notifications = generateNotifications(n: 64)
-      
       var date = DateComponents()
       date.hour = Cal.component(.hour, from: settings.dailyReminderTime)
       date.minute = Cal.component(.minute, from: settings.dailyReminderTime)
-      
-      setupNotifications(from: Date(), index: 0, time: date, notifications: notifications)
-   }
-   
-   func generateNotifications(n: Int) -> [UNMutableNotificationContent] {      
-      var notifs: [UNMutableNotificationContent] = []
-      for _ in 0 ..< n {
-         let content = UNMutableNotificationContent()
-         content.title = "Daily Reminder"
-         content.subtitle = DailyReminderNotifications.messages.randomElement()!
-         content.sound = UNNotificationSound.default
-         notifs.append(content)
-      }
-      return notifs
-   }
-   
-   /// Set up the next N notifications, where N = messages.count
-   /// - Parameters:
-   ///   - date: The start date (including this day)
-   ///   - time: What time to send the notification
-   ///   - messages: The next N notification messages to use
-   ///
-   func setupNotifications(from date: Date, index: Int, time: DateComponents, notifications: [UNMutableNotificationContent]) {
-      
-      for i in 0 ..< notifications.count {
-         if (i + index) >= 64 {
-            break
-         }
-         let dayComponents = Cal.dateComponents([.day, .month, .year,], from: Cal.add(days: i, to: date))
-         var dayAndTime = time
-         dayAndTime.day = dayComponents.day
-         dayAndTime.month = dayComponents.month
-         dayAndTime.year = dayComponents.year
-         let trigger = UNCalendarNotificationTrigger(dateMatching: dayAndTime, repeats: false)
-         
-         let offset = index + i
-         let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder-\(offset)", content: notifications[i], trigger: trigger)
-         UNUserNotificationCenter.current().add(request)
-      }
+
+      let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+      let content = UNMutableNotificationContent()
+      content.title = "Daily Reminder"
+      content.subtitle = "Make it a habit. Believe in yourself."
+      content.sound = UNNotificationSound.default
+      let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder", content: content, trigger: trigger)
+      UNUserNotificationCenter.current().add(request)
    }
    
    func removeNotification() {
       UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-DailyReminder"])
-   }
-   
-   func removeAllNotifications() {
-      for i in 0 ..< 64 {
-         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["OnePercentBetter-DailyReminder-\(i)"])
-      }
    }
    
    func updateDailyReminder(to enabled: Bool) {
@@ -203,9 +164,9 @@ struct SettingsView: View {
                            .environmentObject(vm)
                      }
                      
-                     NavigationLink(value: SettingsNavRoute.habitNotifications) {
-                        IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
-                     }
+//                     NavigationLink(value: SettingsNavRoute.habitNotifications) {
+//                        IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
+//                     }
                   }
                   .listRowBackground(Color.cardColor)
                   

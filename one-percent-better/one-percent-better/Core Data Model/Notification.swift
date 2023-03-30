@@ -93,7 +93,7 @@ public class Notification: NSManagedObject {
          "A friendly nudge: It's time to XX. You've got this!",
          "It's XX time! Stick with it, and you'll see progress in no time."
       ]
-      return notifs.map { $0.replacingOccurrences(of: "XX", with: habit.name) }
+      return notifs.map { $0.replacingOccurrences(of: "XX", with: habit.name.lowercased()) }
    }
    
    func parseGPTAnswerIntoArray(_ jsonString: String) -> [String]? {

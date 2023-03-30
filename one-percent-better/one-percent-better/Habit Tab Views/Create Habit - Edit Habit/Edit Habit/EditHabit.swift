@@ -45,7 +45,7 @@ struct EditHabit: View {
       // Update order indices
       let _ = Habit.habits(from: moc)
       
-      moc.fatalSave()
+      moc.assertSave()
    }
    
    /// Check if the user can save or needs to make changes
@@ -201,7 +201,7 @@ struct EditHabit: View {
                if try canSave() {
                   habit.name = newHabitName
                   moc.perform {
-                     self.moc.fatalSave()
+                     self.moc.assertSave()
                   }
                }
             } catch {

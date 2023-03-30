@@ -51,7 +51,7 @@ public class TimeTracker: Tracker {
          dates = combined.map { $0.0 }
          values = combined.map { $0.1 }
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    func getValue(on date: Date) -> Int? {

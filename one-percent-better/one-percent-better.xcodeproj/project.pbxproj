@@ -351,6 +351,7 @@
 		80639E60293D685500A48F16 /* ExerciseGraphCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseGraphCard.swift; sourceTree = "<group>"; };
 		80639E62293D6B1500A48F16 /* StatisticsCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsCardView.swift; sourceTree = "<group>"; };
 		80639E64293FEFAB00A48F16 /* InsightsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsTabView.swift; sourceTree = "<group>"; };
+		8068D9F629D3F342006F025E /* opb 18.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 18.xcdatamodel"; sourceTree = "<group>"; };
 		806BB18529A4388F006549A9 /* XTimesPerDayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerDayTests.swift; sourceTree = "<group>"; };
 		806BB18729A57F2F006549A9 /* opb 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 14.xcdatamodel"; sourceTree = "<group>"; };
 		806BB18829A5B751006549A9 /* SpecificWeekdaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificWeekdaysTests.swift; sourceTree = "<group>"; };
@@ -1630,6 +1631,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				8068D9F629D3F342006F025E /* opb 18.xcdatamodel */,
 				80744F6129B4255100DAF196 /* opb 17.xcdatamodel */,
 				80744F5029B0084C00DAF196 /* opb 16.xcdatamodel */,
 				806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */,
@@ -1648,7 +1650,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 80744F6129B4255100DAF196 /* opb 17.xcdatamodel */;
+			currentVersion = 8068D9F629D3F342006F025E /* opb 18.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

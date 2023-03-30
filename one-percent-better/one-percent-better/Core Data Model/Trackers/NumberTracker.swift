@@ -23,10 +23,6 @@ public class NumberTracker: GraphTracker {
         self.values = []
     }
     
-    override func toString() -> String {
-        return "Number"
-    }
-    
     // MARK: - Encodable
     enum CodingKeys: CodingKey {
         case name

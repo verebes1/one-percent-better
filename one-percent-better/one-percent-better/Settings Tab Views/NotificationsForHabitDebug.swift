@@ -23,6 +23,7 @@ struct NotificationsForHabitDebug: View {
                         Text("string: ").bold() + Text("\(notif.string)")
                         Text("date: ").bold() + Text("\(notif.date)")
                         Text("id: ").bold() + Text("\(notif.notification.id)")
+                        Text("isScheduled: ").bold() + Text(String(describing: notif.isScheduled))
                      }
                   }
                }

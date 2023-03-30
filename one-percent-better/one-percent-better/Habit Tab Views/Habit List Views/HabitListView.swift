@@ -62,7 +62,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
                                  by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
-      moc.fatalSave()
+      moc.assertSave()
    }
    
    func delete(from source: IndexSet) {
@@ -80,7 +80,7 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
                                  by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
-      moc.fatalSave()
+      moc.assertSave()
    }
    
 }

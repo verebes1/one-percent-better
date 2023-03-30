@@ -31,7 +31,7 @@ public class GraphTracker: Tracker {
          dates = combined.map { $0.0 }
          values = combined.map { $0.1 }
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    override func remove(on date: Date) {
@@ -39,7 +39,7 @@ public class GraphTracker: Tracker {
          dates.remove(at: index)
          values.remove(at: index)
       }
-      context.fatalSave()
+      context.assertSave()
    }
    
    func getValue(date: Date) -> String? {

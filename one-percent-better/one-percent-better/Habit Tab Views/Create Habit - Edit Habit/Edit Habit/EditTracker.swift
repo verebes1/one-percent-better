@@ -64,7 +64,7 @@ struct EditTracker: View {
    
    func saveProperties() {
       tracker.name = newTrackerName
-      moc.fatalSave()
+      moc.assertSave()
    }
    
    var body: some View {
