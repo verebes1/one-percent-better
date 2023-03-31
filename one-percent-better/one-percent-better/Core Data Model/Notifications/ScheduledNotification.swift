@@ -11,10 +11,6 @@ import CoreData
 
 @objc(ScheduledNotification)
 public class ScheduledNotification: NSManagedObject {
-   @nonobjc public class func fetchRequest() -> NSFetchRequest<ScheduledNotification> {
-       return NSFetchRequest<ScheduledNotification>(entityName: "ScheduledNotification")
-   }
-
    @NSManaged public var index: Int
    @NSManaged public var date: Date
    @NSManaged public var string: String
@@ -28,5 +24,11 @@ public class ScheduledNotification: NSManagedObject {
       self.string = string
       self.notification = notification
       self.isScheduled = true
+   }
+}
+
+extension ScheduledNotification: HasFetchRequest {
+   static func fetchRequest<ScheduledNotification>() -> NSFetchRequest<ScheduledNotification> {
+      return NSFetchRequest<ScheduledNotification>(entityName: "ScheduledNotification")
    }
 }

@@ -93,14 +93,7 @@ class NotificationManager {
       if let (_, date, _) = try getNextNotification() {
          nextNotifDate = date
       }
-      var scheduledNotifications: [ScheduledNotification]
-      do {
-         let fetchRequest: NSFetchRequest<ScheduledNotification> = ScheduledNotification.fetchRequest()
-         scheduledNotifications = try moc.fetch(fetchRequest)
-      } catch {
-         assertionFailure("Unable to fetch scheduled notifications")
-         return
-      }
+      var scheduledNotifications = moc.fetchArray(ScheduledNotification.self)
       
       for scheduledNotification in scheduledNotifications {
          if scheduledNotification.date < today {

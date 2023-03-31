@@ -261,14 +261,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
-      var habits: [Habit] = []
-      do {
-         let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
-         habits = try context.fetch(fetchRequest)
-      } catch {
-         fatalError("Habit.swift \(#function) - unable to fetch habits! Error: \(error)")
-      }
-      
+      var habits = context.fetchArray(Habit.self)
       // Sort by order index
       habits.sort { $0.orderIndex < $1.orderIndex }
       
@@ -279,7 +272,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             habit.orderIndex = i
          }
       }
-      
       return habits
    }
    
@@ -439,13 +431,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
 }
 
-// MARK: Generated accessors for trackers
-extension Habit {
-   
-   @nonobjc public class func fetchRequest() -> NSFetchRequest<Habit> {
+// MARK: Fetch Request
+
+extension Habit: HasFetchRequest {
+   static func fetchRequest<Habit>() -> NSFetchRequest<Habit> {
       return NSFetchRequest<Habit>(entityName: "Habit")
    }
-   
+}
+
+// MARK: Generated accessors for trackers
+extension Habit {
    @objc(insertObject:inTrackersAtIndex:)
    @NSManaged public func insertIntoTrackers(_ value: Tracker, at idx: Int)
    
