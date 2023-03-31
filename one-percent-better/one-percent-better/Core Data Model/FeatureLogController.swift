@@ -45,10 +45,7 @@ class FeatureLogController {
    }
    
    func fetchFeatureLog() -> FeatureLog? {
-      guard let featureLogs = try? moc.fetch(FeatureLog.fetchRequest()) else {
-         return nil
-      }
-      
+      let featureLogs = moc.fetchArray(FeatureLog.self)
       if featureLogs.isEmpty {
          return FeatureLog(context: moc)
       }
@@ -62,11 +59,7 @@ class FeatureLogController {
    }
    
    func setUpSettings() {
-      guard let settings = try? moc.fetch(Settings.fetchRequest()) else {
-         assertionFailure("Unable to fetch Settings entity")
-         return
-      }
-      
+      let settings = moc.fetchArray(Settings.self)
       if settings.isEmpty {
          let _ = Settings(myContext: moc)
          return

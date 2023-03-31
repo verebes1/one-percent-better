@@ -102,6 +102,7 @@
 		8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */; };
 		8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282A29C413E2003D27CE /* NotificationManager.swift */; };
 		8040282D29C96523003D27CE /* SingleNotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282C29C96523003D27CE /* SingleNotificationSelection.swift */; };
+		8042303029D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8042302F29D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift */; };
 		8043A92528E7A414001D0E8C /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8043A92428E7A414001D0E8C /* Timeline.swift */; };
 		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
@@ -313,6 +314,7 @@
 		8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsForHabitDebug.swift; sourceTree = "<group>"; };
 		8040282A29C413E2003D27CE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		8040282C29C96523003D27CE /* SingleNotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleNotificationSelection.swift; sourceTree = "<group>"; };
+		8042302F29D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObjectContext+NoErrorFetch.swift"; sourceTree = "<group>"; };
 		8043A92428E7A414001D0E8C /* Timeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -613,6 +615,7 @@
 				80385CDB285BEE5900CBDF71 /* Extensions.swift */,
 				80385CDD285BEE5900CBDF71 /* NSPersistentStoreCoordinator */,
 				801858992863A7AB003DE454 /* UIImage.swift */,
+				8042302F29D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1193,6 +1196,7 @@
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
 				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
+				8042303029D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
 				8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */,
 				8062AA3B2900AAE900903123 /* Settings.swift in Sources */,

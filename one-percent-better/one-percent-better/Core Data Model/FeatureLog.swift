@@ -85,31 +85,26 @@ public class FeatureLog: NSManagedObject, Codable {
       try container.encode(hasTimesPerWeekFrequency, forKey: .hasTimesPerWeekFrequency)
       try container.encode(hasNewImprovementScore, forKey: .hasNewImprovementScore)
    }
-   
-   // MARK: Fetch Request
-   
-   @nonobjc public class func fetchRequest() -> NSFetchRequest<FeatureLog> {
-      return NSFetchRequest<FeatureLog>(entityName: "FeatureLog")
-   }
-   
+  
    class func getFeatureLog(from context: NSManagedObjectContext) -> FeatureLog? {
-      var featureLogs: [FeatureLog] = []
-      do {
-         // fetch all habits
-         let fetchRequest: NSFetchRequest<FeatureLog> = FeatureLog.fetchRequest()
-         featureLogs = try context.fetch(fetchRequest)
-      } catch {
-         fatalError("FeatureLog.swift \(#function) - unable to fetch featureLog! Error: \(error)")
-      }
-      
-      guard !featureLogs.isEmpty else {
-         fatalError("No feature log!")
+      let featureLogs = context.fetchArray(FeatureLog.self)
+      if featureLogs.isEmpty {
+         return FeatureLog(context: context)
       }
       
       guard featureLogs.count == 1 else {
-         fatalError("Too many feature logs! Count: \(featureLogs.count)")
+         assertionFailure("Too many FeatureLog entities")
+         return nil
       }
       
-      return featureLogs[0]
+      return featureLogs.first
+   }
+}
+
+// MARK: Fetch Request
+
+extension FeatureLog: HasFetchRequest {
+   public class func fetchRequest<FeatureLog>() -> NSFetchRequest<FeatureLog> {
+      return NSFetchRequest<FeatureLog>(entityName: "FeatureLog")
    }
 }
