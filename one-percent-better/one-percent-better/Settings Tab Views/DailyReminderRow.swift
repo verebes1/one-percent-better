@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DailyReminderRow: View {
    
-   var settings: Settings
+   @EnvironmentObject var settings: Settings
    
    var formatter: DateFormatter {
       let formatter = DateFormatter()
@@ -39,7 +39,8 @@ struct DailyReminderRow_Previews: PreviewProvider {
     static var previews: some View {
        VStack {
           let settings = Settings(myContext: CoreDataManager.previews.mainContext)
-          DailyReminderRow(settings: settings)
+          DailyReminderRow()
+             .environmentObject(settings)
        }
     }
 }

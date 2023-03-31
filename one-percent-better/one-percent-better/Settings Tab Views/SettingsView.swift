@@ -60,7 +60,8 @@ struct SettingsView: View {
                      
                      Section(header: Text("Notifications")) {
                         NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
-                           DailyReminderRow(settings: settings)
+                           DailyReminderRow()
+                              .environmentObject(settings)
                         }
                         
                         // Habit Notifications Debug View
