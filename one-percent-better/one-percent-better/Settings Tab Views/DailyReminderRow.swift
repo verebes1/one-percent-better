@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DailyReminderRow: View {
    
-   @EnvironmentObject var vm: SettingsViewModel
+   var settings: Settings
    
    var formatter: DateFormatter {
       let formatter = DateFormatter()
@@ -24,8 +24,7 @@ struct DailyReminderRow: View {
        HStack {
           IconTextRow(title: "Daily Reminder", icon: "bell.fill", color: .pink)
           Spacer()
-          if let settings = vm.settings,
-             settings.dailyReminderEnabled {
+          if settings.dailyReminderEnabled {
              Text("\(formatter.string(from: settings.dailyReminderTime))")
                 .foregroundColor(.secondaryLabel)
           } else {
@@ -38,6 +37,9 @@ struct DailyReminderRow: View {
 
 struct DailyReminderRow_Previews: PreviewProvider {
     static var previews: some View {
-        DailyReminderRow()
+       VStack {
+          let settings = Settings(myContext: CoreDataManager.previews.mainContext)
+          DailyReminderRow(settings: settings)
+       }
     }
 }

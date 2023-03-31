@@ -42,7 +42,7 @@ struct ContentView: View {
             Label("Insights", systemImage: "chart.bar.fill")
          }
 
-         SettingsView(vm: SettingsViewModel(moc))
+         SettingsView()
             .tabItem {
                Label("Settings", systemImage: "gearshape.fill")
             }

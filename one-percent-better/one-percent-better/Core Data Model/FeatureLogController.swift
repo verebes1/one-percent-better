@@ -38,6 +38,24 @@ class FeatureLogController {
       }
    }
    
+   func setUp() {
+      refetchFeatureLog()
+      setUpSettings()
+      
+      setUpID()
+      setUpTimesCompleted()
+      setUpPercentImprovementTrackers()
+      setUpTrackerToHabitRelationships()
+      setUpTrackerIndices()
+      setUpFrequencyDates()
+      setUpNewImprovement()
+      setUpTimesPerWeekFrequency()
+      setUpNewImprovementScore()
+      
+      // TODO: TEMP 1.0.9
+//      resetNotifications()
+   }
+   
    func refetchFeatureLog() {
       var featureLogs: [FeatureLog] = []
       do {
@@ -57,21 +75,25 @@ class FeatureLogController {
       }
    }
    
-   func setUp() {
-      refetchFeatureLog()
+   func setUpSettings() {
+      var settings: [Settings] = []
+      do {
+         settings = try context.fetch(Settings.fetchRequest())
+      } catch {
+         assertionFailure("Unable to fetch Settings entity")
+         return
+      }
       
-      setUpID()
-      setUpTimesCompleted()
-      setUpPercentImprovementTrackers()
-      setUpTrackerToHabitRelationships()
-      setUpTrackerIndices()
-      setUpFrequencyDates()
-      setUpNewImprovement()
-      setUpTimesPerWeekFrequency()
-      setUpNewImprovementScore()
+      if settings.isEmpty {
+         let _ = Settings(myContext: context)
+         setUpSettings()
+         return
+      }
       
-      // TODO: TEMP 1.0.9
-//      resetNotifications()
+      guard settings.count == 1 else {
+         assertionFailure("Wrong count of settings")
+         return
+      }
    }
    
    func resetNotifications() {

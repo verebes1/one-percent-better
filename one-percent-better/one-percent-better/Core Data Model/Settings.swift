@@ -28,9 +28,7 @@ public class Settings: NSManagedObject {
    class func settings(from context: NSManagedObjectContext) -> [Settings] {
       var settings: [Settings] = []
       do {
-         // fetch all settings
-         let fetchRequest: NSFetchRequest<Settings> = Settings.fetchRequest()
-         settings = try context.fetch(fetchRequest)
+         settings = try context.fetch(Settings.fetchRequest())
       } catch {
          fatalError("Habit.swift \(#function) - unable to fetch habits! Error: \(error)")
       }

@@ -1,5 +1,5 @@
 //
-//  ProgressView.swift
+//  HabitProgessView.swift
 //  one-percent-better-swiftui
 //
 //  Created by Jeremy Cook on 5/18/22.
@@ -13,7 +13,7 @@ enum ProgressViewNavRoute: Hashable {
    case newTracker(Habit)
 }
 
-struct ProgressView: View {
+struct HabitProgessView: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var habit: Habit
@@ -102,7 +102,7 @@ struct ProgressView_Previews: PreviewProvider {
       let habit = progressData()
       return(
          NavigationView {
-            ProgressView()
+            HabitProgessView()
                .environmentObject(habit)
                .environmentObject(HabitTabNavPath())
          }

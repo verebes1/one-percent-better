@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct ChangeAppearanceRow: View {
-   
-   @EnvironmentObject var vm: SettingsViewModel
-   
     var body: some View {
        HStack {
           IconTextRow(title: "Appearance", icon: "moon.fill", color: .blue)
