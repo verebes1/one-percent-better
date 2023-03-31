@@ -97,8 +97,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
-   var sub: AnyCancellable? = nil
-   
    // MARK: - init
    
    convenience init(context: NSManagedObjectContext,
@@ -146,10 +144,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       // Auto trackers
       let it = ImprovementTracker(context: moc, habit: self)
       self.addToTrackers(it)
-      
-//      sub = self.objectWillChange.sink { _ in
-//         print("Habit \(self.name) will change!!!")
-//      }
    }
    
    convenience init(moc: NSManagedObjectContext,
