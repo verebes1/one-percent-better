@@ -119,13 +119,6 @@ struct SettingsView: View {
                      ActivityViewController(jsonFile: $exportJson)
                   }
                }
-               else {
-                  VStack(spacing: 5) {
-                     ProgressView()
-                     Text("Loading settings...")
-                        .foregroundColor(.label)
-                  }
-               }
             }
          }
          .navigationTitle("Settings")
