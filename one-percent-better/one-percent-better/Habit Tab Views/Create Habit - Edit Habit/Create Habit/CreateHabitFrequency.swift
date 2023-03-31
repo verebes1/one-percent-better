@@ -29,6 +29,8 @@ struct CreateHabitFrequency: View {
    
    @Binding var hideTabBar: Bool
    
+   @State private var isGoingToNotifications = false
+   
    var body: some View {
       Background {
          VStack {
@@ -42,8 +44,23 @@ struct CreateHabitFrequency: View {
             
             Spacer()
             
-            NavigationLink(value: ChooseFrequencyRoute.next(habit, frequencySelection)) {
+//            NavigationLink(value: ChooseFrequencyRoute.next(habit, frequencySelection)) {
+//               BottomButton(label: "Next")
+//            }
+            
+            Button {
+               isGoingToNotifications = true
+               nav.path.append(ChooseFrequencyRoute.next(habit, frequencySelection))
+            } label: {
                BottomButton(label: "Next")
+            }
+         }
+         .onAppear {
+            isGoingToNotifications = false
+         }
+         .onDisappear {
+            if !isGoingToNotifications {
+               moc.delete(habit)
             }
          }
          .toolbar(.hidden, for: .tabBar)

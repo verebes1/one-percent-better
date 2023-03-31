@@ -25,6 +25,8 @@ struct CreateHabitName: View {
    
    @Binding var hideTabBar: Bool
    
+   @State private var isGoingToFrequency = false
+   
    var body: some View {
       Background {
          VStack {
@@ -73,17 +75,10 @@ struct CreateHabitName: View {
             
             Spacer().frame(height: 10)
             
-//            if habitName.isEmpty {
-//               BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
-//            } else {
-//               NavigationLink(value: CreateFrequencyRoute.createFrequency(habitName)) {
-//                  BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
-//               }
-//            }
-            
             Button {
                if !habitName.isEmpty {
                   let habit = Habit(moc: moc, name: habitName, id: UUID())
+                  isGoingToFrequency = true
                   nav.path.append(CreateFrequencyRoute.createFrequency(habit))
                }
             } label: {
@@ -99,15 +94,15 @@ struct CreateHabitName: View {
          }
       }
       .onAppear {
+         isGoingToFrequency = false
          nameInFocus = true
          hideTabBar = true
       }
-      // TODO: 1.0.9 FIX THIS
-//      .onDisappear {
-//         if releaseTabBar {
-//            hideTabBar = false
-//         }
-//      }
+      .onDisappear {
+         if !isGoingToFrequency {
+            hideTabBar = false
+         }
+      }
       .toolbar {
          ToolbarItem(placement: .principal) {
             // This sets the back button as "Back" instead of the title of the previous screen

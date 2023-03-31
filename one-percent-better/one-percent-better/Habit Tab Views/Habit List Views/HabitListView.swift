@@ -147,6 +147,7 @@ struct HabitListView: View {
          }
             .onAppear {
                hwvm.updateDayToToday()
+//               hideTabBar = false
             }
             .onChange(of: scenePhase, perform: { newPhase in
                if newPhase == .active {

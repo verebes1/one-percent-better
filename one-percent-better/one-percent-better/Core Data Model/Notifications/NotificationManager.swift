@@ -58,7 +58,6 @@ class NotificationManager {
                dateComponents.year != nil,
                dateComponents.hour != nil,
                dateComponents.minute != nil else {
-            assert(false)
             continue
          }
          
@@ -85,7 +84,6 @@ class NotificationManager {
       }
       pendingNotifications = pendingNotifications.sorted()
       
-      assert(pendingNotificationRequests.count == pendingNotifications.count, "Pending notifications doesn't match calendar triggered notifications")
       return pendingNotifications
    }
    

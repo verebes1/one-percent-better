@@ -190,9 +190,7 @@ struct SettingsView: View {
                   }
                   .listRowBackground(Color.cardColor)
                   
-                  Section(footer: versionFooter) {
-                     //                     Text("v1.0.6")
-                  }
+                  Section(footer: versionFooter) {}
                   .listRowBackground(Color.cardColor)
                }
                .listStyle(.insetGrouped)
