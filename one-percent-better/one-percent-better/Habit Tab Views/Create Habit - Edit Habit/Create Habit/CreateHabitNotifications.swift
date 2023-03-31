@@ -20,15 +20,15 @@ struct CreateHabitNotifications: View {
    
    @State private var hasChanged: Set<Notification> = []
    
+   var habitFrequency: HabitFrequency
+   
    init(habit: Habit, habitFrequency: HabitFrequency, hideTabBar: Binding<Bool>) {
       self.habit = habit
       self._hideTabBar = hideTabBar
-      let _ = habit.changeFrequency(to: habitFrequency)
+      self.habitFrequency = habitFrequency
    }
    
    var body: some View {
-      let _ = Self.printChanges(self)
-      return (
       Background {
          VStack {
             Spacer()
@@ -47,9 +47,11 @@ struct CreateHabitNotifications: View {
                   nav.path.removeLast(3)
                }
          }
-         .toolbar(.hidden, for: .tabBar)
       }
-      )
+      .onAppear {
+         let _ = habit.changeFrequency(to: habitFrequency)
+      }
+      .toolbar(.hidden, for: .tabBar)
    }
 }
 
