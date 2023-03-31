@@ -63,11 +63,14 @@ public class RandomTimeNotification: Notification {
          fatalError("Unable to get hour and minutes for random notification")
       }
       
-      let startMinutes = startHour * 60 + startMinute
-      let endMinutes = endHour * 60 + endMinute
+      var startMinutes = startHour * 60 + startMinute
+      var endMinutes = endHour * 60 + endMinute
       
-      guard startMinutes <= endMinutes else {
-         fatalError("Bad random time notification start and end times")
+      // TODO: 1.0.9 fix this properly by not allowing it when saving
+      if startMinutes >= endMinutes {
+         let temp = startMinutes
+         startMinutes = endMinutes
+         endMinutes = temp
       }
       let randomTime = Int.random(in: startMinutes ..< endMinutes)
       let randomHour = randomTime / 60

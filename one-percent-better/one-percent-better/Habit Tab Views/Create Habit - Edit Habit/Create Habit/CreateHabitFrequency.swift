@@ -55,15 +55,6 @@ struct CreateHabitFrequency: View {
                BottomButton(label: "Next")
             }
          }
-         .onAppear {
-            isGoingToNotifications = false
-         }
-         .onDisappear {
-            if !isGoingToNotifications {
-               moc.delete(habit)
-            }
-         }
-         .toolbar(.hidden, for: .tabBar)
          .navigationDestination(for: ChooseFrequencyRoute.self) { [nav] route in
             if case let .next(habit, habitFrequency) = route {
                CreateHabitNotifications(habit: habit, habitFrequency: habitFrequency, hideTabBar: $hideTabBar)
@@ -71,6 +62,19 @@ struct CreateHabitFrequency: View {
             }
          }
       }
+      .onAppear {
+         isGoingToNotifications = false
+      }
+      .onDisappear {
+         if !isGoingToNotifications {
+            Task {
+               moc.perform {
+                  moc.delete(habit)
+               }
+            }
+         }
+      }
+      .toolbar(.hidden, for: .tabBar)
    }
 }
 

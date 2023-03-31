@@ -36,7 +36,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    @NSManaged public var id: UUID
    
    /// The name of the habit
-   @NSManaged public var name: String
+   @NSManaged private(set) var name: String
    
    /// The index of the habit in the table (to keep track of ordering)
    @NSManaged public var orderIndex: Int
@@ -172,7 +172,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.improvementTracker?.recalculateScoreFromBeginning()
    }
    
-   // MARK: - Properties
+   func updateName(to newName: String) {
+      guard newName != name else { return }
+      self.name = newName
+      for notification in notificationsArray {
+         notification.completeReset()
+      }
+      NotificationManager.shared.rebalanceHabitNotifications()
+   }
    
    // TODO: fix this for 1.0.8!!
    /// The longest streak the user has completed for this habit

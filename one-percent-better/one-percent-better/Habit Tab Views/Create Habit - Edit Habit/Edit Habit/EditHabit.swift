@@ -51,7 +51,7 @@ struct EditHabit: View {
    /// Check if the user can save or needs to make changes
    /// - Returns: True if can save, false if changes needed
    func canSave() throws -> Bool {
-      if newHabitName.isEmpty || newHabitName == "" {
+      if newHabitName.isEmpty || newHabitName == "" || newHabitName.trimmingCharacters(in: .whitespaces).isEmpty {
          throw EditHabitError.emptyHabitName
       }
       return true
@@ -198,8 +198,8 @@ struct EditHabit: View {
          }
          .onDisappear {
             do {
-               if try canSave() {
-                  habit.name = newHabitName
+               if try canSave() && newHabitName != habit.name {
+                  habit.updateName(to: newHabitName)
                   moc.perform {
                      self.moc.assertSave()
                   }

@@ -173,11 +173,19 @@ public class Notification: NSManagedObject {
       }
    }
    
+   func completeReset() {
+      reset()
+      self.unscheduledNotificationStrings.removeAll()
+   }
+   
    func removePendingNotifications() {
-      for i in 0 ..< NotificationManager.MAX_NOTIFS {
-         let notifID = "OnePercentBetter&\(id)&\(i)"
-         print("Removing notification \(notifID)")
-         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+      let localID = id
+      Task {
+         for i in 0 ..< NotificationManager.MAX_NOTIFS {
+            let notifID = "OnePercentBetter&\(localID)&\(i)"
+            print("Removing notification \(notifID)")
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+         }
       }
    }
    

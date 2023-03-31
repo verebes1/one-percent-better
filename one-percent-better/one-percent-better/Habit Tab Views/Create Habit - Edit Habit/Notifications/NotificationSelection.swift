@@ -69,15 +69,13 @@ struct NotificationSelection: View {
                   Label("Specific Time", systemImage: "clock")
                }
 
-//               Button {
-//                  animateBell.toggle()
-//                  let notif = RandomTimeNotification(myContext: moc)
-//                  requestNotifPermission()
-//                  habit.addToNotifications(notif)
-////                  habit.addNotification(notif)
-//               } label: {
-//                  Label("Random Time", systemImage: "dice")
-//               }
+               Button {
+                  animateBell.toggle()
+                  let notif = RandomTimeNotification(myContext: moc)
+                  Task { await addNotification(notif) }
+               } label: {
+                  Label("Random Time", systemImage: "dice")
+               }
             } label: {
                VStack {
                   Button {
@@ -220,20 +218,17 @@ struct RandomTimeNotificationRow: View {
    
    var notification: RandomTimeNotification
    
-   var startTimeBinding: Binding<Date> {
-      return Binding {
-         notification.startTime
-      } set: { newDate, _ in
-         notification.startTime = newDate
-      }
-   }
+   @State private var startTime: Date
    
-   var endTimeBinding: Binding<Date> {
-      return Binding {
-         notification.endTime
-      } set: { newDate, _ in
-         notification.endTime = newDate
-      }
+   @State private var endTime: Date
+   
+   @Binding var hasChanged: Set<Notification>
+   
+   init(notification: RandomTimeNotification, hasChanged: Binding<Set<Notification>>) {
+      self.notification = notification
+      self._hasChanged = hasChanged
+      self._startTime = State(initialValue: notification.startTime)
+      self._endTime = State(initialValue: notification.endTime)
    }
    
    var body: some View {
@@ -241,9 +236,17 @@ struct RandomTimeNotificationRow: View {
          Text("Random time between")
          HStack {
             Spacer()
-            JustDatePicker(time: startTimeBinding)
+            JustDatePicker(time: $startTime)
+               .onChange(of: startTime) { newValue in
+                  notification.startTime = newValue
+                  hasChanged.insert(notification)
+               }
             Text(" and ")
-            JustDatePicker(time: endTimeBinding)
+            JustDatePicker(time: $endTime)
+               .onChange(of: endTime) { newValue in
+                  notification.endTime = newValue
+                  hasChanged.insert(notification)
+               }
             Spacer()
          }
       }
@@ -265,13 +268,7 @@ struct NotificationRow: View {
          if let specificTimeNotification = notification as? SpecificTimeNotification {
             SpecificTimeNotificationRow(notification: specificTimeNotification, hasChanged: $hasChanged)
          } else if let randomTime = notification as? RandomTimeNotification {
-            RandomTimeNotificationRow(notification: randomTime)
-               .onChange(of: randomTime.startTime) { newValue in
-                  hasChanged.insert(randomTime)
-               }
-               .onChange(of: randomTime.endTime) { newValue in
-                  hasChanged.insert(randomTime)
-               }
+            RandomTimeNotificationRow(notification: randomTime, hasChanged: $hasChanged)
          }
          
          HStack {
