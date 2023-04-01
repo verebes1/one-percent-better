@@ -6,9 +6,20 @@
 //
 
 import SwiftUI
+import Combine
 
 class HabitTabNavPath: ObservableObject {
    @Published var path = NavigationPath()
+   
+   var cancelBag = Set<AnyCancellable>()
+   
+   init() {
+      $path
+         .sink { path in
+//            print("new path: \(path)")
+         }
+         .store(in: &cancelBag)
+   }
 }
 
 enum Tab {
@@ -22,12 +33,23 @@ struct ContentView: View {
    @State private var tabSelection: Tab = .habitList
    
    /// Navigation path model
-   @StateObject var nav = HabitTabNavPath()
+   @ObservedObject var nav = HabitTabNavPath()
+   
+   @ObservedObject var hlvm: HabitListViewModel
+   
+   @ObservedObject var hwvm: HeaderWeekViewModel
+   
+   init() {
+      print("Initializing content view")
+      let vm = HabitListViewModel(CoreDataManager.shared.mainContext)
+      hlvm = vm
+      hwvm = HeaderWeekViewModel(hlvm: vm)
+   }
    
    var body: some View {
       TabView {
          NavigationStack(path: $nav.path) {
-            HabitListView(vm: HabitListViewModel(moc))
+            HabitListView(vm: hlvm, hwvm: hwvm)
                .environmentObject(nav)
          }
          .tabItem {
@@ -36,7 +58,8 @@ struct ContentView: View {
          
          NavigationStack {
             InsightsTabView()
-               .environmentObject(HabitListViewModel(moc))
+               .environmentObject(hlvm)
+               .environmentObject(hwvm)
          }
          .tabItem {
             Label("Insights", systemImage: "chart.bar.fill")

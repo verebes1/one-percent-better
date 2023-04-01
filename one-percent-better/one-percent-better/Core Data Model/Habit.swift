@@ -49,6 +49,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// An ordered set of all the trackers for the habit
    @NSManaged public var trackers: NSOrderedSet
    
+   /// The trackers in array form
+   var trackersArray: [Tracker] { trackers.array as? [Tracker] ?? [] }
+   
    /// The start date of the habit. Any day before this start date doesn't display the habit in the habit list or count towards
    /// the total percent completed for that day.
    @NSManaged private(set) var startDate: Date!
@@ -277,10 +280,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// Sort trackers by their index property
    func sortTrackers() {
-      guard var trackerArray = self.trackers.array as? [Tracker] else {
-         assertionFailure("Can't convert habit.trackers into [Tracker]")
-         return
-      }
+      var trackerArray = self.trackersArray
       
       // Sort by index
       trackerArray.sort { $0.index < $1.index }
@@ -434,8 +434,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
 // MARK: Fetch Request
 
 extension Habit: HasFetchRequest {
-   static func fetchRequest<Habit>() -> NSFetchRequest<Habit> {
-      return NSFetchRequest<Habit>(entityName: "Habit")
+   static func fetchRequest<T>() -> NSFetchRequest<T> {
+      let fetchRequest = NSFetchRequest<T>(entityName: "Habit")
+      fetchRequest.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
+      return fetchRequest
    }
 }
 

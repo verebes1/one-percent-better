@@ -55,20 +55,10 @@ class HeaderWeekViewModel: ObservableObject {
    @Published var selectedWeek: Int = 0
    
    init(hlvm: HabitListViewModel) {
+      print("Creating new Header Week View Model")
       self.hlvm = hlvm
       updateHeaderView()
    }
-   
-//   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//
-//      if let fetchedHabit = firstResult,
-//         habit != fetchedHabit {
-//         print("New update for fetched habit \(fetchedHabit.name)")
-//         self.habit = fetchedHabit
-//
-//      }
-//      objectWillChange.send()
-//   }
    
    /// Date formatter for the month year label at the top of the calendar
    var dateTitleFormatter: DateFormatter = {
@@ -301,11 +291,8 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
    }
    
    static var previews: some View {
-      //        let habits = habitsListHeaderData()
-      
       let moc = CoreDataManager.previews.mainContext
-      let vm = HabitListViewModel(moc)
-      let hwvm = HeaderWeekViewModel(hlvm: vm)
+      let hwvm = HeaderWeekViewModel(hlvm: HabitListViewModel(moc))
       HabitsHeaderView(hc: HeaderHabitsChanged(moc: moc))
          .environment(\.managedObjectContext, moc)
          .environmentObject(hwvm)

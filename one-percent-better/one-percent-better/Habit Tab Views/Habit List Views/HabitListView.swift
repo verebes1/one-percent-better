@@ -7,18 +7,16 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 enum HabitListViewRoute: Hashable {
    case createHabit
    case showProgress(Habit)
 }
 
-class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
-   
-   private let habitController: NSFetchedResultsController<Habit>
-   private let moc: NSManagedObjectContext
-   
-   @Published var habitList: [UUID] = []
+class HabitConditionalFetcher: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
+   let habitController: NSFetchedResultsController<Habit>
+   var moc: NSManagedObjectContext
    
    init(_ context: NSManagedObjectContext) {
       let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
@@ -27,26 +25,45 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
       super.init()
       habitController.delegate = self
       try? habitController.performFetch()
-      
-      habitList = habits.map { $0.id }
    }
-   
-   var habits: [Habit] {
-      habitController.fetchedObjects ?? []
-   }
-   
+
    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      if habitList != habitUUIDs {
-         habitList = habitUUIDs
+      assertionFailure("Override me")
+   }
+}
+
+class HabitListViewModel: HabitConditionalFetcher {
+
+   @Published var habits: [Habit] = []
+   
+   var cancelBag = Set<AnyCancellable>()
+   
+   var habitIDList: [UUID] = []
+
+   override init(_ context: NSManagedObjectContext) {
+      print("Creating new Habit List View Model")
+      super.init(context)
+      habits = habitController.fetchedObjects ?? []
+      habitIDList = habits.map { $0.id }
+      
+      $habits
+         .sink { habits in
+            print("habits array updating in HLVM")
+         }
+         .store(in: &cancelBag)
+   }
+
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      guard let newHabits = controller.fetchedObjects as? [Habit] else {
+         return
       }
-   }
-   
-   var habitUUIDs: [UUID] {
-      return habits.map { $0.id }
-   }
-   
-   func trackers(for habit: Habit) -> [Tracker] {
-      habit.trackers.map { $0 as! Tracker }
+      let newHabitIDList = newHabits.map { $0.id }
+      
+      if habitIDList != newHabitIDList {
+         print("LLLL Habit List View Model updated!")
+         habits = newHabits
+         habitIDList = newHabitIDList
+      }
    }
    
    func move(from source: IndexSet, to destination: Int) {
@@ -62,7 +79,9 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
                                  by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
-      moc.assertSave()
+      moc.perform {
+         self.moc.assertSave()
+      }
    }
    
    func delete(from source: IndexSet) {
@@ -80,9 +99,10 @@ class HabitListViewModel: NSObject, NSFetchedResultsControllerDelegate, Observab
                                  by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
-      moc.assertSave()
+      moc.perform {
+         self.moc.assertSave()
+      }
    }
-   
 }
 
 struct HabitListView: View {
@@ -90,23 +110,26 @@ struct HabitListView: View {
    @Environment(\.managedObjectContext) var moc
    @Environment(\.scenePhase) var scenePhase
    
+   
    @EnvironmentObject var nav: HabitTabNavPath
    
    /// List of habits model
    @ObservedObject var vm: HabitListViewModel
    
+//   @FetchRequest(fetchRequest: Habit.fetchRequest()) private var habits: FetchedResults<Habit>
+   
    /// Habits header view model
    @ObservedObject var hwvm: HeaderWeekViewModel
    
    @State private var hideTabBar = false
-   
-   init(vm: HabitListViewModel) {
-      self.vm = vm
-      self.hwvm = HeaderWeekViewModel(hlvm: vm)
-   }
+//   
+//   init(vm: HabitListViewModel) {
+//      self.vm = vm
+//      self.hwvm = HeaderWeekViewModel(hlvm: vm)
+//   }
    
    var body: some View {
-//      let _ = Self._printChanges()
+      let _ = Self._printChanges()
       return (
          Background {
             VStack {
@@ -121,10 +144,10 @@ struct HabitListView: View {
                      Section {
                         ForEach(vm.habits, id: \.self.id) { habit in
                            if habit.started(before: hwvm.currentDay) {
-//                              let _ = print("Habit row \(habit.name) is being loaded")
                               // Habit Row
                               NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                                  HabitRow(moc: moc, habit: habit, day: hwvm.currentDay)
+//                                 Text("Habit \(habit.name)")
                               }
                               .listRowInsets(.init(top: 0,
                                                    leading: 0,
@@ -145,27 +168,21 @@ struct HabitListView: View {
                }
             }
          }
-            .onAppear {
-               hwvm.updateDayToToday()
-//               hideTabBar = false
-            }
+         // TODO: 1.1.0 Figure out a better way to do this
+//            .onAppear {
+//               hwvm.updateDayToToday()
+//            }
             .onChange(of: scenePhase, perform: { newPhase in
                if newPhase == .active {
                   hwvm.updateDayToToday()
                }
             })
             .toolbar {
+               // Edit
                ToolbarItem(placement: .navigationBarLeading) {
                   EditButton()
                }
-               
-               //               ToolbarItem(placement: .principal) {
-               //                  Button("Help") {
-               //                     print("Help tapped!")
-               //                     showingPopover = true
-               //                  }
-               //               }
-               
+               // New Habit
                ToolbarItem(placement: .navigationBarTrailing) {
                   NavigationLink(value: HabitListViewRoute.createHabit) {
                      Image(systemName: "square.and.pencil")
@@ -173,7 +190,7 @@ struct HabitListView: View {
                }
             }
             .toolbarBackground(Color.backgroundColor, for: .tabBar)
-            .navigationDestination(for: HabitListViewRoute.self) { [nav] route in
+            .navigationDestination(for: HabitListViewRoute.self) { route in
                if case let .showProgress(habit) = route {
                   HabitProgessView()
                      .environmentObject(nav)
@@ -205,21 +222,22 @@ struct HabitsViewPreviewer: View {
    func data() {
       let context = CoreDataManager.previews.mainContext
       
-//      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
-//
-//      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
-//      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
-//      h1?.markCompleted(on: yesterday)
-//
-//      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
-//      h2?.markCompleted(on: Date())
+      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
+
+      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
+      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
+      h1?.markCompleted(on: yesterday)
+
+      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
+      h2?.markCompleted(on: Date())
    }
    
    var body: some View {
       let moc = CoreDataManager.previews.mainContext
       let _ = data()
+      let vm = HabitListViewModel(moc)
       NavigationStack(path: $nav.path) {
-         HabitListView(vm: HabitListViewModel(moc))
+         HabitListView(vm: vm, hwvm: HeaderWeekViewModel(hlvm: vm))
             .environment(\.managedObjectContext, moc)
             .environmentObject(nav)
       }

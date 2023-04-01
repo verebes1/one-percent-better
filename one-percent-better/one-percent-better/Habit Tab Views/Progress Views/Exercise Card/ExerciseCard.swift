@@ -103,7 +103,7 @@ struct ExerciseCard_Previews: PreviewProvider {
         
         let habits = Habit.habits(from: context)
        
-       var trackers = habits.first?.trackers.array as! [Tracker]
+       var trackers = habits.first!.trackersArray
        
        return (trackers.first { $0 is ExerciseTracker }) as! ExerciseTracker
     }

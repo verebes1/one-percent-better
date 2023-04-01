@@ -16,6 +16,10 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    
    @Published var habit: Habit
    
+   var daysCompleted: [Date] = []
+   
+   var cancelBag = Set<AnyCancellable>()
+   
    var currentDay: Date
    
    @Published var timerLabel: String = "00:00"
@@ -24,9 +28,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    var hasTimerStarted: Bool
    
    init(moc: NSManagedObjectContext, habit: Habit, currentDay: Date) {
-//      print("initializing new habitRow: \(habit.name)")
-      //      self.habit = habit.copy() as? Habit
       self.habit = habit
+      self.daysCompleted = habit.daysCompleted
       self.currentDay = currentDay
       isTimerRunning = false
       hasTimeTracker = false
@@ -42,57 +45,37 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       habitController.delegate = self
       try? habitController.performFetch()
       
-      if let t = self.habit.timeTracker {
-         t.callback = updateTimerString(to:)
-         isTimerRunning = t.isRunning
-         hasTimeTracker = true
-         if let value = t.getValue(on: self.currentDay) {
-            self.updateTimerString(to: value)
-            if value != 0 {
-               hasTimerStarted = true
-            }
+//      if let t = self.habit.timeTracker {
+//         t.callback = updateTimerString(to:)
+//         isTimerRunning = t.isRunning
+//         hasTimeTracker = true
+//         if let value = t.getValue(on: self.currentDay) {
+//            self.updateTimerString(to: value)
+//            if value != 0 {
+//               hasTimerStarted = true
+//            }
+//         }
+//      }
+      
+      $habit
+         .sink { habit in
+            print("habit row: \(habit.name) is changing!")
          }
-      }
+         .store(in: &cancelBag)
    }
    
    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      print("JJJJ habit row changing!!! for habit: \(habit.name)")
+      
       objectWillChange.send()
+//      guard let newHabit = controller.fetchedObjects?.first as? Habit else { return }
+////      print("OG daysCompleted: \(daysCompleted.last)")
+////      print("New habit: \(newHabit.daysCompleted.last)")
+//      if daysCompleted != newHabit.daysCompleted {
+//         habit = newHabit
+////         print("JJJJ habit row changing!!! for habit: \(habit.name)")
+//      }
+      
    }
-   
-   var firstResult: Habit? {
-      let results = habitController.fetchedObjects ?? []
-      if results.isEmpty {
-         return nil
-      } else {
-         return results[0]
-      }
-   }
-   
-   //   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-   //      let results = controller.fetchedObjects ?? []
-   //
-   //      if let fetchedHabit = firstResult {
-   ////         habit != fetchedHabit {
-   //         let habitDays = habit.daysCompleted
-   //         let fetchedDays = fetchedHabit.daysCompleted
-   //         print("New update for fetched habit \(fetchedHabit.name)")
-   //         print("habit days: \(habitDays)")
-   //         print("fetched days: \(fetchedDays)")
-   //         self.habit = fetchedHabit
-   //      }
-   //   }
-   
-   //   func controller(
-   //       _ controller: NSFetchedResultsController<NSFetchRequestResult>,
-   //       didChange anObject: Any,
-   //       at indexPath: IndexPath?,
-   //       for type: NSFetchedResultsChangeType,
-   //       newIndexPath: IndexPath?
-   //   ) {
-   //      print("changing object!")
-   //      objectWillChange.send()
-   //   }
    
    var notDoneIn: Int {
       var difference = 0
@@ -178,6 +161,7 @@ struct HabitRow: View {
    @State private var completePressed = false
    
    init(moc: NSManagedObjectContext, habit: Habit, day: Date) {
+//      print("Habit row \(habit.name) is being reloaded")
       self.vm = HabitRowViewModel(moc: moc, habit: habit, currentDay: day)
    }
    
