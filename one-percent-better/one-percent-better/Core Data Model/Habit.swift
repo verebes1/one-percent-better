@@ -167,6 +167,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       }
       
       self.improvementTracker?.recalculateScoreFromBeginning()
+      
+      moc.assertSave()
    }
    
    func updateName(to newName: String) {

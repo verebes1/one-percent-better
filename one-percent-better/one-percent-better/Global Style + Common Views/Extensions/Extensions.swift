@@ -78,10 +78,11 @@ extension Calendar {
    }
    
    func add(days i: Int, to date: Date = Date()) -> Date {
-      guard let newDay = Cal.date(byAdding: .day, value: i, to: date) else {
-         fatalError("Asking for a bad date")
-      }
-      return newDay
+      return Cal.date(byAdding: .day, value: i, to: date)!
+   }
+   
+   func add(years i: Int, to date: Date = Date()) -> Date {
+      return Cal.date(byAdding: .year, value: i, to: date)!
    }
    
    /// Get the last day that matches this weekday, going backward from date

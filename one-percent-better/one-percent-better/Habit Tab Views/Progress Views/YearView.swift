@@ -9,31 +9,44 @@ import SwiftUI
 
 struct YearView: View {
    
-   let insets: CGFloat = 15
-   let spacing: CGFloat = 1
+   @EnvironmentObject var habit: Habit
    
    @State private var yearHeight: CGFloat = 0
+   @State private var selectedYear = Cal.dateComponents([.year], from: Date()).year!
    
-   @State private var selectedYear = 2022
+   let insets: CGFloat = 15
+   let spacing: CGFloat = 1
+
+   var years: [Int] {
+      let startYear = Cal.dateComponents([.year], from: habit.startDate).year!
+      let thisYear = Cal.dateComponents([.year], from: Date()).year!
+      var years: [Int] = []
+      for i in startYear ... thisYear {
+         years.append(i)
+      }
+      return years
+   }
+   
    
    var body: some View {
       
       CardView {
          VStack(spacing: 0) {
-            Spacer().frame(height: 4)
             HStack {
                Spacer()
                Menu {
-                  MenuItemWithCheckmark(value: 2021,
-                                        selection: $selectedYear)
-                  MenuItemWithCheckmark(value: 2022,
-                                        selection: $selectedYear)
+                  ForEach(years, id: \.self) { year in
+                     MenuItemWithCheckmark(value: year,
+                                           selection: $selectedYear)
+                  }
+                  
                } label: {
                   CapsuleMenuButtonLabel(label: {
                      Text(String(selectedYear))
                   }, color: .cardColorLighter)
                }
-               Spacer().frame(width: 7)
+               .padding(.vertical, 4)
+               .padding(.horizontal, 7)
             }
             
             GeometryReader { geo in
@@ -42,7 +55,7 @@ struct YearView: View {
                let height: CGFloat = 7 * squareWidth + 6 * spacing
                
                LazyHGrid(rows: rows, spacing: 1) {
-//                  CompletedSquare()
+                  CompletedSquare(year: $selectedYear)
                }
                .frame(height: max(0, height))
                .overlay(
@@ -111,19 +124,21 @@ struct YearView: View {
 struct CompletedSquare: View {
    
    @Environment(\.colorScheme) var scheme
-   
    @EnvironmentObject var habit: Habit
    
+   @State private var opacities: [Double] = Array(repeating: 0, count: 364)
+   
+   @Binding var year: Int
    let today = Date()
    
-   @State private var opacities: [Double] = Array(repeating: 0, count: 364)
-//
+
    func opacity(on curDay: Date) -> Double {
       var opacity: Double
       switch habit.frequency(on: curDay) {
       case .timesPerDay(let n):
          opacity = Double(habit.timesCompleted(on: curDay)) / Double(n)
       case .specificWeekdays, .timesPerWeek:
+         // TODO: 1.1.0 Fix this
          opacity = Double(1)
       case nil:
          opacity = 0
@@ -135,15 +150,28 @@ struct CompletedSquare: View {
       ForEach(0 ..< 364) { i in
          let notFilledColor: Color = scheme == .light ? .systemGray5 : .systemGray3
          Rectangle()
-            .fill(opacities[i] != 0 ? .green/*.opacity(opacities[i])*/ : notFilledColor)
+            .fill(opacities[i] != 0 ? .green.opacity(opacities[i]) : notFilledColor)
             .aspectRatio(1, contentMode: .fit)
       }
+      .animation(.easeInOut(duration: 0.15), value: opacities)
+      .onChange(of: year, perform: { newValue in
+         Task { @MainActor in
+            print("Task to fetch days being run 2")
+            let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
+            
+            for i in 0 ..< 364 {
+               let curDay = Cal.date(byAdding: .day, value: i, to: firstOfJan)!
+               opacities[i] = opacity(on: curDay)
+            }
+         }
+      })
       .task {
+         print("Task to fetch days being run 1")
+         let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
+         
          for i in 0 ..< 364 {
-            let j = 363 - i
-            let curDay = Cal.date(byAdding: .day, value: -j, to: today)!
-            let opacity = opacity(on: curDay)
-            opacities[i] = opacity
+            let curDay = Cal.date(byAdding: .day, value: i, to: firstOfJan)!
+            opacities[i] = opacity(on: curDay)
          }
       }
    }

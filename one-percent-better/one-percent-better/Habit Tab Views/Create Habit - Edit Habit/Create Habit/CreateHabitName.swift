@@ -17,16 +17,11 @@ struct CreateHabitName: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
    
-   @State var habitName: String = ""
-   
-   @State private var nextPressed = false
-   
+   @State private var habitName: String = ""
    @FocusState private var nameInFocus: Bool
-   
+   @State private var nextPressed = false
    @Binding var hideTabBar: Bool
-   
    @State private var isGoingToFrequency = false
-   
    @State private var showSuggestions = false
    
    var body: some View {
