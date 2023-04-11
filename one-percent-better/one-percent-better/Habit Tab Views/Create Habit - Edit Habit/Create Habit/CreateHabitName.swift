@@ -27,6 +27,8 @@ struct CreateHabitName: View {
    
    @State private var isGoingToFrequency = false
    
+   @State private var showSuggestions = false
+   
    var body: some View {
       Background {
          VStack {
@@ -47,33 +49,44 @@ struct CreateHabitName: View {
             Spacer().frame(height: 20)
             
             VStack(spacing: 5) {
-               HStack {
-                  Text("Suggestions")
-                     .font(.system(size: 14))
-                     .foregroundColor(.secondaryLabel)
-                  Spacer()
-               }
-               .padding(.leading, 20)
                
-               List {
-                  ForEach(PrebuiltHabits.habitNames, id: \.self) { name in
-                     HStack {
-                        Text(name)
-                        Spacer()
-                     }
-                     .listRowBackground(Color.cardColor)
-                     .contentShape(Rectangle())
-                     .onTapGesture {
-                        habitName = name
+               Button {
+                  if showSuggestions {
+                     showSuggestions = false
+                     nameInFocus = true
+                  } else {
+                     showSuggestions = true
+                     nameInFocus = false
+                  }
+               } label: {
+                  Text("Suggestions")
+               }
+               .buttonStyle(.borderedProminent)
+
+               
+               if showSuggestions {
+                  List {
+                     ForEach(PrebuiltHabits.habitNames, id: \.self) { name in
+                        HStack {
+                           Text(name)
+                           Spacer()
+                        }
+                        .listRowBackground(Color.cardColor)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                           habitName = name
+                        }
                      }
                   }
+                  .scrollContentBackground(.hidden)
+//                  .padding(.top, -30)
+                  .clipShape(Rectangle())
                }
-               .scrollContentBackground(.hidden)
-               .padding(.top, -30)
-               .clipShape(Rectangle())
             }
             
             Spacer().frame(height: 10)
+            
+            Spacer()
             
             Button {
                if !habitName.isEmpty {
@@ -84,7 +97,6 @@ struct CreateHabitName: View {
             } label: {
                BottomButtonDisabledWhenEmpty(text: "Next", dependingLabel: $habitName)
             }
-
          }
          .navigationDestination(for: CreateFrequencyRoute.self) { route in
             if case .createFrequency(let habit) = route {
@@ -92,10 +104,11 @@ struct CreateHabitName: View {
                   .environmentObject(nav)
             }
          }
+         .animation(.easeInOut, value: showSuggestions)
       }
       .onAppear {
-         isGoingToFrequency = false
          nameInFocus = true
+         isGoingToFrequency = false
          hideTabBar = true
       }
       .onDisappear {

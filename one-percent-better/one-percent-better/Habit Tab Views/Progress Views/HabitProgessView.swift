@@ -23,23 +23,23 @@ struct HabitProgessView: View {
          ScrollView {
             VStack(spacing: 20) {
                YearView()
-               
-               ForEach(0 ..< habit.trackers.count, id: \.self) { i in
-                  let reverseIndex = habit.trackers.count - 1 - i
-                  let tracker = habit.trackers[reverseIndex] as! Tracker
-                  ProgressCards(tracker: tracker)
-               }
 
-               CardView {
-                  CalendarView(habit: habit)
-               }
+//               ForEach(0 ..< habit.trackers.count, id: \.self) { i in
+//                  let reverseIndex = habit.trackers.count - 1 - i
+//                  let tracker = habit.trackers[reverseIndex] as! Tracker
+//                  ProgressCards(tracker: tracker)
+//               }
 
-               StatisticsCardView(habit: habit)
+//               CardView {
+//                  CalendarView(habit: habit)
+//               }
+
+//               StatisticsCardView(habit: habit)
 
                NavigationLink(value: ProgressViewNavRoute.newTracker(habit)) {
                   CapsuleLabel(text: "New Tracker", systemImage: "plus")
                }
-//
+
                Spacer()
             }
          }

@@ -114,19 +114,18 @@ struct HabitListView: View {
    @EnvironmentObject var nav: HabitTabNavPath
    
    /// List of habits model
-   @ObservedObject var vm: HabitListViewModel
+   @EnvironmentObject var vm: HabitListViewModel
    
 //   @FetchRequest(fetchRequest: Habit.fetchRequest()) private var habits: FetchedResults<Habit>
    
    /// Habits header view model
-   @ObservedObject var hwvm: HeaderWeekViewModel
+   @EnvironmentObject var hwvm: HeaderWeekViewModel
    
    @State private var hideTabBar = false
 //   
-//   init(vm: HabitListViewModel) {
-//      self.vm = vm
-//      self.hwvm = HeaderWeekViewModel(hlvm: vm)
-//   }
+   init() {
+      print("Initializing Habit List View")
+   }
    
    var body: some View {
       let _ = Self._printChanges()
@@ -169,9 +168,9 @@ struct HabitListView: View {
             }
          }
          // TODO: 1.1.0 Figure out a better way to do this
-//            .onAppear {
-//               hwvm.updateDayToToday()
-//            }
+            .onAppear {
+               hwvm.updateDayToToday()
+            }
             .onChange(of: scenePhase, perform: { newPhase in
                if newPhase == .active {
                   hwvm.updateDayToToday()
@@ -204,8 +203,6 @@ struct HabitListView: View {
             }
             .navigationTitle(hwvm.navTitle)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationViewStyle(StackNavigationViewStyle())
-            .environmentObject(nav)
             .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
       )
    }
@@ -213,11 +210,23 @@ struct HabitListView: View {
 
 struct HabitsViewPreviewer: View {
    
+   @Environment(\.managedObjectContext) var moc
+   
    static let h0id = UUID()
    static let h1id = UUID()
    static let h2id = UUID()
    
-   @State var nav = HabitTabNavPath()
+   @StateObject var nav = HabitTabNavPath()
+   @StateObject var habitList_VM: HabitListViewModel
+   @StateObject var headerWeek_VM: HeaderWeekViewModel
+   
+   init() {
+      let hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
+      let hwvm = HeaderWeekViewModel(hlvm: hlvm)
+      _habitList_VM = StateObject(wrappedValue: hlvm)
+      _headerWeek_VM = StateObject(wrappedValue: hwvm)
+      let _ = data()
+   }
    
    func data() {
       let context = CoreDataManager.previews.mainContext
@@ -233,11 +242,10 @@ struct HabitsViewPreviewer: View {
    }
    
    var body: some View {
-      let moc = CoreDataManager.previews.mainContext
-      let _ = data()
-      let vm = HabitListViewModel(moc)
       NavigationStack(path: $nav.path) {
-         HabitListView(vm: vm, hwvm: HeaderWeekViewModel(hlvm: vm))
+         HabitListView()
+            .environmentObject(habitList_VM)
+            .environmentObject(headerWeek_VM)
             .environment(\.managedObjectContext, moc)
             .environmentObject(nav)
       }

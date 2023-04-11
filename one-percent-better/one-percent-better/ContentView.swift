@@ -16,7 +16,7 @@ class HabitTabNavPath: ObservableObject {
    init() {
       $path
          .sink { path in
-//            print("new path: \(path)")
+            print("new path: \(path)")
          }
          .store(in: &cancelBag)
    }
@@ -47,9 +47,13 @@ struct ContentView: View {
    }
    
    var body: some View {
+      let _ = Self._printChanges()
+      return (
       TabView {
          NavigationStack(path: $nav.path) {
-            HabitListView(vm: hlvm, hwvm: hwvm)
+            HabitListView()
+               .environmentObject(hlvm)
+               .environmentObject(hwvm)
                .environmentObject(nav)
          }
          .tabItem {
@@ -70,6 +74,7 @@ struct ContentView: View {
                Label("Settings", systemImage: "gearshape.fill")
             }
       }
+      )
    }
 }
 

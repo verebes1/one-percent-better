@@ -26,7 +26,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
    @Published var isTimerRunning: Bool
    var hasTimeTracker: Bool
    var hasTimerStarted: Bool
-   
+
    init(moc: NSManagedObjectContext, habit: Habit, currentDay: Date) {
       self.habit = habit
       self.daysCompleted = habit.daysCompleted
@@ -130,6 +130,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       return minutes + ":" + seconds
    }
    
+   // Timer
+   /*
    func updateTimerString(to value: Int) {
       self.timerLabel = getTimerString(from: value)
       
@@ -139,6 +141,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          }
       }
    }
+    */
    
    var timePercentComplete: Double {
       guard let t = habit.timeTracker else {
@@ -161,13 +164,13 @@ struct HabitRow: View {
    @State private var completePressed = false
    
    init(moc: NSManagedObjectContext, habit: Habit, day: Date) {
-//      print("Habit row \(habit.name) is being reloaded")
+      print("Habit row \(habit.name) is being initialized")
       self.vm = HabitRowViewModel(moc: moc, habit: habit, currentDay: day)
    }
    
    var body: some View {
 //      print("   - HabitRow(\(vm.habit.name)) body")
-//      let _ = Self._printChanges()
+      let _ = Self._printChanges()
       return (
          ZStack {
             // Actual row views
@@ -181,10 +184,10 @@ struct HabitRow: View {
                   .environmentObject(vm)
                
                Spacer()
-               ImprovementGraphView()
-                  .environmentObject(vm)
-                  .frame(width: 80, height: 35)
-                  .padding(.trailing, 20)
+//               ImprovementGraphView()
+//                  .environmentObject(vm)
+//                  .frame(width: 80, height: 35)
+//                  .padding(.trailing, 20)
             }
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             

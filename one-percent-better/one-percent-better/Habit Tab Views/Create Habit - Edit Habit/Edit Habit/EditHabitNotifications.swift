@@ -27,8 +27,10 @@ struct EditHabitNotifications: View {
       }
       .onDisappear {
          for notif in hasChanged {
-            notif.reset()
-            habit.addNotification(notif)
+            if !notif.isDeleted {
+               notif.reset()
+               habit.addNotification(notif)
+            }
          }
       }
       .toolbar(.hidden, for: .tabBar)

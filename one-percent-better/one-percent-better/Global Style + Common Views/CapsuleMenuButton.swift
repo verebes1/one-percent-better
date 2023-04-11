@@ -7,6 +7,38 @@
 
 import SwiftUI
 
+struct CapsuleMenuButtonLabel<Content>: View where Content: View {
+   
+   @Environment(\.colorScheme) var scheme
+   
+   var label: () -> Content
+   var color: Color
+   var fontSize: CGFloat = 15
+   
+   private var textColor: Color {
+      scheme == .light ? .black : .white
+   }
+   
+   var body: some View {
+      HStack(spacing: fontSize/3.4) {
+         
+         label()
+
+         Image(systemName: "chevron.down")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: fontSize * 0.35)
+      }
+      .fixedSize()
+      .padding(.vertical, fontSize/3.5)
+      .padding(.horizontal, fontSize * 0.7)
+      .foregroundColor(textColor)
+      .fontWeight(.medium)
+      .background(color)
+      .clipShape(Capsule())
+   }
+}
+
 struct CapsuleMenuButton: View {
    
    @Environment(\.colorScheme) var scheme

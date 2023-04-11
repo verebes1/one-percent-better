@@ -52,7 +52,7 @@ struct HabitRowLabels: View {
          HStack {
             Text(vm.habit.name)
                .font(.system(size: 16))
-               .fontWeight(vm.isTimerRunning ? .bold : .regular)
+//               .fontWeight(vm.isTimerRunning ? .bold : .regular)
             
             if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
                tpd > 1 {
@@ -63,6 +63,8 @@ struct HabitRowLabels: View {
          }
          
          HStack(spacing: 0) {
+            // Time Tracker
+            /*
             if vm.hasTimeTracker && vm.hasTimerStarted {
                HStack {
                   Text(vm.timerLabel)
@@ -73,14 +75,15 @@ struct HabitRowLabels: View {
                      .padding(.horizontal, 4)
                      .background(.gray.opacity(0.1))
                      .cornerRadius(10)
-                  
+
                   Spacer().frame(width: 5)
                }
             }
+             */
             
-            let streakLabel = vm.streakLabel()
-            Text(streakLabel.0)
-               .subLabel(color: streakLabel.1)
+//            let streakLabel = vm.streakLabel()
+//            Text(streakLabel.0)
+//               .subLabel(color: streakLabel.1)
          }
          
          switch vm.habit.frequency(on: vm.currentDay) {

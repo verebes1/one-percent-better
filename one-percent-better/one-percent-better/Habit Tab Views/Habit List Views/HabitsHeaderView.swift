@@ -82,9 +82,9 @@ class HeaderWeekViewModel: ObservableObject {
       if !Cal.isDate(latestDay, inSameDayAs: Date()) {
          latestDay = Date()
          currentDay = Date()
+         updateHeaderView()
+         updateImprovementScores()
       }
-      updateHeaderView()
-      updateImprovementScores()
    }
    
    func updateImprovementScores() {

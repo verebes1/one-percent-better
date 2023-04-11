@@ -183,6 +183,7 @@ extension Habit {
    /// - Parameter date: The streak on this date
    /// - Returns: The streak number
    func streak(on date: Date) -> Int {
+      print("Calculating streak for habit \(name)")
       var streak = 0
       
       guard let freq = frequency(on: date) else { return 0 }

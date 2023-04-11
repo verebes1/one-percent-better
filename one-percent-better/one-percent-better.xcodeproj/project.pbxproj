@@ -794,10 +794,10 @@
 		8058174328D569B400E9816F /* Habit Row */ = {
 			isa = PBXGroup;
 			children = (
+				80A6D9F828949F43009BF024 /* HabitRow.swift */,
 				80385CD1285BEE5900CBDF71 /* RingView.swift */,
 				8081A36528767F7A00D0CB1B /* RingShape.swift */,
 				8081A3612874E0E000D0CB1B /* GradientRing.swift */,
-				80A6D9F828949F43009BF024 /* HabitRow.swift */,
 				80385CD6285BEE5900CBDF71 /* HabitCompletionCircle.swift */,
 				80AE0CA62999D09900B565DE /* HabitRowLabels.swift */,
 				8081A35F2874E09900D0CB1B /* TimerCompletionCircle.swift */,
