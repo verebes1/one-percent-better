@@ -30,6 +30,7 @@ struct NotificationSelection: View {
       guard let index = source.first else { return }
       let notifToBeDeleted = habit.notificationsArray[index]
       habit.removeFromNotifications(notifToBeDeleted)
+      hasChanged.remove(notifToBeDeleted)
       notifToBeDeleted.reset()
       moc.delete(notifToBeDeleted)
       moc.assertSave()

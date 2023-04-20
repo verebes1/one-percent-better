@@ -136,7 +136,7 @@ struct WeeklyPercentGraphCard_Previews: PreviewProvider {
       let _ = data()
       let moc = CoreDataManager.previews.mainContext
       let hlvm = HabitListViewModel(moc)
-      let vm = HeaderWeekViewModel(hlvm: hlvm)
+      let vm = HeaderWeekViewModel(moc)
       
       Background {
          WeeklyPercentGraphCard()

@@ -133,17 +133,22 @@ struct CompletedSquare: View {
    
 
    func opacity(on curDay: Date) -> Double {
-      var opacity: Double
-      switch habit.frequency(on: curDay) {
+      guard let freq = habit.frequency(on: curDay) else { return 0 }
+      switch freq {
       case .timesPerDay(let n):
-         opacity = Double(habit.timesCompleted(on: curDay)) / Double(n)
+         return Double(habit.timesCompleted(on: curDay)) / Double(n)
       case .specificWeekdays, .timesPerWeek:
-         // TODO: 1.1.0 Fix this
-         opacity = Double(1)
-      case nil:
-         opacity = 0
+         return habit.wasCompleted(on: curDay) ? 1 : 0
       }
-      return opacity
+   }
+   
+   @MainActor func fetchOpacities() {
+      print("Fetching opacities")
+      let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
+      for i in 0 ..< 364 {
+         let curDay = Cal.date(byAdding: .day, value: i, to: firstOfJan)!
+         opacities[i] = opacity(on: curDay)
+      }
    }
    
    var body: some View {
@@ -154,25 +159,11 @@ struct CompletedSquare: View {
             .aspectRatio(1, contentMode: .fit)
       }
       .animation(.easeInOut(duration: 0.15), value: opacities)
-      .onChange(of: year, perform: { newValue in
-         Task { @MainActor in
-            print("Task to fetch days being run 2")
-            let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-            
-            for i in 0 ..< 364 {
-               let curDay = Cal.date(byAdding: .day, value: i, to: firstOfJan)!
-               opacities[i] = opacity(on: curDay)
-            }
-         }
-      })
+      .onChange(of: year) { newValue in
+         Task { fetchOpacities() }
+      }
       .task {
-         print("Task to fetch days being run 1")
-         let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-         
-         for i in 0 ..< 364 {
-            let curDay = Cal.date(byAdding: .day, value: i, to: firstOfJan)!
-            opacities[i] = opacity(on: curDay)
-         }
+         fetchOpacities()
       }
    }
 }
