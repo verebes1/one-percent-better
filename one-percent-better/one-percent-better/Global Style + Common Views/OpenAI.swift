@@ -17,11 +17,8 @@ enum OpenAIError: Error {
 class OpenAI {
    static var shared = OpenAI()
    
-//   let client = Client(apiKey: "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")
-//   let openAI = OpenAISwift(authToken: "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")
-   
-   let client = Client(apiKey: "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")
-   let openAI = OpenAISwift(authToken: "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")
+   let client = Client(apiKey: "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")
+   let openAI = OpenAISwift(authToken: "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")
    
    func completionModel(prompt: String) async throws -> String? {
       return try await withCheckedThrowingContinuation { continuation in
