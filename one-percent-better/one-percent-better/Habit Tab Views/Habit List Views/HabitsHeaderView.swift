@@ -152,6 +152,13 @@ struct HabitsHeaderView: View {
          selectedDayModel.latestDay = Date()
          selectedDayModel.selectedDay = Date()
          updateHeaderView()
+         updateImprovementScores()
+      }
+   }
+   
+   func updateImprovementScores() {
+      for habit in vm.habits {
+         habit.improvementTracker?.update(on: selectedDayModel.selectedDay)
       }
    }
    

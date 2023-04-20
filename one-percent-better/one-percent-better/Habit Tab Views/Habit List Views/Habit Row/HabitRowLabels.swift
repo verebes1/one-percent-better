@@ -81,9 +81,9 @@ struct HabitRowLabels: View {
             }
              */
             
-//            let streakLabel = vm.streakLabel()
-//            Text(streakLabel.0)
-//               .subLabel(color: streakLabel.1)
+            let streakLabel = vm.streakLabel()
+            Text(streakLabel.0)
+               .subLabel(color: streakLabel.1)
          }
          
          switch vm.habit.frequency(on: vm.currentDay) {
