@@ -10,7 +10,7 @@ import SwiftUI
 struct InsightsTabView: View {
    
    @EnvironmentObject var vm: HabitListViewModel
-   @EnvironmentObject var hwvm: HeaderWeekViewModel
+   @StateObject var hwvm = HeaderWeekViewModel()
    
    var body: some View {
       Background {
@@ -19,6 +19,7 @@ struct InsightsTabView: View {
                AllHabitsGraphCard()
 //
                WeeklyPercentGraphCard()
+                  .environmentObject(hwvm)
                
 //               CardView {
 //                  Text("Test Card")

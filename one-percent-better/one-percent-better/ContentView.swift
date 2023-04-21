@@ -35,12 +35,10 @@ struct ContentView: View {
    /// Navigation path model
    @ObservedObject var nav = HabitTabNavPath()
    @ObservedObject var hlvm: HabitListViewModel
-   @ObservedObject var hwvm: HeaderWeekViewModel
    
    init() {
       print("Initializing content view")
       hlvm = HabitListViewModel()
-      hwvm = HeaderWeekViewModel()
    }
    
    var body: some View {
@@ -50,7 +48,6 @@ struct ContentView: View {
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)
-               .environmentObject(hwvm)
                .environmentObject(nav)
          }
          .tabItem {
@@ -60,7 +57,6 @@ struct ContentView: View {
          NavigationStack {
             InsightsTabView()
                .environmentObject(hlvm)
-               .environmentObject(hwvm)
          }
          .tabItem {
             Label("Insights", systemImage: "chart.bar.fill")

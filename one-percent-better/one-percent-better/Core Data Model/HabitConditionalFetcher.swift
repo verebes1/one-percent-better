@@ -12,9 +12,9 @@ class HabitConditionalFetcher: NSObject, NSFetchedResultsControllerDelegate, Obs
    let habitController: NSFetchedResultsController<Habit>
    var moc: NSManagedObjectContext
    
-   init(_ context: NSManagedObjectContext) {
+   init(_ context: NSManagedObjectContext, predicate: NSPredicate? = nil) {
       let request = NSFetchRequest<Habit>(entityName: "Habit")
-      request.predicate = nil
+      request.predicate = predicate
       request.sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
       habitController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
       moc = context
@@ -32,7 +32,7 @@ class HabitFetcher: HabitConditionalFetcher {
    
    @Published var habits: [Habit] = []
    
-   override init(_ context: NSManagedObjectContext) {
+   init(_ context: NSManagedObjectContext) {
       super.init(context)
       habits = habitController.fetchedObjects ?? []
    }

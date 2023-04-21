@@ -27,7 +27,7 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
    /// Which week is selected in the HabitHeaderView
    @Published var selectedWeek: Int = 0
    
-   override init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
       super.init(context)
       habits = habitController.fetchedObjects ?? []
    }
@@ -131,7 +131,8 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
 struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @EnvironmentObject var vm: HeaderWeekViewModel
+   
+   @StateObject var vm = HeaderWeekViewModel()
    @EnvironmentObject var selectedDayModel: SelectedDayModel
    
    @StateObject var hf: HabitFetcher

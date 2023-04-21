@@ -7,13 +7,18 @@
 
 import SwiftUI
 
-class SelectedDayModel: ObservableObject {
+class SelectedDayModel: ObservableObject, Equatable {
    
    @Published var selectedDay = Date()
    
    /// The latest day that has been shown. This is updated when the
    /// app is opened or the view appears on a new day.
    @Published var latestDay: Date = Date()
+   
+   static func == (lhs: SelectedDayModel, rhs: SelectedDayModel) -> Bool {
+      lhs.selectedDay == rhs.selectedDay &&
+      lhs.latestDay == rhs.selectedDay
+   }
    
    /// Date formatter for the month year label at the top of the calendar
    var dateTitleFormatter: DateFormatter = {
@@ -34,7 +39,6 @@ struct HabitListViewContainer: View {
    @Environment(\.scenePhase) var scenePhase
    
    @EnvironmentObject var hlvm: HabitListViewModel
-   @EnvironmentObject var hwvm: HeaderWeekViewModel
    
    @StateObject var selectedDayModel = SelectedDayModel()
    

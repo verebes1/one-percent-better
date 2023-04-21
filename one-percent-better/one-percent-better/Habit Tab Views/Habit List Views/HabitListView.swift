@@ -20,7 +20,7 @@ class HabitListViewModel: HabitConditionalFetcher {
    
    var habitIDList: [UUID] = []
    
-   override init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
       super.init(context)
       habits = habitController.fetchedObjects ?? []
       habitIDList = habits.map { $0.id }
@@ -83,38 +83,38 @@ struct HabitListView: View {
    @State private var hideTabBar = false
    
    var body: some View {
-//      Background {
-         VStack {
-            if habits.isEmpty {
-               NoHabitsView()
-               Spacer()
-            } else {
-               List {
-                  Section {
-                     ForEach(habits, id: \.self.id) { habit in
-                        if habit.started(before: selectedDayModel.selectedDay) {
-                           // Habit Row
-                           NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                              HabitRow(habit: habit, day: selectedDayModel.selectedDay)
-                           }
-                           .listRowInsets(.init(top: 0,
-                                                leading: 0,
-                                                bottom: 0,
-                                                trailing: 20))
-                           .listRowBackground(Color.cardColor)
+      let _ = Self._printChanges()
+      VStack {
+         if habits.isEmpty {
+            NoHabitsView()
+            Spacer()
+         } else {
+            List {
+               Section {
+                  ForEach(habits, id: \.self.id) { habit in
+                     if habit.started(before: selectedDayModel.selectedDay) {
+                        // Habit Row
+                        NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                           HabitRow(habit: habit, day: selectedDayModel.selectedDay)
                         }
+                        .listRowInsets(.init(top: 0,
+                                             leading: 0,
+                                             bottom: 0,
+                                             trailing: 20))
+                        .listRowBackground(Color.cardColor)
                      }
-                     .onMove(perform: hlvm.move)
-                     .onDelete(perform: hlvm.delete)
                   }
+                  .onMove(perform: hlvm.move)
+                  .onDelete(perform: hlvm.delete)
                }
-               .listStyle(.insetGrouped)
-               .scrollContentBackground(.hidden)
-               .environment(\.defaultMinListRowHeight, 54)
-               .padding(.top, -25)
-               .clipShape(Rectangle())
             }
+            .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .environment(\.defaultMinListRowHeight, 54)
+            .padding(.top, -25)
+            .clipShape(Rectangle())
          }
+      }
       
       .toolbar {
          // Edit

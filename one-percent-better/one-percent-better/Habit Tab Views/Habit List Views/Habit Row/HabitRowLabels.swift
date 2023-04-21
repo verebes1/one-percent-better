@@ -28,6 +28,8 @@ struct HabitRowLabels: View {
    
    @EnvironmentObject var vm: HabitRowViewModel
    
+//   @State private var streakLabel: (String, Color) = ("", Color.clear)
+   
    let subGray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
    
    func specificWeekdaysLabel(days: [Weekday]) -> String {
@@ -80,7 +82,6 @@ struct HabitRowLabels: View {
                }
             }
              */
-            
             let streakLabel = vm.streakLabel()
             Text(streakLabel.0)
                .subLabel(color: streakLabel.1)

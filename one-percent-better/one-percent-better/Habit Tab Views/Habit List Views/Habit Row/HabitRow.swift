@@ -9,19 +9,12 @@ import SwiftUI
 import Combine
 import CoreData
 
-class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
-   
-   let habitController: NSFetchedResultsController<Habit>
-   let moc: NSManagedObjectContext
+class HabitRowViewModel: HabitConditionalFetcher {
    
    @Published var habit: Habit
-   
    var daysCompleted: [Date] = []
-   
    var cancelBag = Set<AnyCancellable>()
-   
    var currentDay: Date
-   
    @Published var timerLabel: String = "00:00"
    @Published var isTimerRunning: Bool
    var hasTimeTracker: Bool
@@ -35,27 +28,22 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       hasTimeTracker = false
       hasTimerStarted = false
       self.currentDay = currentDay
+      super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
       
-      let sortDescriptors = [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)]
-      habitController = Habit.resultsController(context: moc,
-                                                sortDescriptors: sortDescriptors,
-                                                predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
-      self.moc = moc
-      super.init()
-      habitController.delegate = self
-      try? habitController.performFetch()
-      
-//      if let t = self.habit.timeTracker {
-//         t.callback = updateTimerString(to:)
-//         isTimerRunning = t.isRunning
-//         hasTimeTracker = true
-//         if let value = t.getValue(on: self.currentDay) {
-//            self.updateTimerString(to: value)
-//            if value != 0 {
-//               hasTimerStarted = true
-//            }
-//         }
-//      }
+      // Time Tracker
+      /*
+      if let t = self.habit.timeTracker {
+         t.callback = updateTimerString(to:)
+         isTimerRunning = t.isRunning
+         hasTimeTracker = true
+         if let value = t.getValue(on: self.currentDay) {
+            self.updateTimerString(to: value)
+            if value != 0 {
+               hasTimerStarted = true
+            }
+         }
+      }
+       */
       
       $habit
          .sink { habit in
@@ -64,35 +52,10 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
          .store(in: &cancelBag)
    }
    
-   func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      
-      objectWillChange.send()
-//      guard let newHabit = controller.fetchedObjects?.first as? Habit else { return }
-////      print("OG daysCompleted: \(daysCompleted.last)")
-////      print("New habit: \(newHabit.daysCompleted.last)")
-//      if daysCompleted != newHabit.daysCompleted {
-//         habit = newHabit
-////         print("JJJJ habit row changing!!! for habit: \(habit.name)")
-//      }
-      
-   }
-   
-   var notDoneIn: Int {
-      var difference = 0
-      var day = Cal.startOfDay(for: currentDay)
-      day = Cal.date(byAdding: .day, value: -1, to: day)!
-      if day > habit.startDate {
-         while !habit.wasCompleted(on: day) {
-            difference += 1
-            day = Cal.date(byAdding: .day, value: -1, to: day)!
-            if day < habit.startDate {
-               break
-            }
-         }
-         return difference
-      } else {
-         return -1
-      }
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
+      guard !newHabits.isEmpty else { return }
+      habit = newHabits.first!
    }
    
    func streakLabel() -> (String, Color) {
@@ -118,6 +81,8 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
    }
    
+   // Timer
+   /*
    func getTimerString(from time: Int) -> String {
       var seconds = "\(time % 60)"
       if time % 60 < 10 {
@@ -129,8 +94,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
       return minutes + ":" + seconds
    }
-   
-   // Timer
+   */
    /*
    func updateTimerString(to value: Int) {
       self.timerLabel = getTimerString(from: value)
@@ -142,7 +106,7 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
    }
     */
-   
+   /*
    var timePercentComplete: Double {
       guard let t = habit.timeTracker else {
          return 0
@@ -152,15 +116,13 @@ class HabitRowViewModel: NSObject, NSFetchedResultsControllerDelegate, Observabl
       }
       return Double(soFar) / Double(t.goalTime)
    }
-   
+   */
 }
 
 struct HabitRow: View {
-   
+
    @Environment(\.scenePhase) var scenePhase
-   
    @ObservedObject var vm: HabitRowViewModel
-   
    @State private var completePressed = false
    
    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, day: Date) {
@@ -169,7 +131,6 @@ struct HabitRow: View {
    }
    
    var body: some View {
-//      print("   - HabitRow(\(vm.habit.name)) body")
       let _ = Self._printChanges()
       return (
          ZStack {
@@ -200,7 +161,6 @@ struct HabitRow: View {
                   }
             }
          }
-//            .background(Color.random)
       )
    }
 }
