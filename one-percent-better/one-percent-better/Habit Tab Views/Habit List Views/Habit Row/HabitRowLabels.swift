@@ -28,8 +28,6 @@ struct HabitRowLabels: View {
    
    @EnvironmentObject var vm: HabitRowViewModel
    
-//   @State private var streakLabel: (String, Color) = ("", Color.clear)
-   
    let subGray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
    
    func specificWeekdaysLabel(days: [Weekday]) -> String {
@@ -56,12 +54,7 @@ struct HabitRowLabels: View {
                .font(.system(size: 16))
 //               .fontWeight(vm.isTimerRunning ? .bold : .regular)
             
-            if case .timesPerDay(let tpd) = vm.habit.frequency(on: vm.currentDay),
-               tpd > 1 {
-               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompleted(on: vm.currentDay), timesExpected: tpd)
-            } else if case .timesPerWeek(times: let tpw, _) = vm.habit.frequency(on: vm.currentDay) {
-               TimesCompletedIndicator(timesCompleted: vm.habit.timesCompletedThisWeek(on: vm.currentDay, upTo: true), timesExpected: tpw)
-            }
+            TimesCompletedIndicator(timesCompleted: vm.timesCompleted, timesExpected: vm.timesExpected)
          }
          
          HStack(spacing: 0) {
@@ -100,12 +93,6 @@ struct HabitRowLabels: View {
          case .none:
             EmptyView()
          }
-//         if case .specificWeekdays(_) = vm.habit.frequency(on: vm.currentDay),
-//            !vm.habit.isDue(on: vm.currentDay) {
-//            Text("Not due today")
-//               .font(.system(size: 11))
-//               .foregroundColor(Color(hue: 1.0, saturation: 0.0, brightness: 0.519))
-//         } else {
       }
    }
 }

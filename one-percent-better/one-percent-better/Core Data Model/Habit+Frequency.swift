@@ -173,7 +173,9 @@ extension Habit {
             timesPerWeekResetDay[timesPerWeekResetDay.count - 1] = day.rawValue
          }
       }
-      self.improvementTracker?.update(on: date)
+      
+      streakCache = [:] // maybe better options here
+      improvementTracker?.update(on: date)
       moc.assertSave()
    }
    

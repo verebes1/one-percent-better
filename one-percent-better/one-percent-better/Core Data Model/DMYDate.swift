@@ -18,6 +18,10 @@ struct DMYDate: Hashable {
    
    var date: Date
    
+   init(_ date: Date) {
+      self.date = date
+   }
+   
    var dateString: String {
       df.string(from: date)
    }

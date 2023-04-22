@@ -9,7 +9,7 @@ import Foundation
 
 // TODO: At some point, also implement dictionary containing completed days for faster lookup than binary search
 // Dictionary style (key must be hashable, and equatable for same day):
-// let dmyDate = DMYDate(date: date)
+// let dmyDate = DMYDate(date)
 
 extension Habit {
    
@@ -123,15 +123,15 @@ extension Habit {
             timesCompleted[i] += 1
             
             // Dictionary version
-            if let v = timesCompletedDict[DMYDate(date: date)] {
-               timesCompletedDict[DMYDate(date: date)] = v + 1
+            if let v = timesCompletedDict[DMYDate(date)] {
+               timesCompletedDict[DMYDate(date)] = v + 1
             }
          } else {
             daysCompleted.append(date)
             timesCompleted.append(1)
             
             // Dictionary version
-            timesCompletedDict[DMYDate(date: date)] = 1
+            timesCompletedDict[DMYDate(date)] = 1
          }
          
          let combined = zip(daysCompleted, timesCompleted).sorted { $0.0 < $1.0 }
@@ -145,6 +145,7 @@ extension Habit {
          removeNotifications(on: date)
       }
       
+      resetStreakCache(on: date)
       improvementTracker?.update(on: date)
       moc.assertSave()
    }
@@ -164,6 +165,7 @@ extension Habit {
          }
       }
       
+      resetStreakCache(on: date)
       // Fix this at some point
       improvementTracker?.update(on: date)
       addNotificationsBack(on: date)
@@ -183,8 +185,20 @@ extension Habit {
    /// - Parameter date: The streak on this date
    /// - Returns: The streak number
    func streak(on date: Date) -> Int {
-      print("Calculating streak for habit \(name)")
       var streak = 0
+      
+      if let streak = streakCache[DMYDate(date)] {
+         print("Using streak cache for habit \(name) on \(DMYDate(date).dateString)")
+         return streak
+      }
+      
+      defer {
+         print("Writing to streak cache for habit \(name) on \(DMYDate(date).dateString)")
+         streakCache[DMYDate(date)] = streak
+      }
+      
+      print("Calculating streak for habit \(name) on \(DMYDate(date).dateString)")
+      
       
       guard let freq = frequency(on: date) else { return 0 }
       let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
@@ -267,6 +281,11 @@ extension Habit {
       }
       return streak
    }
+   
+   func resetStreakCache(on date: Date) {
+      streakCache[DMYDate(date)] = nil
+   }
+   
    
    /// How many days since the last time this habit was completed
    /// - Parameter on: The date to check against

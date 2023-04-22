@@ -81,6 +81,30 @@ class HabitRowViewModel: HabitConditionalFetcher {
       }
    }
    
+   var timesCompleted: Int {
+      switch habit.frequency(on: currentDay) {
+      case .timesPerDay, .specificWeekdays:
+         return habit.timesCompleted(on: currentDay)
+      case .timesPerWeek:
+         return habit.timesCompletedThisWeek(on: currentDay, upTo: true)
+      case .none:
+         return 0
+      }
+   }
+   
+   var timesExpected: Int {
+      switch habit.frequency(on: currentDay) {
+      case .timesPerDay(let tpd):
+         return tpd
+      case .specificWeekdays(let weekdays):
+         return weekdays.count
+      case .timesPerWeek(times: let tpw, _):
+         return tpw
+      case .none:
+         return 0
+      }
+   }
+   
    // Timer
    /*
    func getTimerString(from time: Int) -> String {
@@ -214,9 +238,6 @@ struct HabitRow_Previews: PreviewProvider {
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
       h2?.changeFrequency(to: .specificWeekdays([.tuesday, .wednesday, .friday]))
       h2?.markCompleted(on: Cal.add(days: -1))
-//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
-//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
-//      h2?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
       h3?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)

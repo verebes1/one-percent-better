@@ -154,6 +154,7 @@ struct HabitsHeaderView: View {
          selectedDayModel.selectedDay = Date()
          updateHeaderView()
          updateImprovementScores()
+         moc.assertSave()
       }
    }
    

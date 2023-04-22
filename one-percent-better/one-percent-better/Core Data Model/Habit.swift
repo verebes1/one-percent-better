@@ -88,12 +88,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// A set of notifications for this habit
    @NSManaged public var notifications: NSOrderedSet?
    
+   var streakCache: [DMYDate : Int ] = [:]
+   
    // MARK: - Properties
    
    lazy var timesCompletedDict: [DMYDate: Int] = {
       var result: [DMYDate: Int] = [:]
       for (index, day) in daysCompleted.enumerated() {
-         result[DMYDate(date: day)] = timesCompleted[index]
+         result[DMYDate(day)] = timesCompleted[index]
       }
       return result
    }()
@@ -178,28 +180,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          notification.completeReset()
       }
       NotificationManager.shared.rebalanceHabitNotifications()
-   }
-   
-   // TODO: fix this for 1.0.8!!
-   /// The longest streak the user has completed for this habit
-   var longestStreak: Int {
-      get {
-         var longest = 0
-         var current = 0
-         guard var curDay = startDate else { return 0 }
-         while !Cal.isDateInTomorrow(curDay) {
-            if self.wasCompleted(on: curDay) {
-               current += 1
-               if current > longest {
-                  longest = current
-               }
-            } else {
-               current = 0
-            }
-            curDay = Cal.date(byAdding: .day, value: 1, to: curDay)!
-         }
-         return longest
-      }
    }
    
    var manualTrackers: [Tracker] {
