@@ -27,12 +27,10 @@ struct RingView: View {
                 .animation(.easeInOut, value: percent)
             
             if withText {
-                if let intPercent = Int(round(100 * percent)) {
-                    Text("\(intPercent)%")
-                        .font(.system(size: size/3))
-                        .fontWeight(.bold)
-                        .foregroundColor(startColor)
-                }
+                 Text("\(Int(round(100 * percent)))%")
+                     .font(.system(size: size/3))
+                     .fontWeight(.bold)
+                     .foregroundColor(startColor)
             }
         }
         .contentShape(Rectangle())

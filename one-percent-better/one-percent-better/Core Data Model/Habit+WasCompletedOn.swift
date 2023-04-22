@@ -270,7 +270,7 @@ extension Habit {
    /// How many days since the last time this habit was completed
    /// - Parameter on: The date to check against
    func notDoneInDays(on date: Date) -> Int? {
-      guard started(after: date) else { return nil }
+      guard started(before: date) else { return nil }
       var difference = 0
       var day = Cal.startOfDay(for: date)
       day = Cal.add(days: -1, to: day)
