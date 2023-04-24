@@ -75,7 +75,7 @@ struct HabitListView: View {
    
    @Environment(\.managedObjectContext) var moc
    @EnvironmentObject var hlvm: HabitListViewModel
-   @EnvironmentObject var selectedDayModel: SelectedDayModel
+   @EnvironmentObject var hwvm: HeaderWeekViewModel
    
    @Binding var hideTabBar: Bool
    
@@ -89,10 +89,10 @@ struct HabitListView: View {
             List {
                Section {
                   ForEach(hlvm.habits, id: \.self.id) { habit in
-                     if habit.started(before: selectedDayModel.selectedDay) {
+                     if habit.started(before: hwvm.selectedDay) {
                         // Habit Row
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                           HabitRow(habit: habit, day: selectedDayModel.selectedDay)
+                           HabitRow(habit: habit, day: hwvm.selectedDay)
                         }
                         .listRowInsets(.init(top: 0,
                                              leading: 0,
@@ -126,7 +126,7 @@ struct HabitListView: View {
       }
       .toolbarBackground(Color.backgroundColor, for: .tabBar)
       .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
-      .navigationTitle(selectedDayModel.navTitle)
+      .navigationTitle(hwvm.navTitle)
       .navigationBarTitleDisplayMode(.inline)
    }
 }
