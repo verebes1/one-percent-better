@@ -32,22 +32,21 @@ struct ContentView: View {
    
    @State private var tabSelection: Tab = .habitList
    
-   /// Navigation path model
    @ObservedObject var nav = HabitTabNavPath()
-   @ObservedObject var hlvm: HabitListViewModel
+   @ObservedObject var hlvm = HabitListViewModel()
+   @ObservedObject var hwvm = HeaderWeekViewModel()
    
    init() {
       print("Initializing content view")
-      hlvm = HabitListViewModel()
    }
    
    var body: some View {
       let _ = Self._printChanges()
-      return (
       TabView {
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)
+               .environmentObject(hwvm)
                .environmentObject(nav)
          }
          .tabItem {
@@ -67,7 +66,6 @@ struct ContentView: View {
                Label("Settings", systemImage: "gearshape.fill")
             }
       }
-      )
    }
 }
 

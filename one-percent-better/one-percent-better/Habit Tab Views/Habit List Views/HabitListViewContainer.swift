@@ -30,8 +30,7 @@ struct HabitListViewContainer: View {
    @Environment(\.scenePhase) var scenePhase
    @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var hlvm: HabitListViewModel
-   
-   @ObservedObject var hwvm = HeaderWeekViewModel()
+   @EnvironmentObject var hwvm: HeaderWeekViewModel
    
    @State private var hideTabBar = false
    
@@ -54,15 +53,14 @@ struct HabitListViewContainer: View {
             }
          }
       }
-      .environmentObject(hwvm)
       .onAppear {
          hwvm.updateDayToToday()
       }
-      .onChange(of: scenePhase) { newPhase in
-         if newPhase == .active {
-            hwvm.updateDayToToday()
-         }
-      }
+//      .onChange(of: scenePhase) { newPhase in
+//         if newPhase == .active {
+//            hwvm.updateDayToToday()
+//         }
+//      }
    }
 }
 

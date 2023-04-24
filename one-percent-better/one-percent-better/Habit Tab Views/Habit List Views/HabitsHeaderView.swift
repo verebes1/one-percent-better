@@ -22,16 +22,16 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
    @Published var habits: [Habit] = []
    
    /// Which day is selected in the HabitHeaderView
-   @Published var selectedWeekDay: Int = 0
+   @Published var selectedWeekDay = 0
    
    /// Which week is selected in the HabitHeaderView
-   @Published var selectedWeek: Int = 0
+   @Published var selectedWeek = 0
    
-   @Published var selectedDay = Cal.add(days: -1)
+   @Published var selectedDay = Date()
    
    /// The latest day that has been shown. This is updated when the
    /// app is opened or the view appears on a new day.
-   @Published var latestDay: Date = Cal.add(days: -1)
+   @Published var latestDay = Date()
    
    var cancelBag = Set<AnyCancellable>()
    
@@ -52,11 +52,13 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
       super.init(context)
       habits = habitController.fetchedObjects ?? []
       
-      $selectedWeekDay
+      $selectedWeek
          .sink { newValue in
             print("Selected week day changed to \(newValue)")
          }
          .store(in: &cancelBag)
+      
+      updateHeaderView()
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -178,9 +180,8 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
 struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
-   
    @EnvironmentObject var vm: HeaderWeekViewModel
-   
+//   @State private var localSelection = 0
    var color: Color = .systemTeal
    
    init(context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
@@ -226,10 +227,19 @@ struct HabitsHeaderView: View {
                }
                .padding(.horizontal, 20)
             }
+//            .background(GeometryReader {
+//               // read and store origin (min X) of page
+//               Color.clear.preference(key: ViewOffsetKey.self,
+//                                      value: $0.frame(in: .global).minX)
+//            })
          }
          .coordinateSpace(name: "scroll")
          .frame(height: ringSize + 22)
          .tabViewStyle(.page(indexDisplayMode: .never))
+//         .onPreferenceChange(ViewOffsetKey.self) {
+//            // process here update of page origin as needed
+//            print("Offset >> \($0)")
+//         }
          .onChange(of: vm.selectedWeek) { newWeek in
             // If scrolling to week which has dates ahead of today
             let today = Date()
@@ -238,12 +248,12 @@ struct HabitsHeaderView: View {
                vm.selectedWeekDay > currentOffset {
                vm.selectedWeekDay = currentOffset
             }
-            
+
             // If scrolls to week which has days before the earliest start date
             if vm.date(week: newWeek, day: vm.selectedWeekDay) < vm.earliestStartDate {
                vm.selectedWeekDay = vm.thisWeekDayOffset(vm.earliestStartDate)
             }
-            
+
             let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
             let newDay = Cal.date(byAdding: .day, value: dayOffset, to: today)!
             vm.selectedDay = newDay

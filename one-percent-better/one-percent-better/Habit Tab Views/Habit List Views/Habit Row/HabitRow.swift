@@ -143,7 +143,7 @@ class HabitRowViewModel: HabitConditionalFetcher {
 
 struct HabitRow: View {
 
-   @Environment(\.scenePhase) var scenePhase
+//   @Environment(\.scenePhase) var scenePhase
    @ObservedObject var vm: HabitRowViewModel
    @State private var completePressed = false
    
