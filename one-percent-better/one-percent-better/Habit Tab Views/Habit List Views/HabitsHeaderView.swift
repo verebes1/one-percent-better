@@ -17,9 +17,7 @@ struct ViewOffsetKey: PreferenceKey {
     }
 }
 
-class HeaderWeekViewModel: HabitConditionalFetcher {
-   
-   @Published var habits: [Habit] = []
+class HeaderSelectionViewModel: ObservableObject {
    
    /// Which day is selected in the HabitHeaderView
    @Published var selectedWeekDay = 0
@@ -32,8 +30,6 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
    /// The latest day that has been shown. This is updated when the
    /// app is opened or the view appears on a new day.
    @Published var latestDay = Date()
-   
-   var cancelBag = Set<AnyCancellable>()
    
    /// Date formatter for the month year label at the top of the calendar
    var dateTitleFormatter: DateFormatter = {
@@ -48,27 +44,17 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
       dateTitleFormatter.string(from: selectedDay)
    }
    
-   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-      super.init(context)
-      habits = habitController.fetchedObjects ?? []
-      
-      $selectedWeek
-         .sink { newValue in
-            print("Selected week day changed to \(newValue)")
-         }
-         .store(in: &cancelBag)
-      
-      updateHeaderView()
-   }
+   let hwvm: HeaderWeekViewModel
    
-   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
-      habits = newHabits
+   init(hwvm: HeaderWeekViewModel) {
+      self.hwvm = hwvm
+      updateHeaderView()
+      hwvm.updateImprovementScores(on: selectedDay)
    }
    
    func updateHeaderView() {
-      selectedWeekDay = thisWeekDayOffset(selectedDay)
-      selectedWeek = getSelectedWeek(for: selectedDay)
+      selectedWeekDay = hwvm.thisWeekDayOffset(selectedDay)
+      selectedWeek = hwvm.getSelectedWeek(for: selectedDay)
    }
    
    func updateDayToToday() {
@@ -76,13 +62,47 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
          latestDay = Date()
          selectedDay = Date()
          updateHeaderView()
-         updateImprovementScores()
+         hwvm.updateImprovementScores(on: selectedDay)
       }
    }
    
-   func updateImprovementScores() {
+   func updateWeek(to newWeek: Int) {
+      // If scrolling to week which has dates ahead of today
+      let today = Date()
+      let currentOffset = hwvm.thisWeekDayOffset(today)
+      if newWeek == (hwvm.numWeeksSinceEarliest - 1),
+         selectedWeekDay > currentOffset {
+         selectedWeekDay = currentOffset
+      }
+
+      // If scrolls to week which has days before the earliest start date
+      if hwvm.date(week: newWeek, day: selectedWeekDay) < hwvm.earliestStartDate {
+         selectedWeekDay = hwvm.thisWeekDayOffset(hwvm.earliestStartDate)
+      }
+
+      let dayOffset = hwvm.dayOffset(week: newWeek, day: selectedWeekDay)
+      let newDay = Cal.date(byAdding: .day, value: dayOffset, to: today)!
+      selectedDay = newDay
+   }
+}
+
+class HeaderWeekViewModel: HabitConditionalFetcher {
+   
+   @Published var habits: [Habit] = []
+   
+   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+      super.init(context)
+      habits = habitController.fetchedObjects ?? []
+   }
+   
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
+      habits = newHabits
+   }
+   
+   func updateImprovementScores(on date: Date) {
       for habit in habits {
-         habit.improvementTracker?.update(on: selectedDay)
+         habit.improvementTracker?.update(on: date)
       }
    }
    
@@ -180,8 +200,8 @@ class HeaderWeekViewModel: HabitConditionalFetcher {
 struct HabitsHeaderView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @EnvironmentObject var vm: HeaderWeekViewModel
-//   @State private var localSelection = 0
+   @ObservedObject var vm = HeaderWeekViewModel()
+   @EnvironmentObject var hsvm: HeaderSelectionViewModel
    var color: Color = .systemTeal
    
    init(context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
@@ -201,7 +221,7 @@ struct HabitsHeaderView: View {
          .padding(.horizontal, 20)
          
          let ringSize: CGFloat = 27
-         TabView(selection: $vm.selectedWeek) {
+         TabView(selection: $hsvm.selectedWeek) {
             ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
                HStack {
                   ForEach(0 ..< 7) { j in
@@ -216,9 +236,9 @@ struct HabitsHeaderView: View {
                      .frame(maxWidth: .infinity)
                      .onTapGesture {
                         if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
-                           vm.selectedWeekDay = j
+                           hsvm.selectedWeekDay = j
                            let newDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
-                           vm.selectedDay = newDay
+                           hsvm.selectedDay = newDay
                         }
                      }
                      .contentShape(Rectangle())
@@ -227,36 +247,12 @@ struct HabitsHeaderView: View {
                }
                .padding(.horizontal, 20)
             }
-//            .background(GeometryReader {
-//               // read and store origin (min X) of page
-//               Color.clear.preference(key: ViewOffsetKey.self,
-//                                      value: $0.frame(in: .global).minX)
-//            })
          }
          .coordinateSpace(name: "scroll")
          .frame(height: ringSize + 22)
          .tabViewStyle(.page(indexDisplayMode: .never))
-//         .onPreferenceChange(ViewOffsetKey.self) {
-//            // process here update of page origin as needed
-//            print("Offset >> \($0)")
-//         }
-         .onChange(of: vm.selectedWeek) { newWeek in
-            // If scrolling to week which has dates ahead of today
-            let today = Date()
-            let currentOffset = vm.thisWeekDayOffset(today)
-            if newWeek == (vm.numWeeksSinceEarliest - 1),
-               vm.selectedWeekDay > currentOffset {
-               vm.selectedWeekDay = currentOffset
-            }
-
-            // If scrolls to week which has days before the earliest start date
-            if vm.date(week: newWeek, day: vm.selectedWeekDay) < vm.earliestStartDate {
-               vm.selectedWeekDay = vm.thisWeekDayOffset(vm.earliestStartDate)
-            }
-
-            let dayOffset = vm.dayOffset(week: newWeek, day: vm.selectedWeekDay)
-            let newDay = Cal.date(byAdding: .day, value: dayOffset, to: today)!
-            vm.selectedDay = newDay
+         .onChange(of: hsvm.selectedWeek) { newWeek in
+            hsvm.updateWeek(to: newWeek)
          }
       }
    }
@@ -302,13 +298,14 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
 struct SelectedDayView: View {
    
    @EnvironmentObject var vm: HeaderWeekViewModel
+   @EnvironmentObject var hsvm: HeaderSelectionViewModel
    
    var index: Int
    var color: Color = .systemTeal
    
    func isIndexSameAsToday(_ index: Int) -> Bool {
       let dayIsSelectedWeekday = vm.thisWeekDayOffset(Date()) == index
-      let weekIsSelectedWeek = vm.selectedWeek == (vm.numWeeksSinceEarliest - 1)
+      let weekIsSelectedWeek = hsvm.selectedWeek == (vm.numWeeksSinceEarliest - 1)
       return dayIsSelectedWeekday && weekIsSelectedWeek
    }
    
@@ -317,7 +314,7 @@ struct SelectedDayView: View {
    var body: some View {
       ZStack {
          let circleSize: CGFloat = 19
-         let isSelected = index == vm.thisWeekDayOffset(vm.selectedDay)
+         let isSelected = index == vm.thisWeekDayOffset(hsvm.selectedDay)
          if isSelected {
             Circle()
                .foregroundColor(isIndexSameAsToday(index) ? color : .systemGray2)
@@ -332,10 +329,10 @@ struct SelectedDayView: View {
       .padding(.bottom, 3)
       .contentShape(Rectangle())
       .onTapGesture {
-         let dayOffset = vm.dayOffset(week: vm.selectedWeek, day: index)
+         let dayOffset = vm.dayOffset(week: hsvm.selectedWeek, day: index)
          if dayOffset <= 0 {
-            vm.selectedWeekDay = index
-            vm.selectedDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
+            hsvm.selectedWeekDay = index
+            hsvm.selectedDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
          }
       }
    }

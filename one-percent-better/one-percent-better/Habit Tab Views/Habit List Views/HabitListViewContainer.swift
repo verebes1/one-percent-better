@@ -30,7 +30,7 @@ struct HabitListViewContainer: View {
    @Environment(\.scenePhase) var scenePhase
    @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var hlvm: HabitListViewModel
-   @EnvironmentObject var hwvm: HeaderWeekViewModel
+   @EnvironmentObject var hsvm: HeaderSelectionViewModel
    
    @State private var hideTabBar = false
    
@@ -54,8 +54,24 @@ struct HabitListViewContainer: View {
          }
       }
       .onAppear {
-         hwvm.updateDayToToday()
+         hsvm.updateDayToToday()
       }
+      .navigationTitle(hsvm.navTitle)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+         // Edit
+         ToolbarItem(placement: .navigationBarLeading) {
+            EditButton()
+         }
+         // New Habit
+         ToolbarItem(placement: .navigationBarTrailing) {
+            NavigationLink(value: HabitListViewRoute.createHabit) {
+               Image(systemName: "square.and.pencil")
+            }
+         }
+      }
+      .toolbarBackground(Color.backgroundColor, for: .tabBar)
+      .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
 //      .onChange(of: scenePhase) { newPhase in
 //         if newPhase == .active {
 //            hwvm.updateDayToToday()

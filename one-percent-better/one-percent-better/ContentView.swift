@@ -34,7 +34,7 @@ struct ContentView: View {
    
    @ObservedObject var nav = HabitTabNavPath()
    @ObservedObject var hlvm = HabitListViewModel()
-   @ObservedObject var hwvm = HeaderWeekViewModel()
+   @ObservedObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
    
    init() {
       print("Initializing content view")
@@ -46,7 +46,7 @@ struct ContentView: View {
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)
-               .environmentObject(hwvm)
+               .environmentObject(hsvm)
                .environmentObject(nav)
          }
          .tabItem {
