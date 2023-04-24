@@ -35,6 +35,11 @@ struct ImprovementGraphView: View {
    func improvementRange(last5: [GraphPoint]) -> ClosedRange<Double> {
       var smallest: Double!
       var largest: Double!
+      
+      if last5.count <= 1 {
+         return 0 ... 5
+      }
+      
       for gp in last5 {
          if smallest == nil { smallest = gp.value }
          if largest == nil { largest = gp.value }
@@ -57,6 +62,7 @@ struct ImprovementGraphView: View {
       if last5.isEmpty {
          return 0
       }
+      
       var avg: Double = 0
       for gp in last5 {
          avg += gp.value
@@ -65,11 +71,20 @@ struct ImprovementGraphView: View {
       return avg
    }
    
+   func dashedLineValue(last5: [GraphPoint]) -> Double {
+      if last5.count <= 1 {
+         return 0
+      }
+      return last5.first!.value
+   }
+   
    var body: some View {
       let last5 = getLast7()
       let average = average(last5: last5)
+      let dashedLine = dashedLineValue(last5: last5)
+      let _ = Self._printChanges()
       Chart {
-         RuleMark(y: .value("Average", average))
+         RuleMark(y: .value("Average", dashedLine))
             .lineStyle(.init(lineWidth: 1, dash: [1,5]))
             .foregroundStyle(.gray.opacity(0.7))
          
@@ -82,7 +97,7 @@ struct ImprovementGraphView: View {
             .symbol(.circle)
             .symbolSize(14)
             .interpolationMethod(.monotone)
-            .foregroundStyle(graphColor(last7: last5, avg: average).opacity(0.9))
+            .foregroundStyle(graphColor(last7: last5, avg: dashedLine).opacity(0.9))
          }
       }
       .animation(.easeInOut, value: last5)

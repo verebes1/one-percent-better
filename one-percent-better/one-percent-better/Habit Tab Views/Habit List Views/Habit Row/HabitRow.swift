@@ -12,7 +12,6 @@ import CoreData
 class HabitRowViewModel: HabitConditionalFetcher {
    
    @Published var habit: Habit
-   var daysCompleted: [Date] = []
    var cancelBag = Set<AnyCancellable>()
    var currentDay: Date
    @Published var timerLabel: String = "00:00"
@@ -22,7 +21,6 @@ class HabitRowViewModel: HabitConditionalFetcher {
 
    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, currentDay: Date) {
       self.habit = habit
-      self.daysCompleted = habit.daysCompleted
       self.currentDay = currentDay
       isTimerRunning = false
       hasTimeTracker = false
@@ -156,36 +154,34 @@ struct HabitRow: View {
    
    var body: some View {
       let _ = Self._printChanges()
-      return (
-         ZStack {
-            // Actual row views
-            HStack(spacing: 0) {
-               Spacer().frame(width: 15)
-               HabitCompletionCircle(vm: vm,
-                                     size: 28,
-                                     completedPressed: $completePressed)
-               Spacer().frame(width: 15)
-               HabitRowLabels()
-                  .environmentObject(vm)
-               
-               Spacer()
-               ImprovementGraphView()
-                  .environmentObject(vm)
-                  .frame(width: 80, height: 35)
-                  .padding(.trailing, 20)
-            }
-            .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
+      ZStack {
+         // Actual row views
+         HStack(spacing: 0) {
+            Spacer().frame(width: 15)
+            HabitCompletionCircle(vm: vm,
+                                  size: 28,
+                                  completedPressed: $completePressed)
+            Spacer().frame(width: 15)
+            HabitRowLabels()
+               .environmentObject(vm)
             
-            // Left side of habit row is completion button
-            GeometryReader { geo in
-               Color.clear
-                  .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))
-                  .onTapGesture {
-                     completePressed.toggle()
-                  }
-            }
+            Spacer()
+            ImprovementGraphView()
+               .environmentObject(vm)
+               .frame(width: 80, height: 35)
+               .padding(.trailing, 20)
          }
-      )
+         .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
+         
+         // Left side of habit row is completion button
+         GeometryReader { geo in
+            Color.clear
+               .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))
+               .onTapGesture {
+                  completePressed.toggle()
+               }
+         }
+      }
    }
 }
 

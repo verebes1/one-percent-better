@@ -20,13 +20,10 @@
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
 		8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */; };
+		802AB86929F603F000210AD6 /* RoundedCornersShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86829F603F000210AD6 /* RoundedCornersShape.swift */; };
 		802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */; };
 		802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */; };
 		802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA1328BC0253006E38E6 /* ErrorLabel.swift */; };
-		802E928E2917071A00A28EB1 /* BottomPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E928B2917071A00A28EB1 /* BottomPopupView.swift */; };
-		802E928F2917071A00A28EB1 /* View+CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E928C2917071A00A28EB1 /* View+CornerRadius.swift */; };
-		802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E928D2917071A00A28EB1 /* PopupModifier.swift */; };
-		802E92922917079B00A28EB1 /* NamePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92912917079B00A28EB1 /* NamePopupView.swift */; };
 		802E92942919EB7900A28EB1 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92932919EB7900A28EB1 /* PillButton.swift */; };
 		802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */; };
 		802E9298291A0CD600A28EB1 /* ColorFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E9297291A0CD600A28EB1 /* ColorFunctions.swift */; };
@@ -186,7 +183,6 @@
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
-		80F7293C294C266F00F17B0B /* PickerMenuTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293B294C266F00F17B0B /* PickerMenuTest.swift */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
 		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
@@ -227,13 +223,10 @@
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
 		8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAllEntries.swift; sourceTree = "<group>"; };
+		802AB86829F603F000210AD6 /* RoundedCornersShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornersShape.swift; sourceTree = "<group>"; };
 		802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureLogController.swift; sourceTree = "<group>"; };
 		802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLog.swift; sourceTree = "<group>"; };
 		802CCA1328BC0253006E38E6 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
-		802E928B2917071A00A28EB1 /* BottomPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomPopupView.swift; sourceTree = "<group>"; };
-		802E928C2917071A00A28EB1 /* View+CornerRadius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+CornerRadius.swift"; sourceTree = "<group>"; };
-		802E928D2917071A00A28EB1 /* PopupModifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupModifier.swift; sourceTree = "<group>"; };
-		802E92912917079B00A28EB1 /* NamePopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NamePopupView.swift; sourceTree = "<group>"; };
 		802E92932919EB7900A28EB1 /* PillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		802E92952919F2F300A28EB1 /* RoundedRectButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedRectButtonStyle.swift; sourceTree = "<group>"; };
 		802E9297291A0CD600A28EB1 /* ColorFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorFunctions.swift; sourceTree = "<group>"; };
@@ -411,7 +404,6 @@
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
-		80F7293B294C266F00F17B0B /* PickerMenuTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerMenuTest.swift; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
@@ -491,10 +483,6 @@
 				80385CD7285BEE5900CBDF71 /* Extensions */,
 				80CC692328E39BA800584340 /* MyStepper.swift */,
 				80385CED285BEE5900CBDF71 /* CardView.swift */,
-				802E92912917079B00A28EB1 /* NamePopupView.swift */,
-				802E928B2917071A00A28EB1 /* BottomPopupView.swift */,
-				802E928D2917071A00A28EB1 /* PopupModifier.swift */,
-				802E928C2917071A00A28EB1 /* View+CornerRadius.swift */,
 				80385CEA285BEE5900CBDF71 /* HapticEngineManager.swift */,
 				802CCA1328BC0253006E38E6 /* ErrorLabel.swift */,
 				80385CCC285BEE5900CBDF71 /* Background.swift */,
@@ -511,12 +499,12 @@
 				803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */,
 				803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */,
 				805785BB296C4EFD00028582 /* DepressTest.swift */,
-				80F7293B294C266F00F17B0B /* PickerMenuTest.swift */,
 				8006A09A28F719A1005D1A19 /* MinusStepper.swift */,
 				80CC692528E3AF5400584340 /* ExpandingFillButton.swift */,
 				8006A09828F71812005D1A19 /* GrowingTapButton.swift */,
 				8006A09C28F71BBC005D1A19 /* PlusStepper.swift */,
 				80744F5F29B30A7300DAF196 /* OpenAI.swift */,
+				802AB86829F603F000210AD6 /* RoundedCornersShape.swift */,
 			);
 			path = "Global Style + Common Views";
 			sourceTree = "<group>";
@@ -1099,13 +1087,11 @@
 				80385D1F285BEE5900CBDF71 /* NSPersistentStoreCoordinator+SQLite.swift in Sources */,
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
-				802E928E2917071A00A28EB1 /* BottomPopupView.swift in Sources */,
 				805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */,
 				80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
 				8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */,
 				8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */,
-				802E92922917079B00A28EB1 /* NamePopupView.swift in Sources */,
 				807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */,
 				8062AA382900772E00903123 /* DailyReminder.swift in Sources */,
 				80639E5F293D641C00A48F16 /* ImprovementGraphCardView.swift in Sources */,
@@ -1133,9 +1119,9 @@
 				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,
 				80385D10285BEE5900CBDF71 /* Background.swift in Sources */,
 				805785C2296DECCF00028582 /* EveryXDays.swift in Sources */,
+				802AB86929F603F000210AD6 /* RoundedCornersShape.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */,
-				80F7293C294C266F00F17B0B /* PickerMenuTest.swift in Sources */,
 				805785BC296C4EFD00028582 /* DepressTest.swift in Sources */,
 				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
@@ -1180,7 +1166,6 @@
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
 				805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */,
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
-				802E928F2917071A00A28EB1 /* View+CornerRadius.swift in Sources */,
 				80744F6529B558A800DAF196 /* SpecificTimeNotification.swift in Sources */,
 				803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */,
 				80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */,
@@ -1193,7 +1178,6 @@
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
-				802E92902917071A00A28EB1 /* PopupModifier.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,

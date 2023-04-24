@@ -181,25 +181,24 @@ extension Habit {
       }
    }
    
+   func resetStreakCache(on date: Date) {
+      streakCache[DMYDate(date)] = nil
+   }
+   
    /// The streak of this habit calculated on specific date
    /// - Parameter date: The streak on this date
    /// - Returns: The streak number
    func streak(on date: Date) -> Int {
       var streak = 0
       
+      // Streak cache
       if let streak = streakCache[DMYDate(date)] {
-         print("Using streak cache for habit \(name) on \(DMYDate(date).dateString)")
          return streak
       }
-      
       defer {
-         print("Writing to streak cache for habit \(name) on \(DMYDate(date).dateString)")
          streakCache[DMYDate(date)] = streak
       }
-      
-      print("Calculating streak for habit \(name) on \(DMYDate(date).dateString)")
-      
-      
+
       guard let freq = frequency(on: date) else { return 0 }
       let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
       
@@ -281,11 +280,6 @@ extension Habit {
       }
       return streak
    }
-   
-   func resetStreakCache(on date: Date) {
-      streakCache[DMYDate(date)] = nil
-   }
-   
    
    /// How many days since the last time this habit was completed
    /// - Parameter on: The date to check against

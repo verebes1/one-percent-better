@@ -1,5 +1,8 @@
 //
-//  Created by Artem Novichkov on 20.05.2021.
+//  RoundedCornersShape.swift
+//  one-percent-better
+//
+//  Created by Jeremy Cook on 4/23/23.
 //
 
 import SwiftUI
@@ -17,8 +20,8 @@ struct RoundedCornersShape: Shape {
     }
 }
 
+
 extension View {
-    
     func cornerRadius(radius: CGFloat, corners: UIRectCorner = .allCorners) -> some View {
         clipShape(RoundedCornersShape(radius: radius, corners: corners))
     }

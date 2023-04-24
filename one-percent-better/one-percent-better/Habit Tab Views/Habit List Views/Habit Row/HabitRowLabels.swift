@@ -47,6 +47,7 @@ struct HabitRowLabels: View {
    }
    
    var body: some View {
+      let _ = Self._printChanges()
       VStack(alignment: .leading) {
          
          HStack {
@@ -54,7 +55,9 @@ struct HabitRowLabels: View {
                .font(.system(size: 16))
 //               .fontWeight(vm.isTimerRunning ? .bold : .regular)
             
-            TimesCompletedIndicator(timesCompleted: vm.timesCompleted, timesExpected: vm.timesExpected)
+            if vm.timesExpected > 1 {
+               TimesCompletedIndicator(timesCompleted: vm.timesCompleted, timesExpected: vm.timesExpected)
+            }
          }
          
          HStack(spacing: 0) {

@@ -32,24 +32,66 @@ class SelectedDayModel: ObservableObject, Equatable {
    var navTitle: String {
       dateTitleFormatter.string(from: selectedDay)
    }
+   
+   func updateDayToToday() {
+      if !Cal.isDate(latestDay, inSameDayAs: Date()) {
+         latestDay = Date()
+         selectedDay = Date()
+      }
+   }
+}
+
+struct IntermediaryHabitListView: View {
+   
+   @Binding var hideTabBar: Bool
+   
+   var body: some View {
+      let _ = Self._printChanges()
+      HabitListView(hideTabBar: $hideTabBar)
+   }
+}
+
+
+struct IntermediaryHeaderView: View {
+   var body: some View {
+      let _ = Self._printChanges()
+      HabitsHeaderView()
+   }
 }
 
 struct HabitListViewContainer: View {
    
    @Environment(\.scenePhase) var scenePhase
-   
+   @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var hlvm: HabitListViewModel
    
    @StateObject var selectedDayModel = SelectedDayModel()
    
+   @State private var hideTabBar = false
+   
    var body: some View {
+      let _ = Self._printChanges()
       Background {
          VStack {
-            HabitsHeaderView()
-            HabitListView(habits: hlvm.habits)
+            IntermediaryHeaderView()
+            IntermediaryHabitListView(hideTabBar: $hideTabBar)
+         }
+         .navigationDestination(for: HabitListViewRoute.self) { route in
+            if case let .showProgress(habit) = route {
+               HabitProgessView()
+                  .environmentObject(nav)
+                  .environmentObject(habit)
+            }
+            if case .createHabit = route {
+               CreateHabitName(hideTabBar: $hideTabBar)
+                  .environmentObject(nav)
+            }
          }
       }
       .environmentObject(selectedDayModel)
+      .onAppear {
+         selectedDayModel.updateDayToToday()
+      }
    }
 }
 

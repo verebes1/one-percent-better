@@ -140,6 +140,7 @@ struct HabitsHeaderView: View {
    var color: Color = .systemTeal
    
    init(context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+      print("Habit header view init")
       self._hf = StateObject(wrappedValue: HabitFetcher(context))
    }
    
@@ -148,23 +149,8 @@ struct HabitsHeaderView: View {
       vm.selectedWeek = vm.getSelectedWeek(for: selectedDayModel.selectedDay)
    }
    
-   func updateDayToToday() {
-      if !Cal.isDate(selectedDayModel.latestDay, inSameDayAs: Date()) {
-         selectedDayModel.latestDay = Date()
-         selectedDayModel.selectedDay = Date()
-         updateHeaderView()
-         updateImprovementScores()
-         moc.assertSave()
-      }
-   }
-   
-   func updateImprovementScores() {
-      for habit in vm.habits {
-         habit.improvementTracker?.update(on: selectedDayModel.selectedDay)
-      }
-   }
-   
    var body: some View {
+      let _ = Self._printChanges()
       VStack(spacing: 0) {
          HStack {
             ForEach(0 ..< 7) { i in
@@ -226,7 +212,6 @@ struct HabitsHeaderView: View {
          }
          .onAppear {
             updateHeaderView()
-            updateDayToToday()
          }
       }
    }

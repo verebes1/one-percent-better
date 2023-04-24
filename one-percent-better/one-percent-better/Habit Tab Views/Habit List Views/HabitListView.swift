@@ -74,24 +74,21 @@ class HabitListViewModel: HabitConditionalFetcher {
 struct HabitListView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var selectedDayModel: SelectedDayModel
    
-   let habits: [Habit]
-   
-   @State private var hideTabBar = false
+   @Binding var hideTabBar: Bool
    
    var body: some View {
       let _ = Self._printChanges()
       VStack {
-         if habits.isEmpty {
+         if hlvm.habits.isEmpty {
             NoHabitsView()
             Spacer()
          } else {
             List {
                Section {
-                  ForEach(habits, id: \.self.id) { habit in
+                  ForEach(hlvm.habits, id: \.self.id) { habit in
                      if habit.started(before: selectedDayModel.selectedDay) {
                         // Habit Row
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
@@ -115,7 +112,6 @@ struct HabitListView: View {
             .clipShape(Rectangle())
          }
       }
-      
       .toolbar {
          // Edit
          ToolbarItem(placement: .navigationBarLeading) {
@@ -129,22 +125,9 @@ struct HabitListView: View {
          }
       }
       .toolbarBackground(Color.backgroundColor, for: .tabBar)
-      .navigationDestination(for: HabitListViewRoute.self) { route in
-         if case let .showProgress(habit) = route {
-            HabitProgessView()
-               .environmentObject(nav)
-               .environmentObject(habit)
-         }
-         
-         if case .createHabit = route {
-            CreateHabitName(hideTabBar: $hideTabBar)
-               .environmentObject(nav)
-         }
-      }
+      .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
       .navigationTitle(selectedDayModel.navTitle)
       .navigationBarTitleDisplayMode(.inline)
-      .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
-      
    }
 }
 
@@ -183,7 +166,7 @@ struct HabitsViewPreviewer: View {
    
    var body: some View {
       NavigationStack(path: $nav.path) {
-         HabitListView(habits: habitList_VM.habits)
+         HabitListView(hideTabBar: .constant(false))
             .environmentObject(headerWeek_VM)
             .environment(\.managedObjectContext, moc)
             .environmentObject(nav)

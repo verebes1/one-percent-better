@@ -19,6 +19,7 @@ struct HabitProgessView: View {
    @EnvironmentObject var habit: Habit
    
    var body: some View {
+      let _ = Self._printChanges()
       Background {
          ScrollView {
             VStack(spacing: 20) {
