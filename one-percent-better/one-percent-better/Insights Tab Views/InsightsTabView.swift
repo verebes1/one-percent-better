@@ -10,16 +10,15 @@ import SwiftUI
 struct InsightsTabView: View {
    
    @EnvironmentObject var vm: HabitListViewModel
-   @StateObject var hwvm = HeaderWeekViewModel()
    
    var body: some View {
+      let _ = Self._printChanges()
       Background {
          ScrollView {
             VStack(spacing: 20) {
                AllHabitsGraphCard()
 //
                WeeklyPercentGraphCard()
-                  .environmentObject(hwvm)
                
 //               CardView {
 //                  Text("Test Card")

@@ -10,7 +10,7 @@ import Charts
 
 struct WeeklyPercentGraphCard: View {
    
-   @EnvironmentObject var vm: HeaderWeekViewModel
+   @StateObject var vm = HeaderWeekViewModel()
    
    func dailyPercent() -> [GraphPoint] {
       var r = [GraphPoint]()
@@ -66,7 +66,10 @@ struct WeeklyPercentGraphCard: View {
       return movingAverage
    }
    
+   @State private var data: [GraphPoint] = []
+   
    var body: some View {
+      let _ = Self._printChanges()
       CardView {
          VStack(alignment: .leading) {
             CardTitleWithRightDetail("Daily Percent Completed") {
@@ -79,7 +82,6 @@ struct WeeklyPercentGraphCard: View {
                .padding(.horizontal, 20)
             
             Chart {
-               let data = dailyPercent()
                ForEach(data, id: \.date) { item in
                   LineMark(
                      x: .value("Date", item.date),
@@ -91,6 +93,9 @@ struct WeeklyPercentGraphCard: View {
             .chartYScale(domain: 0 ... 100)
             .frame(height: 250)
             .padding()
+         }
+         .task {
+            data = dailyPercent()
          }
       }
    }
