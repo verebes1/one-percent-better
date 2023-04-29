@@ -40,10 +40,10 @@ struct EditHabitFrequency: View {
    }
 }
 
-struct EditHabitFrequency_Previews: PreviewProvider {
-   static var previews: some View {
-      NavigationView {
-         EditHabitFrequency(frequency: .timesPerDay(2))
-      }
-   }
-}
+//struct EditHabitFrequency_Previews: PreviewProvider {
+//   static var previews: some View {
+//      NavigationView {
+//         EditHabitFrequency(frequency: .timesPerDay(2))
+//      }
+//   }
+//}

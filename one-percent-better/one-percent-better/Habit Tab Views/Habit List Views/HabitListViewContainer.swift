@@ -55,6 +55,11 @@ struct HabitListViewContainer: View {
       .onAppear {
          hsvm.updateDayToToday()
       }
+      .onChange(of: scenePhase) { newPhase in
+         if newPhase == .active {
+            hsvm.updateDayToToday()
+         }
+      }
       .navigationTitle(hsvm.navTitle)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
@@ -73,11 +78,6 @@ struct HabitListViewContainer: View {
       }
       .toolbarBackground(Color.backgroundColor, for: .tabBar)
       .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
-//      .onChange(of: scenePhase) { newPhase in
-//         if newPhase == .active {
-//            hwvm.updateDayToToday()
-//         }
-//      }
    }
 }
 

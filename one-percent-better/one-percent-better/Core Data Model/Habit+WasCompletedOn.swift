@@ -192,12 +192,12 @@ extension Habit {
       var streak = 0
       
       // Streak cache
-      if let streak = streakCache[DMYDate(date)] {
-         return streak
-      }
-      defer {
-         streakCache[DMYDate(date)] = streak
-      }
+//      if let streak = streakCache[DMYDate(date)] {
+//         return streak
+//      }
+//      defer {
+//         streakCache[DMYDate(date)] = streak
+//      }
 
       guard let freq = frequency(on: date) else { return 0 }
       let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)

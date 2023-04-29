@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import ___Better
+@testable import One_Percent_Better
 
 final class RandomTimeTests: XCTestCase {
    
@@ -33,22 +33,22 @@ final class RandomTimeTests: XCTestCase {
       try context.save()
    }
    
-   func testRandomTime() {
-      var startTimeDefault: Date = {
-         var components = DateComponents()
-         components.hour = 9
-         components.minute = 0
-         return Cal.date(from: components)!
-      }()
-      
-      var endTimeDefault: Date = {
-         var components = DateComponents()
-         components.hour = 17
-         components.minute = 0
-         return Cal.date(from: components)!
-      }()
-      
-      let n = 10
-      let randomTimes = habit.randomTimes(between: startTimeDefault, and: endTimeDefault, n: n)
-   }
+//   func testRandomTime() {
+//      var startTimeDefault: Date = {
+//         var components = DateComponents()
+//         components.hour = 9
+//         components.minute = 0
+//         return Cal.date(from: components)!
+//      }()
+//      
+//      var endTimeDefault: Date = {
+//         var components = DateComponents()
+//         components.hour = 17
+//         components.minute = 0
+//         return Cal.date(from: components)!
+//      }()
+//      
+//      let n = 10
+//      let randomTimes = habit.randomTimes(between: startTimeDefault, and: endTimeDefault, n: n)
+//   }
 }

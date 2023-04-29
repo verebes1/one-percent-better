@@ -12,7 +12,7 @@ enum CreateFrequencyRoute: Hashable {
 }
 
 struct CreateHabitName: View {
-   
+   @Environment(\.colorScheme) var scheme
    @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var nav: HabitTabNavPath
@@ -54,11 +54,18 @@ struct CreateHabitName: View {
                      nameInFocus = false
                   }
                } label: {
-                  Text("Suggestions")
+                  HStack {
+                     Text("Suggestions")
+                     Image(systemName: "chevron.right")
+                        .rotationEffect(showSuggestions ? Angle(degrees: -90) : Angle(degrees: 90))
+                  }
+                  .foregroundColor(.labelOpposite(scheme: scheme))
                }
-               .buttonStyle(.borderedProminent)
+               .padding(10)
+               .background(Style.accentColor)
+               .cornerRadius(radius: 10)
+               .contentShape(Rectangle())
 
-               
                if showSuggestions {
                   List {
                      ForEach(PrebuiltHabits.habitNames, id: \.self) { name in
@@ -74,7 +81,6 @@ struct CreateHabitName: View {
                      }
                   }
                   .scrollContentBackground(.hidden)
-//                  .padding(.top, -30)
                   .clipShape(Rectangle())
                }
             }

@@ -255,6 +255,7 @@ struct HabitsHeaderView: View {
             hsvm.updateWeek(to: newWeek)
          }
       }
+      
    }
    
 }
