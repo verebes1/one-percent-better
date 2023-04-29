@@ -9,7 +9,7 @@ import SwiftUI
 
 struct YearView: View {
    
-   @EnvironmentObject var habit: Habit
+   var habit: Habit
    
    @State private var yearHeight: CGFloat = 0
    @State private var selectedYear = Cal.dateComponents([.year], from: Date()).year!
@@ -55,7 +55,7 @@ struct YearView: View {
                let height: CGFloat = 7 * squareWidth + 6 * spacing
                
                LazyHGrid(rows: rows, spacing: 1) {
-                  CompletedSquare(year: $selectedYear)
+                  CompletedSquare(habit: habit, year: $selectedYear)
                }
                .frame(height: max(0, height))
                .overlay(
@@ -124,7 +124,7 @@ struct YearView: View {
 struct CompletedSquare: View {
    
    @Environment(\.colorScheme) var scheme
-   @EnvironmentObject var habit: Habit
+   var habit: Habit
    
    @State private var opacities: [Double] = Array(repeating: 0, count: 364)
    

@@ -22,7 +22,7 @@ class HabitTabNavPath: ObservableObject {
    }
 }
 
-enum Tab {
+enum Tab: Equatable {
    case habitList
    case settings
 }
@@ -42,7 +42,7 @@ struct ContentView: View {
    
    var body: some View {
       let _ = Self._printChanges()
-      TabView {
+      TabView(selection: $tabSelection) {
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)

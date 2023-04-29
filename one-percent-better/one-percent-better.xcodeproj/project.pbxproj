@@ -21,6 +21,9 @@
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
 		8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */; };
 		802AB86929F603F000210AD6 /* RoundedCornersShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86829F603F000210AD6 /* RoundedCornersShape.swift */; };
+		802AB86B29F9F93100210AD6 /* YearViewSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86A29F9F93100210AD6 /* YearViewSquare.swift */; };
+		802AB86D29FCC40000210AD6 /* HabitCreationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86C29FCC40000210AD6 /* HabitCreationObject.swift */; };
+		802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86E29FCC58E00210AD6 /* NotificationObject.swift */; };
 		802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */; };
 		802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */; };
 		802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA1328BC0253006E38E6 /* ErrorLabel.swift */; };
@@ -224,6 +227,9 @@
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
 		8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAllEntries.swift; sourceTree = "<group>"; };
 		802AB86829F603F000210AD6 /* RoundedCornersShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornersShape.swift; sourceTree = "<group>"; };
+		802AB86A29F9F93100210AD6 /* YearViewSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearViewSquare.swift; sourceTree = "<group>"; };
+		802AB86C29FCC40000210AD6 /* HabitCreationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCreationObject.swift; sourceTree = "<group>"; };
+		802AB86E29FCC58E00210AD6 /* NotificationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObject.swift; sourceTree = "<group>"; };
 		802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureLogController.swift; sourceTree = "<group>"; };
 		802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureLog.swift; sourceTree = "<group>"; };
 		802CCA1328BC0253006E38E6 /* ErrorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLabel.swift; sourceTree = "<group>"; };
@@ -657,6 +663,7 @@
 				8027BEF828DD162300EC3E66 /* Exercise Card */,
 				80385D7E285F8B9900CBDF71 /* BeginTouchesScrollView.swift */,
 				805A64EE2867CB1400F068B1 /* YearView.swift */,
+				802AB86A29F9F93100210AD6 /* YearViewSquare.swift */,
 				8043A92428E7A414001D0E8C /* Timeline.swift */,
 				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
 				802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */,
@@ -709,6 +716,8 @@
 				80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */,
 				80385CCD285BEE5900CBDF71 /* ButtonViews.swift */,
 				80F72943294D89B700F17B0B /* PrebuiltHabits.swift */,
+				802AB86C29FCC40000210AD6 /* HabitCreationObject.swift */,
+				802AB86E29FCC58E00210AD6 /* NotificationObject.swift */,
 			);
 			path = "Create Habit";
 			sourceTree = "<group>";
@@ -1175,6 +1184,7 @@
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				805785BA296C4C8600028582 /* SelectableCard.swift in Sources */,
 				8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */,
+				802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
@@ -1182,8 +1192,10 @@
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
+				802AB86B29F9F93100210AD6 /* YearViewSquare.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
 				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
+				802AB86D29FCC40000210AD6 /* HabitCreationObject.swift in Sources */,
 				8042303029D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift in Sources */,
 				8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */,
 				8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */,

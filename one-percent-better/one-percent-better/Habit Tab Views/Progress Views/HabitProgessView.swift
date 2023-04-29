@@ -16,14 +16,14 @@ enum ProgressViewNavRoute: Hashable {
 struct HabitProgessView: View {
    
    @EnvironmentObject var nav: HabitTabNavPath
-   @EnvironmentObject var habit: Habit
+   var habit: Habit
    
    var body: some View {
       let _ = Self._printChanges()
       Background {
          ScrollView {
             VStack(spacing: 20) {
-               YearView()
+               YearView(habit: habit)
 
                ForEach(0 ..< habit.trackers.count, id: \.self) { i in
                   let reverseIndex = habit.trackers.count - 1 - i
@@ -36,11 +36,6 @@ struct HabitProgessView: View {
                }
 
                StatisticsCardView(habit: habit)
-
-               NavigationLink(value: ProgressViewNavRoute.newTracker(habit)) {
-                  CapsuleLabel(text: "New Tracker", systemImage: "plus")
-               }
-
                Spacer()
             }
          }
@@ -49,7 +44,12 @@ struct HabitProgessView: View {
       }
       .toolbar {
          ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink("Edit", value: ProgressViewNavRoute.editHabit(habit))
+            Menu {
+               NavigationLink("Edit", value: ProgressViewNavRoute.editHabit(habit))
+               NavigationLink("New Tracker", value: ProgressViewNavRoute.newTracker(habit))
+            } label: {
+               Image(systemName: "ellipsis.circle")
+            }
          }
       }
       .navigationDestination(for: ProgressViewNavRoute.self) { route in
@@ -102,8 +102,8 @@ struct ProgressView_Previews: PreviewProvider {
       let habit = progressData()
       return(
          NavigationView {
-            HabitProgessView()
-               .environmentObject(habit)
+            HabitProgessView(habit: habit)
+//               .environmentObject(habit)
                .environmentObject(HabitTabNavPath())
          }
       )

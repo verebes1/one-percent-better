@@ -29,6 +29,8 @@ struct EditHabit: View {
    @State private var startDate: Date
    @State private var confirmDeleteHabit: Bool = false
    
+   @State private var isGoingToDelete = false
+   
    enum EditHabitError: Error {
       case emptyHabitName
    }
@@ -113,7 +115,7 @@ struct EditHabit: View {
                         
                         Spacer()
                         
-                        Text("\(habit.notificationsArray.count)")
+                        EditHabitNotificationRow(count: habit.notificationsArray.count)
                      }
                   }
                   
@@ -126,6 +128,7 @@ struct EditHabit: View {
                      
                      let range = Cal.add(days: -10000) ... (habit.firstCompleted ?? Date())
                      DatePicker("", selection: $startDate, in: range, displayedComponents: [.date])
+                        .frame(height: 50)
                   }
                   .onChange(of: startDate) { newValue in
                      habit.updateStartDate(to: newValue)
@@ -165,9 +168,10 @@ struct EditHabit: View {
                   ) {
                      Button("Delete", role: .destructive) {
                         nav.path.removeLast(2)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                           deleteHabit()
-                        }
+                        isGoingToDelete = true
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+//                           deleteHabit()
+//                        }
                      }
                      
                   }
@@ -197,15 +201,19 @@ struct EditHabit: View {
             }
          }
          .onDisappear {
-            do {
-               if try canSave() && newHabitName != habit.name {
-                  habit.updateName(to: newHabitName)
-                  moc.perform {
-                     self.moc.assertSave()
+            if !isGoingToDelete {
+               do {
+                  if try canSave() && newHabitName != habit.name {
+                     habit.updateName(to: newHabitName)
+                     moc.perform {
+                        self.moc.assertSave()
+                     }
                   }
+               } catch {
+                  // do nothing
                }
-            } catch {
-               // do nothing
+            } else {
+               deleteHabit()
             }
          }
       }
@@ -319,5 +327,19 @@ struct EditHabitName: View {
          ErrorLabel(message: "Habit name can't be empty",
                     showError: $emptyNameError)
       }
+   }
+}
+
+struct EditHabitNotificationRow: View {
+   
+   var count: Int
+   
+   var label: String {
+      count == 0 ? "None" : "\(count)"
+   }
+   
+   var body: some View {
+      Text(label)
+         .foregroundColor(count == 0 ? .secondaryLabel : .primary)
    }
 }

@@ -14,7 +14,7 @@ enum HabitListViewRoute: Hashable {
    case showProgress(Habit)
 }
 
-class HabitListViewModel: HabitConditionalFetcher {
+class HabitListViewModel: HabitConditionalFetcher, Identifiable {
    
    @Published var habits: [Habit] = []
    
@@ -61,7 +61,6 @@ class HabitListViewModel: HabitConditionalFetcher {
       let habitToBeDeleted = revisedItems[index]
       revisedItems.remove(atOffsets: source)
       moc.delete(habitToBeDeleted)
-      
       for reverseIndex in stride(from: revisedItems.count - 1, through: 0, by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
@@ -93,6 +92,12 @@ struct HabitListView: View {
                         // Habit Row
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                            HabitRow(habit: habit, day: hsvm.selectedDay)
+                              .onAppear {
+                                 print("Habit Row \(habit.name) appeared")
+                              }
+                              .onDisappear {
+                                 print("Habit Row \(habit.name) disappeared")
+                              }
                         }
                         .listRowInsets(.init(top: 0,
                                              leading: 0,
@@ -171,9 +176,11 @@ struct NoHabitsView: View {
    var body: some View {
       HStack(spacing: 0) {
          Text("To create a habit, press ")
-         Image(systemName: "square.and.pencil")
+            .foregroundColor(scheme == .light ? Color(hue: 1.0, saturation: 0.008, brightness: 0.279) : .secondaryLabel)
+         NavigationLink(value: HabitListViewRoute.createHabit) {
+            Image(systemName: "square.and.pencil")
+         }
       }
-      .foregroundColor(scheme == .light ? Color(hue: 1.0, saturation: 0.008, brightness: 0.279) : .secondaryLabel)
       .padding(.top, 40)
    }
 }

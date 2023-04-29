@@ -43,9 +43,8 @@ struct HabitListViewContainer: View {
          }
          .navigationDestination(for: HabitListViewRoute.self) { route in
             if case let .showProgress(habit) = route {
-               HabitProgessView()
+               HabitProgessView(habit: habit)
                   .environmentObject(nav)
-                  .environmentObject(habit)
             }
             if case .createHabit = route {
                CreateHabitName(hideTabBar: $hideTabBar)
@@ -60,8 +59,10 @@ struct HabitListViewContainer: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
          // Edit
-         ToolbarItem(placement: .navigationBarLeading) {
-            EditButton()
+         if !hlvm.habits.isEmpty {
+            ToolbarItem(placement: .navigationBarLeading) {
+               EditButton()
+            }
          }
          // New Habit
          ToolbarItem(placement: .navigationBarTrailing) {
