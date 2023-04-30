@@ -16,7 +16,7 @@ struct YearViewSquare: View {
    var percent: Double
    
    var cornerRadius: Double {
-      return size / 10
+      return size / 7
    }
    
    var notFilledColor: Color {

@@ -88,17 +88,17 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// A set of notifications for this habit
    @NSManaged public var notifications: NSOrderedSet?
    
-   var streakCache: [DMYDate : Int ] = [:]
+//   var streakCache: [DMYDate : Int ] = [:]
    
    // MARK: - Properties
    
-   lazy var timesCompletedDict: [DMYDate: Int] = {
-      var result: [DMYDate: Int] = [:]
-      for (index, day) in daysCompleted.enumerated() {
-         result[DMYDate(day)] = timesCompleted[index]
-      }
-      return result
-   }()
+//   lazy var timesCompletedDict: [DMYDate: Int] = {
+//      var result: [DMYDate: Int] = [:]
+//      for (index, day) in daysCompleted.enumerated() {
+//         result[DMYDate(day)] = timesCompleted[index]
+//      }
+//      return result
+//   }()
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    

@@ -92,7 +92,7 @@ struct YearViewPreview: View {
       h1?.markCompleted(on: day0)
       h1?.changeFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
 
-      for _ in 0 ..< 50 {
+      for _ in 0 ..< 350 {
          let rand = Int.random(in: 0 ..< 364)
          h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
       }

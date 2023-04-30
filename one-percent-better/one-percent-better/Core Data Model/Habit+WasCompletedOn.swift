@@ -123,15 +123,15 @@ extension Habit {
             timesCompleted[i] += 1
             
             // Dictionary version
-            if let v = timesCompletedDict[DMYDate(date)] {
-               timesCompletedDict[DMYDate(date)] = v + 1
-            }
+//            if let v = timesCompletedDict[DMYDate(date)] {
+//               timesCompletedDict[DMYDate(date)] = v + 1
+//            }
          } else {
             daysCompleted.append(date)
             timesCompleted.append(1)
             
             // Dictionary version
-            timesCompletedDict[DMYDate(date)] = 1
+//            timesCompletedDict[DMYDate(date)] = 1
          }
          
          let combined = zip(daysCompleted, timesCompleted).sorted { $0.0 < $1.0 }
@@ -145,7 +145,7 @@ extension Habit {
          removeNotifications(on: date)
       }
       
-      resetStreakCache(on: date)
+//      resetStreakCache(on: date)
       improvementTracker?.update(on: date)
       moc.assertSave()
    }
@@ -165,7 +165,7 @@ extension Habit {
          }
       }
       
-      resetStreakCache(on: date)
+//      resetStreakCache(on: date)
       // Fix this at some point
       improvementTracker?.update(on: date)
       addNotificationsBack(on: date)
@@ -181,9 +181,9 @@ extension Habit {
       }
    }
    
-   func resetStreakCache(on date: Date) {
-      streakCache[DMYDate(date)] = nil
-   }
+//   func resetStreakCache(on date: Date) {
+//      streakCache[DMYDate(date)] = nil
+//   }
    
    /// The streak of this habit calculated on specific date
    /// - Parameter date: The streak on this date

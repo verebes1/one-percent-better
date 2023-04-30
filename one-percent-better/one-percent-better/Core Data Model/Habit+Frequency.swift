@@ -174,7 +174,7 @@ extension Habit {
          }
       }
       
-      streakCache = [:] // maybe better options here
+//      streakCache = [:] // maybe better options here
       improvementTracker?.update(on: date)
       moc.assertSave()
    }
