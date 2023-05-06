@@ -253,7 +253,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       // Ensure that habits are properly indexed 0 ... highest
       for (i, habit) in habits.enumerated() {
          if habit.orderIndex != i {
-            print("ERROR: order index of habits not properly indexed for \(habit.name)")
             habit.orderIndex = i
          }
       }

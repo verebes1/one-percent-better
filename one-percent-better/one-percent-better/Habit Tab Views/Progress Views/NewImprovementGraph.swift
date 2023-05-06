@@ -113,7 +113,6 @@ struct NewImprovementGraph_Previews: PreviewProvider {
          NavigationView {
             NewImprovementGraph(it: habit.improvementTracker!)
                .frame(width: 300, height: 150)
-//               .environmentObject(habit)
 //               .environmentObject(HabitTabNavPath())
          }
       )

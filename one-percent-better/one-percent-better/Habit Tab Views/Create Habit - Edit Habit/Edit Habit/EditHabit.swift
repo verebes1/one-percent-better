@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 enum EditHabitNavRoute: Hashable {
    case editFrequency(Habit)
@@ -13,31 +14,19 @@ enum EditHabitNavRoute: Hashable {
    case editTracker(Habit, Tracker)
 }
 
-struct EditHabit: View {
+class EditHabitModel: HabitConditionalFetcher {
    
-   @Environment(\.managedObjectContext) var moc
-   @Environment(\.presentationMode) var presentationMode
+   @Published var habit: Habit
    
-   @EnvironmentObject var habit: Habit
-   @EnvironmentObject var nav: HabitTabNavPath
-   
-   @State private var newHabitName: String
-   
-   /// Show empty habit name error if trying to save with empty habit name
-   @State private var emptyHabitNameError = false
-   
-   @State private var startDate: Date
-   @State private var confirmDeleteHabit: Bool = false
-   
-   @State private var isGoingToDelete = false
-   
-   enum EditHabitError: Error {
-      case emptyHabitName
+   init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
+      self.habit = habit
+      super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
    }
    
-   init(habit: Habit) {
-      self._newHabitName = State(initialValue: habit.name)
-      self._startDate = State(initialValue: habit.startDate)
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
+      guard !newHabits.isEmpty else { return }
+      habit = newHabits.first!
    }
    
    func deleteHabit() {
@@ -48,6 +37,35 @@ struct EditHabit: View {
       let _ = Habit.habits(from: moc)
       
       moc.assertSave()
+   }
+}
+
+struct EditHabit: View {
+   
+   @Environment(\.managedObjectContext) var moc
+   @Environment(\.presentationMode) var presentationMode
+   
+   @EnvironmentObject var nav: HabitTabNavPath
+   
+   @ObservedObject var vm: EditHabitModel
+   @State private var newHabitName: String
+   
+   /// Show empty habit name error if trying to save with empty habit name
+   @State private var emptyHabitNameError = false
+   @State private var startDate: Date
+   @State private var confirmDeleteHabit: Bool = false
+   @State private var isGoingToDelete = false
+   
+   
+   
+   enum EditHabitError: Error {
+      case emptyHabitName
+   }
+   
+   init(habit: Habit) {
+      self.vm = EditHabitModel(habit: habit)
+      self._newHabitName = State(initialValue: habit.name)
+      self._startDate = State(initialValue: habit.startDate)
    }
    
    /// Check if the user can save or needs to make changes
@@ -184,10 +202,8 @@ struct EditHabit: View {
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
          .navigationDestination(for: EditHabitNavRoute.self) { [nav] route in
-            if case let .editFrequency(habit) = route,
-               let freq = habit.frequency(on: Date()) {
-               EditHabitFrequency(frequency: freq)
-                  .environmentObject(habit)
+            if case let .editFrequency(habit) = route {
+               EditHabitFrequency(habit: habit)
             }
             
             if case let .editTracker(habit, tracker) = route {
@@ -229,7 +245,6 @@ struct EditHabitPreviewer: View {
    var body: some View {
       NavigationStack(path: $nv.path) {
          EditHabit(habit: habit)
-            .environmentObject(habit)
             .environmentObject(nv)
       }
    }

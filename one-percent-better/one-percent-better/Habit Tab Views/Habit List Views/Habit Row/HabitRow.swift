@@ -12,10 +12,11 @@ import CoreData
 class HabitRowViewModel: HabitConditionalFetcher {
    
    @Published var habit: Habit
-   var cancelBag = Set<AnyCancellable>()
-   var currentDay: Date
    @Published var timerLabel: String = "00:00"
    @Published var isTimerRunning: Bool
+   
+   var cancelBag = Set<AnyCancellable>()
+   var currentDay: Date
    var hasTimeTracker: Bool
    var hasTimerStarted: Bool
 
@@ -116,8 +117,7 @@ class HabitRowViewModel: HabitConditionalFetcher {
       }
       return minutes + ":" + seconds
    }
-   */
-   /*
+    
    func updateTimerString(to value: Int) {
       self.timerLabel = getTimerString(from: value)
       
@@ -127,8 +127,7 @@ class HabitRowViewModel: HabitConditionalFetcher {
          }
       }
    }
-    */
-   /*
+    
    var timePercentComplete: Double {
       guard let t = habit.timeTracker else {
          return 0
@@ -143,7 +142,6 @@ class HabitRowViewModel: HabitConditionalFetcher {
 
 struct HabitRow: View {
 
-//   @Environment(\.scenePhase) var scenePhase
    @ObservedObject var vm: HabitRowViewModel
    @State private var completePressed = false
    

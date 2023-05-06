@@ -11,12 +11,14 @@ struct EditHabitFrequency: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @EnvironmentObject var habit: Habit
-   
    @State private var selection: HabitFrequency
    
-   init(frequency: HabitFrequency) {
-      self._selection = State(initialValue: frequency)
+   var habit: Habit
+   
+   init(habit: Habit) {
+      self.habit = habit
+      let freq = habit.frequency(on: Date())
+      self._selection = State(initialValue: freq ?? .timesPerDay(1))
    }
    
    var body: some View {

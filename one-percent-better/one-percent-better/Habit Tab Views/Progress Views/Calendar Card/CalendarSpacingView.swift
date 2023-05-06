@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CalendarSpacingView: View {
     
-    @EnvironmentObject var habit: Habit
+    var habit: Habit
     @State var currentPage: Int = 0
     
     let days: [Day]
@@ -60,20 +60,17 @@ struct CalendarSpacingView_Previews: PreviewProvider {
         
         VStack {
             CardView {
-                CalendarSpacingView(days: four, spacing: 20)
-                    .environmentObject(habit)
+               CalendarSpacingView(habit: habit, days: four, spacing: 20)
                     .frame(height: 240)
             }
             
             CardView {
-                CalendarSpacingView(days: five, spacing: 10)
-                    .environmentObject(habit)
+                CalendarSpacingView(habit: habit, days: five, spacing: 10)
                     .frame(height: 240)
             }
             
             CardView {
-                CalendarSpacingView(days: six, spacing: 2)
-                    .environmentObject(habit)
+                CalendarSpacingView(habit: habit, days: six, spacing: 2)
                     .frame(height: 240)
             }
         }

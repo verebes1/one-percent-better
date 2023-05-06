@@ -9,8 +9,9 @@ import SwiftUI
 
 class YearViewModel: ObservableObject {
    
-   func januaryOffset(for year: Int) {
-      
+   func januaryOffset(year: Int) -> Int {
+      let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
+      return firstOfJan.weekDayOffset
    }
 }
 
@@ -92,7 +93,7 @@ struct YearViewPreview: View {
       h1?.markCompleted(on: day0)
       h1?.changeFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
 
-      for _ in 0 ..< 350 {
+      for _ in 0 ..< 100 {
          let rand = Int.random(in: 0 ..< 364)
          h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
       }
@@ -114,7 +115,6 @@ struct YearViewPreview: View {
             VStack(spacing: 20) {
                YearView(habit: habit)
                   .environment(\.managedObjectContext, CoreDataManager.previews.mainContext)
-                  .environmentObject(habit)
             }
          }
       )

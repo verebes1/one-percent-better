@@ -28,7 +28,7 @@ class HabitConditionalFetcher: NSObject, NSFetchedResultsControllerDelegate, Obs
    }
 }
 
-class HabitFetcher: HabitConditionalFetcher {
+class HabitsFetcher: HabitConditionalFetcher {
    
    @Published var habits: [Habit] = []
    

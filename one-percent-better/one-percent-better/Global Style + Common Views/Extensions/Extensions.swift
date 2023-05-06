@@ -51,6 +51,10 @@ extension Date {
    func startOfDay() -> Date {
       return Cal.startOfDay(for: self)
    }
+   
+   var weekDayOffset: Int {
+      Cal.component(.weekday, from: self) - 1
+   }
 }
 
 // MARK: - Collection

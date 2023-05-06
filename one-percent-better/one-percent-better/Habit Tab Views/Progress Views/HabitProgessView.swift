@@ -55,7 +55,6 @@ struct HabitProgessView: View {
       .navigationDestination(for: ProgressViewNavRoute.self) { route in
          if case .editHabit(let habit) = route {
             EditHabit(habit: habit)
-               .environmentObject(habit)
                .environmentObject(nav)
          }
          
