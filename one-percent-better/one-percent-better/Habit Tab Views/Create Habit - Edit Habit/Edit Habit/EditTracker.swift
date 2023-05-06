@@ -12,8 +12,8 @@ struct EditTracker: View {
    @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var nav: HabitTabNavPath
+   @EnvironmentObject var vm: EditHabitModel
    
-   var habit: Habit
    var tracker: Tracker
    
    @State private var newTrackerName: String
@@ -27,15 +27,14 @@ struct EditTracker: View {
       case emptyTrackerName
    }
    
-   init(habit: Habit, tracker: Tracker) {
-      self.habit = habit
+   init(tracker: Tracker) {
       self.tracker = tracker
       self._newTrackerName = State(initialValue: tracker.name)
    }
    
    func delete() {
       // Make an array from fetched results
-      var revisedItems: [Tracker] = habit.trackers.map { $0 as! Tracker }
+      var revisedItems: [Tracker] = vm.habit.trackers.map { $0 as! Tracker }
       
       for (i, t) in revisedItems.enumerated() {
          if tracker == t {
@@ -155,7 +154,7 @@ struct EditTracker_Previews: PreviewProvider {
    static var previews: some View {
       let t = data()
       NavigationView {
-         EditTracker(habit: t.0, tracker: t.1)
+         EditTracker(tracker: t.1)
       }
    }
 }

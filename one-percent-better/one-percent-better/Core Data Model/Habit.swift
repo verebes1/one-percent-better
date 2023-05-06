@@ -256,6 +256,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
             habit.orderIndex = i
          }
       }
+      context.assertSave()
       return habits
    }
    

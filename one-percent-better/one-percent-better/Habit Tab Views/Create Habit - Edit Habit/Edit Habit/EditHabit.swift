@@ -9,9 +9,9 @@ import SwiftUI
 import CoreData
 
 enum EditHabitNavRoute: Hashable {
-   case editFrequency(Habit)
-   case editNotification(Habit)
-   case editTracker(Habit, Tracker)
+   case editFrequency
+   case editNotification
+   case editTracker(Tracker)
 }
 
 class EditHabitModel: HabitConditionalFetcher {
@@ -33,10 +33,8 @@ class EditHabitModel: HabitConditionalFetcher {
       // Remove the item to be deleted
       moc.delete(habit)
       
-      // Update order indices
+      // Update order indices and save context
       let _ = Habit.habits(from: moc)
-      
-      moc.assertSave()
    }
 }
 
@@ -55,8 +53,6 @@ struct EditHabit: View {
    @State private var startDate: Date
    @State private var confirmDeleteHabit: Bool = false
    @State private var isGoingToDelete = false
-   
-   
    
    enum EditHabitError: Error {
       case emptyHabitName
@@ -78,7 +74,7 @@ struct EditHabit: View {
    }
    
    var freqTextView: some View {      
-      switch habit.frequency(on: Date()) {
+      switch vm.habit.frequency(on: Date()) {
       case .timesPerDay(let n):
          let timesString = n == 1 ? "time" : "times"
          return Text("\(n) \(timesString) per day")
@@ -113,7 +109,7 @@ struct EditHabit: View {
                   
                   // MARK: - Edit Frequency
                   
-                  NavigationLink(value: EditHabitNavRoute.editFrequency(habit)) {
+                  NavigationLink(value: EditHabitNavRoute.editFrequency) {
                      HStack {
                         Text("Frequency")
                            .fontWeight(.medium)
@@ -126,14 +122,14 @@ struct EditHabit: View {
                   
                   // MARK: - Edit Notifications
                   
-                  NavigationLink(value: EditHabitNavRoute.editNotification(habit)) {
+                  NavigationLink(value: EditHabitNavRoute.editNotification) {
                      HStack {
                         Text("Notifications")
                            .fontWeight(.medium)
                         
                         Spacer()
                         
-                        EditHabitNotificationRow(count: habit.notificationsArray.count)
+                        EditHabitNotificationRow(count: vm.habit.notificationsArray.count)
                      }
                   }
                   
@@ -144,22 +140,22 @@ struct EditHabit: View {
                         .fontWeight(.medium)
                      Spacer()
                      
-                     let range = Cal.add(days: -10000) ... (habit.firstCompleted ?? Date())
+                     let range = Cal.add(days: -10000) ... (vm.habit.firstCompleted ?? Date())
                      DatePicker("", selection: $startDate, in: range, displayedComponents: [.date])
                         .frame(height: 50)
                   }
                   .onChange(of: startDate) { newValue in
-                     habit.updateStartDate(to: newValue)
+                     vm.habit.updateStartDate(to: newValue)
                   }
                                     
                }
                .listRowBackground(Color.cardColor)
                
-               if habit.editableTrackers.count > 0 {
+               if vm.habit.editableTrackers.count > 0 {
                   Section(header: Text("Trackers")) {
-                     ForEach(0 ..< habit.editableTrackers.count, id: \.self) { i in
-                        let tracker = habit.editableTrackers[i]
-                        NavigationLink(value: EditHabitNavRoute.editTracker(habit, tracker)) {
+                     ForEach(0 ..< vm.habit.editableTrackers.count, id: \.self) { i in
+                        let tracker = vm.habit.editableTrackers[i]
+                        NavigationLink(value: EditHabitNavRoute.editTracker(tracker)) {
                            EditTrackerRow(tracker: tracker)
 //                           EditTrackerRowSimple(name: tracker.name)
                         }
@@ -181,7 +177,7 @@ struct EditHabit: View {
                      }
                   }
                   .alert(
-                     "Are you sure you want to delete your habit \"\(habit.name)\"?",
+                     "Are you sure you want to delete your habit \"\(vm.habit.name)\"?",
                      isPresented: $confirmDeleteHabit
                   ) {
                      Button("Delete", role: .destructive) {
@@ -202,16 +198,17 @@ struct EditHabit: View {
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
          .navigationDestination(for: EditHabitNavRoute.self) { [nav] route in
-            if case let .editFrequency(habit) = route {
-               EditHabitFrequency(habit: habit)
+            if case let .editFrequency = route {
+               EditHabitFrequency(habit: vm.habit)
+                  .environmentObject(vm)
             }
             
-            if case let .editTracker(habit, tracker) = route {
+            if case let .editTracker(tracker) = route {
                EditTracker(habit: habit, tracker: tracker)
                   .environmentObject(nav)
             }
             
-            if case let .editNotification(habit) = route {
+            if case let .editNotification = route {
                EditHabitNotifications(habit: habit)
                   .environmentObject(nav)
             }
@@ -219,17 +216,15 @@ struct EditHabit: View {
          .onDisappear {
             if !isGoingToDelete {
                do {
-                  if try canSave() && newHabitName != habit.name {
-                     habit.updateName(to: newHabitName)
-                     moc.perform {
-                        self.moc.assertSave()
-                     }
+                  if try canSave() && newHabitName != vm.habit.name {
+                     vm.habit.updateName(to: newHabitName)
+                     moc.assertSave()
                   }
                } catch {
                   // do nothing
                }
             } else {
-               deleteHabit()
+               vm.deleteHabit()
             }
          }
       }

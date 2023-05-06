@@ -11,12 +11,10 @@ struct EditHabitFrequency: View {
    
    @Environment(\.managedObjectContext) var moc
    
+   @EnvironmentObject var vm: EditHabitModel
    @State private var selection: HabitFrequency
    
-   var habit: Habit
-   
    init(habit: Habit) {
-      self.habit = habit
       let freq = habit.frequency(on: Date())
       self._selection = State(initialValue: freq ?? .timesPerDay(1))
    }
@@ -33,8 +31,8 @@ struct EditHabitFrequency: View {
             Spacer()
          }
          .onDisappear {
-            if selection != habit.frequency(on: Date()) {
-               habit.changeFrequency(to: selection)
+            if selection != vm.habit.frequency(on: Date()) {
+               vm.habit.changeFrequency(to: selection)
             }
          }
          .navigationBarTitleDisplayMode(.inline)

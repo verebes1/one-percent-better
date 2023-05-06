@@ -47,9 +47,7 @@ class HabitListViewModel: HabitConditionalFetcher, Identifiable {
       for reverseIndex in stride(from: revisedItems.count - 1, through: 0, by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
-      moc.perform {
-         self.moc.assertSave()
-      }
+      moc.assertSave()
    }
    
    func delete(from source: IndexSet) {
@@ -64,9 +62,7 @@ class HabitListViewModel: HabitConditionalFetcher, Identifiable {
       for reverseIndex in stride(from: revisedItems.count - 1, through: 0, by: -1) {
          revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
       }
-      moc.perform {
-         self.moc.assertSave()
-      }
+      moc.assertSave()
    }
 }
 
