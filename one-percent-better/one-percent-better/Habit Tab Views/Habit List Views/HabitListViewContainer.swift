@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct IntermediaryHabitListView: View {
-   
    @Binding var hideTabBar: Bool
    
    var body: some View {
@@ -31,7 +30,6 @@ struct HabitListViewContainer: View {
    @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
-   
    @State private var hideTabBar = false
    
    var body: some View {
@@ -43,7 +41,7 @@ struct HabitListViewContainer: View {
          }
          .navigationDestination(for: HabitListViewRoute.self) { route in
             if case let .showProgress(habit) = route {
-               HabitProgessView(habit: habit)
+               HabitProgressViewContainer(habit: habit)
                   .environmentObject(nav)
             }
             if case .createHabit = route {
@@ -63,7 +61,7 @@ struct HabitListViewContainer: View {
       .navigationTitle(hsvm.navTitle)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
-         // Edit
+         // Edit Habit List
          if !hlvm.habits.isEmpty {
             ToolbarItem(placement: .navigationBarLeading) {
                EditButton()

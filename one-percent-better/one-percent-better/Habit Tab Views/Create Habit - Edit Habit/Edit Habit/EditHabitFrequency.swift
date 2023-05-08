@@ -11,7 +11,7 @@ struct EditHabitFrequency: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @EnvironmentObject var vm: EditHabitModel
+   @EnvironmentObject var vm: ProgressViewModel
    @State private var selection: HabitFrequency
    
    init(habit: Habit) {

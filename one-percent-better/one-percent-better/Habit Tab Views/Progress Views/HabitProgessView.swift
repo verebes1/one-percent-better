@@ -8,103 +8,72 @@
 import SwiftUI
 import CoreData
 
-enum ProgressViewNavRoute: Hashable {
-   case editHabit(Habit)
-   case newTracker(Habit)
-}
-
 struct HabitProgessView: View {
-   
-   @EnvironmentObject var nav: HabitTabNavPath
-   var habit: Habit
+
+   @EnvironmentObject var vm: ProgressViewModel
    
    var body: some View {
       let _ = Self._printChanges()
-      Background {
-         ScrollView {
-            VStack(spacing: 20) {
-               YearView(habit: habit)
-
-               ForEach(0 ..< habit.trackers.count, id: \.self) { i in
-                  let reverseIndex = habit.trackers.count - 1 - i
-                  let tracker = habit.trackers[reverseIndex] as! Tracker
-                  ProgressCards(tracker: tracker)
-               }
-
-               CardView {
-                  CalendarView(habit: habit)
-               }
-
-               StatisticsCardView(habit: habit)
-               Spacer()
+      ScrollView {
+         VStack(spacing: 20) {
+            YearView(habit: vm.habit)
+            
+            ForEach(0 ..< vm.habit.trackers.count, id: \.self) { i in
+               let reverseIndex = vm.habit.trackers.count - 1 - i
+               let tracker = vm.habit.trackers[reverseIndex] as! Tracker
+               ProgressCards(tracker: tracker)
             }
-         }
-         .navigationTitle(habit.name)
-         .navigationBarTitleDisplayMode(.large)
-      }
-      .toolbar {
-         ToolbarItem(placement: .navigationBarTrailing) {
-            Menu {
-               NavigationLink("Edit", value: ProgressViewNavRoute.editHabit(habit))
-               NavigationLink("New Tracker", value: ProgressViewNavRoute.newTracker(habit))
-            } label: {
-               Image(systemName: "ellipsis.circle")
+            
+            CardView {
+               CalendarView(habit: vm.habit)
             }
-         }
-      }
-      .navigationDestination(for: ProgressViewNavRoute.self) { route in
-         if case .editHabit(let habit) = route {
-            EditHabit(habit: habit)
-               .environmentObject(nav)
-         }
-         
-         if case .newTracker(let habit) = route {
-            CreateNewTracker(habit: habit)
-               .environmentObject(nav)
+            
+            StatisticsCardView(habit: vm.habit)
+            Spacer()
          }
       }
    }
 }
 
-struct ProgressView_Previews: PreviewProvider {
-   
-   static func progressData() -> Habit {
-      let context = CoreDataManager.previews.mainContext
-      
-      let day0 = Date()
-      let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
-      let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
-      
-      let h1 = try? Habit(context: context, name: "Swimming")
-      h1?.markCompleted(on: day0)
-      h1?.markCompleted(on: day1)
-      h1?.markCompleted(on: day2)
-      
-      if let h1 = h1 {
-         let t1 = NumberTracker(context: context, habit: h1, name: "Laps")
-         t1.add(date: day0, value: "3")
-         t1.add(date: day1, value: "2")
-         t1.add(date: day2, value: "1")
-         
-         let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
-         let patioBefore = UIImage(named: "patio-before")!
-         t2.add(date: day0, value: patioBefore)
-         
-//         let t3 = 
-      }
-      
-      let habits = Habit.habits(from: context)
-      return habits.first!
-   }
-   
-   static var previews: some View {
-      let habit = progressData()
-      return(
-         NavigationView {
-            HabitProgessView(habit: habit)
-//               .environmentObject(habit)
-               .environmentObject(HabitTabNavPath())
-         }
-      )
-   }
-}
+//struct ProgressView_Previews: PreviewProvider {
+//
+//   static func progressData() -> Habit {
+//      let context = CoreDataManager.previews.mainContext
+//
+//      let day0 = Date()
+//      let day1 = Cal.date(byAdding: .day, value: -1, to: day0)!
+//      let day2 = Cal.date(byAdding: .day, value: -2, to: day0)!
+//
+//      let h1 = try? Habit(context: context, name: "Swimming")
+//      h1?.markCompleted(on: day0)
+//      h1?.markCompleted(on: day1)
+//      h1?.markCompleted(on: day2)
+//
+//      if let h1 = h1 {
+//         let t1 = NumberTracker(context: context, habit: h1, name: "Laps")
+//         t1.add(date: day0, value: "3")
+//         t1.add(date: day1, value: "2")
+//         t1.add(date: day2, value: "1")
+//
+//         let t2 = ImageTracker(context: context, habit: h1, name: "Progress Pics")
+//         let patioBefore = UIImage(named: "patio-before")!
+//         t2.add(date: day0, value: patioBefore)
+//
+////         let t3 =
+//      }
+//
+//      let habits = Habit.habits(from: context)
+//      return habits.first!
+//   }
+//
+//   static var previews: some View {
+//      let habit = progressData()
+//      return(
+//         NavigationView {
+//            HabitProgessView(habit: habit)
+////               .environmentObject(habit)
+//               .environmentObject(HabitTabNavPath())
+//         }
+//      )
+//   }
+//}

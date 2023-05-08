@@ -6,50 +6,58 @@
 //
 
 import SwiftUI
+import CoreData
 
-struct EditTracker: View {
-   
-   @Environment(\.managedObjectContext) var moc
-   
-   @EnvironmentObject var nav: HabitTabNavPath
-   @EnvironmentObject var vm: EditHabitModel
-   
-   var tracker: Tracker
-   
-   @State private var newTrackerName: String
-   
-   /// Show empty habit name error if trying to save with empty habit name
-   @State private var emptyTrackerNameError = false
-   
-   @State private var confirmDelete: Bool = false
-   
-   enum EditTrackerError: Error {
-      case emptyTrackerName
-   }
-   
-   init(tracker: Tracker) {
+class EditTrackerModel: TrackerConditionalFetcher {
+   @Published var tracker: Tracker
+
+   init(context: NSManagedObjectContext = CoreDataManager.shared.mainContext, tracker: Tracker) {
       self.tracker = tracker
-      self._newTrackerName = State(initialValue: tracker.name)
+      super.init(context)
    }
    
-   func delete() {
-      // Make an array from fetched results
-      var revisedItems: [Tracker] = vm.habit.trackers.map { $0 as! Tracker }
-      
-      for (i, t) in revisedItems.enumerated() {
-         if tracker == t {
-            revisedItems.remove(at: i)
-         }
-      }
-      
-      // Remove the item to be deleted
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      guard let newTrackers = controller.fetchedObjects as? [Tracker] else { return }
+      guard !newTrackers.isEmpty else { return }
+      tracker = newTrackers.first!
+   }
+   
+   func delete(habit: Habit) {
       moc.delete(tracker)
+      var revisedItems = habit.trackersArray
       
       for reverseIndex in stride(from: revisedItems.count - 1,
                                  through: 0,
                                  by: -1) {
          revisedItems[reverseIndex].index = Int(reverseIndex)
       }
+      moc.assertSave()
+   }
+}
+
+struct EditTracker: View {
+   
+   @Environment(\.managedObjectContext) var moc
+   
+//   @EnvironmentObject var nav: HabitTabNavPath
+//   @EnvironmentObject var vm: EditHabitModel
+   
+//   @ObservedObject var tm: EditTrackerModel
+   
+   @State private var newTrackerName: String
+   
+   /// Show empty habit name error if trying to save with empty habit name
+   @State private var emptyTrackerNameError = false
+   @State private var confirmDelete = false
+   @State private var isGoingToDelete = false
+   
+   enum EditTrackerError: Error {
+      case emptyTrackerName
+   }
+   
+   init(tracker: Tracker) {
+//      tm = EditTrackerModel(tracker: tracker)
+      self._newTrackerName = State(initialValue: tracker.name)
    }
    
    /// Check if the user can save or needs to make changes
@@ -62,11 +70,12 @@ struct EditTracker: View {
    }
    
    func saveProperties() {
-      tracker.name = newTrackerName
+//      tm.tracker.name = newTrackerName
       moc.assertSave()
    }
    
    var body: some View {
+      let _ = Self._printChanges()
       Background {
          VStack {
             List {
@@ -98,14 +107,13 @@ struct EditTracker: View {
                      }
                   }
                   .alert(
-                     "Are you sure you want to delete your tracker \"\(tracker.name)\"?",
+//                     "Are you sure you want to delete your tracker \"\(tm.tracker.name)\"?",
+                     "test",
                      isPresented: $confirmDelete
                   ) {
                      Button("Delete", role: .destructive) {
-                        nav.path.removeLast()
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                           delete()
-                        }
+//                        nav.path.removeLast()
+                        isGoingToDelete = true
                      }
                      
                   }
@@ -117,12 +125,16 @@ struct EditTracker: View {
          }
       }
       .onDisappear {
-         do {
-            if try canSave() {
-               saveProperties()
+         if !isGoingToDelete {
+            do {
+               if try canSave() {
+                  saveProperties()
+               }
+            } catch {
+               // empty tracker name, do not save
             }
-         } catch {
-            // do nothing
+         } else {
+//            tm.delete(habit: vm.habit)
          }
       }
    }

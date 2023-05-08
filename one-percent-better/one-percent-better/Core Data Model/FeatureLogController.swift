@@ -39,9 +39,7 @@ class FeatureLogController {
       setUpTimesPerWeekFrequency()
       setUpNewImprovementScore()
       
-      moc.perform {
-         self.moc.assertSave()
-      }
+      moc.assertSave()
    }
    
    func fetchFeatureLog() -> FeatureLog? {

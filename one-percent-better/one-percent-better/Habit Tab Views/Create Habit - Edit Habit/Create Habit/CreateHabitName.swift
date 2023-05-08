@@ -24,6 +24,11 @@ struct CreateHabitName: View {
    @State private var isGoingToFrequency = false
    @State private var showSuggestions = false
    
+   init(hideTabBar: Binding<Bool>) {
+      self._hideTabBar = hideTabBar
+      print("~~~~ CreateHabit init")
+   }
+   
    var body: some View {
       Background {
          VStack {

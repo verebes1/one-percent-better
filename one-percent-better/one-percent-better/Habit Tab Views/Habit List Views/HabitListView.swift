@@ -88,12 +88,6 @@ struct HabitListView: View {
                         // Habit Row
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                            HabitRow(habit: habit, day: hsvm.selectedDay)
-                              .onAppear {
-                                 print("Habit Row \(habit.name) appeared")
-                              }
-                              .onDisappear {
-                                 print("Habit Row \(habit.name) disappeared")
-                              }
                         }
                         .listRowInsets(.init(top: 0,
                                              leading: 0,

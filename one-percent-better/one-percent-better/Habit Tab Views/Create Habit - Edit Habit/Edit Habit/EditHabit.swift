@@ -7,45 +7,56 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 enum EditHabitNavRoute: Hashable {
    case editFrequency
    case editNotification
    case editTracker(Tracker)
 }
-
-class EditHabitModel: HabitConditionalFetcher {
-   
-   @Published var habit: Habit
-   
-   init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
-      self.habit = habit
-      super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
-   }
-   
-   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
-      guard !newHabits.isEmpty else { return }
-      habit = newHabits.first!
-   }
-   
-   func deleteHabit() {
-      // Remove the item to be deleted
-      moc.delete(habit)
-      
-      // Update order indices and save context
-      let _ = Habit.habits(from: moc)
-   }
-}
+//
+//class EditHabitModel: HabitConditionalFetcher {
+//
+//   @Published var habit: Habit
+//
+//   var cancelBag = Set<AnyCancellable>()
+//
+//   init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
+//      self.habit = habit
+//      super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
+//
+//      $habit
+//         .sink { habit in
+//            print("edit habit model: \(habit.name) is changing!")
+//         }
+//         .store(in: &cancelBag)
+//   }
+//
+//   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+//      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
+//      guard !newHabits.isEmpty else { return }
+//      habit = newHabits.first!
+//      print("edit habit model2: \(habit.name) is changing!")
+//   }
+//
+//   func deleteHabit() {
+//      // Remove the item to be deleted
+//      moc.delete(habit)
+//
+//      // Update order indices and save context
+//      let _ = Habit.habits(from: moc)
+//   }
+//}
 
 struct EditHabit: View {
    
    @Environment(\.managedObjectContext) var moc
-   @Environment(\.presentationMode) var presentationMode
    
-   @EnvironmentObject var nav: HabitTabNavPath
+//   @EnvironmentObject var nav: HabitTabNavPath
    
-   @ObservedObject var vm: EditHabitModel
+//   @ObservedObject var vm: EditHabitModel
+   @EnvironmentObject var vm: ProgressViewModel
+   
    @State private var newHabitName: String
    
    /// Show empty habit name error if trying to save with empty habit name
@@ -59,7 +70,7 @@ struct EditHabit: View {
    }
    
    init(habit: Habit) {
-      self.vm = EditHabitModel(habit: habit)
+      print("----- EditHabit initializer!")
       self._newHabitName = State(initialValue: habit.name)
       self._startDate = State(initialValue: habit.startDate)
    }
@@ -99,7 +110,6 @@ struct EditHabit: View {
    
    var body: some View {
       let _ = Self._printChanges()
-      return (
       Background {
          VStack {
             List {
@@ -157,7 +167,6 @@ struct EditHabit: View {
                         let tracker = vm.habit.editableTrackers[i]
                         NavigationLink(value: EditHabitNavRoute.editTracker(tracker)) {
                            EditTrackerRow(tracker: tracker)
-//                           EditTrackerRowSimple(name: tracker.name)
                         }
                      }
                   }
@@ -181,11 +190,8 @@ struct EditHabit: View {
                      isPresented: $confirmDeleteHabit
                   ) {
                      Button("Delete", role: .destructive) {
-                        nav.path.removeLast(2)
+//                        nav.path.removeLast(2)
                         isGoingToDelete = true
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-//                           deleteHabit()
-//                        }
                      }
                      
                   }
@@ -197,38 +203,40 @@ struct EditHabit: View {
          }
          .navigationTitle("Edit Habit")
          .navigationBarTitleDisplayMode(.inline)
-         .navigationDestination(for: EditHabitNavRoute.self) { [nav] route in
-            if case let .editFrequency = route {
+         .navigationDestination(for: EditHabitNavRoute.self) { route in
+            if case .editFrequency = route {
                EditHabitFrequency(habit: vm.habit)
                   .environmentObject(vm)
             }
             
             if case let .editTracker(tracker) = route {
-               EditTracker(habit: habit, tracker: tracker)
-                  .environmentObject(nav)
+               Text("Hello World")
+//               EditTracker(tracker: tracker)
+//                  .environmentObject(vm)
+//                  .environmentObject(nav)
             }
             
-            if case let .editNotification = route {
-               EditHabitNotifications(habit: habit)
-                  .environmentObject(nav)
+            if case .editNotification = route {
+               EditHabitNotifications()
+                  .environmentObject(vm)
+//                  .environmentObject(nav)
             }
          }
-         .onDisappear {
-            if !isGoingToDelete {
-               do {
-                  if try canSave() && newHabitName != vm.habit.name {
-                     vm.habit.updateName(to: newHabitName)
-                     moc.assertSave()
-                  }
-               } catch {
-                  // do nothing
-               }
-            } else {
-               vm.deleteHabit()
-            }
-         }
+//         .onDisappear {
+//            if !isGoingToDelete {
+//               do {
+//                  if try canSave() && newHabitName != vm.habit.name {
+//                     vm.habit.updateName(to: newHabitName)
+//                     moc.assertSave()
+//                  }
+//               } catch {
+//                  // do nothing
+//               }
+//            } else {
+//               vm.deleteHabit()
+//            }
+//         }
       }
-      )
    }
 }
 
