@@ -27,7 +27,6 @@ struct IntermediaryHeaderView: View {
 struct HabitListViewContainer: View {
    
    @Environment(\.scenePhase) var scenePhase
-   @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
    @State private var hideTabBar = false
@@ -42,11 +41,9 @@ struct HabitListViewContainer: View {
          .navigationDestination(for: HabitListViewRoute.self) { route in
             if case let .showProgress(habit) = route {
                HabitProgressViewContainer(habit: habit)
-                  .environmentObject(nav)
             }
             if case .createHabit = route {
                CreateHabitName(hideTabBar: $hideTabBar)
-                  .environmentObject(nav)
             }
          }
       }

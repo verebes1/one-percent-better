@@ -26,16 +26,23 @@ class ProgressViewModel: HabitConditionalFetcher {
       guard !newHabits.isEmpty else { return }
       habit = newHabits.first!
    }
+   
+   func deleteHabit() {
+      // Remove the item to be deleted
+      moc.delete(habit)
+      
+      // Update order indices and save context
+      let _ = Habit.habits(from: moc)
+   }
 }
 
 struct HabitProgressViewContainer: View {
    
-   @EnvironmentObject var nav: HabitTabNavPath
-   @ObservedObject var vm: ProgressViewModel
+   @StateObject var vm: ProgressViewModel
    
    init(habit: Habit) {
       print("~~~~ HabitProgressViewContainer init")
-      self._vm = ObservedObject(initialValue: ProgressViewModel(habit: habit))
+      self._vm = StateObject(wrappedValue: ProgressViewModel(habit: habit))
    }
    
    var body: some View {
@@ -63,16 +70,13 @@ struct HabitProgressViewContainer: View {
                if case .editHabit(let habit) = route {
                   EditHabit(habit: habit)
                      .environmentObject(vm)
-                     .environmentObject(nav)
                }
                
                if case .newTracker(let habit) = route {
                   CreateNewTracker(habit: habit)
-                     .environmentObject(nav)
                }
             }
       }
-      
    }
 }
 

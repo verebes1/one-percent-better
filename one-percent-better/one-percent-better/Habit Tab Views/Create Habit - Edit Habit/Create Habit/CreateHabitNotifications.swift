@@ -12,7 +12,7 @@ struct CreateHabitNotifications: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @EnvironmentObject var nav: HabitTabNavPath
+   @ObservedObject var nav = HabitTabNavPath.shared
    
    var habit: Habit
    

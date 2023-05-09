@@ -9,6 +9,8 @@ import SwiftUI
 import Combine
 
 class HabitTabNavPath: ObservableObject {
+   static var shared = HabitTabNavPath()
+   
    @Published var path = NavigationPath()
    
    var cancelBag = Set<AnyCancellable>()
@@ -32,7 +34,7 @@ struct ContentView: View {
    
    @State private var tabSelection: Tab = .habitList
    
-   @ObservedObject var nav = HabitTabNavPath()
+   @ObservedObject var nav = HabitTabNavPath.shared
    @ObservedObject var hlvm = HabitListViewModel()
    @ObservedObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
    
@@ -47,7 +49,6 @@ struct ContentView: View {
             HabitListViewContainer()
                .environmentObject(hlvm)
                .environmentObject(hsvm)
-               .environmentObject(nav)
          }
          .tabItem {
             Label("Habits", systemImage: "checkmark.circle.fill")

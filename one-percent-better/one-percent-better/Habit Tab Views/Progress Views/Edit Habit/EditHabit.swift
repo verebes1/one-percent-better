@@ -52,9 +52,8 @@ struct EditHabit: View {
    
    @Environment(\.managedObjectContext) var moc
    
-//   @EnvironmentObject var nav: HabitTabNavPath
+   @ObservedObject var nav = HabitTabNavPath.shared
    
-//   @ObservedObject var vm: EditHabitModel
    @EnvironmentObject var vm: ProgressViewModel
    
    @State private var newHabitName: String
@@ -84,7 +83,7 @@ struct EditHabit: View {
       return true
    }
    
-   var freqTextView: some View {      
+   var freqTextView: some View {
       switch vm.habit.frequency(on: Date()) {
       case .timesPerDay(let n):
          let timesString = n == 1 ? "time" : "times"
@@ -190,7 +189,7 @@ struct EditHabit: View {
                      isPresented: $confirmDeleteHabit
                   ) {
                      Button("Delete", role: .destructive) {
-//                        nav.path.removeLast(2)
+                        nav.path.removeLast(2)
                         isGoingToDelete = true
                      }
                      
@@ -206,36 +205,33 @@ struct EditHabit: View {
          .navigationDestination(for: EditHabitNavRoute.self) { route in
             if case .editFrequency = route {
                EditHabitFrequency(habit: vm.habit)
+//                  .environmentObject(vm)
+            }
+
+            if case let .editTracker(tracker) = route {
+               EditTracker(tracker: tracker)
                   .environmentObject(vm)
             }
-            
-            if case let .editTracker(tracker) = route {
-               Text("Hello World")
-//               EditTracker(tracker: tracker)
-//                  .environmentObject(vm)
-//                  .environmentObject(nav)
-            }
-            
+
             if case .editNotification = route {
                EditHabitNotifications()
                   .environmentObject(vm)
-//                  .environmentObject(nav)
             }
          }
-//         .onDisappear {
-//            if !isGoingToDelete {
-//               do {
-//                  if try canSave() && newHabitName != vm.habit.name {
-//                     vm.habit.updateName(to: newHabitName)
-//                     moc.assertSave()
-//                  }
-//               } catch {
-//                  // do nothing
-//               }
-//            } else {
-//               vm.deleteHabit()
-//            }
-//         }
+         .onDisappear {
+            if !isGoingToDelete {
+               do {
+                  if try canSave() && newHabitName != vm.habit.name {
+                     vm.habit.updateName(to: newHabitName)
+                     moc.assertSave()
+                  }
+               } catch {
+                  // do nothing
+               }
+            } else {
+               vm.deleteHabit()
+            }
+         }
       }
    }
 }

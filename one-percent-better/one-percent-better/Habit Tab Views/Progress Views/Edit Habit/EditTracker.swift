@@ -24,7 +24,7 @@ class EditTrackerModel: TrackerConditionalFetcher {
    
    func delete(habit: Habit) {
       moc.delete(tracker)
-      var revisedItems = habit.trackersArray
+      let revisedItems = habit.trackersArray
       
       for reverseIndex in stride(from: revisedItems.count - 1,
                                  through: 0,
@@ -40,7 +40,7 @@ struct EditTracker: View {
    @Environment(\.managedObjectContext) var moc
    
 //   @EnvironmentObject var nav: HabitTabNavPath
-//   @EnvironmentObject var vm: EditHabitModel
+   @EnvironmentObject var vm: ProgressViewModel
    
 //   @ObservedObject var tm: EditTrackerModel
    

@@ -21,7 +21,7 @@ struct CreateHabitFrequency: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @EnvironmentObject var nav: HabitTabNavPath
+   @ObservedObject var nav = HabitTabNavPath.shared
    
    var habit: Habit
    
@@ -58,7 +58,6 @@ struct CreateHabitFrequency: View {
          .navigationDestination(for: ChooseFrequencyRoute.self) { [nav] route in
             if case let .next(habit, habitFrequency) = route {
                CreateHabitNotifications(habit: habit, habitFrequency: habitFrequency, hideTabBar: $hideTabBar)
-                  .environmentObject(nav)
             }
          }
       }

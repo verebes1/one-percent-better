@@ -15,7 +15,7 @@ struct CreateHabitName: View {
    @Environment(\.colorScheme) var scheme
    @Environment(\.managedObjectContext) var moc
    
-   @EnvironmentObject var nav: HabitTabNavPath
+   @ObservedObject var nav = HabitTabNavPath.shared
    
    @State private var habitName: String = ""
    @FocusState private var nameInFocus: Bool
@@ -107,7 +107,6 @@ struct CreateHabitName: View {
          .navigationDestination(for: CreateFrequencyRoute.self) { route in
             if case .createFrequency(let habit) = route {
                CreateHabitFrequency(habit: habit, hideTabBar: $hideTabBar)
-                  .environmentObject(nav)
             }
          }
          .animation(.easeInOut, value: showSuggestions)
