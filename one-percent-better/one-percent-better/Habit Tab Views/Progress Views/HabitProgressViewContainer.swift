@@ -55,7 +55,6 @@ class TrackersViewModel: ConditionalNSManagedObjectFetcher<Tracker> {
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
       guard let newTrackers = controller.fetchedObjects as? [Tracker] else { return }
-      guard !newTrackers.isEmpty else { return }
       trackers = newTrackers
    }
 }

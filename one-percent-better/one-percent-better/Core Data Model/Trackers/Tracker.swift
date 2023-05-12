@@ -24,7 +24,7 @@ public class Tracker: NSManagedObject, Codable, Identifiable {
    /// Name of the tracker
    @NSManaged public var name: String
    
-   /// Whether or not the tracker needs manual entry from the user in HabitEntryVC
+   /// Whether or not the tracker needs manual entry from the user
    @NSManaged public var autoTracker: Bool
    
    /// The order index of the tracker
