@@ -12,6 +12,10 @@ struct HabitProgessView: View {
 
    @EnvironmentObject var vm: ProgressViewModel
    
+   init() {
+      print("HabitProgessView.init()")
+   }
+   
    var body: some View {
       let _ = Self._printChanges()
       ScrollView {

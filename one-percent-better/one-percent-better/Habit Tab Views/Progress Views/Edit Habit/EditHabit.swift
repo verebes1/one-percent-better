@@ -14,39 +14,6 @@ enum EditHabitNavRoute: Hashable {
    case editNotification
    case editTracker(Tracker)
 }
-//
-//class EditHabitModel: HabitConditionalFetcher {
-//
-//   @Published var habit: Habit
-//
-//   var cancelBag = Set<AnyCancellable>()
-//
-//   init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
-//      self.habit = habit
-//      super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
-//
-//      $habit
-//         .sink { habit in
-//            print("edit habit model: \(habit.name) is changing!")
-//         }
-//         .store(in: &cancelBag)
-//   }
-//
-//   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
-//      guard !newHabits.isEmpty else { return }
-//      habit = newHabits.first!
-//      print("edit habit model2: \(habit.name) is changing!")
-//   }
-//
-//   func deleteHabit() {
-//      // Remove the item to be deleted
-//      moc.delete(habit)
-//
-//      // Update order indices and save context
-//      let _ = Habit.habits(from: moc)
-//   }
-//}
 
 struct EditHabit: View {
    
@@ -55,6 +22,7 @@ struct EditHabit: View {
    @ObservedObject var nav = HabitTabNavPath.shared
    
    @EnvironmentObject var vm: ProgressViewModel
+   @EnvironmentObject var tm: TrackersViewModel
    
    @State private var newHabitName: String
    
@@ -69,7 +37,6 @@ struct EditHabit: View {
    }
    
    init(habit: Habit) {
-      print("----- EditHabit initializer!")
       self._newHabitName = State(initialValue: habit.name)
       self._startDate = State(initialValue: habit.startDate)
    }
@@ -160,12 +127,11 @@ struct EditHabit: View {
                }
                .listRowBackground(Color.cardColor)
                
-               if vm.habit.editableTrackers.count > 0 {
+               if tm.trackers.count > 0 {
                   Section(header: Text("Trackers")) {
-                     ForEach(0 ..< vm.habit.editableTrackers.count, id: \.self) { i in
-                        let tracker = vm.habit.editableTrackers[i]
+                     ForEach(tm.trackers) { tracker in
                         NavigationLink(value: EditHabitNavRoute.editTracker(tracker)) {
-                           EditTrackerRow(tracker: tracker)
+                           EditTrackerRow(tracker: tracker, name: tracker.name)
                         }
                      }
                   }
@@ -205,7 +171,7 @@ struct EditHabit: View {
          .navigationDestination(for: EditHabitNavRoute.self) { route in
             if case .editFrequency = route {
                EditHabitFrequency(habit: vm.habit)
-//                  .environmentObject(vm)
+                  .environmentObject(vm)
             }
 
             if case let .editTracker(tracker) = route {
@@ -231,6 +197,9 @@ struct EditHabit: View {
             } else {
                vm.deleteHabit()
             }
+         }
+         .onAppear {
+            print("Edit habit appearing!")
          }
       }
    }
@@ -304,17 +273,24 @@ struct EditTrackerRowSimple: View {
 struct EditTrackerRow: View {
    
    var tracker: Tracker
+   var name: String
+   
+//   init(tracker: Tracker) {
+//      self.tracker = tracker
+//      print("Edit Tracker row init! for tracker: \(tracker.name)")
+//   }
    
    var body: some View {
+      let _ = Self._printChanges()
       HStack {
          if tracker is GraphTracker {
-            IconTextRow(title: tracker.name, icon: "chart.xyaxis.line", color: .blue)
+            IconTextRow(title: name, icon: "chart.xyaxis.line", color: .blue)
          } else if tracker is ImageTracker {
-            IconTextRow(title: tracker.name, icon: "photo", color: .mint)
+            IconTextRow(title: name, icon: "photo", color: .mint)
          } else if tracker is ExerciseTracker {
-            IconTextRow(title: tracker.name, icon: "figure.walk", color: .red)
+            IconTextRow(title: name, icon: "figure.walk", color: .red)
          } else {
-            Text(tracker.name)
+            Text(name)
             //            IconTextRow(title: tracker.name, icon: "chart.xyaxis.line", color: .blue)
          }
          Spacer()

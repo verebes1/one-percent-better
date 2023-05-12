@@ -24,7 +24,7 @@ struct TrackerListItem: Hashable {
 
 struct CreateNewTracker: View {
    
-   @EnvironmentObject var nav: HabitTabNavPath
+//   @EnvironmentObject var nav: HabitTabNavPath
    
    var habit: Habit
    
@@ -91,20 +91,20 @@ struct CreateNewTracker: View {
             .scrollContentBackground(.hidden)
             
          }
-         .navigationDestination(for: CreateTrackerNavRoute.self) { [nav] route in
+         .navigationDestination(for: CreateTrackerNavRoute.self) { route in
             switch route {
             case .graphTracker(let habit):
                CreateGraphTracker(habit: habit)
-                  .environmentObject(nav)
+//                  .environmentObject(nav)
             case .imageTracker(let habit):
                CreateImageTracker(habit: habit)
-                  .environmentObject(nav)
+//                  .environmentObject(nav)
             case .exerciseTracker(let habit):
                CreateExerciseTracker(habit: habit)
-                  .environmentObject(nav)
+//                  .environmentObject(nav)
             case .timeTracker(let habit):
                CreateTimeTracker(habit: habit)
-                  .environmentObject(nav)
+//                  .environmentObject(nav)
             case .noteTracker(_):
                // TODO
                EmptyView()

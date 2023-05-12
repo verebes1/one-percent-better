@@ -7,18 +7,26 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 enum ProgressViewNavRoute: Hashable {
-   case editHabit(Habit)
-   case newTracker(Habit)
+   case editHabit
+   case newTracker
 }
 
-class ProgressViewModel: HabitConditionalFetcher {
+class ProgressViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    @Published var habit: Habit
+   var cancelBag = Set<AnyCancellable>()
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
       self.habit = habit
-      super.init(context, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
+      super.init(context, entityName: Habit.entity().name!, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
+      
+      $habit
+         .sink { habit in
+            print("Progress habit: \(habit.name) is changing!")
+         }
+         .store(in: &cancelBag)
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -36,13 +44,31 @@ class ProgressViewModel: HabitConditionalFetcher {
    }
 }
 
+class TrackersViewModel: ConditionalNSManagedObjectFetcher<Tracker> {
+   @Published var trackers: [Tracker]
+//   var cancelBag = Set<AnyCancellable>()
+   
+   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
+      self.trackers = habit.editableTrackers
+      super.init(context, entityName: Tracker.entity().name!, predicate: NSPredicate(format: "habit.id == %@ AND autoTracker == false", habit.id as CVarArg))
+   }
+   
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      guard let newTrackers = controller.fetchedObjects as? [Tracker] else { return }
+      guard !newTrackers.isEmpty else { return }
+      trackers = newTrackers
+   }
+}
+
 struct HabitProgressViewContainer: View {
    
    @StateObject var vm: ProgressViewModel
+   @StateObject var tm: TrackersViewModel
    
    init(habit: Habit) {
       print("~~~~ HabitProgressViewContainer init")
       self._vm = StateObject(wrappedValue: ProgressViewModel(habit: habit))
+      self._tm = StateObject(wrappedValue: TrackersViewModel(habit: habit))
    }
    
    var body: some View {
@@ -52,30 +78,31 @@ struct HabitProgressViewContainer: View {
             .environmentObject(vm)
             .navigationTitle(vm.habit.name)
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-               ToolbarItem(placement: .navigationBarTrailing) {
-                  Menu {
-                     NavigationLink(value: ProgressViewNavRoute.editHabit(vm.habit)) {
-                        Label("Edit Habit", systemImage: "pencil")
-                     }
-                     NavigationLink(value: ProgressViewNavRoute.newTracker(vm.habit)) {
-                        Label("New Tracker", systemImage: "plus")
-                     }
-                  } label: {
-                     Image(systemName: "ellipsis.circle")
-                  }
-               }
-            }
             .navigationDestination(for: ProgressViewNavRoute.self) { route in
-               if case .editHabit(let habit) = route {
-                  EditHabit(habit: habit)
+               if case .editHabit = route {
+                  EditHabit(habit: vm.habit)
                      .environmentObject(vm)
+                     .environmentObject(tm)
                }
                
-               if case .newTracker(let habit) = route {
-                  CreateNewTracker(habit: habit)
+               if case .newTracker = route {
+                  CreateNewTracker(habit: vm.habit)
                }
             }
+      }
+      .toolbar {
+         ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+               NavigationLink(value: ProgressViewNavRoute.editHabit) {
+                  Label("Edit Habit", systemImage: "pencil")
+               }
+               NavigationLink(value: ProgressViewNavRoute.newTracker) {
+                  Label("New Tracker", systemImage: "plus")
+               }
+            } label: {
+               Image(systemName: "ellipsis.circle")
+            }
+         }
       }
    }
 }

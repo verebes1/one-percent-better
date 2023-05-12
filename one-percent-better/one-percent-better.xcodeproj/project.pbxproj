@@ -34,6 +34,7 @@
 		802E929D291E02E000A28EB1 /* ImprovementTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */; };
 		802E92AC29220B8400A28EB1 /* NewImprovementGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */; };
 		802E92AE2922108000A28EB1 /* InteractiveGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802E92AD2922108000A28EB1 /* InteractiveGraph.swift */; };
+		8030A79C2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8030A79B2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift */; };
 		80385CFE285BEE5900CBDF71 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CAE285BEE5900CBDF71 /* Style.swift */; };
 		80385CFF285BEE5900CBDF71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385CB0285BEE5900CBDF71 /* SettingsView.swift */; };
 		80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80385CB1285BEE5900CBDF71 /* Assets.xcassets */; };
@@ -242,6 +243,7 @@
 		802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImprovementTrackerTests.swift; sourceTree = "<group>"; };
 		802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewImprovementGraph.swift; sourceTree = "<group>"; };
 		802E92AD2922108000A28EB1 /* InteractiveGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveGraph.swift; sourceTree = "<group>"; };
+		8030A79B2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalNSManagedObjectFetcher.swift; sourceTree = "<group>"; };
 		80385CAE285BEE5900CBDF71 /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		80385CB0285BEE5900CBDF71 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		80385CB1285BEE5900CBDF71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
 				807A47C42910B2600022068B /* DMYDate.swift */,
+				8030A79B2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
@@ -1238,6 +1241,7 @@
 				803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */,
 				80385D02285BEE5900CBDF71 /* MigrationModel2to3.swift in Sources */,
 				802E92962919F2F300A28EB1 /* RoundedRectButtonStyle.swift in Sources */,
+				8030A79C2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift in Sources */,
 				80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */,
 				80385D22285BEE5900CBDF71 /* Tracker.swift in Sources */,
 				8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */,

@@ -39,11 +39,10 @@ struct EditTracker: View {
    
    @Environment(\.managedObjectContext) var moc
    
-//   @EnvironmentObject var nav: HabitTabNavPath
+   @EnvironmentObject var nav: HabitTabNavPath
    @EnvironmentObject var vm: ProgressViewModel
    
-//   @ObservedObject var tm: EditTrackerModel
-   
+   @StateObject var tm: EditTrackerModel
    @State private var newTrackerName: String
    
    /// Show empty habit name error if trying to save with empty habit name
@@ -56,7 +55,7 @@ struct EditTracker: View {
    }
    
    init(tracker: Tracker) {
-//      tm = EditTrackerModel(tracker: tracker)
+      self._tm = StateObject(wrappedValue: EditTrackerModel(tracker: tracker))
       self._newTrackerName = State(initialValue: tracker.name)
    }
    
@@ -70,8 +69,9 @@ struct EditTracker: View {
    }
    
    func saveProperties() {
-//      tm.tracker.name = newTrackerName
+      tm.tracker.name = newTrackerName
       moc.assertSave()
+      print("Edit tracker saved new name!")
    }
    
    var body: some View {
@@ -107,12 +107,11 @@ struct EditTracker: View {
                      }
                   }
                   .alert(
-//                     "Are you sure you want to delete your tracker \"\(tm.tracker.name)\"?",
-                     "test",
+                     "Are you sure you want to delete your tracker \"\(tm.tracker.name)\"?",
                      isPresented: $confirmDelete
                   ) {
                      Button("Delete", role: .destructive) {
-//                        nav.path.removeLast()
+                        nav.path.removeLast()
                         isGoingToDelete = true
                      }
                      
@@ -125,6 +124,7 @@ struct EditTracker: View {
          }
       }
       .onDisappear {
+         print("Edit tracker disappearing!")
          if !isGoingToDelete {
             do {
                if try canSave() {
@@ -134,7 +134,7 @@ struct EditTracker: View {
                // empty tracker name, do not save
             }
          } else {
-//            tm.delete(habit: vm.habit)
+            tm.delete(habit: vm.habit)
          }
       }
    }

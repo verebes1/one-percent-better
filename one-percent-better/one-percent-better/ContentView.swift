@@ -50,6 +50,7 @@ struct ContentView: View {
                .environmentObject(hlvm)
                .environmentObject(hsvm)
          }
+         .environmentObject(nav)
          .tabItem {
             Label("Habits", systemImage: "checkmark.circle.fill")
          }
