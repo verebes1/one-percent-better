@@ -12,8 +12,8 @@ class ConditionalNSManagedObjectFetcher<T: NSManagedObject>: NSObject, NSFetched
    let resultsController: NSFetchedResultsController<T>
    var moc: NSManagedObjectContext
    
-   init(_ context: NSManagedObjectContext, entityName: String, sortDescriptors: [NSSortDescriptor] = [], predicate: NSPredicate? = nil) {
-      let request = NSFetchRequest<T>(entityName: entityName)
+   init(_ context: NSManagedObjectContext, sortDescriptors: [NSSortDescriptor] = [], predicate: NSPredicate? = nil) {
+      let request = NSFetchRequest<T>(entityName: T.entity().name!)
       request.sortDescriptors = sortDescriptors
       request.predicate = predicate
       resultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
@@ -21,6 +21,10 @@ class ConditionalNSManagedObjectFetcher<T: NSManagedObject>: NSObject, NSFetched
       super.init()
       resultsController.delegate = self
       try? resultsController.performFetch()
+   }
+   
+   var fetchedObjects: [T] {
+      resultsController.fetchedObjects ?? []
    }
 
    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

@@ -14,20 +14,20 @@ enum HabitListViewRoute: Hashable {
    case showProgress(Habit)
 }
 
-class HabitListViewModel: HabitConditionalFetcher, Identifiable {
+class HabitListViewModel: ConditionalNSManagedObjectFetcher<Habit>, Identifiable {
    
    @Published var habits: [Habit] = []
    
    var habitIDList: [UUID] = []
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-      super.init(context)
-      habits = habitController.fetchedObjects ?? []
+      super.init(context, sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)])
+      habits = fetchedObjects
       habitIDList = habits.map { $0.id }
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
+      let newHabits = controller.fetchedObjects as? [Habit] ?? []
       let newHabitIDList = newHabits.map { $0.id }
       
       if habitIDList != newHabitIDList {

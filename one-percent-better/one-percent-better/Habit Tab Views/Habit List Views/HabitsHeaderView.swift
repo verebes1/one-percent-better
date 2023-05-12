@@ -86,18 +86,17 @@ class HeaderSelectionViewModel: ObservableObject {
    }
 }
 
-class HeaderWeekViewModel: HabitConditionalFetcher {
+class HeaderWeekViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    
    @Published var habits: [Habit] = []
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
       super.init(context)
-      habits = habitController.fetchedObjects ?? []
+      habits = fetchedObjects
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
-      habits = newHabits
+      habits = controller.fetchedObjects as? [Habit] ?? []
    }
    
    func updateImprovementScores(on date: Date) {

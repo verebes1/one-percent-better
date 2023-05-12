@@ -120,7 +120,6 @@
 		805785C2296DECCF00028582 /* EveryXDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C1296DECCF00028582 /* EveryXDays.swift */; };
 		805785C62974AFF300028582 /* MenuItemWithCheckmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */; };
 		8058002829E64052008EBEBE /* HabitListViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058002729E64052008EBEBE /* HabitListViewContainer.swift */; };
-		8058002A29E64526008EBEBE /* HabitConditionalFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058002929E64526008EBEBE /* HabitConditionalFetcher.swift */; };
 		8058173D28CAAD3D00E9816F /* ExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */; };
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
@@ -337,7 +336,6 @@
 		805785C1296DECCF00028582 /* EveryXDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXDays.swift; sourceTree = "<group>"; };
 		805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemWithCheckmark.swift; sourceTree = "<group>"; };
 		8058002729E64052008EBEBE /* HabitListViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListViewContainer.swift; sourceTree = "<group>"; };
-		8058002929E64526008EBEBE /* HabitConditionalFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitConditionalFetcher.swift; sourceTree = "<group>"; };
 		8058173C28CAAD3D00E9816F /* ExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTracker.swift; sourceTree = "<group>"; };
 		8058173E28CBF1BF00E9816F /* mo_ikai 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 8.xcdatamodel"; sourceTree = "<group>"; };
 		8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateExerciseTracker.swift; sourceTree = "<group>"; };
@@ -640,18 +638,17 @@
 		80385CDF285BEE5900CBDF71 /* Core Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				8030A79B2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift */,
 				80385CE6285BEE5900CBDF71 /* Habit.swift */,
 				807A47C8291223E50022068B /* Habit+Frequency.swift */,
 				80744F5D29B3091400DAF196 /* Habit+Notifications.swift */,
 				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
-				8058002929E64526008EBEBE /* HabitConditionalFetcher.swift */,
 				80D957D229BA765000142C75 /* Trackers */,
 				80D957D129BA763900142C75 /* Notifications */,
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
 				807A47C42910B2600022068B /* DMYDate.swift */,
-				8030A79B2A0DE39800E24E9D /* ConditionalNSManagedObjectFetcher.swift */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
@@ -1148,7 +1145,6 @@
 				805785BC296C4EFD00028582 /* DepressTest.swift in Sources */,
 				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
-				8058002A29E64526008EBEBE /* HabitConditionalFetcher.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
 				802E92AC29220B8400A28EB1 /* NewImprovementGraph.swift in Sources */,
 				804C92112A08046D005AD2FE /* TrackerConditionalFetcher.swift in Sources */,

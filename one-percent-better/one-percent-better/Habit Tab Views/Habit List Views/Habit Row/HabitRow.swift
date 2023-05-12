@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import CoreData
 
-class HabitRowViewModel: HabitConditionalFetcher {
+class HabitRowViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    
    @Published var habit: Habit
    @Published var timerLabel: String = "00:00"
@@ -52,8 +52,9 @@ class HabitRowViewModel: HabitConditionalFetcher {
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-      guard let newHabits = controller.fetchedObjects as? [Habit] else { return }
+      let newHabits = controller.fetchedObjects as? [Habit] ?? []
       guard !newHabits.isEmpty else { return }
+      assert(newHabits.count == 1, "two habits with same id: \(newHabits)")
       habit = newHabits.first!
    }
    

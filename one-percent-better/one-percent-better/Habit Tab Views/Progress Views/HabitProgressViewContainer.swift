@@ -16,17 +16,10 @@ enum ProgressViewNavRoute: Hashable {
 
 class ProgressViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    @Published var habit: Habit
-   var cancelBag = Set<AnyCancellable>()
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
       self.habit = habit
-      super.init(context, entityName: Habit.entity().name!, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
-      
-      $habit
-         .sink { habit in
-            print("Progress habit: \(habit.name) is changing!")
-         }
-         .store(in: &cancelBag)
+      super.init(context, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -36,9 +29,7 @@ class ProgressViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    }
    
    func deleteHabit() {
-      // Remove the item to be deleted
       moc.delete(habit)
-      
       // Update order indices and save context
       let _ = Habit.habits(from: moc)
    }
@@ -46,11 +37,10 @@ class ProgressViewModel: ConditionalNSManagedObjectFetcher<Habit> {
 
 class TrackersViewModel: ConditionalNSManagedObjectFetcher<Tracker> {
    @Published var trackers: [Tracker]
-//   var cancelBag = Set<AnyCancellable>()
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
       self.trackers = habit.editableTrackers
-      super.init(context, entityName: Tracker.entity().name!, predicate: NSPredicate(format: "habit.id == %@ AND autoTracker == false", habit.id as CVarArg))
+      super.init(context, predicate: NSPredicate(format: "habit.id == %@ AND autoTracker == false", habit.id as CVarArg))
    }
    
    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
