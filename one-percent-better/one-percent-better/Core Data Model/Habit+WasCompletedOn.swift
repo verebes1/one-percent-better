@@ -130,17 +130,9 @@ extension Habit {
       if !wasCompleted(on: date) {
          if let i = daysCompleted.sameDayBinarySearch(for: date) {
             timesCompleted[i] += 1
-            
-            // Dictionary version
-//            if let v = timesCompletedDict[DMYDate(date)] {
-//               timesCompletedDict[DMYDate(date)] = v + 1
-//            }
          } else {
             daysCompleted.append(date)
             timesCompleted.append(1)
-            
-            // Dictionary version
-//            timesCompletedDict[DMYDate(date)] = 1
          }
          
          let combined = zip(daysCompleted, timesCompleted).sorted { $0.0 < $1.0 }
@@ -154,7 +146,7 @@ extension Habit {
          removeNotifications(on: date)
       }
       
-//      resetStreakCache(on: date)
+      
       improvementTracker?.update(on: date)
       moc.assertSave()
    }

@@ -12,21 +12,13 @@ struct CreateHabitNotifications: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @ObservedObject var nav = HabitTabNavPath.shared
+   @EnvironmentObject var nav: HabitTabNavPath
+   @EnvironmentObject var barManager: BottomBarManager
    
    var habit: Habit
-   
-   @Binding var hideTabBar: Bool
-   
-   @State private var hasChanged: Set<Notification> = []
-   
    var habitFrequency: HabitFrequency
    
-   init(habit: Habit, habitFrequency: HabitFrequency, hideTabBar: Binding<Bool>) {
-      self.habit = habit
-      self._hideTabBar = hideTabBar
-      self.habitFrequency = habitFrequency
-   }
+   @State private var hasChanged: Set<Notification> = []
    
    var body: some View {
       Background {
@@ -38,20 +30,19 @@ struct CreateHabitNotifications: View {
             
             Spacer()
             
-            BottomButton(label: "Done")
-               .onTapGesture {
-                  
-                  Task { habit.addNotifications(habit.notificationsArray) }
-                  
-                  hideTabBar = false
-                  nav.path.removeLast(3)
-               }
+            Button {
+               HapticEngineManager.playHaptic()
+               Task { habit.addNotifications(habit.notificationsArray) }
+               barManager.isHidden = false
+               nav.path.removeLast(3)
+            } label: {
+               BottomButton(label: "Done")
+            }
          }
       }
       .onAppear {
          let _ = habit.changeFrequency(to: habitFrequency)
       }
-      .toolbar(.hidden, for: .tabBar)
    }
 }
 
@@ -87,6 +78,6 @@ struct ChooseHabitNotificationTimes_Previews: PreviewProvider {
    }
    
    static var previews: some View {
-      CreateHabitNotifications(habit: data(), habitFrequency: .timesPerDay(1), hideTabBar: .constant(true))
+      CreateHabitNotifications(habit: data(), habitFrequency: .timesPerDay(1))
    }
 }

@@ -49,6 +49,17 @@ extension Habit {
          }
       }
       
+      // Remove delivered notifications
+      UNUserNotificationCenter.current().getDeliveredNotifications { notifs in
+         for habitNotif in self.notificationsArray {
+            for notif in notifs {
+               if notif.request.identifier.hasPrefix("OnePercentBetter&\(habitNotif.id)") {
+                  UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
+               }
+            }
+         }
+      }
+      
       if rebalance {
          NotificationManager.shared.rebalanceHabitNotifications()
       }

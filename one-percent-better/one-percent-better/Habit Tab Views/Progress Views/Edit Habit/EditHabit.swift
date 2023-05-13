@@ -19,7 +19,7 @@ struct EditHabit: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @ObservedObject var nav = HabitTabNavPath.shared
+   @EnvironmentObject var nav: HabitTabNavPath
    
    @EnvironmentObject var vm: ProgressViewModel
    @EnvironmentObject var tm: TrackersViewModel

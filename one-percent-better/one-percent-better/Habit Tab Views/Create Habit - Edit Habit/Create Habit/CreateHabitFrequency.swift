@@ -21,14 +21,11 @@ struct CreateHabitFrequency: View {
    
    @Environment(\.managedObjectContext) var moc
    
-   @ObservedObject var nav = HabitTabNavPath.shared
+   @EnvironmentObject var nav: HabitTabNavPath
    
    var habit: Habit
    
    @State private var frequencySelection: HabitFrequency = .timesPerDay(1)
-   
-   @Binding var hideTabBar: Bool
-   
    @State private var isGoingToNotifications = false
    
    var body: some View {
@@ -44,20 +41,17 @@ struct CreateHabitFrequency: View {
             
             Spacer()
             
-//            NavigationLink(value: ChooseFrequencyRoute.next(habit, frequencySelection)) {
-//               BottomButton(label: "Next")
-//            }
-            
             Button {
+               HapticEngineManager.playHaptic()
                isGoingToNotifications = true
                nav.path.append(ChooseFrequencyRoute.next(habit, frequencySelection))
             } label: {
                BottomButton(label: "Next")
             }
          }
-         .navigationDestination(for: ChooseFrequencyRoute.self) { [nav] route in
+         .navigationDestination(for: ChooseFrequencyRoute.self) { route in
             if case let .next(habit, habitFrequency) = route {
-               CreateHabitNotifications(habit: habit, habitFrequency: habitFrequency, hideTabBar: $hideTabBar)
+               CreateHabitNotifications(habit: habit, habitFrequency: habitFrequency)
             }
          }
       }
@@ -66,11 +60,7 @@ struct CreateHabitFrequency: View {
       }
       .onDisappear {
          if !isGoingToNotifications {
-            Task {
-               moc.perform {
-                  moc.delete(habit)
-               }
-            }
+            moc.delete(habit)
          }
       }
       .toolbar(.hidden, for: .tabBar)
@@ -96,6 +86,6 @@ struct HabitFrequency_Previews: PreviewProvider {
    }
    
    static var previews: some View {
-      CreateHabitFrequency(habit: data(), hideTabBar: .constant(true))
+      CreateHabitFrequency(habit: data())
    }
 }

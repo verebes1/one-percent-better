@@ -15,17 +15,16 @@ struct CreateHabitName: View {
    @Environment(\.colorScheme) var scheme
    @Environment(\.managedObjectContext) var moc
    
-   @ObservedObject var nav = HabitTabNavPath.shared
+   @EnvironmentObject var nav: HabitTabNavPath
+   @EnvironmentObject var barManager: BottomBarManager
    
    @State private var habitName: String = ""
    @FocusState private var nameInFocus: Bool
    @State private var nextPressed = false
-   @Binding var hideTabBar: Bool
    @State private var isGoingToFrequency = false
    @State private var showSuggestions = false
    
-   init(hideTabBar: Binding<Bool>) {
-      self._hideTabBar = hideTabBar
+   init() {
       print("~~~~ CreateHabit init")
    }
    
@@ -96,6 +95,7 @@ struct CreateHabitName: View {
             
             Button {
                if !habitName.isEmpty {
+                  HapticEngineManager.playHaptic()
                   let habit = Habit(moc: moc, name: habitName, id: UUID())
                   isGoingToFrequency = true
                   nav.path.append(CreateFrequencyRoute.createFrequency(habit))
@@ -106,7 +106,7 @@ struct CreateHabitName: View {
          }
          .navigationDestination(for: CreateFrequencyRoute.self) { route in
             if case .createFrequency(let habit) = route {
-               CreateHabitFrequency(habit: habit, hideTabBar: $hideTabBar)
+               CreateHabitFrequency(habit: habit)
             }
          }
          .animation(.easeInOut, value: showSuggestions)
@@ -114,11 +114,11 @@ struct CreateHabitName: View {
       .onAppear {
          nameInFocus = true
          isGoingToFrequency = false
-         hideTabBar = true
+         barManager.isHidden = true
       }
       .onDisappear {
          if !isGoingToFrequency {
-            hideTabBar = false
+            barManager.isHidden = false
          }
       }
       .toolbar {
@@ -134,7 +134,7 @@ struct CreateNewHabit_Previews: PreviewProvider {
    
    static var previews: some View {
       let moc = CoreDataManager.previews.mainContext
-      CreateHabitName(hideTabBar: .constant(true))
+      CreateHabitName()
          .environment(\.managedObjectContext, moc)
          .environmentObject(HabitListViewModel(moc))
          .environmentObject(HabitTabNavPath())

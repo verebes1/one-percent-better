@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct IntermediaryHabitListView: View {
-   @Binding var hideTabBar: Bool
-   
    var body: some View {
       let _ = Self._printChanges()
-      HabitListView(hideTabBar: $hideTabBar)
+      HabitListView()
    }
 }
 
@@ -29,21 +27,21 @@ struct HabitListViewContainer: View {
    @Environment(\.scenePhase) var scenePhase
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
-   @State private var hideTabBar = false
+   @EnvironmentObject var barManager: BottomBarManager
    
    var body: some View {
       let _ = Self._printChanges()
       Background {
          VStack {
             IntermediaryHeaderView()
-            IntermediaryHabitListView(hideTabBar: $hideTabBar)
+            IntermediaryHabitListView()
          }
          .navigationDestination(for: HabitListViewRoute.self) { route in
             if case let .showProgress(habit) = route {
                HabitProgressViewContainer(habit: habit)
             }
             if case .createHabit = route {
-               CreateHabitName(hideTabBar: $hideTabBar)
+               CreateHabitName()
             }
          }
       }
@@ -72,7 +70,7 @@ struct HabitListViewContainer: View {
          }
       }
       .toolbarBackground(Color.backgroundColor, for: .tabBar)
-      .toolbar(hideTabBar ? .hidden : .visible, for: .tabBar)
+      .toolbar(barManager.isHidden ? .hidden : .visible, for: .tabBar)
    }
 }
 

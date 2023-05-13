@@ -72,8 +72,6 @@ struct HabitListView: View {
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
    
-   @Binding var hideTabBar: Bool
-   
    var body: some View {
       let _ = Self._printChanges()
       VStack {
@@ -85,7 +83,6 @@ struct HabitListView: View {
                Section {
                   ForEach(hlvm.habits, id: \.self.id) { habit in
                      if habit.started(before: hsvm.selectedDay) {
-                        // Habit Row
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                            HabitRow(habit: habit, day: hsvm.selectedDay)
                         }
@@ -145,7 +142,7 @@ struct HabitsViewPreviewer: View {
    
    var body: some View {
       NavigationStack(path: $nav.path) {
-         HabitListView(hideTabBar: .constant(false))
+         HabitListView()
             .environmentObject(headerWeek_VM)
             .environment(\.managedObjectContext, moc)
             .environmentObject(nav)

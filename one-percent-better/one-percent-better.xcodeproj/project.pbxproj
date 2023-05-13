@@ -319,7 +319,7 @@
 		8048B76929FDBEB500F11AB9 /* YearViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearViewTests.swift; sourceTree = "<group>"; };
 		804C92102A08046D005AD2FE /* TrackerConditionalFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerConditionalFetcher.swift; sourceTree = "<group>"; };
 		804C92142A08350D005AD2FE /* HabitProgressViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitProgressViewContainer.swift; sourceTree = "<group>"; };
-		8055A9702831BAA5009A1881 /* One Percent Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One Percent Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiTests.swift; sourceTree = "<group>"; };
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -747,7 +747,7 @@
 		8055A9712831BAA5009A1881 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8055A9702831BAA5009A1881 /* One Percent Better.app */,
+				8055A9702831BAA5009A1881 /* 1% Better.app */,
 				8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */,
 				8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */,
 			);
@@ -977,7 +977,7 @@
 				80BA250C29B8155C0072B1AA /* OpenAISwift */,
 			);
 			productName = "one-percent-better-swiftui";
-			productReference = 8055A9702831BAA5009A1881 /* One Percent Better.app */;
+			productReference = 8055A9702831BAA5009A1881 /* 1% Better.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8055A97F2831BAA8009A1881 /* one-percent-betterTests */ = {
@@ -1450,7 +1450,7 @@
 				);
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
-				PRODUCT_NAME = "One Percent Better";
+				PRODUCT_NAME = "1% Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1486,7 +1486,7 @@
 				);
 				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
-				PRODUCT_NAME = "One Percent Better";
+				PRODUCT_NAME = "1% Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

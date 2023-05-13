@@ -93,7 +93,7 @@ class NotificationManager {
       if let (_, date, _) = try getNextNotification() {
          nextNotifDate = date
       }
-      var scheduledNotifications = moc.fetchArray(ScheduledNotification.self)
+      let scheduledNotifications = moc.fetchArray(ScheduledNotification.self)
       
       for scheduledNotification in scheduledNotifications {
          if scheduledNotification.date < today {
