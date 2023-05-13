@@ -14,6 +14,7 @@ struct CreateGraphTracker: View {
    
    var habit: Habit
    @State var trackerName: String = ""
+   @FocusState private var nameInFocus: Bool
    
    var body: some View {
       Background {
@@ -27,6 +28,7 @@ struct CreateGraphTracker: View {
                      .foregroundColor(.cardColor)
                      .frame(height: 50)
                   TextField("Name", text: $trackerName)
+                     .focused($nameInFocus)
                      .padding(.leading, 10)
                }
                .padding(.horizontal, 20)
@@ -43,6 +45,9 @@ struct CreateGraphTracker: View {
                   }
                }
             
+         }
+         .onAppear {
+            nameInFocus = true
          }
       }
    }

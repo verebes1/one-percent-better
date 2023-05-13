@@ -95,16 +95,12 @@ struct CreateNewTracker: View {
             switch route {
             case .graphTracker(let habit):
                CreateGraphTracker(habit: habit)
-//                  .environmentObject(nav)
             case .imageTracker(let habit):
                CreateImageTracker(habit: habit)
-//                  .environmentObject(nav)
             case .exerciseTracker(let habit):
                CreateExerciseTracker(habit: habit)
-//                  .environmentObject(nav)
             case .timeTracker(let habit):
                CreateTimeTracker(habit: habit)
-//                  .environmentObject(nav)
             case .noteTracker(_):
                // TODO
                EmptyView()

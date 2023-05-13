@@ -14,7 +14,7 @@ enum ProgressViewNavRoute: Hashable {
    case newTracker
 }
 
-class ProgressViewModel: ConditionalNSManagedObjectFetcher<Habit> {
+class ProgressViewModel: ConditionalManagedObjectFetcher<Habit> {
    @Published var habit: Habit
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {
@@ -35,7 +35,7 @@ class ProgressViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    }
 }
 
-class TrackersViewModel: ConditionalNSManagedObjectFetcher<Tracker> {
+class TrackersViewModel: ConditionalManagedObjectFetcher<Tracker> {
    @Published var trackers: [Tracker]
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit) {

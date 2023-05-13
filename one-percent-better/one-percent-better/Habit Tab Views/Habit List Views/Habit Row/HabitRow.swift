@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 import CoreData
 
-class HabitRowViewModel: ConditionalNSManagedObjectFetcher<Habit> {
+class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
    
    @Published var habit: Habit
    @Published var timerLabel: String = "00:00"
@@ -83,9 +83,9 @@ class HabitRowViewModel: ConditionalNSManagedObjectFetcher<Habit> {
    
    var timesCompleted: Int {
       switch habit.frequency(on: currentDay) {
-      case .timesPerDay, .specificWeekdays:
+      case .timesPerDay:
          return habit.timesCompleted(on: currentDay)
-      case .timesPerWeek:
+      case .specificWeekdays, .timesPerWeek:
          return habit.timesCompletedThisWeek(on: currentDay, upTo: true)
       case .none:
          return 0
@@ -157,19 +157,20 @@ struct HabitRow: View {
          // Actual row views
          HStack(spacing: 0) {
             Spacer().frame(width: 15)
-            HabitCompletionCircle(vm: vm,
-                                  size: 28,
+            HabitCompletionCircle(size: 28,
                                   completedPressed: $completePressed)
+            
             Spacer().frame(width: 15)
+            
             HabitRowLabels()
-               .environmentObject(vm)
             
             Spacer()
+            
             ImprovementGraphView()
-               .environmentObject(vm)
                .frame(width: 80, height: 35)
                .padding(.trailing, 20)
          }
+         .environmentObject(vm)
          .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
          
          // Left side of habit row is completion button

@@ -182,29 +182,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       NotificationManager.shared.rebalanceHabitNotifications()
    }
    
-   var manualTrackers: [Tracker] {
-      var manualTrackers: [Tracker] = []
-      for tracker in trackers {
-         if let t = tracker as? Tracker,
-            !t.autoTracker {
-            manualTrackers.append(t)
-         }
-      }
-      return manualTrackers
-   }
-   
    var editableTrackers: [Tracker] {
-      var editable: [Tracker] = []
-      for tracker in trackers {
-         if let t = tracker as? Tracker {
-            if let _ = t as? ImprovementTracker {
-               // don't add
-            } else {
-               editable.append(t)
-            }
-         }
-      }
-      return editable
+      trackersArray.filter { !$0.autoTracker }
    }
    
    var hasTimeTracker: Bool {

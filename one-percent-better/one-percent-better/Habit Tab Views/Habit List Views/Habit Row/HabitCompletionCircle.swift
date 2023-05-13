@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HabitCompletionCircle: View {
    
-   @ObservedObject var vm: HabitRowViewModel
+   @EnvironmentObject var vm: HabitRowViewModel
    
    var color: Color = .green
    var size: CGFloat = 100
@@ -35,7 +35,7 @@ struct HabitCompletionCircle: View {
    }
    
    func handleTap() {
-      if !vm.habit.manualTrackers.isEmpty {
+      if !vm.habit.editableTrackers.isEmpty {
          show = true
       } else {
          if let t = vm.habit.timeTracker {
@@ -115,7 +115,8 @@ struct HabitCompletionCircle_Previewer: View {
          let vm1 = HabitRowViewModel(moc: CoreDataManager.previews.mainContext, habit: notCompletedHabit,
                                      currentDay:
                                        currentDay)
-         HabitCompletionCircle(vm: vm1, completedPressed: .constant(false))
+         HabitCompletionCircle(completedPressed: .constant(false))
+            .environmentObject(vm1)
             .border(Color.black, width: 1)
          
          Spacer()

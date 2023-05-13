@@ -14,7 +14,7 @@ enum HabitListViewRoute: Hashable {
    case showProgress(Habit)
 }
 
-class HabitListViewModel: ConditionalNSManagedObjectFetcher<Habit>, Identifiable {
+class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
    
    @Published var habits: [Habit] = []
    

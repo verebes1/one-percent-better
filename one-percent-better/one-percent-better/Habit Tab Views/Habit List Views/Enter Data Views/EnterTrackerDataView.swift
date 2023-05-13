@@ -40,7 +40,7 @@ class EnterTrackerDataViewModel: ObservableObject {
    
    init(habit: Habit, currentDay: Date) {
       self.habit = habit
-      self.trackers = habit.manualTrackers
+      self.trackers = habit.editableTrackers
       self.currentDay = currentDay
       
       for tracker in trackers {

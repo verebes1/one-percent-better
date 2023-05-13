@@ -39,7 +39,7 @@ struct TimerCompletionCircle: View {
       .contentShape(Rectangle())
       .onTapGesture {
          
-         if !habit.manualTrackers.isEmpty {
+         if !habit.editableTrackers.isEmpty {
             show = true
          } else {
             withAnimation {

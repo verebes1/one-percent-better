@@ -81,7 +81,16 @@ extension Habit {
    /// - Parameter upTo: Calculate only up to this date
    /// - Returns: Number of times completed that week
    func timesCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency, upTo: Bool = false) -> Int {
-      guard case .timesPerWeek(_, resetDay: let resetDay) = freq else { return 0 }
+      var resetDay: Weekday
+      switch freq {
+      case .timesPerDay:
+         return 0
+      case .specificWeekdays:
+         resetDay = Weekday.sunday
+      case .timesPerWeek(_, let tpwResetDay):
+         resetDay = tpwResetDay
+      }
+      
       var timesCompletedThisWeek = 0
       
       var startOffset = Weekday.positiveDifference(from: resetDay, to: Weekday(date)) - 1

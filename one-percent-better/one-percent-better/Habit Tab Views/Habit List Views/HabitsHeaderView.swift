@@ -86,7 +86,7 @@ class HeaderSelectionViewModel: ObservableObject {
    }
 }
 
-class HeaderWeekViewModel: ConditionalNSManagedObjectFetcher<Habit> {
+class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
    
    @Published var habits: [Habit] = []
    

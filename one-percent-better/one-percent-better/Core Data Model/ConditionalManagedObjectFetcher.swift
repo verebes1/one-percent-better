@@ -1,5 +1,5 @@
 //
-//  ConditionalNSManagedObjectFetcher.swift
+//  ConditionalManagedObjectFetcher.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 5/11/23.
@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class ConditionalNSManagedObjectFetcher<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
+class ConditionalManagedObjectFetcher<T: NSManagedObject>: NSObject, NSFetchedResultsControllerDelegate, ObservableObject {
    let resultsController: NSFetchedResultsController<T>
    var moc: NSManagedObjectContext
    
