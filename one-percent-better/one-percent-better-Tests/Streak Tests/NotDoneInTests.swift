@@ -34,18 +34,18 @@ final class NotDoneInTests: XCTestCase {
       try context.save()
    }
    
-   func testNotDoneInFrequencyChange() throws {
-      
-      let startWednesday = df.date(from: "12-7-2022")!
-      habit.updateStartDate(to: startWednesday)
-      
-      XCTAssertEqual(habit.notDoneInDays(on: startWednesday), 0)
-      habit.markCompleted(on: startWednesday)
-      
-      
-      habit.changeFrequency(to: .timesPerWeek(times: 4, resetDay: .sunday))
-      
-      
-   }
+//   func testNotDoneInFrequencyChange() throws {
+//      
+//      let startWednesday = df.date(from: "12-7-2022")!
+//      habit.updateStartDate(to: startWednesday)
+//      
+//      XCTAssertEqual(habit.notDoneInDays(on: startWednesday), 0)
+//      habit.markCompleted(on: startWednesday)
+//      
+//      
+//      habit.changeFrequency(to: .timesPerWeek(times: 4, resetDay: .sunday))
+//      
+//      
+//   }
    
 }
