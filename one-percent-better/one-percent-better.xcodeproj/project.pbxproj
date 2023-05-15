@@ -1468,7 +1468,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
 				PRODUCT_NAME = "One Percent Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1504,7 +1504,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
 				PRODUCT_NAME = "One Percent Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
