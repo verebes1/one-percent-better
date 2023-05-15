@@ -7,21 +7,6 @@
 
 import SwiftUI
 
-struct IntermediaryHabitListView: View {
-   var body: some View {
-      let _ = Self._printChanges()
-      HabitListView()
-   }
-}
-
-
-struct IntermediaryHeaderView: View {
-   var body: some View {
-      let _ = Self._printChanges()
-      HabitsHeaderView()
-   }
-}
-
 struct HabitListViewContainer: View {
    
    @Environment(\.scenePhase) var scenePhase
@@ -33,14 +18,14 @@ struct HabitListViewContainer: View {
       let _ = Self._printChanges()
       Background {
          VStack {
-            IntermediaryHeaderView()
-            IntermediaryHabitListView()
+            HabitsHeaderView()
+            HabitListView()
          }
          .navigationDestination(for: HabitListViewRoute.self) { route in
-            if case let .showProgress(habit) = route {
+            switch route {
+            case let .showProgress(habit):
                HabitProgressViewContainer(habit: habit)
-            }
-            if case .createHabit = route {
+            case .createHabit:
                CreateHabitName()
             }
          }
