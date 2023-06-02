@@ -208,7 +208,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       return habits.isEmpty ? 0 : habits.count
    }
    
-   /// Whether or not this habits start date is after a certain date
+   /// Whether or not this habits start date is after or equal to a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
@@ -216,7 +216,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       return Cal.startOfDay(for: startDate) >= Cal.startOfDay(for: day)
    }
    
-   /// Whether or not this habits start date is before a certain date
+   /// Whether or not this habits start date is before or equal to a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or before the date, and false otherwise
    func started(before day: Date) -> Bool {

@@ -100,18 +100,18 @@ final class StreakTests: XCTestCase {
       
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
       
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
       habit.markCompleted(on: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "1 day streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "1 day streak")
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       vm.currentDay = Cal.add(days: 1, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "2 day streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "2 day streak")
       
       vm.currentDay = Cal.add(days: 2, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "2 day streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "2 day streak")
       
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
-      XCTAssertEqual(vm.streakLabel().0, "3 day streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "3 day streak")
    }
    
 }

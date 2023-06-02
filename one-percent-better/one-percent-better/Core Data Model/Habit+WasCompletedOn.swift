@@ -146,7 +146,6 @@ extension Habit {
          removeNotifications(on: date)
       }
       
-      
       improvementTracker?.update(on: date)
       moc.assertSave()
    }
@@ -284,22 +283,22 @@ extension Habit {
    
    /// How many days since the last time this habit was completed
    /// - Parameter on: The date to check against
-   func notDoneInDays(on date: Date) -> Int? {
-      guard started(before: date) else { return nil }
-      var difference = 0
-      var day = Cal.startOfDay(for: date)
-      day = Cal.add(days: -1, to: day)
-      if day > startDate {
-         while !wasCompleted(on: day) {
-            difference += 1
-            day = Cal.add(days: -1, to: day)
-            if day < startDate {
-               break
-            }
-         }
-         return difference
-      } else {
+   func notDoneInDays(on day: Date) -> Int? {
+      guard started(before: day) else {
          return nil
       }
+      guard !Cal.isDate(day, inSameDayAs: startDate) else {
+         return wasCompleted(on: day) ? 0 : nil
+      }
+      var difference = 0
+      var day = day
+      while !wasCompleted(on: day) {
+         difference += 1
+         day = Cal.add(days: -1, to: day)
+         guard started(before: day) else {
+            break
+         }
+      }
+      return difference
    }
 }

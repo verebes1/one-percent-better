@@ -247,15 +247,15 @@ final class XTimesPerWeekTests: XCTestCase {
       
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
       
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "No streak")
       habit.markCompleted(on: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "No streak")
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       vm.currentDay = Cal.add(days: 1, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "No streak")
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       vm.currentDay = Cal.add(days: 2, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "1 week streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "1 week streak")
    }
    
    func testStreakLabel2() {
@@ -270,18 +270,18 @@ final class XTimesPerWeekTests: XCTestCase {
       
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
       
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "No streak")
       habit.markCompleted(on: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "No streak")
       habit.markCompleted(on: Cal.add(days: 1, to: startDate))
       vm.currentDay = Cal.add(days: 1, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "No streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "No streak")
       habit.markCompleted(on: Cal.add(days: 2, to: startDate))
       vm.currentDay = Cal.add(days: 2, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "1 week streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "1 week streak")
       
       vm.currentDay = Cal.add(days: 7, to: startDate)
-      XCTAssertEqual(vm.streakLabel().0, "1 week streak")
+      XCTAssertEqual(vm.streakLabel()?.label, "1 week streak")
    }
    
    // MARK: Improvement Score Tests

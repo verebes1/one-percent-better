@@ -9,6 +9,18 @@ import SwiftUI
 import Combine
 import CoreData
 
+struct StreakLabel: Equatable {
+   let label: String
+   let color: Color
+   
+   static let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
+   
+   init(_ label: String, _ color: Color) {
+      self.label = label
+      self.color = color
+   }
+}
+
 class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
    
    @Published var habit: Habit
@@ -58,26 +70,24 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
       habit = newHabits.first!
    }
    
-   func streakLabel() -> (String, Color) {
-      let gray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
+   func streakLabel() -> StreakLabel? {
       let streak = habit.streak(on: currentDay)
       if streak > 0 {
+         guard let freq = habit.frequency(on: currentDay) else { return nil }
          var timePeriodText: String
-         guard let freq = habit.frequency(on: currentDay) else {
-            return ("Error", .red)
-         }
          switch freq {
          case .timesPerDay, .specificWeekdays:
             timePeriodText = "day"
          case .timesPerWeek:
             timePeriodText = "week"
          }
-         return ("\(streak) \(timePeriodText) streak", .green)
-      } else if let days = habit.notDoneInDays(on: currentDay) {
+         return StreakLabel("\(streak) \(timePeriodText) streak", .green)
+      } else if let days = habit.notDoneInDays(on: currentDay),
+                days > 0 {
          let dayText = days == 1 ? "day" : "days"
-         return ("Not done in \(days) \(dayText)", .red)
+         return StreakLabel("Not done in \(days) \(dayText)", .red)
       } else {
-         return ("No streak", gray)
+         return StreakLabel("No streak", StreakLabel.gray)
       }
    }
    
@@ -147,16 +157,15 @@ struct HabitRow: View {
    @State private var completePressed = false
    
    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, day: Date) {
-      print("Habit row \(habit.name) is being initialized")
       self.vm = HabitRowViewModel(moc: moc, habit: habit, currentDay: day)
    }
    
    var body: some View {
       let _ = Self._printChanges()
       ZStack {
-         // Actual row views
          HStack(spacing: 0) {
             Spacer().frame(width: 15)
+            
             HabitCompletionCircle(size: 28,
                                   completedPressed: $completePressed)
             
