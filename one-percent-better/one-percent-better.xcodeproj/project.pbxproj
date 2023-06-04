@@ -108,8 +108,6 @@
 		804C92152A08350D005AD2FE /* HabitProgressViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804C92142A08350D005AD2FE /* HabitProgressViewContainer.swift */; };
 		805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296BE2A12E50800C2C90E /* StreakTests.swift */; };
 		805296C12A12E65C00C2C90E /* NotDoneInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296C02A12E65C00C2C90E /* NotDoneInTests.swift */; };
-		805296C32A12E76500C2C90E /* HabitRowLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296C22A12E76500C2C90E /* HabitRowLabelTests.swift */; };
-		8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
 		805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */; };
@@ -324,10 +322,8 @@
 		804C92142A08350D005AD2FE /* HabitProgressViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitProgressViewContainer.swift; sourceTree = "<group>"; };
 		805296BE2A12E50800C2C90E /* StreakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakTests.swift; sourceTree = "<group>"; };
 		805296C02A12E65C00C2C90E /* NotDoneInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDoneInTests.swift; sourceTree = "<group>"; };
-		805296C22A12E76500C2C90E /* HabitRowLabelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowLabelTests.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* One Percent Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One Percent Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiTests.swift; sourceTree = "<group>"; };
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -744,7 +740,6 @@
 			children = (
 				805296BE2A12E50800C2C90E /* StreakTests.swift */,
 				805296C02A12E65C00C2C90E /* NotDoneInTests.swift */,
-				805296C22A12E76500C2C90E /* HabitRowLabelTests.swift */,
 			);
 			path = "Streak Tests";
 			sourceTree = "<group>";
@@ -777,7 +772,6 @@
 				8048B76829FDBE9E00F11AB9 /* Habit Progress View Tests */,
 				80BA250829B7F3710072B1AA /* Notification Tests */,
 				806BB18429A43860006549A9 /* Frequency Tests */,
-				8055A9842831BAA8009A1881 /* one_percent_better_swiftuiTests.swift */,
 				80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */,
 				802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */,
 				80DAAC352939A02600E626D7 /* ImportExportTest.swift */,
@@ -1299,8 +1293,6 @@
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */,
-				8055A9852831BAA8009A1881 /* one_percent_better_swiftuiTests.swift in Sources */,
-				805296C32A12E76500C2C90E /* HabitRowLabelTests.swift in Sources */,
 				80BA250A29B7F3900072B1AA /* RandomTimeTests.swift in Sources */,
 				802E929D291E02E000A28EB1 /* ImprovementTrackerTests.swift in Sources */,
 			);

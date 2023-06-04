@@ -62,6 +62,20 @@ final class NotDoneInTests: XCTestCase {
       vm.currentDay = df.date(from: "12-8-2022")!
       XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
       XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 1)
+      
+      //     X
+      // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+      // C   C   -   -   -   -   -   -
+      habit.markCompleted(on: df.date(from: "12-8-2022")!)
+      XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
+      XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 0)
+      
+      //         X
+      // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+      // C   C   -   -   -   -   -   -
+      vm.currentDay = df.date(from: "12-9-2022")!
+      XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
+      XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 1)
    }
    
 }
