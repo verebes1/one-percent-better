@@ -83,7 +83,7 @@ struct HabitRowLabels: View {
                   .subLabel(color: streakLabel.color)
             }
          }
-         
+         /*
          switch vm.habit.frequency(on: vm.currentDay) {
          case .timesPerDay(_):
             EmptyView()
@@ -97,6 +97,7 @@ struct HabitRowLabels: View {
          case .none:
             EmptyView()
          }
+          */
       }
    }
 }
