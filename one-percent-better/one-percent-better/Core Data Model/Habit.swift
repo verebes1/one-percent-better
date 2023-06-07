@@ -59,8 +59,18 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// An array of all the days where the habit was completed
    @NSManaged public var daysCompleted: [Date]
    
+   /// How many times they've completed the habit, where each entry corresponds to an entry in the daysCompleted
+   /// array. For example if the habit was completed twice for a particular day, the entry would be 2
+   @NSManaged public var timesCompleted: [Int]
+   
    /// The times when a notification reminder should be sent
    @NSManaged public var notificationTimes: [Date]
+   
+   /// A set of notifications for this habit
+   @NSManaged public var notifications: NSOrderedSet?
+
+   
+   
    
    /// How frequently the user wants to complete the habit (daily, weekly, monthly)
    @NSManaged public var frequency: [Int]
@@ -68,9 +78,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// The dates the user switches the frequency of their habits, so that their previous data is still shown as completed
    @NSManaged public var frequencyDates: [Date]
    
-   /// How many times they've completed the habit, where each entry corresponds to an entry in the daysCompleted
-   /// array. For example if the habit was completed twice for a particular day, the entry would be 2
-   @NSManaged public var timesCompleted: [Int]
    
    /// If frequency is daily, how many times per day
    @NSManaged public var timesPerDay: [Int]
@@ -85,8 +92,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// Which day of the week does this weekly habit frequency reset
    @NSManaged public var timesPerWeekResetDay: [Int]
    
-   /// A set of notifications for this habit
-   @NSManaged public var notifications: NSOrderedSet?
    
    // MARK: - Properties
    
