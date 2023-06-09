@@ -127,7 +127,6 @@
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */; };
-		806235F22A2ED7510040F9BD /* opb 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 806235F12A2ED7510040F9BD /* opb 18 to 19.xcmappingmodel */; };
 		806235F42A2ED7620040F9BD /* MigrationModel18to19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806235F32A2ED7620040F9BD /* MigrationModel18to19.swift */; };
 		8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3328F9FE5600903123 /* NotificationSelection.swift */; };
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
@@ -190,6 +189,7 @@
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
+		80F667112A33F32400095E60 /* opb 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667102A33F32400095E60 /* opb 18 to 19.xcmappingmodel */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
 		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
@@ -348,7 +348,6 @@
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleMenuButton.swift; sourceTree = "<group>"; };
-		806235F12A2ED7510040F9BD /* opb 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "opb 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
 		806235F32A2ED7620040F9BD /* MigrationModel18to19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel18to19.swift; sourceTree = "<group>"; };
 		8062AA3328F9FE5600903123 /* NotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSelection.swift; sourceTree = "<group>"; };
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
@@ -418,6 +417,7 @@
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
+		80F667102A33F32400095E60 /* opb 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "opb 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
@@ -582,7 +582,7 @@
 				80385CBF285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel */,
 				8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */,
 				80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */,
-				806235F12A2ED7510040F9BD /* opb 18 to 19.xcmappingmodel */,
+				80F667102A33F32400095E60 /* opb 18 to 19.xcmappingmodel */,
 			);
 			path = Mappings;
 			sourceTree = "<group>";
@@ -1115,7 +1115,6 @@
 				80385D03285BEE5900CBDF71 /* CoreDataMigrationVersion.swift in Sources */,
 				80385D37285BEE5900CBDF71 /* ContentView.swift in Sources */,
 				80385D17285BEE5900CBDF71 /* HabitCreationHeader.swift in Sources */,
-				806235F22A2ED7510040F9BD /* opb 18 to 19.xcmappingmodel in Sources */,
 				80385D27285BEE5900CBDF71 /* ExportManager.swift in Sources */,
 				80385D1C285BEE5900CBDF71 /* NSManagedObjectModel+Compatible.swift in Sources */,
 				80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */,
@@ -1197,6 +1196,7 @@
 				8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */,
+				80F667112A33F32400095E60 /* opb 18 to 19.xcmappingmodel in Sources */,
 				80385D2B285BEE5900CBDF71 /* HabitProgessView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				8062AA432902F23000903123 /* ProgressCards.swift in Sources */,

@@ -18,7 +18,6 @@
         <attribute name="hasTrackerToHabitRelationship" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>
     <entity name="Frequency" representedClassName="Frequency" isAbstract="YES" syncable="YES" codeGenerationType="class">
-        <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="habit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="frequencies" inverseEntity="Habit"/>
     </entity>

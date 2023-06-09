@@ -28,7 +28,6 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
    // daysPerWeek    = [[0],      [0],      [0,2,4],   [0]     ]
    
    // FUNCTION($entityPolicy, "createFrequenciesForHabit:forHabit:" , $manager, $source)
-   //
    @objc func createFrequenciesForHabit(_ manager: NSMigrationManager, forHabit habit: NSManagedObject) -> NSSet {
       let habitName = habit.value(forKey: "name") as? String
       print("JJJJ habitName: \(String(describing: habitName))")
@@ -68,9 +67,7 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
          }
          
          let startDate = frequencyDates[i]
-         let endDate = i+1 < frequencyDates.count ? frequencyDates[i+1] : nil
          freqEntity.setValue(startDate, forKey: "startDate")
-         freqEntity.setValue(endDate, forKey: "endDate")
          
          // Get the corresponding Habit in the destination context
          if let destinationHabit = manager.destinationInstances(forEntityMappingName: "HabitToHabit", sourceInstances: [habit]).first {

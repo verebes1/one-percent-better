@@ -71,6 +71,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
 
    
    
+   /// A set of frequencies for this habit
+   @NSManaged public var frequencies: NSOrderedSet?
+   
+   
    
    /// How frequently the user wants to complete the habit (daily, weekly, monthly)
    @NSManaged public var frequency: [Int]
@@ -91,6 +95,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// Which day of the week does this weekly habit frequency reset
    @NSManaged public var timesPerWeekResetDay: [Int]
+   
    
    
    // MARK: - Properties

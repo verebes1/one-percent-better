@@ -127,6 +127,10 @@ extension Habit {
    /// Mark habit as completed for a date
    /// - Parameter date: The day to mark the habit completed
    func markCompleted(on date: Date) {
+      
+//      let frequencies = frequencies?.array as? [Frequency]
+//      print("frequencies: \(frequencies)")
+      
       if !wasCompleted(on: date) {
          if let i = daysCompleted.sameDayBinarySearch(for: date) {
             timesCompleted[i] += 1
