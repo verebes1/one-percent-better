@@ -29,8 +29,7 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
    
    // FUNCTION($entityPolicy, "createFrequenciesForHabit:forHabit:" , $manager, $source)
    @objc func createFrequenciesForHabit(_ manager: NSMigrationManager, forHabit habit: NSManagedObject) -> NSSet {
-      let habitName = habit.value(forKey: "name") as? String
-      print("JJJJ habitName: \(String(describing: habitName))")
+      let context = manager.destinationContext
       
       guard let habitFrequency = habit.value(forKey: "frequency") as? [Int],
             let frequencyDates = habit.value(forKey: "frequencyDates") as? [Date],
@@ -40,10 +39,15 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
             let timesPerWeekResetDay = habit.value(forKey: "timesPerWeekResetDay") as? [Int]
             else {
          assertionFailure("Unable to unwrap habit properties")
+         let freqEntity = NSEntityDescription.insertNewObject(forEntityName: "XTimesPerDayFrequency", into: context)
+         freqEntity.setValue(1, forKey: "timesPerDay")
+         if let destinationHabit = manager.destinationInstances(forEntityMappingName: "HabitToHabit", sourceInstances: [habit]).first {
+            // Set the 'habit' relationship to the corresponding Habit in the destination context
+            freqEntity.setValue(destinationHabit, forKey: "habit")
+         }
          return NSSet()
       }
       
-      let context = manager.destinationContext
       var frequencyArray: [NSManagedObject] = []
       
       for i in 0 ..< frequencyDates.count {
