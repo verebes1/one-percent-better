@@ -113,69 +113,68 @@ enum HabitFrequencyTest: Equatable {
    }
 }
 
-// Frequency Data Structure
-// frequencyDates: [Date] - LIST OF DATES OF WHEN FREQUENCY CHANGES
-// Use index of frequencyDates in order to get frequency data
-// All frequency data must be appended to keep the same length as frequencyDates array
-//
-// Example:
-// 1/1/2022  - Habit created with   1 time per day
-// 1/5/2022  - freq changed to      2 times per day
-// 1/14/2022 - freq changed to      MWF
-// 2/3/2022  - freq changed to      3 times per day
-//
-// frequencyDates = [1/1/2022, 1/5/2022, 1/14/2022, 2/3/2022]
-// frequency      = [0,        0,        1,         0       ]
-// timesPerDay    = [1,        2,        1,         3       ]
-// daysPerWeek    = [[0],      [0],      [0,2,4],   [0]     ]
-//
-// Note: the frequency dates array needs to match the start date of the habit, so it must
-// be updated when the start date is updated
-
 extension Habit {
+   
+   
+   /// Add a frequency to this habit. If a frequency exists for this start date, then remove it
+   /// - Parameters:
+   ///   - frequency: The type of frequency
+   ///   - startDate: The start date of the frequency
+   func addFrequency(frequency: HabitFrequency, startDate: Date) {
+      // Remove all frequencies that have that have the same startDate
+      let freqToRemove = frequenciesArray.compactMap { Cal.isDate($0.startDate, inSameDayAs: startDate) ? $0 : nil }
+      freqToRemove.forEach { self.removeFromFrequencies($0) }
+      
+      let newFrequency = createFrequency(frequency: frequency, startDate: startDate)
+      self.addToFrequencies(newFrequency)
+   }
+   
+   /// Create a new Frequency NSManagedObject
+   /// - Parameters:
+   ///   - frequency: The type of frequency
+   ///   - startDate: The start date of the frequency
+   /// - Returns: The frequency to return
+   func createFrequency(frequency: HabitFrequency, startDate: Date) -> Frequency {
+      var nsFrequency: Frequency
+      switch frequency {
+      case .timesPerDay(let n):
+         nsFrequency = XTimesPerDayFrequency(context: moc, timesPerDay: n)
+      case .specificWeekdays(let days):
+         nsFrequency = SpecificWeekdaysFrequency(context: moc, weekdays: days)
+      case .timesPerWeek(times: let n, resetDay: let day):
+         nsFrequency = XTimesPerWeekFrequency(context: moc, timesPerWeek: n, resetDay: day)
+      }
+      nsFrequency.startDate = startDate
+      return nsFrequency
+   }
    
    /// Change the frequency on a specific date
    /// - Parameters:
    ///   - freq: The frequency to change to
    ///   - date: The date to change it on
-   func changeFrequency(to freq: HabitFrequency, on date: Date = Date()) {
-      guard frequency.count == self.frequencyDates.count else {
-         fatalError("frequency and frequencyDates out of whack")
-      }
+   func changeFrequency(to frequency: HabitFrequency, on startDate: Date = Date()) {
+      precondition(!frequenciesArray.isEmpty)
       
-      if let i = frequencyDates.sameDayBinarySearch(for: date) {
-         frequency[i] = freq.valueNS
-         switch freq {
-         case .timesPerDay(let n):
-            timesPerDay[i] = n
-         case .specificWeekdays(let days):
-            daysPerWeek[i] = days.map { $0.rawValue }
-         case .timesPerWeek(times: let n, resetDay: let day):
-            timesPerWeekTimes[i] = n
-            timesPerWeekResetDay[i] = day.rawValue
-         }
+      let frequencyDates = frequenciesArray.map { $0.startDate }
+      let newFrequency = createFrequency(frequency: frequency, startDate: startDate)
+      
+      if let i = frequencyDates.sameDayBinarySearch(for: startDate) {
+         self.removeFromFrequencies(at: i)
+         // TODO: 1.1.2 Don't add to frequency list if last frequency is equal to this frequency
+         self.insertIntoFrequencies(newFrequency, at: i)
       } else {
-         frequencyDates.append(date)
-         frequency.append(freq.valueNS)
-         
-         timesPerDay.append(1)
-         daysPerWeek.append([0])
-         timesPerWeekTimes.append(1)
-         timesPerWeekResetDay.append(0)
-         
-         switch freq {
-         case .timesPerDay(let n):
-            timesPerDay[timesPerDay.count - 1] = n
-         case .specificWeekdays(let days):
-            daysPerWeek[daysPerWeek.count - 1] = days.map { $0.rawValue }
-         case .timesPerWeek(times: let n, resetDay: let day):
-            timesPerWeekTimes[timesPerWeekTimes.count - 1] = n
-            timesPerWeekResetDay[timesPerWeekResetDay.count - 1] = day.rawValue
+         // index of first frequency whose start date is > new frequency startDate
+         let insertIndex = frequencyDates.binarySearch { $0.startOfDay() <= startDate.startOfDay() }
+         if let insertIndex = insertIndex {
+            self.insertIntoFrequencies(newFrequency, at: insertIndex)
+         } else {
+            // TODO: 1.1.2 Don't add to frequency list if last frequency is equal to this frequency
+            self.addToFrequencies(newFrequency)
          }
+         
       }
       
-//      streakCache = [:] // maybe better options here
-      improvementTracker?.update(on: date)
+      improvementTracker?.update(on: startDate)
       moc.assertSave()
    }
    
@@ -184,23 +183,22 @@ extension Habit {
    /// - Parameter date: The date to get the frequency on
    /// - Returns: The corresponding HabitFrequency
    func frequency(on date: Date) -> HabitFrequency? {
+      let frequencyDates = frequenciesArray.map { $0.startDate }
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          return nil
       }
-         
-      guard let freq = HabitFrequencyNSManaged(rawValue: frequency[index]) else {
-         fatalError("Unknown frequency")
+      
+      if let freq = frequencies[index] as? XTimesPerDayFrequency {
+         return .timesPerDay(freq.timesPerDay)
+      } else if let freq = frequencies[index] as? SpecificWeekdaysFrequency {
+         let weekdays = freq.weekdays.map { Weekday($0) }
+         return .specificWeekdays(weekdays)
+      } else if let freq = frequencies[index] as? XTimesPerWeekFrequency {
+         return .timesPerWeek(times: freq.timesPerWeek, resetDay: Weekday(freq.resetDay))
       }
       
-      switch freq {
-      case .timesPerDay:
-         return .timesPerDay(timesPerDay[index])
-      case .specificWeekdays:
-         let weekdayArray = daysPerWeek[index].map { Weekday($0) }
-         return .specificWeekdays(weekdayArray)
-      case .timesPerWeek:
-         return .timesPerWeek(times: timesPerWeekTimes[index], resetDay: Weekday(timesPerWeekResetDay[index]))
-      }
+      assertionFailure("Unknown frequency type")
+      return nil
    }
    
    func isDue(on date: Date) -> Bool {

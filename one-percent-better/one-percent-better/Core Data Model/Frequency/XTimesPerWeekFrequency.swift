@@ -16,6 +16,14 @@ public class XTimesPerWeekFrequency: Frequency {
        return NSFetchRequest<XTimesPerWeekFrequency>(entityName: "XTimesPerWeekFrequency")
    }
 
-   @NSManaged public var resetDay: Int64
-   @NSManaged public var timesPerWeek: Int64
+   @NSManaged public var timesPerWeek: Int
+   @NSManaged public var resetDay: Int
+   
+   convenience init(context: NSManagedObjectContext,
+                    timesPerWeek: Int,
+                    resetDay: Weekday = .sunday) {
+      self.init(context: context)
+      self.timesPerWeek = timesPerWeek
+      self.resetDay = resetDay.rawValue
+   }
 }

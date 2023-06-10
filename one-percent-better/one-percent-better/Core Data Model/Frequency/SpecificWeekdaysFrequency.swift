@@ -16,6 +16,11 @@ public class SpecificWeekdaysFrequency: Frequency {
        return NSFetchRequest<SpecificWeekdaysFrequency>(entityName: "SpecificWeekdaysFrequency")
    }
 
-   @NSManaged public var weekdays: [Int]?
+   @NSManaged public var weekdays: [Int]
    
+   convenience init(context: NSManagedObjectContext,
+                    weekdays: [Weekday]) {
+      self.init(context: context)
+      self.weekdays = weekdays.map { $0.rawValue }
+   }
 }

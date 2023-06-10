@@ -48,8 +48,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// An ordered set of all the trackers for the habit
    @NSManaged public var trackers: NSOrderedSet
-   
-   /// The trackers in array form
    var trackersArray: [Tracker] { trackers.array as? [Tracker] ?? [] }
    
    /// The start date of the habit. Any day before this start date doesn't display the habit in the habit list or count towards
@@ -69,19 +67,16 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// A set of notifications for this habit
    @NSManaged public var notifications: NSOrderedSet?
 
-   
-   
    /// A set of frequencies for this habit
-   @NSManaged public var frequencies: NSOrderedSet?
+   @NSManaged public var frequencies: NSOrderedSet
+   var frequenciesArray: [Frequency] { frequencies.array as? [Frequency] ?? [] }
    
-   
-   
+   /*
    /// How frequently the user wants to complete the habit (daily, weekly, monthly)
    @NSManaged public var frequency: [Int]
    
    /// The dates the user switches the frequency of their habits, so that their previous data is still shown as completed
    @NSManaged public var frequencyDates: [Date]
-   
    
    /// If frequency is daily, how many times per day
    @NSManaged public var timesPerDay: [Int]
@@ -95,18 +90,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// Which day of the week does this weekly habit frequency reset
    @NSManaged public var timesPerWeekResetDay: [Int]
-   
-   
-   
-   // MARK: - Properties
-   
-//   lazy var timesCompletedDict: [DMYDate: Int] = {
-//      var result: [DMYDate: Int] = [:]
-//      for (index, day) in daysCompleted.enumerated() {
-//         result[DMYDate(day)] = timesCompleted[index]
-//      }
-//      return result
-//   }()
+   */
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
@@ -124,39 +108,15 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          }
       }
       self.init(context: context)
-      self.moc = context
+      moc = context
       self.name = name
       self.id = id
-      let today = Date()
-      self.startDate = Cal.startOfDay(for: today)
-      self.daysCompleted = []
-      self.trackers = NSOrderedSet.init(array: [])
-      self.orderIndex = nextLargestHabitIndex(habits)
-      
-
-      let managedFreq = HabitFrequencyNSManaged(frequency)
-      self.frequency = [managedFreq.rawValue]
-      self.frequencyDates = [startDate]
-      
-      // Default values
-      self.timesPerDay = [1]
-      self.daysPerWeek = [[Weekday.tuesday.rawValue, Weekday.thursday.rawValue]]
-      self.timesPerWeekTimes = [1]
-      self.timesPerWeekResetDay = [Weekday.sunday.rawValue]
-      
-      switch frequency {
-      case .timesPerDay(let n):
-         self.timesPerDay = [n]
-      case .specificWeekdays(let days):
-         self.daysPerWeek = [days.map { $0.rawValue }]
-      case .timesPerWeek(times: let n, resetDay: let day):
-         self.timesPerWeekTimes = [n]
-         self.timesPerWeekResetDay = [day.rawValue]
-      }
-      
-      // Auto trackers
-      let it = ImprovementTracker(context: moc, habit: self)
-      self.addToTrackers(it)
+      startDate = Cal.startOfDay(for: Date())
+      daysCompleted = []
+      trackers = NSOrderedSet.init(array: [])
+      orderIndex = nextLargestHabitIndex(habits)
+      addFrequency(frequency: frequency, startDate: startDate)
+      addToTrackers(ImprovementTracker(context: moc, habit: self))
    }
    
    convenience init(moc: NSManagedObjectContext,
@@ -166,18 +126,20 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    func updateStartDate(to date: Date) {
+      guard let firstFrequency = frequenciesArray.first else {
+         assertionFailure("Frequency array should never be empty")
+         return
+      }
+      
       // Ensure start date is before tomorrow
       let tmr = Cal.add(days: 1).startOfDay()
       guard date < tmr else { return }
       
       startDate = date.startOfDay()
-      
-      if date < frequencyDates[0] {
-         frequencyDates[0] = date
+      if date < firstFrequency.startDate {
+         firstFrequency.startDate = date.startOfDay()
       }
-      
       self.improvementTracker?.recalculateScoreFromBeginning()
-      
       moc.assertSave()
    }
    
@@ -279,16 +241,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case startDate
       case daysCompleted
       case notificationTimes
-      case frequency
-      case frequencyDates
-      case timesPerDay
       case timesCompleted
-      case daysPerWeek
-      case timesPerWeekTimes
-      case timesPerWeekResetDay
-      // TODO: 1.0.9 Add notifications container
-      
       case trackersContainer
+      
+      // TODO: 1.0.9 Add notifications container
+      // TODO: 1.1.2 Add frequencies container
    }
    
    required convenience public init(from decoder: Decoder) throws {
@@ -312,19 +269,8 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.id = container.decodeOptional(key: .id, type: UUID.self) ?? UUID()
       self.startDate = container.decodeOptional(key: .startDate, type: Date.self) ?? Date()
       self.daysCompleted = container.decodeOptional(key: .daysCompleted, type: [Date].self) ?? []
-      self.notificationTimes = container.decodeOptional(key: .notificationTimes, type: [Date].self) ?? []
-      self.frequency = container.decodeOptional(key: .frequency, type: [Int].self) ?? [HabitFrequencyNSManaged.timesPerDay.rawValue]
-      self.frequencyDates = container.decodeOptional(key: .frequencyDates, type: [Date].self) ?? [startDate]
-      self.timesPerDay = container.decodeOptional(key: .timesPerDay, type: [Int].self) ?? [1]
       self.timesCompleted = container.decodeOptional(key: .timesCompleted, type: [Int].self) ?? Array(repeating: 1, count: daysCompleted.count)
-      self.daysPerWeek = container.decodeOptional(key: .daysPerWeek, type: [[Int]].self) ?? Array(repeating: [2,4], count: self.frequency.count)
-      
-      if self.daysPerWeek.isEmpty {
-         self.daysPerWeek = Array(repeating: [2,4], count: self.frequency.count)
-      }
-      
-      self.timesPerWeekTimes = container.decodeOptional(key: .timesPerWeekTimes, type: [Int].self) ?? Array(repeating: 1, count: self.frequency.count)
-      self.timesPerWeekResetDay = container.decodeOptional(key: .timesPerWeekResetDay, type: [Int].self) ?? Array(repeating: 0, count: self.frequency.count)
+      self.notificationTimes = container.decodeOptional(key: .notificationTimes, type: [Date].self) ?? []
       
       // If importing data on top of existing data, then we must add
       // the imported index on top of the largest existing index
@@ -390,13 +336,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       try container.encode(startDate, forKey: .startDate)
       try container.encode(daysCompleted, forKey: .daysCompleted)
       try container.encode(notificationTimes, forKey: .notificationTimes)
-      try container.encode(frequency, forKey: .frequency)
-      try container.encode(frequencyDates, forKey: .frequencyDates)
-      try container.encode(timesPerDay, forKey: .timesPerDay)
       try container.encode(timesCompleted, forKey: .timesCompleted)
-      try container.encode(daysPerWeek, forKey: .daysPerWeek)
-      try container.encode(timesPerWeekTimes, forKey: .timesPerWeekTimes)
-      try container.encode(timesPerWeekResetDay, forKey: .timesPerWeekResetDay)
    }
 }
 
@@ -476,7 +416,40 @@ extension Habit {
 
     @objc(removeNotifications:)
     @NSManaged public func removeFromNotifications(_ values: NSOrderedSet)
+}
 
+// MARK: Generated accessors for frequencies
+extension Habit {
+
+    @objc(insertObject:inFrequenciesAtIndex:)
+    @NSManaged public func insertIntoFrequencies(_ value: Frequency, at idx: Int)
+
+    @objc(removeObjectFromFrequenciesAtIndex:)
+    @NSManaged public func removeFromFrequencies(at idx: Int)
+
+    @objc(insertFrequencies:atIndexes:)
+    @NSManaged public func insertIntoFrequencies(_ values: [Frequency], at indexes: NSIndexSet)
+
+    @objc(removeFrequenciesAtIndexes:)
+    @NSManaged public func removeFromFrequencies(at indexes: NSIndexSet)
+
+    @objc(replaceObjectInFrequenciesAtIndex:withObject:)
+    @NSManaged public func replaceFrequencies(at idx: Int, with value: Frequency)
+
+    @objc(replaceFrequenciesAtIndexes:withFrequencies:)
+    @NSManaged public func replaceFrequencies(at indexes: NSIndexSet, with values: [Frequency])
+
+    @objc(addFrequenciesObject:)
+    @NSManaged public func addToFrequencies(_ value: Frequency)
+
+    @objc(removeFrequenciesObject:)
+    @NSManaged public func removeFromFrequencies(_ value: Frequency)
+
+    @objc(addFrequencies:)
+    @NSManaged public func addToFrequencies(_ values: NSOrderedSet)
+
+    @objc(removeFrequencies:)
+    @NSManaged public func removeFromFrequencies(_ values: NSOrderedSet)
 }
 
 extension Habit {

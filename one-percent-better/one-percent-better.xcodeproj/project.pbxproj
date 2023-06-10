@@ -987,9 +987,9 @@
 			isa = PBXGroup;
 			children = (
 				80F6671E2A33F77600095E60 /* Frequency.swift */,
-				80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */,
 				80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */,
 				80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */,
+				80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */,
 			);
 			path = Frequency;
 			sourceTree = "<group>";

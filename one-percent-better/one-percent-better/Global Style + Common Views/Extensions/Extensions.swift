@@ -188,6 +188,9 @@ extension RandomAccessCollection where Element == Date, Index == Int {
       }
    }
    
+   /// Binary searches this array for the last index where date <= array[i]
+   /// - Parameter date: <#date description#>
+   /// - Returns: <#description#>
    func lessThanOrEqualSearch(for date: Date) -> Index?  {
       guard let i = binarySearch(predicate: { $0.startOfDay() <= date.startOfDay() }) else {
          if let last = self.last,

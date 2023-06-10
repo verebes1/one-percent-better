@@ -128,7 +128,7 @@ extension Habit {
    /// - Parameter date: The day to mark the habit completed
    func markCompleted(on date: Date) {
       
-      guard let frequencies = frequencies?.array as? [Frequency] else {
+      guard let frequencies = frequencies.array as? [Frequency] else {
          return
       }
       

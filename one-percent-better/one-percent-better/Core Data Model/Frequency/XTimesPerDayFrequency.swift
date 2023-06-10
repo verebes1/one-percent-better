@@ -15,5 +15,11 @@ public class XTimesPerDayFrequency: Frequency {
        return NSFetchRequest<XTimesPerDayFrequency>(entityName: "XTimesPerDayFrequency")
    }
 
-   @NSManaged public var timesPerDay: Int64
+   @NSManaged public var timesPerDay: Int
+   
+   convenience init(context: NSManagedObjectContext,
+                    timesPerDay: Int) {
+      self.init(context: context)
+      self.timesPerDay = timesPerDay
+   }
 }

@@ -34,9 +34,7 @@ class FeatureLogController {
       setUpPercentImprovementTrackers()
       setUpTrackerToHabitRelationships()
       setUpTrackerIndices()
-      setUpFrequencyDates()
       setUpNewImprovement()
-      setUpTimesPerWeekFrequency()
       setUpNewImprovementScore()
       
       moc.assertSave()
@@ -145,17 +143,6 @@ class FeatureLogController {
       }
    }
    
-   func setUpFrequencyDates() {
-      if !featureLog.hasFrequencyDates {
-         for habit in habits {
-            if habit.frequencyDates.isEmpty {
-               habit.frequencyDates = Array(repeating: habit.startDate, count: habit.frequency.count)
-            }
-         }
-         featureLog.hasFrequencyDates = true
-      }
-   }
-   
    func setUpID() {
       if !featureLog.hasID {
          for habit in habits {
@@ -176,20 +163,6 @@ class FeatureLogController {
             }
          }
          featureLog.hasNewImprovement = true
-      }
-   }
-   
-   /// With 1.0.8, there's a new frequency "Times Per Week". Each frequency
-   /// has an array to keep track of it's history, and each frequency array needs to be
-   /// of the same length as all the other frequency arrays.
-   func setUpTimesPerWeekFrequency() {
-      if !featureLog.hasTimesPerWeekFrequency {
-         for habit in habits {
-            let freqLength = habit.timesPerDay.count
-            habit.timesPerWeekTimes = Array(repeating: 1, count: freqLength)
-            habit.timesPerWeekResetDay = Array(repeating: Weekday.sunday.rawValue, count: freqLength)
-         }
-         featureLog.hasTimesPerWeekFrequency = true
       }
    }
    
