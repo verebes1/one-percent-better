@@ -71,27 +71,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    @NSManaged public var frequencies: NSOrderedSet
    var frequenciesArray: [Frequency] { frequencies.array as? [Frequency] ?? [] }
    
-   /*
-   /// How frequently the user wants to complete the habit (daily, weekly, monthly)
-   @NSManaged public var frequency: [Int]
-   
-   /// The dates the user switches the frequency of their habits, so that their previous data is still shown as completed
-   @NSManaged public var frequencyDates: [Date]
-   
-   /// If frequency is daily, how many times per day
-   @NSManaged public var timesPerDay: [Int]
-   
-   /// A length 7 array for the days per week to complete this habit, stored as [S, M, T, W, T, F, S]
-   /// For example, if you complete this habit on MWF, this array is [false, true, false, true, false, true, false]
-   @NSManaged public var daysPerWeek: [[Int]]
-   
-   /// How many times they've committed to completing this habit this week
-   @NSManaged public var timesPerWeekTimes: [Int]
-   
-   /// Which day of the week does this weekly habit frequency reset
-   @NSManaged public var timesPerWeekResetDay: [Int]
-   */
-   
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
    // MARK: - init
