@@ -14,9 +14,13 @@ final class FrequencyTests: XCTestCase {
    
    var habit: Habit!
    
+   var df: DateFormatter {
+      let df = DateFormatter()
+      df.dateFormat = "MM-dd-yyyy"
+      return df
+   }
+   
    override func setUpWithError() throws {
-      // Put setup code here. This method is called before the invocation of each test method in the class.
-      
       habit = try! Habit(context: context, name: "Cook")
    }
    
@@ -31,19 +35,50 @@ final class FrequencyTests: XCTestCase {
    
    func testChangeStartDate() throws {
       let today = Date().startOfDay()
+      XCTAssertTrue(Cal.isDate(habit.startDate, inSameDayAs: today))
+      XCTAssertTrue(Cal.isDate(habit.frequenciesArray.first!.startDate, inSameDayAs: today))
       
-      XCTAssertEqual(habit.startDate, today)
-      XCTAssertEqual(habit.frequenciesArray.first!.startDate, today)
+      let startDate = df.date(from: "1-29-2023")!
+      habit.updateStartDate(to: startDate)
+      XCTAssertTrue(Cal.isDate(habit.startDate, inSameDayAs: startDate))
+      XCTAssertTrue(Cal.isDate(habit.frequenciesArray.first!.startDate, inSameDayAs: startDate))
       
-      let threeDaysAgo = Cal.add(days: -3)
+      let threeDaysAgo = Cal.add(days: -3, to: startDate)
       habit.updateStartDate(to: threeDaysAgo)
-      XCTAssertEqual(habit.startDate, threeDaysAgo.startOfDay())
-      XCTAssertEqual(habit.frequenciesArray.first!.startDate, threeDaysAgo.startOfDay())
+      XCTAssertTrue(Cal.isDate(habit.startDate, inSameDayAs: threeDaysAgo))
+      XCTAssertTrue(Cal.isDate(habit.frequenciesArray.first!.startDate, inSameDayAs: threeDaysAgo))
+      XCTAssertEqual(habit.frequenciesArray.count, 1)
+      
+      let threeDaysFromNow = Cal.add(days: 3, to: startDate)
+      habit.updateStartDate(to: threeDaysFromNow)
+      XCTAssertTrue(Cal.isDate(habit.startDate, inSameDayAs: threeDaysFromNow))
+      XCTAssertTrue(Cal.isDate(habit.frequenciesArray.first!.startDate, inSameDayAs: threeDaysFromNow))
+      XCTAssertEqual(habit.frequenciesArray.count, 1)
    }
    
-   func testFrequencyBeforeAllFrequencyDates() throws {
+   func testFrequencyBeforeStartDate() throws {
       let threeDaysAgo = Cal.add(days: -3)
       XCTAssertNil(habit.frequency(on: threeDaysAgo))
    }
 
+   /// Test adding two of the same frequencies one after another, they should get squashed
+   /// in the frequencies array
+   func testFrequencySquash() throws {
+      let startDate = df.date(from: "2-1-2023")!
+      habit.updateStartDate(to: startDate)
+      habit.changeFrequency(to: .timesPerDay(1), on: df.date(from: "2-1-2023")!)
+      habit.changeFrequency(to: .timesPerDay(2), on: df.date(from: "2-2-2023")!)
+      habit.changeFrequency(to: .timesPerDay(3), on: df.date(from: "2-3-2023")!)
+      
+      XCTAssertEqual(habit.frequency(on: df.date(from: "2-1-2023")!), .timesPerDay(1))
+      XCTAssertEqual(habit.frequency(on: df.date(from: "2-2-2023")!), .timesPerDay(2))
+      XCTAssertEqual(habit.frequency(on: df.date(from: "2-3-2023")!), .timesPerDay(3))
+      
+      habit.changeFrequency(to: .timesPerDay(3), on: df.date(from: "2-2-2023")!)
+      
+      XCTAssertEqual(habit.frequency(on: df.date(from: "2-1-2023")!), .timesPerDay(1))
+      XCTAssertEqual(habit.frequency(on: df.date(from: "2-2-2023")!), .timesPerDay(3))
+      XCTAssertEqual(habit.frequency(on: df.date(from: "2-3-2023")!), .timesPerDay(3))
+      XCTAssertEqual(habit.frequenciesArray.count, 2)
+   }
 }

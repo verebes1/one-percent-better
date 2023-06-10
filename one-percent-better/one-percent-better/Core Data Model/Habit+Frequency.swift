@@ -144,7 +144,7 @@ extension Habit {
       case .timesPerWeek(times: let n, resetDay: let day):
          nsFrequency = XTimesPerWeekFrequency(context: moc, timesPerWeek: n, resetDay: day)
       }
-      nsFrequency.startDate = startDate
+      nsFrequency.updateStartDate(to: startDate)
       return nsFrequency
    }
    
@@ -153,14 +153,13 @@ extension Habit {
    ///   - freq: The frequency to change to
    ///   - date: The date to change it on
    func changeFrequency(to frequency: HabitFrequency, on startDate: Date = Date()) {
-      precondition(!frequenciesArray.isEmpty)
+      assert(!frequenciesArray.isEmpty)
       
       let frequencyDates = frequenciesArray.map { $0.startDate }
       let newFrequency = createFrequency(frequency: frequency, startDate: startDate)
       
       if let i = frequencyDates.sameDayBinarySearch(for: startDate) {
          self.removeFromFrequencies(at: i)
-         // TODO: 1.1.2 Don't add to frequency list if last frequency is equal to this frequency
          self.insertIntoFrequencies(newFrequency, at: i)
       } else {
          // index of first frequency whose start date is > new frequency startDate
@@ -168,13 +167,32 @@ extension Habit {
          if let insertIndex = insertIndex {
             self.insertIntoFrequencies(newFrequency, at: insertIndex)
          } else {
-            // TODO: 1.1.2 Don't add to frequency list if last frequency is equal to this frequency
             self.addToFrequencies(newFrequency)
          }
       }
       
+      frequencySquash()
+      
       improvementTracker?.update(on: startDate)
       moc.assertSave()
+   }
+   
+   func frequencySquash() {
+      var indicesToRemove: [Int] = []
+      for i in 0 ..< frequenciesArray.count {
+         if (i + 1) == frequenciesArray.count {
+            break
+         }
+         let currentFreq = convertNSFrequencyToHabitFrequency(nsFrequency: frequenciesArray[i])
+         let nextFreq = convertNSFrequencyToHabitFrequency(nsFrequency: frequenciesArray[i + 1])
+         if currentFreq == nextFreq {
+            indicesToRemove.append(i + 1)
+         }
+      }
+      
+      for index in indicesToRemove.reversed() {
+         removeFromFrequencies(at: index)
+      }
    }
    
    
@@ -186,17 +204,19 @@ extension Habit {
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          return nil
       }
-      
-      if let freq = frequencies[index] as? XTimesPerDayFrequency {
+      return convertNSFrequencyToHabitFrequency(nsFrequency: frequenciesArray[index])
+   }
+   
+   func convertNSFrequencyToHabitFrequency(nsFrequency: Frequency) -> HabitFrequency? {
+      if let freq = nsFrequency as? XTimesPerDayFrequency {
          return .timesPerDay(freq.timesPerDay)
-      } else if let freq = frequencies[index] as? SpecificWeekdaysFrequency {
+      } else if let freq = nsFrequency as? SpecificWeekdaysFrequency {
          let weekdays = freq.weekdays.map { Weekday($0) }
          return .specificWeekdays(weekdays)
-      } else if let freq = frequencies[index] as? XTimesPerWeekFrequency {
+      } else if let freq = nsFrequency as? XTimesPerWeekFrequency {
          return .timesPerWeek(times: freq.timesPerWeek, resetDay: Weekday(freq.resetDay))
       }
-      
-      assertionFailure("Unknown frequency type")
+      assertionFailure("Unknown frequency type: \(type(of: nsFrequency))")
       return nil
    }
    

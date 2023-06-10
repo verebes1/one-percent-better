@@ -179,4 +179,12 @@ final class XTimesPerDayTests: XCTestCase {
       XCTAssertEqual(habit.improvementTracker!.scores[6], 0.49, accuracy: 0.01)
       XCTAssertEqual(habit.improvementTracker!.scores[7], 0, accuracy: 0.01)
    }
+   
+   func testEquality() {
+      let startSunday = df.date(from: "01-29-2023")!
+      habit.updateStartDate(to: startSunday)
+      habit.changeFrequency(to: .timesPerDay(1), on: startSunday)
+      
+      XCTAssertEqual(habit.frequenciesArray.count, 1)
+   }
 }

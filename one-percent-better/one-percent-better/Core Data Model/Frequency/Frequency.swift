@@ -13,12 +13,16 @@ import CoreData
 public class Frequency: NSManagedObject {
    
    /// The date the user started using this frequency
-   @NSManaged public var startDate: Date
+   @NSManaged private(set) var startDate: Date
    
    /// The habit this frequency belongs to
    @NSManaged public var habit: Habit
    
    @nonobjc public class func fetchRequest() -> NSFetchRequest<Frequency> {
        return NSFetchRequest<Frequency>(entityName: "Frequency")
+   }
+   
+   func updateStartDate(to startDate: Date) {
+      self.startDate = startDate.startOfDay()
    }
 }

@@ -895,10 +895,10 @@
 		806BB18429A43860006549A9 /* Frequency Tests */ = {
 			isa = PBXGroup;
 			children = (
+				80DAAC31293572F300E626D7 /* FrequencyTests.swift */,
 				806BB18529A4388F006549A9 /* XTimesPerDayTests.swift */,
 				806BB18829A5B751006549A9 /* SpecificWeekdaysTests.swift */,
 				80AE0CA229930D5F00B565DE /* XTimesPerWeekTests.swift */,
-				80DAAC31293572F300E626D7 /* FrequencyTests.swift */,
 				80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */,
 			);
 			path = "Frequency Tests";

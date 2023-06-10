@@ -90,7 +90,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       moc = context
       self.name = name
       self.id = id
-      startDate = Cal.startOfDay(for: Date())
+      startDate = Date()
       daysCompleted = []
       trackers = NSOrderedSet.init(array: [])
       orderIndex = nextLargestHabitIndex(habits)
@@ -105,20 +105,39 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    func updateStartDate(to date: Date) {
+      var date = date.startOfDay()
+      
+      // Ensure the new start date is not in the future
+      let tmr = Cal.add(days: 1).startOfDay()
+      guard date < tmr else { return }
+      
+      // Ensure we have a non empty frequency array
       guard let firstFrequency = frequenciesArray.first else {
          assertionFailure("Frequency array should never be empty")
          return
       }
       
-      // Ensure start date is before tomorrow
-      let tmr = Cal.add(days: 1).startOfDay()
-      guard date < tmr else { return }
-      
-      startDate = date.startOfDay()
-      if date < firstFrequency.startDate {
-         firstFrequency.startDate = date.startOfDay()
+      // Ensure we are not updating start date past first completed date (destroying data)
+      if let firstCompleted = daysCompleted.first {
+         guard date <= firstCompleted else {
+            assertionFailure("Trying to update start date past first completed date")
+            return
+         }
       }
-      self.improvementTracker?.recalculateScoreFromBeginning()
+      
+      // Ensure we are not updating past the first frequency change
+      if frequenciesArray.count > 1 {
+         let secondFrequency = frequenciesArray[1]
+         guard date < secondFrequency.startDate else {
+            assertionFailure("Unhandled case for changing start date of habit past first frequency change")
+            return
+         }
+      }
+      
+      startDate = date
+      firstFrequency.updateStartDate(to: date)
+      
+      improvementTracker?.recalculateScoreFromBeginning()
       moc.assertSave()
    }
    
