@@ -33,12 +33,12 @@ final class FrequencyTests: XCTestCase {
       let today = Date().startOfDay()
       
       XCTAssertEqual(habit.startDate, today)
-      XCTAssertEqual(habit.frequencyDates[0].startOfDay(), today)
+      XCTAssertEqual(habit.frequenciesArray.first!.startDate, today)
       
       let threeDaysAgo = Cal.add(days: -3)
       habit.updateStartDate(to: threeDaysAgo)
       XCTAssertEqual(habit.startDate, threeDaysAgo.startOfDay())
-      XCTAssertEqual(habit.frequencyDates[0].startOfDay(), threeDaysAgo.startOfDay())
+      XCTAssertEqual(habit.frequenciesArray.first!.startDate, threeDaysAgo.startOfDay())
    }
    
    func testFrequencyBeforeAllFrequencyDates() throws {

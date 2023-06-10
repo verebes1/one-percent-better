@@ -28,17 +28,12 @@
     <entity name="Habit" representedClassName="Habit" syncable="YES">
         <attribute name="daysCompleted" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
         <attribute name="daysPerWeek" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[[Int]]"/>
-        <attribute name="frequency" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int64]"/>
-        <attribute name="frequencyDates" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="notificationTimes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Date]"/>
         <attribute name="orderIndex" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timesCompleted" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
-        <attribute name="timesPerDay" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
-        <attribute name="timesPerWeekResetDay" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
-        <attribute name="timesPerWeekTimes" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
         <relationship name="frequencies" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Frequency" inverseName="habit" inverseEntity="Frequency"/>
         <relationship name="notifications" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Notification" inverseName="habit" inverseEntity="Notification"/>
         <relationship name="trackers" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Tracker" inverseName="habit" inverseEntity="Tracker"/>

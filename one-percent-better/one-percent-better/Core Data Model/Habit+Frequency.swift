@@ -171,7 +171,6 @@ extension Habit {
             // TODO: 1.1.2 Don't add to frequency list if last frequency is equal to this frequency
             self.addToFrequencies(newFrequency)
          }
-         
       }
       
       improvementTracker?.update(on: startDate)

@@ -28,8 +28,10 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
    // daysPerWeek    = [[0],      [0],      [0,2,4],   [0]     ]
    
    // FUNCTION($entityPolicy, "createFrequenciesForHabit:forHabit:" , $manager, $source)
-   @objc func createFrequenciesForHabit(_ manager: NSMigrationManager, forHabit habit: NSManagedObject) -> NSSet {
+   @objc func createFrequenciesForHabit(_ manager: NSMigrationManager, forHabit habit: NSManagedObject) -> NSOrderedSet {
       let context = manager.destinationContext
+      let habitName = habit.value(forKey: "name")
+      print("habitName: \(habitName)")
       
       guard let habitFrequency = habit.value(forKey: "frequency") as? [Int],
             let frequencyDates = habit.value(forKey: "frequencyDates") as? [Date],
@@ -45,7 +47,7 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
             // Set the 'habit' relationship to the corresponding Habit in the destination context
             freqEntity.setValue(destinationHabit, forKey: "habit")
          }
-         return NSSet()
+         return NSOrderedSet()
       }
       
       var frequencyArray: [NSManagedObject] = []
@@ -53,7 +55,7 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
       for i in 0 ..< frequencyDates.count {
          guard let NSFrequency = HabitFrequencyNSManaged(rawValue: habitFrequency[i]) else {
             assertionFailure("Unknown frequency")
-            return NSSet()
+            return NSOrderedSet()
          }
 
          var freqEntity: NSManagedObject
@@ -82,6 +84,6 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
          frequencyArray.append(freqEntity)
       }
       
-      return NSSet(array: frequencyArray)
+      return NSOrderedSet(array: frequencyArray)
    }
 }

@@ -189,11 +189,11 @@
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
-		80F667132A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667122A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel */; };
 		80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */; };
 		80F6671C2A33F73F00095E60 /* SpecificWeekdaysFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */; };
 		80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */; };
 		80F6671F2A33F77600095E60 /* Frequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671E2A33F77600095E60 /* Frequency.swift */; };
+		80F667212A341C6A00095E60 /* obp 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667202A341C6A00095E60 /* obp 18 to 19.xcmappingmodel */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
 		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
@@ -421,11 +421,11 @@
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
-		80F667122A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "obp 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
 		80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerDayFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerDayFrequency.swift"; sourceTree = "<absolute>"; };
 		80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpecificWeekdaysFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/SpecificWeekdaysFrequency.swift"; sourceTree = "<absolute>"; };
 		80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerWeekFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerWeekFrequency.swift"; sourceTree = "<absolute>"; };
 		80F6671E2A33F77600095E60 /* Frequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frequency.swift; sourceTree = "<group>"; };
+		80F667202A341C6A00095E60 /* obp 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "obp 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
@@ -590,7 +590,7 @@
 				80385CBF285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel */,
 				8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */,
 				80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */,
-				80F667122A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel */,
+				80F667202A341C6A00095E60 /* obp 18 to 19.xcmappingmodel */,
 			);
 			path = Mappings;
 			sourceTree = "<group>";
@@ -1204,7 +1204,6 @@
 				80CC288028C0080300411ECB /* EditTracker.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
-				80F667132A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
 				807A47C9291223E50022068B /* Habit+Frequency.swift in Sources */,
 				807A47C52910B2600022068B /* DMYDate.swift in Sources */,
@@ -1237,6 +1236,7 @@
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
 				805785BA296C4C8600028582 /* SelectableCard.swift in Sources */,
 				8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */,
+				80F667212A341C6A00095E60 /* obp 18 to 19.xcmappingmodel in Sources */,
 				802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
