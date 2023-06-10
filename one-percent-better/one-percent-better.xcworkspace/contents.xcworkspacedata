@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Manager/Mappings/opb 18 to 19.xcmappingmodel">
-   </FileRef>
-   <FileRef
       location = "group:one-percent-better.xcodeproj">
    </FileRef>
 </Workspace>

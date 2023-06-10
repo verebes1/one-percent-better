@@ -189,7 +189,11 @@
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
 		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
-		80F667112A33F32400095E60 /* opb 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667102A33F32400095E60 /* opb 18 to 19.xcmappingmodel */; };
+		80F667132A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667122A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel */; };
+		80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */; };
+		80F6671C2A33F73F00095E60 /* SpecificWeekdaysFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */; };
+		80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */; };
+		80F6671F2A33F77600095E60 /* Frequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671E2A33F77600095E60 /* Frequency.swift */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
 		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
@@ -417,7 +421,11 @@
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
 		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
-		80F667102A33F32400095E60 /* opb 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "opb 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
+		80F667122A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "obp 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
+		80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerDayFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerDayFrequency.swift"; sourceTree = "<absolute>"; };
+		80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpecificWeekdaysFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/SpecificWeekdaysFrequency.swift"; sourceTree = "<absolute>"; };
+		80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerWeekFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerWeekFrequency.swift"; sourceTree = "<absolute>"; };
+		80F6671E2A33F77600095E60 /* Frequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frequency.swift; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
@@ -582,7 +590,7 @@
 				80385CBF285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel */,
 				8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */,
 				80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */,
-				80F667102A33F32400095E60 /* opb 18 to 19.xcmappingmodel */,
+				80F667122A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel */,
 			);
 			path = Mappings;
 			sourceTree = "<group>";
@@ -652,6 +660,7 @@
 				807A47C8291223E50022068B /* Habit+Frequency.swift */,
 				80744F5D29B3091400DAF196 /* Habit+Notifications.swift */,
 				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
+				80F667172A33F64D00095E60 /* Frequency */,
 				80D957D229BA765000142C75 /* Trackers */,
 				80D957D129BA763900142C75 /* Notifications */,
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
@@ -974,6 +983,17 @@
 			path = "Insights Tab Views";
 			sourceTree = "<group>";
 		};
+		80F667172A33F64D00095E60 /* Frequency */ = {
+			isa = PBXGroup;
+			children = (
+				80F6671E2A33F77600095E60 /* Frequency.swift */,
+				80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */,
+				80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */,
+				80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */,
+			);
+			path = Frequency;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1184,19 +1204,21 @@
 				80CC288028C0080300411ECB /* EditTracker.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
+				80F667132A33F4FA00095E60 /* obp 18 to 19.xcmappingmodel in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
 				807A47C9291223E50022068B /* Habit+Frequency.swift in Sources */,
 				807A47C52910B2600022068B /* DMYDate.swift in Sources */,
 				80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */,
 				805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */,
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
+				80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
 				8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */,
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */,
-				80F667112A33F32400095E60 /* opb 18 to 19.xcmappingmodel in Sources */,
+				80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* HabitProgessView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				8062AA432902F23000903123 /* ProgressCards.swift in Sources */,
@@ -1222,6 +1244,7 @@
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
+				80F6671F2A33F77600095E60 /* Frequency.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				802AB86B29F9F93100210AD6 /* YearViewSquare.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
@@ -1271,6 +1294,7 @@
 				80385D1D285BEE5900CBDF71 /* Extensions.swift in Sources */,
 				80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */,
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,
+				80F6671C2A33F73F00095E60 /* SpecificWeekdaysFrequency.swift in Sources */,
 				80F79684286D0432002FDFDA /* TimeTracker.swift in Sources */,
 				80385D29285BEE5900CBDF71 /* OnePercentBetterApp.swift in Sources */,
 				80CC691F28E1184F00584340 /* NewProgress.swift in Sources */,

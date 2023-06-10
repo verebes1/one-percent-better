@@ -17,7 +17,7 @@
         <attribute name="hasTrackerIndices" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="hasTrackerToHabitRelationship" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Frequency" representedClassName="Frequency" isAbstract="YES" syncable="YES" codeGenerationType="class">
+    <entity name="Frequency" representedClassName="Frequency" isAbstract="YES" syncable="YES">
         <attribute name="startDate" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="habit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="frequencies" inverseEntity="Habit"/>
     </entity>
@@ -75,7 +75,7 @@
     <entity name="SpecificTimeNotification" representedClassName="SpecificTimeNotification" parentEntity="Notification" syncable="YES">
         <attribute name="time" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="SpecificWeekdaysFrequency" representedClassName="SpecificWeekdaysFrequency" parentEntity="Frequency" syncable="YES" codeGenerationType="class">
+    <entity name="SpecificWeekdaysFrequency" representedClassName="SpecificWeekdaysFrequency" parentEntity="Frequency" syncable="YES">
         <attribute name="weekdays" optional="YES" attributeType="Transformable" valueTransformerName="NSSecureUnarchiveFromData" customClassName="[Int]"/>
     </entity>
     <entity name="TimeTracker" representedClassName="TimeTracker" parentEntity="Tracker" syncable="YES">
@@ -89,10 +89,10 @@
         <attribute name="name" attributeType="String"/>
         <relationship name="habit" maxCount="1" deletionRule="Nullify" destinationEntity="Habit" inverseName="trackers" inverseEntity="Habit"/>
     </entity>
-    <entity name="XTimesPerDayFrequency" representedClassName="XTimesPerDayFrequency" parentEntity="Frequency" syncable="YES" codeGenerationType="class">
+    <entity name="XTimesPerDayFrequency" representedClassName="XTimesPerDayFrequency" parentEntity="Frequency" syncable="YES">
         <attribute name="timesPerDay" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="XTimesPerWeekFrequency" representedClassName="XTimesPerWeekFrequency" parentEntity="Frequency" syncable="YES" codeGenerationType="class">
+    <entity name="XTimesPerWeekFrequency" representedClassName="XTimesPerWeekFrequency" parentEntity="Frequency" syncable="YES">
         <attribute name="resetDay" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timesPerWeek" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
