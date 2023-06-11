@@ -115,6 +115,17 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
       }
    }
    
+   var shouldShowTimesCompletedIndicator: Bool {
+      switch habit.frequency(on: currentDay) {
+      case .timesPerDay(let tpd):
+         return tpd > 1
+      case .specificWeekdays, .timesPerWeek:
+         return true
+      case .none:
+         return false
+      }
+   }
+   
    // Timer
    /*
    func getTimerString(from time: Int) -> String {

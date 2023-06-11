@@ -55,7 +55,7 @@ struct HabitRowLabels: View {
                .font(.system(size: 16))
 //               .fontWeight(vm.isTimerRunning ? .bold : .regular)
             
-            if vm.timesExpected > 1 {
+            if vm.shouldShowTimesCompletedIndicator {
                TimesCompletedIndicator(timesCompleted: vm.timesCompleted, timesExpected: vm.timesExpected)
             }
          }
