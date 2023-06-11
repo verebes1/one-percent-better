@@ -46,13 +46,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// This is set to the current largest index + 1 when importing the first habit, and set back to nil after importing the last habit
    static var nextLargestIndexBeforeImporting: Int?
    
-   /// An ordered set of all the trackers for the habit
-   @NSManaged public var trackers: NSOrderedSet
-   var trackersArray: [Tracker] { trackers.array as? [Tracker] ?? [] }
-   
    /// The start date of the habit. Any day before this start date doesn't display the habit in the habit list or count towards
    /// the total percent completed for that day.
-   @NSManaged private(set) var startDate: Date!
+   @NSManaged private(set) var startDate: Date
    
    /// An array of all the days where the habit was completed
    @NSManaged public var daysCompleted: [Date]
@@ -61,11 +57,13 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// array. For example if the habit was completed twice for a particular day, the entry would be 2
    @NSManaged public var timesCompleted: [Int]
    
-   /// The times when a notification reminder should be sent
-   @NSManaged public var notificationTimes: [Date]
+   /// An ordered set of all the trackers for the habit
+   @NSManaged public var trackers: NSOrderedSet
+   var trackersArray: [Tracker] { trackers.array as? [Tracker] ?? [] }
    
    /// A set of notifications for this habit
-   @NSManaged public var notifications: NSOrderedSet?
+   @NSManaged public var notifications: NSOrderedSet
+   var notificationsArray: [Notification] { notifications.array as? [Notification] ?? [] }
 
    /// A set of frequencies for this habit
    @NSManaged public var frequencies: NSOrderedSet
@@ -92,9 +90,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.id = id
       startDate = Date()
       daysCompleted = []
+      timesCompleted = []
       trackers = NSOrderedSet.init(array: [])
       orderIndex = nextLargestHabitIndex(habits)
-      addFrequency(frequency: frequency, startDate: startDate)
+      changeFrequency(to: frequency, on: startDate)
       addToTrackers(ImprovementTracker(context: moc, habit: self))
    }
    
@@ -180,16 +179,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
-      guard let startDate = startDate else { return false }
-      return Cal.startOfDay(for: startDate) >= Cal.startOfDay(for: day)
+      return startDate.startOfDay() >= day.startOfDay()
    }
    
    /// Whether or not this habits start date is before or equal to a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or before the date, and false otherwise
    func started(before day: Date) -> Bool {
-      guard let startDate = startDate else { return false }
-      return Cal.startOfDay(for: startDate) <= Cal.startOfDay(for: day)
+      return startDate.startOfDay() <= day.startOfDay()
    }
    
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
@@ -238,7 +235,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       case orderIndex
       case startDate
       case daysCompleted
-      case notificationTimes
       case timesCompleted
       case trackersContainer
       
@@ -268,7 +264,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       self.startDate = container.decodeOptional(key: .startDate, type: Date.self) ?? Date()
       self.daysCompleted = container.decodeOptional(key: .daysCompleted, type: [Date].self) ?? []
       self.timesCompleted = container.decodeOptional(key: .timesCompleted, type: [Int].self) ?? Array(repeating: 1, count: daysCompleted.count)
-      self.notificationTimes = container.decodeOptional(key: .notificationTimes, type: [Date].self) ?? []
       
       // If importing data on top of existing data, then we must add
       // the imported index on top of the largest existing index
@@ -333,7 +328,6 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       
       try container.encode(startDate, forKey: .startDate)
       try container.encode(daysCompleted, forKey: .daysCompleted)
-      try container.encode(notificationTimes, forKey: .notificationTimes)
       try container.encode(timesCompleted, forKey: .timesCompleted)
    }
 }

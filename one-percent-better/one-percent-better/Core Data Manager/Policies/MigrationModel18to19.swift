@@ -31,7 +31,7 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
    @objc func createFrequenciesForHabit(_ manager: NSMigrationManager, forHabit habit: NSManagedObject) -> NSOrderedSet {
       let context = manager.destinationContext
       let habitName = habit.value(forKey: "name")
-      print("habitName: \(habitName)")
+      print("habitName: \(String(describing: habitName))")
       
       guard let habitFrequency = habit.value(forKey: "frequency") as? [Int],
             let frequencyDates = habit.value(forKey: "frequencyDates") as? [Date],
@@ -79,6 +79,8 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
          if let destinationHabit = manager.destinationInstances(forEntityMappingName: "HabitToHabit", sourceInstances: [habit]).first {
             // Set the 'habit' relationship to the corresponding Habit in the destination context
             freqEntity.setValue(destinationHabit, forKey: "habit")
+         } else {
+            assertionFailure("Missing habit for frequency")
          }
          
          frequencyArray.append(freqEntity)

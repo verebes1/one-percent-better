@@ -114,47 +114,11 @@ enum HabitFrequencyTest: Equatable {
 }
 
 extension Habit {
-   
-   
-   /// Add a frequency to this habit. If a frequency exists for this start date, then remove it
-   /// - Parameters:
-   ///   - frequency: The type of frequency
-   ///   - startDate: The start date of the frequency
-   func addFrequency(frequency: HabitFrequency, startDate: Date) {
-      // Remove all frequencies that have that have the same startDate
-      let freqToRemove = frequenciesArray.compactMap { Cal.isDate($0.startDate, inSameDayAs: startDate) ? $0 : nil }
-      freqToRemove.forEach { self.removeFromFrequencies($0) }
-      
-      let newFrequency = createFrequency(frequency: frequency, startDate: startDate)
-      self.addToFrequencies(newFrequency)
-   }
-   
-   /// Create a new Frequency NSManagedObject
-   /// - Parameters:
-   ///   - frequency: The type of frequency
-   ///   - startDate: The start date of the frequency
-   /// - Returns: The frequency to return
-   func createFrequency(frequency: HabitFrequency, startDate: Date) -> Frequency {
-      var nsFrequency: Frequency
-      switch frequency {
-      case .timesPerDay(let n):
-         nsFrequency = XTimesPerDayFrequency(context: moc, timesPerDay: n)
-      case .specificWeekdays(let days):
-         nsFrequency = SpecificWeekdaysFrequency(context: moc, weekdays: days)
-      case .timesPerWeek(times: let n, resetDay: let day):
-         nsFrequency = XTimesPerWeekFrequency(context: moc, timesPerWeek: n, resetDay: day)
-      }
-      nsFrequency.updateStartDate(to: startDate)
-      return nsFrequency
-   }
-   
    /// Change the frequency on a specific date
    /// - Parameters:
    ///   - freq: The frequency to change to
    ///   - date: The date to change it on
-   func changeFrequency(to frequency: HabitFrequency, on startDate: Date = Date()) {
-      assert(!frequenciesArray.isEmpty)
-      
+   func changeFrequency(to frequency: HabitFrequency, on startDate: Date = Date()) {      
       let frequencyDates = frequenciesArray.map { $0.startDate }
       let newFrequency = createFrequency(frequency: frequency, startDate: startDate)
       
@@ -172,12 +136,32 @@ extension Habit {
       }
       
       frequencySquash()
-      
       improvementTracker?.update(on: startDate)
       moc.assertSave()
    }
    
-   func frequencySquash() {
+   /// Create a new Frequency NSManagedObject
+   /// - Parameters:
+   ///   - frequency: The type of frequency
+   ///   - startDate: The start date of the frequency
+   /// - Returns: The frequency to return
+   private func createFrequency(frequency: HabitFrequency, startDate: Date) -> Frequency {
+      var nsFrequency: Frequency
+      switch frequency {
+      case .timesPerDay(let n):
+         nsFrequency = XTimesPerDayFrequency(context: moc, timesPerDay: n)
+      case .specificWeekdays(let days):
+         nsFrequency = SpecificWeekdaysFrequency(context: moc, weekdays: days)
+      case .timesPerWeek(times: let n, resetDay: let day):
+         nsFrequency = XTimesPerWeekFrequency(context: moc, timesPerWeek: n, resetDay: day)
+      }
+      nsFrequency.updateStartDate(to: startDate)
+      return nsFrequency
+   }
+   
+   /// If two frequencies of the same type follow one another, they should be squashed together.
+   /// I.e. the second one should be removed.
+   private func frequencySquash() {
       var indicesToRemove: [Int] = []
       for i in 0 ..< frequenciesArray.count {
          if (i + 1) == frequenciesArray.count {
@@ -200,6 +184,7 @@ extension Habit {
    /// - Parameter date: The date to get the frequency on
    /// - Returns: The corresponding HabitFrequency
    func frequency(on date: Date) -> HabitFrequency? {
+      guard started(before: date) else { return nil }
       let frequencyDates = frequenciesArray.map { $0.startDate }
       guard let index = frequencyDates.lastIndex(where: { Cal.startOfDay(for: $0) <= Cal.startOfDay(for: date) }) else {
          return nil
@@ -207,6 +192,9 @@ extension Habit {
       return convertNSFrequencyToHabitFrequency(nsFrequency: frequenciesArray[index])
    }
    
+   /// Convert the NSManagedObject Frequency into a HabitFrequency enum
+   /// - Parameter nsFrequency: The frequency object
+   /// - Returns: The HabitFrequency for that Frequency
    func convertNSFrequencyToHabitFrequency(nsFrequency: Frequency) -> HabitFrequency? {
       if let freq = nsFrequency as? XTimesPerDayFrequency {
          return .timesPerDay(freq.timesPerDay)
@@ -220,10 +208,11 @@ extension Habit {
       return nil
    }
    
+   /// Check whether this habit is due on this date
+   /// - Parameter date: The date to check against
+   /// - Returns: True if due and false if not
    func isDue(on date: Date) -> Bool {
-      guard started(before: date) else {
-         return false
-      }
+      guard started(before: date) else { return false }
       guard let freq = frequency(on: date) else { return false }
       return isDue(on: date, withFrequency: freq)
    }
@@ -234,6 +223,9 @@ extension Habit {
    ///   - freq: The frequency to check against
    /// - Returns: True if due on this date with this frequency, false otherwise
    func isDue(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
+      guard started(before: date) else {
+         return false
+      }
       switch freq {
       case .timesPerDay(_):
          return true
