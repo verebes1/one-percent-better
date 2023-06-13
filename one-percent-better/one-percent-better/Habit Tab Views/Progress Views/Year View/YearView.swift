@@ -28,40 +28,13 @@ struct YearView: View {
    }
    
    var body: some View {
-      CardView {
-         VStack(spacing: 0) {
-            HStack {
-               Menu {
-                  ForEach(years, id: \.self) { year in
-                     MenuItemWithCheckmark(value: year,
-                                           selection: $selectedYear)
-                  }
-                  
-               } label: {
-                  CapsuleMenuButtonLabel(label: {
-                     Text(String(selectedYear))
-                        .font(.system(size: 13))
-                  }, color: .cardColorLighter)
-               }
-               .padding(.vertical, 4)
-               .padding(.horizontal, 7)
-               
-               Spacer()
-               
-               NavigationLink(value: YearViewRoute.viewAll) {
-                  HStack {
-                     Text("View All")
-                     Image(systemName: "chevron.right")
-                  }
-                  .font(.system(size: 14))
-                  .padding(.trailing, 10)
-               }
+      NavigationLink(value: YearViewRoute.viewAll) {
+         CardView {
+            VStack(spacing: 0) {
+               YearGridWrapper(habit: habit, year: selectedYear)
+                  .padding(.vertical, 8)
+                  .padding(.horizontal, 5)
             }
-            .padding(.bottom, 4)
-            
-            YearGridWrapper(habit: habit, year: selectedYear)
-               .padding(.horizontal, 5)
-               .padding(.bottom, 3)
          }
       }
       .navigationDestination(for: YearViewRoute.self) { route in
@@ -115,7 +88,11 @@ struct YearViewPreview: View {
 
 struct YearView_Previews: PreviewProvider {
    static var previews: some View {
-      YearViewPreview()
+      VStack {
+//         NavigationStack {
+            YearViewPreview()
+//         }
+      }
    }
 }
 

@@ -167,7 +167,7 @@ struct EnterTrackerDataView: View {
    
    var body: some View {
       NavigationView {
-         Background(color: scheme == .light ? .white : .black) {
+         Background {
             ScrollView {
                VStack {
                   Spacer()

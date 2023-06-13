@@ -14,6 +14,7 @@ struct YearViewAllYears: View {
    var body: some View {
       Background {
          ScrollView {
+            Spacer().frame(height: 10)
             ForEach(0 ..< years.count, id: \.self) { i in
                VStack(spacing: 5) {
                   HStack {
@@ -28,6 +29,7 @@ struct YearViewAllYears: View {
             }
          }
       }
+      .navigationBarTitleDisplayMode(.inline)
    }
 }
 
