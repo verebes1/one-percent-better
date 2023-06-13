@@ -9,10 +9,10 @@ import SwiftUI
 
 class YearViewModel: ObservableObject {
    
-   func januaryOffset(year: Int) -> Int {
-      let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-      return firstOfJan.weekDayOffset
-   }
+//   func januaryOffset(year: Int) -> Int {
+//      let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
+//      return firstOfJan.weekDayOffset
+//   }
 }
 
 struct YearView: View {
@@ -36,46 +36,26 @@ struct YearView: View {
    }
    
    var body: some View {
-      
       CardView {
          VStack(spacing: 0) {
-            HStack {
-               Spacer()
-               Menu {
-                  ForEach(years, id: \.self) { year in
-                     MenuItemWithCheckmark(value: year,
-                                           selection: $selectedYear)
-                  }
-                  
-               } label: {
-                  CapsuleMenuButtonLabel(label: {
-                     Text(String(selectedYear))
-                  }, color: .cardColorLighter)
+            Menu {
+               ForEach(years, id: \.self) { year in
+                  MenuItemWithCheckmark(value: year,
+                                        selection: $selectedYear)
                }
-               .padding(.vertical, 4)
-               .padding(.horizontal, 7)
-            }
-            
-            GeometryReader { geo in
-               let squareWidth: CGFloat = ((geo.size.width - (51 * spacing)) / 52.0)
-               let rows: [GridItem] = Array(repeating: GridItem(.fixed(squareWidth), spacing: spacing, alignment: .top), count: 7)
-               let height: CGFloat = 7 * squareWidth + 6 * spacing
                
-               LazyHGrid(rows: rows, spacing: 1) {
-                  CompletedSquare(habit: habit, year: $selectedYear, squareSize: squareWidth)
-               }
-               .frame(height: max(0, height))
-               .overlay(
-                  GeometryReader { geo in
-                     Color.clear.onAppear {
-                        self.yearHeight = geo.size.height
-                     }
-                  }
-               )
+            } label: {
+               CapsuleMenuButtonLabel(label: {
+                  Text(String(selectedYear))
+                     .font(.system(size: 12))
+               }, color: .cardColorLighter)
             }
-            .padding(.horizontal, 5)
-            .frame(height: yearHeight)
-            .padding(3)
+            .padding(.vertical, 4)
+            .padding(.horizontal, 7)
+            
+            YearGridWrapper(habit: habit, year: $selectedYear)
+               .padding(.horizontal, 5)
+               .padding(.bottom, 3)
          }
       }
    }
@@ -93,7 +73,7 @@ struct YearViewPreview: View {
       h1?.markCompleted(on: day0)
       h1?.changeFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
 
-      for _ in 0 ..< 100 {
+      for _ in 0 ..< 10 {
          let rand = Int.random(in: 0 ..< 364)
          h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
       }
@@ -127,17 +107,15 @@ struct YearView_Previews: PreviewProvider {
    }
 }
 
-struct CompletedSquare: View {
+struct YearGridWrapper: View {
    
    @Environment(\.colorScheme) var scheme
    var habit: Habit
    
-   @State private var opacities: [Double] = Array(repeating: 0, count: 364)
+   @State private var opacities: [Double] = Array(repeating: 0, count: 366)
    
    @Binding var year: Int
    let today = Date()
-
-   var squareSize: CGFloat
 
    func opacity(on curDay: Date) -> Double {
       guard let freq = habit.frequency(on: curDay) else { return 0 }
@@ -150,18 +128,27 @@ struct CompletedSquare: View {
    }
    
    @MainActor func fetchOpacities() {
-      print("Fetching opacities")
       let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-      for i in 0 ..< 364 {
+      for i in 0 ..< numberOfDaysInYear() {
          let curDay = Cal.date(byAdding: .day, value: i, to: firstOfJan)!
          opacities[i] = opacity(on: curDay)
       }
    }
    
+   /// Returns the number of days in a given year.
+   ///
+   /// - Parameter year: The year to calculate the number of days for.
+   /// - Returns: The number of days in the specified year.
+   func numberOfDaysInYear() -> Int {
+       if (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 {
+           return 366 // leap year
+       } else {
+           return 365 // common year
+       }
+   }
+   
    var body: some View {
-      ForEach(0 ..< 364) { i in
-         YearViewSquare(color: .green, size: squareSize, percent: opacities[i])
-      }
+      YearGrid(year: year, opacities: opacities)
       .animation(.easeInOut(duration: 0.15), value: opacities)
       .onChange(of: year) { newValue in
          Task { fetchOpacities() }

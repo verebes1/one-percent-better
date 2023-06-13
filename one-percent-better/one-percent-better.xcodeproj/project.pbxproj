@@ -21,7 +21,7 @@
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
 		8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */; };
 		802AB86929F603F000210AD6 /* RoundedCornersShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86829F603F000210AD6 /* RoundedCornersShape.swift */; };
-		802AB86B29F9F93100210AD6 /* YearViewSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86A29F9F93100210AD6 /* YearViewSquare.swift */; };
+		802AB86B29F9F93100210AD6 /* YearGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86A29F9F93100210AD6 /* YearGridCell.swift */; };
 		802AB86D29FCC40000210AD6 /* HabitCreationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86C29FCC40000210AD6 /* HabitCreationObject.swift */; };
 		802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86E29FCC58E00210AD6 /* NotificationObject.swift */; };
 		802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */; };
@@ -194,6 +194,8 @@
 		80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */; };
 		80F6671F2A33F77600095E60 /* Frequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671E2A33F77600095E60 /* Frequency.swift */; };
 		80F667292A355AA500095E60 /* obp 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667282A355AA500095E60 /* obp 18 to 19.xcmappingmodel */; };
+		80F6672C2A35626500095E60 /* YearView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672B2A35626500095E60 /* YearView2.swift */; };
+		80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672D2A380ECD00095E60 /* YearGrid.swift */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
 		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
@@ -235,7 +237,7 @@
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
 		8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAllEntries.swift; sourceTree = "<group>"; };
 		802AB86829F603F000210AD6 /* RoundedCornersShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornersShape.swift; sourceTree = "<group>"; };
-		802AB86A29F9F93100210AD6 /* YearViewSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearViewSquare.swift; sourceTree = "<group>"; };
+		802AB86A29F9F93100210AD6 /* YearGridCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearGridCell.swift; sourceTree = "<group>"; };
 		802AB86C29FCC40000210AD6 /* HabitCreationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCreationObject.swift; sourceTree = "<group>"; };
 		802AB86E29FCC58E00210AD6 /* NotificationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationObject.swift; sourceTree = "<group>"; };
 		802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureLogController.swift; sourceTree = "<group>"; };
@@ -426,6 +428,8 @@
 		80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerWeekFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerWeekFrequency.swift"; sourceTree = "<absolute>"; };
 		80F6671E2A33F77600095E60 /* Frequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frequency.swift; sourceTree = "<group>"; };
 		80F667282A355AA500095E60 /* obp 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "obp 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
+		80F6672B2A35626500095E60 /* YearView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView2.swift; sourceTree = "<group>"; };
+		80F6672D2A380ECD00095E60 /* YearGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearGrid.swift; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
@@ -495,7 +499,7 @@
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
 				80385CB1285BEE5900CBDF71 /* Assets.xcassets */,
 				80385CC3285BEE5900CBDF71 /* Preview Content */,
-				8059AE7D288B4EB400846D27 /* Old Code */,
+				8059AE7D288B4EB400846D27 /* Unused Code */,
 			);
 			path = "one-percent-better";
 			sourceTree = "<group>";
@@ -679,14 +683,11 @@
 				8062AA422902F23000903123 /* ProgressCards.swift */,
 				80CC691E28E1184F00584340 /* NewProgress.swift */,
 				80C14EF628BC0ADE0059BBA4 /* Edit Habit */,
+				80F6672A2A3561F100095E60 /* Year View */,
 				80385CEF285BEE5900CBDF71 /* Calendar Card */,
 				80385CF5285BEE5900CBDF71 /* Image Card */,
 				80385CF8285BEE5900CBDF71 /* Graph Card */,
 				8027BEF828DD162300EC3E66 /* Exercise Card */,
-				805A64EE2867CB1400F068B1 /* YearView.swift */,
-				802AB86A29F9F93100210AD6 /* YearViewSquare.swift */,
-				8043A92428E7A414001D0E8C /* Timeline.swift */,
-				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
 				802E92AB29220B8400A28EB1 /* NewImprovementGraph.swift */,
 				80639E62293D6B1500A48F16 /* StatisticsCardView.swift */,
 			);
@@ -860,9 +861,11 @@
 			path = "Enter Data Views";
 			sourceTree = "<group>";
 		};
-		8059AE7D288B4EB400846D27 /* Old Code */ = {
+		8059AE7D288B4EB400846D27 /* Unused Code */ = {
 			isa = PBXGroup;
 			children = (
+				8043A92428E7A414001D0E8C /* Timeline.swift */,
+				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
 				805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */,
 				80CC692128E27FC200584340 /* EveryDaily.swift */,
 				80385D7C285E630700CBDF71 /* CustomToolbarView.swift */,
@@ -873,7 +876,7 @@
 				80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */,
 				803E1B8928A9D68B0010540B /* SelectableCardOld.swift */,
 			);
-			path = "Old Code";
+			path = "Unused Code";
 			sourceTree = "<group>";
 		};
 		805C1BC1294A99F800F7CE48 /* Frequency */ = {
@@ -992,6 +995,17 @@
 				80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */,
 			);
 			path = Frequency;
+			sourceTree = "<group>";
+		};
+		80F6672A2A3561F100095E60 /* Year View */ = {
+			isa = PBXGroup;
+			children = (
+				805A64EE2867CB1400F068B1 /* YearView.swift */,
+				80F6672D2A380ECD00095E60 /* YearGrid.swift */,
+				802AB86A29F9F93100210AD6 /* YearGridCell.swift */,
+				80F6672B2A35626500095E60 /* YearView2.swift */,
+			);
+			path = "Year View";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1240,13 +1254,15 @@
 				802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */,
 				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
+				80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
+				80F6672C2A35626500095E60 /* YearView2.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80F6671F2A33F77600095E60 /* Frequency.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
-				802AB86B29F9F93100210AD6 /* YearViewSquare.swift in Sources */,
+				802AB86B29F9F93100210AD6 /* YearGridCell.swift in Sources */,
 				8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */,
 				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
 				802AB86D29FCC40000210AD6 /* HabitCreationObject.swift in Sources */,

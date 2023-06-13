@@ -1,5 +1,5 @@
 //
-//  YearViewSquare.swift
+//  YearGridCell.swift
 //  one-percent-better
 //
 //  Created by Jeremy Cook on 4/26/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct YearViewSquare: View {
+struct YearGridCell: View {
    
    @Environment(\.colorScheme) var scheme
    
@@ -44,61 +44,61 @@ struct YearViewSquare_Previews: PreviewProvider {
    static var previews: some View {
       VStack {
          HStack(spacing: 20) {
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 150,
                            percent: 1)
             
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 100,
                            percent: 1)
             
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 50,
                            percent: 1)
          }
          
          HStack(spacing: 20) {
-            YearViewSquare(color: .blue,
+            YearGridCell(color: .blue,
                            size: 150,
                            percent: 1)
             
-            YearViewSquare(color: .blue,
+            YearGridCell(color: .blue,
                            size: 100,
                            percent: 1)
             
-            YearViewSquare(color: .blue,
+            YearGridCell(color: .blue,
                            size: 50,
                            percent: 1)
          }
          
          HStack(spacing: 20) {
-            YearViewSquare(color: .blue,
+            YearGridCell(color: .blue,
                            size: 50,
                            percent: 0)
             
-            YearViewSquare(color: .blue,
+            YearGridCell(color: .blue,
                            size: 50,
                            percent: 0.5)
             
-            YearViewSquare(color: .blue,
+            YearGridCell(color: .blue,
                            size: 50,
                            percent: 1)
          }
          
          HStack(spacing: 20) {
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 50,
                            percent: 0)
             
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 50,
                            percent: 0.33)
             
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 50,
                            percent: 0.66)
             
-            YearViewSquare(color: .green,
+            YearGridCell(color: .green,
                            size: 50,
                            percent: 1)
          }
