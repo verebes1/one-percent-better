@@ -7,24 +7,16 @@
 
 import SwiftUI
 
-class YearViewModel: ObservableObject {
-   
-//   func januaryOffset(year: Int) -> Int {
-//      let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-//      return firstOfJan.weekDayOffset
-//   }
+enum YearViewRoute: Hashable {
+   case viewAll
 }
 
 struct YearView: View {
    
    var habit: Habit
    
-   @State private var yearHeight: CGFloat = 0
    @State private var selectedYear = Cal.dateComponents([.year], from: Date()).year!
    
-   let insets: CGFloat = 15
-   let spacing: CGFloat = 1
-
    var years: [Int] {
       let startYear = Cal.dateComponents([.year], from: habit.startDate).year!
       let thisYear = Cal.dateComponents([.year], from: Date()).year!
@@ -38,24 +30,44 @@ struct YearView: View {
    var body: some View {
       CardView {
          VStack(spacing: 0) {
-            Menu {
-               ForEach(years, id: \.self) { year in
-                  MenuItemWithCheckmark(value: year,
-                                        selection: $selectedYear)
+            HStack {
+               Menu {
+                  ForEach(years, id: \.self) { year in
+                     MenuItemWithCheckmark(value: year,
+                                           selection: $selectedYear)
+                  }
+                  
+               } label: {
+                  CapsuleMenuButtonLabel(label: {
+                     Text(String(selectedYear))
+                        .font(.system(size: 13))
+                  }, color: .cardColorLighter)
                }
+               .padding(.vertical, 4)
+               .padding(.horizontal, 7)
                
-            } label: {
-               CapsuleMenuButtonLabel(label: {
-                  Text(String(selectedYear))
-                     .font(.system(size: 12))
-               }, color: .cardColorLighter)
+               Spacer()
+               
+               NavigationLink(value: YearViewRoute.viewAll) {
+                  HStack {
+                     Text("View All")
+                     Image(systemName: "chevron.right")
+                  }
+                  .font(.system(size: 14))
+                  .padding(.trailing, 10)
+               }
             }
-            .padding(.vertical, 4)
-            .padding(.horizontal, 7)
+            .padding(.bottom, 4)
             
-            YearGridWrapper(habit: habit, year: $selectedYear)
+            YearGridWrapper(habit: habit, year: selectedYear)
                .padding(.horizontal, 5)
                .padding(.bottom, 3)
+         }
+      }
+      .navigationDestination(for: YearViewRoute.self) { route in
+         switch route {
+         case .viewAll:
+            YearViewAllYears(habit: habit, years: years.reversed())
          }
       }
    }
@@ -114,7 +126,7 @@ struct YearGridWrapper: View {
    
    @State private var opacities: [Double] = Array(repeating: 0, count: 366)
    
-   @Binding var year: Int
+   var year: Int
    let today = Date()
 
    func opacity(on curDay: Date) -> Double {

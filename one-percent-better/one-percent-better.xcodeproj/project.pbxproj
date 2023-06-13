@@ -196,6 +196,7 @@
 		80F667292A355AA500095E60 /* obp 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667282A355AA500095E60 /* obp 18 to 19.xcmappingmodel */; };
 		80F6672C2A35626500095E60 /* YearView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672B2A35626500095E60 /* YearView2.swift */; };
 		80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672D2A380ECD00095E60 /* YearGrid.swift */; };
+		80F667302A3913AD00095E60 /* YearViewAllYears.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672F2A3913AD00095E60 /* YearViewAllYears.swift */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
 		80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72941294D876800F17B0B /* RandomNotifications.swift */; };
 		80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F72943294D89B700F17B0B /* PrebuiltHabits.swift */; };
@@ -430,6 +431,7 @@
 		80F667282A355AA500095E60 /* obp 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "obp 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
 		80F6672B2A35626500095E60 /* YearView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView2.swift; sourceTree = "<group>"; };
 		80F6672D2A380ECD00095E60 /* YearGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearGrid.swift; sourceTree = "<group>"; };
+		80F6672F2A3913AD00095E60 /* YearViewAllYears.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearViewAllYears.swift; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
 		80F72941294D876800F17B0B /* RandomNotifications.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomNotifications.swift; sourceTree = "<group>"; };
 		80F72943294D89B700F17B0B /* PrebuiltHabits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrebuiltHabits.swift; sourceTree = "<group>"; };
@@ -1004,6 +1006,7 @@
 				80F6672D2A380ECD00095E60 /* YearGrid.swift */,
 				802AB86A29F9F93100210AD6 /* YearGridCell.swift */,
 				80F6672B2A35626500095E60 /* YearView2.swift */,
+				80F6672F2A3913AD00095E60 /* YearViewAllYears.swift */,
 			);
 			path = "Year View";
 			sourceTree = "<group>";
@@ -1282,6 +1285,7 @@
 				80744F6329B548F400DAF196 /* EditHabitNotifications.swift in Sources */,
 				80385D0C285BEE5900CBDF71 /* BlurView.swift in Sources */,
 				80F72944294D89B700F17B0B /* PrebuiltHabits.swift in Sources */,
+				80F667302A3913AD00095E60 /* YearViewAllYears.swift in Sources */,
 				80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */,
 				805785B1295EEE9B00028582 /* FrequencySelectionStack.swift in Sources */,
 				802CCA1428BC0253006E38E6 /* ErrorLabel.swift in Sources */,
