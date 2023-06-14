@@ -33,6 +33,7 @@ struct YearGridCell: View {
       } else if scheme == .light {
          return color.colorWithOpacity(percent, onBackground: .cardColor).darkenColor()
       } else {
+         // Maybe make this lighten the color?
          return color.colorWithOpacity(percent, onBackground: .cardColorOpposite2).darkenColor()
       }
    }

@@ -37,13 +37,8 @@ struct CreateHabitName: View {
             HabitCreationHeader(systemImage: "square.and.pencil",
                                 title: "Create New Habit")
             
-            TextField("Name", text: $habitName)
-               .focused($nameInFocus)
-               .padding(.leading, 20)
-               .frame(height: 50)
-               .background(Color.cardColor)
-               .cornerRadius(radius: 10)
-               .padding(.horizontal, 20)
+            
+            CreateTextField(placeholder: "Name", text: $habitName, focus: $nameInFocus)
             
             Spacer().frame(height: 20)
             
@@ -134,9 +129,12 @@ struct CreateNewHabit_Previews: PreviewProvider {
    
    static var previews: some View {
       let moc = CoreDataManager.previews.mainContext
-      CreateHabitName()
-         .environment(\.managedObjectContext, moc)
-         .environmentObject(HabitListViewModel(moc))
-         .environmentObject(HabitTabNavPath())
+      NavigationStack {
+         CreateHabitName()
+            .environment(\.managedObjectContext, moc)
+            .environmentObject(HabitListViewModel(moc))
+            .environmentObject(HabitTabNavPath())
+            .environmentObject(BottomBarManager())
+      }
    }
 }

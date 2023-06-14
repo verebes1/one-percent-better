@@ -7,24 +7,13 @@
 
 import Foundation
 
-// TODO: At some point, also implement dictionary containing completed days for faster lookup than binary search
-// Dictionary style (key must be hashable, and equatable for same day):
-// let dmyDate = DMYDate(date)
-
 extension Habit {
-   
    var improvementTracker: ImprovementTracker? {
-      for tracker in trackers {
-         if let t = tracker as? ImprovementTracker {
-            return t
-         }
-      }
-      return nil
+      trackersArray.first { $0 is ImprovementTracker } as? ImprovementTracker
    }
    
    var firstCompleted: Date? {
-      guard let day = daysCompleted.first else { return nil }
-      return day
+      daysCompleted.first
    }
    
    func wasCompleted(on date: Date) -> Bool {
@@ -142,8 +131,18 @@ extension Habit {
          if date < startDate {
             updateStartDate(to: date)
          }
-         
-         removeNotifications(on: date)
+      }
+      
+      // Remove notifications for today if fully completed
+      if let freq = frequency(on: date) {
+         switch freq {
+         case .timesPerDay(let n):
+            if timesCompleted(on: date) == n {
+               removeNotifications(on: date)
+            }
+         case .specificWeekdays, .timesPerWeek:
+            removeNotifications(on: date)
+         }
       }
       
       improvementTracker?.update(on: date)
@@ -165,7 +164,6 @@ extension Habit {
          }
       }
       
-//      resetStreakCache(on: date)
       // Fix this at some point
       improvementTracker?.update(on: date)
       addNotificationsBack(on: date)
@@ -181,23 +179,11 @@ extension Habit {
       }
    }
    
-//   func resetStreakCache(on date: Date) {
-//      streakCache[DMYDate(date)] = nil
-//   }
-   
    /// The streak of this habit calculated on specific date
    /// - Parameter date: The streak on this date
    /// - Returns: The streak number
    func streak(on date: Date) -> Int {
       var streak = 0
-      
-      // Streak cache
-//      if let streak = streakCache[DMYDate(date)] {
-//         return streak
-//      }
-//      defer {
-//         streakCache[DMYDate(date)] = streak
-//      }
 
       guard let freq = frequency(on: date) else { return 0 }
       let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
@@ -235,8 +221,7 @@ extension Habit {
          }
       }
       
-      
-      // Flags to keep track if the streak was increased for this week already,
+      // Flags to keep track of if the streak was increased for this week already,
       // so that it's not increased multiple times for the same week
       var dayBeforeNewWeek = false
       var alreadyCompletedThisWeek = false

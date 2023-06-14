@@ -17,6 +17,7 @@
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		80125C872A393C5100682BB9 /* BorderedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C862A393C5100682BB9 /* BorderedRectangle.swift */; };
+		80125C892A3A82DB00682BB9 /* CreateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C882A3A82DB00682BB9 /* CreateTextField.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
@@ -234,6 +235,7 @@
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		80125C862A393C5100682BB9 /* BorderedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedRectangle.swift; sourceTree = "<group>"; };
+		80125C882A3A82DB00682BB9 /* CreateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTextField.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
@@ -947,6 +949,7 @@
 				80744F5329B00B2300DAF196 /* Notifications */,
 				80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */,
 				807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */,
+				80125C882A3A82DB00682BB9 /* CreateTextField.swift */,
 			);
 			path = "Create Habit - Edit Habit";
 			sourceTree = "<group>";
@@ -1274,6 +1277,7 @@
 				8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */,
 				8062AA3B2900AAE900903123 /* Settings.swift in Sources */,
 				8018589A2863A7AB003DE454 /* UIImage.swift in Sources */,
+				80125C892A3A82DB00682BB9 /* CreateTextField.swift in Sources */,
 				80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */,
 				800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,

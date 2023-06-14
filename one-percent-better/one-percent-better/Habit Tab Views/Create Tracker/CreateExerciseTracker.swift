@@ -22,16 +22,7 @@ struct CreateExerciseTracker: View {
             HabitCreationHeader(systemImage: "figure.walk",
                                 title: "Exercise")
             
-            VStack {
-               ZStack {
-                  RoundedRectangle(cornerRadius: 10)
-                     .foregroundColor(.cardColor)
-                     .frame(height: 50)
-                  TextField("Name", text: $trackerName)
-                     .focused($nameInFocus)
-                     .padding(.leading, 10)
-               }.padding(.horizontal, 20)
-            }
+            CreateTextField(placeholder: "Name", text: $trackerName, focus: $nameInFocus)
             
             Spacer()
             
