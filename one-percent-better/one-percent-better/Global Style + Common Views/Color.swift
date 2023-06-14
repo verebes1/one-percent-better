@@ -12,6 +12,7 @@ extension Color {
    static let backgroundColor = Color("BackgroundColor")
    static let cardColor = Color("CardColor")
    static let cardColorOpposite = Color("CardColorOpposite")
+   static let cardColorOpposite2 = Color("CardColorOpposite2")
    static let cardColorLighter = Color("CardColorLighter")
    static let grayButton = Color("GrayButton")
    
@@ -111,21 +112,27 @@ extension UIColor {
       var alpha: CGFloat = 0
       
       if self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
-         let hueAdjustment: CGFloat = 5
-         let saturationAdjustment: CGFloat = 9
-         let brightnessAdjustment: CGFloat = -5
+         let hueAdjustment: CGFloat = 5 // 5
+         let saturationAdjustment: CGFloat = 13 // 9
+         let brightnessAdjustment: CGFloat = -12 // -5
+         
+         print("~~~ h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
          
          hue = (hue * 360 + hueAdjustment) / 360
          saturation = max(0, saturation * 100 + saturationAdjustment) / 100
          brightness = max(0, brightness * 100 + brightnessAdjustment) / 100
          
+         print("--- h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
+         
          return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
       }
-      
       return self
    }
    
    func colorWithOpacity(onBackgroundColor backgroundColor: UIColor, opacity: CGFloat) -> UIColor {
+      
+      print("backgroundColor: \(backgroundColor.description), opacity: \(opacity)")
+      
       // Get the RGB values of the original color
       var red: CGFloat = 0
       var green: CGFloat = 0

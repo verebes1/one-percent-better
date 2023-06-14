@@ -16,6 +16,7 @@
 		8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09C28F71BBC005D1A19 /* PlusStepper.swift */; };
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
+		80125C872A393C5100682BB9 /* BorderedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C862A393C5100682BB9 /* BorderedRectangle.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
@@ -194,7 +195,6 @@
 		80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */; };
 		80F6671F2A33F77600095E60 /* Frequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671E2A33F77600095E60 /* Frequency.swift */; };
 		80F667292A355AA500095E60 /* obp 18 to 19.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80F667282A355AA500095E60 /* obp 18 to 19.xcmappingmodel */; };
-		80F6672C2A35626500095E60 /* YearView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672B2A35626500095E60 /* YearView2.swift */; };
 		80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672D2A380ECD00095E60 /* YearGrid.swift */; };
 		80F667302A3913AD00095E60 /* YearViewAllYears.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6672F2A3913AD00095E60 /* YearViewAllYears.swift */; };
 		80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */; };
@@ -233,6 +233,7 @@
 		8006A09C28F71BBC005D1A19 /* PlusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStepper.swift; sourceTree = "<group>"; };
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
+		80125C862A393C5100682BB9 /* BorderedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedRectangle.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
@@ -429,7 +430,6 @@
 		80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerWeekFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerWeekFrequency.swift"; sourceTree = "<absolute>"; };
 		80F6671E2A33F77600095E60 /* Frequency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Frequency.swift; sourceTree = "<group>"; };
 		80F667282A355AA500095E60 /* obp 18 to 19.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "obp 18 to 19.xcmappingmodel"; sourceTree = "<group>"; };
-		80F6672B2A35626500095E60 /* YearView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView2.swift; sourceTree = "<group>"; };
 		80F6672D2A380ECD00095E60 /* YearGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearGrid.swift; sourceTree = "<group>"; };
 		80F6672F2A3913AD00095E60 /* YearViewAllYears.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearViewAllYears.swift; sourceTree = "<group>"; };
 		80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeAppearanceRow.swift; sourceTree = "<group>"; };
@@ -1005,8 +1005,8 @@
 				805A64EE2867CB1400F068B1 /* YearView.swift */,
 				80F6672D2A380ECD00095E60 /* YearGrid.swift */,
 				802AB86A29F9F93100210AD6 /* YearGridCell.swift */,
-				80F6672B2A35626500095E60 /* YearView2.swift */,
 				80F6672F2A3913AD00095E60 /* YearViewAllYears.swift */,
+				80125C862A393C5100682BB9 /* BorderedRectangle.swift */,
 			);
 			path = "Year View";
 			sourceTree = "<group>";
@@ -1239,6 +1239,7 @@
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				8062AA432902F23000903123 /* ProgressCards.swift in Sources */,
 				80385D11285BEE5900CBDF71 /* ButtonViews.swift in Sources */,
+				80125C872A393C5100682BB9 /* BorderedRectangle.swift in Sources */,
 				80385CFE285BEE5900CBDF71 /* Style.swift in Sources */,
 				806235F42A2ED7620040F9BD /* MigrationModel18to19.swift in Sources */,
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
@@ -1261,7 +1262,6 @@
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
 				80385D1E285BEE5900CBDF71 /* Color.swift in Sources */,
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
-				80F6672C2A35626500095E60 /* YearView2.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80F6671F2A33F77600095E60 /* Frequency.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,

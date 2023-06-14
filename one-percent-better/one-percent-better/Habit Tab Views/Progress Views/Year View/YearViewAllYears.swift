@@ -41,11 +41,11 @@ struct YearViewAllYearsPreview: View {
       let context = CoreDataManager.previews.mainContext
 
       let day0 = Date()
-      let h1 = try? Habit(context: context, name: "L", frequency: .timesPerDay(3), id: id)
+      let h1 = try? Habit(context: context, name: "L", frequency: .timesPerDay(2), id: id)
       h1?.markCompleted(on: day0)
       h1?.changeFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
 
-      for _ in 0 ..< 10 {
+      for _ in 0 ..< 100 {
          let rand = Int.random(in: 0 ..< 364)
          h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
       }

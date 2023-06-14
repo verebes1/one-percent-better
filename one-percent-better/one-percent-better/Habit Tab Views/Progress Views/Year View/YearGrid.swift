@@ -161,7 +161,6 @@ struct YearGrid: View {
             }
          }
       }
-//      .border(.blue)
    }
 }
 
