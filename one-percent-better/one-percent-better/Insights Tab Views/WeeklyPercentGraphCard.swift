@@ -41,7 +41,7 @@ struct WeeklyPercentGraphCard: View {
       // Create an array to store the moving average values
       var movingAverage: [Double] = []
       
-      let period = 3
+      let period = Int(sliderValue)
       
       // Calculate the moving average for each point in the array
       for i in 0..<points.count {
@@ -67,6 +67,7 @@ struct WeeklyPercentGraphCard: View {
    }
    
    @State private var data: [GraphPoint] = []
+   @State private var sliderValue = 3.0
    
    var body: some View {
       let _ = Self._printChanges()
@@ -76,7 +77,7 @@ struct WeeklyPercentGraphCard: View {
                EmptyView()
             }
             
-            Text("3 day moving average")
+            Text("\(Int(sliderValue)) day moving average")
                .font(.system(size: 15))
                .foregroundColor(.secondaryLabel)
                .padding(.horizontal, 20)
@@ -93,8 +94,25 @@ struct WeeklyPercentGraphCard: View {
             .chartYScale(domain: 0 ... 100)
             .frame(height: 250)
             .padding()
+            
+            Slider(value: $sliderValue, in: 1 ... 30, step: 1, label: {
+               Text("Moving average")
+            }, minimumValueLabel: {
+               Text("1")
+                  .foregroundColor(.secondaryLabel)
+            }, maximumValueLabel: {
+               Text("30")
+                  .foregroundColor(.secondaryLabel)
+            }, onEditingChanged: { isEditing in
+               print(isEditing)
+            })
+            .padding(.horizontal, 15)
+            .padding(.bottom, 10)
          }
          .task {
+            data = dailyPercent()
+         }
+         .onChange(of: sliderValue) { newValue in
             data = dailyPercent()
          }
       }
@@ -140,7 +158,6 @@ struct WeeklyPercentGraphCard_Previews: PreviewProvider {
    static var previews: some View {
       let _ = data()
       let moc = CoreDataManager.previews.mainContext
-      let hlvm = HabitListViewModel(moc)
       let vm = HeaderWeekViewModel(moc)
       
       Background {
