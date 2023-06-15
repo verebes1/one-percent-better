@@ -38,11 +38,9 @@ extension Habit {
       guard let freq = frequency(on: date) else { return 0 }
       switch freq {
       case .timesPerDay(let n):
-         guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
-         return Double(timesCompleted[i]) / Double(n)
+         return Double(timesCompleted(on: date)) / Double(n)
       case .specificWeekdays(_):
-         guard let i = daysCompleted.sameDayBinarySearch(for: date) else { return 0 }
-         return timesCompleted[i] >= 1 ? 1 : 0
+         return timesCompleted(on: date) >= 1 ? 1 : 0
       case .timesPerWeek(times: let n, resetDay: let resetDay):
          if date.weekdayInt == resetDay.rawValue {
             let ans = Double(timesCompletedThisWeek(on: date)) / Double(n)

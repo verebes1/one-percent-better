@@ -34,7 +34,7 @@ struct YearGridCell: View {
          return color.colorWithOpacity(percent, onBackground: .cardColor).darkenColor()
       } else {
          // Maybe make this lighten the color?
-         return color.colorWithOpacity(percent, onBackground: .cardColorOpposite2).darkenColor()
+         return color.colorWithOpacity(percent, onBackground: .cardColorOpposite2).lightenColor()
       }
    }
    

@@ -94,6 +94,10 @@ extension Color {
       return Color(UIColor(self).darkenColor())
    }
    
+   func lightenColor() -> Color {
+      return Color(UIColor(self).lightenColor())
+   }
+   
    func colorWithOpacity(_ opacity: CGFloat, onBackground: Color) -> Color {
       return Color(UIColor(self).colorWithOpacity(onBackgroundColor: UIColor(onBackground), opacity: opacity))
    }
@@ -115,6 +119,30 @@ extension UIColor {
          let hueAdjustment: CGFloat = 5 // 5
          let saturationAdjustment: CGFloat = 13 // 9
          let brightnessAdjustment: CGFloat = -12 // -5
+         
+         print("~~~ h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
+         
+         hue = (hue * 360 + hueAdjustment) / 360
+         saturation = max(0, saturation * 100 + saturationAdjustment) / 100
+         brightness = max(0, brightness * 100 + brightnessAdjustment) / 100
+         
+         print("--- h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
+         
+         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+      }
+      return self
+   }
+   
+   func lightenColor() -> UIColor {
+      var hue: CGFloat = 0
+      var saturation: CGFloat = 0
+      var brightness: CGFloat = 0
+      var alpha: CGFloat = 0
+      
+      if self.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
+         let hueAdjustment: CGFloat = 5 // 5
+         let saturationAdjustment: CGFloat = 9 // 9
+         let brightnessAdjustment: CGFloat = 13 // -5
          
          print("~~~ h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
          

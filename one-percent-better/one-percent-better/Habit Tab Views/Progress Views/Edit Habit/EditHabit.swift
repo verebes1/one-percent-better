@@ -87,7 +87,7 @@ struct EditHabit: View {
                   
                   NavigationLink(value: EditHabitNavRoute.editFrequency) {
                      HStack {
-                        Text("Frequency")
+                        IconTextRow(title: "Frequency", icon: "clock.arrow.2.circlepath", color: .indigo)
                            .fontWeight(.medium)
                         
                         Spacer()
@@ -100,7 +100,7 @@ struct EditHabit: View {
                   
                   NavigationLink(value: EditHabitNavRoute.editNotification) {
                      HStack {
-                        Text("Notifications")
+                        IconTextRow(title: "Notifications", icon: "bell.fill", color: .pink)
                            .fontWeight(.medium)
                         
                         Spacer()
@@ -112,7 +112,7 @@ struct EditHabit: View {
                   // MARK: - Edit Start Date
                   
                   HStack {
-                     Text("Start date")
+                     IconTextRow(title: "Start date", icon: "calendar", color: .orange)
                         .fontWeight(.medium)
                      Spacer()
                      
@@ -209,11 +209,12 @@ struct EditHabitPreviewer: View {
    let habit: Habit
    @StateObject private var nv = HabitTabNavPath()
    
-   
    var body: some View {
       NavigationStack(path: $nv.path) {
          EditHabit(habit: habit)
             .environmentObject(nv)
+            .environmentObject(ProgressViewModel(habit: habit))
+            .environmentObject(TrackersViewModel(habit: habit))
       }
    }
 }
@@ -253,7 +254,6 @@ struct EditHabit_Previews: PreviewProvider {
       let habit = data()
       NavigationView {
          EditHabitPreviewer(habit: habit)
-//         EditHabit(habit: habit)
       }
    }
 }
@@ -306,10 +306,8 @@ struct EditHabitName: View {
    var body: some View {
       VStack {
          HStack {
-            Text("Name")
+            IconTextRow(title: "Name", icon: "square.and.pencil", color: .systemYellow)
                .fontWeight(.medium)
-//            IconTextRow(title: "Name", icon: "square.and.pencil", color: .systemTeal)
-//               .fontWeight(.medium)
             TextField("", text: $newHabitName)
                .multilineTextAlignment(.trailing)
                .frame(height: 30)

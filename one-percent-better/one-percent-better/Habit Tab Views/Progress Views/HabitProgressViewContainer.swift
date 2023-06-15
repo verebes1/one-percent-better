@@ -65,6 +65,20 @@ struct HabitProgressViewContainer: View {
       Background {
          HabitProgessView()
             .environmentObject(vm)
+            .toolbar {
+               ToolbarItem(placement: .navigationBarTrailing) {
+                  Menu {
+                     NavigationLink(value: ProgressViewNavRoute.editHabit) {
+                        Label("Edit Habit", systemImage: "pencil")
+                     }
+                     NavigationLink(value: ProgressViewNavRoute.newTracker) {
+                        Label("New Tracker", systemImage: "plus")
+                     }
+                  } label: {
+                     Image(systemName: "ellipsis.circle")
+                  }
+               }
+            }
             .navigationTitle(vm.habit.name)
             .navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: ProgressViewNavRoute.self) { route in
@@ -78,20 +92,6 @@ struct HabitProgressViewContainer: View {
                   CreateNewTracker(habit: vm.habit)
                }
             }
-      }
-      .toolbar {
-         ToolbarItem(placement: .navigationBarTrailing) {
-            Menu {
-               NavigationLink(value: ProgressViewNavRoute.editHabit) {
-                  Label("Edit Habit", systemImage: "pencil")
-               }
-               NavigationLink(value: ProgressViewNavRoute.newTracker) {
-                  Label("New Tracker", systemImage: "plus")
-               }
-            } label: {
-               Image(systemName: "ellipsis.circle")
-            }
-         }
       }
    }
 }
