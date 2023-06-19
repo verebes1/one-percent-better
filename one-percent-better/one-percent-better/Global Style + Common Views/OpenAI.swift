@@ -23,7 +23,6 @@ class OpenAI {
       
       if let dict = keys,
          let apiKey = dict["OPEN_AI_KEY"] as? String {
-         print("apiKey: \(apiKey)")
          return apiKey
       } else {
          return ""
