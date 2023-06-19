@@ -6,8 +6,6 @@
 //
 
 import Foundation
-import OpenAI
-
 import OpenAISwift
 
 enum OpenAIError: Error {
@@ -17,27 +15,26 @@ enum OpenAIError: Error {
 class OpenAI {
    static var shared = OpenAI()
    
-   let client = Client(apiKey: "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")
-   let openAI = OpenAISwift(authToken: "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")
-   
-   func completionModel(prompt: String) async throws -> String? {
-      return try await withCheckedThrowingContinuation { continuation in
-         client.completions(engine: .other("text-davinci-003"),
-                            prompt: prompt,
-                            numberOfTokens: ...400,
-                            numberOfCompletions: 1) { result in
-            switch result {
-            case .success(let completions):
-               let ans = completions.first?.choices.first?.text
-               continuation.resume(returning: ans)
-            case .failure(let failure):
-               continuation.resume(throwing: failure)
-            }
-         }
+   var openAIKey: String = {
+      var keys: NSDictionary?
+      if let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") {
+         keys = NSDictionary(contentsOfFile: path)
       }
-   }
+      
+      if let dict = keys,
+         let apiKey = dict["OPEN_AI_KEY"] as? String {
+         print("apiKey: \(apiKey)")
+         return apiKey
+      } else {
+         return ""
+      }
+   }()
    
-   // Other models
+   let openAI: OpenAISwift
+   
+   init() {
+      openAI = OpenAISwift(authToken: openAIKey)
+   }
    
    func chatModel(prompt: String) async throws -> String {
       return try await withCheckedThrowingContinuation { continuation in
@@ -49,21 +46,6 @@ class OpenAI {
                } else {
                   continuation.resume(throwing: OpenAIError.emptyMessageResponse)
                }
-            case .failure(let failure):
-               continuation.resume(throwing: failure)
-            }
-         }
-      }
-   }
-   
-   
-   func engines() async throws -> String? {
-      return try await withCheckedThrowingContinuation { continuation in
-         client.engines { result in
-            print(result)
-            switch result {
-            case .success(let success):
-               continuation.resume(returning: success.debugDescription)
             case .failure(let failure):
                continuation.resume(throwing: failure)
             }

@@ -137,6 +137,8 @@ extension Habit {
          case .timesPerDay(let n):
             if timesCompleted(on: date) == n {
                removeNotifications(on: date)
+            } else {
+               removeDeliveredNotifications()
             }
          case .specificWeekdays, .timesPerWeek:
             removeNotifications(on: date)

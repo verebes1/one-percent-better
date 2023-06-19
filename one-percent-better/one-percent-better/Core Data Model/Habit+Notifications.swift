@@ -40,8 +40,15 @@ extension Habit {
             }
          }
       }
+
+      removeDeliveredNotifications()
       
-      // Remove delivered notifications
+      if rebalance {
+         NotificationManager.shared.rebalanceHabitNotifications()
+      }
+   }
+   
+   func removeDeliveredNotifications() {
       UNUserNotificationCenter.current().getDeliveredNotifications { notifs in
          for habitNotif in self.notificationsArray {
             for notif in notifs {
@@ -50,10 +57,6 @@ extension Habit {
                }
             }
          }
-      }
-      
-      if rebalance {
-         NotificationManager.shared.rebalanceHabitNotifications()
       }
    }
    
