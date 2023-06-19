@@ -120,13 +120,9 @@ extension UIColor {
          let saturationAdjustment: CGFloat = 13 // 9
          let brightnessAdjustment: CGFloat = -12 // -5
          
-         print("~~~ h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
-         
          hue = (hue * 360 + hueAdjustment) / 360
          saturation = max(0, saturation * 100 + saturationAdjustment) / 100
          brightness = max(0, brightness * 100 + brightnessAdjustment) / 100
-         
-         print("--- h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
          
          return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
       }
@@ -144,13 +140,9 @@ extension UIColor {
          let saturationAdjustment: CGFloat = 9 // 9
          let brightnessAdjustment: CGFloat = 13 // -5
          
-         print("~~~ h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
-         
          hue = (hue * 360 + hueAdjustment) / 360
          saturation = max(0, saturation * 100 + saturationAdjustment) / 100
          brightness = max(0, brightness * 100 + brightnessAdjustment) / 100
-         
-         print("--- h: \(hue), s: \(saturation), b: \(brightness), alpha: \(alpha)")
          
          return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
       }

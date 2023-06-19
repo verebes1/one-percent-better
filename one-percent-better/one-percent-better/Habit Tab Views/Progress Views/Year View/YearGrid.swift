@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum YearViewGridCell {
-   case monthLabel(Int)
+//   case monthLabel(Int)
    case daySquare(Int)
    case emptySquare
 }
@@ -26,29 +26,17 @@ class YearViewIndexer {
    // 53   54  55  56  57 ...
    // 106 107 108 109 110 ...
    func getCell(for gridIndex: Int) -> YearViewGridCell {
-      if gridIndex < 53 {
-         // Month row
-         let dayIndex = dayIndex(from: gridIndex).index
-         let colIndex = dayIndex + 7
-         if let monthIndex = monthDays.firstIndex(where: { colIndex >= $0 && colIndex - 7 < $0 } ) {
-            return .monthLabel(monthIndex)
-         } else {
-            return .emptySquare
-         }
+      let dayIndex = dayIndex(from: gridIndex)
+      if dayIndex.display {
+         return .daySquare(dayIndex.index)
       } else {
-         // Day squares
-         let dayIndex = dayIndex(from: gridIndex)
-         if dayIndex.display {
-            return .daySquare(dayIndex.index)
-         } else {
-            return .emptySquare
-         }
+         return .emptySquare
       }
    }
    
    func dayIndex(from gridIndex: Int) -> (index: Int, display: Bool) {
-      let column = (gridIndex % 53) - 1
-      let row = (gridIndex / 53) - 1
+      let column = gridIndex % 53
+      let row = gridIndex / 53
       var realIndex = row + 7 * column
       let januaryOffset = januaryFirstOffset(year: year)
       realIndex = realIndex - januaryOffset
@@ -122,27 +110,28 @@ struct YearGrid: View {
    }
    
    var body: some View {
-      VStack {
+      VStack(spacing: 5) {
+         
+         HStack {
+            ForEach(monthLabels, id: \.self) { month in
+               Text(month)
+                  .font(.system(size: squareSize + 6))
+                  .foregroundColor(.secondary)
+                  .fontWeight(.medium)
+               Spacer()
+            }
+         }
+         
          let columns: [GridItem] = Array(repeating: GridItem(.flexible(minimum: 1, maximum: .infinity), spacing: 1, alignment: .top), count: 53)
          LazyVGrid(columns: columns, spacing: 1) {
             
-            // 53 columns of 8 = 424 items
-            // 1 row for month labels
-            // 53 columns for days (52 columns gives only 364 days but a year has 365 days, and 366 on a leap year)
+            // 53 columns of 7 = 371 items (52 columns gives only 364 days but a year has 365 days, and 366 on a leap year)
             
-            ForEach(0 ..< 53 * 8) { gridIndex in
+            ForEach(0 ..< 53 * 7) { gridIndex in
                switch yearViewIndexer.getCell(for: gridIndex) {
                case .emptySquare:
                   Color.clear
                      .frame(width: squareSize, height: squareSize, alignment: .leading)
-               case .monthLabel(let i):
-                  Text(monthLabels[i])
-                     .font(.system(size: squareSize + 6))
-                     .foregroundColor(.secondary)
-                     .fontWeight(.medium)
-                     .fixedSize()
-                     .frame(width: squareSize, height: squareSize, alignment: .leading)
-                     .padding(.bottom, 6)
                case .daySquare(let i):
                   ZStack {
                      Rectangle()

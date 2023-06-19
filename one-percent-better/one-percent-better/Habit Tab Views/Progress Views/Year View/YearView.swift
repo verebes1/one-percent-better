@@ -32,8 +32,9 @@ struct YearView: View {
          CardView {
             VStack(spacing: 0) {
                YearGridWrapper(habit: habit, year: selectedYear)
-                  .padding(.vertical, 8)
-                  .padding(.horizontal, 5)
+                  .padding(.horizontal, 8)
+                  .padding(.top, 2)
+                  .padding(.bottom, 3)
             }
          }
       }
@@ -58,10 +59,10 @@ struct YearViewPreview: View {
       h1?.markCompleted(on: day0)
       h1?.changeFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
 
-      for _ in 0 ..< 100 {
-         let rand = Int.random(in: 0 ..< 364)
-         h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
-      }
+//      for _ in 0 ..< 100 {
+//         let rand = Int.random(in: 0 ..< 364)
+//         h1?.markCompleted(on: Cal.date(byAdding: .day, value: -rand, to: day0)!)
+//      }
 
       let habits = Habit.habits(from: context)
       return habits.first!
