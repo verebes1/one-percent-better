@@ -19,6 +19,7 @@
 		80125C872A393C5100682BB9 /* BorderedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C862A393C5100682BB9 /* BorderedRectangle.swift */; };
 		80125C892A3A82DB00682BB9 /* CreateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C882A3A82DB00682BB9 /* CreateTextField.swift */; };
 		80125C8B2A3D2A7100682BB9 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80125C8A2A3D2A7100682BB9 /* APIKeys.plist */; };
+		80125C8F2A4146ED00682BB9 /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C8E2A4146ED00682BB9 /* NewListView.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
@@ -99,7 +100,6 @@
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
 		803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* CreateHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCardOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCardOld.swift */; };
-		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282629C2B384003D27CE /* ScheduledNotification.swift */; };
 		8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */; };
 		8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282A29C413E2003D27CE /* NotificationManager.swift */; };
@@ -237,6 +237,7 @@
 		80125C862A393C5100682BB9 /* BorderedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedRectangle.swift; sourceTree = "<group>"; };
 		80125C882A3A82DB00682BB9 /* CreateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTextField.swift; sourceTree = "<group>"; };
 		80125C8A2A3D2A7100682BB9 /* APIKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
+		80125C8E2A4146ED00682BB9 /* NewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
@@ -323,7 +324,6 @@
 		803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackerEntry.swift; sourceTree = "<group>"; };
 		803E1B8728A34E930010540B /* CreateHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitFrequency.swift; sourceTree = "<group>"; };
 		803E1B8928A9D68B0010540B /* SelectableCardOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCardOld.swift; sourceTree = "<group>"; };
-		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		8040282629C2B384003D27CE /* ScheduledNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ScheduledNotification.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Notifications/ScheduledNotification.swift"; sourceTree = "<absolute>"; };
 		8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsForHabitDebug.swift; sourceTree = "<group>"; };
 		8040282A29C413E2003D27CE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -828,9 +828,9 @@
 				8058002729E64052008EBEBE /* HabitListViewContainer.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
 				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
-				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
 				8058174328D569B400E9816F /* Habit Row */,
 				8058174428D5762600E9816F /* Enter Data Views */,
+				80125C8E2A4146ED00682BB9 /* NewListView.swift */,
 			);
 			path = "Habit List Views";
 			sourceTree = "<group>";
@@ -1202,6 +1202,7 @@
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
 				80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */,
 				805785BC296C4EFD00028582 /* DepressTest.swift in Sources */,
+				80125C8F2A4146ED00682BB9 /* NewListView.swift in Sources */,
 				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
@@ -1260,7 +1261,6 @@
 				8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */,
 				80F667292A355AA500095E60 /* obp 18 to 19.xcmappingmodel in Sources */,
 				802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */,
-				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,

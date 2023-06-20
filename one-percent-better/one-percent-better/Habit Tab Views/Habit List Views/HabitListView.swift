@@ -90,7 +90,8 @@ struct HabitListView: View {
                                              leading: 0,
                                              bottom: 0,
                                              trailing: 20))
-                        .listRowBackground(Color.cardColor)
+//                        .listRowBackground(Color.cardColor)
+                        .listRowBackground(Blur(style: .systemThinMaterial))
                      }
                   }
                   .onMove(perform: hlvm.move)
@@ -116,14 +117,15 @@ struct HabitsViewPreviewer: View {
    static let h2id = UUID()
    
    @StateObject var nav = HabitTabNavPath()
-   @StateObject var habitList_VM: HabitListViewModel
-   @StateObject var headerWeek_VM: HeaderWeekViewModel
+   @StateObject var hlvm: HabitListViewModel
+   @StateObject var hsvm: HeaderSelectionViewModel
    
    init() {
       let hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
       let hwvm = HeaderWeekViewModel(CoreDataManager.previews.mainContext)
-      _habitList_VM = StateObject(wrappedValue: hlvm)
-      _headerWeek_VM = StateObject(wrappedValue: hwvm)
+      let hsvm = HeaderSelectionViewModel(hwvm: hwvm)
+      _hlvm = StateObject(wrappedValue: hlvm)
+      _hsvm = StateObject(wrappedValue: hsvm)
       let _ = data()
    }
    
@@ -143,8 +145,8 @@ struct HabitsViewPreviewer: View {
    var body: some View {
       NavigationStack(path: $nav.path) {
          HabitListView()
-            .environmentObject(headerWeek_VM)
-            .environment(\.managedObjectContext, moc)
+            .environmentObject(hlvm)
+            .environmentObject(hsvm)
             .environmentObject(nav)
       }
    }
@@ -153,6 +155,7 @@ struct HabitsViewPreviewer: View {
 struct HabitsView_Previews: PreviewProvider {
    static var previews: some View {
       HabitsViewPreviewer()
+         .environment(\.managedObjectContext, CoreDataManager.previews.mainContext)
    }
 }
 
