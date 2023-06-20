@@ -10,10 +10,9 @@ import XCTest
 
 final class YearViewTests: XCTestCase {
    
-   var yvm: YearViewModel!
    
    override func setUpWithError() throws {
-      yvm = YearViewModel()
+      
    }
    
    override func tearDownWithError() throws {

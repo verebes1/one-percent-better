@@ -191,7 +191,6 @@
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
-		80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC352939A02600E626D7 /* ImportExportTest.swift */; };
 		80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */; };
 		80F6671C2A33F73F00095E60 /* SpecificWeekdaysFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */; };
 		80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */; };
@@ -428,7 +427,6 @@
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
-		80DAAC352939A02600E626D7 /* ImportExportTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportExportTest.swift; sourceTree = "<group>"; };
 		80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerDayFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerDayFrequency.swift"; sourceTree = "<absolute>"; };
 		80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SpecificWeekdaysFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/SpecificWeekdaysFrequency.swift"; sourceTree = "<absolute>"; };
 		80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = XTimesPerWeekFrequency.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Core Data Model/Frequency/XTimesPerWeekFrequency.swift"; sourceTree = "<absolute>"; };
@@ -798,7 +796,6 @@
 				806BB18429A43860006549A9 /* Frequency Tests */,
 				80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */,
 				802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */,
-				80DAAC352939A02600E626D7 /* ImportExportTest.swift */,
 				80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */,
 			);
 			path = "one-percent-better-Tests";
@@ -1346,7 +1343,6 @@
 				805296C12A12E65C00C2C90E /* NotDoneInTests.swift in Sources */,
 				806BB18629A4388F006549A9 /* XTimesPerDayTests.swift in Sources */,
 				8048B76A29FDBEB500F11AB9 /* YearViewTests.swift in Sources */,
-				80DAAC362939A02600E626D7 /* ImportExportTest.swift in Sources */,
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
 				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
 				806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */,
