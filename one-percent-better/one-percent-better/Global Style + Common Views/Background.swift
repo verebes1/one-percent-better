@@ -9,13 +9,22 @@ import SwiftUI
 
 struct Background<Content>: View where Content: View {
    
+   
+   @Environment(\.colorScheme) var scheme
+   
    var color = Color.backgroundColor
+   
+   var topColor: Color = Color(#colorLiteral(red: 0.9843137255, green: 0.007843137255, blue: 0.1725490196, alpha: 1))
+   var bottomColor: Color = Color(#colorLiteral(red: 0.09019608051, green: 0, blue: 0.3019607961, alpha: 1))
    
    let content: () -> Content
    
    var body: some View {
       ZStack {
-         color.ignoresSafeArea()
+         LinearGradient(colors: [bottomColor, topColor], startPoint: .init(x: 0, y: 1), endPoint: .init(x: 0, y: 0))
+                     .ignoresSafeArea()
+//         color.ignoresSafeArea()
+         
          content()
       }
    }

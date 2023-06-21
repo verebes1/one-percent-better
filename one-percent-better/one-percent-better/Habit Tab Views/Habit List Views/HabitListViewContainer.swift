@@ -14,16 +14,9 @@ struct HabitListViewContainer: View {
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
    @EnvironmentObject var barManager: BottomBarManager
    
-   var topColor: Color = Color( #colorLiteral(red: 0.06289868802, green: 0.01407728624, blue: 0.1093840376, alpha: 1))
-   var bottomColor: Color = Color(#colorLiteral(red: 0.1698978245, green: 0.03469148278, blue: 0.3008764982, alpha: 1))
-   
    var body: some View {
       let _ = Self._printChanges()
-      ZStack {
-         
-         LinearGradient(colors: [topColor, bottomColor], startPoint: .init(x: 0, y: 1), endPoint: .init(x: 0, y: -1))
-            .ignoresSafeArea()
-         
+      Background {
          VStack {
             HabitsHeaderView()
             HabitListView()
