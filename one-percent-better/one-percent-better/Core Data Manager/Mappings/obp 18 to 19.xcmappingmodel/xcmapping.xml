@@ -68,15 +68,15 @@
         <relationship name="entitymapping" type="1/1" destination="XDDEVENTITYMAPPING" idrefs="z155"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z106">
-        <attribute name="migrationpolicyclassname" type="string">One_Percent_Better.MigrationModel18to19</attribute>
+        <attribute name="migrationpolicyclassname" type="string">___Better.MigrationModel18to19</attribute>
         <attribute name="sourcename" type="string">Habit</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">11</attribute>
         <attribute name="destinationname" type="string">Habit</attribute>
         <attribute name="autogenerateexpression" type="bool">1</attribute>
         <relationship name="mappingmodel" type="1/1" destination="XDDEVMAPPINGMODEL" idrefs="z181"></relationship>
-        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z148 z184 z107 z130 z179 z182"></relationship>
-        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z127 z110 z151"></relationship>
+        <relationship name="attributemappings" type="0/0" destination="XDDEVATTRIBUTEMAPPING" idrefs="z184 z182 z179 z148 z130 z107"></relationship>
+        <relationship name="relationshipmappings" type="0/0" destination="XDDEVRELATIONSHIPMAPPING" idrefs="z151 z127 z110"></relationship>
     </object>
     <object type="XDDEVATTRIBUTEMAPPING" id="z107">
         <attribute name="name" type="string">timesCompleted</attribute>
