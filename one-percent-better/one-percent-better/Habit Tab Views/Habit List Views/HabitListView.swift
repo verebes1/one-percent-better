@@ -91,7 +91,7 @@ struct HabitListView: View {
                                              bottom: 0,
                                              trailing: 20))
 //                        .listRowBackground(Color.cardColor)
-                        .listRowBackground(Blur(style: .systemMaterial))
+                        .listRowBackground(Blur(style: .systemUltraThinMaterial))
                      }
                   }
                   .onMove(perform: hlvm.move)
