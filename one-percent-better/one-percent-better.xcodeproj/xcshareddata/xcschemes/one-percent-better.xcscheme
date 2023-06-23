@@ -22,10 +22,10 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8055A97F2831BAA8009A1881"
@@ -70,6 +70,17 @@
                BlueprintIdentifier = "802E92A1291E097800A28EB1"
                BuildableName = "MyTests.xctest"
                BlueprintName = "MyTests"
+               ReferencedContainer = "container:one-percent-better.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "801AC9F72A45E95600DE95D6"
+               BuildableName = "1% BetterTests.xctest"
+               BlueprintName = "1% BetterTests"
                ReferencedContainer = "container:one-percent-better.xcodeproj">
             </BuildableReference>
          </TestableReference>
