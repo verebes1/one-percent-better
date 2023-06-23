@@ -21,6 +21,7 @@
 		80125C8B2A3D2A7100682BB9 /* APIKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80125C8A2A3D2A7100682BB9 /* APIKeys.plist */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
+		801AC9F32A45E4A500DE95D6 /* CreateHabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801AC9F22A45E4A500DE95D6 /* CreateHabitName.swift */; };
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
 		8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */; };
 		802AB86929F603F000210AD6 /* RoundedCornersShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802AB86829F603F000210AD6 /* RoundedCornersShape.swift */; };
@@ -238,6 +239,7 @@
 		80125C8A2A3D2A7100682BB9 /* APIKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = APIKeys.plist; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
+		801AC9F22A45E4A500DE95D6 /* CreateHabitName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateHabitName.swift; sourceTree = "<group>"; };
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
 		8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAllEntries.swift; sourceTree = "<group>"; };
 		802AB86829F603F000210AD6 /* RoundedCornersShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCornersShape.swift; sourceTree = "<group>"; };
@@ -280,7 +282,6 @@
 		80385CCE285BEE5900CBDF71 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		80385CD0285BEE5900CBDF71 /* TextFieldTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldTests.swift; sourceTree = "<group>"; };
 		80385CD1285BEE5900CBDF71 /* RingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RingView.swift; sourceTree = "<group>"; };
-		80385CD2285BEE5900CBDF71 /* CreateHabitName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateHabitName.swift; sourceTree = "<group>"; };
 		80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitCreationHeader.swift; sourceTree = "<group>"; };
 		80385CD4285BEE5900CBDF71 /* CreateNewTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateNewTracker.swift; sourceTree = "<group>"; };
 		80385CD5285BEE5900CBDF71 /* CreateImageTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateImageTracker.swift; sourceTree = "<group>"; };
@@ -736,8 +737,8 @@
 		803B4E8428B43381003EA859 /* Create Habit */ = {
 			isa = PBXGroup;
 			children = (
+				801AC9F22A45E4A500DE95D6 /* CreateHabitName.swift */,
 				80385CD3285BEE5900CBDF71 /* HabitCreationHeader.swift */,
-				80385CD2285BEE5900CBDF71 /* CreateHabitName.swift */,
 				803E1B8728A34E930010540B /* CreateHabitFrequency.swift */,
 				80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */,
 				80385CCD285BEE5900CBDF71 /* ButtonViews.swift */,
@@ -1219,6 +1220,7 @@
 				80385D06285BEE5900CBDF71 /* mo-ikai2-to-3.xcmappingmodel in Sources */,
 				8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */,
 				80385D1A285BEE5900CBDF71 /* HabitCompletionCircle.swift in Sources */,
+				801AC9F32A45E4A500DE95D6 /* CreateHabitName.swift in Sources */,
 				80CC288028C0080300411ECB /* EditTracker.swift in Sources */,
 				8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */,
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
