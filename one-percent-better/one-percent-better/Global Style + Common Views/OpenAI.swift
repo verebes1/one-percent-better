@@ -40,7 +40,7 @@ class OpenAI {
          openAI.sendChat(with: [ChatMessage(role: .user, content: prompt)], model: .chat(.chatgpt), maxTokens: 400) { result in
             switch result {
             case .success(let success):
-               if let ans = success.choices.first?.message.content {
+               if let ans = success.choices?.first?.message.content {
                   continuation.resume(returning: ans)
                } else {
                   continuation.resume(throwing: OpenAIError.emptyMessageResponse)

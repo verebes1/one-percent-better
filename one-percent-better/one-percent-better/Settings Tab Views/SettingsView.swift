@@ -7,7 +7,6 @@
 
 import SwiftUI
 import CoreData
-import OpenAI
 
 enum SettingsNavRoute: Hashable {
    case appearance

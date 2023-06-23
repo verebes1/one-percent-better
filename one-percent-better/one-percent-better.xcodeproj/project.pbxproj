@@ -148,7 +148,6 @@
 		806C827A2860E86300C26CEC /* ImagesPagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806C82792860E86300C26CEC /* ImagesPagingView.swift */; };
 		80744F5229B0096700DAF196 /* CreateHabitNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */; };
 		80744F5529B013FF00DAF196 /* DailyReminderSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */; };
-		80744F5829B2E4CC00DAF196 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 80744F5729B2E4CC00DAF196 /* OpenAI */; };
 		80744F5A29B2FA2700DAF196 /* DailyReminderNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */; };
 		80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5D29B3091400DAF196 /* Habit+Notifications.swift */; };
 		80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80744F5F29B30A7300DAF196 /* OpenAI.swift */; };
@@ -451,7 +450,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */,
-				80744F5829B2E4CC00DAF196 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1031,7 +1029,6 @@
 			);
 			name = "one-percent-better";
 			packageProductDependencies = (
-				80744F5729B2E4CC00DAF196 /* OpenAI */,
 				80BA250C29B8155C0072B1AA /* OpenAISwift */,
 			);
 			productName = "one-percent-better-swiftui";
@@ -1703,11 +1700,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		80744F5729B2E4CC00DAF196 /* OpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 80744F5629B2E4CC00DAF196 /* XCRemoteSwiftPackageReference "OpenAI" */;
-			productName = OpenAI;
-		};
 		80BA250C29B8155C0072B1AA /* OpenAISwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */;
