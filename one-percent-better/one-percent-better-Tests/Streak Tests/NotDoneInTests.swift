@@ -7,7 +7,7 @@
 
 import XCTest
 import CoreData
-@testable import One_Percent_Better
+@testable import ___Better
 
 final class NotDoneInTests: XCTestCase {
    

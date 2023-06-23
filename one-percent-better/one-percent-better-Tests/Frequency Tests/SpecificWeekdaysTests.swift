@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import One_Percent_Better
+@testable import ___Better
 
 final class SpecificWeekdaysTests: XCTestCase {
 
