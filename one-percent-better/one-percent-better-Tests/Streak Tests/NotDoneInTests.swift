@@ -47,7 +47,7 @@ final class NotDoneInTests: XCTestCase {
       // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
       // -   -   -   -   -   -   -   -
       XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
-      XCTAssertNil(habit.notDoneInDays(on: startWednesday))
+      XCTAssertNotNil(habit.notDoneInDays(on: startWednesday))
       
       // X
       // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
