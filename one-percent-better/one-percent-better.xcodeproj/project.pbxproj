@@ -187,7 +187,6 @@
 		80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */; };
 		80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */; };
 		80D8EEF72A4775E100769114 /* Keys-template.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80D8EEF62A4775E100769114 /* Keys-template.plist */; };
-		80D8EEF92A4775FF00769114 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80D8EEF82A4775FF00769114 /* Keys.plist */; };
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
@@ -424,7 +423,6 @@
 		80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo_ikai10-to-11.xcmappingmodel"; sourceTree = "<group>"; };
 		80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MigrationModel10-to-11.swift"; sourceTree = "<group>"; };
 		80D8EEF62A4775E100769114 /* Keys-template.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Keys-template.plist"; sourceTree = "<group>"; };
-		80D8EEF82A4775FF00769114 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
@@ -493,7 +491,6 @@
 			isa = PBXGroup;
 			children = (
 				803A787029823B3A0045BD06 /* Info.plist */,
-				80D8EEF82A4775FF00769114 /* Keys.plist */,
 				80D8EEF62A4775E100769114 /* Keys-template.plist */,
 				80385CB2285BEE5900CBDF71 /* Core Data Manager */,
 				80385CDF285BEE5900CBDF71 /* Core Data Model */,
@@ -1125,7 +1122,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80D8EEF92A4775FF00769114 /* Keys.plist in Resources */,
 				80385D09285BEE5900CBDF71 /* Preview Assets.xcassets in Resources */,
 				80D8EEF72A4775E100769114 /* Keys-template.plist in Resources */,
 				80385D00285BEE5900CBDF71 /* Assets.xcassets in Resources */,
