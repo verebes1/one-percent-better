@@ -12,12 +12,16 @@ import CoreData
 class NotificationManager {
    
    static var shared = NotificationManager()
-   var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
+   var moc: NSManagedObjectContext
    static let MAX_NOTIFS = 60
    
    lazy var queue = DispatchQueue(label: "NotificationManager", qos: .userInitiated)
    
    var permissionGranted = false
+   
+   init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+      self.moc = moc
+   }
 
    func requestNotificationPermission() async -> Bool? {
       do {
