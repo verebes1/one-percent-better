@@ -17,7 +17,7 @@ class OpenAI {
    
    var openAIKey: String = {
       var keys: NSDictionary?
-      if let path = Bundle.main.path(forResource: "APIKeys", ofType: "plist") {
+      if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
          keys = NSDictionary(contentsOfFile: path)
       }
       
