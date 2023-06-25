@@ -15,7 +15,7 @@ struct NotificationSelection: View {
    @ObservedObject var habit: Habit
    
    @State private var animateBell = false
-//
+
    @State private var selectFrequency = false
    
    @Binding var hasChanged: Set<Notification>
@@ -51,9 +51,6 @@ struct NotificationSelection: View {
    }
    
    var body: some View {
-      let _ = Self.printChanges(self)
-//      print("Notification selection updating, habit.notificationsArray = \(habit.notificationsArray)")
-      return (
       Background {
          VStack(spacing: 10) {
             
@@ -90,8 +87,6 @@ struct NotificationSelection: View {
                      .padding(.horizontal, 20)
                      .fontWeight(.medium)
                      .foregroundColor(Style.accentColor)
-                     //                     .background(Style.accentColor)
-                     //                     .foregroundColor(textColor)
                   }
                }
                .background(Color.cardColor)
@@ -133,7 +128,6 @@ struct NotificationSelection: View {
             Spacer()
          }
       }
-      )
    }
 }
 

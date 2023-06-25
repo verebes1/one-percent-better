@@ -187,6 +187,8 @@
 		80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */; };
 		80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */; };
 		80D8EEFF2A477B2100769114 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80D8EEFE2A477B2100769114 /* Keys.plist */; };
+		80D8EF012A47C3C100769114 /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D8EF002A47C3C100769114 /* NotificationManagerTests.swift */; };
+		80D8EF032A47CA7600769114 /* NotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D8EF022A47CA7600769114 /* NotificationTests.swift */; };
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
@@ -423,6 +425,8 @@
 		80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo_ikai10-to-11.xcmappingmodel"; sourceTree = "<group>"; };
 		80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MigrationModel10-to-11.swift"; sourceTree = "<group>"; };
 		80D8EEFE2A477B2100769114 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		80D8EF002A47C3C100769114 /* NotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
+		80D8EF022A47CA7600769114 /* NotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTests.swift; sourceTree = "<group>"; };
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
@@ -923,6 +927,8 @@
 			isa = PBXGroup;
 			children = (
 				80BA250929B7F3900072B1AA /* RandomTimeTests.swift */,
+				80D8EF002A47C3C100769114 /* NotificationManagerTests.swift */,
+				80D8EF022A47CA7600769114 /* NotificationTests.swift */,
 			);
 			path = "Notification Tests";
 			sourceTree = "<group>";
@@ -1335,6 +1341,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80D8EF012A47C3C100769114 /* NotificationManagerTests.swift in Sources */,
 				805296C12A12E65C00C2C90E /* NotDoneInTests.swift in Sources */,
 				806BB18629A4388F006549A9 /* XTimesPerDayTests.swift in Sources */,
 				8048B76A29FDBEB500F11AB9 /* YearViewTests.swift in Sources */,
@@ -1342,6 +1349,7 @@
 				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
 				806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */,
 				805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */,
+				80D8EF032A47CA7600769114 /* NotificationTests.swift in Sources */,
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */,

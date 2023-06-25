@@ -145,7 +145,6 @@ class NotificationManager {
    
    // MARK: Rebalance
    
-   let semaphore = DispatchSemaphore(value: 0)
    var rebalanceTask: Task<Void, Never>?
    var shouldRestartRebalance = false
    

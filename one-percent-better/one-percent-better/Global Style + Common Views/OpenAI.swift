@@ -8,11 +8,15 @@
 import Foundation
 import OpenAISwift
 
+protocol OpenAIRequest {
+   func query(prompt: String) async throws -> String
+}
+
 enum OpenAIError: Error {
    case emptyMessageResponse
 }
 
-class OpenAI {
+class OpenAI: OpenAIRequest {   
    static var shared = OpenAI()
    
    var openAIKey: String = {
@@ -35,7 +39,7 @@ class OpenAI {
       openAI = OpenAISwift(authToken: openAIKey)
    }
    
-   func chatModel(prompt: String) async throws -> String {
+   func query(prompt: String) async throws -> String {
       return try await withCheckedThrowingContinuation { continuation in
          openAI.sendChat(with: [ChatMessage(role: .user, content: prompt)], model: .chat(.chatgpt), maxTokens: 400) { result in
             switch result {

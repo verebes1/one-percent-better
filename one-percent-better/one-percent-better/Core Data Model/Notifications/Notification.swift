@@ -22,16 +22,15 @@ public class Notification: NSManagedObject {
    
    /// An array of scheduled notifications, which contain an index, date, and string per scheduled notification
    @NSManaged public var scheduledNotifications: NSOrderedSet?
+   var scheduledNotificationsArray: [ScheduledNotification] { scheduledNotifications?.array as? [ScheduledNotification] ?? [] }
    
-   var scheduledNotificationsArray: [ScheduledNotification] {
-      return scheduledNotifications?.array as? [ScheduledNotification] ?? []
-   }
-   
-   /// This array contains notification strings that can be used in the future, so that we don't need to call OpenAI every time.
-   /// Instead, OpenAI is called in batches (for ex: give me 10 notifications), and the overflow notifications are stored here
+   /// This array contains notification strings that can be used in the future, so that we don't make an API call to OpenAI for every notification.
+   /// Instead, OpenAI is called in batches (for ex: give me 10 notifications for habit X), and the overflow notifications are stored here
    @NSManaged public var unscheduledNotificationStrings: [String]
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
+   
+   var openAIDelegate: OpenAIRequest = OpenAI.shared
    
    func createScheduledNotification(index: Int, on date: Date) async throws -> String {
       if unscheduledNotificationStrings.isEmpty {
@@ -73,7 +72,7 @@ public class Notification: NSManagedObject {
    
    func getAINotifications(_ n: Int) async throws -> [String] {
       var notifs: [String] = []
-      let adjectiveArray = ["creative": 7, "motivating": 5, "inspiring": 5, "funny": 7, "funny Gen Z": 8]
+      let adjectiveArray = ["creative": 7, "motivating": 5, "sassy": 5, "funny": 10, "funny Gen Z": 5]
       for (adjective, count) in adjectiveArray {
          if let someNotifs = try await getAINotifications(count, adjective: adjective) {
             notifs.append(contentsOf: someNotifs)
@@ -126,7 +125,7 @@ public class Notification: NSManagedObject {
       var answer: String!
       print("Fetching \(n) \(adjective) notifications for habit \(habit.name) from ChatGPT... level: \(level)")
       do {
-         let chatGPTAnswer = try await OpenAI.shared.chatModel(prompt: notificationPrompt(n: n, adjective: adjective))
+         let chatGPTAnswer = try await openAIDelegate.query(prompt: notificationPrompt(n: n, adjective: adjective))
          answer = chatGPTAnswer
       } catch {
          print("Error getting response from ChatGPT: \(error.localizedDescription)")
