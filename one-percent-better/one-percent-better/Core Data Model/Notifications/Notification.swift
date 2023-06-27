@@ -30,11 +30,12 @@ public class Notification: NSManagedObject {
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
+   /// The delegate used to make query requests to OpenAI
    var openAIDelegate: OpenAIRequest = OpenAI.shared
    
    func createScheduledNotification(index: Int, on date: Date) async throws -> String {
       if unscheduledNotificationStrings.isEmpty {
-         let messages = try await getAINotifications(NotificationManager.MAX_NOTIFS / 2)
+         let messages = try await getAINotifications()
          await moc.perform {
             self.unscheduledNotificationStrings = messages
          }
@@ -49,18 +50,14 @@ public class Notification: NSManagedObject {
       return message
    }
    
-   func addNotificationRequest(index: Int, date: DateComponents) async throws {
+   func createNotificationRequest(index: Int, date: DateComponents) async throws -> UNNotificationRequest {
       let identifier = "OnePercentBetter&\(id.uuidString)&\(index)"
       let dateObject = Cal.date(from: date)!
       let message = try await createScheduledNotification(index: index, on: dateObject)
       let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
       let notifContent = generateNotificationContent(message: message)
       let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
-      do {
-         try await UNUserNotificationCenter.current().add(request)
-      } catch {
-         print("Error generating notification request: \(error.localizedDescription)")
-      }
+      return request
    }
    
    func notificationPrompt(n: Int, adjective: String) -> String {
@@ -70,7 +67,7 @@ public class Notification: NSManagedObject {
              """
    }
    
-   func getAINotifications(_ n: Int) async throws -> [String] {
+   func getAINotifications() async throws -> [String] {
       var notifs: [String] = []
       let adjectiveArray = ["creative": 7, "motivating": 5, "sassy": 5, "funny": 10, "funny Gen Z": 5]
       for (adjective, count) in adjectiveArray {
@@ -95,6 +92,9 @@ public class Notification: NSManagedObject {
       return notifs.map { $0.replacingOccurrences(of: "XX", with: habit.name.lowercased()) }
    }
    
+   /// Parse the ChatGPT json answer from the prompt into a Swift array
+   /// - Parameter jsonString: The json answer
+   /// - Returns: An array of the strings, nil if error parsing the json
    func parseGPTAnswerIntoArray(_ jsonString: String) -> [String]? {
       guard let data = jsonString.data(using: .utf8) else {
          print("Error converting ChatGPT JSON string to Data.")

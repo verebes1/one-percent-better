@@ -62,6 +62,11 @@ struct ContentView: View {
                Label("Settings", systemImage: "gearshape.fill")
             }
       }
+      .onAppear {
+         print("NSHomeDirectory: \(NSHomeDirectory())")
+         FeatureLogController.shared.setUp()
+         NotificationManager.shared.rebalanceHabitNotifications()
+      }
    }
 }
 

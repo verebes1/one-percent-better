@@ -9,15 +9,27 @@ import Foundation
 import UIKit
 import CoreData
 
+protocol UserNotificationCenter {
+   func add(_ request: UNNotificationRequest, withCompletionHandler completionHandler: ((Error?) -> Void)?)
+   func add(_ request: UNNotificationRequest) async throws
+   func pendingNotificationRequests() async -> [UNNotificationRequest]
+   func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
+   func removePendingNotificationRequests(withIdentifiers identifiers: [String])
+}
+extension UNUserNotificationCenter: UserNotificationCenter {}
+
 class NotificationManager {
    
    static var shared = NotificationManager()
    var moc: NSManagedObjectContext
-   static let MAX_NOTIFS = 60
+   static var MAX_NOTIFS = 60
    
    lazy var queue = DispatchQueue(label: "NotificationManager", qos: .userInitiated)
    
    var permissionGranted = false
+   
+   /// Protocol for interfacing with UNUserNotificationCenter
+   var userNotificationCenter: UserNotificationCenter = UNUserNotificationCenter.current()
    
    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
       self.moc = moc
@@ -25,7 +37,7 @@ class NotificationManager {
 
    func requestNotificationPermission() async -> Bool? {
       do {
-         permissionGranted = try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
+         permissionGranted = try await userNotificationCenter.requestAuthorization(options: [.alert, .badge, .sound])
          return permissionGranted
       } catch {
          print("Error getting notification permission")
@@ -46,7 +58,7 @@ class NotificationManager {
    }
    
    func pendingNotifications() async -> [PendingNotification] {
-      let pendingNotificationRequests = await UNUserNotificationCenter.current().pendingNotificationRequests()
+      let pendingNotificationRequests = await userNotificationCenter.pendingNotificationRequests()
       
       // Step 3: Sort pending notifications by date scheduled
       var pendingNotifications: [PendingNotification] = []
@@ -173,6 +185,19 @@ class NotificationManager {
       rebalanceTask?.cancel()
    }
    
+   func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
+      let request = try await notification.createNotificationRequest(index: index, date: date)
+      await addNotificationRequest(request: request)
+   }
+   
+   func addNotificationRequest(request: UNNotificationRequest) async {
+      do {
+         try await userNotificationCenter.add(request)
+      } catch {
+         print("Error generating notification request: \(error.localizedDescription)")
+      }
+   }
+   
    func rebalanceHabitNotificationsTask() async throws {
       
       print("~~~ Rebalancing habit notifications! ~~~")
@@ -180,6 +205,8 @@ class NotificationManager {
       // Step 1: Get pending notifications
       var pendingNotifications = await pendingNotifications()
       var notificationAllowance = Self.MAX_NOTIFS - pendingNotifications.count
+      
+      print("JJJJ notificationAllowance: \(notificationAllowance)")
 
       // Step 2: Keep adding new notifications until new scheduled date > latest pending notification request, or
       // maximum number of notification requests is reached
@@ -201,7 +228,7 @@ class NotificationManager {
          
          guard let lastPendingNotif = pendingNotifications.last else {
             // No pending notification requests, add new notification
-            try await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
+            try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
             continue
          }
@@ -212,14 +239,14 @@ class NotificationManager {
             removeNotification(lastPendingNotif)
             
             // Remove the scheduled notification
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
+            userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
             
             // Add new notification
-            try await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
+            try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
          } else {
             if notificationAllowance > 0 {
-               try await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
+               try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
                notificationAllowance -= 1
             } else {
                // Can't schedule any more notifications

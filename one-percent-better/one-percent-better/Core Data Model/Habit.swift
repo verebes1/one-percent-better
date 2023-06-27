@@ -71,6 +71,9 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    
+   /// Class which manages scheduling notifications, retrieving notification messages from OpenAI, remove notifications, etc.
+   var notificationManager: NotificationManager = NotificationManager.shared
+   
    // MARK: - init
    
    convenience init(context: NSManagedObjectContext,
@@ -146,7 +149,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       for notification in notificationsArray {
          notification.completeReset()
       }
-      NotificationManager.shared.rebalanceHabitNotifications()
+      notificationManager.rebalanceHabitNotifications()
    }
    
    var editableTrackers: [Tracker] {

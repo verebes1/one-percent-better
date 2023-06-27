@@ -17,7 +17,6 @@ struct DailyReminder: View {
    @State private var timeSelection: Date
    @State private var animateBell = false
    
-   
    init(settings: Settings) {
       self.settings = settings
       _sendNotif = State(initialValue: settings.dailyReminderEnabled)
@@ -43,7 +42,7 @@ struct DailyReminder: View {
       let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
       let content = UNMutableNotificationContent()
       content.title = "Daily Reminder"
-      content.subtitle = "Make it a habit. Believe in yourself."
+      content.body = "Make it a habit. Believe in yourself."
       content.sound = UNNotificationSound.default
       let request = UNNotificationRequest(identifier: "OnePercentBetter-DailyReminder", content: content, trigger: trigger)
       UNUserNotificationCenter.current().add(request)

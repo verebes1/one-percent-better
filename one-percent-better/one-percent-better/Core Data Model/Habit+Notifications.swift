@@ -11,7 +11,7 @@ import UIKit
 extension Habit {
    func addNotification(_ notification: Notification) {
       self.addToNotifications(notification)
-      NotificationManager.shared.rebalanceHabitNotifications()
+      notificationManager.rebalanceHabitNotifications()
    }
    
    func addNotifications(_ notifications: [Notification]) {
@@ -19,15 +19,15 @@ extension Habit {
          self.addToNotifications(notif)
       }
       if !notifications.isEmpty {
-         NotificationManager.shared.rebalanceHabitNotifications()
+         notificationManager.rebalanceHabitNotifications()
       }
    }
    
    func removeNotifications(on date: Date) {
       var rebalance = false
-      if NotificationManager.shared.rebalanceTask != nil {
+      if notificationManager.rebalanceTask != nil {
          rebalance = true
-         NotificationManager.shared.cancelRebalance()
+         notificationManager.cancelRebalance()
       }
       
       for notification in notificationsArray {
@@ -44,7 +44,7 @@ extension Habit {
       removeDeliveredNotifications()
       
       if rebalance {
-         NotificationManager.shared.rebalanceHabitNotifications()
+         notificationManager.rebalanceHabitNotifications()
       }
    }
    
@@ -62,9 +62,9 @@ extension Habit {
    
    func addNotificationsBack(on date: Date) {
       var rebalance = false
-      if NotificationManager.shared.rebalanceTask != nil {
+      if notificationManager.rebalanceTask != nil {
          rebalance = true
-         NotificationManager.shared.cancelRebalance()
+         notificationManager.cancelRebalance()
       }
       
       for notification in notificationsArray {
@@ -87,7 +87,7 @@ extension Habit {
       }
       
       if rebalance {
-         NotificationManager.shared.rebalanceHabitNotifications()
+         notificationManager.rebalanceHabitNotifications()
       }
    }
 }

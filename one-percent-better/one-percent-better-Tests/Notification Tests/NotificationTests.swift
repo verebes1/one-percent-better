@@ -28,21 +28,6 @@ final class NotificationTests: XCTestCase {
       try context.save()
    }
    
-   class MockOpenAI: OpenAIRequest {
-      func query(prompt: String) async throws -> String {
-         try await Task.sleep(for: .milliseconds(Int.random(in: 1 ... 30 )))
-         return "Test notification"
-      }
-   }
-   
-   func testAINotificationsRequest() async throws {
-      let mockAI = MockOpenAI()
-      notif.openAIDelegate = mockAI
-      
-//      let notifStrings = try await notif.getAINotifications(10)
-//      XCTAssertEqual(notifStrings.count, 10)
-   }
-   
    func testParseGPTAnswerIntoArray() throws {
       let jsonNotifs = """
       {
@@ -87,5 +72,21 @@ final class NotificationTests: XCTestCase {
       """
       let malformed = notif.parseGPTAnswerIntoArray(jsonNotifs)
       XCTAssertNil(malformed)
+   }
+   
+   func testNotificationContent() {
+      habit.addToNotifications(notif)
+      let content = notif.generateNotificationContent(message: "test message")
+      XCTAssertEqual(content.title, habit.name)
+      XCTAssertEqual(content.body, "test message")
+      XCTAssertEqual(content.sound, UNNotificationSound.default)
+   }
+   
+   func testAINotifications() async throws {
+      let mockAI = MockOpenAI()
+      notif.openAIDelegate = mockAI
+      
+      let notifStrings = try await notif.getAINotifications()
+      XCTAssertGreaterThanOrEqual(notifStrings.count, NotificationManager.MAX_NOTIFS / 2)
    }
 }
