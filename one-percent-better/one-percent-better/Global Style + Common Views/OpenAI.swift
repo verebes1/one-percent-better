@@ -8,17 +8,18 @@
 import Foundation
 import OpenAISwift
 
-protocol OpenAIRequest {
-   func query(prompt: String) async throws -> String
+protocol ChatGPTDelegate {
+   func queryChatGPT(prompt: String, maxTokens: Int) async throws -> String
 }
 
 enum OpenAIError: Error {
    case emptyMessageResponse
 }
 
-class OpenAI: OpenAIRequest {   
+class OpenAI: ChatGPTDelegate {
    static var shared = OpenAI()
    
+   /// The OpenAI API key is stored in this plist which is not included in the repository
    var openAIKey: String = {
       var keys: NSDictionary?
       if let path = Bundle.main.path(forResource: "Keys", ofType: "plist") {
@@ -39,9 +40,10 @@ class OpenAI: OpenAIRequest {
       openAI = OpenAISwift(authToken: openAIKey)
    }
    
-   func query(prompt: String) async throws -> String {
+   /// Query ChatGPT with a prompt and maxTokens
+   func queryChatGPT(prompt: String, maxTokens: Int = 400) async throws -> String {
       return try await withCheckedThrowingContinuation { continuation in
-         openAI.sendChat(with: [ChatMessage(role: .user, content: prompt)], model: .chat(.chatgpt), maxTokens: 400) { result in
+         openAI.sendChat(with: [ChatMessage(role: .user, content: prompt)], model: .chat(.chatgpt), maxTokens: maxTokens) { result in
             switch result {
             case .success(let success):
                if let ans = success.choices?.first?.message.content {

@@ -32,7 +32,7 @@ public class RandomTimeNotification: Notification {
       return Cal.date(from: components) ?? Date()
    }()
    
-   convenience init(myContext: NSManagedObjectContext, startTime: Date? = nil, endTime: Date? = nil) {
+   convenience init(myContext: NSManagedObjectContext, openAIDelegate: ChatGPTDelegate = OpenAI.shared, startTime: Date? = nil, endTime: Date? = nil) {
       self.init(context: myContext)
       super.moc = myContext
       self.id = UUID()

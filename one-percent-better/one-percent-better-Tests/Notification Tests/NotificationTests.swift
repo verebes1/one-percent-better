@@ -13,6 +13,7 @@ final class NotificationTests: XCTestCase {
    let context = CoreDataManager.previews.mainContext
    var habit: Habit!
    var notif: SpecificTimeNotification!
+   let notificationGenerator = MockNotificationGenerator()
    
    override func setUpWithError() throws {
       habit = try! Habit(context: context, name: "Cook")
@@ -72,21 +73,5 @@ final class NotificationTests: XCTestCase {
       """
       let malformed = notif.parseGPTAnswerIntoArray(jsonNotifs)
       XCTAssertNil(malformed)
-   }
-   
-   func testNotificationContent() {
-      habit.addToNotifications(notif)
-      let content = notif.generateNotificationContent(message: "test message")
-      XCTAssertEqual(content.title, habit.name)
-      XCTAssertEqual(content.body, "test message")
-      XCTAssertEqual(content.sound, UNNotificationSound.default)
-   }
-   
-   func testAINotifications() async throws {
-      let mockAI = MockOpenAI()
-      notif.openAIDelegate = mockAI
-      
-      let notifStrings = try await notif.getAINotifications()
-      XCTAssertGreaterThanOrEqual(notifStrings.count, NotificationManager.MAX_NOTIFS / 2)
    }
 }

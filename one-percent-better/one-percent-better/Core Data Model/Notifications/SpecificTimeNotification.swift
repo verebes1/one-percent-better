@@ -18,11 +18,13 @@ public class SpecificTimeNotification: Notification {
 
    @NSManaged public var time: Date
    
-   convenience init(context: NSManagedObjectContext, time: Date = Date()) {
+   convenience init(context: NSManagedObjectContext,
+                    notificationGenerator: NotificationGeneratorDelegate? = nil,
+                    time: Date = Date()) {
       self.init(context: context)
-      super.moc = context
-      self.id = UUID()
-      self.unscheduledNotificationStrings = []
+      configure(moc: context, notificationGenerator: notificationGenerator ?? NotificationGenerator(habit: habit))
+      id = UUID()
+      unscheduledNotificationStrings = []
       self.time = time
    }
    

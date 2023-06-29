@@ -51,6 +51,15 @@ final class NotificationManagerTests: XCTestCase {
       try context.save()
    }
    
+   func testNotificationContent() {
+      let notif = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
+      habit.addToNotifications(notif)
+      let content = notif.generateNotificationContent(message: "test message")
+      XCTAssertEqual(content.title, habit.name)
+      XCTAssertEqual(content.body, "test message")
+      XCTAssertEqual(content.sound, UNNotificationSound.default)
+   }
+   
    func waitForRebalance() async throws {
       while nm.rebalanceTask != nil {
          try await Task.sleep(for: .milliseconds(100))
@@ -60,14 +69,41 @@ final class NotificationManagerTests: XCTestCase {
    /// Create a single notification on a single habit. It should have (MAX_NOTIFS - 1) scheduled
    /// It's MAX - 1 because the first notification is cleaned up because we are scheduling it for right now
    func testSingleNotification() async throws {
-      NotificationManager.MAX_NOTIFS = 10
-      let notif = SpecificTimeNotification(context: context, time: Date())
-      notif.openAIDelegate = MockOpenAI()
+      let notif = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
       habit.addNotification(notif)
       
       try await waitForRebalance()
       XCTAssertEqual(notif.scheduledNotificationsArray.count, NotificationManager.MAX_NOTIFS - 1)
       XCTAssertEqual(notif.scheduledNotificationsArray.first!.index, 1)
+   }
+   
+   /// Test a single notification but with MAX_NOTIFS set to a smaller max
+   func testSingleNotification2() async throws {
+      NotificationManager.MAX_NOTIFS = 10
+      let notif = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
+      habit.addNotification(notif)
+      
+      try await waitForRebalance()
+      XCTAssertEqual(notif.scheduledNotificationsArray.count, NotificationManager.MAX_NOTIFS - 1)
+      XCTAssertEqual(notif.scheduledNotificationsArray.first!.index, 1)
+   }
+   
+   /// Create a single notification with a future time scheduled. It should have MAX_NOTIFS scheduled if
+   /// the future time is in the same day as today, otherwise it will have MAX_NOTIFS - 1
+   func testSingleNotificationScheduledAhead() async throws {
+      let now = Date()
+      let scheduledTime = Date(timeInterval: 100, since: now)
+      let notif = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: scheduledTime)
+      habit.addNotification(notif)
+      
+      try await waitForRebalance()
+      if Cal.isDate(now, inSameDayAs: scheduledTime) {
+         XCTAssertEqual(notif.scheduledNotificationsArray.count, NotificationManager.MAX_NOTIFS)
+         XCTAssertEqual(notif.scheduledNotificationsArray.first!.index, 0)
+      } else {
+         XCTAssertEqual(notif.scheduledNotificationsArray.count, NotificationManager.MAX_NOTIFS - 1)
+         XCTAssertEqual(notif.scheduledNotificationsArray.first!.index, 1)
+      }
    }
    
    func testPendingNotifications() async throws {
