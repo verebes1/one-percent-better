@@ -1,5 +1,5 @@
 //
-//  NotificationTests.swift
+//  NotificationGeneratorTests.swift
 //  one-percent-betterTests
 //
 //  Created by Jeremy Cook on 6/24/23.
@@ -8,16 +8,16 @@
 import XCTest
 @testable import ___Better
 
-final class NotificationTests: XCTestCase {
+final class NotificationGeneratorTests: XCTestCase {
    
    let context = CoreDataManager.previews.mainContext
    var habit: Habit!
    var notif: SpecificTimeNotification!
-   let notificationGenerator = MockNotificationGenerator()
+   var notificationGenerator: NotificationGenerator!
    
    override func setUpWithError() throws {
       habit = try! Habit(context: context, name: "Cook")
-      notif = SpecificTimeNotification(context: context, time: Date())
+      notificationGenerator = NotificationGenerator(habit: habit, chatGPTDelegate: MockOpenAI())
    }
    
    override func tearDownWithError() throws {
@@ -47,7 +47,7 @@ final class NotificationTests: XCTestCase {
       }
       """
       
-      let parsedAnswers = notif.parseGPTAnswerIntoArray(jsonNotifs)
+      let parsedAnswers = notificationGenerator.parseGPTAnswerIntoArray(jsonNotifs)
       let correctAnswer = ["Time to spill the tea, journal awaits!", "Hey, wordsmith! Journaling time, pronto.", "Did you misplace your thoughts? Journal them!", "Your journal is missing you, come back!", "Journaling: the best therapy. Get writing!", "Warning: neglecting your journal is illegal.", "Your thoughts called—they want you to journal.", "No journal, no peace. Get writing!", "Journaling is the new black. Get fashionable!", "You can\'t hide from your feelings, journal them!"]
       XCTAssertEqual(parsedAnswers, correctAnswer)
    }
@@ -61,7 +61,7 @@ final class NotificationTests: XCTestCase {
         ]
       }
       """
-      let parsedAnswers = notif.parseGPTAnswerIntoArray(jsonNotifs)
+      let parsedAnswers = notificationGenerator.parseGPTAnswerIntoArray(jsonNotifs)
       XCTAssertNil(parsedAnswers)
       
       jsonNotifs = """
@@ -71,7 +71,7 @@ final class NotificationTests: XCTestCase {
           "Hey, wordsmith! Journaling time, pronto."
       }
       """
-      let malformed = notif.parseGPTAnswerIntoArray(jsonNotifs)
+      let malformed = notificationGenerator.parseGPTAnswerIntoArray(jsonNotifs)
       XCTAssertNil(malformed)
    }
 }

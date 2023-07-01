@@ -8,7 +8,7 @@
 import Foundation
 
 class MockNotificationGenerator: NotificationGeneratorDelegate {
-   func generateNotifications() async throws -> [String] {
+   func generateNotifications(habit: Habit) async throws -> [String] {
       try await Task.sleep(for: .milliseconds(Int.random(in: 1 ... 30 )))
       let notifs = Array(repeating: "Time to spill the tea, journal awaits!", count: NotificationManager.MAX_NOTIFS / 2)
       return notifs

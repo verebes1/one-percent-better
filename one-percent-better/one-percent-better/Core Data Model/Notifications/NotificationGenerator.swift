@@ -8,18 +8,18 @@
 import Foundation
 
 protocol NotificationGeneratorDelegate {
-   func generateNotifications() async throws -> [String]
+   func generateNotifications(habit: Habit) async throws -> [String]
 }
 
 class NotificationGenerator: NotificationGeneratorDelegate {
    
-   let habit: Habit
-   let chatGPT: ChatGPTDelegate
+   var habit: Habit!
+   var chatGPT: ChatGPTDelegate = OpenAI()
    
-   init(habit: Habit, chatGPTDelegate: ChatGPTDelegate = OpenAI()) {
-      self.habit = habit
-      self.chatGPT = chatGPTDelegate
-   }
+//   init(habit: Habit, chatGPTDelegate: ChatGPTDelegate = OpenAI()) {
+//      self.habit = habit
+//      self.chatGPT = chatGPTDelegate
+//   }
    
    func notificationPrompt(n: Int, adjective: String) -> String {
       return """
@@ -28,7 +28,8 @@ class NotificationGenerator: NotificationGeneratorDelegate {
              """
    }
    
-   func generateNotifications() async throws -> [String] {
+   func generateNotifications(habit: Habit) async throws -> [String] {
+      self.habit = habit
       var notifs: [String] = []
       let adjectiveArray = ["creative": 7, "motivating": 5, "sassy": 5, "funny": 10, "funny Gen Z": 5]
       for (adjective, count) in adjectiveArray {

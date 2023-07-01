@@ -9,5 +9,7 @@ import Foundation
 @testable import ___Better
 
 class MockOpenAI: ChatGPTDelegate {
-
+   func queryChatGPT(prompt: String, maxTokens: Int) async throws -> String {
+      return "response"
+   }
 }

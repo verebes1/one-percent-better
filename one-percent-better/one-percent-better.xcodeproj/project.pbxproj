@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800034CE2945300B0086A2E1 /* OverlayTest2.swift */; };
+		8004841B2A4F9C77005CCEB0 /* CoreDataTransferObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8004841A2A4F9C77005CCEB0 /* CoreDataTransferObject.swift */; };
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
 		8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */; };
@@ -191,7 +192,7 @@
 		80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */; };
 		80D8EEFF2A477B2100769114 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 80D8EEFE2A477B2100769114 /* Keys.plist */; };
 		80D8EF012A47C3C100769114 /* NotificationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D8EF002A47C3C100769114 /* NotificationManagerTests.swift */; };
-		80D8EF032A47CA7600769114 /* NotificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D8EF022A47CA7600769114 /* NotificationTests.swift */; };
+		80D8EF032A47CA7600769114 /* NotificationGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D8EF022A47CA7600769114 /* NotificationGeneratorTests.swift */; };
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
@@ -230,6 +231,7 @@
 
 /* Begin PBXFileReference section */
 		800034CE2945300B0086A2E1 /* OverlayTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest2.swift; sourceTree = "<group>"; };
+		8004841A2A4F9C77005CCEB0 /* CoreDataTransferObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTransferObject.swift; sourceTree = "<group>"; };
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
 		8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPluralText.swift; sourceTree = "<group>"; };
@@ -432,7 +434,7 @@
 		80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MigrationModel10-to-11.swift"; sourceTree = "<group>"; };
 		80D8EEFE2A477B2100769114 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		80D8EF002A47C3C100769114 /* NotificationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManagerTests.swift; sourceTree = "<group>"; };
-		80D8EF022A47CA7600769114 /* NotificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTests.swift; sourceTree = "<group>"; };
+		80D8EF022A47CA7600769114 /* NotificationGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationGeneratorTests.swift; sourceTree = "<group>"; };
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
@@ -673,17 +675,18 @@
 			isa = PBXGroup;
 			children = (
 				8030A79B2A0DE39800E24E9D /* ConditionalManagedObjectFetcher.swift */,
+				8004841A2A4F9C77005CCEB0 /* CoreDataTransferObject.swift */,
+				807A47C42910B2600022068B /* DMYDate.swift */,
+				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
+				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
+				80F667172A33F64D00095E60 /* Frequency */,
 				80385CE6285BEE5900CBDF71 /* Habit.swift */,
 				807A47C8291223E50022068B /* Habit+Frequency.swift */,
 				80744F5D29B3091400DAF196 /* Habit+Notifications.swift */,
 				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
-				80F667172A33F64D00095E60 /* Frequency */,
-				80D957D229BA765000142C75 /* Trackers */,
 				80D957D129BA763900142C75 /* Notifications */,
-				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
-				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
 				8062AA3A2900AAE900903123 /* Settings.swift */,
-				807A47C42910B2600022068B /* DMYDate.swift */,
+				80D957D229BA765000142C75 /* Trackers */,
 			);
 			path = "Core Data Model";
 			sourceTree = "<group>";
@@ -934,7 +937,7 @@
 			children = (
 				80BA250929B7F3900072B1AA /* RandomTimeTests.swift */,
 				80D8EF002A47C3C100769114 /* NotificationManagerTests.swift */,
-				80D8EF022A47CA7600769114 /* NotificationTests.swift */,
+				80D8EF022A47CA7600769114 /* NotificationGeneratorTests.swift */,
 				8068F9E62A4905CB0028E378 /* MockOpenAI.swift */,
 				8068F9EA2A4D29E70028E378 /* MockNotificationGenerator.swift */,
 			);
@@ -969,12 +972,12 @@
 		80D957D129BA763900142C75 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
-				8040282A29C413E2003D27CE /* NotificationManager.swift */,
 				80744F6829B5592B00DAF196 /* Notification.swift */,
+				8068F9E82A4CFC5B0028E378 /* NotificationGenerator.swift */,
+				8040282A29C413E2003D27CE /* NotificationManager.swift */,
+				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
 				8040282629C2B384003D27CE /* ScheduledNotification.swift */,
 				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
-				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
-				8068F9E82A4CFC5B0028E378 /* NotificationGenerator.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -1328,6 +1331,7 @@
 				8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */,
 				802E92942919EB7900A28EB1 /* PillButton.swift in Sources */,
 				80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */,
+				8004841B2A4F9C77005CCEB0 /* CoreDataTransferObject.swift in Sources */,
 				80385D1D285BEE5900CBDF71 /* Extensions.swift in Sources */,
 				80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */,
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,
@@ -1361,7 +1365,7 @@
 				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
 				806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */,
 				805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */,
-				80D8EF032A47CA7600769114 /* NotificationTests.swift in Sources */,
+				80D8EF032A47CA7600769114 /* NotificationGeneratorTests.swift in Sources */,
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */,

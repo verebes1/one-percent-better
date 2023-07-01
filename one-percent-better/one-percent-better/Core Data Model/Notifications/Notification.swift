@@ -29,18 +29,11 @@ public class Notification: NSManagedObject {
    @NSManaged public var unscheduledNotificationStrings: [String]
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
-   
-   /// The generator used to create the unique notifications
-   var notificationGenerator: NotificationGeneratorDelegate!
-   
-   func configure(moc: NSManagedObjectContext, notificationGenerator: NotificationGeneratorDelegate) {
-       self.moc = moc
-       self.notificationGenerator = notificationGenerator
-   }
+   var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
    
    func createScheduledNotification(index: Int, on date: Date) async throws -> String {
       if unscheduledNotificationStrings.isEmpty {
-         let messages = try await notificationGenerator.generateNotifications()
+         let messages = try await notificationGenerator.generateNotifications(habit: habit)
          await moc.perform {
             self.unscheduledNotificationStrings = messages
          }

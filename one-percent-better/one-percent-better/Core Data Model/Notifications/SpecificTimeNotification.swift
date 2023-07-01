@@ -22,8 +22,9 @@ public class SpecificTimeNotification: Notification {
                     notificationGenerator: NotificationGeneratorDelegate? = nil,
                     time: Date = Date()) {
       self.init(context: context)
-      configure(moc: context, notificationGenerator: notificationGenerator ?? NotificationGenerator(habit: habit))
+      moc = context
       id = UUID()
+      self.notificationGenerator = notificationGenerator ?? NotificationGenerator()
       unscheduledNotificationStrings = []
       self.time = time
    }
@@ -40,3 +41,36 @@ public class SpecificTimeNotification: Notification {
       }
    }
 }
+
+//class SpecificTimeNotificationObject: CoreDataTransferObject {
+//
+//   typealias ManagedObject = SpecificTimeNotification
+//   var originalManagedObject: SpecificTimeNotification?
+//
+//   var id: UUID
+//   var habit: Habit
+//   var time: Date
+//   var scheduledNotifications: [ScheduledNotification]
+//   var unscheduledNotificationStrings: [String]
+//   var notificationGenerator: NotificationGenerator
+//
+//   required init(from managedObject: SpecificTimeNotification,
+//                 notificationGenerator: NotificationGenerator? = nil) {
+//      id = managedObject.id
+//      habit = managedObject.habit
+//      time = managedObject.time
+//      scheduledNotifications = managedObject.scheduledNotificationsArray
+//      unscheduledNotificationStrings = managedObject.unscheduledNotificationStrings
+//      self.notificationGenerator = notificationGenerator ?? NotificationGenerator(habit: managedObject.habit)
+//   }
+//
+//   func updateManagedObject(in context: NSManagedObjectContext) -> SpecificTimeNotification {
+//      let stNotification = originalManagedObject ?? SpecificTimeNotification(context: context)
+//      stNotification.id = id
+//      stNotification.habit = habit
+//      stNotification.time = time
+//      stNotification.scheduledNotifications = NSOrderedSet(array: scheduledNotifications)
+//      stNotification.unscheduledNotificationStrings = unscheduledNotificationStrings
+//      return stNotification
+//   }
+//}
