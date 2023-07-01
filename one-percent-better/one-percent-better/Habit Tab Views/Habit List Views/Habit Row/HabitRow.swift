@@ -164,6 +164,8 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
 
 struct HabitRow: View {
 
+   @Environment(\.editMode) private var editMode
+   
    @ObservedObject var vm: HabitRowViewModel
    @State private var completePressed = false
    
@@ -186,9 +188,13 @@ struct HabitRow: View {
             
             Spacer()
             
-            ImprovementGraphView()
-               .frame(width: 80, height: 35)
-               .padding(.trailing, 20)
+            if editMode?.wrappedValue.isEditing == false {
+               ImprovementGraphView()
+                  .frame(width: 80, height: 35)
+                  .padding(.trailing, 20)
+                  .animation(.easeInOut, value: editMode?.wrappedValue)
+            }
+            
          }
          .environmentObject(vm)
          .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
