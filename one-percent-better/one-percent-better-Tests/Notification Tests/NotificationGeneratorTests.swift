@@ -17,7 +17,8 @@ final class NotificationGeneratorTests: XCTestCase {
    
    override func setUpWithError() throws {
       habit = try! Habit(context: context, name: "Cook")
-      notificationGenerator = NotificationGenerator(habit: habit, chatGPTDelegate: MockOpenAI())
+      notificationGenerator = NotificationGenerator()
+      notificationGenerator.habitName = habit.name
    }
    
    override func tearDownWithError() throws {

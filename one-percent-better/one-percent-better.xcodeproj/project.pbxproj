@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800034CE2945300B0086A2E1 /* OverlayTest2.swift */; };
-		8004841B2A4F9C77005CCEB0 /* CoreDataTransferObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8004841A2A4F9C77005CCEB0 /* CoreDataTransferObject.swift */; };
 		8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */; };
 		8006A09528F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */; };
 		8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */; };
@@ -231,7 +230,6 @@
 
 /* Begin PBXFileReference section */
 		800034CE2945300B0086A2E1 /* OverlayTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest2.swift; sourceTree = "<group>"; };
-		8004841A2A4F9C77005CCEB0 /* CoreDataTransferObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataTransferObject.swift; sourceTree = "<group>"; };
 		8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScroll.swift; sourceTree = "<group>"; };
 		8006A09428F5189B005D1A19 /* mo-ikai8-to-9.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo-ikai8-to-9.xcmappingmodel"; sourceTree = "<group>"; };
 		8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedPluralText.swift; sourceTree = "<group>"; };
@@ -675,7 +673,6 @@
 			isa = PBXGroup;
 			children = (
 				8030A79B2A0DE39800E24E9D /* ConditionalManagedObjectFetcher.swift */,
-				8004841A2A4F9C77005CCEB0 /* CoreDataTransferObject.swift */,
 				807A47C42910B2600022068B /* DMYDate.swift */,
 				802CCA0E28B7F9F4006E38E6 /* FeatureLog.swift */,
 				802CCA0C28B7D1E3006E38E6 /* FeatureLogController.swift */,
@@ -1331,7 +1328,6 @@
 				8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */,
 				802E92942919EB7900A28EB1 /* PillButton.swift in Sources */,
 				80744F6029B30A7300DAF196 /* OpenAI.swift in Sources */,
-				8004841B2A4F9C77005CCEB0 /* CoreDataTransferObject.swift in Sources */,
 				80385D1D285BEE5900CBDF71 /* Extensions.swift in Sources */,
 				80385D30285BEE5900CBDF71 /* CalendarView.swift in Sources */,
 				80385D19285BEE5900CBDF71 /* CreateImageTracker.swift in Sources */,

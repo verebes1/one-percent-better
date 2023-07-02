@@ -24,8 +24,6 @@ class NotificationManager {
    var moc: NSManagedObjectContext
    static var MAX_NOTIFS = 60
    
-   lazy var queue = DispatchQueue(label: "NotificationManager", qos: .userInitiated)
-   
    var permissionGranted = false
    
    /// Protocol for interfacing with UNUserNotificationCenter
@@ -103,10 +101,10 @@ class NotificationManager {
       return pendingNotifications
    }
    
-   func cleanUpScheduledNotifications() throws {
+   @MainActor func cleanUpScheduledNotifications() async throws {
       let today = Date()
       var nextNotifDate: Date?
-      if let (_, date, _) = try getNextNotification() {
+      if let (_, date, _) = try await getNextNotification() {
          nextNotifDate = date
       }
       let scheduledNotifications = moc.fetchArray(ScheduledNotification.self)
@@ -144,7 +142,7 @@ class NotificationManager {
       }
    }
    
-   func notificationTime(for notification: Notification) -> DateComponents {
+   @MainActor func notificationTime(for notification: Notification) async -> DateComponents {
       if let specificTime = notification as? SpecificTimeNotification {
          let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
          return time
@@ -160,24 +158,35 @@ class NotificationManager {
    var rebalanceTask: Task<Void, Never>?
    var shouldRestartRebalance = false
    
+   /// A boolean to indicate if there is rebalancing going on or not right now
+   var rebalanceRequestCount = 0
+   
    func rebalanceHabitNotifications() {
+      rebalanceRequestCount += 1
       if let rt = rebalanceTask {
          rt.cancel()
          Task {
-            try? await Task.sleep(for: Duration.seconds(1))
-            print("~W~ waiting for cancellation to restart new rebalance ~W~")
-            rebalanceHabitNotifications()
+            while rebalanceTask != nil {
+               try? await Task.sleep(for: .seconds(0.3))
+               print("~W~ waiting for cancellation to restart new rebalance ~W~")
+            }
+            startRebalanceTask()
          }
       } else {
          print("~+~ Starting new rebalance task ~+~")
-         rebalanceTask = Task {
-            do {
-               try await rebalanceHabitNotificationsTask()
-            } catch {
-               print("~-~ startRebalanceTask task was cancelled! ~-~")
-            }
-            rebalanceTask = nil
+         startRebalanceTask()
+      }
+   }
+   
+   func startRebalanceTask() {
+      rebalanceTask = Task {
+         do {
+            try await rebalanceHabitNotificationsTask()
+         } catch {
+            print("~-~ startRebalanceTask task was cancelled! ~-~")
          }
+         rebalanceTask = nil
+         rebalanceRequestCount -= 1
       }
    }
    
@@ -185,7 +194,7 @@ class NotificationManager {
       rebalanceTask?.cancel()
    }
    
-   func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
+   @MainActor func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
       let request = try await notification.createNotificationRequest(index: index, date: date)
       await addNotificationRequest(request: request)
    }
@@ -213,12 +222,12 @@ class NotificationManager {
       for _ in 0 ..< Self.MAX_NOTIFS {
          try Task.checkCancellation()
          
-         guard let (notification, day, index) = try getNextNotification() else {
+         guard let (notification, day, index) = try await getNextNotification() else {
             break
          }
          let nextIndex = (index + 1) % Self.MAX_NOTIFS
          try Task.checkCancellation()
-         var dayAndTime = notificationTime(for: notification)
+         var dayAndTime = await notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          dayAndTime.calendar = Cal
          dayAndTime.day = dayComponents.day
@@ -256,7 +265,7 @@ class NotificationManager {
       }
       
       // Step 3: Remove any already sent notifications from scheduled list
-      try cleanUpScheduledNotifications()
+      try await cleanUpScheduledNotifications()
       
       await moc.perform {
          self.moc.assertSave()
@@ -265,7 +274,7 @@ class NotificationManager {
       print("~o~ Finished rebalancing habit notifications! ~o~")
    }
    
-   func getNextNotification() throws -> (notification: Notification, date: Date, index: Int)? {
+   @MainActor func getNextNotification() async throws -> (notification: Notification, date: Date, index: Int)? {
       let habits = Habit.habits(from: moc)
       var nextNotifsAndDates: [(Notification, Date)] = []
       

@@ -31,9 +31,9 @@ public class Notification: NSManagedObject {
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
    
-   func createScheduledNotification(index: Int, on date: Date) async throws -> String {
+   @MainActor func createScheduledNotification(index: Int, on date: Date) async throws -> String {
       if unscheduledNotificationStrings.isEmpty {
-         let messages = try await notificationGenerator.generateNotifications(habit: habit)
+         let messages = try await notificationGenerator.generateNotifications(habitName: habit.name)
          await moc.perform {
             self.unscheduledNotificationStrings = messages
          }
@@ -48,7 +48,7 @@ public class Notification: NSManagedObject {
       return message
    }
    
-   func createNotificationRequest(index: Int, date: DateComponents) async throws -> UNNotificationRequest {
+   @MainActor func createNotificationRequest(index: Int, date: DateComponents) async throws -> UNNotificationRequest {
       let identifier = "OnePercentBetter&\(id.uuidString)&\(index)"
       let dateObject = Cal.date(from: date)!
       let message = try await createScheduledNotification(index: index, on: dateObject)
@@ -84,13 +84,13 @@ public class Notification: NSManagedObject {
    
    func removePendingNotifications() {
       let localID = id
-      Task {
-         for i in 0 ..< NotificationManager.MAX_NOTIFS {
-            let notifID = "OnePercentBetter&\(localID)&\(i)"
-            print("Removing notification \(notifID)")
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
-         }
+//      Task {
+      for i in 0 ..< NotificationManager.MAX_NOTIFS {
+         let notifID = "OnePercentBetter&\(localID)&\(i)"
+         print("Removing notification \(notifID)")
+         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
       }
+//      }
    }
    
    public override func prepareForDeletion() {

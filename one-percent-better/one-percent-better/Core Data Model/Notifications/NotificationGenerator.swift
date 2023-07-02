@@ -8,39 +8,39 @@
 import Foundation
 
 protocol NotificationGeneratorDelegate {
-   func generateNotifications(habit: Habit) async throws -> [String]
+   func generateNotifications(habitName: String) async throws -> [String]
 }
 
 class NotificationGenerator: NotificationGeneratorDelegate {
    
-   var habit: Habit!
+   var habitName: String!
    var chatGPT: ChatGPTDelegate = OpenAI()
-   
-//   init(habit: Habit, chatGPTDelegate: ChatGPTDelegate = OpenAI()) {
-//      self.habit = habit
-//      self.chatGPT = chatGPTDelegate
-//   }
    
    func notificationPrompt(n: Int, adjective: String) -> String {
       return """
-             Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(habit.name.lowercased())".
+             Task: Generate \(n) different examples of a \(adjective) notification to encourage someone to do their habit named "\(habitName.lowercased())".
              Requirements: For each notification, use between 10 and 60 characters. Return them as a JSON array named "notifications".
              """
    }
    
-   func generateNotifications(habit: Habit) async throws -> [String] {
-      self.habit = habit
-      var notifs: [String] = []
-      let adjectiveArray = ["creative": 7, "motivating": 5, "sassy": 5, "funny": 10, "funny Gen Z": 5]
-      for (adjective, count) in adjectiveArray {
-         if let someNotifs = try await getAINotifications(count, adjective: adjective) {
-            notifs.append(contentsOf: someNotifs)
+   func generateNotifications(habitName: String) async throws -> [String] {
+      self.habitName = habitName
+      return try await withCheckedThrowingContinuation { continuation in
+         Task.detached { [weak self] in
+            guard let self else { return }
+            var notifs: [String] = []
+            let adjectiveArray = ["creative": 7, "motivating": 5, "sassy": 5, "funny": 10, "funny Gen Z": 5]
+            for (adjective, count) in adjectiveArray {
+               if let someNotifs = try await getAINotifications(count, adjective: adjective) {
+                  notifs.append(contentsOf: someNotifs)
+               }
+            }
+            if notifs.isEmpty {
+               notifs = defaultNotifications()
+            }
+            continuation.resume(returning: notifs)
          }
       }
-      if notifs.isEmpty {
-         notifs = defaultNotifications()
-      }
-      return notifs
    }
    
    func defaultNotifications() -> [String] {
@@ -51,7 +51,7 @@ class NotificationGenerator: NotificationGeneratorDelegate {
          "A friendly nudge: It's time to XX. You've got this!",
          "It's XX time! Stick with it, and you'll see progress in no time."
       ]
-      return notifs.map { $0.replacingOccurrences(of: "XX", with: habit.name.lowercased()) }
+      return notifs.map { $0.replacingOccurrences(of: "XX", with: habitName.lowercased()) }
    }
    
    /// Parse the ChatGPT json answer from the prompt into a Swift array
@@ -85,7 +85,7 @@ class NotificationGenerator: NotificationGeneratorDelegate {
       
       var list: [String] = []
       var answer: String!
-      print("Fetching \(n) \(adjective) notifications for habit \(habit.name) from ChatGPT... level: \(level)")
+      print("Fetching \(n) \(adjective) notifications for habit \(habitName!) from ChatGPT... level: \(level)")
       do {
          let chatGPTAnswer = try await chatGPT.queryChatGPT(prompt: notificationPrompt(n: n, adjective: adjective), maxTokens: 400)
          answer = chatGPTAnswer
