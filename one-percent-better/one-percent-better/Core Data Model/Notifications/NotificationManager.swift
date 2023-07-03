@@ -119,7 +119,7 @@ class NotificationManager {
       }
    }
    
-   func removeNotification(_ notification: PendingNotification) {
+   @MainActor func removeNotification(_ notification: PendingNotification) async {
       var notifications: [Notification]
       do {
          let fetchRequest: NSFetchRequest<Notification> = Notification.fetchRequest()
@@ -245,7 +245,7 @@ class NotificationManager {
          if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
             pendingNotifications.removeLast()
             // Add notification message back in unscheduledNotifications list for that notif id
-            removeNotification(lastPendingNotif)
+            await removeNotification(lastPendingNotif)
             
             // Remove the scheduled notification
             userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])

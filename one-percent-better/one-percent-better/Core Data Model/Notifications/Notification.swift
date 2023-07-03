@@ -84,13 +84,13 @@ public class Notification: NSManagedObject {
    
    func removePendingNotifications() {
       let localID = id
-//      Task {
-      for i in 0 ..< NotificationManager.MAX_NOTIFS {
-         let notifID = "OnePercentBetter&\(localID)&\(i)"
-         print("Removing notification \(notifID)")
-         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+      moc.performAndWait { [localID] in 
+         for i in 0 ..< NotificationManager.MAX_NOTIFS {
+            let notifID = "OnePercentBetter&\(localID)&\(i)"
+            print("Removing notification \(notifID)")
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
+         }
       }
-//      }
    }
    
    public override func prepareForDeletion() {

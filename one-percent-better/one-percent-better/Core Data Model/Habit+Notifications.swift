@@ -49,10 +49,11 @@ extension Habit {
    }
    
    func removeDeliveredNotifications() {
-      UNUserNotificationCenter.current().getDeliveredNotifications { notifs in
-         for habitNotif in self.notificationsArray {
+      for habitNotif in self.notificationsArray {
+         let id = habitNotif.id
+         UNUserNotificationCenter.current().getDeliveredNotifications { [id] notifs in
             for notif in notifs {
-               if notif.request.identifier.hasPrefix("OnePercentBetter&\(habitNotif.id)") {
+               if notif.request.identifier.hasPrefix("OnePercentBetter&\(id)") {
                   UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
                }
             }
