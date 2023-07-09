@@ -12,7 +12,7 @@ enum SettingsNavRoute: Hashable {
    case appearance
    case dailyReminder(Settings)
    case habitNotifications
-   case importData
+   case feedback
 }
 
 struct SettingsView: View {
@@ -72,6 +72,14 @@ struct SettingsView: View {
                      }
                      .listRowBackground(Color.cardColor)
                      
+                     Section(header: Text("Provide Feedback")) {
+                        NavigationLink(value: SettingsNavRoute.feedback) {
+                           DailyReminderRow()
+                              .environmentObject(settings)
+                        }
+                     }
+                     .listRowBackground(Color.cardColor)
+                     
 //                     Section(header: Text("Data")) {
 //                        Button {
 //                           if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
@@ -104,11 +112,13 @@ struct SettingsView: View {
                         // Maybe a whole view with an animated sun/moon which show and hide
                         EmptyView()
                      case .dailyReminder(let settings):
-                           DailyReminder(settings: settings)
+                        DailyReminder(settings: settings)
                      case .habitNotifications:
                         AllHabitNotifications()
-                     case .importData:
-                        DocumentPicker()
+                     case .feedback:
+                        ProvideFeedback()
+//                     case .importData:
+//                        DocumentPicker()
                      }
                   }
                   .sheet(isPresented: $showDocumentPicker) {
