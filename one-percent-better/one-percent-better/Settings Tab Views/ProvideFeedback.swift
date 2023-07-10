@@ -11,11 +11,13 @@ struct ProvideFeedback: View {
    var body: some View {
       Background {
          VStack {
-            HabitCreationHeader(systemImage: "camera.shutter.button.fill", title: "Provide Feedback")
+            HabitCreationHeader(systemImage: "camera.shutter.button.fill", title: "Share Feedback")
             
-            Text("Simply take a screenshot to send feedback directly to the developer.")
-            
-            Text("A popup will appear, then select \"Share Beta Feedback\"")
+            VStack {
+               Text("Simply take a screenshot to send feedback directly to the developer.")
+               Text("A popup will appear, then select \"Share Beta Feedback\".")
+            }
+            .padding(.horizontal, 20)
             
             Spacer()
          }

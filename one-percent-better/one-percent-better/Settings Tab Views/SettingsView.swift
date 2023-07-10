@@ -72,9 +72,9 @@ struct SettingsView: View {
                      }
                      .listRowBackground(Color.cardColor)
                      
-                     Section(header: Text("Provide Feedback")) {
+                     Section(header: Text("Feedback")) {
                         NavigationLink(value: SettingsNavRoute.feedback) {
-                           DailyReminderRow()
+                           IconTextRow(title: "Share Feedback", icon: "envelope.fill", color: .blue)
                               .environmentObject(settings)
                         }
                      }
