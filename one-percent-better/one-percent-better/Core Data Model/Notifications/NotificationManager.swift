@@ -215,18 +215,19 @@ class NotificationManager {
       var pendingNotifications = await pendingNotifications()
       var notificationAllowance = Self.MAX_NOTIFS - pendingNotifications.count
       
-      print("JJJJ notificationAllowance: \(notificationAllowance)")
+      print("notificationAllowance: \(notificationAllowance)")
 
-      // Step 2: Keep adding new notifications until new scheduled date > latest pending notification request, or
-      // maximum number of notification requests is reached
+      // Step 2: Keep adding new notifications until new scheduled date > latest pending notification request date,
+      // or maximum number of notification requests is reached
       for _ in 0 ..< Self.MAX_NOTIFS {
          try Task.checkCancellation()
          
          guard let (notification, day, index) = try await getNextNotification() else {
             break
          }
-         let nextIndex = (index + 1) % Self.MAX_NOTIFS
          try Task.checkCancellation()
+         
+         let nextIndex = (index + 1) % Self.MAX_NOTIFS
          var dayAndTime = await notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          dayAndTime.calendar = Cal
@@ -274,6 +275,8 @@ class NotificationManager {
       print("~o~ Finished rebalancing habit notifications! ~o~")
    }
    
+   /// Get the next due notification
+   /// - Returns: A tuple containing the next due notification NSManageObject, the date it's scheduled for, and the index of the notification
    @MainActor func getNextNotification() async throws -> (notification: Notification, date: Date, index: Int)? {
       let habits = Habit.habits(from: moc)
       var nextNotifsAndDates: [(Notification, Date)] = []

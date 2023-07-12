@@ -138,21 +138,20 @@ final class NotificationManagerTests: XCTestCase {
       XCTAssertEqual(habit.notificationsArray.count, 0)
    }
    
-//   func testTwoNotificationsOneHabit() async throws {
-//      let notif1 = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
-//      let notif2 = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
-//      
-//      habit.addNotification(notif1)
-//      habit.addNotification(notif2)
-//      
-//      
-//      try await waitForRebalance()
-//      XCTAssertEqual(notif1.scheduledNotificationsArray.count, (NotificationManager.MAX_NOTIFS / 2) - 1)
-//      XCTAssertEqual(notif1.scheduledNotificationsArray.first!.index, 1)
-//      
-//      XCTAssertEqual(notif2.scheduledNotificationsArray.count, (NotificationManager.MAX_NOTIFS / 2) - 1)
-//      XCTAssertEqual(notif2.scheduledNotificationsArray.first!.index, 1)
-//   }
+   func testTwoNotificationsOneHabit() async throws {
+      let notif1 = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
+      let notif2 = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())
+      
+      habit.addNotification(notif1)
+      habit.addNotification(notif2)
+      
+      try await waitForRebalance()
+      XCTAssertEqual(notif1.scheduledNotificationsArray.count, (NotificationManager.MAX_NOTIFS / 2) - 1)
+      XCTAssertEqual(notif1.scheduledNotificationsArray.first!.index, 1)
+      
+      XCTAssertEqual(notif2.scheduledNotificationsArray.count, (NotificationManager.MAX_NOTIFS / 2) - 1)
+      XCTAssertEqual(notif2.scheduledNotificationsArray.first!.index, 1)
+   }
    
    func testThreeNotifications() async throws {
       let notif1 = SpecificTimeNotification(context: context, notificationGenerator: MockNotificationGenerator(), time: Date())

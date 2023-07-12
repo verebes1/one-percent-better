@@ -50,13 +50,22 @@ struct NotificationSelection: View {
       }
    }
    
+   var headerSubtitle: String {
+      if let frequencyDescription = habit.frequency(on: Date())?.description {
+         return "Add reminders to complete your habit \(frequencyDescription)."
+      } else {
+         return "Add reminders to complete your habit."
+      }
+   }
+   
    var body: some View {
       Background {
          VStack(spacing: 10) {
             
+            
             AnimatedHabitCreationHeader(animateBell: $animateBell,
                                         title: "Reminder",
-                                        subtitle: "Add a reminder to complete your habit.")
+                                        subtitle: headerSubtitle)
             
             Menu {
                Button {
@@ -88,6 +97,8 @@ struct NotificationSelection: View {
                      .fontWeight(.medium)
                      .foregroundColor(Style.accentColor)
                   }
+                  
+//                  BottomButton(label: "Add Reminder")
                }
                .background(Color.cardColor)
                .cornerRadius(radius: 10)

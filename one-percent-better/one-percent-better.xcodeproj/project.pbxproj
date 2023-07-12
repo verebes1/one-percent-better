@@ -195,6 +195,7 @@
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
+		80EA4EA62A5E3A4800A87347 /* HabitFrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EA4EA52A5E3A4800A87347 /* HabitFrequencyTests.swift */; };
 		80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */; };
 		80F6671C2A33F73F00095E60 /* SpecificWeekdaysFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */; };
 		80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */; };
@@ -436,6 +437,7 @@
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
+		80EA4EA52A5E3A4800A87347 /* HabitFrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyTests.swift; sourceTree = "<group>"; };
 		80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerDayFrequency.swift; sourceTree = "<group>"; };
 		80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificWeekdaysFrequency.swift; sourceTree = "<group>"; };
 		80F6671A2A33F73F00095E60 /* XTimesPerWeekFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekFrequency.swift; sourceTree = "<group>"; };
@@ -937,6 +939,7 @@
 				80D8EF022A47CA7600769114 /* NotificationGeneratorTests.swift */,
 				8068F9E62A4905CB0028E378 /* MockOpenAI.swift */,
 				8068F9EA2A4D29E70028E378 /* MockNotificationGenerator.swift */,
+				80EA4EA52A5E3A4800A87347 /* HabitFrequencyTests.swift */,
 			);
 			path = "Notification Tests";
 			sourceTree = "<group>";
@@ -1353,6 +1356,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80D8EF012A47C3C100769114 /* NotificationManagerTests.swift in Sources */,
+				80EA4EA62A5E3A4800A87347 /* HabitFrequencyTests.swift in Sources */,
 				805296C12A12E65C00C2C90E /* NotDoneInTests.swift in Sources */,
 				806BB18629A4388F006549A9 /* XTimesPerDayTests.swift in Sources */,
 				8048B76A29FDBEB500F11AB9 /* YearViewTests.swift in Sources */,
