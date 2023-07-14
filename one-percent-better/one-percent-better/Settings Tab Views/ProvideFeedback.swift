@@ -11,7 +11,7 @@ struct ProvideFeedback: View {
    var body: some View {
       Background {
          VStack {
-            HabitCreationHeader(systemImage: "arrowshape.turn.up.right.fill", title: "Share Feedback")
+            HabitCreationHeader(systemImage: "arrowshape.turn.up.right.fill", title: "Share Feedback", subtitle: "The feedback is anonymous.")
             
             VStack(alignment: .leading, spacing: 10) {
                Text("Take a screenshot anywhere in the app.")
@@ -23,6 +23,7 @@ struct ProvideFeedback: View {
                Image("screenshot_beta_feedback")
                   .resizable()
                   .aspectRatio(contentMode: .fit)
+                  .clipShape(RoundedCornersShape(radius: 10, corners: .allCorners))
                   
                Spacer().frame(height: 10)
                Text("In the share menu, select ") + Text("Share Beta Feedback:").bold()
@@ -30,6 +31,7 @@ struct ProvideFeedback: View {
                Image("share_beta_feedback")
                   .resizable()
                   .aspectRatio(contentMode: .fit)
+                  .clipShape(RoundedCornersShape(radius: 10, corners: .allCorners))
             }
             .foregroundColor(.label)
             .padding(.horizontal, 20)

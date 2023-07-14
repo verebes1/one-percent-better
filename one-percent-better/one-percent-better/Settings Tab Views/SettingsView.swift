@@ -74,7 +74,7 @@ struct SettingsView: View {
                      
                      Section(header: Text("Feedback")) {
                         NavigationLink(value: SettingsNavRoute.feedback) {
-                           IconTextRow(title: "Share Feedback", icon: "envelope.fill", color: .blue)
+                           IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
                               .environmentObject(settings)
                         }
                      }
