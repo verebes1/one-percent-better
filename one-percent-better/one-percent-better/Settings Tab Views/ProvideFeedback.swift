@@ -11,15 +11,27 @@ struct ProvideFeedback: View {
    var body: some View {
       Background {
          VStack {
-            HabitCreationHeader(systemImage: "camera.shutter.button.fill", title: "Share Feedback")
+            HabitCreationHeader(systemImage: "arrowshape.turn.up.right.fill", title: "Share Feedback")
             
             VStack(alignment: .leading, spacing: 10) {
-               Text("1. Take a screenshot to send feedback directly to the developer.")
-
-               Text("2. A popup will appear, then select the Share button in the upper right hand corner.")
+               Text("Take a screenshot anywhere in the app.")
                
-               Text("3. Then select: \"Share Beta Feedback\".")
+               Spacer().frame(height: 10)
+               
+               Text("Tap on the screenshot and share it:")
+               
+               Image("screenshot_beta_feedback")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
+                  
+               Spacer().frame(height: 10)
+               Text("In the share menu, select ") + Text("Share Beta Feedback:").bold()
+               
+               Image("share_beta_feedback")
+                  .resizable()
+                  .aspectRatio(contentMode: .fit)
             }
+            .foregroundColor(.label)
             .padding(.horizontal, 20)
             
             Spacer()
