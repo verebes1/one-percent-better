@@ -9,7 +9,6 @@ import SwiftUI
 import CoreData
 
 enum SettingsNavRoute: Hashable {
-   case appearance
    case dailyReminder(Settings)
    case habitNotifications
    case feedback
@@ -20,6 +19,8 @@ struct SettingsView: View {
    @Environment(\.managedObjectContext) var moc
    
    @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
+   
+   @AppStorage("selectedAppearance") var selectedAppearance = 0
    
    @State private var exportJson: URL = URL(fileURLWithPath: "")
    @State private var showActivityController = false
@@ -47,15 +48,11 @@ struct SettingsView: View {
                if let settings = settings.first {
                   List {
                      // Appearance Row
-                     /*
-                     Section(header: Text("Appearance (Coming Soon)")) {
-                        NavigationLink(value: SettingsNavRoute.appearance) {
-                           ChangeAppearanceRow()
-                              .environmentObject(vm)
-                        }
+                     
+                     Section(header: Text("Appearance")) {
+                        ChangeAppearanceRow()
                      }
                      .listRowBackground(Color.cardColor)
-                      */
                      
                      Section(header: Text("Notifications")) {
                         NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
@@ -107,18 +104,12 @@ struct SettingsView: View {
                   .scrollContentBackground(.hidden)
                   .navigationDestination(for: SettingsNavRoute.self) { route in
                      switch route {
-                     case .appearance:
-                        // TODO: Make this a menu, or a whole view?
-                        // Maybe a whole view with an animated sun/moon which show and hide
-                        EmptyView()
                      case .dailyReminder(let settings):
                         DailyReminder(settings: settings)
                      case .habitNotifications:
                         AllHabitNotifications()
                      case .feedback:
                         ProvideFeedback()
-//                     case .importData:
-//                        DocumentPicker()
                      }
                   }
                   .sheet(isPresented: $showDocumentPicker) {

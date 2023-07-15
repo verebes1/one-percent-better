@@ -46,7 +46,7 @@ struct ContentView: View {
          .environmentObject(nav)
          .environmentObject(barManager)
          .tabItem {
-            Label("Habits", systemImage: "checkmark.circle.fill")
+            Label("Habits", image: "custom.bolt.ring.closed")
          }
          
          NavigationStack {
@@ -54,7 +54,7 @@ struct ContentView: View {
                .environmentObject(hlvm)
          }
          .tabItem {
-            Label("Insights", systemImage: "chart.bar.fill")
+            Label("Insights", systemImage: "chart.line.uptrend.xyaxis")
          }
 
          SettingsView()
