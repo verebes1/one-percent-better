@@ -174,7 +174,7 @@ struct HabitRow: View {
    }
    
    var body: some View {
-      let _ = Self._printChanges()
+//      let _ = Self._printChanges()
       ZStack {
          HStack(spacing: 0) {
             Spacer().frame(width: 15)

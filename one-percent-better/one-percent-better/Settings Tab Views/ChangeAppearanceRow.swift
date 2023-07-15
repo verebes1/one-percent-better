@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ChangeAppearanceRow: View {
    
-   @AppStorage("selectedAppearance") var selectedAppearance = 0
+   @EnvironmentObject var settings: Settings
+   
+   @Environment(\.managedObjectContext) var moc
+   
    @State private var selectedAppearanceMenu: String = "System"
    
    var body: some View {
@@ -35,12 +38,23 @@ struct ChangeAppearanceRow: View {
          .onChange(of: selectedAppearanceMenu) { newValue in
             switch selectedAppearanceMenu {
             case "Light":
-               selectedAppearance = 1
+               settings.appearance = 1
             case "Dark":
-               selectedAppearance = 2
+               settings.appearance = 2
             default:
-               selectedAppearance = 0
+               settings.appearance = 0
             }
+            moc.assertSave()
+         }
+      }
+      .onAppear {
+         switch settings.appearance {
+         case 1:
+            selectedAppearanceMenu = "Light"
+         case 2:
+            selectedAppearanceMenu = "Dark"
+         default:
+            selectedAppearanceMenu = "System"
          }
       }
    }

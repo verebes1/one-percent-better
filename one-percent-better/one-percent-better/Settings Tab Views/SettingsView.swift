@@ -20,8 +20,6 @@ struct SettingsView: View {
    
    @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
    
-   @AppStorage("selectedAppearance") var selectedAppearance = 0
-   
    @State private var exportJson: URL = URL(fileURLWithPath: "")
    @State private var showActivityController = false
    @State private var fileContent = ""
@@ -47,13 +45,14 @@ struct SettingsView: View {
             VStack {
                if let settings = settings.first {
                   List {
-                     // Appearance Row
-                     
+                     // Appearance
                      Section(header: Text("Appearance")) {
                         ChangeAppearanceRow()
+                           .environmentObject(settings)
                      }
                      .listRowBackground(Color.cardColor)
                      
+                     // Notifications
                      Section(header: Text("Notifications")) {
                         NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
                            DailyReminderRow()
@@ -69,6 +68,7 @@ struct SettingsView: View {
                      }
                      .listRowBackground(Color.cardColor)
                      
+                     // Feedback
                      Section(header: Text("Feedback")) {
                         NavigationLink(value: SettingsNavRoute.feedback) {
                            IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
@@ -76,26 +76,6 @@ struct SettingsView: View {
                         }
                      }
                      .listRowBackground(Color.cardColor)
-                     
-//                     Section(header: Text("Data")) {
-//                        Button {
-//                           if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
-//                              exportJson = jsonFile
-//                              showActivityController = true
-//                           }
-//                        } label: {
-//                           IconTextRow(title: "Export Data", icon: "square.and.arrow.up", color: .red)
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
-//                        
-//                        Button {
-//                           showDocumentPicker = true
-//                        } label: {
-//                           IconTextRow(title: "Import Data", icon: "square.and.arrow.down", color: .blue)
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
-//                     }
-//                     .listRowBackground(Color.cardColor)
                      
                      Section(footer: versionFooter) {}
                         .listRowBackground(Color.cardColor)
