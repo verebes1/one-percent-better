@@ -24,11 +24,10 @@ enum Tab: Equatable {
 
 struct ContentView: View {
    @Environment(\.managedObjectContext) var moc
-   
+//
    @State private var tabSelection: Tab = .habitList
-   
-   
-   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
+
+//   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
    
    @StateObject var nav = HabitTabNavPath()
    @StateObject var barManager = BottomBarManager()
@@ -66,7 +65,7 @@ struct ContentView: View {
                Label("Settings", systemImage: "gearshape.fill")
             }
       }
-      .preferredColorScheme(settings.first?.appearanceScheme)
+//      .preferredColorScheme(settings.first?.appearanceScheme)
    }
 }
 
