@@ -93,6 +93,12 @@ struct HabitProgressViewContainer: View {
                }
             }
       }
+      .toolbar {
+         ToolbarItem(placement: .principal) {
+            // This sets the back button as "Back" instead of the title of the previous screen
+            Text("           ")
+         }
+      }
    }
 }
 
