@@ -169,6 +169,7 @@
 		8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36728788CB000D0CB1B /* GradientRing2.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
+		80A8FF6A2A5B7ED200B43B90 /* ProvideFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A8FF692A5B7ED200B43B90 /* ProvideFeedback.swift */; };
 		80AE0CA329930D5F00B565DE /* XTimesPerWeekTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA229930D5F00B565DE /* XTimesPerWeekTests.swift */; };
 		80AE0CA72999D09900B565DE /* HabitRowLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA62999D09900B565DE /* HabitRowLabels.swift */; };
 		80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */; };
@@ -386,6 +387,7 @@
 		806BB18829A5B751006549A9 /* SpecificWeekdaysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificWeekdaysTests.swift; sourceTree = "<group>"; };
 		806BB18A29A6DDB2006549A9 /* opb 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 15.xcdatamodel"; sourceTree = "<group>"; };
 		806C82792860E86300C26CEC /* ImagesPagingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesPagingView.swift; sourceTree = "<group>"; };
+		807218922A623A8D00E9F4DE /* opb 20.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 20.xcdatamodel"; sourceTree = "<group>"; };
 		80744F5029B0084C00DAF196 /* opb 16.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 16.xcdatamodel"; sourceTree = "<group>"; };
 		80744F5129B0096700DAF196 /* CreateHabitNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitNotifications.swift; sourceTree = "<group>"; };
 		80744F5429B013FF00DAF196 /* DailyReminderSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReminderSelection.swift; sourceTree = "<group>"; };
@@ -409,6 +411,7 @@
 		8081A36728788CB000D0CB1B /* GradientRing2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing2.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
+		80A8FF692A5B7ED200B43B90 /* ProvideFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvideFeedback.swift; sourceTree = "<group>"; };
 		80AE0CA229930D5F00B565DE /* XTimesPerWeekTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekTests.swift; sourceTree = "<group>"; };
 		80AE0CA42995F17900B565DE /* opb 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 13.xcdatamodel"; sourceTree = "<group>"; };
 		80AE0CA62999D09900B565DE /* HabitRowLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRowLabels.swift; sourceTree = "<group>"; };
@@ -554,18 +557,19 @@
 		80385CAF285BEE5900CBDF71 /* Settings Tab Views */ = {
 			isa = PBXGroup;
 			children = (
-				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
+				80FCB17B29B931CA00CAEE12 /* AllHabitNotifications.swift */,
+				807A47B5290C756D0022068B /* AnimatedBell.swift */,
+				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
+				8062AA372900772E00903123 /* DailyReminder.swift */,
+				80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */,
+				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
+				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
 				80385CE8285BEE5900CBDF71 /* ExportManager.swift */,
 				8062AA3528FF2C3F00903123 /* IconTextRow.swift */,
-				8062AA372900772E00903123 /* DailyReminder.swift */,
-				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
-				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
-				807A47B5290C756D0022068B /* AnimatedBell.swift */,
-				80F72941294D876800F17B0B /* RandomNotifications.swift */,
-				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
-				80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */,
-				80FCB17B29B931CA00CAEE12 /* AllHabitNotifications.swift */,
 				8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */,
+				80A8FF692A5B7ED200B43B90 /* ProvideFeedback.swift */,
+				80F72941294D876800F17B0B /* RandomNotifications.swift */,
+				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -1185,6 +1189,7 @@
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
 				804C92152A08350D005AD2FE /* HabitProgressViewContainer.swift in Sources */,
 				8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */,
+				80A8FF6A2A5B7ED200B43B90 /* ProvideFeedback.swift in Sources */,
 				8006A02028EA3D66005D1A19 /* TimelineScroll.swift in Sources */,
 				807A47C32910A9010022068B /* Habit+WasCompletedOn.swift in Sources */,
 				8062AA382900772E00903123 /* DailyReminder.swift in Sources */,
@@ -1708,8 +1713,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/adamrushy/OpenAISwift.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				kind = exactVersion;
+				version = 1.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1726,6 +1731,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				807218922A623A8D00E9F4DE /* opb 20.xcdatamodel */,
 				80FD71172A2ECC6300CB2394 /* opb 19.xcdatamodel */,
 				8068D9F629D3F342006F025E /* opb 18.xcdatamodel */,
 				80744F6129B4255100DAF196 /* opb 17.xcdatamodel */,
@@ -1746,7 +1752,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 80FD71172A2ECC6300CB2394 /* opb 19.xcdatamodel */;
+			currentVersion = 807218922A623A8D00E9F4DE /* opb 20.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

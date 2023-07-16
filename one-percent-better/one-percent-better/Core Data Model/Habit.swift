@@ -107,7 +107,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    func updateStartDate(to date: Date) {
-      var date = date.startOfDay()
+      let date = date.startOfDay()
       
       // Ensure the new start date is not in the future
       let tmr = Cal.add(days: 1).startOfDay()

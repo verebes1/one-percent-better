@@ -16,28 +16,26 @@ class BottomBarManager: ObservableObject {
    @Published var isHidden = false
 }
 
-enum Tab: Equatable {
-   case habitList
-   case settings
-}
-
 struct ContentView: View {
    @Environment(\.managedObjectContext) var moc
+
+   enum Tabs: String {
+      case habitList
+      case insights
+      case settings
+   }
    
-   @State private var tabSelection: Tab = .habitList
+   @SceneStorage("ContentView.selectedTab") private var selectedTab = Tabs.habitList
+
+   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
    
    @StateObject var nav = HabitTabNavPath()
    @StateObject var barManager = BottomBarManager()
    @StateObject var hlvm = HabitListViewModel()
    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
    
-   init() {
-      print("Initializing content view")
-   }
-   
    var body: some View {
-      let _ = Self._printChanges()
-      TabView(selection: $tabSelection) {
+      TabView(selection: $selectedTab) {
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)
@@ -46,22 +44,26 @@ struct ContentView: View {
          .environmentObject(nav)
          .environmentObject(barManager)
          .tabItem {
-            Label("Habits", systemImage: "checkmark.circle.fill")
+            Label("Habits", image: "custom.bolt.ring.closed")
          }
+         .tag(Tabs.habitList)
          
          NavigationStack {
             InsightsTabView()
                .environmentObject(hlvm)
          }
          .tabItem {
-            Label("Insights", systemImage: "chart.bar.fill")
+            Label("Insights", systemImage: "chart.line.uptrend.xyaxis")
          }
+         .tag(Tabs.insights)
 
          SettingsView()
             .tabItem {
                Label("Settings", systemImage: "gearshape.fill")
             }
+            .tag(Tabs.settings)
       }
+      .preferredColorScheme(settings.first?.appearanceScheme)
       .onAppear {
          print("NSHomeDirectory: \(NSHomeDirectory())")
          FeatureLogController.shared.setUp()

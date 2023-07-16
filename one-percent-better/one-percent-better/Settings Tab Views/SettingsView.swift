@@ -9,10 +9,9 @@ import SwiftUI
 import CoreData
 
 enum SettingsNavRoute: Hashable {
-   case appearance
    case dailyReminder(Settings)
    case habitNotifications
-   case importData
+   case feedback
 }
 
 struct SettingsView: View {
@@ -46,17 +45,14 @@ struct SettingsView: View {
             VStack {
                if let settings = settings.first {
                   List {
-                     // Appearance Row
-                     /*
-                     Section(header: Text("Appearance (Coming Soon)")) {
-                        NavigationLink(value: SettingsNavRoute.appearance) {
-                           ChangeAppearanceRow()
-                              .environmentObject(vm)
-                        }
+                     // Appearance
+                     Section(header: Text("Appearance")) {
+                        ChangeAppearanceRow()
+                           .environmentObject(settings)
                      }
                      .listRowBackground(Color.cardColor)
-                      */
                      
+                     // Notifications
                      Section(header: Text("Notifications")) {
                         NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
                            DailyReminderRow()
@@ -72,25 +68,14 @@ struct SettingsView: View {
                      }
                      .listRowBackground(Color.cardColor)
                      
-//                     Section(header: Text("Data")) {
-//                        Button {
-//                           if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
-//                              exportJson = jsonFile
-//                              showActivityController = true
-//                           }
-//                        } label: {
-//                           IconTextRow(title: "Export Data", icon: "square.and.arrow.up", color: .red)
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
-//                        
-//                        Button {
-//                           showDocumentPicker = true
-//                        } label: {
-//                           IconTextRow(title: "Import Data", icon: "square.and.arrow.down", color: .blue)
-//                        }
-//                        .buttonStyle(PlainButtonStyle())
-//                     }
-//                     .listRowBackground(Color.cardColor)
+                     // Feedback
+                     Section(header: Text("Feedback")) {
+                        NavigationLink(value: SettingsNavRoute.feedback) {
+                           IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
+                              .environmentObject(settings)
+                        }
+                     }
+                     .listRowBackground(Color.cardColor)
                      
                      Section(footer: versionFooter) {}
                         .listRowBackground(Color.cardColor)
@@ -99,16 +84,12 @@ struct SettingsView: View {
                   .scrollContentBackground(.hidden)
                   .navigationDestination(for: SettingsNavRoute.self) { route in
                      switch route {
-                     case .appearance:
-                        // TODO: Make this a menu, or a whole view?
-                        // Maybe a whole view with an animated sun/moon which show and hide
-                        EmptyView()
                      case .dailyReminder(let settings):
-                           DailyReminder(settings: settings)
+                        DailyReminder(settings: settings)
                      case .habitNotifications:
                         AllHabitNotifications()
-                     case .importData:
-                        DocumentPicker()
+                     case .feedback:
+                        ProvideFeedback()
                      }
                   }
                   .sheet(isPresented: $showDocumentPicker) {
