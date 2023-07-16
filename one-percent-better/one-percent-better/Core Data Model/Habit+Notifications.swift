@@ -11,7 +11,7 @@ import UIKit
 extension Habit {
    func addNotification(_ notification: Notification) {
       self.addToNotifications(notification)
-      NotificationManager.shared.rebalanceHabitNotifications()
+      notificationManager.rebalanceHabitNotifications()
    }
    
    func addNotifications(_ notifications: [Notification]) {
@@ -19,15 +19,15 @@ extension Habit {
          self.addToNotifications(notif)
       }
       if !notifications.isEmpty {
-         NotificationManager.shared.rebalanceHabitNotifications()
+         notificationManager.rebalanceHabitNotifications()
       }
    }
    
    func removeNotifications(on date: Date) {
       var rebalance = false
-      if NotificationManager.shared.rebalanceTask != nil {
+      if notificationManager.rebalanceTask != nil {
          rebalance = true
-         NotificationManager.shared.cancelRebalance()
+         notificationManager.cancelRebalance()
       }
       
       for notification in notificationsArray {
@@ -44,15 +44,16 @@ extension Habit {
       removeDeliveredNotifications()
       
       if rebalance {
-         NotificationManager.shared.rebalanceHabitNotifications()
+         notificationManager.rebalanceHabitNotifications()
       }
    }
    
    func removeDeliveredNotifications() {
-      UNUserNotificationCenter.current().getDeliveredNotifications { notifs in
-         for habitNotif in self.notificationsArray {
+      for habitNotif in self.notificationsArray {
+         let id = habitNotif.id
+         UNUserNotificationCenter.current().getDeliveredNotifications { [id] notifs in
             for notif in notifs {
-               if notif.request.identifier.hasPrefix("OnePercentBetter&\(habitNotif.id)") {
+               if notif.request.identifier.hasPrefix("OnePercentBetter&\(id)") {
                   UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
                }
             }
@@ -62,9 +63,9 @@ extension Habit {
    
    func addNotificationsBack(on date: Date) {
       var rebalance = false
-      if NotificationManager.shared.rebalanceTask != nil {
+      if notificationManager.rebalanceTask != nil {
          rebalance = true
-         NotificationManager.shared.cancelRebalance()
+         notificationManager.cancelRebalance()
       }
       
       for notification in notificationsArray {
@@ -87,7 +88,7 @@ extension Habit {
       }
       
       if rebalance {
-         NotificationManager.shared.rebalanceHabitNotifications()
+         notificationManager.rebalanceHabitNotifications()
       }
    }
 }

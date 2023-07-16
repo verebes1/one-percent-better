@@ -15,7 +15,7 @@ struct NotificationSelection: View {
    @ObservedObject var habit: Habit
    
    @State private var animateBell = false
-//
+
    @State private var selectFrequency = false
    
    @Binding var hasChanged: Set<Notification>
@@ -50,16 +50,22 @@ struct NotificationSelection: View {
       }
    }
    
+   var headerSubtitle: String {
+      if let frequencyDescription = habit.frequency(on: Date())?.description {
+         return "Add reminders to complete your habit \(frequencyDescription)."
+      } else {
+         return "Add reminders to complete your habit."
+      }
+   }
+   
    var body: some View {
-      let _ = Self.printChanges(self)
-//      print("Notification selection updating, habit.notificationsArray = \(habit.notificationsArray)")
-      return (
       Background {
          VStack(spacing: 10) {
             
+            
             AnimatedHabitCreationHeader(animateBell: $animateBell,
                                         title: "Reminder",
-                                        subtitle: "Add a reminder to complete your habit.")
+                                        subtitle: headerSubtitle)
             
             Menu {
                Button {
@@ -90,9 +96,9 @@ struct NotificationSelection: View {
                      .padding(.horizontal, 20)
                      .fontWeight(.medium)
                      .foregroundColor(Style.accentColor)
-                     //                     .background(Style.accentColor)
-                     //                     .foregroundColor(textColor)
                   }
+                  
+//                  BottomButton(label: "Add Reminder")
                }
                .background(Color.cardColor)
                .cornerRadius(radius: 10)
@@ -133,7 +139,6 @@ struct NotificationSelection: View {
             Spacer()
          }
       }
-      )
    }
 }
 

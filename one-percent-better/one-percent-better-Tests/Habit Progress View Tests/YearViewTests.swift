@@ -37,33 +37,6 @@ final class YearViewTests: XCTestCase {
       let dateFormatter = DateFormatter()
       dateFormatter.dateFormat = "yyyy/MM/dd"
       
-      // Test January 1st
-//      var date = dateFormatter.date(from: "2023/01/01")!
-//      var days = daysOffsetFromYearStart(date: date)
-//      XCTAssertEqual(days, 0)
-//
-//      // Test February 1st
-//      date = dateFormatter.date(from: "2023/02/01")!
-//      days = daysOffsetFromYearStart(date: date)
-//      XCTAssertEqual(days, 31)
-//
-//      // Test March 1st, which is 60 days into a non-leap year
-//      date = dateFormatter.date(from: "2023/03/01")!
-//      days = daysOffsetFromYearStart(date: date)
-//      XCTAssertEqual(days, 59)
-//
-//      // Test December 31st, which is 365 days into a non-leap year
-//      date = dateFormatter.date(from: "2023/12/31")!
-//      days = daysOffsetFromYearStart(date: date)
-//      XCTAssertEqual(days, 364)
-//
-//      // Test February 29th of a leap year, which should be the 60th day
-//      date = dateFormatter.date(from: "2024/02/29")!
-//      days = daysOffsetFromYearStart(date: date)
-//      XCTAssertEqual(days, 59)
-      
-      
-      
       // Test January 1st, 2023 from the year 2023
       var date = dateFormatter.date(from: "2023/01/01")!
       var days = daysOffsetFromYearStart(date: date, year: 2023)

@@ -14,13 +14,15 @@ struct OnePercentBetterApp: App {
    
    var body: some Scene {
       WindowGroup {
-         ContentView()
-            .environment(\.managedObjectContext, coreDataManager.mainContext)
-            .onAppear {
-               print("NSHomeDirectory: \(NSHomeDirectory())")
-               FeatureLogController.shared.setUp()
-               NotificationManager.shared.rebalanceHabitNotifications()
-            }
+         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil {
+            // Regular app behavior
+            ContentView()
+               .environment(\.managedObjectContext, coreDataManager.mainContext)
+         } else {
+            // App behavior during testing
+            EmptyView()
+         }
+         
       }
    }
 }

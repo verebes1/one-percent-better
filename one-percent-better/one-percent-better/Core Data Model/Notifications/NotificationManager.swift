@@ -9,15 +9,25 @@ import Foundation
 import UIKit
 import CoreData
 
+protocol UserNotificationCenter {
+   func add(_ request: UNNotificationRequest, withCompletionHandler completionHandler: ((Error?) -> Void)?)
+   func add(_ request: UNNotificationRequest) async throws
+   func pendingNotificationRequests() async -> [UNNotificationRequest]
+   func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool
+   func removePendingNotificationRequests(withIdentifiers identifiers: [String])
+}
+extension UNUserNotificationCenter: UserNotificationCenter {}
+
 class NotificationManager {
    
    static var shared = NotificationManager()
    var moc: NSManagedObjectContext
-   static let MAX_NOTIFS = 60
-   
-   lazy var queue = DispatchQueue(label: "NotificationManager", qos: .userInitiated)
+   static var MAX_NOTIFS = 60
    
    var permissionGranted = false
+   
+   /// Protocol for interfacing with UNUserNotificationCenter
+   var userNotificationCenter: UserNotificationCenter = UNUserNotificationCenter.current()
    
    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
       self.moc = moc
@@ -25,7 +35,7 @@ class NotificationManager {
 
    func requestNotificationPermission() async -> Bool? {
       do {
-         permissionGranted = try await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound])
+         permissionGranted = try await userNotificationCenter.requestAuthorization(options: [.alert, .badge, .sound])
          return permissionGranted
       } catch {
          print("Error getting notification permission")
@@ -46,7 +56,7 @@ class NotificationManager {
    }
    
    func pendingNotifications() async -> [PendingNotification] {
-      let pendingNotificationRequests = await UNUserNotificationCenter.current().pendingNotificationRequests()
+      let pendingNotificationRequests = await userNotificationCenter.pendingNotificationRequests()
       
       // Step 3: Sort pending notifications by date scheduled
       var pendingNotifications: [PendingNotification] = []
@@ -91,10 +101,10 @@ class NotificationManager {
       return pendingNotifications
    }
    
-   func cleanUpScheduledNotifications() throws {
+   @MainActor func cleanUpScheduledNotifications() async throws {
       let today = Date()
       var nextNotifDate: Date?
-      if let (_, date, _) = try getNextNotification() {
+      if let (_, date, _) = try await getNextNotification() {
          nextNotifDate = date
       }
       let scheduledNotifications = moc.fetchArray(ScheduledNotification.self)
@@ -109,7 +119,7 @@ class NotificationManager {
       }
    }
    
-   func removeNotification(_ notification: PendingNotification) {
+   @MainActor func removeNotification(_ notification: PendingNotification) async {
       var notifications: [Notification]
       do {
          let fetchRequest: NSFetchRequest<Notification> = Notification.fetchRequest()
@@ -132,7 +142,7 @@ class NotificationManager {
       }
    }
    
-   func notificationTime(for notification: Notification) -> DateComponents {
+   @MainActor func notificationTime(for notification: Notification) async -> DateComponents {
       if let specificTime = notification as? SpecificTimeNotification {
          let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
          return time
@@ -145,33 +155,56 @@ class NotificationManager {
    
    // MARK: Rebalance
    
-   let semaphore = DispatchSemaphore(value: 0)
    var rebalanceTask: Task<Void, Never>?
    var shouldRestartRebalance = false
    
+   /// A boolean to indicate if there is rebalancing going on or not right now
+   var rebalanceRequestCount = 0
+   
    func rebalanceHabitNotifications() {
+      rebalanceRequestCount += 1
       if let rt = rebalanceTask {
          rt.cancel()
          Task {
-            try? await Task.sleep(for: Duration.seconds(1))
-            print("~W~ waiting for cancellation to restart new rebalance ~W~")
-            rebalanceHabitNotifications()
+            while rebalanceTask != nil {
+               try? await Task.sleep(for: .seconds(0.3))
+               print("~W~ waiting for cancellation to restart new rebalance ~W~")
+            }
+            startRebalanceTask()
          }
       } else {
          print("~+~ Starting new rebalance task ~+~")
-         rebalanceTask = Task {
-            do {
-               try await rebalanceHabitNotificationsTask()
-            } catch {
-               print("~-~ startRebalanceTask task was cancelled! ~-~")
-            }
-            rebalanceTask = nil
+         startRebalanceTask()
+      }
+   }
+   
+   func startRebalanceTask() {
+      rebalanceTask = Task {
+         do {
+            try await rebalanceHabitNotificationsTask()
+         } catch {
+            print("~-~ startRebalanceTask task was cancelled! ~-~")
          }
+         rebalanceTask = nil
+         rebalanceRequestCount -= 1
       }
    }
    
    func cancelRebalance() {
       rebalanceTask?.cancel()
+   }
+   
+   @MainActor func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
+      let request = try await notification.createNotificationRequest(index: index, date: date)
+      await addNotificationRequest(request: request)
+   }
+   
+   func addNotificationRequest(request: UNNotificationRequest) async {
+      do {
+         try await userNotificationCenter.add(request)
+      } catch {
+         print("Error generating notification request: \(error.localizedDescription)")
+      }
    }
    
    func rebalanceHabitNotificationsTask() async throws {
@@ -181,18 +214,21 @@ class NotificationManager {
       // Step 1: Get pending notifications
       var pendingNotifications = await pendingNotifications()
       var notificationAllowance = Self.MAX_NOTIFS - pendingNotifications.count
+      
+      print("notificationAllowance: \(notificationAllowance)")
 
-      // Step 2: Keep adding new notifications until new scheduled date > latest pending notification request, or
-      // maximum number of notification requests is reached
+      // Step 2: Keep adding new notifications until new scheduled date > latest pending notification request date,
+      // or maximum number of notification requests is reached
       for _ in 0 ..< Self.MAX_NOTIFS {
          try Task.checkCancellation()
          
-         guard let (notification, day, index) = try getNextNotification() else {
+         guard let (notification, day, index) = try await getNextNotification() else {
             break
          }
-         let nextIndex = (index + 1) % Self.MAX_NOTIFS
          try Task.checkCancellation()
-         var dayAndTime = notificationTime(for: notification)
+         
+         let nextIndex = (index + 1) % Self.MAX_NOTIFS
+         var dayAndTime = await notificationTime(for: notification)
          let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
          dayAndTime.calendar = Cal
          dayAndTime.day = dayComponents.day
@@ -202,7 +238,7 @@ class NotificationManager {
          
          guard let lastPendingNotif = pendingNotifications.last else {
             // No pending notification requests, add new notification
-            try await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
+            try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
             continue
          }
@@ -210,17 +246,17 @@ class NotificationManager {
          if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
             pendingNotifications.removeLast()
             // Add notification message back in unscheduledNotifications list for that notif id
-            removeNotification(lastPendingNotif)
+            await removeNotification(lastPendingNotif)
             
             // Remove the scheduled notification
-            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
+            userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
             
             // Add new notification
-            try await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
+            try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
             notificationAllowance -= 1
          } else {
             if notificationAllowance > 0 {
-               try await notification.addNotificationRequest(index: nextIndex, date: dayAndTime)
+               try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
                notificationAllowance -= 1
             } else {
                // Can't schedule any more notifications
@@ -230,7 +266,7 @@ class NotificationManager {
       }
       
       // Step 3: Remove any already sent notifications from scheduled list
-      try cleanUpScheduledNotifications()
+      try await cleanUpScheduledNotifications()
       
       await moc.perform {
          self.moc.assertSave()
@@ -239,7 +275,9 @@ class NotificationManager {
       print("~o~ Finished rebalancing habit notifications! ~o~")
    }
    
-   func getNextNotification() throws -> (notification: Notification, date: Date, index: Int)? {
+   /// Get the next due notification
+   /// - Returns: A tuple containing the next due notification NSManageObject, the date it's scheduled for, and the index of the notification
+   @MainActor func getNextNotification() async throws -> (notification: Notification, date: Date, index: Int)? {
       let habits = Habit.habits(from: moc)
       var nextNotifsAndDates: [(Notification, Date)] = []
       

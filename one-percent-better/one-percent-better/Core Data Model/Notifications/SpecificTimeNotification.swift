@@ -18,12 +18,15 @@ public class SpecificTimeNotification: Notification {
 
    @NSManaged public var time: Date
    
-   convenience init(context: NSManagedObjectContext, time: Date? = nil) {
+   convenience init(context: NSManagedObjectContext,
+                    notificationGenerator: NotificationGeneratorDelegate? = nil,
+                    time: Date = Date()) {
       self.init(context: context)
-      super.moc = context
-      self.id = UUID()
-      self.unscheduledNotificationStrings = []
-      self.time = time ?? Date()
+      moc = context
+      id = UUID()
+      self.notificationGenerator = notificationGenerator ?? NotificationGenerator()
+      unscheduledNotificationStrings = []
+      self.time = time
    }
    
    override func nextDue() -> Date {
