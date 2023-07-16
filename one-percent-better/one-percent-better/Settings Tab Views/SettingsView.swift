@@ -46,11 +46,11 @@ struct SettingsView: View {
                if let settings = settings.first {
                   List {
                      // Appearance
-//                     Section(header: Text("Appearance")) {
-//                        ChangeAppearanceRow()
-//                           .environmentObject(settings)
-//                     }
-//                     .listRowBackground(Color.cardColor)
+                     Section(header: Text("Appearance")) {
+                        ChangeAppearanceRow()
+                           .environmentObject(settings)
+                     }
+                     .listRowBackground(Color.cardColor)
                      
                      // Notifications
                      Section(header: Text("Notifications")) {

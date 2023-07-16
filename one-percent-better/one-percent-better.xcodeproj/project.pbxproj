@@ -545,19 +545,19 @@
 		80385CAF285BEE5900CBDF71 /* Settings Tab Views */ = {
 			isa = PBXGroup;
 			children = (
-				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
+				80FCB17B29B931CA00CAEE12 /* AllHabitNotifications.swift */,
+				807A47B5290C756D0022068B /* AnimatedBell.swift */,
+				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
+				8062AA372900772E00903123 /* DailyReminder.swift */,
+				80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */,
+				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
+				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
 				80385CE8285BEE5900CBDF71 /* ExportManager.swift */,
 				8062AA3528FF2C3F00903123 /* IconTextRow.swift */,
-				8062AA372900772E00903123 /* DailyReminder.swift */,
-				8062AA3E29019E7F00903123 /* DocumentPicker.swift */,
-				8062AA4029019FDB00903123 /* DailyReminderRow.swift */,
-				807A47B5290C756D0022068B /* AnimatedBell.swift */,
-				80F72941294D876800F17B0B /* RandomNotifications.swift */,
-				80F7293D294C2CA100F17B0B /* ChangeAppearanceRow.swift */,
-				80744F5929B2FA2700DAF196 /* DailyReminderNotifications.swift */,
-				80FCB17B29B931CA00CAEE12 /* AllHabitNotifications.swift */,
 				8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */,
 				80A8FF692A5B7ED200B43B90 /* ProvideFeedback.swift */,
+				80F72941294D876800F17B0B /* RandomNotifications.swift */,
+				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";

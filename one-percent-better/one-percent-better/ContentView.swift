@@ -16,31 +16,26 @@ class BottomBarManager: ObservableObject {
    @Published var isHidden = false
 }
 
-enum Tab: Equatable {
-   case habitList
-   case insights
-   case settings
-}
-
 struct ContentView: View {
    @Environment(\.managedObjectContext) var moc
-//
-   @State private var tabSelection: Tab = .habitList
 
-//   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
+   enum Tabs: String {
+      case habitList
+      case insights
+      case settings
+   }
+   
+   @SceneStorage("ContentView.selectedTab") private var selectedTab = Tabs.habitList
+
+   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
    
    @StateObject var nav = HabitTabNavPath()
    @StateObject var barManager = BottomBarManager()
    @StateObject var hlvm = HabitListViewModel()
    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
    
-   init() {
-      print("Initializing content view")
-   }
-   
    var body: some View {
-      let _ = Self._printChanges()
-      TabView(selection: $tabSelection) {
+      TabView(selection: $selectedTab) {
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)
@@ -51,6 +46,7 @@ struct ContentView: View {
          .tabItem {
             Label("Habits", image: "custom.bolt.ring.closed")
          }
+         .tag(Tabs.habitList)
          
          NavigationStack {
             InsightsTabView()
@@ -59,13 +55,15 @@ struct ContentView: View {
          .tabItem {
             Label("Insights", systemImage: "chart.line.uptrend.xyaxis")
          }
+         .tag(Tabs.insights)
 
          SettingsView()
             .tabItem {
                Label("Settings", systemImage: "gearshape.fill")
             }
+            .tag(Tabs.settings)
       }
-//      .preferredColorScheme(settings.first?.appearanceScheme)
+      .preferredColorScheme(settings.first?.appearanceScheme)
    }
 }
 
