@@ -50,6 +50,7 @@ struct ContentView: View {
    
    var body: some View {
       TabView(selection: $selectedTab) {
+         // Habits
          NavigationStack(path: $nav.path) {
             HabitListViewContainer()
                .environmentObject(hlvm)
@@ -62,6 +63,7 @@ struct ContentView: View {
          }
          .tag(Tabs.habitList)
          
+         // Insights
          NavigationStack {
             InsightsTabView()
                .environmentObject(hlvm)
@@ -71,11 +73,14 @@ struct ContentView: View {
          }
          .tag(Tabs.insights)
 
-         SettingsView()
-            .tabItem {
-               Label("Settings", systemImage: "gearshape.fill")
-            }
-            .tag(Tabs.settings)
+         // Settings
+         NavigationStack {
+            SettingsView()
+         }
+         .tabItem {
+            Label("Settings", systemImage: "gearshape.fill")
+         }
+         .tag(Tabs.settings)
       }
       .preferredColorScheme(svm.settings.first?.appearanceScheme)
       .onAppear {

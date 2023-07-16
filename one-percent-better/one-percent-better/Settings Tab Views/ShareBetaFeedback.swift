@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ProvideFeedback: View {
+struct ShareBetaFeedback: View {
    var body: some View {
       Background {
-         VStack {
+         ScrollView {
             HabitCreationHeader(systemImage: "arrowshape.turn.up.right.fill", title: "Share Feedback", subtitle: "All feedback is anonymous.")
             
             VStack(alignment: .leading, spacing: 10) {
@@ -32,11 +32,18 @@ struct ProvideFeedback: View {
                   .resizable()
                   .aspectRatio(contentMode: .fit)
                   .clipShape(RoundedCornersShape(radius: 10, corners: .allCorners))
+               
+               VStack {
+                  Spacer().frame(height: 10)
+                  Divider()
+                  Spacer().frame(height: 10)
+               }
+               
+               Text("Alternatively, you can select 1% Better in the TestFlight app, and select ") + Text("Send Beta Feedback.").bold()
             }
             .foregroundColor(.label)
             .padding(.horizontal, 20)
             
-            Spacer()
          }
       }
       .navigationBarTitleDisplayMode(.inline)
@@ -45,6 +52,6 @@ struct ProvideFeedback: View {
 
 struct ProvideFeedback_Previews: PreviewProvider {
    static var previews: some View {
-      ProvideFeedback()
+      ShareBetaFeedback()
    }
 }

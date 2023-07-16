@@ -11,9 +11,26 @@ struct ChangeAppearanceRow: View {
    
    @EnvironmentObject var settings: Settings
    
+   enum Appearance: Int, CustomStringConvertible {
+      case system = 0
+      case light = 1
+      case dark = 2
+      
+      var description: String {
+         switch self {
+         case .light:
+            return "Light"
+         case .dark:
+            return "Dark"
+         case .system:
+            return "System"
+         }
+      }
+   }
+   
    @Environment(\.managedObjectContext) var moc
    
-   @State private var selectedAppearanceMenu: String = "System"
+   @State private var selectedAppearanceMenu: Appearance = .system
    
    var body: some View {
       HStack {
@@ -22,40 +39,26 @@ struct ChangeAppearanceRow: View {
          Spacer()
          
          Menu {
-            MenuItemWithCheckmark(value: "Light", selection: $selectedAppearanceMenu)
-            MenuItemWithCheckmark(value: "Dark", selection: $selectedAppearanceMenu)
-            MenuItemWithCheckmark(value: "System", selection: $selectedAppearanceMenu)
+            MenuItemWithCheckmark(value: Appearance.light, selection: $selectedAppearanceMenu)
+            MenuItemWithCheckmark(value: Appearance.dark, selection: $selectedAppearanceMenu)
+            MenuItemWithCheckmark(value: Appearance.system, selection: $selectedAppearanceMenu)
          } label: {
             HStack {
-               Text(selectedAppearanceMenu)
-                  .fixedSize()
+               Text(String(describing: selectedAppearanceMenu))
                Image(systemName: "chevron.down")
                   .resizable()
                   .aspectRatio(contentMode: .fit)
                   .frame(height: 6)
             }
+            .fixedSize()
          }
          .onChange(of: selectedAppearanceMenu) { newValue in
-            switch selectedAppearanceMenu {
-            case "Light":
-               settings.appearance = 1
-            case "Dark":
-               settings.appearance = 2
-            default:
-               settings.appearance = 0
-            }
+            settings.appearance = selectedAppearanceMenu.rawValue
             moc.assertSave()
          }
       }
       .onAppear {
-         switch settings.appearance {
-         case 1:
-            selectedAppearanceMenu = "Light"
-         case 2:
-            selectedAppearanceMenu = "Dark"
-         default:
-            selectedAppearanceMenu = "System"
-         }
+         selectedAppearanceMenu = Appearance(rawValue: settings.appearance) ?? .system
       }
    }
 }

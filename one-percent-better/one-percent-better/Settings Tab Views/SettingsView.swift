@@ -40,69 +40,67 @@ struct SettingsView: View {
    }
    
    var body: some View {
-      NavigationStack {
-         Background {
-            VStack {
-               if let settings = settings.first {
-                  List {
-                     // Appearance
-                     Section(header: Text("Appearance")) {
-                        ChangeAppearanceRow()
+      Background {
+         VStack {
+            if let settings = settings.first {
+               List {
+                  // Appearance
+                  Section(header: Text("Appearance")) {
+                     ChangeAppearanceRow()
+                        .environmentObject(settings)
+                  }
+                  .listRowBackground(Color.cardColor)
+                  
+                  // Notifications
+                  Section(header: Text("Notifications")) {
+                     NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
+                        DailyReminderRow()
                            .environmentObject(settings)
                      }
-                     .listRowBackground(Color.cardColor)
                      
-                     // Notifications
-                     Section(header: Text("Notifications")) {
-                        NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
-                           DailyReminderRow()
-                              .environmentObject(settings)
-                        }
-                        
-                        // Habit Notifications Debug View
-                        /*
-                        NavigationLink(value: SettingsNavRoute.habitNotifications) {
-                           IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
-                        }
-                         */
-                     }
-                     .listRowBackground(Color.cardColor)
-                     
-                     // Feedback
-                     Section(header: Text("Feedback")) {
-                        NavigationLink(value: SettingsNavRoute.feedback) {
-                           IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
-                              .environmentObject(settings)
-                        }
-                     }
-                     .listRowBackground(Color.cardColor)
-                     
-                     Section(footer: versionFooter) {}
-                        .listRowBackground(Color.cardColor)
+                     // Habit Notifications Debug View
+                     /*
+                      NavigationLink(value: SettingsNavRoute.habitNotifications) {
+                      IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
+                      }
+                      */
                   }
-                  .listStyle(.insetGrouped)
-                  .scrollContentBackground(.hidden)
-                  .navigationDestination(for: SettingsNavRoute.self) { route in
-                     switch route {
-                     case .dailyReminder(let settings):
-                        DailyReminder(settings: settings)
-                     case .habitNotifications:
-                        AllHabitNotifications()
-                     case .feedback:
-                        ProvideFeedback()
+                  .listRowBackground(Color.cardColor)
+                  
+                  // Feedback
+                  Section(header: Text("Feedback")) {
+                     NavigationLink(value: SettingsNavRoute.feedback) {
+                        IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
+                           .environmentObject(settings)
                      }
                   }
-                  .sheet(isPresented: $showDocumentPicker) {
-                     DocumentPicker()
+                  .listRowBackground(Color.cardColor)
+                  
+                  Section(footer: versionFooter) {}
+                     .listRowBackground(Color.cardColor)
+               }
+               .listStyle(.insetGrouped)
+               .scrollContentBackground(.hidden)
+               .navigationDestination(for: SettingsNavRoute.self) { route in
+                  switch route {
+                  case .dailyReminder(let settings):
+                     DailyReminder(settings: settings)
+                  case .habitNotifications:
+                     AllHabitNotifications()
+                  case .feedback:
+                     ShareBetaFeedback()
                   }
-                  .sheet(isPresented: $showActivityController) {
-                     ActivityViewController(jsonFile: $exportJson)
-                  }
+               }
+               .sheet(isPresented: $showDocumentPicker) {
+                  DocumentPicker()
+               }
+               .sheet(isPresented: $showActivityController) {
+                  ActivityViewController(jsonFile: $exportJson)
                }
             }
          }
-         .navigationTitle("Settings")
       }
+      .navigationTitle("Settings")
    }
 }
 

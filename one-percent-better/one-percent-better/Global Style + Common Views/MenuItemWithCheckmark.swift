@@ -7,19 +7,17 @@
 
 import SwiftUI
 
-struct MenuItemWithCheckmark<T>: View where T: Equatable {
-   var value: T
-   @Binding var selection: T
+struct MenuItemWithCheckmark<Value>: View where Value: Equatable {
+   var value: Value
    
-   var stringValue: String {
-      "\(value)"
-   }
+   /// This item will have a checkmark
+   @Binding var selection: Value
 
    var body: some View {
       Button {
          selection = value
       } label: {
-         Label(stringValue,
+         Label(String(describing: value),
                systemImage: value == selection ? "checkmark" : "")
       }
    }
