@@ -21,7 +21,6 @@ struct WeeklyPercentGraphCard: View {
       
       while !Cal.isDateInTomorrow(curDay) {
          let percent = vm.percent(on: curDay) * 100
-//         r.append(GraphPoint(date: curDay, value: percent))
          dates.append(curDay)
          values.append(percent)
          curDay = Cal.add(days: 1, to: curDay)
@@ -32,7 +31,7 @@ struct WeeklyPercentGraphCard: View {
       for i in 0 ..< dates.count {
          r.append(GraphPoint(date: dates[i], value: values[i]))
       }
-      
+      crunchingData = false
       return r
    }
    
@@ -67,13 +66,15 @@ struct WeeklyPercentGraphCard: View {
    }
    
    @State private var data: [GraphPoint] = []
+   @State private var crunchingData: Bool = true
    
    var body: some View {
-      let _ = Self._printChanges()
       CardView {
          VStack(alignment: .leading) {
             CardTitleWithRightDetail("Daily Percent Completed") {
-               EmptyView()
+               if crunchingData {
+                  ProgressView()
+               }
             }
             
             Text("3 day moving average")
