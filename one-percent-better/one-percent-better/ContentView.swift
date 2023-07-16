@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CoreData
 
 class HabitTabNavPath: ObservableObject {
    @Published var path = NavigationPath()
@@ -14,6 +15,20 @@ class HabitTabNavPath: ObservableObject {
 
 class BottomBarManager: ObservableObject {
    @Published var isHidden = false
+}
+
+class SettingsViewModel: ConditionalManagedObjectFetcher<Settings> {
+   
+   @Published var settings: [Settings] = []
+   
+   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+      super.init(context, sortDescriptors: [])
+      settings = fetchedObjects
+   }
+   
+   override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+      settings = controller.fetchedObjects as? [Settings] ?? []
+   }
 }
 
 struct ContentView: View {
@@ -27,12 +42,13 @@ struct ContentView: View {
    
    @SceneStorage("ContentView.selectedTab") private var selectedTab = Tabs.habitList
 
-   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
+//   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
    
    @StateObject var nav = HabitTabNavPath()
    @StateObject var barManager = BottomBarManager()
    @StateObject var hlvm = HabitListViewModel()
    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
+   @StateObject var svm = SettingsViewModel()
    
    var body: some View {
       TabView(selection: $selectedTab) {
@@ -68,7 +84,7 @@ struct ContentView: View {
          FeatureLogController.shared.setUp()
          NotificationManager.shared.rebalanceHabitNotifications()
       }
-      .preferredColorScheme(settings.first?.appearanceScheme)
+      .preferredColorScheme(svm.settings.first?.appearanceScheme)
    }
 }
 
