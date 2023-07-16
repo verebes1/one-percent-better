@@ -41,8 +41,6 @@ struct ContentView: View {
    }
    
    @SceneStorage("ContentView.selectedTab") private var selectedTab = Tabs.habitList
-
-//   @FetchRequest(entity: Settings.entity(), sortDescriptors: []) private var settings: FetchedResults<Settings>
    
    @StateObject var nav = HabitTabNavPath()
    @StateObject var barManager = BottomBarManager()
@@ -79,12 +77,12 @@ struct ContentView: View {
             }
             .tag(Tabs.settings)
       }
+      .preferredColorScheme(svm.settings.first?.appearanceScheme)
       .onAppear {
          print("NSHomeDirectory: \(NSHomeDirectory())")
          FeatureLogController.shared.setUp()
          NotificationManager.shared.rebalanceHabitNotifications()
       }
-      .preferredColorScheme(svm.settings.first?.appearanceScheme)
    }
 }
 
