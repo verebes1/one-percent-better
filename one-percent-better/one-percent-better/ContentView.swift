@@ -63,12 +63,12 @@ struct ContentView: View {
             }
             .tag(Tabs.settings)
       }
-      .preferredColorScheme(settings.first?.appearanceScheme)
       .onAppear {
          print("NSHomeDirectory: \(NSHomeDirectory())")
          FeatureLogController.shared.setUp()
          NotificationManager.shared.rebalanceHabitNotifications()
       }
+      .preferredColorScheme(settings.first?.appearanceScheme)
    }
 }
 
