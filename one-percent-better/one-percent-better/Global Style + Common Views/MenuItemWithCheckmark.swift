@@ -23,6 +23,26 @@ struct MenuItemWithCheckmark<Value>: View where Value: Equatable {
    }
 }
 
+struct MenuItemWithCheckmarks<Value>: View where Value: Equatable, Value: Hashable {
+   var value: Value
+   
+   /// This item will have a checkmark
+   @Binding var selections: [Value]
+
+   var body: some View {
+      Button {
+         if let index = selections.firstIndex(of: value) {
+            selections.remove(at: index)
+         } else {
+            selections.append(value)
+         }
+      } label: {
+         Label(String(describing: value),
+               systemImage: selections.contains(value) ? "checkmark" : "")
+      }
+   }
+}
+
 struct MenuItemWithCheckmark_Previewer: View {
    
    @State private var selection = 0

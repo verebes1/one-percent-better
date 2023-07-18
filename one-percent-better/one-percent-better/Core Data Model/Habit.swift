@@ -74,6 +74,11 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// Class which manages scheduling notifications, retrieving notification messages from OpenAI, remove notifications, etc.
    var notificationManager: NotificationManager = NotificationManager.shared
    
+   /// Override CustomStringConvertible
+   public override var description: String {
+      self.name
+   }
+   
    // MARK: - init
    
    convenience init(context: NSManagedObjectContext,
@@ -457,7 +462,6 @@ extension Habit {
       return NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
    }
 }
-
 
 extension KeyedDecodingContainer {
    func decodeOptional<T: Decodable>(key: KeyedDecodingContainer.Key, type: T.Type) -> T? {

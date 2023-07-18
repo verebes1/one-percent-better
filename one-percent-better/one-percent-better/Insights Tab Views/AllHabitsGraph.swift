@@ -13,21 +13,39 @@ struct AllHabitsGraphCard: View {
    
    @EnvironmentObject var vm: HabitListViewModel
    
+   @State private var selectedHabits: [Habit] = []
+   
    var body: some View {
       CardView {
          VStack {
-            CardTitleWithRightDetail("All Habits") {
-               EmptyView()
+            CardTitleWithRightDetail("Improvement Scores") {
+               Menu {
+                  ForEach(vm.habits) { habit in
+                     MenuItemWithCheckmarks(value: habit, selections: $selectedHabits)
+                  }
+               } label: {
+                  HStack {
+                     Text("Habits")
+                     Image(systemName: "chevron.down")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(height: 6)
+                  }
+                  .fixedSize()
+               }
             }
             
             ZStack {
                // TODO: missing case where habit exists but has never been completed
                let graphHeight = 250 + 21 * CGFloat((vm.habits.count - 1) / 3)
-               AllHabitsGraph()
+               AllHabitsGraph(habits: selectedHabits)
                   .frame(minHeight: graphHeight)
             }
             .frame(width: UIScreen.main.bounds.width - 40)
          }
+      }
+      .onAppear {
+         selectedHabits = vm.habits
       }
    }
 }
@@ -35,7 +53,7 @@ struct AllHabitsGraphCard: View {
 
 struct AllHabitsGraph: View {
    
-   @EnvironmentObject var vm: HabitListViewModel
+   var habits: [Habit]
    
    // TODO: Move to ImprovementTracker class, or organize with GraphTracker to work with new SwiftUI Charts
    func improvementScore(for habit: Habit) -> [GraphPoint] {
@@ -50,7 +68,7 @@ struct AllHabitsGraph: View {
    
    var body: some View {
       Chart {
-         ForEach(vm.habits) { habit in
+         ForEach(habits) { habit in
             let data = improvementScore(for: habit)
             ForEach(data, id: \.date) { item in
                LineMark(
@@ -62,10 +80,6 @@ struct AllHabitsGraph: View {
             }
          }
       }
-      //         .padding(.horizontal, 10)
-      //         .frame(height: 600)
-      //         .animation(.easeInOut, value: last5)
-      //         .chartYScale(domain: 0 ... 450)
    }
 }
 
