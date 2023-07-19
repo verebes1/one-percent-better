@@ -10,6 +10,7 @@ import SwiftUI
 struct HabitListViewContainer: View {
    
    @Environment(\.scenePhase) var scenePhase
+   
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
    @EnvironmentObject var barManager: BottomBarManager
@@ -17,7 +18,7 @@ struct HabitListViewContainer: View {
    var body: some View {
       let _ = Self._printChanges()
       Background {
-         VStack {
+         VStack(spacing: 5) {
             HabitsHeaderView()
             HabitListView()
          }
@@ -41,12 +42,6 @@ struct HabitListViewContainer: View {
       .navigationTitle(hsvm.navTitle)
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
-         // Edit Habit List
-         if !hlvm.habits.isEmpty {
-            ToolbarItem(placement: .navigationBarLeading) {
-               EditButton()
-            }
-         }
          // New Habit
          ToolbarItem(placement: .navigationBarTrailing) {
             NavigationLink(value: HabitListViewRoute.createHabit) {
@@ -59,8 +54,8 @@ struct HabitListViewContainer: View {
    }
 }
 
-struct HabitListViewContainer_Previews: PreviewProvider {
-   static var previews: some View {
-      HabitListViewContainer()
-   }
-}
+//struct HabitListViewContainer_Previews: PreviewProvider {
+//   static var previews: some View {
+//      HabitListViewContainer()
+//   }
+//}
