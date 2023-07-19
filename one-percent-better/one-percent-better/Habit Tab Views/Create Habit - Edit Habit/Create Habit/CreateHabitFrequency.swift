@@ -25,7 +25,8 @@ struct CreateHabitFrequency: View {
    
    var habit: Habit
    
-   @State private var frequencySelection: HabitFrequency = .timesPerDay(1)
+   @StateObject private var fssm = FrequencySelectionStackModel(selection: .timesPerDay(1))
+   
    @State private var isGoingToNotifications = false
    
    var body: some View {
@@ -37,14 +38,15 @@ struct CreateHabitFrequency: View {
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
             
-            FrequencySelectionStack(selection: $frequencySelection)
+            FrequencySelectionStack()
+               .environmentObject(fssm)
             
             Spacer()
             
             Button {
                HapticEngineManager.playHaptic()
                isGoingToNotifications = true
-               nav.path.append(ChooseFrequencyRoute.next(habit, frequencySelection))
+               nav.path.append(ChooseFrequencyRoute.next(habit, fssm.selection))
             } label: {
                BottomButton(label: "Next")
             }

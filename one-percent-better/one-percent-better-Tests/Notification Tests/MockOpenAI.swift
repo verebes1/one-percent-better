@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@testable import ___Better
+@testable import One_Percent_Better
 
 class MockOpenAI: ChatGPTDelegate {
    func queryChatGPT(prompt: String, maxTokens: Int) async throws -> String {

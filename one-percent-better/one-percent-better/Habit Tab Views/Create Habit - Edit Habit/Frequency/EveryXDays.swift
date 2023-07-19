@@ -9,33 +9,33 @@ import SwiftUI
 
 struct EveryXDays: View {
    
+   @Binding var times: Int
    @Binding var everyXDays: Int
+   
+   var color: Color = Style.accentColor
    
    var body: some View {
       HStack(spacing: 7) {
-         Text("Once every")
          Menu {
-            MenuItemWithCheckmark(value: 2,
-                                  selection: $everyXDays)
-            MenuItemWithCheckmark(value: 3,
-                                  selection: $everyXDays)
-            MenuItemWithCheckmark(value: 4,
-                                  selection: $everyXDays)
-            MenuItemWithCheckmark(value: 5,
-                                  selection: $everyXDays)
-            Menu {
-               MenuItemWithCheckmark(value: 6,
+            ForEach(1 ..< 11) { i in
+               MenuItemWithCheckmark(value: i,
+                                     selection: $times)
+            }
+         } label: {
+            CapsuleMenuButton(text: String(times),
+                              color: color,
+                              fontSize: 15)
+         }
+         
+         HStack(spacing: 0) {
+            AnimatedPlural(text: "time", value: times)
+            Text(" every")
+         }
+         
+         Menu {
+            ForEach(1 ..< 11) { i in
+               MenuItemWithCheckmark(value: i,
                                      selection: $everyXDays)
-               MenuItemWithCheckmark(value: 7,
-                                     selection: $everyXDays)
-               MenuItemWithCheckmark(value: 8,
-                                     selection: $everyXDays)
-               MenuItemWithCheckmark(value: 9,
-                                     selection: $everyXDays)
-               MenuItemWithCheckmark(value: 10,
-                                     selection: $everyXDays)
-            } label: {
-               Button("More...", action: {})
             }
          } label: {
             CapsuleMenuButton(text: String(everyXDays),
@@ -51,10 +51,11 @@ struct EveryXDays: View {
 }
 
 struct EveryXDaysPreviewer: View {
+   @State private var times = 1
    @State private var everyXDays = 2
    var body: some View {
       Background {
-         EveryXDays(everyXDays: $everyXDays)
+         EveryXDays(times: $times, everyXDays: $everyXDays)
       }
    }
 }

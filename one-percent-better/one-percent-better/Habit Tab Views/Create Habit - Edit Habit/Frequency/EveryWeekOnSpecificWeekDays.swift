@@ -81,13 +81,11 @@ struct WeekDayButton: View {
 
 struct EveryWeekOnSpecificWeekDaysPreviews: View {
    @State var selectedWeekdays: [Weekday] = [.monday, .tuesday]
-//   @StateObject var vm = FrequencySelectionModel(selection: .specificWeekdays([.sunday, .tuesday, .thursday]))
    
    var body: some View {
       Background {
          CardView {
             EveryWeekOnSpecificWeekDays(selectedWeekdays: $selectedWeekdays)
-//               .environmentObject(vm)
          }
       }
    }

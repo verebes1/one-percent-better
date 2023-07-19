@@ -112,14 +112,11 @@
 		805296C12A12E65C00C2C90E /* NotDoneInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296C02A12E65C00C2C90E /* NotDoneInTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
-		805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */; };
 		805785B1295EEE9B00028582 /* FrequencySelectionStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B0295EEE9B00028582 /* FrequencySelectionStack.swift */; };
 		805785B3295EEFA900028582 /* EveryDayXTimesPerDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */; };
 		805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */; };
-		805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B72961B04D00028582 /* CheckmarkCardSelection.swift */; };
 		805785BA296C4C8600028582 /* SelectableCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785B9296C4C8600028582 /* SelectableCard.swift */; };
 		805785BC296C4EFD00028582 /* DepressTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BB296C4EFD00028582 /* DepressTest.swift */; };
-		805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785BF296C818800028582 /* FrequencySegmentSelection.swift */; };
 		805785C2296DECCF00028582 /* EveryXDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C1296DECCF00028582 /* EveryXDays.swift */; };
 		805785C62974AFF300028582 /* MenuItemWithCheckmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */; };
 		8058002829E64052008EBEBE /* HabitListViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058002729E64052008EBEBE /* HabitListViewContainer.swift */; };
@@ -175,7 +172,6 @@
 		80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */; };
 		80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */; };
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
-		80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */; };
 		80BA250A29B7F3900072B1AA /* RandomTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BA250929B7F3900072B1AA /* RandomTimeTests.swift */; };
 		80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 80BA250C29B8155C0072B1AA /* OpenAISwift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
@@ -183,7 +179,6 @@
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
 		80CC288028C0080300411ECB /* EditTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC287F28C0080300411ECB /* EditTracker.swift */; };
 		80CC691F28E1184F00584340 /* NewProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC691E28E1184F00584340 /* NewProgress.swift */; };
-		80CC692228E27FC200584340 /* EveryDaily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692128E27FC200584340 /* EveryDaily.swift */; };
 		80CC692428E39BA800584340 /* MyStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692328E39BA800584340 /* MyStepper.swift */; };
 		80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692528E3AF5400584340 /* ExpandingFillButton.swift */; };
 		80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */; };
@@ -340,19 +335,16 @@
 		804C92142A08350D005AD2FE /* HabitProgressViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitProgressViewContainer.swift; sourceTree = "<group>"; };
 		805296BE2A12E50800C2C90E /* StreakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakTests.swift; sourceTree = "<group>"; };
 		805296C02A12E65C00C2C90E /* NotDoneInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDoneInTests.swift; sourceTree = "<group>"; };
-		8055A9702831BAA5009A1881 /* 1% Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "1% Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8055A9702831BAA5009A1881 /* One Percent Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One Percent Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITests.swift; sourceTree = "<group>"; };
 		8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = one_percent_better_swiftuiUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeeklyNotSpecific.swift; sourceTree = "<group>"; };
 		805785B0295EEE9B00028582 /* FrequencySelectionStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStack.swift; sourceTree = "<group>"; };
 		805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDayXTimesPerDay.swift; sourceTree = "<group>"; };
 		805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerWeekBeginningEveryY.swift; sourceTree = "<group>"; };
-		805785B72961B04D00028582 /* CheckmarkCardSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckmarkCardSelection.swift; sourceTree = "<group>"; };
 		805785B9296C4C8600028582 /* SelectableCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCard.swift; sourceTree = "<group>"; };
 		805785BB296C4EFD00028582 /* DepressTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepressTest.swift; sourceTree = "<group>"; };
-		805785BF296C818800028582 /* FrequencySegmentSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySegmentSelection.swift; sourceTree = "<group>"; };
 		805785C1296DECCF00028582 /* EveryXDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryXDays.swift; sourceTree = "<group>"; };
 		805785C52974AFF300028582 /* MenuItemWithCheckmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemWithCheckmark.swift; sourceTree = "<group>"; };
 		8058002729E64052008EBEBE /* HabitListViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListViewContainer.swift; sourceTree = "<group>"; };
@@ -419,14 +411,12 @@
 		80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayTests.swift; sourceTree = "<group>"; };
 		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
-		80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencySelectionStackOld.swift; sourceTree = "<group>"; };
 		80BA250929B7F3900072B1AA /* RandomTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTimeTests.swift; sourceTree = "<group>"; };
 		80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyPercentGraphCard.swift; sourceTree = "<group>"; };
 		80BF87A228E69EB2002A1347 /* ChartTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTest.swift; sourceTree = "<group>"; };
 		80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitFrequency.swift; sourceTree = "<group>"; };
 		80CC287F28C0080300411ECB /* EditTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTracker.swift; sourceTree = "<group>"; };
 		80CC691E28E1184F00584340 /* NewProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProgress.swift; sourceTree = "<group>"; };
-		80CC692128E27FC200584340 /* EveryDaily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryDaily.swift; sourceTree = "<group>"; };
 		80CC692328E39BA800584340 /* MyStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStepper.swift; sourceTree = "<group>"; };
 		80CC692528E3AF5400584340 /* ExpandingFillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingFillButton.swift; sourceTree = "<group>"; };
 		80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekOnSpecificWeekDays.swift; sourceTree = "<group>"; };
@@ -794,7 +784,7 @@
 		8055A9712831BAA5009A1881 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8055A9702831BAA5009A1881 /* 1% Better.app */,
+				8055A9702831BAA5009A1881 /* One Percent Better.app */,
 				8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */,
 				8055A98A2831BAA8009A1881 /* one-percent-betterUITests.xctest */,
 			);
@@ -884,14 +874,11 @@
 			children = (
 				8043A92428E7A414001D0E8C /* Timeline.swift */,
 				8006A01F28EA3D66005D1A19 /* TimelineScroll.swift */,
-				805785AE295DA3A000028582 /* EveryWeeklyNotSpecific.swift */,
-				80CC692128E27FC200584340 /* EveryDaily.swift */,
 				80385D7C285E630700CBDF71 /* CustomToolbarView.swift */,
 				80385CC8285BEE5900CBDF71 /* BlurView.swift */,
 				8081A3632874E72900D0CB1B /* GradientTest.swift */,
 				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
 				8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */,
-				80AE860028E4E067006E8964 /* FrequencySelectionStackOld.swift */,
 				803E1B8928A9D68B0010540B /* SelectableCardOld.swift */,
 			);
 			path = "Unused Code";
@@ -903,9 +890,7 @@
 				805785B0295EEE9B00028582 /* FrequencySelectionStack.swift */,
 				805785B2295EEFA900028582 /* EveryDayXTimesPerDay.swift */,
 				805785B5295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift */,
-				805785B72961B04D00028582 /* CheckmarkCardSelection.swift */,
 				805785B9296C4C8600028582 /* SelectableCard.swift */,
-				805785BF296C818800028582 /* FrequencySegmentSelection.swift */,
 				805785C1296DECCF00028582 /* EveryXDays.swift */,
 				80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */,
 				8006A09628F53D1C005D1A19 /* AnimatedPluralText.swift */,
@@ -1054,7 +1039,7 @@
 				80BA250C29B8155C0072B1AA /* OpenAISwift */,
 			);
 			productName = "one-percent-better-swiftui";
-			productReference = 8055A9702831BAA5009A1881 /* 1% Better.app */;
+			productReference = 8055A9702831BAA5009A1881 /* One Percent Better.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8055A97F2831BAA8009A1881 /* one-percent-betterTests */ = {
@@ -1184,7 +1169,6 @@
 				80385D1F285BEE5900CBDF71 /* NSPersistentStoreCoordinator+SQLite.swift in Sources */,
 				80385D2A285BEE5900CBDF71 /* CardView.swift in Sources */,
 				80385D21285BEE5900CBDF71 /* ImprovementTracker.swift in Sources */,
-				805785C0296C818800028582 /* FrequencySegmentSelection.swift in Sources */,
 				80639E63293D6B1500A48F16 /* StatisticsCardView.swift in Sources */,
 				80385D14285BEE5900CBDF71 /* TextFieldTests.swift in Sources */,
 				804C92152A08350D005AD2FE /* HabitProgressViewContainer.swift in Sources */,
@@ -1217,16 +1201,13 @@
 				805785C2296DECCF00028582 /* EveryXDays.swift in Sources */,
 				802AB86929F603F000210AD6 /* RoundedCornersShape.swift in Sources */,
 				80385D12285BEE5900CBDF71 /* CustomTextField.swift in Sources */,
-				80AE860128E4E067006E8964 /* FrequencySelectionStackOld.swift in Sources */,
 				805785BC296C4EFD00028582 /* DepressTest.swift in Sources */,
-				80CC692228E27FC200584340 /* EveryDaily.swift in Sources */,
 				807A47B6290C756D0022068B /* AnimatedBell.swift in Sources */,
 				805A64EF2867CB1400F068B1 /* YearView.swift in Sources */,
 				802E92AC29220B8400A28EB1 /* NewImprovementGraph.swift in Sources */,
 				804C92112A08046D005AD2FE /* TrackerConditionalFetcher.swift in Sources */,
 				80385D0F285BEE5900CBDF71 /* EnterTrackerDataView.swift in Sources */,
 				80744F5529B013FF00DAF196 /* DailyReminderSelection.swift in Sources */,
-				805785B82961B04D00028582 /* CheckmarkCardSelection.swift in Sources */,
 				802E929A291A147F00A28EB1 /* ImprovementGraphView.swift in Sources */,
 				802CCA0F28B7F9F4006E38E6 /* FeatureLog.swift in Sources */,
 				80385D39285CD6E500CBDF71 /* ImageTrackerEnterDataView.swift in Sources */,
@@ -1266,7 +1247,6 @@
 				80385CFE285BEE5900CBDF71 /* Style.swift in Sources */,
 				806235F42A2ED7620040F9BD /* MigrationModel18to19.swift in Sources */,
 				80385D04285BEE5900CBDF71 /* mo_ikai.xcdatamodeld in Sources */,
-				805785AF295DA3A000028582 /* EveryWeeklyNotSpecific.swift in Sources */,
 				80385D08285BEE5900CBDF71 /* CoreDataMigrator.swift in Sources */,
 				80744F6529B558A800DAF196 /* SpecificTimeNotification.swift in Sources */,
 				8068F9EB2A4D29E70028E378 /* MockNotificationGenerator.swift in Sources */,
@@ -1530,6 +1510,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "one-percent-better/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "1% Better";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1543,7 +1524,7 @@
 				);
 				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
-				PRODUCT_NAME = "1% Better";
+				PRODUCT_NAME = "One Percent Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1566,6 +1547,7 @@
 				ENABLE_TESTABILITY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "one-percent-better/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "1% Better";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1579,7 +1561,7 @@
 				);
 				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "montypylon.one-percent-better-swiftui";
-				PRODUCT_NAME = "1% Better";
+				PRODUCT_NAME = "One Percent Better";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1605,7 +1587,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/1% Better.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/1% Better";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/One Percent Better.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/One Percent Better";
 			};
 			name = Debug;
 		};
@@ -1625,7 +1607,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/1% Better.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/1% Better";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/One Percent Better.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/One Percent Better";
 			};
 			name = Release;
 		};

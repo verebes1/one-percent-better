@@ -17,21 +17,10 @@ struct XTimesPerWeekBeginningEveryY: View {
       VStack {
          HStack(spacing: 7) {
             Menu {
-               
-               MenuItemWithCheckmark(value: 1,
-                                        selection: $timesPerWeek)
-               MenuItemWithCheckmark(value: 2,
-                                        selection: $timesPerWeek)
-               MenuItemWithCheckmark(value: 3,
-                                        selection: $timesPerWeek)
-               MenuItemWithCheckmark(value: 4,
-                                        selection: $timesPerWeek)
-               MenuItemWithCheckmark(value: 5,
-                                        selection: $timesPerWeek)
-               MenuItemWithCheckmark(value: 6,
-                                        selection: $timesPerWeek)
-               MenuItemWithCheckmark(value: 7,
-                                        selection: $timesPerWeek)
+               ForEach(1 ..< 8) { i in
+                  MenuItemWithCheckmark(value: i,
+                                           selection: $timesPerWeek)
+               }
             } label: {
                CapsuleMenuButton(text: String(timesPerWeek),
                                          color: color,
@@ -48,26 +37,12 @@ struct XTimesPerWeekBeginningEveryY: View {
          HStack(spacing: 7) {
             Text("beginning every")
             Menu {
-               MenuItemWithCheckmark(value: .saturday,
-                                     selection: $beginningDay)
-               
-               MenuItemWithCheckmark(value: .friday,
-                                     selection: $beginningDay)
-
-               MenuItemWithCheckmark(value: .thursday,
-                                     selection: $beginningDay)
-
-               MenuItemWithCheckmark(value: .wednesday,
-                                     selection: $beginningDay)
-
-               MenuItemWithCheckmark(value: .tuesday,
-                                     selection: $beginningDay)
-
-               MenuItemWithCheckmark(value: .monday,
-                                     selection: $beginningDay)
-
-               MenuItemWithCheckmark(value: .sunday,
-                                     selection: $beginningDay)
+               ForEach(0 ..< 7) { i in
+                  if let weekday = Weekday(rawValue: i) {
+                     MenuItemWithCheckmark(value: weekday,
+                                           selection: $beginningDay)
+                  }
+               }
             } label: {
                CapsuleMenuButton(text: "\(beginningDay)",
                                          color: color,

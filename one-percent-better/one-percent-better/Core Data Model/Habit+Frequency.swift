@@ -74,7 +74,7 @@ enum HabitFrequency: Equatable, Hashable {
    }
 }
 
-enum Weekday: Int, CustomStringConvertible, Comparable {
+enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
    case sunday, monday, tuesday, wednesday, thursday, friday, saturday
    
    init(_ date: Date) {

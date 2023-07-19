@@ -12,29 +12,28 @@ struct EditHabitFrequency: View {
    @Environment(\.managedObjectContext) var moc
    
    @EnvironmentObject var vm: ProgressViewModel
-   @State private var selection: HabitFrequency
+   @StateObject private var fssm: FrequencySelectionStackModel
    
    init(habit: Habit) {
-      print("EditHabitFrequency.init")
-      let freq = habit.frequency(on: Date())
-      self._selection = State(initialValue: freq ?? .timesPerDay(1))
+      let initialFrequency = habit.frequency(on: Date()) ?? .timesPerDay(1)
+      self._fssm = StateObject(wrappedValue: FrequencySelectionStackModel(selection: initialFrequency))
    }
    
    var body: some View {
-      let _ = Self._printChanges()
       Background {
          VStack(spacing: 20) {
             HabitCreationHeader(systemImage: "clock.arrow.2.circlepath",
                                 title: "Frequency",
                                 subtitle: "How often do you want to complete this habit?")
             
-            FrequencySelectionStack(selection: $selection)
+            FrequencySelectionStack()
+               .environmentObject(fssm)
             
             Spacer()
          }
          .onDisappear {
-            if selection != vm.habit.frequency(on: Date()) {
-               vm.habit.changeFrequency(to: selection)
+            if fssm.selection != vm.habit.frequency(on: Date()) {
+               vm.habit.changeFrequency(to: fssm.selection)
             }
          }
          .navigationBarTitleDisplayMode(.inline)

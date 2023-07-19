@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import ___Better
+@testable import One_Percent_Better
 
 class MockUserNotificationCenter: UserNotificationCenter {
    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool {

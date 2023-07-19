@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct EveryDayXTimesPerDay: View {
    
@@ -17,34 +18,14 @@ struct EveryDayXTimesPerDay: View {
       HStack {
          Text("Every day,")
          Menu {
-            MenuItemWithCheckmark(value: 1,
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: 2,
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: 3,
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: 4,
-                                  selection: $timesPerDay)
-            MenuItemWithCheckmark(value: 5,
-                                  selection: $timesPerDay)
-            Menu {
-               MenuItemWithCheckmark(value: 6,
+            ForEach(1 ..< 11) { i in
+               MenuItemWithCheckmark(value: i,
                                      selection: $timesPerDay)
-               MenuItemWithCheckmark(value: 7,
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: 8,
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: 9,
-                                     selection: $timesPerDay)
-               MenuItemWithCheckmark(value: 10,
-                                     selection: $timesPerDay)
-            } label: {
-               Button("More...", action: {})
             }
          } label: {
             CapsuleMenuButton(text: String(timesPerDay),
-                                      color: color,
-                                      fontSize: 15)
+                              color: color,
+                              fontSize: 15)
          }
          
          HStack(spacing: 0) {
@@ -70,6 +51,5 @@ struct EveryDayXTimesPerDayPreviewer: View {
 struct EveryDayXTimesPerDay_Previews: PreviewProvider {
    static var previews: some View {
       EveryDayXTimesPerDayPreviewer()
-      
    }
 }

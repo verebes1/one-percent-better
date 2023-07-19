@@ -18,8 +18,7 @@ struct AnimatedPlural: View {
          if value > 1 {
             Text("s")
                .transition(
-                  .opacity
-                     .combined(with: .move(edge: .bottom))
+                  .opacity.combined(with: .move(edge: .bottom))
                )
          }
       }

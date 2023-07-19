@@ -7,7 +7,7 @@
 
 import XCTest
 import CoreData
-@testable import ___Better
+@testable import One_Percent_Better
 
 final class StreakTests: XCTestCase {
 

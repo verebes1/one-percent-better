@@ -11,13 +11,14 @@ struct SelectableCard<Content>: View where Content: View {
    
    @Environment(\.colorScheme) var scheme
    
+   /// The condition for this card to be marked as selected
    var isSelected: Bool
    
+   /// The content of the card
    let content: () -> Content
    
+   /// A callback for when the card is tapped
    var onSelection: () -> Void = {}
-   
-   @State private var scale = 1.0
    
    var checkmarkImageName: String {
       isSelected ? "checkmark.circle.fill" : "circle"
@@ -34,7 +35,7 @@ struct SelectableCard<Content>: View where Content: View {
          ZStack {
             if isSelected {
                RoundedRectangle(cornerRadius: cornerRadius)
-                  .stroke(Style.accentColor, lineWidth: 2)
+                  .stroke(Style.accentColor, lineWidth: 2.0)
                   .padding(.horizontal, 10)
             }
                
@@ -55,76 +56,31 @@ struct SelectableCard<Content>: View where Content: View {
                onSelection()
             }
       )
-//      .transition(.opacity)
-//      .animation(.easeInOut(duration: 0.1), value: isSelected)
    }
 }
 
-struct SelectableFrequencyCard<Content>: View where Content: View {
+struct SelectableCard_Previewer: View {
    
-   @Binding var selection: HabitFrequency
-   let type: HabitFrequency
-   let content: () -> Content
-   var onSelection: () -> Void = {}
-   
-   func isSameType(selection: HabitFrequency, type: HabitFrequency) -> Bool {
-      switch type {
-      case .timesPerDay:
-         if case .timesPerDay = selection {
-            return true
-         }
-      case.specificWeekdays:
-         if case .specificWeekdays = selection {
-            return true
-         }
-      case .timesPerWeek:
-         if case .timesPerWeek = selection {
-            return true
-         }
-      }
-      return false
-   }
-   
-   var body: some View {
-      SelectableCard(isSelected: isSameType(selection: selection, type: type)) {
-         content()
-            .padding(.vertical, 5)
-      } onSelection: {
-         onSelection()
-      }
-   }
-}
-
-struct SelectableCard2_Previewer: View {
-   
-   @State private var selection: HabitFrequency = .timesPerDay(2)
-   
-   @State private var tpd = 2
-   
-   @State private var tpw = 3
-   @State private var resetDay: Weekday = .sunday
+   @State private var selection = 0
    
    var body: some View {
       Background {
          VStack {
-            SelectableFrequencyCard(selection: $selection, type: .timesPerDay(2)) {
-               EveryDayXTimesPerDay(timesPerDay: $tpd)
-            } onSelection: {
-               selection = .timesPerDay(2)
-            }
-            
-            SelectableFrequencyCard(selection: $selection, type: .specificWeekdays([.monday, .tuesday, .wednesday])) {
-               XTimesPerWeekBeginningEveryY(timesPerWeek: $tpw, beginningDay: $resetDay)
-            } onSelection: {
-               selection = .specificWeekdays([.monday, .tuesday])
+            ForEach(0 ..< 4) { i in
+               SelectableCard(isSelected: selection == i) {
+                  Text(String(describing: i))
+                     .padding(.vertical, 10)
+               } onSelection: {
+                  selection = i
+               }
             }
          }
       }
    }
 }
 
-struct SelectableCard2_Previews: PreviewProvider {
+struct SelectableCard_Previews: PreviewProvider {
    static var previews: some View {
-      SelectableCard2_Previewer()
+      SelectableCard_Previewer()
    }
 }
