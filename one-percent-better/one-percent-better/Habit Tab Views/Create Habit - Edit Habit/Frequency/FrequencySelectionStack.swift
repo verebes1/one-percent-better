@@ -96,8 +96,6 @@ struct FrequencySelectionStack: View {
    /// Model for the frequency selection
    @EnvironmentObject var fssm: FrequencySelectionStackModel
    
-   var fc = Color.label //Color(#colorLiteral(red: 0.9300237298, green: 0.9300237298, blue: 0.9300237298, alpha: 1))
-   
    var body: some View {
       VStack(spacing: 20) {
          SelectableFrequencyCard(type: .timesPerDay(1)) {
@@ -114,8 +112,6 @@ struct FrequencySelectionStack: View {
                                          beginningDay: $fssm.resetDay)
          }
       }
-      .foregroundStyle(fc)
-      
    }
 }
 
