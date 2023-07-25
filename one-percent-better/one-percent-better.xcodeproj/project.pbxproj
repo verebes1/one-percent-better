@@ -172,6 +172,8 @@
 		80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */; };
 		80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */; };
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
+		80AF1F1F2A6F619100DFAEB6 /* LayoutTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AF1F1E2A6F619100DFAEB6 /* LayoutTest.swift */; };
+		80AF1F212A6F690F00DFAEB6 /* DueOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AF1F202A6F690F00DFAEB6 /* DueOnTests.swift */; };
 		80BA250A29B7F3900072B1AA /* RandomTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BA250929B7F3900072B1AA /* RandomTimeTests.swift */; };
 		80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 80BA250C29B8155C0072B1AA /* OpenAISwift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
@@ -411,6 +413,8 @@
 		80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayTests.swift; sourceTree = "<group>"; };
 		80AE85F728E3FB5A006E8964 /* mo_ikai 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 9.xcdatamodel"; sourceTree = "<group>"; };
 		80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel8to9.swift; sourceTree = "<group>"; };
+		80AF1F1E2A6F619100DFAEB6 /* LayoutTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTest.swift; sourceTree = "<group>"; };
+		80AF1F202A6F690F00DFAEB6 /* DueOnTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DueOnTests.swift; sourceTree = "<group>"; };
 		80BA250929B7F3900072B1AA /* RandomTimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTimeTests.swift; sourceTree = "<group>"; };
 		80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyPercentGraphCard.swift; sourceTree = "<group>"; };
 		80BF87A228E69EB2002A1347 /* ChartTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartTest.swift; sourceTree = "<group>"; };
@@ -880,6 +884,7 @@
 				8081A36728788CB000D0CB1B /* GradientRing2.swift */,
 				8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */,
 				803E1B8928A9D68B0010540B /* SelectableCardOld.swift */,
+				80AF1F1E2A6F619100DFAEB6 /* LayoutTest.swift */,
 			);
 			path = "Unused Code";
 			sourceTree = "<group>";
@@ -906,6 +911,7 @@
 				806BB18829A5B751006549A9 /* SpecificWeekdaysTests.swift */,
 				80AE0CA229930D5F00B565DE /* XTimesPerWeekTests.swift */,
 				80AE0CAA29A1C5DE00B565DE /* WeekdayTests.swift */,
+				80AF1F202A6F690F00DFAEB6 /* DueOnTests.swift */,
 			);
 			path = "Frequency Tests";
 			sourceTree = "<group>";
@@ -1163,6 +1169,7 @@
 				80385D1C285BEE5900CBDF71 /* NSManagedObjectModel+Compatible.swift in Sources */,
 				80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */,
 				8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */,
+				80AF1F1F2A6F619100DFAEB6 /* LayoutTest.swift in Sources */,
 				802CCA0D28B7D1E3006E38E6 /* FeatureLogController.swift in Sources */,
 				80385D36285BEE5900CBDF71 /* GraphUIKitView.swift in Sources */,
 				803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */,
@@ -1350,6 +1357,7 @@
 				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
 				806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */,
 				805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */,
+				80AF1F212A6F690F00DFAEB6 /* DueOnTests.swift in Sources */,
 				80D8EF032A47CA7600769114 /* NotificationGeneratorTests.swift in Sources */,
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekTests.swift in Sources */,

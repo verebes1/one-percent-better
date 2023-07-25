@@ -14,11 +14,11 @@ final class FrequencyTests: XCTestCase {
    
    var habit: Habit!
    
-   var df: DateFormatter {
+   var df: DateFormatter = {
       let df = DateFormatter()
       df.dateFormat = "MM-dd-yyyy"
       return df
-   }
+   }()
    
    override func setUpWithError() throws {
       habit = try! Habit(context: context, name: "Cook")

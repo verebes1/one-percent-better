@@ -74,20 +74,21 @@ struct HabitListView: View {
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
    
-   @State private var sortingSelection = "Ordered"
+   @State private var sortingSelection = ["Sort by due today"]
    
    var body: some View {
       let _ = Self._printChanges()
       VStack {
-         Text("editMode: \(String(describing: editMode?.wrappedValue.isEditing))")
          if hlvm.habits.isEmpty {
             NoHabitsView()
             Spacer()
          } else {
             List {
-               Section {
+               
+               Section("Due Today") {
                   ForEach(hlvm.habits, id: \.self.id) { habit in
-                     if habit.started(before: hsvm.selectedDay) {
+                     if habit.started(before: hsvm.selectedDay),
+                        habit.isDue(on: hsvm.selectedDay) {
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                            HabitRow(habit: habit, day: hsvm.selectedDay)
                         }
@@ -101,11 +102,46 @@ struct HabitListView: View {
                   .onMove(perform: hlvm.move)
                   .onDelete(perform: hlvm.delete)
                }
+               
+               Section("Due This Week") {
+                  ForEach(hlvm.habits, id: \.self.id) { habit in
+                     if habit.started(before: hsvm.selectedDay),
+                        !habit.isDue(on: hsvm.selectedDay) {
+                        NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                           HabitRow(habit: habit, day: hsvm.selectedDay)
+                        }
+                        .listRowInsets(.init(top: 0,
+                                             leading: 0,
+                                             bottom: 0,
+                                             trailing: 20))
+                        .listRowBackground(Color.cardColor)
+                     }
+                  }
+                  .onMove(perform: hlvm.move)
+                  .onDelete(perform: hlvm.delete)
+               }
+               
+//               Section {
+//                  ForEach(hlvm.habits, id: \.self.id) { habit in
+//                     if habit.started(before: hsvm.selectedDay) {
+//                        NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+//                           HabitRow(habit: habit, day: hsvm.selectedDay)
+//                        }
+//                        .listRowInsets(.init(top: 0,
+//                                             leading: 0,
+//                                             bottom: 0,
+//                                             trailing: 20))
+//                        .listRowBackground(Color.cardColor)
+//                     }
+//                  }
+//                  .onMove(perform: hlvm.move)
+//                  .onDelete(perform: hlvm.delete)
+//               }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .environment(\.defaultMinListRowHeight, 54)
-            .padding(.top, -25)
+//            .padding(.top, -25)
             .clipShape(Rectangle())
          }
       }
@@ -119,14 +155,9 @@ struct HabitListView: View {
             } else {
                ToolbarItem(placement: .navigationBarLeading) {
                   Menu {
-                     Menu {
-                        MenuItemWithCheckmark(value: "Custom Order", selection: $sortingSelection)
-                        MenuItemWithCheckmark(value: "Due / Not Due", selection: $sortingSelection)
-                     } label: {
-                        Label("Sort by", systemImage: "tray")
-                     }
-                     
                      EditButton()
+                     Divider()
+                     MenuItemWithCheckmarks(value: "Sort by due today", selections: $sortingSelection)
                   } label: {
                      Image(systemName: "list.dash")
                   }
