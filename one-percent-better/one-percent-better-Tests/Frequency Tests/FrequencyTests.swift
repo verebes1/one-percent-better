@@ -67,15 +67,15 @@ final class FrequencyTests: XCTestCase {
    func testFrequencySquash() throws {
       let startDate = df.date(from: "2-1-2023")!
       habit.updateStartDate(to: startDate)
-      habit.changeFrequency(to: .timesPerDay(1), on: df.date(from: "2-1-2023")!)
-      habit.changeFrequency(to: .timesPerDay(2), on: df.date(from: "2-2-2023")!)
-      habit.changeFrequency(to: .timesPerDay(3), on: df.date(from: "2-3-2023")!)
+      habit.updateFrequency(to: .timesPerDay(1), on: df.date(from: "2-1-2023")!)
+      habit.updateFrequency(to: .timesPerDay(2), on: df.date(from: "2-2-2023")!)
+      habit.updateFrequency(to: .timesPerDay(3), on: df.date(from: "2-3-2023")!)
       
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-1-2023")!), .timesPerDay(1))
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-2-2023")!), .timesPerDay(2))
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-3-2023")!), .timesPerDay(3))
       
-      habit.changeFrequency(to: .timesPerDay(3), on: df.date(from: "2-2-2023")!)
+      habit.updateFrequency(to: .timesPerDay(3), on: df.date(from: "2-2-2023")!)
       
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-1-2023")!), .timesPerDay(1))
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-2-2023")!), .timesPerDay(3))
@@ -87,13 +87,13 @@ final class FrequencyTests: XCTestCase {
    func testUpdateFrequencyInMiddle() {
       let startDate = df.date(from: "2-1-2023")!
       habit.updateStartDate(to: startDate)
-      habit.changeFrequency(to: .timesPerDay(1), on: df.date(from: "2-1-2023")!)
-      habit.changeFrequency(to: .timesPerDay(2), on: df.date(from: "2-5-2023")!)
+      habit.updateFrequency(to: .timesPerDay(1), on: df.date(from: "2-1-2023")!)
+      habit.updateFrequency(to: .timesPerDay(2), on: df.date(from: "2-5-2023")!)
       
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-1-2023")!), .timesPerDay(1))
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-5-2023")!), .timesPerDay(2))
       
-      habit.changeFrequency(to: .timesPerWeek(times: 5, resetDay: .sunday), on: df.date(from: "2-3-2023")!)
+      habit.updateFrequency(to: .timesPerWeek(times: 5, resetDay: .sunday), on: df.date(from: "2-3-2023")!)
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-1-2023")!), .timesPerDay(1))
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-3-2023")!), .timesPerWeek(times: 5, resetDay: .sunday))
       XCTAssertEqual(habit.frequency(on: df.date(from: "2-4-2023")!), .timesPerWeek(times: 5, resetDay: .sunday))

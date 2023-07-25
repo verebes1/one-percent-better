@@ -35,8 +35,79 @@ final class DueOnTests: XCTestCase {
    
    func testXTimesPerDay() throws {
       let startDate = df.date(from: "7-20-2023")!
-      habit.changeFrequency(to: .timesPerDay(1), on: startDate)
+      habit.updateStartDate(to: startDate)
+      habit.updateFrequency(to: .timesPerDay(1), on: startDate)
       XCTAssertTrue(habit.isDue(on: startDate))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 1, to: startDate)))
       XCTAssertTrue(habit.isDue(on: Date()))
+      
+      habit.updateFrequency(to: .timesPerDay(3), on: startDate)
+      XCTAssertTrue(habit.isDue(on: startDate))
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 1, to: startDate)))
+      XCTAssertTrue(habit.isDue(on: Date()))
+   }
+   
+   func testSpecificWeekdays() throws {
+      let startDate = df.date(from: "7-17-2023")! // a monday
+      habit.updateStartDate(to: startDate)
+      habit.updateFrequency(to: .specificWeekdays([.monday, .wednesday]), on: startDate)
+      
+      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      
+      XCTAssertTrue(habit.isDue(on: startDate)) // monday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 2, to: startDate))) // wednesday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 3, to: startDate))) // thursday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 4, to: startDate))) // friday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 5, to: startDate))) // saturday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 6, to: startDate))) // sunday
+   }
+   
+   func testSpecificWeekdays2() throws {
+      let startDate = df.date(from: "7-17-2023")! // a monday
+      habit.updateStartDate(to: startDate)
+      habit.updateFrequency(to: .specificWeekdays([.friday, .saturday, .sunday]), on: startDate)
+      
+      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      
+      XCTAssertFalse(habit.isDue(on: startDate)) // monday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 2, to: startDate))) // wednesday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 3, to: startDate))) // thursday
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 4, to: startDate))) // friday
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 5, to: startDate))) // saturday
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 6, to: startDate))) // sunday
+   }
+   
+   func testXTimesPerWeek() throws {
+      let startDate = df.date(from: "7-17-2023")! // a monday
+      habit.updateStartDate(to: startDate)
+      habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startDate)
+      
+      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      
+      XCTAssertFalse(habit.isDue(on: startDate)) // monday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 2, to: startDate))) // wednesday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 3, to: startDate))) // thursday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 4, to: startDate))) // friday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 5, to: startDate))) // saturday
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 6, to: startDate))) // sunday
+   }
+   
+   func testXTimesPerWeek2() throws {
+      let startDate = df.date(from: "7-17-2023")! // a monday
+      habit.updateStartDate(to: startDate)
+      habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: .wednesday), on: startDate)
+      
+      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      
+      XCTAssertFalse(habit.isDue(on: startDate)) // monday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
+      XCTAssertTrue(habit.isDue(on: Cal.add(days: 2, to: startDate))) // wednesday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 3, to: startDate))) // thursday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 4, to: startDate))) // friday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 5, to: startDate))) // saturday
+      XCTAssertFalse(habit.isDue(on: Cal.add(days: 6, to: startDate))) // sunday
    }
 }

@@ -57,7 +57,7 @@ struct YearViewPreview: View {
       let day0 = Date()
       let h1 = try? Habit(context: context, name: "L", frequency: .timesPerDay(1), id: id)
       h1?.markCompleted(on: day0)
-      h1?.changeFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
+      h1?.updateFrequency(to: .timesPerDay(2), on: Cal.date(byAdding: .day, value: -364, to: day0)!)
 
 //      for _ in 0 ..< 100 {
 //         let rand = Int.random(in: 0 ..< 364)
