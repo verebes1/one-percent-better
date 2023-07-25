@@ -50,14 +50,6 @@ struct NotificationSelection: View {
       }
    }
    
-   var headerSubtitle: String {
-      if let frequencyDescription = habit.frequency(on: Date())?.description {
-         return "Add reminders to complete your habit \(frequencyDescription)."
-      } else {
-         return "Add reminders to complete your habit."
-      }
-   }
-   
    var body: some View {
       Background {
          VStack(spacing: 10) {
@@ -65,7 +57,7 @@ struct NotificationSelection: View {
             
             AnimatedHabitCreationHeader(animateBell: $animateBell,
                                         title: "Reminder",
-                                        subtitle: headerSubtitle)
+                                        subtitle: "Add reminders powered by AI to complete your habit.")
             
             Menu {
                Button {
