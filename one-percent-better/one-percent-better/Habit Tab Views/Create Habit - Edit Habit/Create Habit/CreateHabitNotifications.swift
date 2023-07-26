@@ -41,7 +41,7 @@ struct CreateHabitNotifications: View {
          }
       }
       .onAppear {
-         let _ = habit.changeFrequency(to: habitFrequency)
+         let _ = habit.updateFrequency(to: habitFrequency)
       }
    }
 }

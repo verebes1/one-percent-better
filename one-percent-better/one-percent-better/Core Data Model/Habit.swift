@@ -101,7 +101,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
       timesCompleted = []
       trackers = NSOrderedSet.init(array: [])
       orderIndex = nextLargestHabitIndex(habits)
-      changeFrequency(to: frequency, on: startDate)
+      updateFrequency(to: frequency, on: startDate)
       addToTrackers(ImprovementTracker(context: moc, habit: self))
    }
    

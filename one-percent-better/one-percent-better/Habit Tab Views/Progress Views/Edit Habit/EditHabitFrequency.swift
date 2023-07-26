@@ -33,7 +33,7 @@ struct EditHabitFrequency: View {
          }
          .onDisappear {
             if fssm.selection != vm.habit.frequency(on: Date()) {
-               vm.habit.changeFrequency(to: fssm.selection)
+               vm.habit.updateFrequency(to: fssm.selection)
             }
          }
          .navigationBarTitleDisplayMode(.inline)

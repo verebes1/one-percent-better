@@ -94,7 +94,7 @@ final class ImprovementTrackerTests: XCTestCase {
    
    func testTimesPerDayFrequency() throws {
       habit.updateStartDate(to: Cal.add(days: -1))
-      habit.changeFrequency(to: .timesPerDay(2), on: habit.startDate)
+      habit.updateFrequency(to: .timesPerDay(2), on: habit.startDate)
       
       habit.markCompleted(on: Cal.add(days: -1))
       XCTAssertEqual(["0", "0"], habit.improvementTracker?.values)
@@ -108,7 +108,7 @@ final class ImprovementTrackerTests: XCTestCase {
    func testSMTWTFSFrequency() throws {
       habit.updateStartDate(to: Cal.add(days: -2))
       let yesterday = Cal.add(days: -1).weekdayInt
-      habit.changeFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
+      habit.updateFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
       
       habit.markCompleted(on: Cal.add(days: -2))
       // -2 -1  0
@@ -134,7 +134,7 @@ final class ImprovementTrackerTests: XCTestCase {
    func testSMTWTFSFrequency2() throws {
       habit.updateStartDate(to: Cal.add(days: -2))
       let yesterday = Cal.add(days: -1).weekdayInt
-      habit.changeFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
+      habit.updateFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
       
       habit.markCompleted(on: Cal.add(days: -2))
       // -2 -1  0

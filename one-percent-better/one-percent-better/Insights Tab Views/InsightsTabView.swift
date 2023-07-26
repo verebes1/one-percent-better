@@ -50,7 +50,7 @@ struct InsightsTabView_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.add(days: -12))
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.changeFrequency(to: .specificWeekdays([.monday, .wednesday, .friday]))
+      h2?.updateFrequency(to: .specificWeekdays([.monday, .wednesday, .friday]))
       h2?.markCompleted(on: Date())
       h2?.markCompleted(on: Cal.add(days: -1))
       

@@ -97,7 +97,7 @@ struct CalendarDayView_Previews: PreviewProvider {
       let today = Date()
       
       let h1 = try? Habit(context: context, name: "A")
-      h1?.changeFrequency(to: .timesPerDay(3), on: yesterday3)
+      h1?.updateFrequency(to: .timesPerDay(3), on: yesterday3)
       
       let _ = try? Habit(context: context, name: "B")
       
