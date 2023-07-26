@@ -18,11 +18,6 @@ struct OnePercentBetterApp: App {
             // Regular app behavior
             ContentView()
                .environment(\.managedObjectContext, coreDataManager.mainContext)
-               .onAppear {
-                  print("NSHomeDirectory: \(NSHomeDirectory())")
-                  FeatureLogController.shared.setUp()
-                  NotificationManager.shared.rebalanceHabitNotifications()
-               }
          } else {
             // App behavior during testing
             EmptyView()

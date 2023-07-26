@@ -80,7 +80,7 @@ struct ImprovementGraphView: View {
    
    var body: some View {
       let last5 = getLast7()
-//      let average = average(last5: last5)
+      let average = average(last5: last5)
       let dashedLine = dashedLineValue(last5: last5)
       let _ = Self._printChanges()
       Chart {
@@ -97,10 +97,10 @@ struct ImprovementGraphView: View {
             .symbol(.circle)
             .symbolSize(14)
             .interpolationMethod(.monotone)
+            .foregroundStyle(graphColor(last7: last5, avg: dashedLine).opacity(0.9))
          }
       }
-      .foregroundStyle(graphColor(last7: last5, avg: dashedLine).opacity(0.9))
-      .animation(.spring(response: 0.25, dampingFraction: 0.4, blendDuration: 0), value: last5)
+      .animation(.easeInOut, value: last5)
       .chartYScale(domain: improvementRange(last5: last5))
       .chartXAxis(.hidden)
       .chartYAxis(.hidden)
@@ -123,7 +123,7 @@ struct ImprovementGraphView_Previews: PreviewProvider {
       h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
       
       let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-      h2?.updateFrequency(to: .specificWeekdays([.monday, .wednesday, .friday, .saturday]))
+      h2?.changeFrequency(to: .specificWeekdays([.monday, .wednesday, .friday, .saturday]))
       h2?.markCompleted(on: Date())
       
       let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)

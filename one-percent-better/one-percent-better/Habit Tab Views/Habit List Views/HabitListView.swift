@@ -18,8 +18,6 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
    
    @Published var habits: [Habit] = []
    
-   /// A list of fetched habits by their IDs, used to not update the list view unless this array changes,
-   /// i.e. only when a habit is added, removed, or moved
    var habitIDList: [UUID] = []
    
    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
@@ -66,93 +64,44 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
       }
       moc.assertSave()
    }
-   
-   /// A list of habits which are due today, on the selected day
-   func habitsDueToday(on selectedDay: Date) -> [Habit] {
-      return habits.compactMap { $0.isDue(on: selectedDay) ? $0 : nil }
-   }
-   
-   /// A list of habits which are due this week, on the selected day
-   func habitsDueThisWeek(on selectedDay: Date) -> [Habit] {
-      return habits.compactMap { $0.isDue(on: selectedDay) ? nil : $0 }
-   }
 }
 
 struct HabitListView: View {
    
    @Environment(\.managedObjectContext) var moc
-   @Environment(\.editMode) var editMode
-   
    @EnvironmentObject var hlvm: HabitListViewModel
    @EnvironmentObject var hsvm: HeaderSelectionViewModel
    
-   enum HabitListSortOrder: String, CustomStringConvertible {
-      case orderIndex
-      case byWhenDue
-      
-      var description: String {
-         switch self {
-         case .orderIndex:
-            return "Custom Order"
-         case .byWhenDue:
-            return "Sort by Due Date"
-         }
-      }
-   }
-   
-   @State private var sortingSelection: [HabitListSortOrder] = [.byWhenDue]
-   
    var body: some View {
+      let _ = Self._printChanges()
       VStack {
          if hlvm.habits.isEmpty {
             NoHabitsView()
             Spacer()
          } else {
             List {
-               if !sortingSelection.isEmpty {
-                  let dueTodayHabits = hlvm.habitsDueToday(on: hsvm.selectedDay)
-                  if !dueTodayHabits.isEmpty {
-                     Section("Due Today") {
-                        HabitListSectionView(habits: dueTodayHabits)
+               Section {
+                  ForEach(hlvm.habits, id: \.self.id) { habit in
+                     if habit.started(before: hsvm.selectedDay) {
+                        NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                           HabitRow(habit: habit, day: hsvm.selectedDay)
+                        }
+                        .listRowInsets(.init(top: 0,
+                                             leading: 0,
+                                             bottom: 0,
+                                             trailing: 20))
+                        .listRowBackground(Color.cardColor)
                      }
                   }
-                  
-                  let dueThisWeek = hlvm.habitsDueThisWeek(on: hsvm.selectedDay)
-                  if !dueThisWeek.isEmpty {
-                     Section("Due This Week") {
-                        HabitListSectionView(habits: dueThisWeek)
-                     }
-                  }
-               } else {
-                  HabitListSectionView(habits: hlvm.habits)
+                  .onMove(perform: hlvm.move)
+                  .onDelete(perform: hlvm.delete)
                }
             }
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .environment(\.defaultMinListRowHeight, 54)
-            .padding(.top, !sortingSelection.isEmpty ? -7 : -25)
+            .padding(.top, -25)
             .clipShape(Rectangle())
-            .animation(.easeInOut, value: sortingSelection)
-         }
-      }
-      .toolbar {
-         // Edit Habit List
-         if !hlvm.habits.isEmpty {
-            if editMode?.wrappedValue.isEditing == true {
-               ToolbarItem(placement: .navigationBarLeading) {
-                  EditButton()
-               }
-            } else {
-               ToolbarItem(placement: .navigationBarLeading) {
-                  Menu {
-                     MenuItemWithCheckmarks(value: .byWhenDue, selections: $sortingSelection)
-                     Divider()
-                     EditButton()
-                  } label: {
-                     Image(systemName: "list.dash")
-                  }
-               }
-            }
          }
       }
    }
@@ -160,19 +109,21 @@ struct HabitListView: View {
 
 struct HabitsViewPreviewer: View {
    
+   @Environment(\.managedObjectContext) var moc
+   
    static let h0id = UUID()
    static let h1id = UUID()
    static let h2id = UUID()
-   static let h3id = UUID()
-   static let h4id = UUID()
-   static let h5id = UUID()
    
    @StateObject var nav = HabitTabNavPath()
-   @StateObject var barManager = BottomBarManager()
-   @StateObject var hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
-   @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
+   @StateObject var habitList_VM: HabitListViewModel
+   @StateObject var headerWeek_VM: HeaderWeekViewModel
    
    init() {
+      let hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
+      let hwvm = HeaderWeekViewModel(CoreDataManager.previews.mainContext)
+      _habitList_VM = StateObject(wrappedValue: hlvm)
+      _headerWeek_VM = StateObject(wrappedValue: hwvm)
       let _ = data()
    }
    
@@ -187,34 +138,21 @@ struct HabitsViewPreviewer: View {
       
       let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
       h2?.markCompleted(on: Date())
-      
-      let h3 = try? Habit(context: context, name: "Due MWF", frequency: .specificWeekdays([.monday, .wednesday, .friday]), id: HabitsViewPreviewer.h3id)
-      h3?.markCompleted(on: Date())
-      
-      let _ = try? Habit(context: context, name: "Due TTSS", frequency: .specificWeekdays([.tuesday, .thursday, .saturday, .sunday]), id: HabitsViewPreviewer.h4id)
-      
-      let _ = try? Habit(context: context, name: "Due 1x per week", frequency: .timesPerWeek(times: 1, resetDay: .sunday), id: HabitsViewPreviewer.h5id)
-      
-      context.assertSave()
    }
    
    var body: some View {
       NavigationStack(path: $nav.path) {
          HabitListView()
+            .environmentObject(headerWeek_VM)
+            .environment(\.managedObjectContext, moc)
             .environmentObject(nav)
-            .environmentObject(barManager)
-            .environmentObject(hlvm)
-            .environmentObject(hsvm)
       }
    }
 }
 
 struct HabitsView_Previews: PreviewProvider {
    static var previews: some View {
-      Background {
-         HabitsViewPreviewer()
-            .environment(\.managedObjectContext, CoreDataManager.previews.mainContext)
-      }
+      HabitsViewPreviewer()
    }
 }
 
@@ -231,32 +169,5 @@ struct NoHabitsView: View {
          }
       }
       .padding(.top, 40)
-   }
-}
-
-struct HabitListSectionView: View {
-   
-   @Environment(\.managedObjectContext) var moc
-   
-   @EnvironmentObject var hlvm: HabitListViewModel
-   @EnvironmentObject var hsvm: HeaderSelectionViewModel
-   
-   var habits: [Habit]
-   
-   var body: some View {
-      ForEach(habits, id: \.self.id) { habit in
-         if habit.started(before: hsvm.selectedDay) {
-            NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-               HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
-            }
-            .listRowInsets(.init(top: 0,
-                                 leading: 0,
-                                 bottom: 0,
-                                 trailing: 20))
-            .listRowBackground(Color.cardColor)
-         }
-      }
-      .onMove(perform: hlvm.move)
-      .onDelete(perform: hlvm.delete)
    }
 }

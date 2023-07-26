@@ -87,18 +87,14 @@ struct HabitCompletionCircle_Previews: PreviewProvider {
 
 struct HabitCompletionCircle_Previewer: View {
    
-   static let h1id = UUID()
-   static let h2id = UUID()
-   static let h3id = UUID()
-   
    func data() -> [Habit] {
       let context = CoreDataManager.previews.mainContext
       
-      let _ = try? Habit(context: context, name: "Racquetball", id: HabitCompletionCircle_Previewer.h1id)
-      let h2 = try? Habit(context: context, name: "Jogging", id: HabitCompletionCircle_Previewer.h2id)
+      let _ = try? Habit(context: context, name: "Racquetball")
+      let h2 = try? Habit(context: context, name: "Jogging")
       h2?.markCompleted(on: Date())
       
-      let h3 = try? Habit(context: context, name: "Soccer", id: HabitCompletionCircle_Previewer.h3id)
+      let h3 = try? Habit(context: context, name: "Soccer")
       if let h3 = h3 {
          let _ = NumberTracker(context: context, habit: h3, name: "Hours")
       }

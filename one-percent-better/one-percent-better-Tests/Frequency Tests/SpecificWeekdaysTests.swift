@@ -38,7 +38,7 @@ final class SpecificWeekdaysTests: XCTestCase {
    func testCompletedOn() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .specificWeekdays([.monday, .wednesday, .friday]), on: startSunday)
+      habit.changeFrequency(to: .specificWeekdays([.monday, .wednesday, .friday]), on: startSunday)
       
       XCTAssertFalse(habit.wasCompleted(on: startSunday))
       XCTAssertEqual(habit.percentCompleted(on: startSunday), 0)
@@ -61,7 +61,7 @@ final class SpecificWeekdaysTests: XCTestCase {
    func testIsDue() {
       let startSunday = df.date(from: "1-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .specificWeekdays([.monday, .tuesday, .wednesday]), on: startSunday)
+      habit.changeFrequency(to: .specificWeekdays([.monday, .tuesday, .wednesday]), on: startSunday)
       
       XCTAssertFalse(habit.isDue(on: startSunday))
       XCTAssertTrue(habit.isDue(on: Cal.add(days: 1, to: startSunday)))
@@ -77,7 +77,7 @@ final class SpecificWeekdaysTests: XCTestCase {
    func testIsDue2() {
       let startSunday = df.date(from: "1-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .specificWeekdays([.sunday, .friday, .saturday]), on: startSunday)
+      habit.changeFrequency(to: .specificWeekdays([.sunday, .friday, .saturday]), on: startSunday)
       
       XCTAssertTrue(habit.isDue(on: startSunday))
       XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startSunday)))
@@ -97,7 +97,7 @@ final class SpecificWeekdaysTests: XCTestCase {
       let startDate = Cal.getLast(weekday: Weekday(today))
       habit.updateStartDate(to: startDate)
       let specificWeekdays = [Weekday(Cal.add(days: 1, to: Date()))]
-      habit.updateFrequency(to: .specificWeekdays(specificWeekdays), on: startDate)
+      habit.changeFrequency(to: .specificWeekdays(specificWeekdays), on: startDate)
       
       // 0 for start date, and 0 for first time failed
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 0])
@@ -117,7 +117,7 @@ final class SpecificWeekdaysTests: XCTestCase {
       let startDate = Cal.getLast(weekday: Weekday(today))
       habit.updateStartDate(to: startDate)
       let specificWeekdays = [Weekday(Cal.add(days: 1, to: Date())), Weekday(Cal.add(days: 3, to: Date()))]
-      habit.updateFrequency(to: .specificWeekdays(specificWeekdays), on: startDate)
+      habit.changeFrequency(to: .specificWeekdays(specificWeekdays), on: startDate)
       
       // 0 for start, and two more 0s for next two failed
       XCTAssertEqual(habit.improvementTracker!.scores, [0, 0, 0])

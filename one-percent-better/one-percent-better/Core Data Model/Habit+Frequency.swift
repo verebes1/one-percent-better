@@ -140,10 +140,7 @@ extension Habit {
    /// - Parameters:
    ///   - freq: The frequency to change to
    ///   - date: The date to change it on
-   func updateFrequency(to frequency: HabitFrequency, on startDate: Date = Date()) {
-      guard self.started(before: startDate) else {
-         fatalError("Can't change frequency before start date")
-      }
+   func changeFrequency(to frequency: HabitFrequency, on startDate: Date = Date()) {      
       let frequencyDates = frequenciesArray.map { $0.startDate }
       let newFrequency = createFrequency(frequency: frequency, startDate: startDate)
       

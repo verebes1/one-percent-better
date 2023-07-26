@@ -41,7 +41,7 @@ final class NotDoneInTests: XCTestCase {
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
       
       habit.updateStartDate(to: startWednesday)
-      habit.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday), on: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday), on: startWednesday)
       
       // X
       // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
@@ -103,7 +103,7 @@ final class NotDoneInTests: XCTestCase {
       let startWednesday = df.date(from: "12-7-2022")!
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
       habit.updateStartDate(to: startWednesday)
-      habit.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday), on: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday), on: startWednesday)
       
       // Never done
       XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
@@ -139,7 +139,7 @@ final class NotDoneInTests: XCTestCase {
       let startWednesday = df.date(from: "12-7-2022")!
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
       habit.updateStartDate(to: startWednesday)
-      habit.updateFrequency(to: .timesPerWeek(times: 2, resetDay: .sunday), on: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 2, resetDay: .sunday), on: startWednesday)
       
       // Never done
       XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
@@ -181,7 +181,7 @@ final class NotDoneInTests: XCTestCase {
       let startWednesday = df.date(from: "12-7-2022")!
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
       habit.updateStartDate(to: startWednesday)
-      habit.updateFrequency(to: .timesPerWeek(times: 2, resetDay: .sunday), on: startWednesday)
+      habit.changeFrequency(to: .timesPerWeek(times: 2, resetDay: .sunday), on: startWednesday)
       
       // Never done
       XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))

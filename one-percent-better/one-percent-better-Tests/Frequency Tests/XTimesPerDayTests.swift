@@ -38,7 +38,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testCompletedOn() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .timesPerDay(1), on: startSunday)
+      habit.changeFrequency(to: .timesPerDay(1), on: startSunday)
       
       XCTAssertFalse(habit.wasCompleted(on: startSunday))
       XCTAssertEqual(habit.percentCompleted(on: startSunday), 0)
@@ -58,7 +58,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testCompletedOn2() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .timesPerDay(4), on: startSunday)
+      habit.changeFrequency(to: .timesPerDay(4), on: startSunday)
       
       XCTAssertFalse(habit.wasCompleted(on: startSunday))
       XCTAssertEqual(habit.percentCompleted(on: startSunday), 0)
@@ -85,7 +85,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testIsDueOn() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .timesPerDay(4), on: startSunday)
+      habit.changeFrequency(to: .timesPerDay(4), on: startSunday)
       
       XCTAssertTrue(habit.isDue(on: startSunday))
       XCTAssertTrue(habit.isDue(on: Cal.add(days: 1, to: startSunday)))
@@ -102,7 +102,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testStreak() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .timesPerDay(1), on: startSunday)
+      habit.changeFrequency(to: .timesPerDay(1), on: startSunday)
       
       XCTAssertEqual(habit.streak(on: startSunday), 0)
       
@@ -121,7 +121,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testStreak2() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .timesPerDay(2), on: startSunday)
+      habit.changeFrequency(to: .timesPerDay(2), on: startSunday)
       
       XCTAssertEqual(habit.streak(on: startSunday), 0)
       
@@ -139,7 +139,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testImprovementScore() {
       let startDate = Cal.getLast(weekday: Weekday(Date()))
       habit.updateStartDate(to: startDate)
-      habit.updateFrequency(to: .timesPerDay(2), on: startDate)
+      habit.changeFrequency(to: .timesPerDay(2), on: startDate)
       
       // 0 for start date, and 0 for first week failed
       XCTAssertEqual(habit.improvementTracker!.scores, Array(repeating: 0, count: 8))
@@ -183,7 +183,7 @@ final class XTimesPerDayTests: XCTestCase {
    func testEquality() {
       let startSunday = df.date(from: "01-29-2023")!
       habit.updateStartDate(to: startSunday)
-      habit.updateFrequency(to: .timesPerDay(1), on: startSunday)
+      habit.changeFrequency(to: .timesPerDay(1), on: startSunday)
       
       XCTAssertEqual(habit.frequenciesArray.count, 1)
    }

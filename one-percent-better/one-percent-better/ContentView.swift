@@ -48,10 +48,6 @@ struct ContentView: View {
    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
    @StateObject var svm = SettingsViewModel()
    
-   init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-      self._hlvm = StateObject(wrappedValue: HabitListViewModel(context))
-   }
-   
    var body: some View {
       TabView(selection: $selectedTab) {
          // Habits
@@ -87,33 +83,19 @@ struct ContentView: View {
          .tag(Tabs.settings)
       }
       .preferredColorScheme(svm.settings.first?.appearanceScheme)
+      .onAppear {
+         print("NSHomeDirectory: \(NSHomeDirectory())")
+         FeatureLogController.shared.setUp()
+         NotificationManager.shared.rebalanceHabitNotifications()
+      }
    }
 }
 
 struct ContentView_Previews: PreviewProvider {
-   static let h0id = UUID()
-   static let h1id = UUID()
-   static let h2id = UUID()
-   
-   static func data() {
-      let context = CoreDataManager.previews.mainContext
-      
-      let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
-      
-      let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
-      let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
-      h1?.markCompleted(on: yesterday)
-      
-      let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
-      h2?.markCompleted(on: Date())
-      
-      context.assertSave()
-   }
    
    static var previews: some View {
       let context = CoreDataManager.previews.mainContext
-      let _ = data()
-      ContentView(context)
+      ContentView()
          .environment(\.managedObjectContext, context)
    }
 }
