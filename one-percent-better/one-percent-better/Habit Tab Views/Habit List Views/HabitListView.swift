@@ -130,7 +130,7 @@ struct HabitListView: View {
             .listStyle(.insetGrouped)
             .scrollContentBackground(.hidden)
             .environment(\.defaultMinListRowHeight, 54)
-            .padding(.top, !sortingSelection.isEmpty ? 0 : -25)
+            .padding(.top, !sortingSelection.isEmpty ? -7 : -25)
             .clipShape(Rectangle())
             .animation(.easeInOut, value: sortingSelection)
          }

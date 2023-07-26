@@ -17,7 +17,6 @@ struct ImprovementGraphCardView: View {
             CardTitleWithRightDetail("Improvement Score") {
                EmptyView()
             }
-//            Text(String(describing: it.scores))
             if it.habit.daysCompleted.isEmpty {
                Text("A score which gets 1% larger every time you do your habit, and 0.5% smaller when you don't.")
                   .font(.system(size: 15))
@@ -46,9 +45,9 @@ struct ImprovementGraphCardView_Previews: PreviewProvider {
       
       let h1 = try? Habit(context: context, name: "Swimming", id: ImprovementGraphCardView_Previews.h0id)
       h1?.updateStartDate(to: day2)
-//      h1?.markCompleted(on: day0)
-//      h1?.markCompleted(on: day1)
-//      h1?.markCompleted(on: day2)
+      h1?.markCompleted(on: day0)
+      h1?.markCompleted(on: day1)
+      h1?.markCompleted(on: day2)
       
       let habits = Habit.habits(from: context)
       return habits.first!
