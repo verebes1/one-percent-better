@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8055A96F2831BAA5009A1881"
-               BuildableName = "1% Better.app"
+               BuildableName = "One Percent Better.app"
                BlueprintName = "one-percent-better"
                ReferencedContainer = "container:one-percent-better.xcodeproj">
             </BuildableReference>
@@ -101,7 +101,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8055A96F2831BAA5009A1881"
-            BuildableName = "1% Better.app"
+            BuildableName = "One Percent Better.app"
             BlueprintName = "one-percent-better"
             ReferencedContainer = "container:one-percent-better.xcodeproj">
          </BuildableReference>
@@ -124,7 +124,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8055A96F2831BAA5009A1881"
-            BuildableName = "1% Better.app"
+            BuildableName = "One Percent Better.app"
             BlueprintName = "one-percent-better"
             ReferencedContainer = "container:one-percent-better.xcodeproj">
          </BuildableReference>
