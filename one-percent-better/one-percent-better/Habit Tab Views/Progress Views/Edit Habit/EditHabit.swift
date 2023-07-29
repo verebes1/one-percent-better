@@ -158,7 +158,6 @@ struct EditHabit: View {
                         nav.path.removeLast(2)
                         isGoingToDelete = true
                      }
-                     
                   }
                }
                .listRowBackground(Color.cardColor)

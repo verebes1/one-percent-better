@@ -98,7 +98,6 @@
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
 		803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8728A34E930010540B /* CreateHabitFrequency.swift */; };
 		803E1B8A28A9D68B0010540B /* SelectableCardOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8928A9D68B0010540B /* SelectableCardOld.swift */; };
-		803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */; };
 		8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282629C2B384003D27CE /* ScheduledNotification.swift */; };
 		8040282929C2BE5D003D27CE /* NotificationsForHabitDebug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */; };
 		8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8040282A29C413E2003D27CE /* NotificationManager.swift */; };
@@ -193,6 +192,7 @@
 		80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */; };
 		80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC31293572F300E626D7 /* FrequencyTests.swift */; };
 		80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DAAC3329371F1300E626D7 /* OverlayTest.swift */; };
+		80E1F19E2A74B27A00AC4377 /* NoHabitsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E1F19D2A74B27A00AC4377 /* NoHabitsListView.swift */; };
 		80EA4EA62A5E3A4800A87347 /* HabitFrequencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80EA4EA52A5E3A4800A87347 /* HabitFrequencyTests.swift */; };
 		80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */; };
 		80F6671C2A33F73F00095E60 /* SpecificWeekdaysFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */; };
@@ -325,7 +325,6 @@
 		803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseTrackerEntry.swift; sourceTree = "<group>"; };
 		803E1B8728A34E930010540B /* CreateHabitFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateHabitFrequency.swift; sourceTree = "<group>"; };
 		803E1B8928A9D68B0010540B /* SelectableCardOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableCardOld.swift; sourceTree = "<group>"; };
-		803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScrollView.swift; sourceTree = "<group>"; };
 		8040282629C2B384003D27CE /* ScheduledNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledNotification.swift; sourceTree = "<group>"; };
 		8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsForHabitDebug.swift; sourceTree = "<group>"; };
 		8040282A29C413E2003D27CE /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -434,6 +433,7 @@
 		80DAAC2F293478F600E626D7 /* AllHabitsGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllHabitsGraph.swift; sourceTree = "<group>"; };
 		80DAAC31293572F300E626D7 /* FrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrequencyTests.swift; sourceTree = "<group>"; };
 		80DAAC3329371F1300E626D7 /* OverlayTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayTest.swift; sourceTree = "<group>"; };
+		80E1F19D2A74B27A00AC4377 /* NoHabitsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoHabitsListView.swift; sourceTree = "<group>"; };
 		80EA4EA52A5E3A4800A87347 /* HabitFrequencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitFrequencyTests.swift; sourceTree = "<group>"; };
 		80F667182A33F73E00095E60 /* XTimesPerDayFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XTimesPerDayFrequency.swift; sourceTree = "<group>"; };
 		80F667192A33F73F00095E60 /* SpecificWeekdaysFrequency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificWeekdaysFrequency.swift; sourceTree = "<group>"; };
@@ -836,7 +836,7 @@
 				8058002729E64052008EBEBE /* HabitListViewContainer.swift */,
 				80385CC9285BEE5900CBDF71 /* HabitListView.swift */,
 				80385CC6285BEE5900CBDF71 /* HabitsHeaderView.swift */,
-				803F6FE8289DB6E800DF7BA4 /* CustomScrollView.swift */,
+				80E1F19D2A74B27A00AC4377 /* NoHabitsListView.swift */,
 				8058174328D569B400E9816F /* Habit Row */,
 				8058174428D5762600E9816F /* Enter Data Views */,
 			);
@@ -1165,6 +1165,7 @@
 				80385D03285BEE5900CBDF71 /* CoreDataMigrationVersion.swift in Sources */,
 				80385D37285BEE5900CBDF71 /* ContentView.swift in Sources */,
 				80385D17285BEE5900CBDF71 /* HabitCreationHeader.swift in Sources */,
+				80E1F19E2A74B27A00AC4377 /* NoHabitsListView.swift in Sources */,
 				80385D27285BEE5900CBDF71 /* ExportManager.swift in Sources */,
 				80385D1C285BEE5900CBDF71 /* NSManagedObjectModel+Compatible.swift in Sources */,
 				80F72942294D876800F17B0B /* RandomNotifications.swift in Sources */,
@@ -1267,7 +1268,6 @@
 				8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */,
 				80F667292A355AA500095E60 /* obp 18 to 19.xcmappingmodel in Sources */,
 				802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */,
-				803F6FE9289DB6E800DF7BA4 /* CustomScrollView.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */,
 				80385D2E285BEE5900CBDF71 /* CalenderModel.swift in Sources */,
