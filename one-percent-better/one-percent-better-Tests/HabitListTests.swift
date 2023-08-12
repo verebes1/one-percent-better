@@ -42,6 +42,13 @@ final class HabitListTests: XCTestCase {
         XCTAssertEqual(h4.orderIndex, order.firstIndex(of: 4)!)
     }
     
+    func verify(remaining: Set<Habit>) {
+        let habits = Habit.habits(from: context)
+        let remainingFromContext = Set(habits.map { $0.id })
+        let remainingArg = Set(remaining.map { $0.id })
+        XCTAssertEqual(remainingFromContext, remainingArg)
+    }
+    
     func testReorderAllDaily() throws {
         verify(order: [0, 1, 2, 3, 4])
         
@@ -101,5 +108,81 @@ final class HabitListTests: XCTestCase {
         
         hlvm.sectionMove(from: IndexSet(integer: 2), to: 0, on: Date(), for: .dueThisWeek)
         verify(order: [1, 0, 4, 3, 2])
+    }
+    
+    func testDeleteDaily() throws {
+        verify(remaining: [h0, h1, h2, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueToday)
+        verify(remaining: [h1, h2, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 2), on: Date(), for: .dueToday)
+        verify(remaining: [h1, h2, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 1), on: Date(), for: .dueToday)
+        verify(remaining: [h1, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueToday)
+        verify(remaining: [h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueToday)
+        verify(remaining: [])
+    }
+    
+    func testDeleteWeekly() throws {
+        h0.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        h1.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        h2.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        h3.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        h4.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        
+        verify(remaining: [h0, h1, h2, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h1, h2, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 2), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h1, h2, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 1), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h1, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueThisWeek)
+        verify(remaining: [])
+    }
+    
+    func testDeleteDailyAndWeekly() throws {
+        h2.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        h3.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        h4.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
+        
+        // daily
+        // 0
+        // 1
+        //
+        // weekly
+        // 2
+        // 3
+        // 4
+        
+        verify(remaining: [h0, h1, h2, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h0, h1, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueToday)
+        verify(remaining: [h1, h3, h4])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 1), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h1, h3])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueThisWeek)
+        verify(remaining: [h1])
+        
+        hlvm.sectionDelete(from: IndexSet(integer: 0), on: Date(), for: .dueToday)
+        verify(remaining: [])
     }
 }
