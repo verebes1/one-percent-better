@@ -100,7 +100,7 @@ struct ImprovementGraphView: View {
          }
       }
       .foregroundStyle(graphColor(last7: last5, avg: dashedLine).opacity(0.9))
-      .animation(.spring(response: 0.25, dampingFraction: 0.4, blendDuration: 0), value: last5)
+      .animation(.spring(response: 0.3, dampingFraction: 0.4, blendDuration: 0), value: last5)
       .chartYScale(domain: improvementRange(last5: last5))
       .chartXAxis(.hidden)
       .chartYAxis(.hidden)
