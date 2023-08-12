@@ -80,7 +80,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    // MARK: - init
-   
+   @discardableResult
    convenience init(context: NSManagedObjectContext,
                     name: String,
                     frequency: HabitFrequency = .timesPerDay(1),

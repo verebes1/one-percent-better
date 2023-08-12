@@ -79,7 +79,7 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         moc.assertSave()
     }
     
-    @MainActor func sectionDelete(from sourceIndex: IndexSet, on selectedDay: Date, for section: HabitListSection) {
+    func sectionDelete(from sourceIndex: IndexSet, on selectedDay: Date, for section: HabitListSection) {
         guard let source = sourceIndex.first else { fatalError("Bad index") }
         
         let habitList = habits(on: selectedDay, for: section)
@@ -89,7 +89,7 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         delete(from: realSourceIndexSet)
     }
     
-    @MainActor func delete(from source: IndexSet) {
+    func delete(from source: IndexSet) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         

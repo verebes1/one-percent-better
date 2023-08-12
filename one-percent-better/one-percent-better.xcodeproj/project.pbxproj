@@ -163,6 +163,7 @@
 		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
 		8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36528767F7A00D0CB1B /* RingShape.swift */; };
 		8081A36828788CB000D0CB1B /* GradientRing2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36728788CB000D0CB1B /* GradientRing2.swift */; };
+		8093B4662A8720B600DA0F52 /* HabitListTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8093B4652A8720B600DA0F52 /* HabitListTests.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80A8FF6A2A5B7ED200B43B90 /* ShareBetaFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */; };
@@ -402,6 +403,7 @@
 		8081A3632874E72900D0CB1B /* GradientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTest.swift; sourceTree = "<group>"; };
 		8081A36528767F7A00D0CB1B /* RingShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingShape.swift; sourceTree = "<group>"; };
 		8081A36728788CB000D0CB1B /* GradientRing2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing2.swift; sourceTree = "<group>"; };
+		8093B4652A8720B600DA0F52 /* HabitListTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListTests.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
 		80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareBetaFeedback.swift; sourceTree = "<group>"; };
@@ -805,6 +807,7 @@
 				80FF97F12856C9BE00A96026 /* HabitsHeaderViewTests.swift */,
 				802E929C291E02E000A28EB1 /* ImprovementTrackerTests.swift */,
 				80AE0CA8299B39DF00B565DE /* Habit+WasCompletedOnTests.swift */,
+				8093B4652A8720B600DA0F52 /* HabitListTests.swift */,
 			);
 			path = "one-percent-better-Tests";
 			sourceTree = "<group>";
@@ -1361,6 +1364,7 @@
 				80D8EF032A47CA7600769114 /* NotificationGeneratorTests.swift in Sources */,
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,
 				80AE0CA329930D5F00B565DE /* XTimesPerWeekTests.swift in Sources */,
+				8093B4662A8720B600DA0F52 /* HabitListTests.swift in Sources */,
 				80DAAC32293572F300E626D7 /* FrequencyTests.swift in Sources */,
 				80BA250A29B7F3900072B1AA /* RandomTimeTests.swift in Sources */,
 				802E929D291E02E000A28EB1 /* ImprovementTrackerTests.swift in Sources */,
