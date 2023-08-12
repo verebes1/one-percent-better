@@ -47,23 +47,27 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         let newHabits = controller.fetchedObjects as? [Habit] ?? []
         let newHabitIDList = newHabits.map { $0.id }
         
+        // TODO: 1.1.4 update this also when a habit frequency changes!!
         if habitIDList != newHabitIDList {
             habits = newHabits
             habitIDList = newHabitIDList
         }
     }
     
-    func sectionMove(from sourceIndex: IndexSet, to destination: Int, section: HabitListSection) {
+    func sectionMove(from sourceIndex: IndexSet, to destination: Int, on selectedDay: Date, for section: HabitListSection) {
         guard let source = sourceIndex.first else { fatalError("Bad index") }
         
-        move(from: source, to: destination)
+        let habitList = habits(on: selectedDay, for: section)
+        let realSourceIndex = habitList[source].orderIndex
+        let realDestIndex = habitList[destination].orderIndex
+        
+        move(from: realSourceIndex, to: realDestIndex)
     }
     
     func move(from source: Int, to destination: Int) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
-//        revisedItems.swapAt(source, destination)
         // Change the order of the items in the array
         let sourceIndex = IndexSet(integer: source)
         revisedItems.move(fromOffsets: sourceIndex, toOffset: destination)
@@ -75,7 +79,17 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         moc.assertSave()
     }
     
-    func delete(from source: IndexSet) {
+    @MainActor func sectionDelete(from sourceIndex: IndexSet, on selectedDay: Date, for section: HabitListSection) {
+        guard let source = sourceIndex.first else { fatalError("Bad index") }
+        
+        let habitList = habits(on: selectedDay, for: section)
+        let realSourceIndex = habitList[source].orderIndex
+        let realSourceIndexSet = IndexSet(integer: realSourceIndex)
+        
+        delete(from: realSourceIndexSet)
+    }
+    
+    @MainActor func delete(from source: IndexSet) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
@@ -92,6 +106,7 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     /// A subset of the list of habits based on the list section
     func habits(on selectedDay: Date, for section: HabitListSection) -> [Habit] {
+        let habits = habits.filter { $0.started(before: selectedDay) }
         switch section {
         case .dueToday:
             return habits.filter { $0.isDue(on: selectedDay) }
@@ -149,49 +164,26 @@ struct HabitListSectionView: View {
     /// Which section this list is
     let section: HabitListSection
     
-    @State private var confirmDeleteHabit: Bool = false
-    @State private var sourceDeleteIndex: IndexSet!
-    
     var body: some View {
         let habits = hlvm.habits(on: hsvm.selectedDay, for: section)
         if !habits.isEmpty {
             Section(section.description) {
                 ForEach(habits, id: \.self.id) { habit in
-                    if habit.started(before: hsvm.selectedDay) {
-                        NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                            HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
-                        }
-                        .listRowInsets(.init(top: 0,
-                                             leading: 0,
-                                             bottom: 0,
-                                             trailing: 20))
-                        .listRowBackground(Color.cardColor)
+                    NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                        HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
                     }
+                    .listRowInsets(.init(top: 0,
+                                         leading: 0,
+                                         bottom: 0,
+                                         trailing: 20))
+                    .listRowBackground(Color.cardColor)
                 }
                 .onMove { source, destination in
-                    hlvm.sectionMove(from: source, to: destination, section: section)
+                    hlvm.sectionMove(from: source, to: destination, on: hsvm.selectedDay, for: section)
                 }
                 .onDelete { source in
-                    confirmDeleteHabit = true
-                    sourceDeleteIndex = source
+                    hlvm.sectionDelete(from: source, on: hsvm.selectedDay, for: section)
                 }
-            }
-            .actionSheet(isPresented: $confirmDeleteHabit) {
-                ActionSheet(
-                    title: Text("Delete"),
-                    message: Text("Are you sure you want to delete this habit?"),
-                    buttons: [
-                        .destructive(Text("Delete")) {
-                            if let indexSet = sourceDeleteIndex {
-                                hlvm.delete(from: indexSet)
-                            }
-                            sourceDeleteIndex = nil
-                        },
-                        .cancel {
-                            sourceDeleteIndex = nil
-                        }
-                    ]
-                )
             }
         }
     }
