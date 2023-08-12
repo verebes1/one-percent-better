@@ -33,38 +33,24 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     @Published var habits: [Habit] = []
     
-    /// A list of fetched habits by their IDs, used to not update the list view unless this array changes,
-    /// i.e. only when a habit is added, removed, or moved
-    var habitIDList: [UUID] = []
-    
     init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
         super.init(context, sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)])
         habits = fetchedObjects
-        habitIDList = habits.map { $0.id }
     }
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        let newHabits = controller.fetchedObjects as? [Habit] ?? []
-        let newHabitIDList = newHabits.map { $0.id }
-        
-        // TODO: 1.1.4 update this also when a habit frequency changes!!
-        if habitIDList != newHabitIDList {
-            habits = newHabits
-            habitIDList = newHabitIDList
-        }
+        habits = controller.fetchedObjects as? [Habit] ?? []
     }
     
     func sectionMove(from sourceIndex: IndexSet, to destination: Int, on selectedDay: Date, for section: HabitListSection) {
         guard let source = sourceIndex.first else { fatalError("Bad index") }
-        
         let habitList = habits(on: selectedDay, for: section)
         let realSourceIndex = habitList[source].orderIndex
         let realDestIndex = habitList[destination].orderIndex
-        
         move(from: realSourceIndex, to: realDestIndex)
     }
     
-    func move(from source: Int, to destination: Int) {
+    private func move(from source: Int, to destination: Int) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
@@ -81,15 +67,13 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     func sectionDelete(from sourceIndex: IndexSet, on selectedDay: Date, for section: HabitListSection) {
         guard let source = sourceIndex.first else { fatalError("Bad index") }
-        
         let habitList = habits(on: selectedDay, for: section)
         let realSourceIndex = habitList[source].orderIndex
         let realSourceIndexSet = IndexSet(integer: realSourceIndex)
-        
         delete(from: realSourceIndexSet)
     }
     
-    func delete(from source: IndexSet) {
+    private func delete(from source: IndexSet) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
