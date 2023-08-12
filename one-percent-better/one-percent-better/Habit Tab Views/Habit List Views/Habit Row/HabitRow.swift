@@ -191,7 +191,7 @@ struct HabitRow: View {
             if editMode?.wrappedValue.isEditing == false {
                ImprovementGraphView()
                   .frame(width: 80, height: 35)
-                  .padding(.trailing, 20)
+                  .padding(.trailing, 10)
                   .animation(.easeInOut, value: editMode?.wrappedValue)
             }
             

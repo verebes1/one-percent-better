@@ -43,19 +43,38 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     }
     
     func sectionMove(from sourceIndex: IndexSet, to destination: Int, on selectedDay: Date, for section: HabitListSection) {
-        guard let source = sourceIndex.first else { fatalError("Bad index") }
-        let habitList = habits(on: selectedDay, for: section)
-        let realSourceIndex = habitList[source].orderIndex
-        let realDestIndex = habitList[destination].orderIndex
-        move(from: realSourceIndex, to: realDestIndex)
+        
+        print("JJJJ Moving from sourceIndex: \(sourceIndex.first) to: \(destination)")
+        
+        let precedingItemCount: Int
+        switch section {
+        case .dueToday:
+            precedingItemCount = 0
+        case .dueThisWeek:
+            let habitList = habits(on: selectedDay, for: .dueToday)
+            precedingItemCount = habitList.count
+        }
+        
+        
+        var revisedItems: [Habit] = habits(on: selectedDay, for: section)
+        let adjustedSourceIndex = IndexSet(sourceIndex.map { $0 + precedingItemCount })
+        let adjustedDestination = destination + precedingItemCount
+        
+        // Change the order of the items in the array
+        revisedItems.move(fromOffsets: adjustedSourceIndex, toOffset: adjustedDestination)
+        
+        // Update the orderIndex indices
+        for reverseIndex in stride(from: revisedItems.count - 1, through: 0, by: -1) {
+            revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
+        }
+        moc.assertSave()
     }
     
-    private func move(from source: Int, to destination: Int) {
+    private func move(from sourceIndex: IndexSet, to destination: Int) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
         // Change the order of the items in the array
-        let sourceIndex = IndexSet(integer: source)
         revisedItems.move(fromOffsets: sourceIndex, toOffset: destination)
         
         // Update the orderIndex indices

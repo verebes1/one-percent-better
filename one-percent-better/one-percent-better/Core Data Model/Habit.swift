@@ -198,18 +198,7 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
-      var habits = context.fetchArray(Habit.self)
-      // Sort by order index
-      habits.sort { $0.orderIndex < $1.orderIndex }
-      
-      // Ensure that habits are properly indexed 0 ... highest
-      for (i, habit) in habits.enumerated() {
-         if habit.orderIndex != i {
-            habit.orderIndex = i
-         }
-      }
-      context.assertSave()
-      return habits
+      return context.fetchArray(Habit.self)
    }
    
    /// Sort trackers by their index property
