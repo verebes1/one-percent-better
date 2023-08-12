@@ -39,7 +39,7 @@ final class StreakTests: XCTestCase {
    func testSpecifificWeekdayStreak() {
       let startWednesday = df.date(from: "12-7-2022")!
       habit.updateStartDate(to: startWednesday)
-      habit.changeFrequency(to: .specificWeekdays([.wednesday, .thursday]), on: startWednesday)
+      habit.updateFrequency(to: .specificWeekdays([.wednesday, .thursday]), on: startWednesday)
       
       XCTAssertEqual(habit.streak(on: startWednesday), 0)
       habit.markCompleted(on: startWednesday)
@@ -74,7 +74,7 @@ final class StreakTests: XCTestCase {
    func testSpecifificWeekdayStreak2() {
       let startMonday = df.date(from: "12-5-2022")!
       habit.updateStartDate(to: startMonday)
-      habit.changeFrequency(to: .specificWeekdays([.sunday]), on: startMonday)
+      habit.updateFrequency(to: .specificWeekdays([.sunday]), on: startMonday)
       
       XCTAssertEqual(habit.streak(on: Cal.add(days: 2, to: startMonday)), 0)
       XCTAssertEqual(habit.streak(on: Cal.add(days: 3, to: startMonday)), 0)
@@ -96,7 +96,7 @@ final class StreakTests: XCTestCase {
       let startDate = Cal.getLast(weekday: Weekday(today))
       habit.updateStartDate(to: startDate)
       let specificWeekdays = [Weekday(Cal.add(days: 1, to: Date()))]
-      habit.changeFrequency(to: .specificWeekdays(specificWeekdays), on: startDate)
+      habit.updateFrequency(to: .specificWeekdays(specificWeekdays), on: startDate)
       
       let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startDate)
       
