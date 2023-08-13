@@ -92,15 +92,13 @@ final class HabitListMoveDeleteTests: XCTestCase {
     func verifyAllReorderingPermutations(sectionList: [Habit], for section: HabitListSection) {
         var sectionList = sectionList
         for perm in movePermutations(count: sectionList.count) {
-            print("\(perm.from.first!) -> \(perm.to)")
             sectionList.move(fromOffsets: perm.from, toOffset: perm.to)
-            print("expected: \(sectionList.map { $0.name })")
-            hlvm.sectionMove(from: perm.from, to: perm.to, on: Date(), for: section)
+            hlvm.move(from: perm.from, to: perm.to)
             verify(order: sectionList)
         }
     }
     
-    func testReorderingHabitsSingleSection() throws {
+    func testReorderingHabits() throws {
         for section in HabitListSection.allCases {
             for i in 2 ... 6 {
                 let sectionList = try createSectionList(count: i, section: section)
@@ -109,18 +107,6 @@ final class HabitListMoveDeleteTests: XCTestCase {
             }
         }
     }
-    
-    func testReorderingHabitsMultipleSections() throws {
-        // 4 due today habits
-        let dueTodaySectionList = try createSectionList(count: 4, section: .dueToday)
-        
-        // 6 due this week habits
-        let dueThisWeekSectionList = try createSectionList(count: 6, section: .dueThisWeek)
-        
-        verifyAllReorderingPermutations(sectionList: dueTodaySectionList, for: .dueToday)
-//        verifyAllReorderingPermutations(sectionList: dueThisWeekSectionList, for: .dueThisWeek)
-    }
-    
     
     func verify(remaining: Set<Habit>) {
         let habits = context.fetchArray(Habit.self)
