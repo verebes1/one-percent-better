@@ -60,6 +60,9 @@ struct CreateHabitName: View {
                   }
                   .foregroundColor(.labelOpposite(scheme: scheme))
                }
+               .transaction { transaction in
+                   transaction.disablesAnimations = true
+               }
                .padding(10)
                .background(Style.accentColor)
                .cornerRadius(radius: 10)

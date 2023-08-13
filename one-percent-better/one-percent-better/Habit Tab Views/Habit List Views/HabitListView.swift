@@ -43,9 +43,6 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     }
     
     func sectionMove(from sourceIndex: IndexSet, to destination: Int, on selectedDay: Date, for section: HabitListSection) {
-        
-        print("JJJJ Moving from sourceIndex: \(sourceIndex.first) to: \(destination)")
-        
         let precedingItemCount: Int
         switch section {
         case .dueToday:

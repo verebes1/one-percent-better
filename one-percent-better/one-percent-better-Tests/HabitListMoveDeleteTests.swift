@@ -10,25 +10,31 @@ import XCTest
 
 /// This class tests the reordering/deletion of habits in the habit list
 final class HabitListMoveDeleteTests: XCTestCase {
+    
+    /*
+     
+     Reordering list parameters:
+     - Number of habits
+     - Selected day
+         - One day vs spans multiple days and habits have different start dates)
+     - Section
+         - One section vs multiple sections
+     - Frequency
+         - One frequency vs habit changing frequency
+     */
+    
     let context = CoreDataManager.previews.mainContext
     var hlvm: HabitListViewModel!
     
-//    var h0: Habit!
-//    var h1: Habit!
-//    var h2: Habit!
-//    var h3: Habit!
-//    var h4: Habit!
-    
     override func setUpWithError() throws {
-//        h0 = try Habit(context: context, name: "Habit 0")
-//        h1 = try Habit(context: context, name: "Habit 1")
-//        h2 = try Habit(context: context, name: "Habit 2")
-//        h3 = try Habit(context: context, name: "Habit 3")
-//        h4 = try Habit(context: context, name: "Habit 4")
         hlvm = HabitListViewModel(context)
     }
     
     override func tearDownWithError() throws {
+        try removeAllHabits()
+    }
+    
+    func removeAllHabits() throws {
         let habits = context.fetchArray(Habit.self)
         habits.forEach { context.delete($0) }
         try context.save()
@@ -36,117 +42,11 @@ final class HabitListMoveDeleteTests: XCTestCase {
     
     func verify(order: [Habit]) {
         let habits = context.fetchArray(Habit.self)
-        XCTAssertEqual(habits.count, order.count)
+        XCTAssertEqual(habits, order)
+        
         for (index, habit) in habits.enumerated() {
-            XCTAssertEqual(habit, order[index])
+            XCTAssertEqual(habit.orderIndex, index)
         }
-    }
-    
-    func verify(remaining: Set<Habit>) {
-        let habits = context.fetchArray(Habit.self)
-        let remainingFromContext = Set(habits.map { $0.id })
-        let remainingArg = Set(remaining.map { $0.id })
-        XCTAssertEqual(remainingFromContext, remainingArg)
-    }
-    
-    
-    /*
-     
-     Reordering
-     
-     Parameters:
-     - Number of habits
-         - Selected day
-             - One day vs spans multiple days and habits have different start dates)
-         - Section
-             - One section vs multiple sections
-         - Frequency
-             - One frequency vs habit changing frequency
-     */
-    
-    func test2Habits() throws {
-        let h0 = try Habit(context: context, name: "Habit 0")
-        let h1 = try Habit(context: context, name: "Habit 1")
-        
-        // 0, 1
-        verify(order: [h0, h1])
-        
-        // x = old position, n = new position
-        // 0:  x0 |
-        // 1:  1  |  1
-        // 2:     | n0
-        hlvm.sectionMove(from: IndexSet(integer: 0), to: 2, on: Date(), for: .dueToday)
-        verify(order: [h1, h0])
-        
-        // 0:  x1 |
-        // 1:  0  |  0
-        // 2:     | n1
-        hlvm.sectionMove(from: IndexSet(integer: 0), to: 2, on: Date(), for: .dueToday)
-        verify(order: [h0, h1])
-        
-        // 0:     | n1
-        // 0:  0  |  0
-        // 1:  x1 |
-        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueToday)
-        verify(order: [h1, h0])
-        
-        // 0:     | n0
-        // 0:  1  |  1
-        // 1:  x0 |
-        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueToday)
-        verify(order: [h0, h1])
-    }
-    
-    func test3Habits() throws {
-        let h0 = try Habit(context: context, name: "Habit 0")
-        let h1 = try Habit(context: context, name: "Habit 1")
-        let h2 = try Habit(context: context, name: "Habit 2")
-        
-        // 0, 1, 2
-        verify(order: [h0, h1, h2])
-        
-        // x = old position, n = new position
-        // 0:  x0 |
-        // 1:  1  |  1
-        // 2:  2  | n0
-        // 2:     |  2
-        hlvm.sectionMove(from: IndexSet(integer: 0), to: 2, on: Date(), for: .dueToday)
-        verify(order: [h1, h0, h2])
-        
-        // 0:  x1 |
-        // 1:  0  |  0
-        // 2:  2  |  2
-        // 3:     |  n1
-        hlvm.sectionMove(from: IndexSet(integer: 0), to: 3, on: Date(), for: .dueToday)
-        verify(order: [h0, h2, h1])
-        
-        // 0:  0  |  0
-        // 1:  x2 |
-        // 2:  1  |  1
-        // 3:     |  n2
-        hlvm.sectionMove(from: IndexSet(integer: 1), to: 3, on: Date(), for: .dueToday)
-        verify(order: [h0, h1, h2])
-        
-        // 0:     | n1
-        // 0:  0  |  0
-        // 1:  x1 |
-        // 2:  2  |  2
-        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueToday)
-        verify(order: [h1, h0, h2])
-        
-        // 0:  1  |  1
-        // 1:     | n2
-        // 1:  0  |  0
-        // 2:  x2 |
-        hlvm.sectionMove(from: IndexSet(integer: 2), to: 1, on: Date(), for: .dueToday)
-        verify(order: [h1, h2, h0])
-        
-        // 0:     | n0
-        // 0:  1  |  1
-        // 1:  2  |  2
-        // 2:  x0 |
-        hlvm.sectionMove(from: IndexSet(integer: 2), to: 0, on: Date(), for: .dueToday)
-        verify(order: [h0, h1, h2])
     }
     
     func movePermutations(count n: Int) -> [(from: IndexSet, to: Int)] {
@@ -159,7 +59,6 @@ final class HabitListMoveDeleteTests: XCTestCase {
             for j in i + 2 ..< n + 1 {
                 let moveTuple = (from: IndexSet(integer: i), to: j)
                 perms.append(moveTuple)
-                print("\(i) -> \(j)")
             }
         }
         
@@ -168,75 +67,68 @@ final class HabitListMoveDeleteTests: XCTestCase {
             for j in stride(from: i - 1, through: 0, by: -1) {
                 let moveTuple = (from: IndexSet(integer: i), to: j)
                 perms.append(moveTuple)
-                print("\(i) -> \(j)")
             }
         }
-        print(perms)
         return perms
     }
     
+    func createSectionList(count n: Int, section: HabitListSection) throws -> [Habit] {
+        var sectionList: [Habit] = []
+        for i in 0 ..< n {
+            let habit = try Habit(context: context, name: "Habit \(i)")
+            switch section {
+            case .dueToday:
+                break
+            case .dueThisWeek:
+                // Choose a reset day which is NOT today, so habits appear in due this week section
+                let resetDay = Weekday((Date().weekdayInt + 3) % 7)
+                habit.updateFrequency(to: .timesPerWeek(times: 1, resetDay: resetDay))
+            }
+            sectionList.append(habit)
+        }
+        return sectionList
+    }
     
-//    func testReorderAllDaily() throws {
-//        verify(order: [0, 1, 2, 3, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueToday)
-//        verify(order: [1, 0, 2, 3, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 4), to: 0, on: Date(), for: .dueToday)
-//        verify(order: [4, 1, 0, 2, 3])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 4), to: 0, on: Date(), for: .dueToday)
-//        verify(order: [3, 4, 1, 0, 2])
-//    }
-//
-//    func testReorderAllWeekly() throws {
-//        h0.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//        h1.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//        h2.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//        h3.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//        h4.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//
-//        verify(order: [0, 1, 2, 3, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueThisWeek)
-//        verify(order: [1, 0, 2, 3, 4])
-//    }
-//
-//    func testReorderDailyAndWeekly() throws {
-//        h2.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//        h3.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//        h4.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday))
-//
-//        // daily
-//        // 0
-//        // 1
-//        //
-//        // weekly
-//        // 2
-//        // 3
-//        // 4
-//
-//        verify(order: [0, 1, 2, 3, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueToday)
-//        verify(order: [1, 0, 2, 3, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueThisWeek)
-//        verify(order: [1, 0, 3, 2, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 1), to: 0, on: Date(), for: .dueThisWeek)
-//        verify(order: [1, 0, 2, 3, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 2), to: 1, on: Date(), for: .dueThisWeek)
-//        verify(order: [1, 0, 2, 4, 3])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 2), to: 0, on: Date(), for: .dueThisWeek)
-//        verify(order: [1, 0, 3, 2, 4])
-//
-//        hlvm.sectionMove(from: IndexSet(integer: 2), to: 0, on: Date(), for: .dueThisWeek)
-//        verify(order: [1, 0, 4, 3, 2])
-//    }
-//
+    func verifyAllReorderingPermutations(sectionList: [Habit], for section: HabitListSection) {
+        var sectionList = sectionList
+        for perm in movePermutations(count: sectionList.count) {
+            print("\(perm.from.first!) -> \(perm.to)")
+            sectionList.move(fromOffsets: perm.from, toOffset: perm.to)
+            print("expected: \(sectionList.map { $0.name })")
+            hlvm.sectionMove(from: perm.from, to: perm.to, on: Date(), for: section)
+            verify(order: sectionList)
+        }
+    }
+    
+    func testReorderingHabitsSingleSection() throws {
+        for section in HabitListSection.allCases {
+            for i in 2 ... 6 {
+                let sectionList = try createSectionList(count: i, section: section)
+                verifyAllReorderingPermutations(sectionList: sectionList, for: section)
+                try removeAllHabits()
+            }
+        }
+    }
+    
+    func testReorderingHabitsMultipleSections() throws {
+        // 4 due today habits
+        let dueTodaySectionList = try createSectionList(count: 4, section: .dueToday)
+        
+        // 6 due this week habits
+        let dueThisWeekSectionList = try createSectionList(count: 6, section: .dueThisWeek)
+        
+        verifyAllReorderingPermutations(sectionList: dueTodaySectionList, for: .dueToday)
+//        verifyAllReorderingPermutations(sectionList: dueThisWeekSectionList, for: .dueThisWeek)
+    }
+    
+    
+    func verify(remaining: Set<Habit>) {
+        let habits = context.fetchArray(Habit.self)
+        let remainingFromContext = Set(habits.map { $0.id })
+        let remainingArg = Set(remaining.map { $0.id })
+        XCTAssertEqual(remainingFromContext, remainingArg)
+    }
+    
 //    func testDeleteDaily() throws {
 //        verify(remaining: [h0, h1, h2, h3, h4])
 //
