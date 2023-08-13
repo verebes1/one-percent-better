@@ -43,6 +43,21 @@ struct MenuItemWithCheckmarks<Value>: View where Value: Equatable, Value: Hashab
    }
 }
 
+struct MenuItemToggleCheckmark<Value>: View {
+    var value: Value
+    
+    @Binding var isSelected: Bool
+    
+    var body: some View {
+       Button {
+           isSelected.toggle()
+       } label: {
+          Label(String(describing: value),
+                systemImage: isSelected ? "checkmark" : "")
+       }
+    }
+}
+
 struct MenuItemWithCheckmark_Previewer: View {
    
    @State private var selection = 0

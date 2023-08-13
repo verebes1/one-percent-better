@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 import Combine
 
+/// The navigation routes for the Habit List View
 enum HabitListViewRoute: Hashable {
     case createHabit
     case showProgress(Habit)
@@ -42,32 +43,7 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         habits = controller.fetchedObjects as? [Habit] ?? []
     }
     
-    func sectionMove(from sourceIndex: IndexSet, to destination: Int, on selectedDay: Date, for section: HabitListSection) {
-        let precedingItemCount: Int
-        switch section {
-        case .dueToday:
-            precedingItemCount = 0
-        case .dueThisWeek:
-            let habitList = habits(on: selectedDay, for: .dueToday)
-            precedingItemCount = habitList.count
-        }
-        
-        
-        var revisedItems: [Habit] = habits(on: selectedDay, for: section)
-        let adjustedSourceIndex = IndexSet(sourceIndex.map { $0 + precedingItemCount })
-        let adjustedDestination = destination + precedingItemCount
-        
-        // Change the order of the items in the array
-        revisedItems.move(fromOffsets: adjustedSourceIndex, toOffset: adjustedDestination)
-        
-        // Update the orderIndex indices
-        for reverseIndex in stride(from: revisedItems.count - 1, through: 0, by: -1) {
-            revisedItems[reverseIndex].orderIndex = Int(reverseIndex)
-        }
-        moc.assertSave()
-    }
-    
-    private func move(from sourceIndex: IndexSet, to destination: Int) {
+    func move(from sourceIndex: IndexSet, to destination: Int) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
@@ -81,15 +57,7 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         moc.assertSave()
     }
     
-    func sectionDelete(from sourceIndex: IndexSet, on selectedDay: Date, for section: HabitListSection) {
-        guard let source = sourceIndex.first else { fatalError("Bad index") }
-        let habitList = habits(on: selectedDay, for: section)
-        let realSourceIndex = habitList[source].orderIndex
-        let realSourceIndexSet = IndexSet(integer: realSourceIndex)
-        delete(from: realSourceIndexSet)
-    }
-    
-    private func delete(from source: IndexSet) {
+    func delete(from source: IndexSet) {
         // Make an array from fetched results
         var revisedItems: [Habit] = habits.map { $0 }
         
@@ -119,34 +87,86 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
 struct HabitListView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @Environment(\.editMode) var editMode
     
     @EnvironmentObject var hlvm: HabitListViewModel
     @EnvironmentObject var hsvm: HeaderSelectionViewModel
+    
+    @State private var editMode = EditMode.inactive
+    
+    @AppStorage("HabitListView.sortListByDue") private var sortListByDue = true
     
     var body: some View {
         VStack {
             if hlvm.habits.isEmpty {
                 NoHabitsListView()
+                    .onAppear {
+                        editMode = .inactive
+                    }
                 Spacer()
             } else {
                 List {
-                    ForEach(HabitListSection.allCases, id: \.self) { section in
-                        HabitListSectionView(section: section)
+                    switch editMode {
+                    case .inactive, .transient:
+                        if sortListByDue {
+                            HabitListBySectionView()
+                        } else {
+                            HabitListByOrderIndexView()
+                        }
+                    case .active:
+                        HabitListByOrderIndexView()
+                    @unknown default:
+                        Text("Unknown edit mode")
+                            .onAppear { assertionFailure("Unknown edit mode") }
                     }
                 }
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)
                 .environment(\.defaultMinListRowHeight, 54)
-                .padding(.top, -7)
+                .padding(.top, sortListByDue ? -7 : -25)
                 .clipShape(Rectangle())
+                .toolbar {
+                    // Edit Habit List
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        if case .inactive = editMode {
+                            Menu {
+                                MenuItemToggleCheckmark(value: "Sort by When Due", isSelected: $sortListByDue)
+                                Divider()
+                                EditButton()
+                            } label: {
+                                Image(systemName: "list.dash")
+                            }
+                        } else {
+                            EditButton()
+                        }
+                    }
+                }
+                .environment(\.editMode, $editMode)
             }
         }
-        .toolbar {
-            // Edit Habit List
-            if !hlvm.habits.isEmpty {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
+    }
+}
+
+
+struct HabitListBySectionView: View {
+    @Environment(\.managedObjectContext) var moc
+    @EnvironmentObject var hlvm: HabitListViewModel
+    @EnvironmentObject var hsvm: HeaderSelectionViewModel
+    
+    var body: some View {
+        ForEach(HabitListSection.allCases, id: \.self) { section in
+            let habits = hlvm.habits(on: hsvm.selectedDay, for: section)
+            if !habits.isEmpty {
+                Section(section.description) {
+                    ForEach(habits, id: \.self.id) { habit in
+                        NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                            HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
+                        }
+                        .listRowInsets(.init(top: 0,
+                                             leading: 0,
+                                             bottom: 0,
+                                             trailing: 20))
+                        .listRowBackground(Color.cardColor)
+                    }
                 }
             }
         }
@@ -154,38 +174,24 @@ struct HabitListView: View {
 }
 
 
-struct HabitListSectionView: View {
-    
+struct HabitListByOrderIndexView: View {
     @Environment(\.managedObjectContext) var moc
-    
     @EnvironmentObject var hlvm: HabitListViewModel
     @EnvironmentObject var hsvm: HeaderSelectionViewModel
     
-    /// Which section this list is
-    let section: HabitListSection
-    
     var body: some View {
-        let habits = hlvm.habits(on: hsvm.selectedDay, for: section)
-        if !habits.isEmpty {
-            Section(section.description) {
-                ForEach(habits, id: \.self.id) { habit in
-                    NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                        HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
-                    }
-                    .listRowInsets(.init(top: 0,
-                                         leading: 0,
-                                         bottom: 0,
-                                         trailing: 20))
-                    .listRowBackground(Color.cardColor)
-                }
-                .onMove { source, destination in
-                    hlvm.sectionMove(from: source, to: destination, on: hsvm.selectedDay, for: section)
-                }
-                .onDelete { source in
-                    hlvm.sectionDelete(from: source, on: hsvm.selectedDay, for: section)
-                }
+        ForEach(hlvm.habits, id: \.self.id) { habit in
+            NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
             }
+            .listRowInsets(.init(top: 0,
+                                 leading: 0,
+                                 bottom: 0,
+                                 trailing: 20))
+            .listRowBackground(Color.cardColor)
         }
+        .onMove { source, dest in hlvm.move(from: source, to: dest) }
+        .onDelete { source in hlvm.delete(from: source) }
     }
 }
 
