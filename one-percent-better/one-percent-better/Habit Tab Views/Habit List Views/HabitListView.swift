@@ -162,7 +162,7 @@ struct HabitListBySectionView: View {
         ForEach(HabitListSection.allCases, id: \.self) { section in
             let habits = hlvm.habits(on: hsvm.selectedDay, for: section)
             if !habits.isEmpty {
-                Section(section.description) {
+                Section {
                     ForEach(habits, id: \.self.id) { habit in
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                             HabitRow(moc: moc,
@@ -175,6 +175,10 @@ struct HabitListBySectionView: View {
                                              trailing: 20))
                         .listRowBackground(Color.cardColor)
                     }
+                } header: {
+                    Text(section.description)
+                } footer: {
+                    HowToCompleteHabitTip()
                 }
             }
         }
@@ -188,24 +192,58 @@ struct HabitListByOrderIndexView: View {
     @EnvironmentObject var hsvm: HeaderSelectionViewModel
     
     var body: some View {
-        ForEach(hlvm.habits, id: \.self.id) { habit in
-            NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                HabitRow(moc: moc,
-                         habit: habit,
-                         hsvm: hsvm)
+        Section {
+            ForEach(hlvm.habits, id: \.self.id) { habit in
+                NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
+                    HabitRow(moc: moc,
+                             habit: habit,
+                             hsvm: hsvm)
+                }
+                .listRowInsets(.init(top: 0,
+                                     leading: 0,
+                                     bottom: 0,
+                                     trailing: 20))
+                .listRowBackground(Color.cardColor)
             }
-            .listRowInsets(.init(top: 0,
-                                 leading: 0,
-                                 bottom: 0,
-                                 trailing: 20))
-            .listRowBackground(Color.cardColor)
+            .onMove { source, dest in hlvm.move(from: source, to: dest) }
+            .onDelete { source in hlvm.delete(from: source) }
+        } footer: {
+            HowToCompleteHabitTip()
         }
-        .onMove { source, dest in hlvm.move(from: source, to: dest) }
-        .onDelete { source in hlvm.delete(from: source) }
     }
 }
 
-struct HabitsViewPreviewer: View {
+struct HowToCompleteHabitTip: View {
+    
+    @EnvironmentObject var hlvm: HabitListViewModel
+    
+    var hasCompletedAHabit: Bool {
+        guard !hlvm.habits.isEmpty else { return true }
+        let completedArray = Set(hlvm.habits.map { !$0.daysCompleted.isEmpty })
+        return completedArray.contains(true)
+    }
+    
+    var body: some View {
+        ZStack {
+            if !hasCompletedAHabit {
+                HStack(spacing: 0) {
+                    Spacer().frame(width: 6)
+                    Image(systemName: "arrow.turn.left.up")
+                    Text(" Tap here to mark your habit as completed")
+                        .font(.system(size: 12))
+                        .foregroundColor(.secondaryLabel)
+                    Spacer()
+                }
+                .transition(
+                    .opacity.combined(with: .move(edge: .bottom))
+                )
+            }
+        }
+        .animation(.easeOut, value: hasCompletedAHabit)
+    }
+}
+
+struct HabitListViewPreviewer: View {
     
     static let h0id = UUID()
     static let h1id = UUID()
@@ -226,28 +264,28 @@ struct HabitsViewPreviewer: View {
     func data() {
         let context = CoreDataManager.previews.mainContext
         
-        let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
+        let _ = try? Habit(context: context, name: "Never completed", id: HabitListViewPreviewer.h0id)
         
-        let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
+        let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitListViewPreviewer.h1id)
         let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
         h1?.markCompleted(on: yesterday)
         
-        let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
+        let h2 = try? Habit(context: context, name: "Completed today", id: HabitListViewPreviewer.h2id)
         h2?.markCompleted(on: Date())
         
-        let h3 = try? Habit(context: context, name: "Due MWF", frequency: .specificWeekdays([.monday, .wednesday, .friday]), id: HabitsViewPreviewer.h3id)
+        let h3 = try? Habit(context: context, name: "Due MWF", frequency: .specificWeekdays([.monday, .wednesday, .friday]), id: HabitListViewPreviewer.h3id)
         h3?.markCompleted(on: Date())
         
-        let _ = try? Habit(context: context, name: "Due TTSS", frequency: .specificWeekdays([.tuesday, .thursday, .saturday, .sunday]), id: HabitsViewPreviewer.h4id)
+        let _ = try? Habit(context: context, name: "Due TTSS", frequency: .specificWeekdays([.tuesday, .thursday, .saturday, .sunday]), id: HabitListViewPreviewer.h4id)
         
-        let _ = try? Habit(context: context, name: "Due 1x per week", frequency: .timesPerWeek(times: 1, resetDay: .sunday), id: HabitsViewPreviewer.h5id)
+        let _ = try? Habit(context: context, name: "Due 1x per week", frequency: .timesPerWeek(times: 1, resetDay: .sunday), id: HabitListViewPreviewer.h5id)
         
         context.assertSave()
     }
     
     var body: some View {
         NavigationStack(path: $nav.path) {
-            HabitListView()
+            HabitListView(moc: CoreDataManager.previews.mainContext)
                 .environmentObject(nav)
                 .environmentObject(barManager)
                 .environmentObject(hlvm)
@@ -256,10 +294,10 @@ struct HabitsViewPreviewer: View {
     }
 }
 
-struct HabitsView_Previews: PreviewProvider {
+struct HabitListView_Previews: PreviewProvider {
     static var previews: some View {
         Background {
-            HabitsViewPreviewer()
+            HabitListViewPreviewer()
                 .environment(\.managedObjectContext, CoreDataManager.previews.mainContext)
         }
     }

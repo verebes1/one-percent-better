@@ -91,13 +91,13 @@ struct ContentView_Previews: PreviewProvider {
     static func data() {
         let context = CoreDataManager.previews.mainContext
         
-        let _ = try? Habit(context: context, name: "Never completed", id: HabitsViewPreviewer.h0id)
+        let _ = try? Habit(context: context, name: "Never completed", id: ContentView_Previews.h0id)
         
-        let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitsViewPreviewer.h1id)
+        let h1 = try? Habit(context: context, name: "Completed yesterday", id: ContentView_Previews.h1id)
         let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
         h1?.markCompleted(on: yesterday)
         
-        let h2 = try? Habit(context: context, name: "Completed today", id: HabitsViewPreviewer.h2id)
+        let h2 = try? Habit(context: context, name: "Completed today", id: ContentView_Previews.h2id)
         h2?.markCompleted(on: Date())
         
         context.assertSave()
