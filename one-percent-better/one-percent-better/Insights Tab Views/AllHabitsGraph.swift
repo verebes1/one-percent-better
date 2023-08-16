@@ -124,10 +124,10 @@ struct AllHabitsGraph_Previews: PreviewProvider {
     static var previews: some View {
         let _ = data()
         let moc = CoreDataManager.previews.mainContext
-        let hlvm = HabitListViewModel(moc)
+        let vm = InsightsViewModel(moc)
         Background {
             AllHabitsGraphCard()
-                .environmentObject(hlvm)
+                .environmentObject(vm)
                 .border(.black.opacity(0.2))
         }
     }

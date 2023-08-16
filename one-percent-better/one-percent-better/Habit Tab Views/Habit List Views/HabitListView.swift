@@ -64,6 +64,7 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         // Remove the item to be deleted
         guard let index = source.first else { return }
         let habitToBeDeleted = revisedItems[index]
+        habitToBeDeleted.cleanUp()
         revisedItems.remove(atOffsets: source)
         moc.delete(habitToBeDeleted)
         for reverseIndex in stride(from: revisedItems.count - 1, through: 0, by: -1) {

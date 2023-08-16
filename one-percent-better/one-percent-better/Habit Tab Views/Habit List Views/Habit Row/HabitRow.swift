@@ -34,12 +34,19 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
     var hasTimerStarted: Bool
     
     init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, hsvm: HeaderSelectionViewModel) {
+        print("init HabitRowViewModel \(habit.name)")
         self.habit = habit
         self.currentDay = hsvm.selectedDay
         isTimerRunning = false
         hasTimeTracker = false
         hasTimerStarted = false
         super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
+        
+        // Subscribe to selected day from HeaderSelectionViewModel
+        hsvm.$selectedDay.sink { newDate in
+            self.currentDay = newDate
+        }
+        .store(in: &cancelBag)
         
         // Time Tracker
         /*
@@ -55,18 +62,6 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
          }
          }
          */
-        
-        $habit
-            .sink { habit in
-                print("habit row: \(habit.name) is changing!")
-            }
-            .store(in: &cancelBag)
-        
-        hsvm.$selectedDay.sink { newDate in
-            print("updating habit row \(habit.name) to date: \(newDate.localDate())")
-            self.currentDay = newDate
-        }
-        .store(in: &cancelBag)
     }
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -217,82 +212,82 @@ struct HabitRow: View {
     }
 }
 
-//struct HabitRowPreviewer: View {
-//
-//    @ObservedObject var vm: HabitListViewModel
-//
-//    @State private var currentDay = Date()
-//
-//    @StateObject var nav = HabitTabNavPath()
-//
-//    var body: some View {
-//        NavigationStack {
-//            Background {
-//                List {
-//                    ForEach(Array(zip(vm.habits.indices, vm.habits)), id:\.0) { index, habit in
-//                        NavigationLink(value: habit) {
-//                            HabitRow(moc: CoreDataManager.previews.mainContext, habit: habit, day: $currentDay)
-//                                .environmentObject(habit)
-//                        }
-//                        .listRowInsets(.init(top: 0,
-//                                             leading: 0,
-//                                             bottom: 0,
-//                                             trailing: 20))
-//                    }
-//                }
-//                .environment(\.defaultMinListRowHeight, 54)
-//            }
-//            .environmentObject(nav)
-//        }
-//    }
-//}
+struct HabitRowPreviewer: View {
 
-//struct HabitRow_Previews: PreviewProvider {
-//
-//    static let id1 = UUID()
-//    static let id2 = UUID()
-//    static let id3 = UUID()
-//    static let id4 = UUID()
-//    static let id5 = UUID()
-//
-//    static func data() -> [Habit] {
-//        let context = CoreDataManager.previews.mainContext
-//
-//        let h1 = try? Habit(context: context, name: "Swimming", id: id1)
-//        h1?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
-//        h1?.markCompleted(on: Cal.date(byAdding: .day, value: 0, to: Date())!)
-//        h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
-//
-//        let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
-//        h2?.updateFrequency(to: .specificWeekdays([.tuesday, .wednesday, .friday]))
-//        h2?.markCompleted(on: Cal.add(days: -1))
-//
-//        let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
-//        h3?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
-//
-//        if let h3 = h3 {
-//            let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
-//        }
-//
-//        let h4 = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2), id: id4)
-//        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
-//        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
-//        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
-//
-//        let in3daysWeedayInt = (Date().weekdayInt + 4) % 7
-//        let in3DaysWeekday = Weekday(in3daysWeedayInt)
-//        let h5 = try? Habit(context: context, name: "3 tpw, reset in 3, done 2", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
-//
-//        h5?.markCompleted(on: Cal.add(days: -1))
-//        h5?.markCompleted(on: Cal.add(days: -2))
-//
-//        let habits = Habit.habits(from: context)
-//        return habits
-//    }
-//
-//    static var previews: some View {
-//        let _ = data()
-//        let moc = CoreDataManager.previews.mainContext
-//        HabitRowPreviewer(vm: HabitListViewModel(moc))
-//    }
-//}
+    @ObservedObject var vm: HabitListViewModel
+
+    @State private var currentDay = Date()
+
+    @StateObject var nav = HabitTabNavPath()
+    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
+
+    var body: some View {
+        NavigationStack {
+            Background {
+                List {
+                    ForEach(vm.habits) { habit in
+                        HabitRow(moc: CoreDataManager.previews.mainContext,
+                                 habit: habit,
+                                 hsvm: hsvm)
+                        .listRowInsets(.init(top: 0,
+                                             leading: 0,
+                                             bottom: 0,
+                                             trailing: 20))
+                    }
+                }
+                .environment(\.defaultMinListRowHeight, 54)
+            }
+            .environmentObject(nav)
+        }
+    }
+}
+
+struct HabitRow_Previews: PreviewProvider {
+
+    static let id1 = UUID()
+    static let id2 = UUID()
+    static let id3 = UUID()
+    static let id4 = UUID()
+    static let id5 = UUID()
+
+    static func data() -> [Habit] {
+        let context = CoreDataManager.previews.mainContext
+
+        let h1 = try? Habit(context: context, name: "Swimming", id: id1)
+        h1?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+        h1?.markCompleted(on: Cal.date(byAdding: .day, value: 0, to: Date())!)
+        h1?.markCompleted(on: Cal.date(byAdding: .day, value: -1, to: Date())!)
+
+        let h2 = try? Habit(context: context, name: "Basketball (MWF)", id: id2)
+        h2?.updateFrequency(to: .specificWeekdays([.tuesday, .wednesday, .friday]))
+        h2?.markCompleted(on: Cal.add(days: -1))
+
+        let h3 = try? Habit(context: context, name: "Timed Habit", id: id3)
+        h3?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+
+        if let h3 = h3 {
+            let _ = TimeTracker(context: context, habit: h3, goalTime: 10)
+        }
+
+        let h4 = try? Habit(context: context, name: "Twice A Day", frequency: .timesPerDay(2), id: id4)
+        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -3, to: Date())!)
+        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
+
+        let in3daysWeedayInt = (Date().weekdayInt + 4) % 7
+        let in3DaysWeekday = Weekday(in3daysWeedayInt)
+        let h5 = try? Habit(context: context, name: "3 tpw, reset in 3, done 2", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
+
+        h5?.markCompleted(on: Cal.add(days: -1))
+        h5?.markCompleted(on: Cal.add(days: -2))
+
+        let habits = Habit.habits(from: context)
+        return habits
+    }
+
+    static var previews: some View {
+        let _ = data()
+        let moc = CoreDataManager.previews.mainContext
+        HabitRowPreviewer(vm: HabitListViewModel(moc))
+    }
+}

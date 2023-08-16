@@ -223,6 +223,12 @@ public class Habit: NSManagedObject, Codable, Identifiable {
          self.addToTrackers(t)
       }
    }
+    
+    func cleanUp() {
+        for notification in notificationsArray {
+            notification.removePendingNotifications()
+        }
+    }
    
    // MARK: - Encodable
    

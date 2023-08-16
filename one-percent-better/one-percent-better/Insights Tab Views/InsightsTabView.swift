@@ -28,7 +28,7 @@ struct InsightsTabView: View {
     
     @StateObject var vm: InsightsViewModel
     
-    init(context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
         self._vm = StateObject(wrappedValue: InsightsViewModel(context))
     }
     
@@ -86,9 +86,6 @@ struct InsightsTabView_Previews: PreviewProvider {
     
     static var previews: some View {
         let _ = data()
-        let moc = CoreDataManager.previews.mainContext
-        let hlvm = HabitListViewModel(moc)
-        InsightsTabView()
-            .environmentObject(hlvm)
+        InsightsTabView(CoreDataManager.previews.mainContext)
     }
 }
