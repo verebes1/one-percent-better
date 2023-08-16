@@ -635,7 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				8058174228D5696900E9816F /* Habit List Views */,
-				80CC692028E27EDC00584340 /* Create Habit - Edit Habit */,
+				80CC692028E27EDC00584340 /* Create Habit */,
 				8058174128D5692900E9816F /* Create Tracker */,
 				80385CEC285BEE5900CBDF71 /* Progress Views */,
 			);
@@ -954,7 +954,7 @@
 			path = "Edit Habit";
 			sourceTree = "<group>";
 		};
-		80CC692028E27EDC00584340 /* Create Habit - Edit Habit */ = {
+		80CC692028E27EDC00584340 /* Create Habit */ = {
 			isa = PBXGroup;
 			children = (
 				803B4E8428B43381003EA859 /* Create Habit */,
@@ -964,7 +964,7 @@
 				807A47B7290DEB930022068B /* AnimatedHabitCreationHeader.swift */,
 				80125C882A3A82DB00682BB9 /* CreateTextField.swift */,
 			);
-			path = "Create Habit - Edit Habit";
+			path = "Create Habit";
 			sourceTree = "<group>";
 		};
 		80D957D129BA763900142C75 /* Notifications */ = {

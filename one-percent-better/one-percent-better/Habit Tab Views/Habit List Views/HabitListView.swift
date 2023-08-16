@@ -33,7 +33,7 @@ enum HabitListSection: Int, CaseIterable, CustomStringConvertible {
 class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     @Published var habits: [Habit] = []
-    
+
     init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
         super.init(context, sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)])
         habits = fetchedObjects
@@ -88,12 +88,16 @@ struct HabitListView: View {
     
     @Environment(\.managedObjectContext) var moc
     
-    @EnvironmentObject var hlvm: HabitListViewModel
+    @StateObject var hlvm: HabitListViewModel
     @EnvironmentObject var hsvm: HeaderSelectionViewModel
     
     @State private var editMode = EditMode.inactive
     
     @AppStorage("HabitListView.sortListByDue") private var sortListByDue = true
+    
+    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+        self._hlvm = StateObject(wrappedValue: HabitListViewModel(moc))
+    }
     
     var body: some View {
         VStack {
@@ -141,6 +145,7 @@ struct HabitListView: View {
                     }
                 }
                 .environment(\.editMode, $editMode)
+                .environmentObject(hlvm)
             }
         }
     }
@@ -159,7 +164,9 @@ struct HabitListBySectionView: View {
                 Section(section.description) {
                     ForEach(habits, id: \.self.id) { habit in
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                            HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
+                            HabitRow(moc: moc,
+                                     habit: habit,
+                                     hsvm: hsvm)
                         }
                         .listRowInsets(.init(top: 0,
                                              leading: 0,
@@ -182,7 +189,9 @@ struct HabitListByOrderIndexView: View {
     var body: some View {
         ForEach(hlvm.habits, id: \.self.id) { habit in
             NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
-                HabitRow(moc: moc, habit: habit, day: hsvm.selectedDay)
+                HabitRow(moc: moc,
+                         habit: habit,
+                         hsvm: hsvm)
             }
             .listRowInsets(.init(top: 0,
                                  leading: 0,

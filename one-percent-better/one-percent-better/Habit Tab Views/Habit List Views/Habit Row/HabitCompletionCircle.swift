@@ -77,75 +77,74 @@ struct HabitCompletionCircle: View {
       }
    }
 }
-
-struct HabitCompletionCircle_Previews: PreviewProvider {
-   static var previews: some View {
-      HabitCompletionCircle_Previewer()
-   }
-}
-
-
-struct HabitCompletionCircle_Previewer: View {
-   
-   static let h1id = UUID()
-   static let h2id = UUID()
-   static let h3id = UUID()
-   
-   func data() -> [Habit] {
-      let context = CoreDataManager.previews.mainContext
-      
-      let _ = try? Habit(context: context, name: "Racquetball", id: HabitCompletionCircle_Previewer.h1id)
-      let h2 = try? Habit(context: context, name: "Jogging", id: HabitCompletionCircle_Previewer.h2id)
-      h2?.markCompleted(on: Date())
-      
-      let h3 = try? Habit(context: context, name: "Soccer", id: HabitCompletionCircle_Previewer.h3id)
-      if let h3 = h3 {
-         let _ = NumberTracker(context: context, habit: h3, name: "Hours")
-      }
-      
-      let habits = Habit.habits(from: context)
-      return habits
-   }
-   
-   var currentDay = Date()
-   
-   var body: some View {
-      
-      let habits = data()
-      
-      VStack {
-         Text("Not completed")
-         let notCompletedHabit = habits[0]
-         let vm1 = HabitRowViewModel(moc: CoreDataManager.previews.mainContext, habit: notCompletedHabit,
-                                     currentDay:
-                                       currentDay)
-         HabitCompletionCircle(completedPressed: .constant(false))
-            .environmentObject(vm1)
-            .border(Color.black, width: 1)
-         
-         Spacer()
-            .frame(height: 30)
-         
-//         Text("Completed")
-//         let completedHabit = habits[1]
-//         let vm2 = HabitRowViewModel(habit: completedHabit,
-//                                     currentDay:
-//                                       currentDay)
-//         HabitCompletionCircle(vm: vm2, completedPressed: .constant(false))
-//            .environmentObject(completedHabit)
-//            .border(Color.black, width: 1)
 //
+//struct HabitCompletionCircle_Previews: PreviewProvider {
+//   static var previews: some View {
+//      HabitCompletionCircle_Previewer()
+//   }
+//}
+
+
+//struct HabitCompletionCircle_Previewer: View {
+//   
+//   static let h1id = UUID()
+//   static let h2id = UUID()
+//   static let h3id = UUID()
+//   
+//   func data() -> [Habit] {
+//      let context = CoreDataManager.previews.mainContext
+//      
+//      let _ = try? Habit(context: context, name: "Racquetball", id: HabitCompletionCircle_Previewer.h1id)
+//      let h2 = try? Habit(context: context, name: "Jogging", id: HabitCompletionCircle_Previewer.h2id)
+//      h2?.markCompleted(on: Date())
+//      
+//      let h3 = try? Habit(context: context, name: "Soccer", id: HabitCompletionCircle_Previewer.h3id)
+//      if let h3 = h3 {
+//         let _ = NumberTracker(context: context, habit: h3, name: "Hours")
+//      }
+//      
+//      let habits = Habit.habits(from: context)
+//      return habits
+//   }
+//   
+//   @Published var currentDay = Date()
+//   
+//   var body: some View {
+//      
+//      let habits = data()
+//      
+//      VStack {
+//         Text("Not completed")
+//         let notCompletedHabit = habits[0]
+//         let vm1 = HabitRowViewModel(moc: CoreDataManager.previews.mainContext, habit: notCompletedHabit,
+//                                     currentDay: $currentDay)
+//         HabitCompletionCircle(completedPressed: .constant(false))
+//            .environmentObject(vm1)
+//            .border(Color.black, width: 1)
+//         
 //         Spacer()
 //            .frame(height: 30)
-//
-//         Text("With Tracker")
-//         let trackerHabit = habits[2]
-//         let vm3 = HabitRowViewModel(habit: trackerHabit,
-//                                     currentDay:
-//                                       currentDay)
-//         HabitCompletionCircle(vm: vm3, completedPressed: .constant(false))
-//            .environmentObject(trackerHabit)
-//            .border(Color.black, width: 1)
-      }
-   }
-}
+//         
+////         Text("Completed")
+////         let completedHabit = habits[1]
+////         let vm2 = HabitRowViewModel(habit: completedHabit,
+////                                     currentDay:
+////                                       currentDay)
+////         HabitCompletionCircle(vm: vm2, completedPressed: .constant(false))
+////            .environmentObject(completedHabit)
+////            .border(Color.black, width: 1)
+////
+////         Spacer()
+////            .frame(height: 30)
+////
+////         Text("With Tracker")
+////         let trackerHabit = habits[2]
+////         let vm3 = HabitRowViewModel(habit: trackerHabit,
+////                                     currentDay:
+////                                       currentDay)
+////         HabitCompletionCircle(vm: vm3, completedPressed: .constant(false))
+////            .environmentObject(trackerHabit)
+////            .border(Color.black, width: 1)
+//      }
+//   }
+//}
