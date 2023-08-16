@@ -8,50 +8,50 @@
 import SwiftUI
 
 struct HabitListViewContainer: View {
-   
-   @Environment(\.scenePhase) var scenePhase
-   
-   @EnvironmentObject var hlvm: HabitListViewModel
-   @EnvironmentObject var hsvm: HeaderSelectionViewModel
-   @EnvironmentObject var barManager: BottomBarManager
-   
-   var body: some View {
-      let _ = Self._printChanges()
-      Background {
-         VStack(spacing: 5) {
-            HabitsHeaderView()
-            HabitListView()
-         }
-         .navigationDestination(for: HabitListViewRoute.self) { route in
-            switch route {
-            case let .showProgress(habit):
-               HabitProgressViewContainer(habit: habit)
-            case .createHabit:
-               CreateHabitName()
+    
+    @Environment(\.scenePhase) var scenePhase
+    
+    @EnvironmentObject var barManager: BottomBarManager
+    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
+    
+    var body: some View {
+        let _ = Self._printChanges()
+        Background {
+            VStack(spacing: 5) {
+                HabitsHeaderView()
+                HabitListView()
             }
-         }
-      }
-      .onAppear {
-         hsvm.updateDayToToday()
-      }
-      .onChange(of: scenePhase) { newPhase in
-         if newPhase == .active {
+            .navigationDestination(for: HabitListViewRoute.self) { route in
+                switch route {
+                case let .showProgress(habit):
+                    HabitProgressViewContainer(habit: habit)
+                case .createHabit:
+                    CreateHabitName()
+                }
+            }
+        }
+        .environmentObject(hsvm)
+        .onAppear {
             hsvm.updateDayToToday()
-         }
-      }
-      .navigationTitle(hsvm.navTitle)
-      .navigationBarTitleDisplayMode(.inline)
-      .toolbar {
-         // New Habit
-         ToolbarItem(placement: .navigationBarTrailing) {
-            NavigationLink(value: HabitListViewRoute.createHabit) {
-               Image(systemName: "square.and.pencil")
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                hsvm.updateDayToToday()
             }
-         }
-      }
-      .toolbarBackground(Color.backgroundColor, for: .tabBar)
-      .toolbar(barManager.isHidden ? .hidden : .visible, for: .tabBar)
-   }
+        }
+        .navigationTitle(hsvm.navTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            // New Habit
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(value: HabitListViewRoute.createHabit) {
+                    Image(systemName: "square.and.pencil")
+                }
+            }
+        }
+        .toolbarBackground(Color.backgroundColor, for: .tabBar)
+        .toolbar(barManager.isHidden ? .hidden : .visible, for: .tabBar)
+    }
 }
 
 //struct HabitListViewContainer_Previews: PreviewProvider {

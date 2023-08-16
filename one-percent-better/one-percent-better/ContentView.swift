@@ -36,7 +36,6 @@ struct ContentView: View {
     
     @StateObject var nav = HabitTabNavPath()
     @StateObject var barManager = BottomBarManager()
-    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
     @StateObject var svm = SettingsViewModel()
     
     enum Tabs: String {
@@ -52,7 +51,6 @@ struct ContentView: View {
             // Habits
             NavigationStack(path: $nav.path) {
                 HabitListViewContainer()
-                    .environmentObject(hsvm)
             }
             .environmentObject(nav)
             .environmentObject(barManager)
