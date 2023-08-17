@@ -128,16 +128,16 @@ struct CreateHabitName: View {
    }
 }
 
-struct CreateNewHabit_Previews: PreviewProvider {
-   
-   static var previews: some View {
-      let moc = CoreDataManager.previews.mainContext
-      NavigationStack {
-         CreateHabitName()
-            .environment(\.managedObjectContext, moc)
-            .environmentObject(HabitListViewModel(moc))
-            .environmentObject(HabitTabNavPath())
-            .environmentObject(BottomBarManager())
-      }
-   }
-}
+//struct CreateNewHabit_Previews: PreviewProvider {
+//   
+//   static var previews: some View {
+//      let moc = CoreDataManager.previews.mainContext
+//      NavigationStack {
+//         CreateHabitName()
+//            .environment(\.managedObjectContext, moc)
+//            .environmentObject(HabitListViewModel(moc))
+//            .environmentObject(HabitTabNavPath())
+//            .environmentObject(BottomBarManager())
+//      }
+//   }
+//}

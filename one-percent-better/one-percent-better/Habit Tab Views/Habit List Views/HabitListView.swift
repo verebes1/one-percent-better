@@ -33,14 +33,43 @@ enum HabitListSection: Int, CaseIterable, CustomStringConvertible {
 class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     @Published var habits: [Habit] = []
+    
+    var habitIDList: [UUID] = []
+    var habitFrequencies: [HabitFrequency?] = []
+    var selectedDay = Date()
+    var cancelBag = Set<AnyCancellable>()
 
-    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, hsvm: HeaderSelectionViewModel) {
         super.init(context, sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)])
         habits = fetchedObjects
+        habitIDList = habits.map { $0.id }
+        habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDay) }
+        selectedDay = hsvm.selectedDay
+        
+        // Subscribe to selected day from HeaderSelectionViewModel
+        hsvm.$selectedDay.sink { [weak self] newDate in
+            guard let self else { return }
+            self.selectedDay = newDate
+            habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDay) }
+        }
+        .store(in: &cancelBag)
     }
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        habits = controller.fetchedObjects as? [Habit] ?? []
+        let newHabits = controller.fetchedObjects as? [Habit] ?? []
+        let newHabitIDList = newHabits.map { $0.id }
+        let newHabitFrequencies = newHabits.map { $0.frequency(on: selectedDay) }
+        
+        if habitIDList != newHabitIDList {
+            print("JJJJ Updating because of reorder or deletion!")
+            habits = newHabits
+            habitIDList = newHabitIDList
+            habitFrequencies = newHabitFrequencies
+        } else if habitFrequencies != newHabitFrequencies {
+            print("JJJJ Updating because of new frequency!")
+            habits = newHabits
+            habitFrequencies = newHabitFrequencies
+        }
     }
     
     func move(from sourceIndex: IndexSet, to destination: Int) {
@@ -96,11 +125,12 @@ struct HabitListView: View {
     
     @AppStorage("HabitListView.sortListByDue") private var sortListByDue = true
     
-    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-        self._hlvm = StateObject(wrappedValue: HabitListViewModel(moc))
+    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, hsvm: HeaderSelectionViewModel) {
+        self._hlvm = StateObject(wrappedValue: HabitListViewModel(moc, hsvm: hsvm))
     }
     
     var body: some View {
+        let _ = Self.printChanges(self)
         VStack {
             if hlvm.habits.isEmpty {
                 NoHabitsListView()
@@ -213,62 +243,62 @@ struct HabitListByOrderIndexView: View {
     }
 }
 
-struct HabitListViewPreviewer: View {
-    
-    static let h0id = UUID()
-    static let h1id = UUID()
-    static let h2id = UUID()
-    static let h3id = UUID()
-    static let h4id = UUID()
-    static let h5id = UUID()
-    
-    @StateObject var nav = HabitTabNavPath()
-    @StateObject var barManager = BottomBarManager()
-    @StateObject var hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
-    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
-    
-    init() {
-        let _ = data()
-    }
-    
-    func data() {
-        let context = CoreDataManager.previews.mainContext
-        
-        let _ = try? Habit(context: context, name: "Never completed", id: HabitListViewPreviewer.h0id)
-        
-        let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitListViewPreviewer.h1id)
-        let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
-        h1?.markCompleted(on: yesterday)
-        
-        let h2 = try? Habit(context: context, name: "Completed today", id: HabitListViewPreviewer.h2id)
-        h2?.markCompleted(on: Date())
-        
-        let h3 = try? Habit(context: context, name: "Due MWF", frequency: .specificWeekdays([.monday, .wednesday, .friday]), id: HabitListViewPreviewer.h3id)
-        h3?.markCompleted(on: Date())
-        
-        let _ = try? Habit(context: context, name: "Due TTSS", frequency: .specificWeekdays([.tuesday, .thursday, .saturday, .sunday]), id: HabitListViewPreviewer.h4id)
-        
-        let _ = try? Habit(context: context, name: "Due 1x per week", frequency: .timesPerWeek(times: 1, resetDay: .sunday), id: HabitListViewPreviewer.h5id)
-        
-        context.assertSave()
-    }
-    
-    var body: some View {
-        NavigationStack(path: $nav.path) {
-            HabitListView(moc: CoreDataManager.previews.mainContext)
-                .environmentObject(nav)
-                .environmentObject(barManager)
-                .environmentObject(hlvm)
-                .environmentObject(hsvm)
-        }
-    }
-}
-
-struct HabitListView_Previews: PreviewProvider {
-    static var previews: some View {
-        Background {
-            HabitListViewPreviewer()
-                .environment(\.managedObjectContext, CoreDataManager.previews.mainContext)
-        }
-    }
-}
+//struct HabitListViewPreviewer: View {
+//    
+//    static let h0id = UUID()
+//    static let h1id = UUID()
+//    static let h2id = UUID()
+//    static let h3id = UUID()
+//    static let h4id = UUID()
+//    static let h5id = UUID()
+//    
+//    @StateObject var nav = HabitTabNavPath()
+//    @StateObject var barManager = BottomBarManager()
+//    @StateObject var hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
+//    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
+//    
+//    init() {
+//        let _ = data()
+//    }
+//    
+//    func data() {
+//        let context = CoreDataManager.previews.mainContext
+//        
+//        let _ = try? Habit(context: context, name: "Never completed", id: HabitListViewPreviewer.h0id)
+//        
+//        let h1 = try? Habit(context: context, name: "Completed yesterday", id: HabitListViewPreviewer.h1id)
+//        let yesterday = Cal.date(byAdding: .day, value: -1, to: Date())!
+//        h1?.markCompleted(on: yesterday)
+//        
+//        let h2 = try? Habit(context: context, name: "Completed today", id: HabitListViewPreviewer.h2id)
+//        h2?.markCompleted(on: Date())
+//        
+//        let h3 = try? Habit(context: context, name: "Due MWF", frequency: .specificWeekdays([.monday, .wednesday, .friday]), id: HabitListViewPreviewer.h3id)
+//        h3?.markCompleted(on: Date())
+//        
+//        let _ = try? Habit(context: context, name: "Due TTSS", frequency: .specificWeekdays([.tuesday, .thursday, .saturday, .sunday]), id: HabitListViewPreviewer.h4id)
+//        
+//        let _ = try? Habit(context: context, name: "Due 1x per week", frequency: .timesPerWeek(times: 1, resetDay: .sunday), id: HabitListViewPreviewer.h5id)
+//        
+//        context.assertSave()
+//    }
+//    
+//    var body: some View {
+//        NavigationStack(path: $nav.path) {
+//            HabitListView(moc: CoreDataManager.previews.mainContext)
+//                .environmentObject(nav)
+//                .environmentObject(barManager)
+//                .environmentObject(hlvm)
+//                .environmentObject(hsvm)
+//        }
+//    }
+//}
+//
+//struct HabitListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Background {
+//            HabitListViewPreviewer()
+//                .environment(\.managedObjectContext, CoreDataManager.previews.mainContext)
+//        }
+//    }
+//}

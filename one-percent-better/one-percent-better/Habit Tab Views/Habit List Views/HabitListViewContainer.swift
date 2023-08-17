@@ -19,7 +19,7 @@ struct HabitListViewContainer: View {
         Background {
             VStack(spacing: 5) {
                 HabitsHeaderView()
-                HabitListView()
+                HabitListView(hsvm: hsvm)
             }
             .navigationDestination(for: HabitListViewRoute.self) { route in
                 switch route {
