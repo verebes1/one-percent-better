@@ -11,15 +11,17 @@ struct HowToCompleteHabitTip: View {
     
     @EnvironmentObject var hlvm: HabitListViewModel
     
-    var hasCompletedAHabit: Bool {
-        guard !hlvm.habits.isEmpty else { return true }
-        let completedArray = Set(hlvm.habits.map { !$0.daysCompleted.isEmpty })
-        return completedArray.contains(true)
-    }
+    @Environment(\.editMode) private var editMode
+    
+//    var hasCompletedAHabit: Bool {
+//        guard !hlvm.habits.isEmpty else { return true }
+//        let completedArray = Set(hlvm.habits.map { !$0.daysCompleted.isEmpty })
+//        return completedArray.contains(true)
+//    }
     
     var body: some View {
         ZStack {
-            if !hasCompletedAHabit {
+            if hlvm.isNewbie && editMode?.wrappedValue.isEditing == false {
                 HStack(spacing: 0) {
                     Spacer().frame(width: 6)
                     Image(systemName: "arrow.turn.left.up")
@@ -33,7 +35,7 @@ struct HowToCompleteHabitTip: View {
                 )
             }
         }
-        .animation(.easeOut, value: hasCompletedAHabit)
+        .animation(.easeOut, value: hlvm.isNewbie)
     }
 }
 

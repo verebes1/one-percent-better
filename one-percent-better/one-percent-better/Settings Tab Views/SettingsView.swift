@@ -12,6 +12,7 @@ enum SettingsNavRoute: Hashable {
     case dailyReminder(Settings)
     case habitNotifications
     case feedback
+    case privacy
 }
 
 struct SettingsView: View {
@@ -69,16 +70,29 @@ struct SettingsView: View {
                         
                         // Feedback
                         Section(header: Text("Share")) {
+                            
+                            ShareLink(item: URL(string: "https://testflight.apple.com/join/LJ9NUdbc")!) {
+                                IconTextRow(title: "Share Beta Link", icon: "link", color: .appIconColor)
+                            }
+                            .foregroundColor(.label)
+                            
                             NavigationLink(value: SettingsNavRoute.feedback) {
                                 IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
                                     .environmentObject(settings)
                             }
-                            
-//                            NavigationLink(value: SettingsNavRoute.feedback) {
-//                                IconTextRow(title: "Share Beta Link", icon: "link", color: .green)
-//                            }
                         }
                         .listRowBackground(Color.cardColor)
+                        
+                        // Privacy
+                        Section {
+                            NavigationLink(value: SettingsNavRoute.privacy) {
+                                IconTextRow(title: "Privacy Policy", icon: "lock.fill", color: .teal)
+                            }
+                        } header: {
+                            Text("Privacy")
+                        }
+                        .listRowBackground(Color.cardColor)
+
                         
                         Section(footer: versionFooter) {}
                             .listRowBackground(Color.cardColor)
@@ -93,6 +107,8 @@ struct SettingsView: View {
                             AllHabitNotifications()
                         case .feedback:
                             ShareBetaFeedback()
+                        case .privacy:
+                            PrivacyPolicy()
                         }
                     }
                     .sheet(isPresented: $showDocumentPicker) {

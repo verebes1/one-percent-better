@@ -42,6 +42,10 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     /// i.e. only when a habit frequency is changed and could shown in another section
     var habitFrequencies: [HabitFrequency?] = []
     
+    /// A bool indicating if this user is a newbie, used to not update the list view unless this value changes,
+    /// i.e. if they've never completed a habit before
+    var isNewbie = true
+    
     var selectedDay = Date()
     var cancelBag = Set<AnyCancellable>()
 
@@ -51,6 +55,8 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         habitIDList = habits.map { $0.id }
         habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDay) }
         selectedDay = hsvm.selectedDay
+        
+        isNewbie = calculateIsNewbie(habits: habits)
         
         // Subscribe to selected day from HeaderSelectionViewModel
         hsvm.$selectedDay.sink { [weak self] newDate in
@@ -65,14 +71,13 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         let newHabits = controller.fetchedObjects as? [Habit] ?? []
         let newHabitIDList = newHabits.map { $0.id }
         let newHabitFrequencies = newHabits.map { $0.frequency(on: selectedDay) }
+        let newIsNewbie = calculateIsNewbie(habits: newHabits)
         
-        if habitIDList != newHabitIDList {
+        if habitIDList != newHabitIDList || habitFrequencies != newHabitFrequencies || isNewbie != newIsNewbie  {
             habits = newHabits
             habitIDList = newHabitIDList
             habitFrequencies = newHabitFrequencies
-        } else if habitFrequencies != newHabitFrequencies {
-            habits = newHabits
-            habitFrequencies = newHabitFrequencies
+            isNewbie = newIsNewbie
         }
     }
     
@@ -115,6 +120,11 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         case .dueThisWeek:
             return habits.filter { !$0.isDue(on: selectedDay) }
         }
+    }
+    
+    func calculateIsNewbie(habits: [Habit]) -> Bool {
+        let completedArray = Set(habits.map { $0.daysCompleted.isEmpty })
+        return !completedArray.contains(false)
     }
 }
 

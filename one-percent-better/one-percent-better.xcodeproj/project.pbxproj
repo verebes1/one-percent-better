@@ -93,6 +93,7 @@
 		80385D3D285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */; };
 		80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */; };
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
+		8038AB212A8EF8AD0048A946 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */; };
 		803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */; };
 		803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */; };
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
@@ -320,6 +321,7 @@
 		80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTrackerEnterDataView.swift; sourceTree = "<group>"; };
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
+		8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
 		803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
 		803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabel.swift; sourceTree = "<group>"; };
 		803A787029823B3A0045BD06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -568,6 +570,7 @@
 				80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */,
 				80F72941294D876800F17B0B /* RandomNotifications.swift */,
 				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
+				8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -1268,6 +1271,7 @@
 				803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */,
 				80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */,
 				80385D24285BEE5900CBDF71 /* ImageTracker.swift in Sources */,
+				8038AB212A8EF8AD0048A946 /* PrivacyPolicy.swift in Sources */,
 				8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */,
 				80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */,
 				80DAAC30293478F600E626D7 /* AllHabitsGraph.swift in Sources */,
