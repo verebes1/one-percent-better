@@ -61,12 +61,10 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         let newHabitFrequencies = newHabits.map { $0.frequency(on: selectedDay) }
         
         if habitIDList != newHabitIDList {
-            print("JJJJ Updating because of reorder or deletion!")
             habits = newHabits
             habitIDList = newHabitIDList
             habitFrequencies = newHabitFrequencies
         } else if habitFrequencies != newHabitFrequencies {
-            print("JJJJ Updating because of new frequency!")
             habits = newHabits
             habitFrequencies = newHabitFrequencies
         }
