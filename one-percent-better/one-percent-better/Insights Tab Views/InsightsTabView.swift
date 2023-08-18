@@ -20,7 +20,6 @@ class InsightsViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         habits = controller.fetchedObjects as? [Habit] ?? []
-        print("JJJJ Updating habits!!!")
     }
 }
 

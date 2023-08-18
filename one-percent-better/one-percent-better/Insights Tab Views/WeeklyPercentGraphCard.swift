@@ -26,9 +26,9 @@ struct WeeklyPercentGraphCard: View {
             values.append(percent)
             curDay = Cal.add(days: 1, to: curDay)
         }
-        print("\n\nLLLL values: \(values)")
+//        print("\n\nLLLL values: \(values)")
         values = movingAverage(points: values)
-        print("LLLL after values: \(values)")
+//        print("LLLL after values: \(values)")
         for i in 0 ..< dates.count {
             r.append(GraphPoint(date: dates[i], value: values[i]))
         }
