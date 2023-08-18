@@ -34,8 +34,14 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     
     @Published var habits: [Habit] = []
     
+    /// A list of fetched habits by their IDs, used to not update the list view unless this array changes,
+    /// i.e. only when a habit is added, removed, or moved
     var habitIDList: [UUID] = []
+    
+    /// A list of fetched habits by their frequencies, used to not update the list view unless this array changes,
+    /// i.e. only when a habit frequency is changed and could shown in another section
     var habitFrequencies: [HabitFrequency?] = []
+    
     var selectedDay = Date()
     var cancelBag = Set<AnyCancellable>()
 

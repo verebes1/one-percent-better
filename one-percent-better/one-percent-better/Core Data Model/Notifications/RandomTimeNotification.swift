@@ -72,11 +72,8 @@ public class RandomTimeNotification: Notification {
             startMinutes = endMinutes
             endMinutes = temp
         }
-        if startMinutes == endMinutes {
-            endMinutes += 1
-        }
         
-        let randomTime = Int.random(in: startMinutes ..< endMinutes)
+        let randomTime = Int.random(in: startMinutes ... endMinutes)
         let randomHour = randomTime / 60
         let randomMinute = randomTime % 60
         
