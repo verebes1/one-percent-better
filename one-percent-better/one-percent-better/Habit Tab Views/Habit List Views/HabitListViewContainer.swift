@@ -10,15 +10,25 @@ import SwiftUI
 struct HabitListViewContainer: View {
     
     @Environment(\.scenePhase) var scenePhase
-    
     @EnvironmentObject var barManager: BottomBarManager
-    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel())
+    @StateObject var hwvm: HeaderWeekViewModel
+    @StateObject var hsvm: HeaderSelectionViewModel
+    
+    init() {
+        let hwvm = HeaderWeekViewModel()
+        let hsvm = HeaderSelectionViewModel(hwvm: hwvm)
+        self._hwvm = StateObject(wrappedValue: hwvm)
+        self._hsvm = StateObject(wrappedValue: hsvm)
+    }
     
     var body: some View {
         let _ = Self._printChanges()
         Background {
             VStack(spacing: 5) {
                 HabitsHeaderView()
+                    .environmentObject(hwvm)
+                    .environmentObject(hsvm)
+                
                 HabitListView(hsvm: hsvm)
             }
             .navigationDestination(for: HabitListViewRoute.self) { route in

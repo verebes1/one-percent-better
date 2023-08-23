@@ -9,14 +9,6 @@ import SwiftUI
 import CoreData
 import Combine
 
-struct ViewOffsetKey: PreferenceKey {
-    typealias Value = CGFloat
-    static var defaultValue = CGFloat.zero
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        value += nextValue()
-    }
-}
-
 class HeaderSelectionViewModel: ObservableObject {
     
     /// Which day is selected in the HabitHeaderView
@@ -25,13 +17,13 @@ class HeaderSelectionViewModel: ObservableObject {
     /// Which week is selected in the HabitHeaderView
     @Published var selectedWeek = 0
     
+    /// The selected date
     @Published var selectedDay = Date()
     
     /// The latest day that has been shown. This is updated when the
     /// app is opened or the view appears on a new day.
     @Published var latestDay = Date()
     
-    /// Date formatter for the month year label at the top of the calendar
     var dateTitleFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.calendar = Calendar(identifier: .gregorian)
@@ -199,7 +191,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
 struct HabitsHeaderView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @ObservedObject var vm = HeaderWeekViewModel()
+    @EnvironmentObject var vm: HeaderWeekViewModel
     @EnvironmentObject var hsvm: HeaderSelectionViewModel
     var color: Color = .systemTeal
     
@@ -214,7 +206,6 @@ struct HabitsHeaderView: View {
                 ForEach(0 ..< 7) { i in
                     SelectedDayView(index: i,
                                     color: color)
-                    .environmentObject(vm)
                 }
             }
             .padding(.horizontal, 20)
@@ -289,64 +280,10 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         let moc = CoreDataManager.previews.mainContext
         let hwvm = HeaderWeekViewModel(moc)
+        let hsvm = HeaderSelectionViewModel(hwvm: hwvm)
         HabitsHeaderView(context: moc)
             .environment(\.managedObjectContext, moc)
             .environmentObject(hwvm)
-    }
-}
-
-struct SelectedDayView: View {
-    
-    @Environment(\.colorScheme) var scheme
-    @EnvironmentObject var vm: HeaderWeekViewModel
-    @EnvironmentObject var hsvm: HeaderSelectionViewModel
-    
-    var index: Int
-    var color: Color = .systemTeal
-    
-    func isIndexSameAsToday(_ index: Int) -> Bool {
-        let dayIsSelectedWeekday = vm.thisWeekDayOffset(Date()) == index
-        let weekIsSelectedWeek = hsvm.selectedWeek == (vm.numWeeksSinceEarliest - 1)
-        return dayIsSelectedWeekday && weekIsSelectedWeek
-    }
-    
-    func weekdayLabelColor(isSelected: Bool) -> Color {
-        if isSelected {
-            if isIndexSameAsToday(index) {
-                return scheme == .light ? .white : .black
-            } else {
-                return .white
-            }
-        } else {
-            return (isIndexSameAsToday(index) ? color : .secondary)
-        }
-    }
-    
-    let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
-    
-    var body: some View {
-        ZStack {
-            let circleSize: CGFloat = 19
-            let isSelected = index == vm.thisWeekDayOffset(hsvm.selectedDay)
-            if isSelected {
-                Circle()
-                    .foregroundColor(isIndexSameAsToday(index) ? color : .systemGray2)
-                    .frame(width: circleSize, height: circleSize)
-            }
-            Text(smwttfs[index])
-                .font(.system(size: 12))
-                .fontWeight(isIndexSameAsToday(index) && !isSelected ? .medium : .regular)
-                .foregroundColor(weekdayLabelColor(isSelected: isSelected))
-                .frame(maxWidth: .infinity)
-        }
-        .padding(.bottom, 3)
-        .contentShape(Rectangle())
-        .onTapGesture {
-            let dayOffset = vm.dayOffset(week: hsvm.selectedWeek, day: index)
-            if dayOffset <= 0 {
-                hsvm.selectedWeekDay = index
-                hsvm.selectedDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
-            }
-        }
+            .environmentObject(hsvm)
     }
 }

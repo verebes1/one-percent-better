@@ -59,6 +59,20 @@ struct SelectableCard<Content>: View where Content: View {
    }
 }
 
+struct CheckmarkToggleButton: View {
+   
+   var state: Bool = true
+   var size: CGFloat = 18
+   
+   var body: some View {
+      Image(systemName: state ? "checkmark.circle.fill" : "circle")
+         .resizable()
+         .aspectRatio(contentMode: .fit)
+         .frame(width: size, height: size)
+         .foregroundColor(state ? Style.accentColor : .systemGray)
+   }
+}
+
 struct SelectableCard_Previewer: View {
    
    @State private var selection = 0
