@@ -94,6 +94,7 @@
 		80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */; };
 		80385D7D285E630700CBDF71 /* CustomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80385D7C285E630700CBDF71 /* CustomToolbarView.swift */; };
 		8038AB212A8EF8AD0048A946 /* PrivacyPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */; };
+		8038AB232A9599830048A946 /* ChangeStartingWeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */; };
 		803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */; };
 		803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */; };
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
@@ -322,6 +323,8 @@
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		80385D7C285E630700CBDF71 /* CustomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomToolbarView.swift; sourceTree = "<group>"; };
 		8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
+		8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeStartingWeekdayView.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Settings Tab Views/ChangeStartingWeekdayView.swift"; sourceTree = "<absolute>"; };
+		8038AB242A959A9E0048A946 /* opb 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 21.xcdatamodel"; sourceTree = "<group>"; };
 		803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
 		803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabel.swift; sourceTree = "<group>"; };
 		803A787029823B3A0045BD06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -569,6 +572,7 @@
 				8040282829C2BE5D003D27CE /* NotificationsForHabitDebug.swift */,
 				80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */,
 				80F72941294D876800F17B0B /* RandomNotifications.swift */,
+				8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */,
 				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 				8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */,
 			);
@@ -1212,6 +1216,7 @@
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
 				8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */,
+				8038AB232A9599830048A946 /* ChangeStartingWeekdayView.swift in Sources */,
 				803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */,
 				8006A09728F53D1C005D1A19 /* AnimatedPluralText.swift in Sources */,
 				80639E65293FEFAB00A48F16 /* InsightsTabView.swift in Sources */,
@@ -1733,6 +1738,7 @@
 		80385CB8285BEE5900CBDF71 /* mo_ikai.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				8038AB242A959A9E0048A946 /* opb 21.xcdatamodel */,
 				807218922A623A8D00E9F4DE /* opb 20.xcdatamodel */,
 				80FD71172A2ECC6300CB2394 /* opb 19.xcdatamodel */,
 				8068D9F629D3F342006F025E /* opb 18.xcdatamodel */,
@@ -1754,7 +1760,7 @@
 				80385CBB285BEE5900CBDF71 /* mo_ikai 4.xcdatamodel */,
 				80385CBC285BEE5900CBDF71 /* mo_ikai 3.xcdatamodel */,
 			);
-			currentVersion = 807218922A623A8D00E9F4DE /* opb 20.xcdatamodel */;
+			currentVersion = 8038AB242A959A9E0048A946 /* opb 21.xcdatamodel */;
 			path = mo_ikai.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -49,6 +49,9 @@ struct SettingsView: View {
                         Section(header: Text("Appearance")) {
                             ChangeAppearanceRow()
                                 .environmentObject(settings)
+                            
+                            ChangeStartingWeekdayView()
+                                .environmentObject(settings)
                         }
                         .listRowBackground(Color.cardColor)
                         
