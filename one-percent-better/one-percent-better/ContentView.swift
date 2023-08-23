@@ -54,6 +54,7 @@ struct ContentView: View {
             }
             .environmentObject(nav)
             .environmentObject(barManager)
+            .environmentObject(svm)
             .tabItem {
                 Label("Habits", image: "custom.bolt.ring.closed")
             }
