@@ -8,9 +8,20 @@
 import XCTest
 @testable import One_Percent_Better
 
-final class WeekdayTests: XCTestCase {
+var df: DateFormatter {
+   let df = DateFormatter()
+   df.dateFormat = "MM-dd-yyyy"
+   return df
+}
 
-    func testExample() throws {
+final class WeekdayTests: XCTestCase {
+    
+    func testWeekdayInt() throws {
+        let monday = df.date(from: "8-14-2023")!
+        XCTAssertEqual(monday.weekdayInt, Weekday.monday.rawValue)
+    }
+
+    func testPositiveDifference() throws {
        XCTAssertEqual(Weekday.positiveDifference(from: .monday, to: .monday), 0)
        XCTAssertEqual(Weekday.positiveDifference(from: .monday, to: .tuesday), 1)
        XCTAssertEqual(Weekday.positiveDifference(from: .monday, to: .wednesday), 2)

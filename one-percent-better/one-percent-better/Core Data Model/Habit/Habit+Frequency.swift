@@ -7,13 +7,6 @@
 
 import Foundation
 
-extension Date {
-   // 0 = S, 1 = M, 2 = T, 3 = W, 4 = T, 5 = F, 6 = S
-   var weekdayInt: Int {
-      return Cal.component(.weekday, from: self) - 1
-   }
-}
-
 @objc public enum HabitFrequencyNSManaged: Int {
    case timesPerDay = 0
    case specificWeekdays = 1
@@ -70,67 +63,6 @@ enum HabitFrequency: Equatable, Hashable {
       case .timesPerWeek(let n, let resetDay):
          let times = n > 1 ? "times" : "time"
          return "\(n) \(times) per week beginning every \(resetDay.description)"
-      }
-   }
-}
-
-enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
-   case sunday, monday, tuesday, wednesday, thursday, friday, saturday
-   
-   init(_ date: Date) {
-      self.init(rawValue: date.weekdayInt)!
-   }
-   
-   init(_ weekdayInt: Int) {
-      let modulo = weekdayInt % 7
-      if modulo != weekdayInt {
-         assertionFailure("Creating a Weekday with a weekdayInt out of range: \(weekdayInt)")
-      }
-      self.init(rawValue: modulo)!
-   }
-   
-   var description: String {
-      switch self {
-      case .sunday: return "Sunday"
-      case .monday: return "Monday"
-      case .tuesday: return "Tuesday"
-      case .wednesday: return "Wednesday"
-      case .thursday: return "Thursday"
-      case .friday: return "Friday"
-      case .saturday: return "Saturday"
-      }
-   }
-   
-   static func < (lhs: Weekday, rhs: Weekday) -> Bool {
-      return lhs.rawValue < rhs.rawValue
-   }
-   
-   static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
-      var diff = b.rawValue - a.rawValue
-      if diff < 0 {
-         diff += 7
-      }
-      return diff
-   }
-}
-
-// TEMP ENUM WHILE TESTING UI
-enum HabitFrequencyTest: Equatable {
-   case timesPerDay(Int)
-   case specificWeekdays([Int])
-   case timesPerWeek(times: Int, resetDay: Weekday)
-   case everyXDays(Int)
-   
-   var valueNS: Int {
-      switch self {
-      case .timesPerDay(_):
-         return 0
-      case .specificWeekdays(_):
-         return 1
-      case .timesPerWeek(_, _):
-         return 2
-      case .everyXDays(_):
-         return 3
       }
    }
 }

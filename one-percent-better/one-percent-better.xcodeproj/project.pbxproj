@@ -96,6 +96,7 @@
 		8038AB232A9599830048A946 /* ChangeStartingWeekdayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */; };
 		8038AB272A95A0230048A946 /* SelectedDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB262A95A0230048A946 /* SelectedDayView.swift */; };
 		8038AB2A2A95A3470048A946 /* GeneratePreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB292A95A3470048A946 /* GeneratePreviewData.swift */; };
+		8038AB2D2A98184B0048A946 /* Weekday.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8038AB2C2A98184B0048A946 /* Weekday.swift */; };
 		803A786B297F8BC90045BD06 /* CapsuleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */; };
 		803A786D297F8DFF0045BD06 /* CapsuleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */; };
 		803E1B8628A1C97B0010540B /* ExerciseTrackerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 803E1B8528A1C97B0010540B /* ExerciseTrackerEntry.swift */; };
@@ -324,6 +325,7 @@
 		8038AB242A959A9E0048A946 /* opb 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 21.xcdatamodel"; sourceTree = "<group>"; };
 		8038AB262A95A0230048A946 /* SelectedDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDayView.swift; sourceTree = "<group>"; };
 		8038AB292A95A3470048A946 /* GeneratePreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePreviewData.swift; sourceTree = "<group>"; };
+		8038AB2C2A98184B0048A946 /* Weekday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weekday.swift; sourceTree = "<group>"; };
 		803A786A297F8BC90045BD06 /* CapsuleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleButtonStyle.swift; sourceTree = "<group>"; };
 		803A786C297F8DFF0045BD06 /* CapsuleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleLabel.swift; sourceTree = "<group>"; };
 		803A787029823B3A0045BD06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -508,10 +510,11 @@
 				80D8EEFE2A477B2100769114 /* Keys.plist */,
 				80385CB2285BEE5900CBDF71 /* Core Data Manager */,
 				80385CDF285BEE5900CBDF71 /* Core Data Model */,
-				80385CAD285BEE5900CBDF71 /* Global Style + Common Views */,
+				8038AB2B2A9818320048A946 /* Shared Data Models */,
 				80385CC5285BEE5900CBDF71 /* Habit Tab Views */,
 				80DAAC2E293478CD00E626D7 /* Insights Tab Views */,
 				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
+				80385CAD285BEE5900CBDF71 /* Global Style + Common Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
 				80385CB1285BEE5900CBDF71 /* Assets.xcassets */,
@@ -765,6 +768,14 @@
 				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
 			);
 			path = Habit;
+			sourceTree = "<group>";
+		};
+		8038AB2B2A9818320048A946 /* Shared Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				8038AB2C2A98184B0048A946 /* Weekday.swift */,
+			);
+			path = "Shared Data Models";
 			sourceTree = "<group>";
 		};
 		803B4E8428B43381003EA859 /* Create Habit */ = {
@@ -1331,6 +1342,7 @@
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
 				80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */,
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
+				8038AB2D2A98184B0048A946 /* Weekday.swift in Sources */,
 				8062AA452902F76200903123 /* CalendarDayView.swift in Sources */,
 				80385D28285BEE5900CBDF71 /* HapticEngineManager.swift in Sources */,
 				803E1B8828A34E930010540B /* CreateHabitFrequency.swift in Sources */,
