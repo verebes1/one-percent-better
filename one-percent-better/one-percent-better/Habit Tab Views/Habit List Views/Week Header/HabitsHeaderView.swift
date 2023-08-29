@@ -16,7 +16,7 @@ class HeaderSelectionViewModel: ObservableObject {
     @Published var selectedWeekIndex = 0
     
     /// The selected date
-    @Published var selectedDay = Date()
+    @Published var selectedDate = Date()
     
     /// The latest day that has been shown. This is updated when the
     /// app is opened or the view appears on a new day.
@@ -31,7 +31,7 @@ class HeaderSelectionViewModel: ObservableObject {
     }()
     
     var navTitle: String {
-        dateTitleFormatter.string(from: selectedDay)
+        dateTitleFormatter.string(from: selectedDate)
     }
     
     let hwvm: HeaderWeekViewModel
@@ -39,20 +39,20 @@ class HeaderSelectionViewModel: ObservableObject {
     init(hwvm: HeaderWeekViewModel) {
         self.hwvm = hwvm
         updateSelectedWeek()
-        hwvm.updateImprovementScores(on: selectedDay)
+        hwvm.updateImprovementScores(on: selectedDate)
     }
     
     func updateSelectedWeek() {
-        let newSelectedWeek = hwvm.weekIndex(for: selectedDay)
+        let newSelectedWeek = hwvm.weekIndex(for: selectedDate)
         if self.selectedWeekIndex != newSelectedWeek {
             self.selectedWeekIndex = newSelectedWeek
         }
     }
     
     func updateSelectedDay(to day: Date) {
-        selectedDay = day
+        selectedDate = day
         updateSelectedWeek()
-        hwvm.updateImprovementScores(on: selectedDay)
+        hwvm.updateImprovementScores(on: selectedDate)
     }
     
     func updateSelectedDayToToday() {
@@ -64,16 +64,16 @@ class HeaderSelectionViewModel: ObservableObject {
     
     func selectedWeekChanged(to newWeek: Int) {
         let today = Date()
-        let newSelectedDay = hwvm.date(weekIndex: newWeek, weekdayIndex: selectedDay.weekdayIndex)
+        let newSelectedDay = hwvm.date(weekIndex: newWeek, weekdayIndex: selectedDate.weekdayIndex)
         
         if newSelectedDay.startOfDay() > today.startOfDay() {
             // If scrolling to week which has dates ahead of today
-            selectedDay = today
+            selectedDate = today
         } else if newSelectedDay.startOfDay() < hwvm.earliestStartDate.startOfDay() {
             // If scrolls to week which has days before the earliest start date
-            selectedDay = hwvm.earliestStartDate
+            selectedDate = hwvm.earliestStartDate
         } else {
-            selectedDay = newSelectedDay
+            selectedDate = newSelectedDay
         }
     }
 }
@@ -196,15 +196,15 @@ struct HabitsHeaderView: View {
             HStack {
                 ForEach(Weekday.orderedCases) { weekday in
                     SelectedDayView(weekday: weekday,
-                                    selectedWeekday: Weekday(hsvm.selectedDay),
+                                    selectedWeekday: Weekday(hsvm.selectedDate),
                                     isToday: isToday(weekday: weekday))
                     .onTapGesture {
                         let weekdayIndex = weekday.index
                         let newDate = vm.date(weekIndex: hsvm.selectedWeekIndex, weekdayIndex: weekdayIndex)
                         if newDate.startOfDay() <= Date().startOfDay() &&
                             newDate.startOfDay() >= vm.earliestStartDate.startOfDay() &&
-                            newDate != hsvm.selectedDay {
-                            hsvm.selectedDay = newDate
+                            newDate != hsvm.selectedDate {
+                            hsvm.selectedDate = newDate
                         }
                     }
                 }
@@ -227,7 +227,7 @@ struct HabitsHeaderView: View {
                             .frame(maxWidth: .infinity)
                             .onTapGesture {
                                 if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
-                                    hsvm.selectedDay = Cal.add(days: dayOffset)
+                                    hsvm.selectedDate = Cal.add(days: dayOffset)
                                 }
                             }
                             .contentShape(Rectangle())

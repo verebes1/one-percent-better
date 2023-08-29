@@ -15,37 +15,28 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
     case friday
     case saturday
     case sunday
-
-    static var startOfWeek: Weekday = .sunday
     
-    var id: Int {
-        self.rawValue
+    /// The chosen user preference for the start of the week
+    static var startOfWeek: Weekday = .monday
+    
+    /// Calculate the positive difference between two weekdays
+    /// - Parameter a: First weekday
+    /// - Parameter b: Second weekday
+    static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
+        return (b.rawValue - a.rawValue + 7) % 7
     }
     
-    /// Adjust the index based on the start of the week preference
-    /// - Parameter rawIndex: The raw index which should match: M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
-    /// - Returns: The adjusted index so that the start of the week is index 0
-    private static func adjustIndex(_ rawIndex: Int) -> Int {
-        return (rawIndex - Weekday.startOfWeek.rawValue + 7) % 7
-    }
-
+    /// The day index, adjusted for the user's start of week preference
     var index: Int {
-        Weekday.adjustIndex(self.rawValue)
-    }
-    
-    static var orderedCases: [Weekday] {
-        return Array(Weekday.allCases[startOfWeek.rawValue...]) +
-        Array(Weekday.allCases[..<startOfWeek.rawValue])
+        Self.positiveDifference(from: self, to: Self.startOfWeek)
     }
 
     init(_ date: Date) {
         // S = 1, M = 2, T = 3, W = 4, T = 5, F = 6, S = 7
         let weekdayComponent = Cal.component(.weekday, from: date)
-        // Convert to
-        // M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
-        let rawIndex = (weekdayComponent - 2 + 7) % 7
-        // Convert to adjusted index based on start of week preference
-        self.init(rawValue: Weekday.adjustIndex(rawIndex))!
+        // Convert to M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
+        let rawValue = (weekdayComponent - 2 + 7) % 7
+        self.init(rawValue: rawValue)!
     }
 
     var description: String {
@@ -71,16 +62,21 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
         case .sunday: return "S"
         }
     }
+    
+    // MARK: Comparable
 
     static func < (lhs: Weekday, rhs: Weekday) -> Bool {
         lhs.index < rhs.index
     }
-
-    static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
-        var diff = b.index - a.index
-        if diff < 0 {
-            diff += 7
-        }
-        return diff
+    
+    // MARK: Identifiable
+    
+    var id: Int { self.rawValue }
+    
+    // MARK: Case Iterable
+    
+    static var orderedCases: [Weekday] {
+        return Array(Weekday.allCases[startOfWeek.rawValue...]) +
+        Array(Weekday.allCases[..<startOfWeek.rawValue])
     }
 }

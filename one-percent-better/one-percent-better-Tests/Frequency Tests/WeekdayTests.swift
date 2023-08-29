@@ -16,9 +16,28 @@ var df: DateFormatter {
 
 final class WeekdayTests: XCTestCase {
     
-    func testWeekdayInt() throws {
+    /// Test monday has raw value 0, tuesday raw value 1, etc.
+    func testRawValue() throws {
         let monday = df.date(from: "8-14-2023")!
-        XCTAssertEqual(monday.weekdayIndex, Weekday.monday.rawValue)
+        for i in 0 ..< 7 {
+            let day = Cal.add(days: i, to: monday)
+            XCTAssertEqual(Weekday(day).rawValue, i)
+        }
+    }
+    
+    /// Test the adjusted index of the weekday based on the start of week
+    func testIndex() throws {
+        let monday = Weekday(df.date(from: "8-14-2023")!)
+        Weekday.startOfWeek = .monday
+        XCTAssertEqual(monday.index, 0)
+        Weekday.startOfWeek = .sunday
+        XCTAssertEqual(monday.index, 1)
+        Weekday.startOfWeek = .saturday
+        XCTAssertEqual(monday.index, 2)
+        Weekday.startOfWeek = .thursday
+        XCTAssertEqual(monday.index, 4)
+        Weekday.startOfWeek = .tuesday
+        XCTAssertEqual(monday.index, 6)
     }
 
     func testPositiveDifference() throws {

@@ -53,16 +53,16 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
         super.init(context, sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)])
         habits = fetchedObjects
         habitIDList = habits.map { $0.id }
-        habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDay) }
-        selectedDay = hsvm.selectedDay
+        habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDate) }
+        selectedDay = hsvm.selectedDate
         
         isNewbie = calculateIsNewbie(habits: habits)
         
         // Subscribe to selected day from HeaderSelectionViewModel
-        hsvm.$selectedDay.sink { [weak self] newDate in
+        hsvm.$selectedDate.sink { [weak self] newDate in
             guard let self else { return }
             self.selectedDay = newDate
-            habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDay) }
+            habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDate) }
         }
         .store(in: &cancelBag)
     }
@@ -204,7 +204,7 @@ struct HabitListBySectionView: View {
     
     var body: some View {
         ForEach(HabitListSection.allCases, id: \.self) { section in
-            let habits = hlvm.habits(on: hsvm.selectedDay, for: section)
+            let habits = hlvm.habits(on: hsvm.selectedDate, for: section)
             if !habits.isEmpty {
                 Section {
                     ForEach(habits, id: \.self.id) { habit in

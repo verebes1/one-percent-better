@@ -36,14 +36,14 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
     init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, hsvm: HeaderSelectionViewModel) {
         print("init HabitRowViewModel \(habit.name)")
         self.habit = habit
-        self.currentDay = hsvm.selectedDay
+        self.currentDay = hsvm.selectedDate
         isTimerRunning = false
         hasTimeTracker = false
         hasTimerStarted = false
         super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
         
         // Subscribe to selected day from HeaderSelectionViewModel
-        hsvm.$selectedDay.sink { newDate in
+        hsvm.$selectedDate.sink { newDate in
             self.currentDay = newDate
         }
         .store(in: &cancelBag)
