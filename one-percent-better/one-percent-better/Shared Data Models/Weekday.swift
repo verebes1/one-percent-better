@@ -17,7 +17,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
     case sunday
     
     /// The chosen user preference for the start of the week
-    static var startOfWeek: Weekday = .friday
+    static var startOfWeek: Weekday = .monday
     
     /// Calculate the positive difference between two weekdays
     /// - Parameter a: First weekday

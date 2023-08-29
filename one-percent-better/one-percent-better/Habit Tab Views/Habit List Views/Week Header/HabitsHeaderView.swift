@@ -154,7 +154,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
 struct HabitsHeaderView: View {
     
     @Environment(\.managedObjectContext) var moc
-    @EnvironmentObject var vm: HeaderWeekViewModel
+    @EnvironmentObject var hwvm: HeaderWeekViewModel
     @EnvironmentObject var hsvm: HeaderSelectionViewModel
     var color: Color = .systemTeal
     
@@ -164,8 +164,24 @@ struct HabitsHeaderView: View {
     
     func isToday(weekday: Weekday) -> Bool {
         let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
-        let weekIsSelectedWeek = hsvm.selectedWeekIndex == vm.numWeeksSinceEarliestCompletedHabit
+        let weekIsSelectedWeek = hsvm.selectedWeekIndex == hwvm.numWeeksSinceEarliestCompletedHabit
         return dayIsSelectedWeekday && weekIsSelectedWeek
+    }
+    
+    /// If day can be selected (is within range)
+    /// - Parameter day: The day to select
+    func canSelect(day: Date) -> Bool {
+        return day.startOfDay <= Date().startOfDay &&
+        day.startOfDay >= hwvm.habits.earliestStartDate.startOfDay
+    }
+    
+    /// Select a new date
+    /// - Parameter day: The day to select
+    func select(day: Date) {
+        if canSelect(day: day) &&
+            day != hsvm.selectedDate {
+            hsvm.selectedDate = day
+        }
     }
     
     var body: some View {
@@ -177,13 +193,8 @@ struct HabitsHeaderView: View {
                                     selectedWeekday: Weekday(hsvm.selectedDate),
                                     isToday: isToday(weekday: weekday))
                     .onTapGesture {
-                        let weekdayIndex = weekday.index
-                        let newDate = vm.date(weekIndex: hsvm.selectedWeekIndex, weekdayIndex: weekdayIndex)
-                        if newDate.startOfDay <= Date().startOfDay &&
-                            newDate.startOfDay >= vm.habits.earliestStartDate.startOfDay &&
-                            newDate != hsvm.selectedDate {
-                            hsvm.selectedDate = newDate
-                        }
+                        let newDate = hwvm.date(weekIndex: hsvm.selectedWeekIndex, weekdayIndex: weekday.index)
+                        select(day: newDate)
                     }
                 }
             }
@@ -191,26 +202,21 @@ struct HabitsHeaderView: View {
             
             let ringSize: CGFloat = 27
             TabView(selection: $hsvm.selectedWeekIndex) {
-                ForEach(0 ... vm.numWeeksSinceEarliestCompletedHabit, id: \.self) { week in
+                ForEach(0 ... hwvm.numWeeksSinceEarliestCompletedHabit, id: \.self) { week in
                     HStack {
                         ForEach(Weekday.orderedCases) { weekday in
-                            let dayOffset = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index)
-                            let dayOffsetFromEarliest = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index, from: vm.habits.earliestStartDate)
-                            let day = vm.date(weekIndex: week, weekdayIndex: weekday.index)
-                            let percent = vm.habits.percentCompletion(on: day)
-                            RingView(percent: percent,
+                            let day = hwvm.date(weekIndex: week, weekdayIndex: weekday.index)
+                            RingView(percent: hwvm.habits.percentCompletion(on: day),
                                      color: color,
                                      size: ringSize,
                                      withText: true)
                             .font(.system(size: 14))
                             .frame(maxWidth: .infinity)
                             .onTapGesture {
-                                if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
-                                    hsvm.selectedDate = Cal.add(days: dayOffset)
-                                }
+                                select(day: day)
                             }
                             .contentShape(Rectangle())
-                            .opacity((dayOffset > 0 || dayOffsetFromEarliest < 0) ? 0.4 : 1)
+                            .opacity(canSelect(day: day) ? 1 : 0.3)
                         }
                     }
                     .padding(.horizontal, 20)
