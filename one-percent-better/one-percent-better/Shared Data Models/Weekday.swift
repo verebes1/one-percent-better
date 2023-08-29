@@ -7,31 +7,47 @@
 
 import Foundation
 
-enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
-    case monday = 0
-    case tuesday = 1
-    case wednesday = 2
-    case thursday = 3
-    case friday = 4
-    case saturday = 5
-    case sunday = 6
+enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiable {
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
+
+    static var startOfWeek: Weekday = .monday
     
+    var id: Int {
+        self.rawValue
+    }
+    
+    /// Adjust the index based on the start of the week preference
+    /// - Parameter rawIndex: The raw index which should match: M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
+    /// - Returns: The adjusted index so that the start of the week is index 0
+    private static func adjustIndex(_ rawIndex: Int) -> Int {
+        return (rawIndex - Weekday.startOfWeek.rawValue + 7) % 7
+    }
+
+    var index: Int {
+        Weekday.adjustIndex(self.rawValue)
+    }
+    
+    static var orderedCases: [Weekday] {
+        return Array(Weekday.allCases[startOfWeek.rawValue...]) +
+        Array(Weekday.allCases[..<startOfWeek.rawValue])
+    }
+
     init(_ date: Date) {
         // S = 1, M = 2, T = 3, W = 4, T = 5, F = 6, S = 7
-        var weekdayComponent = Cal.component(.weekday, from: date)
-        
-        // Convert to M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
-        weekdayComponent = (weekdayComponent - 2 + 7) % 7
-        self.init(rawValue: weekdayComponent)!
+        let weekdayComponent = Cal.component(.weekday, from: date)
+        // Convert to
+        // M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
+        let rawIndex = (weekdayComponent - 2 + 7) % 7
+        // Convert to adjusted index based on start of week preference
+        self.init(rawValue: Weekday.adjustIndex(rawIndex))!
     }
-    
-    init(_ weekdayInt: Int) {
-        if weekdayInt < 0 || weekdayInt > 6 {
-            assertionFailure("Creating a Weekday with a weekdayInt out of range: \(weekdayInt)")
-        }
-        self.init(rawValue: weekdayInt)!
-    }
-    
+
     var description: String {
         switch self {
         case .sunday: return "Sunday"
@@ -43,7 +59,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
         case .saturday: return "Saturday"
         }
     }
-    
+
     var letter: String {
         switch self {
         case .monday: return "M"
@@ -55,13 +71,13 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
         case .sunday: return "S"
         }
     }
-    
+
     static func < (lhs: Weekday, rhs: Weekday) -> Bool {
-        return lhs.rawValue < rhs.rawValue
+        lhs.index < rhs.index
     }
-    
+
     static func positiveDifference(from a: Weekday, to b: Weekday) -> Int {
-        var diff = b.rawValue - a.rawValue
+        var diff = b.index - a.index
         if diff < 0 {
             diff += 7
         }
