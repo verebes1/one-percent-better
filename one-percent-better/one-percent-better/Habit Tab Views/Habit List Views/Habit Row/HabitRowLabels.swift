@@ -159,7 +159,7 @@ struct TimesCompletedIndicator: View {
 //        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
 //        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
 //        
-//        let in3daysWeedayInt = (Date().weekdayInt + 3) % 7
+//        let in3daysWeedayInt = (Date().weekdayIndex + 3) % 7
 //        let in3DaysWeekday = Weekday(in3daysWeedayInt)
 //        let h5 = try? Habit(context: context, name: "3 times a week, reset in 3 days, completed twice", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
 //        

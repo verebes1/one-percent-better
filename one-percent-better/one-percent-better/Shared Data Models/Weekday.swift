@@ -21,7 +21,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
         var weekdayComponent = Cal.component(.weekday, from: date)
         
         // Convert to M = 0, T = 1, W = 2, T = 3, F = 4, S = 5, S = 6
-        weekdayComponent = (weekdayComponent - 2) % 7
+        weekdayComponent = (weekdayComponent - 2 + 7) % 7
         self.init(rawValue: weekdayComponent)!
     }
     
@@ -66,11 +66,5 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable {
             diff += 7
         }
         return diff
-    }
-}
-
-extension Date {
-    var weekdayInt: Int {
-        return Weekday(self).rawValue
     }
 }

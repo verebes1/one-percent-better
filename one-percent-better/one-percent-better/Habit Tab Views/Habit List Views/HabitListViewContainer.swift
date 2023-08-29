@@ -42,11 +42,11 @@ struct HabitListViewContainer: View {
         }
         .environmentObject(hsvm)
         .onAppear {
-            hsvm.updateDayToToday()
+            hsvm.updateSelectedDayToToday()
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                hsvm.updateDayToToday()
+                hsvm.updateSelectedDayToToday()
             }
         }
         .navigationTitle(hsvm.navTitle)

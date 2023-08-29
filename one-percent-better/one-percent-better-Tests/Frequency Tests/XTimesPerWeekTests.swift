@@ -239,7 +239,7 @@ final class XTimesPerWeekTests: XCTestCase {
     }
     
     func testStreakLabel() {
-        let today = Date().weekdayInt
+        let today = Date().weekdayIndex
         let startDate = Cal.getLast(weekday: Weekday(today))
         habit.updateStartDate(to: startDate)
         let resetDay = (today + 3) % 7
@@ -260,7 +260,7 @@ final class XTimesPerWeekTests: XCTestCase {
     }
     
     func testStreakLabel2() {
-        let today = Date().weekdayInt
+        let today = Date().weekdayIndex
         let backOneWeek = Cal.getLast(weekday: Weekday(today))
         let backTwoWeeks = Cal.getLast(weekday: Weekday(today), from: backOneWeek)
         let backThreeWeeks = Cal.getLast(weekday: Weekday(today), from: backTwoWeeks)
@@ -289,7 +289,7 @@ final class XTimesPerWeekTests: XCTestCase {
     // MARK: Improvement Score Tests
     
     func testImprovementScore() {
-        let today = Date().weekdayInt
+        let today = Date().weekdayIndex
         let startDate = Cal.getLast(weekday: Weekday(today))
         habit.updateStartDate(to: startDate)
         let resetDay = (today + 3) % 7
@@ -310,8 +310,8 @@ final class XTimesPerWeekTests: XCTestCase {
     
     func testImprovementScore2() {
         let today = Date()
-        let resetDay = (today.weekdayInt + 3) % 7
-        let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt))
+        let resetDay = (today.weekdayIndex + 3) % 7
+        let startDate = Cal.getLast(weekday: Weekday(today.weekdayIndex))
         habit.updateStartDate(to: startDate)
         habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
         
@@ -361,8 +361,8 @@ final class XTimesPerWeekTests: XCTestCase {
     
     func testImprovementScore3() {
         let today = Date()
-        let resetDay = (today.weekdayInt + 3) % 7
-        let startDate = Cal.getLast(weekday: Weekday(today.weekdayInt))
+        let resetDay = (today.weekdayIndex + 3) % 7
+        let startDate = Cal.getLast(weekday: Weekday(today.weekdayIndex))
         habit.updateStartDate(to: startDate)
         habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
         

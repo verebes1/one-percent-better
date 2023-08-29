@@ -18,7 +18,7 @@ final class WeekdayTests: XCTestCase {
     
     func testWeekdayInt() throws {
         let monday = df.date(from: "8-14-2023")!
-        XCTAssertEqual(monday.weekdayInt, Weekday.monday.rawValue)
+        XCTAssertEqual(monday.weekdayIndex, Weekday.monday.rawValue)
     }
 
     func testPositiveDifference() throws {

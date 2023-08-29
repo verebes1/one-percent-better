@@ -190,7 +190,7 @@ extension Habit {
          return days.contains(Weekday(date))
       case .timesPerWeek(_, resetDay: let resetDay):
          // Habit due all at once on the reset day, otherwise it would mess with daily percent calculations
-         return date.weekdayInt == resetDay.rawValue
+         return date.weekdayIndex == resetDay.rawValue
       }
    }
 }

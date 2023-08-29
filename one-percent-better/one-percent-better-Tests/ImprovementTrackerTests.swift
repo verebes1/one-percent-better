@@ -107,7 +107,7 @@ final class ImprovementTrackerTests: XCTestCase {
    
    func testSMTWTFSFrequency() throws {
       habit.updateStartDate(to: Cal.add(days: -2))
-      let yesterday = Cal.add(days: -1).weekdayInt
+      let yesterday = Cal.add(days: -1).weekdayIndex
       habit.updateFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
       
       habit.markCompleted(on: Cal.add(days: -2))
@@ -133,7 +133,7 @@ final class ImprovementTrackerTests: XCTestCase {
    
    func testSMTWTFSFrequency2() throws {
       habit.updateStartDate(to: Cal.add(days: -2))
-      let yesterday = Cal.add(days: -1).weekdayInt
+      let yesterday = Cal.add(days: -1).weekdayIndex
       habit.updateFrequency(to: .specificWeekdays([Weekday(yesterday)]), on: habit.startDate)
       
       habit.markCompleted(on: Cal.add(days: -2))

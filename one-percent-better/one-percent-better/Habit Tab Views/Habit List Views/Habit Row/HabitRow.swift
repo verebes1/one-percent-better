@@ -274,7 +274,7 @@ struct HabitRowPreviewer: View {
 //        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
 //        h4?.markCompleted(on: Cal.date(byAdding: .day, value: -2, to: Date())!)
 //
-//        let in3daysWeedayInt = (Date().weekdayInt + 4) % 7
+//        let in3daysWeedayInt = (Date().weekdayIndex + 4) % 7
 //        let in3DaysWeekday = Weekday(in3daysWeedayInt)
 //        let h5 = try? Habit(context: context, name: "3 tpw, reset in 3, done 2", frequency: .timesPerWeek(times: 3, resetDay: in3DaysWeekday), id: id5)
 //

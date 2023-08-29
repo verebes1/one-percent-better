@@ -11,11 +11,9 @@ import Combine
 
 class HeaderSelectionViewModel: ObservableObject {
     
-    /// Which day is selected in the HabitHeaderView
-    @Published var selectedWeekDay = 0
-    
-    /// Which week is selected in the HabitHeaderView
-    @Published var selectedWeek = 0
+    /// The week index of the selected week in the header view,
+    /// ranging from 0 to n, where 0 is the earliest week, and n is the current week
+    @Published var selectedWeekIndex = 0
     
     /// The selected date
     @Published var selectedDay = Date()
@@ -25,11 +23,11 @@ class HeaderSelectionViewModel: ObservableObject {
     @Published var latestDay = Date()
     
     var dateTitleFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.calendar = Calendar(identifier: .gregorian)
-        dateFormatter.locale = Locale.autoupdatingCurrent
-        dateFormatter.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
-        return dateFormatter
+        let df = DateFormatter()
+        df.calendar = Calendar(identifier: .gregorian)
+        df.locale = Locale.autoupdatingCurrent
+        df.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
+        return df
     }()
     
     var navTitle: String {
@@ -40,41 +38,44 @@ class HeaderSelectionViewModel: ObservableObject {
     
     init(hwvm: HeaderWeekViewModel) {
         self.hwvm = hwvm
-        updateHeaderView()
+        updateSelectedWeek()
         hwvm.updateImprovementScores(on: selectedDay)
     }
     
-    func updateHeaderView() {
-        selectedWeekDay = hwvm.thisWeekDayOffset(selectedDay)
-        selectedWeek = hwvm.getSelectedWeek(for: selectedDay)
+    func updateSelectedWeek() {
+        let newSelectedWeek = hwvm.weekIndex(for: selectedDay)
+        print("JJJJ selectedDay: \(self.selectedDay.localDate()), selectedWeekScrollIndex: \(self.selectedWeekIndex), newSelectedWeek: \(newSelectedWeek)")
+        if self.selectedWeekIndex != newSelectedWeek {
+            self.selectedWeekIndex = newSelectedWeek
+        }
     }
     
-    func updateDayToToday() {
+    func updateSelectedDay(to day: Date) {
+        selectedDay = day
+        updateSelectedWeek()
+        hwvm.updateImprovementScores(on: selectedDay)
+    }
+    
+    func updateSelectedDayToToday() {
         if !Cal.isDate(latestDay, inSameDayAs: Date()) {
             latestDay = Date()
-            selectedDay = Date()
-            updateHeaderView()
-            hwvm.updateImprovementScores(on: selectedDay)
+            updateSelectedDay(to: Date())
         }
     }
     
-    func updateWeek(to newWeek: Int) {
-        // If scrolling to week which has dates ahead of today
+    func selectedWeekChanged(to newWeek: Int) {
         let today = Date()
-        let currentOffset = hwvm.thisWeekDayOffset(today)
-        if newWeek == (hwvm.numWeeksSinceEarliest - 1),
-           selectedWeekDay > currentOffset {
-            selectedWeekDay = currentOffset
-        }
+        let newSelectedDay = hwvm.date(weekIndex: newWeek, weekdayIndex: selectedDay.weekdayIndex)
         
-        // If scrolls to week which has days before the earliest start date
-        if hwvm.date(week: newWeek, day: selectedWeekDay) < hwvm.earliestStartDate {
-            selectedWeekDay = hwvm.thisWeekDayOffset(hwvm.earliestStartDate)
+        if newSelectedDay.startOfDay() > today.startOfDay() {
+            // If scrolling to week which has dates ahead of today
+            selectedDay = today
+        } else if newSelectedDay.startOfDay() < hwvm.earliestStartDate.startOfDay() {
+            // If scrolls to week which has days before the earliest start date
+            selectedDay = hwvm.earliestStartDate
+        } else {
+            selectedDay = newSelectedDay
         }
-        
-        let dayOffset = hwvm.dayOffset(week: newWeek, day: selectedWeekDay)
-        let newDay = Cal.date(byAdding: .day, value: dayOffset, to: today)!
-        selectedDay = newDay
     }
 }
 
@@ -108,39 +109,35 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         return earliest
     }
     
-    /// Number of weeks (each row is a week) between today and the earliest completed habit
-    var numWeeksSinceEarliest: Int {
+    /// The number of weeks from today to the earliest completed habit
+    var numWeeksSinceEarliestCompletedHabit: Int {
         let numDays = Cal.dateComponents([.day], from: earliestStartDate, to: Date()).day!
-        let diff = numDays - thisWeekDayOffset(Date()) + 6
+        let diff = numDays - Date().weekdayIndex + 6
         let weeks = diff / 7
         return weeks + 1
     }
     
-    func getSelectedWeek(for day: Date) -> Int {
-        let weekDayOffset = thisWeekDayOffset(day)
+    /// Given a week index and a weekday index, calculate an offset to a reference day
+    /// - Parameters:
+    ///   - weekIndex: Week index: 0 == earliest week, (numWeeksSinceEarliestCompletedHabit - 1) == latest week
+    ///   - weekdayIndex: Weekday index: [0,1,2,3,4,5,6]
+    ///   - referenceDay: The reference day to calculate the offset from
+    /// - Returns: Integer offset from reference day. The day before the reference day is -1, the day of the reference day is 0, the day after the reference day is 1, etc.
+    func dayOffset(weekIndex: Int, weekdayIndex: Int, from referenceDay: Date = Date()) -> Int {
+        let numDaysBack = weekdayIndex - referenceDay.weekdayIndex
+        let numWeeksBack = weekIndex - self.weekIndex(for: referenceDay)
+        return (numWeeksBack * 7) + numDaysBack
+    }
+    
+    /// The week index for a particular day
+    /// - Parameter day: The day
+    /// - Returns: The week index
+    func weekIndex(for day: Date) -> Int {
+        let weekDayOffset = day.weekdayIndex
         let totalDayOffset = -(Cal.numberOfDaysBetween(day, and: Date()))
         let weekNum = (weekDayOffset - totalDayOffset - 1) / 7
-        let result = numWeeksSinceEarliest - 1 - weekNum
+        let result = numWeeksSinceEarliestCompletedHabit - 1 - weekNum
         return result
-    }
-    
-    func thisWeekDayOffset(_ date: Date) -> Int {
-        return Cal.component(.weekday, from: date) - 1
-    }
-    
-    /// The number of days to offset from today to get to the selected day
-    /// - Parameters:
-    ///   - week: Selected week, (numWeeksSinceEarliest - 1) == current week, 0 == earliest week
-    ///   - day: Selected day,  [0,1,2,3,4,5,6]
-    /// - Returns: Integer offset, yesterday is -1, today is 0, tomorrow is 1, etc.
-    func dayOffset(week: Int, day: Int) -> Int {
-        let numDaysBack = day - thisWeekDayOffset(Date())
-        let numWeeksBack = week - (numWeeksSinceEarliest - 1)
-        if numWeeksBack == 0 {
-            return numDaysBack
-        } else {
-            return (numWeeksBack * 7) + numDaysBack
-        }
     }
     
     func dayOffsetToToday(from date: Date) -> Int {
@@ -148,25 +145,14 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         return result
     }
     
-    func dayOffsetFromEarliest(week: Int, day: Int) -> Int {
-        let numDaysBack = day - thisWeekDayOffset(earliestStartDate)
-        let numWeeksBack = week
-        if numWeeksBack == 0 {
-            return numDaysBack
-        } else {
-            return (numWeeksBack * 7) + numDaysBack
-        }
+    func date(weekIndex: Int, weekdayIndex: Int) -> Date {
+        let offset = dayOffset(weekIndex: weekIndex, weekdayIndex: weekdayIndex)
+        return Cal.add(days: offset)
     }
     
-    func date(week: Int, day: Int) -> Date {
-        return Cal.date(byAdding: .day, value: dayOffset(week: week, day: day), to: Date())!
-    }
-    
-    func percent(week: Int, day: Int) -> Double {
-        let day = date(week: week, day: day)
-        return percent(on: day)
-    }
-    
+    /// Get the percent completion of all habits on this day
+    /// - Parameter day: The day to calculate the percent completion for
+    /// - Returns: The percent completion as a decimal in range [0,1]
     func percent(on day: Date) -> Double {
         var numCompleted: Double = 0
         var total: Double = 0
@@ -199,25 +185,41 @@ struct HabitsHeaderView: View {
         print("Habit header view init")
     }
     
+    func isToday(weekday: Weekday) -> Bool {
+        let dayIsSelectedWeekday = Date().weekdayIndex == weekday.rawValue
+        let weekIsSelectedWeek = hsvm.selectedWeekIndex == (vm.numWeeksSinceEarliestCompletedHabit - 1)
+        return dayIsSelectedWeekday && weekIsSelectedWeek
+    }
+    
     var body: some View {
         let _ = Self._printChanges()
         VStack(spacing: 0) {
             HStack {
-                ForEach(0 ..< 7) { i in
-                    SelectedDayView(index: i,
-                                    color: color)
+                ForEach(Weekday.allCases, id: \.self) { weekday in
+                    SelectedDayView(weekday: weekday,
+                                    selectedWeekday: Weekday(hsvm.selectedDay),
+                                    isToday: isToday(weekday: weekday))
+                    .onTapGesture {
+                        let weekIndex = vm.weekIndex(for: hsvm.selectedDay)
+                        let weekdayIndex = weekday.rawValue
+                        let newDate = vm.date(weekIndex: weekIndex, weekdayIndex: weekdayIndex)
+                        if newDate.startOfDay() <= Date().startOfDay() &&
+                            newDate.startOfDay() >= vm.earliestStartDate.startOfDay() {
+                            hsvm.selectedDay = newDate
+                        }
+                    }
                 }
             }
             .padding(.horizontal, 20)
             
             let ringSize: CGFloat = 27
-            TabView(selection: $hsvm.selectedWeek) {
-                ForEach(0 ..< vm.numWeeksSinceEarliest, id: \.self) { i in
+            TabView(selection: $hsvm.selectedWeekIndex) {
+                ForEach(0 ..< vm.numWeeksSinceEarliestCompletedHabit, id: \.self) { week in
                     HStack {
-                        ForEach(0 ..< 7) { j in
-                            let dayOffset = vm.dayOffset(week: i, day: j)
-                            let dayOffsetFromEarliest = vm.dayOffsetFromEarliest(week: i, day: j)
-                            let percent = vm.percent(week: i, day: j)
+                        ForEach(0 ..< 7) { weekday in
+                            let dayOffset = vm.dayOffset(weekIndex: week, weekdayIndex: weekday)
+                            let dayOffsetFromEarliest = vm.dayOffset(weekIndex: week, weekdayIndex: weekday, from: vm.earliestStartDate)
+                            let percent = vm.percent(on: vm.date(weekIndex: week, weekdayIndex: weekday))
                             RingView(percent: percent,
                                      color: color,
                                      size: ringSize,
@@ -226,9 +228,7 @@ struct HabitsHeaderView: View {
                             .frame(maxWidth: .infinity)
                             .onTapGesture {
                                 if dayOffset <= 0 && dayOffsetFromEarliest >= 0 {
-                                    hsvm.selectedWeekDay = j
-                                    let newDay = Cal.date(byAdding: .day, value: dayOffset, to: Date())!
-                                    hsvm.selectedDay = newDay
+                                    hsvm.selectedDay = Cal.add(days: dayOffset)
                                 }
                             }
                             .contentShape(Rectangle())
@@ -238,11 +238,10 @@ struct HabitsHeaderView: View {
                     .padding(.horizontal, 20)
                 }
             }
-            .coordinateSpace(name: "scroll")
             .frame(height: ringSize + 22)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .onChange(of: hsvm.selectedWeek) { newWeek in
-                hsvm.updateWeek(to: newWeek)
+            .onChange(of: hsvm.selectedWeekIndex) { newWeek in
+                hsvm.selectedWeekChanged(to: newWeek)
             }
         }
         

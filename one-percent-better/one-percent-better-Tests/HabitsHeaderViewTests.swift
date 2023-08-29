@@ -54,7 +54,7 @@ class HabitsHeaderViewTests: XCTestCase {
 //        let h1 = try! Habit(context: context, name: "Cook")
 //        h1.markCompleted(on: sunday)
 //        let vm = HabitsHeaderViewModel(habits: [h1], today: monday)
-//        XCTAssertEqual(vm.numWeeksSinceEarliest, 1)
+//        XCTAssertEqual(vm.numWeeksSinceEarliestCompletedHabit, 1)
 //    }
 //
 //    func testNumWeeksMonday() {

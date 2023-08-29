@@ -52,7 +52,7 @@ final class DueOnTests: XCTestCase {
       habit.updateStartDate(to: startDate)
       habit.updateFrequency(to: .specificWeekdays([.monday, .wednesday]), on: startDate)
       
-      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      XCTAssertEqual(startDate.weekdayIndex, Weekday.monday.rawValue)
       
       XCTAssertTrue(habit.isDue(on: startDate)) // monday
       XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
@@ -68,7 +68,7 @@ final class DueOnTests: XCTestCase {
       habit.updateStartDate(to: startDate)
       habit.updateFrequency(to: .specificWeekdays([.friday, .saturday, .sunday]), on: startDate)
       
-      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      XCTAssertEqual(startDate.weekdayIndex, Weekday.monday.rawValue)
       
       XCTAssertFalse(habit.isDue(on: startDate)) // monday
       XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
@@ -84,7 +84,7 @@ final class DueOnTests: XCTestCase {
       habit.updateStartDate(to: startDate)
       habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: .sunday), on: startDate)
       
-      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      XCTAssertEqual(startDate.weekdayIndex, Weekday.monday.rawValue)
       
       XCTAssertFalse(habit.isDue(on: startDate)) // monday
       XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday
@@ -100,7 +100,7 @@ final class DueOnTests: XCTestCase {
       habit.updateStartDate(to: startDate)
       habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: .wednesday), on: startDate)
       
-      XCTAssertEqual(startDate.weekdayInt, Weekday.monday.rawValue)
+      XCTAssertEqual(startDate.weekdayIndex, Weekday.monday.rawValue)
       
       XCTAssertFalse(habit.isDue(on: startDate)) // monday
       XCTAssertFalse(habit.isDue(on: Cal.add(days: 1, to: startDate))) // tuesday

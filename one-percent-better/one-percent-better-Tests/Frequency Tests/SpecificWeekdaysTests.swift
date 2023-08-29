@@ -93,7 +93,7 @@ final class SpecificWeekdaysTests: XCTestCase {
    // MARK: Improvement Score Tests
    
    func testImprovementScore() {
-      let today = Date().weekdayInt
+      let today = Date().weekdayIndex
       let startDate = Cal.getLast(weekday: Weekday(today))
       habit.updateStartDate(to: startDate)
       let specificWeekdays = [Weekday(Cal.add(days: 1, to: Date()))]
@@ -113,7 +113,7 @@ final class SpecificWeekdaysTests: XCTestCase {
    }
    
    func testImprovementScore2() {
-      let today = Date().weekdayInt
+      let today = Date().weekdayIndex
       let startDate = Cal.getLast(weekday: Weekday(today))
       habit.updateStartDate(to: startDate)
       let specificWeekdays = [Weekday(Cal.add(days: 1, to: Date())), Weekday(Cal.add(days: 3, to: Date()))]
