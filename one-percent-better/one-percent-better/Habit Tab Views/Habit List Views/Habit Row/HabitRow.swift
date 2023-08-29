@@ -33,17 +33,17 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
     var hasTimeTracker: Bool
     var hasTimerStarted: Bool
     
-    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, hsvm: HeaderSelectionViewModel) {
+    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, sdvm: SelectedDateViewModel) {
         print("init HabitRowViewModel \(habit.name)")
         self.habit = habit
-        self.currentDay = hsvm.selectedDate
+        self.currentDay = sdvm.selectedDate
         isTimerRunning = false
         hasTimeTracker = false
         hasTimerStarted = false
         super.init(moc, predicate: NSPredicate(format: "id == %@", habit.id as CVarArg))
         
-        // Subscribe to selected day from HeaderSelectionViewModel
-        hsvm.$selectedDate.sink { newDate in
+        // Subscribe to selected day from SelectedDateViewModel
+        sdvm.$selectedDate.sink { newDate in
             self.currentDay = newDate
         }
         .store(in: &cancelBag)
@@ -170,8 +170,8 @@ struct HabitRow: View {
     @StateObject var vm: HabitRowViewModel
     @State private var completePressed = false
     
-    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, hsvm: HeaderSelectionViewModel) {
-        self._vm = StateObject(wrappedValue: HabitRowViewModel(moc: moc, habit: habit, hsvm: hsvm))
+    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, sdvm: SelectedDateViewModel) {
+        self._vm = StateObject(wrappedValue: HabitRowViewModel(moc: moc, habit: habit, sdvm: sdvm))
     }
     
     var body: some View {
@@ -219,7 +219,7 @@ struct HabitRowPreviewer: View {
     @State private var currentDay = Date()
 
     @StateObject var nav = HabitTabNavPath()
-    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
+    @StateObject var sdvm = SelectedDateViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
 
     var body: some View {
         NavigationStack {
@@ -228,7 +228,7 @@ struct HabitRowPreviewer: View {
                     ForEach(vm.habits) { habit in
                         HabitRow(moc: CoreDataManager.previews.mainContext,
                                  habit: habit,
-                                 hsvm: hsvm)
+                                 sdvm: sdvm)
                         .listRowInsets(.init(top: 0,
                                              leading: 0,
                                              bottom: 0,

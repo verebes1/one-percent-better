@@ -12,13 +12,13 @@ struct HabitListViewContainer: View {
     @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var barManager: BottomBarManager
     @StateObject var hwvm: HeaderWeekViewModel
-    @StateObject var hsvm: HeaderSelectionViewModel
+    @StateObject var sdvm: SelectedDateViewModel
     
     init() {
         let hwvm = HeaderWeekViewModel()
-        let hsvm = HeaderSelectionViewModel(hwvm: hwvm)
+        let sdvm = SelectedDateViewModel(hwvm: hwvm)
         self._hwvm = StateObject(wrappedValue: hwvm)
-        self._hsvm = StateObject(wrappedValue: hsvm)
+        self._sdvm = StateObject(wrappedValue: sdvm)
     }
     
     var body: some View {
@@ -27,9 +27,9 @@ struct HabitListViewContainer: View {
             VStack(spacing: 5) {
                 HabitsHeaderView()
                     .environmentObject(hwvm)
-                    .environmentObject(hsvm)
+                    .environmentObject(sdvm)
                 
-                HabitListView(hsvm: hsvm)
+                HabitListView(sdvm: sdvm)
             }
             .navigationDestination(for: HabitListViewRoute.self) { route in
                 switch route {
@@ -40,16 +40,16 @@ struct HabitListViewContainer: View {
                 }
             }
         }
-        .environmentObject(hsvm)
+        .environmentObject(sdvm)
         .onAppear {
-            hsvm.updateSelectedDayToToday()
+            sdvm.updateSelectedDayToToday()
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                hsvm.updateSelectedDayToToday()
+                sdvm.updateSelectedDayToToday()
             }
         }
-        .navigationTitle(hsvm.navTitle)
+        .navigationTitle(sdvm.navTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             // New Habit

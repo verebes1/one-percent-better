@@ -49,20 +49,20 @@ class HabitListViewModel: ConditionalManagedObjectFetcher<Habit>, Identifiable {
     var selectedDay = Date()
     var cancelBag = Set<AnyCancellable>()
 
-    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, hsvm: HeaderSelectionViewModel) {
+    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, sdvm: SelectedDateViewModel) {
         super.init(context, sortDescriptors: [NSSortDescriptor(keyPath: \Habit.orderIndex, ascending: true)])
         habits = fetchedObjects
         habitIDList = habits.map { $0.id }
-        habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDate) }
-        selectedDay = hsvm.selectedDate
+        habitFrequencies = habits.map { $0.frequency(on: sdvm.selectedDate) }
+        selectedDay = sdvm.selectedDate
         
         isNewbie = calculateIsNewbie(habits: habits)
         
-        // Subscribe to selected day from HeaderSelectionViewModel
-        hsvm.$selectedDate.sink { [weak self] newDate in
+        // Subscribe to selected day from SelectedDateViewModel
+        sdvm.$selectedDate.sink { [weak self] newDate in
             guard let self else { return }
             self.selectedDay = newDate
-            habitFrequencies = habits.map { $0.frequency(on: hsvm.selectedDate) }
+            habitFrequencies = habits.map { $0.frequency(on: sdvm.selectedDate) }
         }
         .store(in: &cancelBag)
     }
@@ -133,14 +133,14 @@ struct HabitListView: View {
     @Environment(\.managedObjectContext) var moc
     
     @StateObject var hlvm: HabitListViewModel
-    @EnvironmentObject var hsvm: HeaderSelectionViewModel
+    @EnvironmentObject var sdvm: SelectedDateViewModel
     
     @State private var editMode = EditMode.inactive
     
     @AppStorage("HabitListView.sortListByDue") private var sortListByDue = true
     
-    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, hsvm: HeaderSelectionViewModel) {
-        self._hlvm = StateObject(wrappedValue: HabitListViewModel(moc, hsvm: hsvm))
+    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, sdvm: SelectedDateViewModel) {
+        self._hlvm = StateObject(wrappedValue: HabitListViewModel(moc, sdvm: sdvm))
     }
     
     var body: some View {
@@ -200,18 +200,18 @@ struct HabitListView: View {
 struct HabitListBySectionView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var hlvm: HabitListViewModel
-    @EnvironmentObject var hsvm: HeaderSelectionViewModel
+    @EnvironmentObject var sdvm: SelectedDateViewModel
     
     var body: some View {
         ForEach(HabitListSection.allCases, id: \.self) { section in
-            let habits = hlvm.habits(on: hsvm.selectedDate, for: section)
+            let habits = hlvm.habits(on: sdvm.selectedDate, for: section)
             if !habits.isEmpty {
                 Section {
                     ForEach(habits, id: \.self.id) { habit in
                         NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                             HabitRow(moc: moc,
                                      habit: habit,
-                                     hsvm: hsvm)
+                                     sdvm: sdvm)
                         }
                         .listRowInsets(.init(top: 0,
                                              leading: 0,
@@ -233,7 +233,7 @@ struct HabitListBySectionView: View {
 struct HabitListByOrderIndexView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var hlvm: HabitListViewModel
-    @EnvironmentObject var hsvm: HeaderSelectionViewModel
+    @EnvironmentObject var sdvm: SelectedDateViewModel
     
     var body: some View {
         Section {
@@ -241,7 +241,7 @@ struct HabitListByOrderIndexView: View {
                 NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                     HabitRow(moc: moc,
                              habit: habit,
-                             hsvm: hsvm)
+                             sdvm: sdvm)
                 }
                 .listRowInsets(.init(top: 0,
                                      leading: 0,
@@ -269,7 +269,7 @@ struct HabitListByOrderIndexView: View {
 //    @StateObject var nav = HabitTabNavPath()
 //    @StateObject var barManager = BottomBarManager()
 //    @StateObject var hlvm = HabitListViewModel(CoreDataManager.previews.mainContext)
-//    @StateObject var hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
+//    @StateObject var sdvm = SelectedDateViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
 //    
 //    init() {
 //        let _ = data()
@@ -303,7 +303,7 @@ struct HabitListByOrderIndexView: View {
 //                .environmentObject(nav)
 //                .environmentObject(barManager)
 //                .environmentObject(hlvm)
-//                .environmentObject(hsvm)
+//                .environmentObject(sdvm)
 //        }
 //    }
 //}

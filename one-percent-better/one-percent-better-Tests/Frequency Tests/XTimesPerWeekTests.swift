@@ -245,8 +245,8 @@
 //        let resetDay = (today + 3) % 7
 //        habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
 //        
-//        let hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(context))
-//        let vm = HabitRowViewModel(moc: context, habit: habit, hsvm: hsvm)
+//        let sdvm = SelectedDateViewModel(hwvm: HeaderWeekViewModel(context))
+//        let vm = HabitRowViewModel(moc: context, habit: habit, sdvm: sdvm)
 //        
 //        XCTAssertEqual(vm.streakLabel()?.label, "No streak")
 //        habit.markCompleted(on: startDate)
@@ -269,8 +269,8 @@
 //        let resetDay = (today + 3) % 7
 //        habit.updateFrequency(to: .timesPerWeek(times: 3, resetDay: Weekday(resetDay)), on: startDate)
 //        
-//        let hsvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(context))
-//        let vm = HabitRowViewModel(moc: context, habit: habit, hsvm: hsvm)
+//        let sdvm = HeaderSelectionViewModel(hwvm: HeaderWeekViewModel(context))
+//        let vm = HabitRowViewModel(moc: context, habit: habit, sdvm: sdvm)
 //        
 //        XCTAssertEqual(vm.streakLabel()?.label, "No streak")
 //        habit.markCompleted(on: startDate)

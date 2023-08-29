@@ -13,13 +13,13 @@ class HabitsHeaderViewTests: XCTestCase {
     let context = CoreDataManager.previews.mainContext
     
     var hwvm: HeaderWeekViewModel!
-    var hsvm: HeaderSelectionViewModel!
+    var sdvm: SelectedDateViewModel!
     
     var habit1: Habit!
 
     override func setUpWithError() throws {
         hwvm = HeaderWeekViewModel(context)
-        hsvm = HeaderSelectionViewModel(hwvm: hwvm)
+        sdvm = SelectedDateViewModel(hwvm: hwvm)
         habit1 = try! Habit(context: context, name: "Cook")
     }
 
