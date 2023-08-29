@@ -26,16 +26,16 @@ extension UIViewController {
 // MARK: - Date
 
 extension Date {
-    func localDate() -> String {
-        self.description(with: .current)
+    var localDate: String {
+        description(with: .current)
     }
     
     func get(_ components: Calendar.Component..., calendar: Calendar = Cal) -> DateComponents {
-        return calendar.dateComponents(Set(components), from: self)
+        calendar.dateComponents(Set(components), from: self)
     }
     
     func get(_ component: Calendar.Component, calendar: Calendar = Cal) -> Int {
-        return calendar.component(component, from: self)
+        calendar.component(component, from: self)
     }
     
     func monthAndDay() -> String {
@@ -48,12 +48,12 @@ extension Date {
         return "\(components.day!)"
     }
     
-    func startOfDay() -> Date {
-        return Cal.startOfDay(for: self)
+    var startOfDay: Date {
+        Cal.startOfDay(for: self)
     }
     
     var weekdayIndex: Int {
-        return Weekday(self).rawValue
+        Weekday(self).index
     }
 }
 
@@ -74,19 +74,16 @@ extension Collection where Iterator.Element == Int {
 // MARK: - Calendar
 
 extension Calendar {
-    func numberOfDaysBetween(_ from: Date, and to: Date) -> Int {
-        let fromDate = startOfDay(for: from)
-        let toDate = startOfDay(for: to)
-        let numberOfDays = dateComponents([.day], from: fromDate, to: toDate)
-        return numberOfDays.day!
+    func numberOfDays(from startDate: Date, to endDate: Date) -> Int {
+        dateComponents([.day], from: startDate.startOfDay, to: endDate.startOfDay).day!
     }
     
     func add(days i: Int, to date: Date = Date()) -> Date {
-        return Cal.date(byAdding: .day, value: i, to: date)!
+        Cal.date(byAdding: .day, value: i, to: date)!
     }
     
     func add(years i: Int, to date: Date = Date()) -> Date {
-        return Cal.date(byAdding: .year, value: i, to: date)!
+        Cal.date(byAdding: .year, value: i, to: date)!
     }
     
     /// Get the last day that matches this weekday, going backward from date
@@ -190,9 +187,9 @@ extension RandomAccessCollection where Element == Date, Index == Int {
     
     /// Binary searches this array for the last index where date <= array[i]
     func lessThanOrEqualSearch(for date: Date) -> Index?  {
-        guard let i = binarySearch(predicate: { $0.startOfDay() <= date.startOfDay() }) else {
+        guard let i = binarySearch(predicate: { $0.startOfDay <= date.startOfDay }) else {
             if let last = self.last,
-               last.startOfDay() <= date.startOfDay() {
+               last.startOfDay <= date.startOfDay {
                 return self.count - 1
             } else {
                 return nil
@@ -200,7 +197,7 @@ extension RandomAccessCollection where Element == Date, Index == Int {
         }
         
         let j = i - 1
-        if j >= 0, self[j].startOfDay() <= date.startOfDay() {
+        if j >= 0, self[j].startOfDay <= date.startOfDay {
             return j
         } else {
             return nil

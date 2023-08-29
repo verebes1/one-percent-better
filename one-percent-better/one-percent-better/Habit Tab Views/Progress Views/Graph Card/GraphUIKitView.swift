@@ -364,7 +364,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Get Graph X and Y
     
     func getGraphX(x day: Date) -> CGFloat {
-        let i = Cal.numberOfDaysBetween(graphData.startDate, and: day)
+        let i = Cal.numberOfDays(from: graphData.startDate, to: day)
         let widthRatio = CGFloat(i) / CGFloat(graphData.numDays - 1)
         let x = xOffset.left + graphSize.width * widthRatio
         return x
@@ -469,7 +469,7 @@ class GraphUIKitView: UIView, UIGestureRecognizerDelegate {
         let x1 = graphData.dates[0]
         let y1 = graphData.values[0]
         
-        let i = Cal.numberOfDaysBetween(x0, and: x1)
+        let i = Cal.numberOfDays(from: x0, to: x1)
         let widthRatio = CGFloat(i) / CGFloat(graphData.numDays - 1)
         let gx0 = xOffset.left - widthRatio * graphSize.width
         let gy0 = getGraphY(y: y0, range: range)

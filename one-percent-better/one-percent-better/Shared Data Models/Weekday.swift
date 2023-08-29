@@ -17,7 +17,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
     case sunday
     
     /// The chosen user preference for the start of the week
-    static var startOfWeek: Weekday = .monday
+    static var startOfWeek: Weekday = .friday
     
     /// Calculate the positive difference between two weekdays
     /// - Parameter a: First weekday
@@ -28,7 +28,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
     
     /// The day index, adjusted for the user's start of week preference
     var index: Int {
-        Self.positiveDifference(from: self, to: Self.startOfWeek)
+        Self.positiveDifference(from: Self.startOfWeek, to: self)
     }
 
     init(_ date: Date) {

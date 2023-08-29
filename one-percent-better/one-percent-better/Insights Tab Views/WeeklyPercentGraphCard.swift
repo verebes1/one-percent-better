@@ -11,17 +11,19 @@ import Charts
 struct WeeklyPercentGraphCard: View {
     
     @EnvironmentObject var ivm: InsightsViewModel
+    
+    // TODO: 1.1.5 don't need full header week view model, just a list of habits
     @StateObject var vm = HeaderWeekViewModel()
     
     func dailyPercent() -> [GraphPoint] {
         var r = [GraphPoint]()
-        var curDay = vm.earliestStartDate
+        var curDay = vm.habits.earliestStartDate
         
         var dates = [Date]()
         var values = [Double]()
         
         while !Cal.isDateInTomorrow(curDay) {
-            let percent = vm.percent(on: curDay) * 100
+            let percent = vm.habits.percentCompletion(on: curDay) * 100
             dates.append(curDay)
             values.append(percent)
             curDay = Cal.add(days: 1, to: curDay)

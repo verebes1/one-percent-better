@@ -84,7 +84,7 @@ extension Habit {
             self.insertIntoFrequencies(newFrequency, at: i)
         } else {
             // index of first frequency whose start date is > new frequency startDate
-            let insertIndex = frequencyDates.binarySearch { $0.startOfDay() <= startDate.startOfDay() }
+            let insertIndex = frequencyDates.binarySearch { $0.startOfDay <= startDate.startOfDay }
             if let insertIndex = insertIndex {
                 self.insertIntoFrequencies(newFrequency, at: insertIndex)
             } else {

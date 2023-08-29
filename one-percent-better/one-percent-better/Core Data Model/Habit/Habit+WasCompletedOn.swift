@@ -186,7 +186,7 @@ extension Habit {
       var streak = 0
 
       guard let freq = frequency(on: date) else { return 0 }
-      let numDaysToCheck = Cal.numberOfDaysBetween(startDate, and: date)
+      let numDaysToCheck = Cal.numberOfDays(from: startDate, to: date)
       
       // A streak isn't broken until the user doesn't complete it when it's due,
       // so first we calculate how many days to go backward to start calculating
@@ -213,7 +213,7 @@ extension Habit {
          case .timesPerWeek(_, resetDay: let resetDay):
             if !wasCompletedThisWeek(on: date, withFrequency: freq) {
                let lastResetDay = Cal.getLast(weekday: resetDay, from: date)
-               let diff = Cal.numberOfDaysBetween(lastResetDay, and: date)
+               let diff = Cal.numberOfDays(from: lastResetDay, to: date)
                if diff <= numDaysToCheck {
                   goBackStart = diff
                }

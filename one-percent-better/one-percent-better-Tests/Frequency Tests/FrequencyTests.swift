@@ -34,7 +34,7 @@ final class FrequencyTests: XCTestCase {
    }
    
    func testChangeStartDate() throws {
-      let today = Date().startOfDay()
+      let today = Date().startOfDay
       XCTAssertTrue(Cal.isDate(habit.startDate, inSameDayAs: today))
       XCTAssertTrue(Cal.isDate(habit.frequenciesArray.first!.startDate, inSameDayAs: today))
       

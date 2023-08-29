@@ -28,16 +28,27 @@ final class WeekdayTests: XCTestCase {
     /// Test the adjusted index of the weekday based on the start of week
     func testIndex() throws {
         let monday = Weekday(df.date(from: "8-14-2023")!)
+        let wednesday = Weekday(df.date(from: "8-16-2023")!)
+        
         Weekday.startOfWeek = .monday
         XCTAssertEqual(monday.index, 0)
+        XCTAssertEqual(wednesday.index, 2)
+        
         Weekday.startOfWeek = .sunday
         XCTAssertEqual(monday.index, 1)
+        XCTAssertEqual(wednesday.index, 3)
+        
         Weekday.startOfWeek = .saturday
         XCTAssertEqual(monday.index, 2)
+        XCTAssertEqual(wednesday.index, 4)
+        
         Weekday.startOfWeek = .thursday
         XCTAssertEqual(monday.index, 4)
+        XCTAssertEqual(wednesday.index, 6)
+        
         Weekday.startOfWeek = .tuesday
         XCTAssertEqual(monday.index, 6)
+        XCTAssertEqual(wednesday.index, 1)
     }
 
     func testPositiveDifference() throws {

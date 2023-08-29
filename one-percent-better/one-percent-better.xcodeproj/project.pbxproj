@@ -127,6 +127,7 @@
 		8058174028CBF57900E9816F /* CreateExerciseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058173F28CBF57900E9816F /* CreateExerciseTracker.swift */; };
 		8058174628D919F600E9816F /* DeletableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8058174528D919F600E9816F /* DeletableRow.swift */; };
 		8059AEB7288F88F800846D27 /* AppleFitnessRings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */; };
+		805A1D0C2A9E9DF700305F99 /* Habit+Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A1D0B2A9E9DF700305F99 /* Habit+Array.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */; };
 		806235F42A2ED7620040F9BD /* MigrationModel18to19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806235F32A2ED7620040F9BD /* MigrationModel18to19.swift */; };
@@ -363,6 +364,7 @@
 		8058174528D919F600E9816F /* DeletableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletableRow.swift; sourceTree = "<group>"; };
 		8059AEB6288F88F800846D27 /* AppleFitnessRings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleFitnessRings.swift; sourceTree = "<group>"; };
 		8059AEBA2891B3A900846D27 /* mo_ikai 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 6.xcdatamodel"; sourceTree = "<group>"; };
+		805A1D0B2A9E9DF700305F99 /* Habit+Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+Array.swift"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleMenuButton.swift; sourceTree = "<group>"; };
 		806235F32A2ED7620040F9BD /* MigrationModel18to19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel18to19.swift; sourceTree = "<group>"; };
@@ -766,6 +768,7 @@
 				807A47C8291223E50022068B /* Habit+Frequency.swift */,
 				80744F5D29B3091400DAF196 /* Habit+Notifications.swift */,
 				807A47C22910A9010022068B /* Habit+WasCompletedOn.swift */,
+				805A1D0B2A9E9DF700305F99 /* Habit+Array.swift */,
 			);
 			path = Habit;
 			sourceTree = "<group>";
@@ -1323,6 +1326,7 @@
 				80125C892A3A82DB00682BB9 /* CreateTextField.swift in Sources */,
 				80DAAC3429371F1300E626D7 /* OverlayTest.swift in Sources */,
 				800034CF2945300B0086A2E1 /* OverlayTest2.swift in Sources */,
+				805A1D0C2A9E9DF700305F99 /* Habit+Array.swift in Sources */,
 				8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */,
 				8040282D29C96523003D27CE /* SingleNotificationSelection.swift in Sources */,
 				8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */,

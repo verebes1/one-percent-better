@@ -23,6 +23,6 @@ public class Frequency: NSManagedObject {
    }
    
    func updateStartDate(to startDate: Date) {
-      self.startDate = startDate.startOfDay()
+      self.startDate = startDate.startOfDay
    }
 }

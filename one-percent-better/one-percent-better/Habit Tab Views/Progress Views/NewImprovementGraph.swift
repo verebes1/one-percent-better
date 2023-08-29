@@ -70,9 +70,9 @@ struct NewImprovementGraph: View {
       
 //      let origin = geometry[proxy.plotAreaFrame].origin
 //      let datePos = proxy.value(atX: at.x - origin.x, as: Date.self)
-//      let firstGreater = improvementArr.lastIndex(where: { $0.date.startOfDay() < datePos!.startOfDay() })
+//      let firstGreater = improvementArr.lastIndex(where: { $0.date.startOfDay < datePos!.startOfDay })
 //      if let index = firstGreater {
-//         let date = improvementArr[index].date.startOfDay()
+//         let date = improvementArr[index].date.startOfDay
 //         let value = improvementArr[index].value
 //         position = GraphPoint(date: date, value: value)
 //      }

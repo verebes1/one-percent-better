@@ -66,12 +66,12 @@ class HeaderSelectionViewModel: ObservableObject {
         let today = Date()
         let newSelectedDay = hwvm.date(weekIndex: newWeek, weekdayIndex: selectedDate.weekdayIndex)
         
-        if newSelectedDay.startOfDay() > today.startOfDay() {
+        if newSelectedDay.startOfDay > today.startOfDay {
             // If scrolling to week which has dates ahead of today
             selectedDate = today
-        } else if newSelectedDay.startOfDay() < hwvm.earliestStartDate.startOfDay() {
+        } else if newSelectedDay.startOfDay < hwvm.habits.earliestStartDate.startOfDay {
             // If scrolls to week which has days before the earliest start date
-            selectedDate = hwvm.earliestStartDate
+            selectedDate = hwvm.habits.earliestStartDate
         } else {
             selectedDate = newSelectedDay
         }
@@ -97,22 +97,23 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         }
     }
     
-    /// Date of the earliest start date for all habits
     var earliestStartDate: Date {
-        var earliest = Date()
-        for habit in habits {
-            if habit.startDate < earliest {
-                earliest = habit.startDate
-            }
-        }
-        return earliest
+        habits.earliestStartDate
     }
     
-    /// The number of weeks from today to the earliest completed habit
+    /// The number of scrollable weeks from today to the earliest completed habit
     var numWeeksSinceEarliestCompletedHabit: Int {
-        let numDays = Cal.dateComponents([.day], from: earliestStartDate, to: Date()).day!
-        let diff = numDays - Date().weekdayIndex + 6
-        let weeks = diff / 7
+        // Get the day which is aligned with the start of the week relative to today
+        let todayStartOfWeek = Cal.add(days: -Date().weekdayIndex)
+        
+        // Get the day which is aligned with the start of the week relative to the earliest start date
+        let earliestStartOfWeek = Cal.add(days: -earliestStartDate.weekdayIndex, to: earliestStartDate)
+        
+        // Calculate the difference
+        let numDays = Cal.numberOfDays(from: earliestStartOfWeek, to: todayStartOfWeek)
+        
+        // Calculate the number of weeks
+        let weeks = numDays / 7
         return weeks
     }
     
@@ -133,43 +134,20 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     /// - Returns: The week index
     func weekIndex(for day: Date) -> Int {
         let weekDayOffset = day.weekdayIndex
-        let totalDayOffset = -(Cal.numberOfDaysBetween(day, and: Date()))
+        let totalDayOffset = -(Cal.numberOfDays(from: day, to: Date()))
         let weekNum = (weekDayOffset - totalDayOffset) / 7
         let result = numWeeksSinceEarliestCompletedHabit - weekNum
         return result
     }
     
     func dayOffsetToToday(from date: Date) -> Int {
-        let result = -(Cal.numberOfDaysBetween(date, and: Date()))
+        let result = -(Cal.numberOfDays(from: date, to: Date()))
         return result
     }
     
     func date(weekIndex: Int, weekdayIndex: Int) -> Date {
         let offset = dayOffset(weekIndex: weekIndex, weekdayIndex: weekdayIndex)
         return Cal.add(days: offset)
-    }
-    
-    /// Get the percent completion of all habits on this day
-    /// - Parameter day: The day to calculate the percent completion for
-    /// - Returns: The percent completion as a decimal in range [0,1]
-    func percent(on day: Date) -> Double {
-        var numCompleted: Double = 0
-        var total: Double = 0
-        for habit in habits {
-            if Cal.startOfDay(for: habit.startDate) <= Cal.startOfDay(for: day),
-               habit.isDue(on: day) {
-                total += 1
-            }
-        }
-        guard total > 0 else { return 0 }
-        
-        for habit in habits {
-            if Cal.startOfDay(for: habit.startDate) <= Cal.startOfDay(for: day),
-               habit.isDue(on: day) {
-                numCompleted += habit.percentCompleted(on: day)
-            }
-        }
-        return numCompleted / total
     }
 }
 
@@ -201,8 +179,8 @@ struct HabitsHeaderView: View {
                     .onTapGesture {
                         let weekdayIndex = weekday.index
                         let newDate = vm.date(weekIndex: hsvm.selectedWeekIndex, weekdayIndex: weekdayIndex)
-                        if newDate.startOfDay() <= Date().startOfDay() &&
-                            newDate.startOfDay() >= vm.earliestStartDate.startOfDay() &&
+                        if newDate.startOfDay <= Date().startOfDay &&
+                            newDate.startOfDay >= vm.habits.earliestStartDate.startOfDay &&
                             newDate != hsvm.selectedDate {
                             hsvm.selectedDate = newDate
                         }
@@ -217,8 +195,9 @@ struct HabitsHeaderView: View {
                     HStack {
                         ForEach(Weekday.orderedCases) { weekday in
                             let dayOffset = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index)
-                            let dayOffsetFromEarliest = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index, from: vm.earliestStartDate)
-                            let percent = vm.percent(on: vm.date(weekIndex: week, weekdayIndex: weekday.index))
+                            let dayOffsetFromEarliest = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index, from: vm.habits.earliestStartDate)
+                            let day = vm.date(weekIndex: week, weekdayIndex: weekday.index)
+                            let percent = vm.habits.percentCompletion(on: day)
                             RingView(percent: percent,
                                      color: color,
                                      size: ringSize,

@@ -112,10 +112,10 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    }
    
    func updateStartDate(to date: Date) {
-      let date = date.startOfDay()
+      let date = date.startOfDay
       
       // Ensure the new start date is not in the future
-      let tmr = Cal.add(days: 1).startOfDay()
+      let tmr = Cal.add(days: 1).startOfDay
       guard date < tmr else { return }
       
       // Ensure we have a non empty frequency array
@@ -187,14 +187,14 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or after the date, and false otherwise
    func started(after day: Date) -> Bool {
-      return startDate.startOfDay() >= day.startOfDay()
+      return startDate.startOfDay >= day.startOfDay
    }
    
    /// Whether or not this habits start date is before or equal to a certain date
    /// - Parameter day: The day to check against
    /// - Returns: True if the habit started on or before the date, and false otherwise
    func started(before day: Date) -> Bool {
-      return startDate.startOfDay() <= day.startOfDay()
+      return startDate.startOfDay <= day.startOfDay
    }
    
    class func habits(from context: NSManagedObjectContext) -> [Habit] {
