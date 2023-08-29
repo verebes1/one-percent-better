@@ -34,14 +34,13 @@ class SelectedDateViewModel: ObservableObject {
     
     init(hwvm: HeaderWeekViewModel) {
         self.hwvm = hwvm
-        hwvm.sdvm = self
-        hwvm.updateSelectedWeek(selectedDate: selectedDate)
+        hwvm.updateSelectedWeek(to: selectedDate)
         hwvm.updateImprovementScores(on: selectedDate)
     }
     
     func updateSelectedDay(to day: Date) {
         selectedDate = day
-        hwvm.updateSelectedWeek(selectedDate: selectedDate)
+        hwvm.updateSelectedWeek(to: selectedDate)
         hwvm.updateImprovementScores(on: selectedDate)
     }
     
@@ -60,8 +59,6 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     /// The week index of the selected week in the header view,
     /// ranging from 0 to n, where 0 is the earliest week, and n is the current week
     @Published var selectedWeekIndex = 0
-    
-    weak var sdvm: SelectedDateViewModel!
     
     init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
         super.init(context)
@@ -99,10 +96,6 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     }
     
     /// Given a week index and a weekday index, calculate an offset to a reference day
-    /// - Parameters:
-    ///   - weekIndex: Week index: 0 == earliest week, numWeeksSinceEarliestCompletedHabit == latest week
-    ///   - weekdayIndex: Weekday index: [0,1,2,3,4,5,6]
-    ///   - referenceDay: The reference day to calculate the offset from
     /// - Returns: Integer offset from reference day. The day before the reference day is -1, the day of the reference day is 0, the day after the reference day is 1, etc.
     func dayOffset(weekIndex: Int, weekdayIndex: Int, from referenceDay: Date = Date()) -> Int {
         let numDaysBack = weekdayIndex - referenceDay.weekdayIndex
@@ -110,9 +103,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         return (numWeeksBack * 7) + numDaysBack
     }
     
-    /// The week index for a particular day
-    /// - Parameter day: The day
-    /// - Returns: The week index
+    /// Get the week index for a particular day
     func weekIndex(for day: Date) -> Int {
         let weekDayOffset = day.weekdayIndex
         let totalDayOffset = -(Cal.numberOfDays(from: day, to: Date()))
@@ -121,31 +112,38 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         return result
     }
     
+    /// Get the date given the week index and weekday index
     func date(weekIndex: Int, weekdayIndex: Int) -> Date {
         let offset = dayOffset(weekIndex: weekIndex, weekdayIndex: weekdayIndex)
         return Cal.add(days: offset)
     }
     
-    func updateSelectedWeek(selectedDate: Date) {
+    /// Update the selected week based on a new selected date
+    func updateSelectedWeek(to selectedDate: Date) {
         let newSelectedWeek = weekIndex(for: selectedDate)
         if selectedWeekIndex != newSelectedWeek {
             selectedWeekIndex = newSelectedWeek
         }
     }
     
-    func selectedWeekChanged(to newWeek: Int) {
+    /// Called whenever the selected week is scrolled, and finds the nearest selectable date
+    func nearestSelectableDate(to newSelectedDay: Date) -> Date {
         let today = Date()
-        let newSelectedDay = date(weekIndex: newWeek, weekdayIndex: sdvm.selectedDate.weekdayIndex)
-        
         if newSelectedDay.startOfDay > today.startOfDay {
             // If scrolling to a day ahead of today
-            sdvm.selectedDate = today
+            return today
         } else if newSelectedDay.startOfDay < habits.earliestStartDate.startOfDay {
             // If scrolling to a day before the earliest start date
-            sdvm.selectedDate = habits.earliestStartDate
+            return habits.earliestStartDate
         } else {
-            sdvm.selectedDate = newSelectedDay
+            return newSelectedDay
         }
+    }
+    
+    /// If a day can be selected (is within range)
+    func canSelect(day: Date) -> Bool {
+        return day.startOfDay <= Date().startOfDay &&
+        day.startOfDay >= earliestStartDate.startOfDay
     }
 }
 
@@ -166,17 +164,9 @@ struct HabitsHeaderView: View {
         return dayIsSelectedWeekday && weekIsSelectedWeek
     }
     
-    /// If day can be selected (is within range)
-    /// - Parameter day: The day to select
-    func canSelect(day: Date) -> Bool {
-        return day.startOfDay <= Date().startOfDay &&
-        day.startOfDay >= hwvm.habits.earliestStartDate.startOfDay
-    }
-    
     /// Select a new date
-    /// - Parameter day: The day to select
     func select(day: Date) {
-        if canSelect(day: day) &&
+        if hwvm.canSelect(day: day) &&
             day != sdvm.selectedDate {
             sdvm.selectedDate = day
         }
@@ -214,7 +204,7 @@ struct HabitsHeaderView: View {
                                 select(day: day)
                             }
                             .contentShape(Rectangle())
-                            .opacity(canSelect(day: day) ? 1 : 0.3)
+                            .opacity(hwvm.canSelect(day: day) ? 1 : 0.3)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -223,7 +213,9 @@ struct HabitsHeaderView: View {
             .frame(height: ringSize + 22)
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onChange(of: hwvm.selectedWeekIndex) { newWeek in
-                hwvm.selectedWeekChanged(to: newWeek)
+                let proposedSelectedDate = hwvm.date(weekIndex: newWeek, weekdayIndex: sdvm.selectedDate.weekdayIndex)
+                let selectedDate = hwvm.nearestSelectableDate(to: proposedSelectedDate)
+                select(day: selectedDate)
             }
         }
         
