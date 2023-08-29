@@ -185,7 +185,7 @@ struct HabitsHeaderView: View {
     }
     
     func isToday(weekday: Weekday) -> Bool {
-        let dayIsSelectedWeekday = Date().weekdayIndex == weekday.rawValue
+        let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
         let weekIsSelectedWeek = hsvm.selectedWeekIndex == vm.numWeeksSinceEarliestCompletedHabit
         return dayIsSelectedWeekday && weekIsSelectedWeek
     }
@@ -194,12 +194,12 @@ struct HabitsHeaderView: View {
         let _ = Self._printChanges()
         VStack(spacing: 0) {
             HStack {
-                ForEach(Weekday.allCases, id: \.self) { weekday in
+                ForEach(Weekday.orderedCases) { weekday in
                     SelectedDayView(weekday: weekday,
                                     selectedWeekday: Weekday(hsvm.selectedDay),
                                     isToday: isToday(weekday: weekday))
                     .onTapGesture {
-                        let weekdayIndex = weekday.rawValue
+                        let weekdayIndex = weekday.index
                         let newDate = vm.date(weekIndex: hsvm.selectedWeekIndex, weekdayIndex: weekdayIndex)
                         if newDate.startOfDay() <= Date().startOfDay() &&
                             newDate.startOfDay() >= vm.earliestStartDate.startOfDay() &&
@@ -215,10 +215,10 @@ struct HabitsHeaderView: View {
             TabView(selection: $hsvm.selectedWeekIndex) {
                 ForEach(0 ... vm.numWeeksSinceEarliestCompletedHabit, id: \.self) { week in
                     HStack {
-                        ForEach(0 ..< 7) { weekday in
-                            let dayOffset = vm.dayOffset(weekIndex: week, weekdayIndex: weekday)
-                            let dayOffsetFromEarliest = vm.dayOffset(weekIndex: week, weekdayIndex: weekday, from: vm.earliestStartDate)
-                            let percent = vm.percent(on: vm.date(weekIndex: week, weekdayIndex: weekday))
+                        ForEach(Weekday.orderedCases) { weekday in
+                            let dayOffset = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index)
+                            let dayOffsetFromEarliest = vm.dayOffset(weekIndex: week, weekdayIndex: weekday.index, from: vm.earliestStartDate)
+                            let percent = vm.percent(on: vm.date(weekIndex: week, weekdayIndex: weekday.index))
                             RingView(percent: percent,
                                      color: color,
                                      size: ringSize,

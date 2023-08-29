@@ -95,7 +95,7 @@ extension Calendar {
     /// - Returns: Date which is on that weekday
     func getLast(weekday: Weekday, from date: Date = Date()) -> Date {
         let todayIndex = date.weekdayIndex
-        var diff = todayIndex - weekday.rawValue
+        var diff = todayIndex - weekday.index
         diff = diff > 0 ? diff : diff + 7
         let date = Cal.add(days: -diff, to: date)
         return date

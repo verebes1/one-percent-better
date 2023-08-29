@@ -16,7 +16,7 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
     case saturday
     case sunday
 
-    static var startOfWeek: Weekday = .monday
+    static var startOfWeek: Weekday = .sunday
     
     var id: Int {
         self.rawValue
