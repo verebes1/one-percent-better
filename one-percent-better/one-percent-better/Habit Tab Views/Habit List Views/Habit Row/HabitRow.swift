@@ -34,7 +34,7 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
     var hasTimerStarted: Bool
     
     init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext, habit: Habit, sdvm: SelectedDateViewModel) {
-        print("init HabitRowViewModel \(habit.name)")
+//        print("init HabitRowViewModel \(habit.name)")
         self.habit = habit
         self.currentDay = sdvm.selectedDate
         isTimerRunning = false
@@ -175,7 +175,6 @@ struct HabitRow: View {
     }
     
     var body: some View {
-        let _ = Self._printChanges()
         ZStack {
             HStack(spacing: 0) {
                 Spacer().frame(width: 15)

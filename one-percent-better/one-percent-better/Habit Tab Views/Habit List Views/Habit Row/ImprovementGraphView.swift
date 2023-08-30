@@ -82,7 +82,6 @@ struct ImprovementGraphView: View {
         let last5 = getLast7()
         //      let average = average(last5: last5)
         let dashedLine = dashedLineValue(last5: last5)
-        let _ = Self._printChanges()
         Chart {
             RuleMark(y: .value("Average", dashedLine))
                 .lineStyle(.init(lineWidth: 1, dash: [1,5]))

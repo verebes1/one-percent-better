@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RingView: View {
     var percent: Double
-    var color: Color = .green
+//    var color: Color = .green
     var size: CGFloat = 100
     var withText: Bool = false
     var startColor = Color( #colorLiteral(red: 0, green: 0.7286170125, blue: 0.879304111, alpha: 1) )

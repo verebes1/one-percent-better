@@ -140,6 +140,13 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         }
     }
     
+    /// If the weekday of the currently selected week is today or not
+    func isToday(_ weekday: Weekday) -> Bool {
+        let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
+        let weekIsSelectedWeek = selectedWeekIndex == numWeeksSinceEarliestCompletedHabit
+        return dayIsSelectedWeekday && weekIsSelectedWeek
+    }
+    
     /// If a day can be selected (is within range)
     func canSelect(day: Date) -> Bool {
         return day.startOfDay <= Date().startOfDay &&
@@ -152,17 +159,6 @@ struct HabitsHeaderView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var hwvm: HeaderWeekViewModel
     @EnvironmentObject var sdvm: SelectedDateViewModel
-    var color: Color = .systemTeal
-    
-    init(context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-        print("Habit header view init")
-    }
-    
-    func isToday(weekday: Weekday) -> Bool {
-        let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
-        let weekIsSelectedWeek = hwvm.selectedWeekIndex == hwvm.numWeeksSinceEarliestCompletedHabit
-        return dayIsSelectedWeekday && weekIsSelectedWeek
-    }
     
     /// Select a new date
     func select(day: Date) {
@@ -179,7 +175,7 @@ struct HabitsHeaderView: View {
                 ForEach(Weekday.orderedCases) { weekday in
                     SelectedDayView(weekday: weekday,
                                     selectedWeekday: Weekday(sdvm.selectedDate),
-                                    isToday: isToday(weekday: weekday))
+                                    isToday: hwvm.isToday(weekday))
                     .onTapGesture {
                         let newDate = hwvm.date(weekIndex: hwvm.selectedWeekIndex, weekdayIndex: weekday.index)
                         select(day: newDate)
@@ -195,7 +191,6 @@ struct HabitsHeaderView: View {
                         ForEach(Weekday.orderedCases) { weekday in
                             let day = hwvm.date(weekIndex: week, weekdayIndex: weekday.index)
                             RingView(percent: hwvm.habits.percentCompletion(on: day),
-                                     color: color,
                                      size: ringSize,
                                      withText: true)
                             .font(.system(size: 14))
@@ -254,7 +249,7 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
         let moc = CoreDataManager.previews.mainContext
         let hwvm = HeaderWeekViewModel(moc)
         let sdvm = SelectedDateViewModel(hwvm: hwvm)
-        HabitsHeaderView(context: moc)
+        HabitsHeaderView()
             .environment(\.managedObjectContext, moc)
             .environmentObject(hwvm)
             .environmentObject(sdvm)
