@@ -7,6 +7,28 @@
 
 import SwiftUI
 
+class SelectedDateViewModel: ObservableObject {
+    
+    /// The selected date
+    @Published var selectedDate = Date()
+    
+    /// The latest day that has been shown. This is updated when the
+    /// app is opened or the view appears on a new day.
+    @Published var latestDay = Date()
+    
+    lazy var dateTitleFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.calendar = Calendar(identifier: .gregorian)
+        df.locale = Locale.autoupdatingCurrent
+        df.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
+        return df
+    }()
+    
+    var navTitle: String {
+        dateTitleFormatter.string(from: selectedDate)
+    }
+}
+
 struct HabitListViewContainer: View {
     
     @EnvironmentObject var barManager: BottomBarManager

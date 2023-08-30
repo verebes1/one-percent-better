@@ -9,28 +9,6 @@ import SwiftUI
 import CoreData
 import Combine
 
-class SelectedDateViewModel: ObservableObject {
-    
-    /// The selected date
-    @Published var selectedDate = Date()
-    
-    /// The latest day that has been shown. This is updated when the
-    /// app is opened or the view appears on a new day.
-    @Published var latestDay = Date()
-    
-    lazy var dateTitleFormatter: DateFormatter = {
-        let df = DateFormatter()
-        df.calendar = Calendar(identifier: .gregorian)
-        df.locale = Locale.autoupdatingCurrent
-        df.setLocalizedDateFormatFromTemplate("EEEE, MMM d, YYYY")
-        return df
-    }()
-    
-    var navTitle: String {
-        dateTitleFormatter.string(from: selectedDate)
-    }
-}
-
 class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     
     @Published var habits: [Habit] = []
@@ -45,33 +23,37 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         self.sdvm = sdvm
         super.init(context)
         habits = fetchedObjects
-        update(to: sdvm.selectedDate)
+        newDayUpdate(to: sdvm.selectedDate)
     }
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         habits = controller.fetchedObjects as? [Habit] ?? []
     }
     
-    func update(to selectedDate: Date) {
+    /// Update selected week index and improvement scores to new day
+    func newDayUpdate(to selectedDate: Date) {
         selectedWeekIndex = weekIndex(for: selectedDate)
         updateImprovementScores(on: selectedDate)
     }
     
+    /// Update the improvement scores because it's a new day
     func updateImprovementScores(on date: Date) {
         for habit in habits {
             habit.improvementTracker?.update(on: date)
         }
     }
-
-    func updateLatestDay() {
+    
+    /// Check if it's a new day to update the latest day
+    func checkForNewDay() {
         let today = Date()
         if !Cal.isDate(sdvm.latestDay, inSameDayAs: today) {
             sdvm.latestDay = today
             sdvm.selectedDate = today
-            update(to: today)
+            newDayUpdate(to: today)
         }
     }
     
+    /// The earliest start date across all habits
     var earliestStartDate: Date {
         habits.earliestStartDate
     }
@@ -211,11 +193,11 @@ struct HabitsHeaderView: View {
             }
         }
         .onAppear {
-            hwvm.updateLatestDay()
+            hwvm.checkForNewDay()
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                hwvm.updateLatestDay()
+                hwvm.checkForNewDay()
             }
         }
     }
