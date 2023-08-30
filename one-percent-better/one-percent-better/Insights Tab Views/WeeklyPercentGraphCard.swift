@@ -7,13 +7,26 @@
 
 import SwiftUI
 import Charts
+import CoreData
+
+class WeeklyPercentViewModel: ConditionalManagedObjectFetcher<Habit> {
+    
+    @Published var habits: [Habit] = []
+    
+    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+        super.init(context)
+        habits = fetchedObjects
+    }
+    
+    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        habits = controller.fetchedObjects as? [Habit] ?? []
+    }
+}
 
 struct WeeklyPercentGraphCard: View {
     
     @EnvironmentObject var ivm: InsightsViewModel
-    
-    // TODO: 1.1.5 don't need full header week view model, just a list of habits
-    @StateObject var vm = HeaderWeekViewModel()
+    @StateObject var vm = WeeklyPercentViewModel()
     
     func dailyPercent() -> [GraphPoint] {
         var r = [GraphPoint]()
@@ -28,9 +41,7 @@ struct WeeklyPercentGraphCard: View {
             values.append(percent)
             curDay = Cal.add(days: 1, to: curDay)
         }
-//        print("\n\nLLLL values: \(values)")
         values = movingAverage(points: values)
-//        print("LLLL after values: \(values)")
         for i in 0 ..< dates.count {
             r.append(GraphPoint(date: dates[i], value: values[i]))
         }
@@ -145,12 +156,8 @@ struct WeeklyPercentGraphCard_Previews: PreviewProvider {
     static var previews: some View {
         let _ = data()
         let moc = CoreDataManager.previews.mainContext
-        let hlvm = HabitListViewModel(moc, sdvm: SelectedDateViewModel(hwvm: HeaderWeekViewModel(moc)))
-        let vm = HeaderWeekViewModel(moc)
-        
         Background {
             WeeklyPercentGraphCard()
-                .environmentObject(vm)
         }
     }
 }

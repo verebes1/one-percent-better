@@ -29,27 +29,6 @@ class SelectedDateViewModel: ObservableObject {
     var navTitle: String {
         dateTitleFormatter.string(from: selectedDate)
     }
-    
-    let hwvm: HeaderWeekViewModel
-    
-    init(hwvm: HeaderWeekViewModel) {
-        self.hwvm = hwvm
-        hwvm.updateSelectedWeek(to: selectedDate)
-        hwvm.updateImprovementScores(on: selectedDate)
-    }
-    
-    func updateSelectedDay(to day: Date) {
-        selectedDate = day
-        hwvm.updateSelectedWeek(to: selectedDate)
-        hwvm.updateImprovementScores(on: selectedDate)
-    }
-    
-    func updateSelectedDayToToday() {
-        if !Cal.isDate(latestDay, inSameDayAs: Date()) {
-            latestDay = Date()
-            updateSelectedDay(to: Date())
-        }
-    }
 }
 
 class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
@@ -58,15 +37,24 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     
     /// The week index of the selected week in the header view,
     /// ranging from 0 to n, where 0 is the earliest week, and n is the current week
-    @Published var selectedWeekIndex = 0
+    @Published var selectedWeekIndex: Int = 0
     
-    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+    let sdvm: SelectedDateViewModel
+    
+    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext, sdvm: SelectedDateViewModel) {
+        self.sdvm = sdvm
         super.init(context)
         habits = fetchedObjects
+        update(to: sdvm.selectedDate)
     }
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         habits = controller.fetchedObjects as? [Habit] ?? []
+    }
+    
+    func update(to selectedDate: Date) {
+        selectedWeekIndex = weekIndex(for: selectedDate)
+        updateImprovementScores(on: selectedDate)
     }
     
     func updateImprovementScores(on date: Date) {
@@ -74,25 +62,39 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
             habit.improvementTracker?.update(on: date)
         }
     }
+
+    func updateLatestDay() {
+        let today = Date()
+        if !Cal.isDate(sdvm.latestDay, inSameDayAs: today) {
+            sdvm.latestDay = today
+            sdvm.selectedDate = today
+            update(to: today)
+        }
+    }
     
     var earliestStartDate: Date {
         habits.earliestStartDate
     }
     
-    /// The number of scrollable weeks from today to the earliest completed habit
-    var numWeeksSinceEarliestCompletedHabit: Int {
-        // Get the day which is aligned with the start of the week relative to today
-        let todayStartOfWeek = Cal.add(days: -Date().weekdayIndex)
+    /// Get the week index for a particular day
+    func weekIndex(for day: Date) -> Int {
+        // Get the day which is aligned with the start of the week relative to the given day
+        let dayStartOfWeek = Cal.add(days: -day.weekdayIndex, to: day)
         
         // Get the day which is aligned with the start of the week relative to the earliest start date
         let earliestStartOfWeek = Cal.add(days: -earliestStartDate.weekdayIndex, to: earliestStartDate)
         
         // Calculate the difference
-        let numDays = Cal.numberOfDays(from: earliestStartOfWeek, to: todayStartOfWeek)
+        let numDays = Cal.numberOfDays(from: earliestStartOfWeek, to: dayStartOfWeek)
         
         // Calculate the number of weeks
         let weeks = numDays / 7
         return weeks
+    }
+    
+    /// The total number of scrollable weeks
+    var totalNumWeeks: Int {
+        weekIndex(for: Date())
     }
     
     /// Given a week index and a weekday index, calculate an offset to a reference day
@@ -101,15 +103,6 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         let numDaysBack = weekdayIndex - referenceDay.weekdayIndex
         let numWeeksBack = weekIndex - self.weekIndex(for: referenceDay)
         return (numWeeksBack * 7) + numDaysBack
-    }
-    
-    /// Get the week index for a particular day
-    func weekIndex(for day: Date) -> Int {
-        let weekDayOffset = day.weekdayIndex
-        let totalDayOffset = -(Cal.numberOfDays(from: day, to: Date()))
-        let weekNum = (weekDayOffset - totalDayOffset) / 7
-        let result = numWeeksSinceEarliestCompletedHabit - weekNum
-        return result
     }
     
     /// Get the date given the week index and weekday index
@@ -143,7 +136,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     /// If the weekday of the currently selected week is today or not
     func isToday(_ weekday: Weekday) -> Bool {
         let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
-        let weekIsSelectedWeek = selectedWeekIndex == numWeeksSinceEarliestCompletedHabit
+        let weekIsSelectedWeek = selectedWeekIndex == totalNumWeeks
         return dayIsSelectedWeekday && weekIsSelectedWeek
     }
     
@@ -156,9 +149,14 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
 
 struct HabitsHeaderView: View {
     
+    @Environment(\.scenePhase) var scenePhase
     @Environment(\.managedObjectContext) var moc
-    @EnvironmentObject var hwvm: HeaderWeekViewModel
     @EnvironmentObject var sdvm: SelectedDateViewModel
+    @StateObject var hwvm: HeaderWeekViewModel
+    
+    init(sdvm: SelectedDateViewModel) {
+        self._hwvm = StateObject(wrappedValue: HeaderWeekViewModel(sdvm: sdvm))
+    }
     
     /// Select a new date
     func select(day: Date) {
@@ -169,7 +167,6 @@ struct HabitsHeaderView: View {
     }
     
     var body: some View {
-        let _ = Self._printChanges()
         VStack(spacing: 0) {
             HStack {
                 ForEach(Weekday.orderedCases) { weekday in
@@ -186,7 +183,7 @@ struct HabitsHeaderView: View {
             
             let ringSize: CGFloat = 27
             TabView(selection: $hwvm.selectedWeekIndex) {
-                ForEach(0 ... hwvm.numWeeksSinceEarliestCompletedHabit, id: \.self) { week in
+                ForEach(0 ... hwvm.totalNumWeeks, id: \.self) { week in
                     HStack {
                         ForEach(Weekday.orderedCases) { weekday in
                             let day = hwvm.date(weekIndex: week, weekdayIndex: weekday.index)
@@ -213,7 +210,14 @@ struct HabitsHeaderView: View {
                 select(day: selectedDate)
             }
         }
-        
+        .onAppear {
+            hwvm.updateLatestDay()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                hwvm.updateLatestDay()
+            }
+        }
     }
     
 }
@@ -247,11 +251,9 @@ struct HabitsListHeaderView_Previews: PreviewProvider {
     
     static var previews: some View {
         let moc = CoreDataManager.previews.mainContext
-        let hwvm = HeaderWeekViewModel(moc)
-        let sdvm = SelectedDateViewModel(hwvm: hwvm)
-        HabitsHeaderView()
+        let sdvm = SelectedDateViewModel()
+        HabitsHeaderView(sdvm: sdvm)
             .environment(\.managedObjectContext, moc)
-            .environmentObject(hwvm)
             .environmentObject(sdvm)
     }
 }

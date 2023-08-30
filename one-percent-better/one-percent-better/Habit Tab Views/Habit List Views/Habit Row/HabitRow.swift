@@ -218,7 +218,7 @@ struct HabitRowPreviewer: View {
     @State private var currentDay = Date()
 
     @StateObject var nav = HabitTabNavPath()
-    @StateObject var sdvm = SelectedDateViewModel(hwvm: HeaderWeekViewModel(CoreDataManager.previews.mainContext))
+    @StateObject var sdvm = SelectedDateViewModel()
 
     var body: some View {
         NavigationStack {

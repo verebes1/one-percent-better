@@ -18,8 +18,8 @@ class HabitsHeaderViewTests: XCTestCase {
     var habit1: Habit!
 
     override func setUpWithError() throws {
-        hwvm = HeaderWeekViewModel(context)
-        sdvm = SelectedDateViewModel(hwvm: hwvm)
+        sdvm = SelectedDateViewModel()
+        hwvm = HeaderWeekViewModel(context, sdvm: sdvm)
         habit1 = try! Habit(context: context, name: "Cook")
     }
 
@@ -35,30 +35,99 @@ class HabitsHeaderViewTests: XCTestCase {
         Weekday.startOfWeek = Weekday(today)
         
         habit1.updateStartDate(to: today)
-        XCTAssertEqual(hwvm.numWeeksSinceEarliestCompletedHabit, 0)
+        XCTAssertEqual(hwvm.totalNumWeeks, 0)
         
         var startDate = Cal.add(days: -1, to: today)
         habit1.updateStartDate(to: startDate)
-        XCTAssertEqual(hwvm.numWeeksSinceEarliestCompletedHabit, 1)
+        XCTAssertEqual(hwvm.totalNumWeeks, 1)
         
         startDate = Cal.add(days: -7, to: today)
         habit1.updateStartDate(to: startDate)
-        XCTAssertEqual(hwvm.numWeeksSinceEarliestCompletedHabit, 1)
+        XCTAssertEqual(hwvm.totalNumWeeks, 1)
         
         startDate = Cal.add(days: -8, to: today)
         habit1.updateStartDate(to: startDate)
-        XCTAssertEqual(hwvm.numWeeksSinceEarliestCompletedHabit, 2)
+        XCTAssertEqual(hwvm.totalNumWeeks, 2)
         
         startDate = Cal.add(days: -14, to: today)
         habit1.updateStartDate(to: startDate)
-        XCTAssertEqual(hwvm.numWeeksSinceEarliestCompletedHabit, 2)
+        XCTAssertEqual(hwvm.totalNumWeeks, 2)
         
         startDate = Cal.add(days: -15, to: today)
         habit1.updateStartDate(to: startDate)
-        XCTAssertEqual(hwvm.numWeeksSinceEarliestCompletedHabit, 3)
+        XCTAssertEqual(hwvm.totalNumWeeks, 3)
     }
     
-    func testDayOffset() {
+    /// Test getting the week index given a particular day
+    func testWeekIndex() {
+        let today = Date()
+        Weekday.startOfWeek = Weekday(today)
         
+        habit1.updateStartDate(to: today)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 0)
+        
+        var startDate = Cal.add(days: -1, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 1)
+        
+        startDate = Cal.add(days: -7, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 1)
+        
+        startDate = Cal.add(days: -8, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 2)
+        
+        startDate = Cal.add(days: -14, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 2)
+        
+        startDate = Cal.add(days: -15, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 3)
+    }
+    
+    /// Test getting the week index given a particular day
+    func testWeekIndex2() {
+        let today = Date()
+        Weekday.startOfWeek = Weekday(Cal.add(days: -1, to: today))
+        
+        habit1.updateStartDate(to: today)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 0)
+        
+        var startDate = Cal.add(days: -1, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 0)
+        
+        startDate = Cal.add(days: -2, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 1)
+        
+        startDate = Cal.add(days: -8, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 1)
+        
+        startDate = Cal.add(days: -9, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 2)
+        
+        startDate = Cal.add(days: -15, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 2)
+        
+        startDate = Cal.add(days: -16, to: today)
+        habit1.updateStartDate(to: startDate)
+        XCTAssertEqual(hwvm.weekIndex(for: startDate), 0)
+        XCTAssertEqual(hwvm.weekIndex(for: today), 3)
     }
 }

@@ -9,26 +9,13 @@ import SwiftUI
 
 struct HabitListViewContainer: View {
     
-    @Environment(\.scenePhase) var scenePhase
     @EnvironmentObject var barManager: BottomBarManager
-    @StateObject var hwvm: HeaderWeekViewModel
-    @StateObject var sdvm: SelectedDateViewModel
-    
-    init() {
-        let hwvm = HeaderWeekViewModel()
-        let sdvm = SelectedDateViewModel(hwvm: hwvm)
-        self._hwvm = StateObject(wrappedValue: hwvm)
-        self._sdvm = StateObject(wrappedValue: sdvm)
-    }
+    @StateObject var sdvm = SelectedDateViewModel()
     
     var body: some View {
-        let _ = Self._printChanges()
         Background {
             VStack(spacing: 5) {
-                HabitsHeaderView()
-                    .environmentObject(hwvm)
-                    .environmentObject(sdvm)
-                
+                HabitsHeaderView(sdvm: sdvm)
                 HabitListView(sdvm: sdvm)
             }
             .navigationDestination(for: HabitListViewRoute.self) { route in
@@ -41,14 +28,6 @@ struct HabitListViewContainer: View {
             }
         }
         .environmentObject(sdvm)
-        .onAppear {
-            sdvm.updateSelectedDayToToday()
-        }
-        .onChange(of: scenePhase) { newPhase in
-            if newPhase == .active {
-                sdvm.updateSelectedDayToToday()
-            }
-        }
         .navigationTitle(sdvm.navTitle)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
