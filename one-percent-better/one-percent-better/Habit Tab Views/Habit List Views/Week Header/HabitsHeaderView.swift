@@ -101,20 +101,6 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         }
     }
     
-    /// Called whenever the selected week is scrolled, and finds the nearest selectable date
-    func nearestSelectableDate(to newSelectedDay: Date) -> Date {
-        let today = Date()
-        if newSelectedDay.startOfDay > today.startOfDay {
-            // If scrolling to a day ahead of today
-            return today
-        } else if newSelectedDay.startOfDay < habits.earliestStartDate.startOfDay {
-            // If scrolling to a day before the earliest start date
-            return habits.earliestStartDate
-        } else {
-            return newSelectedDay
-        }
-    }
-    
     /// If the weekday of the currently selected week is today or not
     func isToday(_ weekday: Weekday) -> Bool {
         let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
@@ -127,6 +113,35 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         return day.startOfDay <= Date().startOfDay &&
         day.startOfDay >= earliestStartDate.startOfDay
     }
+    
+    /// Select a new date
+    func selectIfPossible(weekIndex: Int, weekdayIndex: Int) {
+        let day = date(weekIndex: weekIndex, weekdayIndex: weekdayIndex)
+        if canSelect(day: day) {
+            sdvm.selectedDate = day
+        }
+    }
+    
+    /// Finds the nearest selectable date to the proposed date
+    func nearestSelectableDate(to proposedDate: Date) -> Date {
+        let today = Date()
+        if proposedDate.startOfDay > today.startOfDay {
+            // If scrolling to a day ahead of today
+            return today
+        } else if proposedDate.startOfDay < habits.earliestStartDate.startOfDay {
+            // If scrolling to a day before the earliest start date
+            return habits.earliestStartDate
+        } else {
+            return proposedDate
+        }
+    }
+    
+    /// Select the nearest selectable day for the proposed date
+    func selectNearest(weekIndex: Int, weekdayIndex: Int) {
+        let proposedDate = date(weekIndex: weekIndex, weekdayIndex: weekdayIndex)
+        let selectableDate = nearestSelectableDate(to: proposedDate)
+        sdvm.selectedDate = selectableDate
+    }
 }
 
 struct HabitsHeaderView: View {
@@ -136,16 +151,10 @@ struct HabitsHeaderView: View {
     @EnvironmentObject var sdvm: SelectedDateViewModel
     @StateObject var hwvm: HeaderWeekViewModel
     
+    let ringSize: CGFloat = 27
+    
     init(sdvm: SelectedDateViewModel) {
         self._hwvm = StateObject(wrappedValue: HeaderWeekViewModel(sdvm: sdvm))
-    }
-    
-    /// Select a new date
-    func select(day: Date) {
-        if hwvm.canSelect(day: day) &&
-            day != sdvm.selectedDate {
-            sdvm.selectedDate = day
-        }
     }
     
     var body: some View {
@@ -156,26 +165,24 @@ struct HabitsHeaderView: View {
                                     selectedWeekday: Weekday(sdvm.selectedDate),
                                     isToday: hwvm.isToday(weekday))
                     .onTapGesture {
-                        let newDate = hwvm.date(weekIndex: hwvm.selectedWeekIndex, weekdayIndex: weekday.index)
-                        select(day: newDate)
+                        hwvm.selectIfPossible(weekIndex: hwvm.selectedWeekIndex, weekdayIndex: weekday.index)
                     }
                 }
             }
             .padding(.horizontal, 20)
             
-            let ringSize: CGFloat = 27
             TabView(selection: $hwvm.selectedWeekIndex) {
-                ForEach(0 ... hwvm.totalNumWeeks, id: \.self) { week in
+                ForEach(0 ... hwvm.totalNumWeeks, id: \.self) { weekIndex in
                     HStack {
                         ForEach(Weekday.orderedCases) { weekday in
-                            let day = hwvm.date(weekIndex: week, weekdayIndex: weekday.index)
+                            let day = hwvm.date(weekIndex: weekIndex, weekdayIndex: weekday.index)
                             RingView(percent: hwvm.habits.percentCompletion(on: day),
                                      size: ringSize,
                                      withText: true)
                             .font(.system(size: 14))
                             .frame(maxWidth: .infinity)
                             .onTapGesture {
-                                select(day: day)
+                                hwvm.selectIfPossible(weekIndex: weekIndex, weekdayIndex: weekday.index)
                             }
                             .contentShape(Rectangle())
                             .opacity(hwvm.canSelect(day: day) ? 1 : 0.3)
@@ -186,10 +193,8 @@ struct HabitsHeaderView: View {
             }
             .frame(height: ringSize + 22)
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .onChange(of: hwvm.selectedWeekIndex) { newWeek in
-                let proposedSelectedDate = hwvm.date(weekIndex: newWeek, weekdayIndex: sdvm.selectedDate.weekdayIndex)
-                let selectedDate = hwvm.nearestSelectableDate(to: proposedSelectedDate)
-                select(day: selectedDate)
+            .onChange(of: hwvm.selectedWeekIndex) { newWeekIndex in
+                hwvm.selectNearest(weekIndex: newWeekIndex, weekdayIndex: sdvm.selectedDate.weekdayIndex)
             }
         }
         .onAppear {

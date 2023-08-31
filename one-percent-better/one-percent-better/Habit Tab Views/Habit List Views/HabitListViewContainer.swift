@@ -7,8 +7,9 @@
 
 import SwiftUI
 
+/// The view model which controls the selected date in the habit list view
 class SelectedDateViewModel: ObservableObject {
-    
+
     /// The selected date
     @Published var selectedDate = Date()
     
