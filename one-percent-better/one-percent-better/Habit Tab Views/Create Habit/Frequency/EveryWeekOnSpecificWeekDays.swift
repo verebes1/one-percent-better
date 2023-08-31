@@ -11,14 +11,15 @@ import SwiftUI
 struct EveryWeekOnSpecificWeekDays: View {
     
     @Environment(\.colorScheme) var colorScheme
+    @StateObject var sowm = StartOfWeekModel()
+    @Binding var selectedWeekdays: Set<Weekday>
     
-    @Binding var selectedWeekdays: [Weekday]
     
     var body: some View {
         VStack {
             Text("Every week on")
             HStack(spacing: 3) {
-                ForEach(Weekday.orderedCases) { weekday in
+                ForEach(Weekday.orderedCases(sowm.startOfWeek)) { weekday in
                     WeekDayButton(weekday: weekday, selectedWeekdays: $selectedWeekdays)
                 }
             }
@@ -33,18 +34,17 @@ struct WeekDayButton: View {
     @Environment(\.colorScheme) var colorScheme
     
     let weekday: Weekday
-    @Binding var selectedWeekdays: [Weekday]
+    @Binding var selectedWeekdays: Set<Weekday>
     
     func updateSelection() {
-        if selectedWeekdays.count == 1 && weekday == selectedWeekdays[0] {
+        if selectedWeekdays.count == 1 && selectedWeekdays.contains(weekday) {
             return
         }
         if let index = selectedWeekdays.firstIndex(of: weekday) {
             selectedWeekdays.remove(at: index)
         } else {
-            selectedWeekdays.append(weekday)
+            selectedWeekdays.insert(weekday)
         }
-        selectedWeekdays = selectedWeekdays.sorted()
     }
     
     private var textColor: Color {

@@ -52,8 +52,8 @@ extension Date {
         Cal.startOfDay(for: self)
     }
     
-    var weekdayIndex: Int {
-        Weekday(self).index
+    func weekdayIndex(_ startOfWeek: Weekday) -> Int {
+        Weekday(self).index(startOfWeek)
     }
 }
 
@@ -91,8 +91,8 @@ extension Calendar {
     /// - Parameter date: Going backward from this date
     /// - Returns: Date which is on that weekday
     func getLast(weekday: Weekday, from date: Date = Date()) -> Date {
-        let todayIndex = date.weekdayIndex
-        var diff = todayIndex - weekday.index
+        let todayIndex = Weekday(date).rawValue
+        var diff = todayIndex - weekday.rawValue
         diff = diff > 0 ? diff : diff + 7
         let date = Cal.add(days: -diff, to: date)
         return date

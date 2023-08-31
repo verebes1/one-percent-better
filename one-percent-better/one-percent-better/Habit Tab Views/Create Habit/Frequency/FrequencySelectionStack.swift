@@ -16,7 +16,7 @@ class FrequencySelectionStackModel: ObservableObject {
    @Published var timesPerDay = 1
    
    /// Specific weekdays selection
-   @Published var weekdays: [Weekday] = [.monday, .wednesday]
+   @Published var weekdays: Set<Weekday> = [.monday, .wednesday]
    
    /// Times per week selections
    @Published var timesPerWeek = 1
@@ -32,7 +32,7 @@ class FrequencySelectionStackModel: ObservableObject {
       case .timesPerDay(let times):
          self.timesPerDay = times
       case .specificWeekdays(let weekdays):
-         self.weekdays = weekdays
+         self.weekdays = Set(weekdays)
       case .timesPerWeek(let times, let resetDay):
          self.timesPerWeek = times
          self.resetDay = resetDay

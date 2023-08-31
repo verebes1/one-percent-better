@@ -48,10 +48,7 @@ struct SettingsView: View {
                         // Appearance
                         Section(header: Text("Appearance")) {
                             ChangeAppearanceRow()
-                                .environmentObject(settings)
-                            
                             ChangeStartingWeekdayView()
-                                .environmentObject(settings)
                         }
                         .listRowBackground(Color.cardColor)
                         
@@ -59,7 +56,6 @@ struct SettingsView: View {
                         Section(header: Text("Notifications")) {
                             NavigationLink(value: SettingsNavRoute.dailyReminder(settings)) {
                                 DailyReminderRow()
-                                    .environmentObject(settings)
                             }
                             
                             // Habit Notifications Debug View
@@ -81,7 +77,6 @@ struct SettingsView: View {
                             
                             NavigationLink(value: SettingsNavRoute.feedback) {
                                 IconTextRow(title: "Share Feedback", icon: "arrowshape.turn.up.right.fill", color: .blue)
-                                    .environmentObject(settings)
                             }
                         }
                         .listRowBackground(Color.cardColor)
@@ -102,6 +97,7 @@ struct SettingsView: View {
                     }
                     .listStyle(.insetGrouped)
                     .scrollContentBackground(.hidden)
+                    .environmentObject(settings)
                     .navigationDestination(for: SettingsNavRoute.self) { route in
                         switch route {
                         case .dailyReminder(let settings):

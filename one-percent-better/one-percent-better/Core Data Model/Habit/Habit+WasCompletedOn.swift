@@ -42,7 +42,7 @@ extension Habit {
       case .specificWeekdays(_):
          return timesCompleted(on: date) >= 1 ? 1 : 0
       case .timesPerWeek(times: let n, resetDay: let resetDay):
-         if date.weekdayIndex == resetDay.rawValue {
+          if Weekday(date) == resetDay {
             let ans = Double(timesCompletedThisWeek(on: date)) / Double(n)
             return min(1, ans)
          } else {

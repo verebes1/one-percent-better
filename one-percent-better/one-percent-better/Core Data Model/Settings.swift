@@ -40,9 +40,9 @@ public class Settings: NSManagedObject {
     /// Which day to start the week on (Sunday = 0 or Monday = 1)
     @NSManaged public var startingWeekdayInt: Int
     
-    /// The starting weekday as a Weekday struct
-    var startingWeekday: Weekday {
-        return Weekday(rawValue: startingWeekdayInt) ?? .sunday
+    /// The starting weekday as a Weekday
+    var startOfWeek: Weekday {
+        return Weekday(rawValue: startingWeekdayInt) ?? .monday
     }
     
     convenience init(myContext: NSManagedObjectContext) {

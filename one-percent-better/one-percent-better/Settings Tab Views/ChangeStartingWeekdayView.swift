@@ -12,7 +12,7 @@ struct ChangeStartingWeekdayView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var settings: Settings
     
-    @State private var selectedWeekdayMenu: Weekday = .sunday
+    @State private var selectedWeekdayMenu: Weekday = .monday
     
     var body: some View {
         HStack {
@@ -21,6 +21,8 @@ struct ChangeStartingWeekdayView: View {
             Spacer()
             
             Menu {
+                MenuItemWithCheckmark(value: Weekday.friday, selection: $selectedWeekdayMenu)
+                MenuItemWithCheckmark(value: Weekday.saturday, selection: $selectedWeekdayMenu)
                 MenuItemWithCheckmark(value: Weekday.sunday, selection: $selectedWeekdayMenu)
                 MenuItemWithCheckmark(value: Weekday.monday, selection: $selectedWeekdayMenu)
             } label: {
@@ -34,12 +36,13 @@ struct ChangeStartingWeekdayView: View {
                 .fixedSize()
             }
             .onChange(of: selectedWeekdayMenu) { newValue in
-                settings.startingWeekdayInt = selectedWeekdayMenu.rawValue
+                settings.startingWeekdayInt = newValue.rawValue
                 moc.assertSave()
+                Weekday.startOfWeek = newValue
             }
         }
         .onAppear {
-            selectedWeekdayMenu = settings.startingWeekday
+            selectedWeekdayMenu = settings.startOfWeek
         }
     }
 }

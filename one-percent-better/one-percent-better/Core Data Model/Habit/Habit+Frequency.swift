@@ -26,7 +26,7 @@ import Foundation
 
 enum HabitFrequency: Equatable, Hashable {
     case timesPerDay(Int)
-    case specificWeekdays([Weekday])
+    case specificWeekdays(Set<Weekday>)
     case timesPerWeek(times: Int, resetDay: Weekday)
     
     var valueNS: Int {
@@ -157,7 +157,7 @@ extension Habit {
             return .timesPerDay(freq.timesPerDay)
         } else if let freq = nsFrequency as? SpecificWeekdaysFrequency {
             let weekdays = freq.weekdays.map { Weekday(rawValue: $0)! }
-            return .specificWeekdays(weekdays)
+            return .specificWeekdays(Set(weekdays))
         } else if let freq = nsFrequency as? XTimesPerWeekFrequency {
             return .timesPerWeek(times: freq.timesPerWeek, resetDay: Weekday(rawValue: freq.resetDay)!)
         }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiable {
+enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     case monday
     case tuesday
     case wednesday
@@ -27,8 +27,8 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
     }
     
     /// The day index, adjusted for the user's start of week preference
-    var index: Int {
-        Self.positiveDifference(from: Self.startOfWeek, to: self)
+    func index(_ startOfWeek: Weekday) -> Int {
+        Self.positiveDifference(from: startOfWeek, to: self)
     }
 
     init(_ date: Date) {
@@ -63,19 +63,13 @@ enum Weekday: Int, CustomStringConvertible, Comparable, CaseIterable, Identifiab
         }
     }
     
-    // MARK: Comparable
-
-    static func < (lhs: Weekday, rhs: Weekday) -> Bool {
-        lhs.index < rhs.index
-    }
-    
     // MARK: Identifiable
     
     var id: Int { self.rawValue }
     
     // MARK: Case Iterable
     
-    static var orderedCases: [Weekday] {
+    static func orderedCases(_ startOfWeek: Weekday) -> [Weekday] {
         return Array(Weekday.allCases[startOfWeek.rawValue...]) +
         Array(Weekday.allCases[..<startOfWeek.rawValue])
     }

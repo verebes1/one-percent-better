@@ -19,7 +19,7 @@ public class SpecificWeekdaysFrequency: Frequency {
    @NSManaged public var weekdays: [Int]
    
    convenience init(context: NSManagedObjectContext,
-                    weekdays: [Weekday]) {
+                    weekdays: Set<Weekday>) {
       self.init(context: context)
       self.weekdays = weekdays.map { $0.rawValue }
    }
