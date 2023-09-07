@@ -82,39 +82,6 @@ class YearViewIndexer {
         }
     }
     
-//    func rowColumn(for gridIndex: Int) -> (row: Int, column: Int) {
-//        let row = gridIndex / numColumns
-//        let column = gridIndex % numColumns
-//        return (row, column)
-//    }
-//
-//    func dayIndex(from gridIndex: Int) -> (index: Int, display: Bool) {
-//        let column = gridIndex % numColumns
-//        let row = gridIndex / numColumns
-//        var realIndex = row + 7 * column
-//        let januaryOffset = januaryFirstOffset(year: year)
-//        realIndex = realIndex - januaryOffset
-//
-//        // Before the 1st of Jan
-//        guard realIndex >= 0 else {
-//            return (realIndex, false)
-//        }
-//
-//        // After today's index
-//        let todayIndex = daysOffsetFromYearStart(date: Date())
-//        guard realIndex <= todayIndex else {
-//            return (realIndex, false)
-//        }
-//
-//        // Past number of days in this year
-//        let totalDays = numberOfDaysInYear - 1
-//        guard realIndex <= totalDays else {
-//            return (realIndex, false)
-//        }
-//
-//        return (realIndex, true)
-//    }
-    
     /// Returns the offset in days from January 1st of a given year for a specified date.
     ///
     /// - Parameters:
@@ -122,17 +89,15 @@ class YearViewIndexer {
     ///   - year: The year from which to calculate the offset.
     /// - Returns: The offset in days from the start of the specified year.
     func daysOffsetFromYearStart(to date: Date) -> Int {
-        let calendar = Calendar.current
-        let startOfYear = calendar.date(from: DateComponents(year: year))!
-        return calendar.dateComponents([.day], from: startOfYear, to: date).day!
+        let startOfYear = Cal.date(from: DateComponents(year: year))!
+        return Cal.dateComponents([.day], from: startOfYear, to: date).day!
     }
     
     /// Which day january 1st falls on this year
     /// - Parameter year: The year
-    /// - Returns: Integer describing which weekday, 0 for Monday, 1 for Tuesday, etc.
+    /// - Returns: Integer describing which weekday relative to users start of week preference
     func januaryFirstOffset(year: Int) -> Int {
         let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-        // TODO: 1.1.5 FIX THIS to match user pref
         return firstOfJan.weekdayIndex(startOfWeek)
     }
 }
