@@ -79,7 +79,7 @@ struct WeekDayButton: View {
 }
 
 struct EveryWeekOnSpecificWeekDaysPreviews: View {
-    @State var selectedWeekdays: [Weekday] = [.monday, .tuesday]
+    @State var selectedWeekdays: Set<Weekday> = [.monday, .tuesday]
     
     var body: some View {
         Background {

@@ -90,7 +90,8 @@ class YearViewIndexer {
     /// - Returns: Integer describing which weekday, 0 for Monday, 1 for Tuesday, etc.
     func januaryFirstOffset(year: Int) -> Int {
         let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-        return (firstOfJan.weekdayIndex + 6) % 7
+        // TODO: 1.1.5 FIX THIS to match user pref
+        return firstOfJan.weekdayIndex(.monday)
     }
 }
 
@@ -101,7 +102,6 @@ struct YearGrid: View {
     
     var yearViewIndexer: YearViewIndexer
     
-    var weekdayLabels = ["M", "T", "W", "T", "F", "S", "S"]
     var monthLabels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     
     init(year: Int, opacities: [Double]) {
