@@ -5,7 +5,8 @@
 //  Created by Jeremy Cook on 11/11/21.
 //
 
-import UIKit
+import Foundation
+import Combine
 
 struct MonthMetadata {
     let numberOfDays: Int
@@ -43,11 +44,8 @@ class CalendarModel: ObservableObject {
     
     /// The number of weeks in this month. Lowest is 4 (leap year) and highest is 6
     private var numberOfWeeksInBaseDate: Int {
-        calendar.range(of: .weekOfMonth, in: .month, for: baseDate)?.count ?? 0
+        Cal.range(of: .weekOfMonth, in: .month, for: baseDate)?.count ?? 0
     }
-    
-    /// The calendar all the calculations are made from
-    private let calendar = Calendar(identifier: .gregorian)
     
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -70,7 +68,7 @@ class CalendarModel: ObservableObject {
     
     var currentBaseDate: Date {
         let offset = numMonthsSinceStart - 1 - currentPage
-        let offsetDate = self.calendar.date(
+        let offsetDate = Cal.date(
             byAdding: .month,
             value: -offset,
             to: Date()
@@ -82,27 +80,40 @@ class CalendarModel: ObservableObject {
         case metadataGeneration
     }
     
-    init(habit: Habit) {
+    /// The user preference for the start of the week
+    var startOfWeek: Weekday
+    
+    private var cancelBag: Set<AnyCancellable> = []
+    
+    init(habit: Habit, sowm: StartOfWeekModel) {
         self.habit = habit
         self.baseDate = Date()
+        self.startOfWeek = sowm.startOfWeek
         self.currentPage = numMonthsSinceStart - 1
+        
+        // Subscribe to start of week from StartOfWeekModel
+        sowm.$startOfWeek.sink { newWeekday in
+            self.startOfWeek = newWeekday
+        }
+        .store(in: &cancelBag)
     }
     
     
     // MARK: - Day Generation
     func monthMetadata(for baseDate: Date) throws -> MonthMetadata {
         guard
-            let numberOfDaysInMonth = calendar.range(
+            let numberOfDaysInMonth = Cal.range(
                 of: .day,
                 in: .month,
                 for: baseDate)?.count,
-            let firstDayOfMonth = calendar.date(
-                from: calendar.dateComponents([.year, .month], from: baseDate))
+            let firstDayOfMonth = Cal.date(
+                from: Cal.dateComponents([.year, .month], from: baseDate))
         else {
             throw CalendarDataError.metadataGeneration
         }
         
-        let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth)
+        // Needs to be 1 ... 7 instead of 0 ... 6
+        let firstDayWeekday = Weekday(firstDayOfMonth).index(startOfWeek) + 1
         
         return MonthMetadata(
             numberOfDays: numberOfDaysInMonth,
@@ -136,7 +147,7 @@ class CalendarModel: ObservableObject {
     }
     
     func generateDay(offsetBy dayOffset: Int, for baseDate: Date, isWithinDisplayedMonth: Bool) -> Day {
-        let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
+        let date = Cal.date(byAdding: .day, value: dayOffset, to: baseDate) ?? baseDate
         
         return Day(
             date: date,
@@ -146,14 +157,14 @@ class CalendarModel: ObservableObject {
     
     func generateStartOfNextMonth(using firstDayOfDisplayedMonth: Date) -> [Day] {
         guard
-            let lastDayInMonth = calendar.date(
+            let lastDayInMonth = Cal.date(
                 byAdding: DateComponents(month: 1, day: -1),
                 to: firstDayOfDisplayedMonth)
         else {
             return []
         }
         
-        let additionalDays = 7 - calendar.component(.weekday, from: lastDayInMonth)
+        let additionalDays = 7 - Cal.component(.weekday, from: lastDayInMonth)
         guard additionalDays > 0 else {
             return []
         }
@@ -169,7 +180,7 @@ class CalendarModel: ObservableObject {
     }
     
     func backXMonths(x: Int) -> [Day] {
-        let newDate = self.calendar.date(
+        let newDate = Cal.date(
             byAdding: .month,
             value: -x,
             to: Date()
@@ -188,7 +199,7 @@ class CalendarModel: ObservableObject {
             }
         }
         
-        let numberOfDaysInMonth = calendar.range(
+        let numberOfDaysInMonth = Cal.range(
             of: .day,
             in: .month,
             for: currentBaseDate)!.count
@@ -197,10 +208,20 @@ class CalendarModel: ObservableObject {
     }
     
     var rowSpacing: CGFloat {
-        let num = calendar.range(of: .weekOfMonth, in: .month, for: currentBaseDate)?.count ?? 0
-        if num == 6 {
+        guard let monthMetadata = try? monthMetadata(for: currentBaseDate) else { return 2 }
+        let firstDay = monthMetadata.firstDay
+        let numDays = monthMetadata.numberOfDays
+        
+        // "Fill" in the days before the first day, then divide by 7
+        // to get the number of weeks in this month based on start of week preference
+        let additionalDays = Weekday(firstDay).index(startOfWeek)
+        
+        let total = numDays + additionalDays
+        let numWeeks = Int((Double(total) / 7).rounded(.awayFromZero))
+        
+        if numWeeks == 6 {
             return 2
-        } else if num == 5 {
+        } else if numWeeks == 5 {
             return 10
         } else {
             return 20

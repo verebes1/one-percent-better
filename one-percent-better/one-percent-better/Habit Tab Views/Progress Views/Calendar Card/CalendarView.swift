@@ -9,22 +9,24 @@ import SwiftUI
 
 struct CalendarView: View {
     
-    let habit: Habit
     
     /// Object used to calculate an array of days for each month
-    @ObservedObject var calendarModel: CalendarModel
+    @StateObject var calendarModel: CalendarModel
     
+    @StateObject var sowm: StartOfWeekModel
     
+    let habit: Habit
+    
+    let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
     
     init(habit: Habit) {
         self.habit = habit
-        self.calendarModel = CalendarModel(habit: habit)
+        let sowm = StartOfWeekModel()
+        self._sowm = StateObject(wrappedValue: sowm)
+        self._calendarModel = StateObject(wrappedValue: CalendarModel(habit: habit, sowm: sowm))
     }
     
     var body: some View {
-        
-        let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 7)
-        let smwttfs = ["S", "M", "T", "W", "T", "F", "S"]
         
         VStack(spacing: 0) {
             
@@ -43,8 +45,8 @@ struct CalendarView: View {
             .padding(.bottom, 5)
             
             LazyVGrid(columns: columns) {
-                ForEach(0..<7) { i in
-                    Text(smwttfs[i])
+                ForEach(Weekday.orderedCases(sowm.startOfWeek)) { weekday in
+                    Text(weekday.letter)
                         .fontWeight(.regular)
                         .foregroundColor(.secondary)
                     
