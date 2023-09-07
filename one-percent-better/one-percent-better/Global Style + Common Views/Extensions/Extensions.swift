@@ -23,40 +23,6 @@ extension UIViewController {
     }
 }
 
-// MARK: - Date
-
-extension Date {
-    var localDate: String {
-        description(with: .current)
-    }
-    
-    func get(_ components: Calendar.Component..., calendar: Calendar = Cal) -> DateComponents {
-        calendar.dateComponents(Set(components), from: self)
-    }
-    
-    func get(_ component: Calendar.Component, calendar: Calendar = Cal) -> Int {
-        calendar.component(component, from: self)
-    }
-    
-    func monthAndDay() -> String {
-        let components = self.get(.day, .month)
-        return "\(components.month!)/\(components.day!)"
-    }
-    
-    func day() -> String {
-        let components = self.get(.day, .month)
-        return "\(components.day!)"
-    }
-    
-    var startOfDay: Date {
-        Cal.startOfDay(for: self)
-    }
-    
-    func weekdayIndex(_ startOfWeek: Weekday) -> Int {
-        Weekday(self).index(startOfWeek)
-    }
-}
-
 // MARK: - Collection
 
 extension Collection where Iterator.Element == Float {
@@ -211,5 +177,3 @@ extension View {
         return self
     }
 }
-
-

@@ -187,6 +187,9 @@
 		80CC692428E39BA800584340 /* MyStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692328E39BA800584340 /* MyStepper.swift */; };
 		80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692528E3AF5400584340 /* ExpandingFillButton.swift */; };
 		80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */; };
+		80D352AB2AAA5CF200983680 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352AA2AAA5CF200983680 /* Date+Extensions.swift */; };
+		80D352AD2AAA5E8900983680 /* Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352AC2AAA5E8900983680 /* Month.swift */; };
+		80D352AF2AAA650600983680 /* StartOfWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352AE2AAA650600983680 /* StartOfWeekModel.swift */; };
 		80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */; };
 		80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */; };
 		80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */; };
@@ -432,6 +435,9 @@
 		80CC692328E39BA800584340 /* MyStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStepper.swift; sourceTree = "<group>"; };
 		80CC692528E3AF5400584340 /* ExpandingFillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandingFillButton.swift; sourceTree = "<group>"; };
 		80CC692728E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EveryWeekOnSpecificWeekDays.swift; sourceTree = "<group>"; };
+		80D352AA2AAA5CF200983680 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
+		80D352AC2AAA5E8900983680 /* Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Month.swift; sourceTree = "<group>"; };
+		80D352AE2AAA650600983680 /* StartOfWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartOfWeekModel.swift; sourceTree = "<group>"; };
 		80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 11.xcdatamodel"; sourceTree = "<group>"; };
 		80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCreateSymbol.swift; sourceTree = "<group>"; };
 		80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo_ikai10-to-11.xcmappingmodel"; sourceTree = "<group>"; };
@@ -661,6 +667,7 @@
 				80385CDD285BEE5900CBDF71 /* NSPersistentStoreCoordinator */,
 				801858992863A7AB003DE454 /* UIImage.swift */,
 				8042302F29D775B500EEAA98 /* NSManagedObjectContext+NoErrorFetch.swift */,
+				80D352AA2AAA5CF200983680 /* Date+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -777,6 +784,8 @@
 			isa = PBXGroup;
 			children = (
 				8038AB2C2A98184B0048A946 /* Weekday.swift */,
+				80D352AC2AAA5E8900983680 /* Month.swift */,
+				80D352AE2AAA650600983680 /* StartOfWeekModel.swift */,
 			);
 			path = "Shared Data Models";
 			sourceTree = "<group>";
@@ -1272,6 +1281,7 @@
 				80385D3F285CFDC800CBDF71 /* CreateGraphTracker.swift in Sources */,
 				80385D18285BEE5900CBDF71 /* CreateNewTracker.swift in Sources */,
 				807A47C9291223E50022068B /* Habit+Frequency.swift in Sources */,
+				80D352AF2AAA650600983680 /* StartOfWeekModel.swift in Sources */,
 				807A47C52910B2600022068B /* DMYDate.swift in Sources */,
 				80CC692628E3AF5400584340 /* ExpandingFillButton.swift in Sources */,
 				805785B6295F0AF000028582 /* XTimesPerWeekBeginningEveryY.swift in Sources */,
@@ -1306,6 +1316,7 @@
 				8040282B29C413E2003D27CE /* NotificationManager.swift in Sources */,
 				80F667292A355AA500095E60 /* obp 18 to 19.xcmappingmodel in Sources */,
 				802AB86F29FCC58E00210AD6 /* NotificationObject.swift in Sources */,
+				80D352AB2AAA5CF200983680 /* Date+Extensions.swift in Sources */,
 				80744F6B29B5596500DAF196 /* RandomTimeNotification.swift in Sources */,
 				8038AB272A95A0230048A946 /* SelectedDayView.swift in Sources */,
 				80F6672E2A380ECD00095E60 /* YearGrid.swift in Sources */,
@@ -1344,6 +1355,7 @@
 				800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */,
 				80F7293E294C2CA100F17B0B /* ChangeAppearanceRow.swift in Sources */,
 				80385D15285BEE5900CBDF71 /* RingView.swift in Sources */,
+				80D352AD2AAA5E8900983680 /* Month.swift in Sources */,
 				80744F5E29B3091400DAF196 /* Habit+Notifications.swift in Sources */,
 				8058174628D919F600E9816F /* DeletableRow.swift in Sources */,
 				8038AB2D2A98184B0048A946 /* Weekday.swift in Sources */,

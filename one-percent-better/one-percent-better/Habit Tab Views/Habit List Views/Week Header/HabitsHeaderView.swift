@@ -9,26 +9,6 @@ import SwiftUI
 import CoreData
 import Combine
 
-/// A model for observing changes in the start of the week setting
-class StartOfWeekModel: ConditionalManagedObjectFetcher<Settings> {
-    
-    @Published var startOfWeek: Weekday = Weekday.startOfWeek
-    
-    init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-        super.init(context)
-        guard let settings = fetchedObjects.first else { return }
-        startOfWeek = settings.startOfWeek
-    }
-    
-    override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        guard let newSettings = controller.fetchedObjects?.first as? Settings else { return }
-        let newStartOfWeek = newSettings.startOfWeek
-        if newStartOfWeek != startOfWeek {
-            startOfWeek = newStartOfWeek
-        }
-    }
-}
-
 class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     
     @Published var habits: [Habit] = []

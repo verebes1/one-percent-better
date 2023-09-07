@@ -16,9 +16,6 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     case saturday
     case sunday
     
-    /// The chosen user preference for the start of the week
-    static var startOfWeek: Weekday = .monday
-    
     /// Calculate the positive difference between two weekdays
     /// - Parameter a: First weekday
     /// - Parameter b: Second weekday
@@ -29,6 +26,13 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     /// The day index, adjusted for the user's start of week preference
     func index(_ startOfWeek: Weekday) -> Int {
         Self.positiveDifference(from: startOfWeek, to: self)
+    }
+    
+    /// The weekday given an index, adjusted for the user's preferred start of the week
+    static func weekday(for index: Int, startOfWeek: Weekday) -> Weekday {
+        let startRawValue = startOfWeek.rawValue
+        let weekdayRawValue = (startRawValue + index) % 7
+        return Weekday(rawValue: weekdayRawValue)!
     }
 
     init(_ date: Date) {

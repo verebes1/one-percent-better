@@ -38,7 +38,6 @@ struct ChangeStartingWeekdayView: View {
             .onChange(of: selectedWeekdayMenu) { newValue in
                 settings.startingWeekdayInt = newValue.rawValue
                 moc.assertSave()
-                Weekday.startOfWeek = newValue
             }
         }
         .onAppear {

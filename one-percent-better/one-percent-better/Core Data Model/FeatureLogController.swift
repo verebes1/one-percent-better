@@ -61,12 +61,10 @@ class FeatureLogController {
             return
         }
         
-        guard let settings = settings.first else {
+        guard let _ = settings.first else {
             assertionFailure("Wrong count of settings")
             return
         }
-        
-        Weekday.startOfWeek = settings.startOfWeek
     }
     
     /// Add percent improvement trackers if the user doesn't have them already
