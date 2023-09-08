@@ -237,7 +237,8 @@ struct HabitListByOrderIndexView: View {
     
     var body: some View {
         Section {
-            ForEach(hlvm.habits, id: \.self.id) { habit in
+            let habits = hlvm.habits.filter { $0.started(before: hlvm.selectedDay) }
+            ForEach(habits, id: \.self.id) { habit in
                 NavigationLink(value: HabitListViewRoute.showProgress(habit)) {
                     HabitRow(moc: moc,
                              habit: habit,

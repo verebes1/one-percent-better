@@ -11,7 +11,7 @@ import SwiftUI
 struct EveryWeekOnSpecificWeekDays: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var sowm = StartOfWeekModel()
+    @EnvironmentObject var sowm: StartOfWeekModel
     @Binding var selectedWeekdays: Set<Weekday>
     
     
@@ -39,8 +39,7 @@ struct WeekDayButton: View {
     func updateSelection() {
         if selectedWeekdays.count == 1 && selectedWeekdays.contains(weekday) {
             return
-        }
-        if let index = selectedWeekdays.firstIndex(of: weekday) {
+        } else if let index = selectedWeekdays.firstIndex(of: weekday) {
             selectedWeekdays.remove(at: index)
         } else {
             selectedWeekdays.insert(weekday)
