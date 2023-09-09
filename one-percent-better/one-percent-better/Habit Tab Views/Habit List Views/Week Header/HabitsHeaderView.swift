@@ -36,6 +36,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
         // Subscribe to start of week from StartOfWeekModel
         sowm.$startOfWeek.sink { newWeekday in
             self.startOfWeek = newWeekday
+            self.newDayUpdate(to: sdvm.selectedDate)
         }
         .store(in: &cancelBag)
     }
