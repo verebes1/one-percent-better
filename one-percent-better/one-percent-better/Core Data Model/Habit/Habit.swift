@@ -59,15 +59,15 @@ public class Habit: NSManagedObject, Codable, Identifiable {
    
    /// An ordered set of all the trackers for the habit
    @NSManaged public var trackers: NSOrderedSet
-   var trackersArray: [Tracker] { trackers.array as? [Tracker] ?? [] }
+   var trackersArray: [Tracker] { trackers.asArray() }
    
    /// A set of notifications for this habit
    @NSManaged public var notifications: NSOrderedSet
-   var notificationsArray: [Notification] { notifications.array as? [Notification] ?? [] }
+   var notificationsArray: [Notification] { notifications.asArray() }
 
    /// A set of frequencies for this habit
    @NSManaged public var frequencies: NSOrderedSet
-   var frequenciesArray: [Frequency] { frequencies.array as? [Frequency] ?? [] }
+   var frequenciesArray: [Frequency] { frequencies.asArray() }
    
    var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
    

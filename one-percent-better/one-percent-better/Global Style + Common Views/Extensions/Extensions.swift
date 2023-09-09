@@ -37,6 +37,14 @@ extension Collection where Iterator.Element == Int {
     }
 }
 
+// MARK: - NSOrderedSet
+
+extension NSOrderedSet {
+    func asArray<T>() -> [T] {
+        return self.array as? [T] ?? []
+    }
+}
+
 // MARK: - Calendar
 
 extension Calendar {
