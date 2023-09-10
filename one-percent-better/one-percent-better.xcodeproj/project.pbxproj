@@ -190,6 +190,7 @@
 		80D352AB2AAA5CF200983680 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352AA2AAA5CF200983680 /* Date+Extensions.swift */; };
 		80D352AD2AAA5E8900983680 /* Month.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352AC2AAA5E8900983680 /* Month.swift */; };
 		80D352AF2AAA650600983680 /* StartOfWeekModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352AE2AAA650600983680 /* StartOfWeekModel.swift */; };
+		80D352B12AAD6E3000983680 /* GlobalTestTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D352B02AAD6E3000983680 /* GlobalTestTools.swift */; };
 		80D88C46290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */; };
 		80D88C48290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */; };
 		80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D88C49290A41C5005CD7B4 /* MigrationModel10-to-11.swift */; };
@@ -438,6 +439,7 @@
 		80D352AA2AAA5CF200983680 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		80D352AC2AAA5E8900983680 /* Month.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Month.swift; sourceTree = "<group>"; };
 		80D352AE2AAA650600983680 /* StartOfWeekModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartOfWeekModel.swift; sourceTree = "<group>"; };
+		80D352B02AAD6E3000983680 /* GlobalTestTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTestTools.swift; sourceTree = "<group>"; };
 		80D88C442908F7C6005CD7B4 /* mo_ikai 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "mo_ikai 11.xcdatamodel"; sourceTree = "<group>"; };
 		80D88C45290A0F2C005CD7B4 /* AnimatedCreateSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedCreateSymbol.swift; sourceTree = "<group>"; };
 		80D88C47290A4181005CD7B4 /* mo_ikai10-to-11.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "mo_ikai10-to-11.xcmappingmodel"; sourceTree = "<group>"; };
@@ -846,6 +848,7 @@
 		8055A9832831BAA8009A1881 /* one-percent-better-Tests */ = {
 			isa = PBXGroup;
 			children = (
+				80D352B02AAD6E3000983680 /* GlobalTestTools.swift */,
 				805296BD2A12E4F600C2C90E /* Streak Tests */,
 				8048B76829FDBE9E00F11AB9 /* Habit Progress View Tests */,
 				80BA250829B7F3710072B1AA /* Notification Tests */,
@@ -1407,6 +1410,7 @@
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
 				8068F9E72A4905CB0028E378 /* MockOpenAI.swift in Sources */,
 				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
+				80D352B12AAD6E3000983680 /* GlobalTestTools.swift in Sources */,
 				806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */,
 				805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */,
 				80AF1F212A6F690F00DFAEB6 /* DueOnTests.swift in Sources */,
