@@ -94,10 +94,9 @@ public class Notification: NSManagedObject {
     }
     
     func removePendingNotifications() {
-        let localID = id
-        moc.performAndWait { [localID] in 
+        moc.performAndWait {
             for i in 0 ..< NotificationManager.MAX_NOTIFS {
-                let notifID = "OnePercentBetter&\(localID)&\(i)"
+                let notifID = "OnePercentBetter&\(id)&\(i)"
                 print("Removing notification \(notifID)")
                 UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notifID])
             }
