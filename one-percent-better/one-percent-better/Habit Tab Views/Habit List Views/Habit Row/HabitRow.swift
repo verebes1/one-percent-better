@@ -71,10 +71,16 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
         habit = newHabits.first!
     }
     
-    func streakLabel() -> StreakLabel? {
-        let streak = habit.streak(on: currentDay)
+    func streakLabel(on day: Date) -> StreakLabel? {
+        // Do not calculate streak if never completed up to this point
+        guard let firstCompleted = habit.daysCompleted.first,
+              firstCompleted.startOfDay <= day.startOfDay  else {
+            return StreakLabel("No streak", StreakLabel.gray)
+        }
+        
+        guard let freq = habit.frequency(on: day) else { return nil }
+        let streak = habit.streak(on: day)
         if streak > 0 {
-            guard let freq = habit.frequency(on: currentDay) else { return nil }
             var timePeriodText: String
             switch freq {
             case .timesPerDay, .specificWeekdays:
@@ -83,10 +89,18 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
                 timePeriodText = "week"
             }
             return StreakLabel("\(streak) \(timePeriodText) streak", .green)
-        } else if let days = habit.notDoneInDays(on: currentDay),
+        } else if let days = habit.notDoneInDays(on: day),
                   days > 0 {
-            let dayText = days == 1 ? "day" : "days"
-            return StreakLabel("Not done in \(days) \(dayText)", .red)
+            switch freq {
+            case .timesPerDay:
+                let dayText = days == 1 ? "day" : "days"
+                return StreakLabel("Not done in \(days) \(dayText)", .red)
+            case .specificWeekdays, .timesPerWeek:
+                assert(days >= 8)
+                let weeks = days / 7
+                let weekText = weeks == 1 ? "week" : "weeks"
+                return StreakLabel("Not done in \(weeks) \(weekText)", .red)
+            }
         } else {
             return StreakLabel("No streak", StreakLabel.gray)
         }
@@ -200,6 +214,7 @@ struct HabitRow: View {
             .listRowBackground(vm.isTimerRunning ? Color.green.opacity(0.1) : Color.white)
             
             // Left side of habit row is completion button
+            // TODO: 1.1.5 Try this with Rectangle() instead of path? Might fix errant clicks on row
             GeometryReader { geo in
                 Color.clear
                     .contentShape(Path(CGRect(origin: .zero, size: CGSize(width: geo.size.width / 3, height: geo.size.height))))

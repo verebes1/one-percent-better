@@ -111,7 +111,7 @@
 		8048B76A29FDBEB500F11AB9 /* YearViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8048B76929FDBEB500F11AB9 /* YearViewTests.swift */; };
 		804C92112A08046D005AD2FE /* TrackerConditionalFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804C92102A08046D005AD2FE /* TrackerConditionalFetcher.swift */; };
 		804C92152A08350D005AD2FE /* HabitProgressViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 804C92142A08350D005AD2FE /* HabitProgressViewContainer.swift */; };
-		805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296BE2A12E50800C2C90E /* StreakTests.swift */; };
+		805296BF2A12E50800C2C90E /* SpecificWeekdayStreakTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296BE2A12E50800C2C90E /* SpecificWeekdayStreakTests.swift */; };
 		805296C12A12E65C00C2C90E /* NotDoneInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805296C02A12E65C00C2C90E /* NotDoneInTests.swift */; };
 		8055A98F2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A98E2831BAA8009A1881 /* one_percent_better_swiftuiUITests.swift */; };
 		8055A9912831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8055A9902831BAA8009A1881 /* one_percent_better_swiftuiUITestsLaunchTests.swift */; };
@@ -347,7 +347,7 @@
 		8048B76929FDBEB500F11AB9 /* YearViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearViewTests.swift; sourceTree = "<group>"; };
 		804C92102A08046D005AD2FE /* TrackerConditionalFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerConditionalFetcher.swift; sourceTree = "<group>"; };
 		804C92142A08350D005AD2FE /* HabitProgressViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitProgressViewContainer.swift; sourceTree = "<group>"; };
-		805296BE2A12E50800C2C90E /* StreakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakTests.swift; sourceTree = "<group>"; };
+		805296BE2A12E50800C2C90E /* SpecificWeekdayStreakTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificWeekdayStreakTests.swift; sourceTree = "<group>"; };
 		805296C02A12E65C00C2C90E /* NotDoneInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotDoneInTests.swift; sourceTree = "<group>"; };
 		8055A9702831BAA5009A1881 /* One Percent Better.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One Percent Better.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8055A9802831BAA8009A1881 /* one-percent-betterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "one-percent-betterTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -818,7 +818,7 @@
 		805296BD2A12E4F600C2C90E /* Streak Tests */ = {
 			isa = PBXGroup;
 			children = (
-				805296BE2A12E50800C2C90E /* StreakTests.swift */,
+				805296BE2A12E50800C2C90E /* SpecificWeekdayStreakTests.swift */,
 				805296C02A12E65C00C2C90E /* NotDoneInTests.swift */,
 			);
 			path = "Streak Tests";
@@ -1412,7 +1412,7 @@
 				80AE0CAB29A1C5DE00B565DE /* WeekdayTests.swift in Sources */,
 				80D352B12AAD6E3000983680 /* GlobalTestTools.swift in Sources */,
 				806BB18929A5B751006549A9 /* SpecificWeekdaysTests.swift in Sources */,
-				805296BF2A12E50800C2C90E /* StreakTests.swift in Sources */,
+				805296BF2A12E50800C2C90E /* SpecificWeekdayStreakTests.swift in Sources */,
 				80AF1F212A6F690F00DFAEB6 /* DueOnTests.swift in Sources */,
 				80D8EF032A47CA7600769114 /* NotificationGeneratorTests.swift in Sources */,
 				80AE0CA9299B39DF00B565DE /* Habit+WasCompletedOnTests.swift in Sources */,

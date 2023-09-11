@@ -28,24 +28,6 @@ struct HabitRowLabels: View {
     
     @EnvironmentObject var vm: HabitRowViewModel
     
-    let subGray = Color(hue: 1.0, saturation: 0.0, brightness: 0.519)
-    
-    func specificWeekdaysLabel(days: [Weekday]) -> String {
-        if days.contains(Weekday(Date())) {
-            return "Due today"
-        }
-        
-        var finalString = "Due on "
-        let dayString = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-        for (i, day) in days.enumerated() {
-            finalString += "\(dayString[day.rawValue])"
-            if i != days.count - 1 {
-                finalString += ", "
-            }
-        }
-        return finalString
-    }
-    
     var body: some View {
         VStack(alignment: .leading) {
             
@@ -77,26 +59,11 @@ struct HabitRowLabels: View {
                  }
                  }
                  */
-                if let streakLabel = vm.streakLabel() {
+                if let streakLabel = vm.streakLabel(on: vm.currentDay) {
                     Text(streakLabel.label)
                         .subLabel(color: streakLabel.color)
                 }
             }
-            /*
-             switch vm.habit.frequency(on: vm.currentDay) {
-             case .timesPerDay(_):
-             EmptyView()
-             case .specificWeekdays(let days):
-             Text(specificWeekdaysLabel(days: days))
-             .subLabel(color: subGray)
-             case .timesPerWeek(_, resetDay: let resetDay):
-             let finalString = "Due by \(resetDay)"
-             Text(finalString)
-             .subLabel(color: subGray)
-             case .none:
-             EmptyView()
-             }
-             */
         }
     }
 }
