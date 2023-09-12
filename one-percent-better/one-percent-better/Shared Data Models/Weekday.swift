@@ -67,6 +67,18 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
         }
     }
     
+    var threeLetter: String {
+        switch self {
+        case .monday: return "Mon"
+        case .tuesday: return "Tue"
+        case .wednesday: return "Wed"
+        case .thursday: return "Tue"
+        case .friday: return "Fri"
+        case .saturday: return "Sat"
+        case .sunday: return "Sun"
+        }
+    }
+    
     // MARK: Identifiable
     
     var id: Int { self.rawValue }

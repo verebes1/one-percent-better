@@ -20,9 +20,10 @@ struct EditHabit: View {
     @Environment(\.managedObjectContext) var moc
     
     @EnvironmentObject var nav: HabitTabNavPath
-    
     @EnvironmentObject var vm: ProgressViewModel
     @EnvironmentObject var tm: TrackersViewModel
+    
+    @StateObject private var sowm = StartOfWeekModel()
     
     @State private var newHabitName: String
     
@@ -57,11 +58,14 @@ struct EditHabit: View {
             return Text("\(n) \(timesString) per day")
         case .specificWeekdays(let days):
             var finalString = ""
-            for (i, day) in days.enumerated() {
-                finalString += day.letter
-                if i != days.count - 1 {
+            for weekday in Weekday.orderedCases(sowm.startOfWeek) {
+                if days.contains(weekday) {
+                    finalString += weekday.threeLetter
                     finalString += ", "
                 }
+            }
+            if finalString.count >= 2 {
+                finalString = String(finalString.dropLast(2))
             }
             return Text(finalString)
         case .timesPerWeek(times: let n, resetDay: let resetDay):
