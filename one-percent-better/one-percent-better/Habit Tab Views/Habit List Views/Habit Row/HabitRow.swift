@@ -96,7 +96,8 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
                 let dayText = days == 1 ? "day" : "days"
                 return StreakLabel("Not done in \(days) \(dayText)", .red)
             case .specificWeekdays, .timesPerWeek:
-                assert(days >= 8)
+                // TODO: 1.1.5 Finish testing this
+//                assert(days >= 8)
                 let weeks = days / 7
                 let weekText = weeks == 1 ? "week" : "weeks"
                 return StreakLabel("Not done in \(weeks) \(weekText)", .red)

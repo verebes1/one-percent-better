@@ -40,7 +40,7 @@ struct SelectedDayView: View {
             }
             Text(weekday.letter)
                 .font(.system(size: 12))
-                .fontWeight(isToday && !isSelected ? .medium : .regular)
+                .fontWeight(.medium)
                 .foregroundColor(weekdayLabelColor)
                 .frame(maxWidth: .infinity)
         }
