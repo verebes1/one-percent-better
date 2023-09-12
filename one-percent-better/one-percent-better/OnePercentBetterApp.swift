@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct OnePercentBetterApp: App {
     
-    @StateObject private var coreDataManager = CoreDataManager.shared
+    private var coreDataManager = CoreDataManager.shared
     
     var body: some Scene {
         WindowGroup {
@@ -26,8 +26,7 @@ struct OnePercentBetterApp: App {
             } else {
                 // App behavior during testing
                 EmptyView()
-            }
-            
+            }   
         }
     }
 }
