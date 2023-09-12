@@ -30,7 +30,7 @@ class MigrationModel18to19: NSEntityMigrationPolicy {
    // FUNCTION($entityPolicy, "createFrequenciesForHabit:forHabit:" , $manager, $source)
    @objc func createFrequenciesForHabit(_ manager: NSMigrationManager, forHabit habit: NSManagedObject) -> NSOrderedSet {
       let context = manager.destinationContext
-      let habitName = habit.value(forKey: "name")
+       _ = habit.value(forKey: "name")
       
       guard let habitFrequency = habit.value(forKey: "frequency") as? [Int],
             let frequencyDates = habit.value(forKey: "frequencyDates") as? [Date],
