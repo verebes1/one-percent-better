@@ -31,12 +31,12 @@ class YearViewIndexer {
         year.isLeapYear ? 366 : 365
     }
     
-    init(year: Int, sowm: StartOfWeekModel) {
+    init(year: Int) {
         self.year = year
-        self.startOfWeek = sowm.startOfWeek
+        self.startOfWeek = StartOfWeekModel.shared.startOfWeek
         
         // Subscribe to start of week from StartOfWeekModel
-        sowm.$startOfWeek.sink { newWeekday in
+        StartOfWeekModel.shared.startOfWeekSubject.sink { newWeekday in
             self.startOfWeek = newWeekday
         }
         .store(in: &cancelBag)
@@ -53,7 +53,7 @@ class YearViewIndexer {
         
         switch (row, column) {
         case (let row, 0):
-            return .weekdayLabel(Weekday.weekday(for: row, startOfWeek: startOfWeek))
+            return .weekdayLabel(Weekday.weekday(for: row))
         default:
             // Adjust for weekday column
             let dayColumn = column - 1
@@ -98,13 +98,13 @@ class YearViewIndexer {
     /// - Returns: Integer describing which weekday relative to users start of week preference
     func januaryFirstOffset(year: Int) -> Int {
         let firstOfJan = Cal.date(from: DateComponents(calendar: Cal, year: year, month: 1, day: 1))!
-        return firstOfJan.weekdayIndex(startOfWeek)
+        return firstOfJan.weekdayIndex
     }
 }
 
 struct YearGrid: View {
     
-    @StateObject var sowm: StartOfWeekModel
+    @ObservedObject var sowm = StartOfWeekModel.shared
     @State private var squareSize: CGFloat = 0
     
     var opacities: [Double]
@@ -116,9 +116,7 @@ struct YearGrid: View {
     
     init(year: Int, opacities: [Double]) {
         self.opacities = opacities
-        let sowm = StartOfWeekModel()
-        self._sowm = StateObject(wrappedValue: sowm)
-        yearViewIndexer = YearViewIndexer(year: year, sowm: sowm)
+        yearViewIndexer = YearViewIndexer(year: year)
     }
     
     var body: some View {

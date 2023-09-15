@@ -25,16 +25,15 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     private var cancelBag: Set<AnyCancellable> = []
     
     init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext,
-         sdvm: SelectedDateViewModel,
-         sowm: StartOfWeekModel) {
+         sdvm: SelectedDateViewModel) {
         self.sdvm = sdvm
-        self.startOfWeek = sowm.startOfWeek
+        self.startOfWeek = StartOfWeekModel.shared.startOfWeek
         super.init(context)
         habits = fetchedObjects
         newDayUpdate(to: sdvm.selectedDate)
         
         // Subscribe to start of week from StartOfWeekModel
-        sowm.$startOfWeek.sink { newWeekday in
+        StartOfWeekModel.shared.startOfWeekSubject.sink { newWeekday in
             self.startOfWeek = newWeekday
             self.newDayUpdate(to: sdvm.selectedDate)
         }
@@ -76,10 +75,10 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     /// Get the week index for a particular day
     func weekIndex(for day: Date) -> Int {
         // Get the day which is aligned with the start of the week relative to the given day
-        let dayStartOfWeek = Cal.add(days: -day.weekdayIndex(startOfWeek), to: day)
+        let dayStartOfWeek = Cal.add(days: -day.weekdayIndex, to: day)
         
         // Get the day which is aligned with the start of the week relative to the earliest start date
-        let earliestStartOfWeek = Cal.add(days: -earliestStartDate.weekdayIndex(startOfWeek), to: earliestStartDate)
+        let earliestStartOfWeek = Cal.add(days: -earliestStartDate.weekdayIndex, to: earliestStartDate)
         
         // Calculate the difference
         let numDays = Cal.numberOfDays(from: earliestStartOfWeek, to: dayStartOfWeek)
@@ -97,7 +96,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     /// Given a week index and a weekday index, calculate an offset to a reference day
     /// - Returns: Integer offset from reference day. The day before the reference day is -1, the day of the reference day is 0, the day after the reference day is 1, etc.
     func dayOffset(weekIndex: Int, weekdayIndex: Int, from referenceDay: Date = Date()) -> Int {
-        let numDaysBack = weekdayIndex - referenceDay.weekdayIndex(startOfWeek)
+        let numDaysBack = weekdayIndex - referenceDay.weekdayIndex
         let numWeeksBack = weekIndex - self.weekIndex(for: referenceDay)
         return (numWeeksBack * 7) + numDaysBack
     }
@@ -118,7 +117,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     
     /// If the weekday of the currently selected week is today or not
     func isToday(_ weekday: Weekday) -> Bool {
-        let dayIsSelectedWeekday = Date().weekdayIndex(startOfWeek) == weekday.index(startOfWeek)
+        let dayIsSelectedWeekday = Date().weekdayIndex == weekday.index
         let weekIsSelectedWeek = selectedWeekIndex == totalNumWeeks
         return dayIsSelectedWeekday && weekIsSelectedWeek
     }
@@ -165,7 +164,7 @@ struct HabitsHeaderView: View {
     @Environment(\.managedObjectContext) var moc
     @EnvironmentObject var sdvm: SelectedDateViewModel
     @StateObject var hwvm: HeaderWeekViewModel
-    @StateObject var sowm = StartOfWeekModel()
+    @ObservedObject var sowm = StartOfWeekModel.shared
     
     let ringSize: CGFloat = 27
     
@@ -174,21 +173,19 @@ struct HabitsHeaderView: View {
     }
     
     init(sdvm: SelectedDateViewModel) {
-        let sowm = StartOfWeekModel()
-        self._sowm = StateObject(wrappedValue: sowm)
-        self._hwvm = StateObject(wrappedValue: HeaderWeekViewModel(sdvm: sdvm, sowm: sowm))
+        self._hwvm = StateObject(wrappedValue: HeaderWeekViewModel(sdvm: sdvm))
     }
     
     var body: some View {
         let _ = Self.printChanges(self)
         VStack(spacing: 0) {
             HStack {
-                ForEach(Weekday.orderedCases(startOfWeek)) { weekday in
+                ForEach(Weekday.orderedCases) { weekday in
                     SelectedDayView(weekday: weekday,
                                     selectedWeekday: Weekday(sdvm.selectedDate),
                                     isToday: hwvm.isToday(weekday))
                     .onTapGesture {
-                        hwvm.selectIfPossible(weekIndex: hwvm.selectedWeekIndex, weekdayIndex: weekday.index(startOfWeek))
+                        hwvm.selectIfPossible(weekIndex: hwvm.selectedWeekIndex, weekdayIndex: weekday.index)
                     }
                 }
             }
@@ -197,15 +194,15 @@ struct HabitsHeaderView: View {
             TabView(selection: $hwvm.selectedWeekIndex) {
                 ForEach(0 ... hwvm.totalNumWeeks, id: \.self) { weekIndex in
                     HStack {
-                        ForEach(Weekday.orderedCases(startOfWeek)) { weekday in
-                            let day = hwvm.date(weekIndex: weekIndex, weekdayIndex: weekday.index(startOfWeek))
+                        ForEach(Weekday.orderedCases) { weekday in
+                            let day = hwvm.date(weekIndex: weekIndex, weekdayIndex: weekday.index)
                             RingView(percent: hwvm.habits.percentCompletion(on: day),
                                      size: ringSize,
                                      withText: true)
                             .font(.system(size: 14))
                             .frame(maxWidth: .infinity)
                             .onTapGesture {
-                                hwvm.selectIfPossible(weekIndex: weekIndex, weekdayIndex: weekday.index(startOfWeek))
+                                hwvm.selectIfPossible(weekIndex: weekIndex, weekdayIndex: weekday.index)
                             }
                             .contentShape(Rectangle())
                             .opacity(hwvm.canSelect(day: day) ? 1 : 0.3)
@@ -217,7 +214,7 @@ struct HabitsHeaderView: View {
             .frame(height: ringSize + 22)
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onChange(of: hwvm.selectedWeekIndex) { newWeekIndex in
-                hwvm.selectNearest(weekIndex: newWeekIndex, weekdayIndex: sdvm.selectedDate.weekdayIndex(startOfWeek))
+                hwvm.selectNearest(weekIndex: newWeekIndex, weekdayIndex: sdvm.selectedDate.weekdayIndex)
             }
         }
         .onAppear {

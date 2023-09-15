@@ -13,7 +13,7 @@ struct CalendarView: View {
     /// Object used to calculate an array of days for each month
     @StateObject var calendarModel: CalendarModel
     
-    @StateObject var sowm: StartOfWeekModel
+    @ObservedObject var sowm = StartOfWeekModel.shared
     
     let habit: Habit
     
@@ -21,9 +21,7 @@ struct CalendarView: View {
     
     init(habit: Habit) {
         self.habit = habit
-        let sowm = StartOfWeekModel()
-        self._sowm = StateObject(wrappedValue: sowm)
-        self._calendarModel = StateObject(wrappedValue: CalendarModel(habit: habit, sowm: sowm))
+        self._calendarModel = StateObject(wrappedValue: CalendarModel(habit: habit))
     }
     
     var body: some View {
@@ -45,7 +43,7 @@ struct CalendarView: View {
             .padding(.bottom, 5)
             
             LazyVGrid(columns: columns) {
-                ForEach(Weekday.orderedCases(sowm.startOfWeek)) { weekday in
+                ForEach(Weekday.orderedCases) { weekday in
                     Text(weekday.letter)
                         .fontWeight(.regular)
                         .foregroundColor(.secondary)

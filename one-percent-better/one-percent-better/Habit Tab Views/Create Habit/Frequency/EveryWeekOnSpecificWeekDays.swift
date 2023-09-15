@@ -19,7 +19,7 @@ struct EveryWeekOnSpecificWeekDays: View {
         VStack {
             Text("Every week on")
             HStack(spacing: 3) {
-                ForEach(Weekday.orderedCases(sowm.startOfWeek)) { weekday in
+                ForEach(Weekday.orderedCases) { weekday in
                     WeekDayButton(weekday: weekday, selectedWeekdays: $selectedWeekdays)
                 }
             }

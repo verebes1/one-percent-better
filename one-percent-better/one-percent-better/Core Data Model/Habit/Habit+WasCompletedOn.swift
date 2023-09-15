@@ -42,7 +42,7 @@ extension Habit {
         case .specificWeekdays(_):
             return timesCompleted(on: date) >= 1 ? 1 : 0
         case .timesPerWeek(times: let n, resetDay: let resetDay):
-            if Weekday(date) == resetDay {
+            if Weekday(Cal.add(days: 1, to: date)) == resetDay {
                 let ans = Double(timesCompletedThisWeek(on: date)) / Double(n)
                 return min(1, ans)
             } else {
@@ -67,15 +67,18 @@ extension Habit {
     /// - Parameter freq: The frequency to check against
     /// - Parameter upTo: Calculate only up to this date
     /// - Returns: Number of times completed that week
-    func timesCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency, upTo: Bool = false) -> Int {
+    func timesCompletedThisWeek(on date: Date,
+                                withFrequency freq: HabitFrequency,
+                                upTo: Bool = false) -> Int {
         var resetDay: Weekday
         switch freq {
         case .timesPerDay:
             return 0
         case .specificWeekdays:
-            resetDay = Weekday.sunday
+            resetDay = StartOfWeekModel.shared.startOfWeek
         case .timesPerWeek(_, let tpwResetDay):
-            resetDay = tpwResetDay
+            let oneBeforeRaw = (tpwResetDay.rawValue + 6) % 7
+            resetDay = Weekday(rawValue: oneBeforeRaw)!
         }
         
         var timesCompletedThisWeek = 0

@@ -85,14 +85,14 @@ class CalendarModel: ObservableObject {
     
     private var cancelBag: Set<AnyCancellable> = []
     
-    init(habit: Habit, sowm: StartOfWeekModel) {
+    init(habit: Habit) {
         self.habit = habit
         self.baseDate = Date()
-        self.startOfWeek = sowm.startOfWeek
+        self.startOfWeek = StartOfWeekModel.shared.startOfWeek
         self.currentPage = numMonthsSinceStart - 1
         
         // Subscribe to start of week from StartOfWeekModel
-        sowm.$startOfWeek.sink { newWeekday in
+        StartOfWeekModel.shared.startOfWeekSubject.sink { newWeekday in
             self.startOfWeek = newWeekday
         }
         .store(in: &cancelBag)
@@ -113,7 +113,7 @@ class CalendarModel: ObservableObject {
         }
         
         // Needs to be 1 ... 7 instead of 0 ... 6
-        let firstDayWeekday = Weekday(firstDayOfMonth).index(startOfWeek) + 1
+        let firstDayWeekday = Weekday(firstDayOfMonth).index + 1
         
         return MonthMetadata(
             numberOfDays: numberOfDaysInMonth,
@@ -214,7 +214,7 @@ class CalendarModel: ObservableObject {
         
         // "Fill" in the days before the first day, then divide by 7
         // to get the number of weeks in this month based on start of week preference
-        let additionalDays = Weekday(firstDay).index(startOfWeek)
+        let additionalDays = Weekday(firstDay).index
         
         let total = numDays + additionalDays
         let numWeeks = Int((Double(total) / 7).rounded(.awayFromZero))

@@ -38,7 +38,7 @@ struct XTimesPerWeekBeginningEveryY: View {
             HStack(spacing: 7) {
                 Text("beginning every")
                 Menu {
-                    ForEach(Weekday.orderedCases(sowm.startOfWeek)) { weekday in
+                    ForEach(Weekday.orderedCases) { weekday in
                         MenuItemWithCheckmark(value: weekday,
                                               selection: $beginningDay)
                     }

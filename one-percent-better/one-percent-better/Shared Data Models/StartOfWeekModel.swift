@@ -7,11 +7,27 @@
 
 import Foundation
 import CoreData
+import Combine
 
 /// A model for observing changes in the start of the week setting
 class StartOfWeekModel: ConditionalManagedObjectFetcher<Settings> {
     
-    @Published var startOfWeek: Weekday = .monday
+    static let shared = StartOfWeekModel(CoreDataManager.shared.mainContext)
+    
+    private var _startOfWeek: Weekday = .monday
+    var startOfWeek: Weekday {
+        get {
+            return _startOfWeek
+        }
+        set {
+            _startOfWeek = newValue
+            startOfWeekSubject.send(newValue)
+        }
+    }
+    
+    /// Use a passthrough subject so that subscribers are notified AFTER the startOfWeek value changes,
+    /// so that we can use the singleton to get the most recent update
+    let startOfWeekSubject = PassthroughSubject<Weekday, Never>()
     
     init(_ context: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
         super.init(context)

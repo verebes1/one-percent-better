@@ -24,13 +24,14 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     }
     
     /// The day index, adjusted for the user's start of week preference
-    func index(_ startOfWeek: Weekday) -> Int {
-        Self.positiveDifference(from: startOfWeek, to: self)
+    var index: Int {
+        print("Start of week: \(StartOfWeekModel.shared.startOfWeek)")
+        return Self.positiveDifference(from: StartOfWeekModel.shared.startOfWeek, to: self)
     }
     
     /// The weekday given an index, adjusted for the user's preferred start of the week
-    static func weekday(for index: Int, startOfWeek: Weekday) -> Weekday {
-        let startRawValue = startOfWeek.rawValue
+    static func weekday(for index: Int) -> Weekday {
+        let startRawValue = StartOfWeekModel.shared.startOfWeek.rawValue
         let weekdayRawValue = (startRawValue + index) % 7
         return Weekday(rawValue: weekdayRawValue)!
     }
@@ -85,8 +86,8 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     
     // MARK: Case Iterable
     
-    static func orderedCases(_ startOfWeek: Weekday) -> [Weekday] {
-        return Array(Weekday.allCases[startOfWeek.rawValue...]) +
-        Array(Weekday.allCases[..<startOfWeek.rawValue])
+    static var orderedCases: [Weekday] {
+        return Array(Weekday.allCases[StartOfWeekModel.shared.startOfWeek.rawValue...]) +
+        Array(Weekday.allCases[..<StartOfWeekModel.shared.startOfWeek.rawValue])
     }
 }

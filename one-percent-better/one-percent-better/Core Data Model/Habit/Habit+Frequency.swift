@@ -189,8 +189,9 @@ extension Habit {
         case .specificWeekdays(let days):
             return days.contains(Weekday(date))
         case .timesPerWeek(_, resetDay: let resetDay):
-            // Habit due all at once on the reset day, otherwise it would mess with daily percent calculations
-            return Weekday(date) == resetDay
+            // Habit due all at once at midnight on the reset day, i.e. on the day before the reset day,
+            // otherwise it would mess with daily percent calculations
+            return Weekday(Cal.add(days: 1, to: date)) == resetDay
         }
     }
 }

@@ -16,7 +16,7 @@ struct EditHabitFrequency: View {
     
     init(habit: Habit) {
         let initialFrequency = habit.frequency(on: Date()) ?? .timesPerDay(1)
-        self._fssm = StateObject(wrappedValue: FrequencySelectionStackModel(selection: initialFrequency, sowm: StartOfWeekModel()))
+        self._fssm = StateObject(wrappedValue: FrequencySelectionStackModel(selection: initialFrequency))
     }
     
     var body: some View {

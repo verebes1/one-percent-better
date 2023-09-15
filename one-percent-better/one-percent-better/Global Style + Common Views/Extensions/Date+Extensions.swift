@@ -34,8 +34,8 @@ extension Date {
         Cal.startOfDay(for: self)
     }
     
-    func weekdayIndex(_ startOfWeek: Weekday) -> Int {
-        Weekday(self).index(startOfWeek)
+    var weekdayIndex: Int {
+        Weekday(self).index
     }
 }
 

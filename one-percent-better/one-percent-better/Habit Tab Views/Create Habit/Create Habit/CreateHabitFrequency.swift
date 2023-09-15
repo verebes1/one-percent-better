@@ -25,7 +25,7 @@ struct CreateHabitFrequency: View {
     
     var habit: Habit
     
-    @StateObject private var fssm = FrequencySelectionStackModel(selection: .timesPerDay(1), sowm: StartOfWeekModel())
+    @StateObject private var fssm = FrequencySelectionStackModel(selection: .timesPerDay(1))
     
     @State private var isGoingToNotifications = false
     

@@ -24,9 +24,9 @@ class FrequencySelectionStackModel: ObservableObject {
     
     private var cancelBag: Set<AnyCancellable> = []
     
-    init(selection: HabitFrequency, sowm: StartOfWeekModel) {
+    init(selection: HabitFrequency) {
         self.selection = selection
-        resetDay = sowm.startOfWeek
+        resetDay = StartOfWeekModel.shared.startOfWeek
         
         // Update selected card to initial value
         switch selection {
@@ -68,6 +68,7 @@ class FrequencySelectionStackModel: ObservableObject {
             }
             .store(in: &cancelBag)
         
+        // Times per week reset day
         $resetDay
             .dropFirst()
             .sink { resetDay in
@@ -96,8 +97,7 @@ struct FrequencySelectionStack: View {
     
     /// Model for the frequency selection
     @EnvironmentObject var fssm: FrequencySelectionStackModel
-    
-    @StateObject var sowm = StartOfWeekModel()
+    @ObservedObject var sowm = StartOfWeekModel.shared
     
     var body: some View {
         VStack(spacing: 20) {
@@ -139,7 +139,7 @@ struct SelectableFrequencyCard<Content>: View where Content: View {
 }
 
 struct FrequencySelectionStack_Previewer: View {
-    @StateObject private var fssm = FrequencySelectionStackModel(selection: .timesPerDay(1), sowm: StartOfWeekModel())
+    @StateObject private var fssm = FrequencySelectionStackModel(selection: .timesPerDay(1))
     var body: some View {
         VStack {
             Background {
