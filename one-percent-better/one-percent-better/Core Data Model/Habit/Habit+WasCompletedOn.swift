@@ -70,25 +70,20 @@ extension Habit {
     func timesCompletedThisWeek(on date: Date,
                                 withFrequency freq: HabitFrequency,
                                 upTo: Bool = false) -> Int {
-        var resetDay: Weekday
+        var resetWeekday: Weekday
         switch freq {
         case .timesPerDay:
             return 0
         case .specificWeekdays:
-            resetDay = StartOfWeekModel.shared.startOfWeek
+            resetWeekday = StartOfWeekModel.shared.startOfWeek
         case .timesPerWeek(_, let tpwResetDay):
-            let oneBeforeRaw = (tpwResetDay.rawValue + 6) % 7
-            resetDay = Weekday(rawValue: oneBeforeRaw)!
+            resetWeekday = tpwResetDay
         }
+        
+        // Go back to last reset day
+        let startDay = Weekday.mostRecentDate(on: resetWeekday, before: date)
         
         var timesCompletedThisWeek = 0
-        
-        var startOffset = Weekday.positiveDifference(from: resetDay, to: Weekday(date)) - 1
-        if startOffset < 0 {
-            startOffset += 7
-        }
-        let startDay = Cal.add(days: -startOffset, to: date)
-        
         for i in 0 ..< 7 {
             let day = Cal.add(days: i, to: startDay)
             timesCompletedThisWeek += timesCompleted(on: day)
@@ -99,6 +94,9 @@ extension Habit {
         return timesCompletedThisWeek
     }
     
+    /// If this habit was completed on the week containing this day
+    /// - Parameter date: The date in the week
+    /// - Returns: True if completed this week, false if not
     func wasCompletedThisWeek(on date: Date) -> Bool {
         guard let freq = frequency(on: date) else { return false }
         return wasCompletedThisWeek(on: date, withFrequency: freq)
@@ -152,6 +150,8 @@ extension Habit {
         moc.assertSave()
     }
     
+    /// Mark the habit as not completed on this date
+    /// - Parameter date: The date
     func markNotCompleted(on date: Date) {
         // Mark habit as not completed on this day
         if let i = daysCompleted.sameDayBinarySearch(for: date) {
@@ -173,6 +173,11 @@ extension Habit {
         moc.assertSave()
     }
     
+    /// Toggle the habit completion on this date
+    /// If this habit should be completed multiples times
+    /// per day, then this will increase it by 1, similar to tapping
+    /// on the completion circle in the UI
+    /// - Parameter day: The date to toggle
     func toggle(on day: Date) {
         if wasCompleted(on: day) {
             markNotCompleted(on: day)

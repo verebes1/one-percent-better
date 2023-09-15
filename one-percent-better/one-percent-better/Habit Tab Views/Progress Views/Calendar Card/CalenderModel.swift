@@ -98,7 +98,6 @@ class CalendarModel: ObservableObject {
         .store(in: &cancelBag)
     }
     
-    
     // MARK: - Day Generation
     func monthMetadata(for baseDate: Date) throws -> MonthMetadata {
         guard

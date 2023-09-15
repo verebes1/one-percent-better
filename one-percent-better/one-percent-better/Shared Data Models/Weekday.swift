@@ -16,6 +16,11 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     case saturday
     case sunday
     
+    /// The user's preference for the start of the week
+    static var startOfWeek: Self {
+        StartOfWeekModel.shared.startOfWeek
+    }
+    
     /// Calculate the positive difference between two weekdays
     /// - Parameter a: First weekday
     /// - Parameter b: Second weekday
@@ -23,15 +28,25 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
         return (b.rawValue - a.rawValue + 7) % 7
     }
     
+    
+    /// Get the date of the most recent weekday which occured strictly before a date
+    /// - Parameters:
+    ///   - weekday: The desired weekday
+    ///   - date: The date
+    /// - Returns: The most recent date which has that weekday before the date
+    static func mostRecentDate(on weekday: Weekday, before date: Date) -> Date {
+        let diff = positiveDifference(from: weekday, to: Weekday(date))
+        return Cal.add(days: -diff, to: date)
+    }
+    
     /// The day index, adjusted for the user's start of week preference
     var index: Int {
-        print("Start of week: \(StartOfWeekModel.shared.startOfWeek)")
-        return Self.positiveDifference(from: StartOfWeekModel.shared.startOfWeek, to: self)
+        Self.positiveDifference(from: Weekday.startOfWeek, to: self)
     }
     
     /// The weekday given an index, adjusted for the user's preferred start of the week
     static func weekday(for index: Int) -> Weekday {
-        let startRawValue = StartOfWeekModel.shared.startOfWeek.rawValue
+        let startRawValue = startOfWeek.rawValue
         let weekdayRawValue = (startRawValue + index) % 7
         return Weekday(rawValue: weekdayRawValue)!
     }
@@ -87,7 +102,7 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
     // MARK: Case Iterable
     
     static var orderedCases: [Weekday] {
-        return Array(Weekday.allCases[StartOfWeekModel.shared.startOfWeek.rawValue...]) +
-        Array(Weekday.allCases[..<StartOfWeekModel.shared.startOfWeek.rawValue])
+        return Array(Weekday.allCases[startOfWeek.rawValue...]) +
+        Array(Weekday.allCases[..<startOfWeek.rawValue])
     }
 }
