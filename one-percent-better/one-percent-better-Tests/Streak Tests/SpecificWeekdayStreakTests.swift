@@ -239,6 +239,8 @@ final class SpecificWeekdayStreakTests: XCTestCase {
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-3-2023")!)!.label,  "1 day streak")
     }
     
+    // TODO: 1.1.5 Test due 3 times a week, but only complete it once or twice and week and test "Not done in X weeks" label
+    
 //    func testSpecifificWeekdayStreakLabel2() {
 //        let today = Date()
 //        let threeDaysAgo = Cal.add(days: -3)
