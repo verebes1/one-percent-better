@@ -81,7 +81,7 @@ extension Habit {
         }
         
         // Go back to last reset day
-        let startDay = Cal.mostRecent(weekday: resetWeekday, before: date)
+        let startDay = Cal.mostRecent(weekday: resetWeekday, before: date, includingDate: true)
         
         var timesCompletedThisWeek = 0
         for i in 0 ..< 7 {
@@ -107,9 +107,9 @@ extension Habit {
     /// - Parameter date: The day of the week to check against
     /// - Parameter freq: The frequency to check against
     /// - Returns: Whether or not they've completed the habit that week
-    func wasCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency) -> Bool {
+    func wasCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency, upTo: Bool = false) -> Bool {
         guard case .timesPerWeek(let times, _) = freq else { return false }
-        return timesCompletedThisWeek(on: date, withFrequency: freq) >= times
+        return timesCompletedThisWeek(on: date, withFrequency: freq, upTo: upTo) >= times
     }
     
     /// Mark habit as completed for a date
@@ -219,12 +219,11 @@ extension Habit {
                     }
                 }
             case .timesPerWeek(_, resetDay: let resetDay):
-                if !wasCompletedThisWeek(on: date, withFrequency: freq) {
-                    let lastResetDay = Cal.mostRecent(weekday: resetDay, before: date)
-                    let diff = Cal.numberOfDays(from: lastResetDay, to: date)
-                    if diff <= numDaysToCheck {
-                        goBackStart = diff
-                    }
+                if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
+                    // Go back to the day before the last reset day
+                    let lastResetDay = Cal.mostRecent(weekday: resetDay, before: date, includingDate: true)
+                    var diff = Cal.numberOfDays(from: lastResetDay, to: date) + 1
+                    goBackStart = min(diff, numDaysToCheck)
                 }
             }
         }
@@ -266,7 +265,7 @@ extension Habit {
                     return streak
                 }
                 
-                if isDue(on: Cal.add(days: -1, to: day), withFrequency: freq) {
+                if isDue(on: Cal.add(days: -2, to: day), withFrequency: freq) {
                     dayBeforeNewWeek = true
                 }
             }

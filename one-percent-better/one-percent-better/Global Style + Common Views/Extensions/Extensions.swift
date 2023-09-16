@@ -64,10 +64,11 @@ extension Calendar {
     /// - Parameters:
     ///   - weekday: The desired weekday
     ///   - date: Going backward from this date
+    ///   - includingDate: Whether or not to include date in the search backward
     /// - Returns: The most recent date which matches this weekday before the date
-    func mostRecent(weekday: Weekday, before date: Date = Date()) -> Date {
+    func mostRecent(weekday: Weekday, before date: Date = Date(), includingDate: Bool = false) -> Date {
         var diff = Weekday.positiveDifference(from: weekday, to: Weekday(date))
-        if diff == 0 {
+        if diff == 0 && !includingDate {
             diff = 7
         }
         return Cal.add(days: -diff, to: date)
