@@ -81,7 +81,7 @@ extension Habit {
         }
         
         // Go back to last reset day
-        let startDay = Weekday.mostRecentDate(on: resetWeekday, before: date)
+        let startDay = Cal.mostRecent(weekday: resetWeekday, before: date)
         
         var timesCompletedThisWeek = 0
         for i in 0 ..< 7 {
@@ -220,7 +220,7 @@ extension Habit {
                 }
             case .timesPerWeek(_, resetDay: let resetDay):
                 if !wasCompletedThisWeek(on: date, withFrequency: freq) {
-                    let lastResetDay = Cal.getLast(weekday: resetDay, from: date)
+                    let lastResetDay = Cal.mostRecent(weekday: resetDay, before: date)
                     let diff = Cal.numberOfDays(from: lastResetDay, to: date)
                     if diff <= numDaysToCheck {
                         goBackStart = diff

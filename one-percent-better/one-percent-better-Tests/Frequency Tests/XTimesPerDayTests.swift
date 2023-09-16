@@ -137,7 +137,7 @@ final class XTimesPerDayTests: XCTestCase {
    // MARK: Improvement Score Tests
    
    func testImprovementScore() {
-      let startDate = Cal.getLast(weekday: Weekday(Date()))
+      let startDate = Cal.mostRecent(weekday: Weekday(Date()))
       habit.updateStartDate(to: startDate)
       habit.updateFrequency(to: .timesPerDay(2), on: startDate)
       

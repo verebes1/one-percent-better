@@ -60,14 +60,17 @@ extension Calendar {
         Cal.date(byAdding: .year, value: i, to: date)!
     }
     
-    /// Get the last day that matches this weekday, going backward from date
-    /// - Parameter weekday: The desired weekday
-    /// - Parameter date: Going backward from this date
-    /// - Returns: Date which is on that weekday
-    func getLast(weekday: Weekday, from date: Date = Date()) -> Date {
-        let diff = Weekday.positiveDifference(from: weekday, to: Weekday(date))
-        let date = Cal.add(days: -diff, to: date)
-        return date
+    /// Get the most recent day which matches this weekday, strictly before a date
+    /// - Parameters:
+    ///   - weekday: The desired weekday
+    ///   - date: Going backward from this date
+    /// - Returns: The most recent date which matches this weekday before the date
+    func mostRecent(weekday: Weekday, before date: Date = Date()) -> Date {
+        var diff = Weekday.positiveDifference(from: weekday, to: Weekday(date))
+        if diff == 0 {
+            diff = 7
+        }
+        return Cal.add(days: -diff, to: date)
     }
     
     func date(time: DateComponents, dayMonthYear: Date) -> Date {

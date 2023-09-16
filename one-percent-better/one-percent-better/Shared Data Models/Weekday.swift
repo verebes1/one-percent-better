@@ -28,17 +28,6 @@ enum Weekday: Int, CustomStringConvertible, CaseIterable, Identifiable {
         return (b.rawValue - a.rawValue + 7) % 7
     }
     
-    
-    /// Get the date of the most recent weekday which occured strictly before a date
-    /// - Parameters:
-    ///   - weekday: The desired weekday
-    ///   - date: The date
-    /// - Returns: The most recent date which has that weekday before the date
-    static func mostRecentDate(on weekday: Weekday, before date: Date) -> Date {
-        let diff = positiveDifference(from: weekday, to: Weekday(date))
-        return Cal.add(days: -diff, to: date)
-    }
-    
     /// The day index, adjusted for the user's start of week preference
     var index: Int {
         Self.positiveDifference(from: Weekday.startOfWeek, to: self)

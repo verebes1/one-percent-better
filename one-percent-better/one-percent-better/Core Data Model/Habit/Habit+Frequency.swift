@@ -43,28 +43,6 @@ enum HabitFrequency: Equatable, Hashable {
     func equalType(to hf: HabitFrequency) -> Bool {
         return self.valueNS == hf.valueNS
     }
-    
-    /// A readable description of the frequency
-    /// For ex: "3 times a day" or "every Monday, Wednesday, Friday"
-    var description: String {
-        switch self {
-        case .timesPerDay(let n):
-            let times = n > 1 ? "times" : "time"
-            return "\(n) \(times) per day"
-        case .specificWeekdays(let weekdays):
-            var result = "every "
-            for (index, weekday) in weekdays.enumerated() {
-                result += weekday.description
-                if index != weekdays.count - 1 {
-                    result += ", "
-                }
-            }
-            return result
-        case .timesPerWeek(let n, let resetDay):
-            let times = n > 1 ? "times" : "time"
-            return "\(n) \(times) per week beginning every \(resetDay.description)"
-        }
-    }
 }
 
 extension Habit {

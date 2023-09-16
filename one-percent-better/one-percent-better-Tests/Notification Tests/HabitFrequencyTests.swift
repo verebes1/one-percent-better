@@ -10,19 +10,6 @@ import XCTest
 
 final class HabitFrequencyTests: XCTestCase {
    
-   func testDescription() throws {
-      XCTAssertEqual(HabitFrequency.timesPerDay(1).description, "1 time per day")
-      XCTAssertEqual(HabitFrequency.timesPerDay(2).description, "2 times per day")
-      XCTAssertEqual(HabitFrequency.timesPerDay(3).description, "3 times per day")
-      
-      XCTAssertEqual(HabitFrequency.specificWeekdays([.monday, .tuesday, .wednesday]).description, "every Monday, Tuesday, Wednesday")
-      XCTAssertEqual(HabitFrequency.specificWeekdays([.sunday, .thursday, .saturday]).description, "every Sunday, Thursday, Saturday")
-      XCTAssertEqual(HabitFrequency.specificWeekdays([.friday]).description, "every Friday")
-      
-      XCTAssertEqual(HabitFrequency.timesPerWeek(times: 1, resetDay: .sunday).description, "1 time per week beginning every Sunday")
-      XCTAssertEqual(HabitFrequency.timesPerWeek(times: 3, resetDay: .monday).description, "3 times per week beginning every Monday")
-   }
-   
    func testEqualType() throws {
       XCTAssertTrue(HabitFrequency.timesPerDay(1).equalType(to: HabitFrequency.timesPerDay(2)))
       XCTAssertTrue(HabitFrequency.specificWeekdays([.monday, .tuesday]).equalType(to: HabitFrequency.specificWeekdays([.friday])))
