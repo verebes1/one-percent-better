@@ -83,9 +83,9 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
         if streak > 0 {
             var timePeriodText: String
             switch freq {
-            case .timesPerDay, .specificWeekdays:
+            case .timesPerDay:
                 timePeriodText = "day"
-            case .timesPerWeek:
+            case .specificWeekdays, .timesPerWeek:
                 timePeriodText = "week"
             }
             return StreakLabel("\(streak) \(timePeriodText) streak", .green)
@@ -96,11 +96,13 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
                 let dayText = days == 1 ? "day" : "days"
                 return StreakLabel("Not done in \(days) \(dayText)", .red)
             case .specificWeekdays, .timesPerWeek:
-                // TODO: 1.1.5 Finish testing this
-//                assert(days >= 8)
-                let weeks = days / 7
-                let weekText = weeks == 1 ? "week" : "weeks"
-                return StreakLabel("Not done in \(weeks) \(weekText)", .red)
+                if days >= 7 {
+                    let weeks = days / 7
+                    let weekText = weeks == 1 ? "week" : "weeks"
+                    return StreakLabel("Not done in \(weeks) \(weekText)", .red)
+                } else {
+                    return StreakLabel("No streak", StreakLabel.gray)
+                }
             }
         } else {
             return StreakLabel("No streak", StreakLabel.gray)

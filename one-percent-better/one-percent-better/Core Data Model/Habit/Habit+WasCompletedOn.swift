@@ -108,8 +108,15 @@ extension Habit {
     /// - Parameter freq: The frequency to check against
     /// - Returns: Whether or not they've completed the habit that week
     func wasCompletedThisWeek(on date: Date, withFrequency freq: HabitFrequency, upTo: Bool = false) -> Bool {
-        guard case .timesPerWeek(let times, _) = freq else { return false }
-        return timesCompletedThisWeek(on: date, withFrequency: freq, upTo: upTo) >= times
+        switch freq {
+        case .timesPerDay:
+            return false
+        case .specificWeekdays(let set):
+            let times = set.count
+            return timesCompletedThisWeek(on: date, withFrequency: freq, upTo: upTo) >= times
+        case .timesPerWeek(let times, _):
+            return timesCompletedThisWeek(on: date, withFrequency: freq, upTo: upTo) >= times
+        }
     }
     
     /// Mark habit as completed for a date
@@ -209,15 +216,21 @@ extension Habit {
                     goBackStart = 1
                 }
             case .specificWeekdays:
-                if !wasCompleted(on: date, withFrequency: freq) {
-                    goBackStart += 1
-                    var curDate = Cal.add(days: -1, to: date)
-                    while !wasCompleted(on: curDate, withFrequency: freq) && !isDue(on: curDate, withFrequency: freq) {
-                        if Cal.isDate(curDate, inSameDayAs: startDate) { return 0 }
-                        goBackStart += 1
-                        curDate = Cal.add(days: -1, to: curDate)
-                    }
+                if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
+                    // Go back to the day before the last reset day
+                    let lastResetDay = Cal.mostRecent(weekday: StartOfWeekModel.shared.startOfWeek, before: date, includingDate: true)
+                    var diff = Cal.numberOfDays(from: lastResetDay, to: date) + 1
+                    goBackStart = min(diff, numDaysToCheck)
                 }
+//                if !wasCompleted(on: date, withFrequency: freq) {
+//                    goBackStart += 1
+//                    var curDate = Cal.add(days: -1, to: date)
+//                    while !wasCompleted(on: curDate, withFrequency: freq) && !isDue(on: curDate, withFrequency: freq) {
+//                        if Cal.isDate(curDate, inSameDayAs: startDate) { return 0 }
+//                        goBackStart += 1
+//                        curDate = Cal.add(days: -1, to: curDate)
+//                    }
+//                }
             case .timesPerWeek(_, resetDay: let resetDay):
                 if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
                     // Go back to the day before the last reset day
@@ -243,20 +256,39 @@ extension Habit {
                     return streak
                 }
             case .specificWeekdays:
-                if isDue(on: day, withFrequency: freq) || wasCompleted(on: day, withFrequency: freq) {
-                    if wasCompleted(on: day, withFrequency: freq) {
-                        streak += 1
-                    } else {
-                        return streak
-                    }
+                // Reset for new week
+                if day.weekdayIndex == StartOfWeekModel.shared.startOfWeek.index && dayBeforeNewWeek {
+                    alreadyCompletedThisWeek = false
+                    dayBeforeNewWeek = false
                 }
+                
+                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
+                    if !alreadyCompletedThisWeek {
+                        streak += 1
+                        alreadyCompletedThisWeek = true
+                    }
+                } else {
+                    return streak
+                }
+                
+                // Day before start of week
+                if Cal.add(days: -1, to: day).weekdayIndex == StartOfWeekModel.shared.startOfWeek.index {
+                    dayBeforeNewWeek = true
+                }
+//                if isDue(on: day, withFrequency: freq) || wasCompleted(on: day, withFrequency: freq) {
+//                    if wasCompleted(on: day, withFrequency: freq) {
+//                        streak += 1
+//                    } else {
+//                        return streak
+//                    }
+//                }
             case .timesPerWeek:
                 if isDue(on: day, withFrequency: freq) && dayBeforeNewWeek {
                     alreadyCompletedThisWeek = false
                     dayBeforeNewWeek = false
                 }
                 
-                if wasCompletedThisWeek(on: day, withFrequency: freq) {
+                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
                     if !alreadyCompletedThisWeek {
                         streak += 1
                         alreadyCompletedThisWeek = true
@@ -292,6 +324,36 @@ extension Habit {
         var difference = 0
         var day = day
         while !wasCompleted(on: day) {
+            difference += 1
+            day = Cal.add(days: -1, to: day)
+            guard started(before: day) else {
+                break
+            }
+        }
+        return difference
+    }
+    
+    /// How many weeks since the last time this habit was completed
+    /// - Parameter on: The date to check against
+    func notDoneInWeeks(on day: Date) -> Int? {
+        // TODO: 1.1.5
+        
+        // Ensure habit has been started
+        guard started(before: day) else {
+            return nil
+        }
+        
+        // Ensure habit has been completed at least once
+        guard !daysCompleted.isEmpty else {
+            return nil
+        }
+        
+        guard !Cal.isDate(day, inSameDayAs: startDate) else {
+            return wasCompletedThisWeek(on: day) ? 1 : nil
+        }
+        var difference = 0
+        var day = day
+        while !wasCompletedThisWeek(on: day) {
             difference += 1
             day = Cal.add(days: -1, to: day)
             guard started(before: day) else {
