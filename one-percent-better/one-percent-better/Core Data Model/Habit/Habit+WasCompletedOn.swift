@@ -195,115 +195,176 @@ extension Habit {
     }
     
     /// The streak of this habit calculated on specific date
+    ///
+    /// A streak isn't broken until the user doesn't complete it when it's due. For daily habits, this means a streak from the previous day is still valid even if the habit
+    /// wasn't completed today. For weekly habits, a streak from the previous week is still valid even if the habit hasn't been completed this week yet.
     /// - Parameter date: The streak on this date
     /// - Returns: The streak number
     func streak(on date: Date) -> Int {
+        guard let freq = frequency(on: date) else { return 0 }
         var streak = 0
         
-        guard let freq = frequency(on: date) else { return 0 }
-        let numDaysToCheck = Cal.numberOfDays(from: startDate, to: date)
-        
-        // A streak isn't broken until the user doesn't complete it when it's due,
-        // so first we calculate how many days to go backward to start calculating
-        // the streak. For daily habits, we need to go to yesterday (if the habit
-        // wasn't completed today), and for weekly habits, we need to go back to the
-        // start of the previous week (if the habit wasn't completed this week)
-        var goBackStart = 0
-        if numDaysToCheck > 0 {
-            switch freq {
-            case .timesPerDay:
-                if !wasCompleted(on: date, withFrequency: freq) {
-                    goBackStart = 1
-                }
-            case .specificWeekdays:
-                if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
-                    // Go back to the day before the last reset day
-                    let lastResetDay = Cal.mostRecent(weekday: StartOfWeekModel.shared.startOfWeek, before: date, includingDate: true)
-                    var diff = Cal.numberOfDays(from: lastResetDay, to: date) + 1
-                    goBackStart = min(diff, numDaysToCheck)
-                }
-//                if !wasCompleted(on: date, withFrequency: freq) {
-//                    goBackStart += 1
-//                    var curDate = Cal.add(days: -1, to: date)
-//                    while !wasCompleted(on: curDate, withFrequency: freq) && !isDue(on: curDate, withFrequency: freq) {
-//                        if Cal.isDate(curDate, inSameDayAs: startDate) { return 0 }
-//                        goBackStart += 1
-//                        curDate = Cal.add(days: -1, to: curDate)
-//                    }
-//                }
-            case .timesPerWeek(_, resetDay: let resetDay):
-                if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
-                    // Go back to the day before the last reset day
-                    let lastResetDay = Cal.mostRecent(weekday: resetDay, before: date, includingDate: true)
-                    var diff = Cal.numberOfDays(from: lastResetDay, to: date) + 1
-                    goBackStart = min(diff, numDaysToCheck)
-                }
-            }
-        }
-        
-        // Flags to keep track of if the streak was increased for this week already,
-        // so that it's not increased multiple times for the same week
-        var dayBeforeNewWeek = false
-        var alreadyCompletedThisWeek = false
-        
-        for i in goBackStart ... numDaysToCheck {
-            let day = Cal.add(days: -i, to: date)
-            switch freq {
-            case .timesPerDay:
+        switch freq {
+        case .timesPerDay:
+            var day = date
+            while started(before: day) {
                 if wasCompleted(on: day, withFrequency: freq) {
                     streak += 1
+                } else if day == date {
+                    // Forgive the current day
+                    continue
                 } else {
-                    return streak
+                    break
                 }
-            case .specificWeekdays:
-                // Reset for new week
-                if day.weekdayIndex == StartOfWeekModel.shared.startOfWeek.index && dayBeforeNewWeek {
-                    alreadyCompletedThisWeek = false
-                    dayBeforeNewWeek = false
-                }
-                
-                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
-                    if !alreadyCompletedThisWeek {
-                        streak += 1
-                        alreadyCompletedThisWeek = true
-                    }
-                } else {
-                    return streak
-                }
-                
-                // Day before start of week
-                if Cal.add(days: -1, to: day).weekdayIndex == StartOfWeekModel.shared.startOfWeek.index {
-                    dayBeforeNewWeek = true
-                }
-//                if isDue(on: day, withFrequency: freq) || wasCompleted(on: day, withFrequency: freq) {
-//                    if wasCompleted(on: day, withFrequency: freq) {
-//                        streak += 1
-//                    } else {
-//                        return streak
-//                    }
-//                }
-            case .timesPerWeek:
-                if isDue(on: day, withFrequency: freq) && dayBeforeNewWeek {
-                    alreadyCompletedThisWeek = false
-                    dayBeforeNewWeek = false
-                }
-                
-                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
-                    if !alreadyCompletedThisWeek {
-                        streak += 1
-                        alreadyCompletedThisWeek = true
-                    }
-                } else {
-                    return streak
-                }
-                
-                if isDue(on: Cal.add(days: -2, to: day), withFrequency: freq) {
-                    dayBeforeNewWeek = true
-                }
+                day = Cal.add(days: -1, to: day)
             }
+            return streak
+            
+        case .specificWeekdays:
+            var day = date
+            while started(before: day) {
+                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
+                    streak += 1
+                } else if day == date {
+                    // Forgive the current week
+                } else {
+                    break
+                }
+                
+                // Go back to the day before the last reset day
+                let lastResetDay = Cal.mostRecent(weekday: StartOfWeekModel.shared.startOfWeek, before: day, includingDate: true)
+                let diff = Cal.numberOfDays(from: lastResetDay, to: day) + 1
+                day = Cal.add(days: -diff, to: day)
+                
+                // Edge case where we go back to the first week which might not start on the start of the week
+//                day = Cal.add(days: -diff, to: day)
+//                if started(after: day) && firstWeek {
+//                    day = startDate
+//                    firstWeek = true
+//                }
+            }
+            return streak
+        case .timesPerWeek(_, let resetDay):
+            var day = date
+            while started(before: day) {
+                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
+                    streak += 1
+                } else if day == date {
+                    // Forgive the current week
+                } else {
+                    break
+                }
+                
+                // Go back to the day before the last reset day
+                let lastResetDay = Cal.mostRecent(weekday: resetDay, before: day, includingDate: true)
+                let diff = Cal.numberOfDays(from: lastResetDay, to: day) + 1
+                day = Cal.add(days: -diff, to: day)
+                
+//                // Edge case where we go back to the first week which might not start on the start of the week
+//                if started(after: day) && firstWeek {
+//                    day = startDate
+//                    firstWeek = true
+//                }
+            }
+            return streak
         }
-        return streak
+        
     }
+    
+//    /// The streak of this habit calculated on specific date
+//    /// - Parameter date: The streak on this date
+//    /// - Returns: The streak number
+//    func streakOld(on date: Date) -> Int {
+//        var streak = 0
+//        
+//        guard let freq = frequency(on: date) else { return 0 }
+//        let numDaysToCheck = Cal.numberOfDays(from: startDate, to: date)
+//        
+//        // A streak isn't broken until the user doesn't complete it when it's due,
+//        // so first we calculate how many days to go backward to start calculating
+//        // the streak. For daily habits, we need to go to yesterday (if the habit
+//        // wasn't completed today), and for weekly habits, we need to go back to the
+//        // start of the previous week (if the habit wasn't completed this week)
+//        var goBackStart = 0
+//        if numDaysToCheck > 0 {
+//            switch freq {
+//            case .timesPerDay:
+//                if !wasCompleted(on: date, withFrequency: freq) {
+//                    goBackStart = 1
+//                }
+//            case .specificWeekdays:
+//                if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
+//                    // Go back to the day before the last reset day
+//                    let lastResetDay = Cal.mostRecent(weekday: StartOfWeekModel.shared.startOfWeek, before: date, includingDate: true)
+//                    let diff = Cal.numberOfDays(from: lastResetDay, to: date) + 1
+//                    goBackStart = min(diff, numDaysToCheck)
+//                }
+//            case .timesPerWeek(_, resetDay: let resetDay):
+//                if !wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) {
+//                    // Go back to the day before the last reset day
+//                    let lastResetDay = Cal.mostRecent(weekday: resetDay, before: date, includingDate: true)
+//                    let diff = Cal.numberOfDays(from: lastResetDay, to: date) + 1
+//                    goBackStart = min(diff, numDaysToCheck)
+//                }
+//            }
+//        }
+//        
+//        // Flags to keep track of if the streak was increased for this week already,
+//        // so that it's not increased multiple times for the same week
+//        var dayBeforeNewWeek = false
+//        var alreadyCompletedThisWeek = false
+//        
+//        for i in goBackStart ... numDaysToCheck {
+//            let day = Cal.add(days: -i, to: date)
+//            switch freq {
+//            case .timesPerDay:
+//                if wasCompleted(on: day, withFrequency: freq) {
+//                    streak += 1
+//                } else {
+//                    return streak
+//                }
+//            case .specificWeekdays:
+//                // Reset for new week
+//                if day.weekdayIndex == StartOfWeekModel.shared.startOfWeek.index && dayBeforeNewWeek {
+//                    alreadyCompletedThisWeek = false
+//                    dayBeforeNewWeek = false
+//                }
+//                
+//                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
+//                    if !alreadyCompletedThisWeek {
+//                        streak += 1
+//                        alreadyCompletedThisWeek = true
+//                    }
+//                } else {
+//                    return streak
+//                }
+//                
+//                // Day before start of week
+//                if Cal.add(days: -1, to: day).weekdayIndex == StartOfWeekModel.shared.startOfWeek.index {
+//                    dayBeforeNewWeek = true
+//                }
+//            case .timesPerWeek:
+//                if isDue(on: day, withFrequency: freq) && dayBeforeNewWeek {
+//                    alreadyCompletedThisWeek = false
+//                    dayBeforeNewWeek = false
+//                }
+//                
+//                if wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) {
+//                    if !alreadyCompletedThisWeek {
+//                        streak += 1
+//                        alreadyCompletedThisWeek = true
+//                    }
+//                } else {
+//                    return streak
+//                }
+//                
+//                if isDue(on: Cal.add(days: -2, to: day), withFrequency: freq) {
+//                    dayBeforeNewWeek = true
+//                }
+//            }
+//        }
+//        return streak
+//    }
     
     /// How many days since the last time this habit was completed
     /// - Parameter on: The date to check against
@@ -335,11 +396,9 @@ extension Habit {
     
     /// How many weeks since the last time this habit was completed
     /// - Parameter on: The date to check against
-    func notDoneInWeeks(on day: Date) -> Int? {
-        // TODO: 1.1.5
-        
+    func notDoneInWeeks(on date: Date) -> Int? {
         // Ensure habit has been started
-        guard started(before: day) else {
+        guard started(before: date) else {
             return nil
         }
         
@@ -348,18 +407,41 @@ extension Habit {
             return nil
         }
         
-        guard !Cal.isDate(day, inSameDayAs: startDate) else {
-            return wasCompletedThisWeek(on: day) ? 1 : nil
+        guard let freq = frequency(on: date) else {
+            return nil
         }
-        var difference = 0
-        var day = day
+        
+        guard !Cal.isDate(date, inSameDayAs: startDate) else {
+            return wasCompletedThisWeek(on: date, withFrequency: freq, upTo: true) ? 1 : nil
+        }
+        
+        var day = date
+        var weeks = 0
+        
         while !wasCompletedThisWeek(on: day) {
-            difference += 1
-            day = Cal.add(days: -1, to: day)
+            // Forgive the current week
+            if day != date {
+                weeks += 1
+            }
+            switch freq {
+            case .timesPerDay:
+                assertionFailure("Should not be called")
+            case .specificWeekdays:
+                // Go back to the day before the last reset day
+                let lastResetDay = Cal.mostRecent(weekday: StartOfWeekModel.shared.startOfWeek, before: day, includingDate: true)
+                let diff = Cal.numberOfDays(from: lastResetDay, to: day) + 1
+                day = Cal.add(days: -diff, to: day)
+            case .timesPerWeek(_, let resetDay):
+                // Go back to the day before the last reset day
+                let lastResetDay = Cal.mostRecent(weekday: resetDay, before: day, includingDate: true)
+                let diff = Cal.numberOfDays(from: lastResetDay, to: day) + 1
+                day = Cal.add(days: -diff, to: day)
+            }
+            
             guard started(before: day) else {
                 break
             }
         }
-        return difference
+        return weeks
     }
 }

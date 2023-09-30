@@ -89,22 +89,22 @@ class HabitRowViewModel: ConditionalManagedObjectFetcher<Habit> {
                 timePeriodText = "week"
             }
             return StreakLabel("\(streak) \(timePeriodText) streak", .green)
-        } else if let days = habit.notDoneInDays(on: day),
-                  days > 0 {
+        } else {
             switch freq {
             case .timesPerDay:
-                let dayText = days == 1 ? "day" : "days"
-                return StreakLabel("Not done in \(days) \(dayText)", .red)
+                if let days = habit.notDoneInDays(on: day),
+                   days > 0 {
+                    let dayText = days == 1 ? "day" : "days"
+                    return StreakLabel("Not done in \(days) \(dayText)", .red)
+                }
+                break
             case .specificWeekdays, .timesPerWeek:
-                if days >= 7 {
-                    let weeks = days / 7
+                if let weeks = habit.notDoneInWeeks(on: day), weeks > 0 {
                     let weekText = weeks == 1 ? "week" : "weeks"
                     return StreakLabel("Not done in \(weeks) \(weekText)", .red)
-                } else {
-                    return StreakLabel("No streak", StreakLabel.gray)
                 }
+                break
             }
-        } else {
             return StreakLabel("No streak", StreakLabel.gray)
         }
     }

@@ -83,6 +83,20 @@ final class NotDoneInTests: XCTestCase {
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-17-2022")!), 9)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-18-2022")!), 10)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-19-2022")!), 11)
+        
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-7-2022")!), nil)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-8-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-9-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-10-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-11-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-12-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-13-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-14-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-15-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-16-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-17-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-18-2022")!), 1)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-19-2022")!), 1)
     }
     
     func testOneTimePerWeek2() throws {
@@ -114,6 +128,7 @@ final class NotDoneInTests: XCTestCase {
          12/26   Mon  |      |      |  Not done in 1 week
          */
 
+        // Test streak label
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-7-2022")!), StreakLabel("No streak", StreakLabel.gray))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-8-2022")!), StreakLabel("1 week streak", .green))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-8-2022")!), StreakLabel("1 week streak", .green))
@@ -133,6 +148,7 @@ final class NotDoneInTests: XCTestCase {
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-25-2022")!), StreakLabel("Not done in 1 week", .red))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-26-2022")!), StreakLabel("Not done in 1 week", .red))
         
+        // Test not done in days
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-7-2022")!), nil)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-8-2022")!), 0)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-9-2022")!), 1)
@@ -150,6 +166,28 @@ final class NotDoneInTests: XCTestCase {
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-24-2022")!), 10)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-25-2022")!), 11)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-26-2022")!), 12)
+        
+        // Test not done in weeks
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-7-2022")!),  nil)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-8-2022")!),  0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-9-2022")!),  0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-10-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-11-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-12-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-13-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-14-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-15-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-16-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-17-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-18-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-19-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-20-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-21-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-22-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-23-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-24-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-25-2022")!), 1)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-26-2022")!), 1)
     }
     
 //    func testOneTimePerWeek2() throws {
