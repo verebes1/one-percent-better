@@ -55,10 +55,10 @@ final class NotDoneInTests: XCTestCase {
          12/19   Mon  |      |      |  Not done in 1 week
          */
 
-        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-7-2022")!), StreakLabel("No streak", StreakLabel.gray))
-        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-8-2022")!), StreakLabel("1 week streak", .green))
-        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-8-2022")!), StreakLabel("1 week streak", .green))
-        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-9-2022")!), StreakLabel("1 week streak", .green))
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-7-2022")!),  StreakLabel("No streak", StreakLabel.gray))
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-8-2022")!),  StreakLabel("1 week streak", .green))
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-8-2022")!),  StreakLabel("1 week streak", .green))
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-9-2022")!),  StreakLabel("1 week streak", .green))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-10-2022")!), StreakLabel("1 week streak", .green))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-11-2022")!), StreakLabel("1 week streak", .green))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-12-2022")!), StreakLabel("1 week streak", .green))
@@ -70,9 +70,9 @@ final class NotDoneInTests: XCTestCase {
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-18-2022")!), StreakLabel("Not done in 1 week", .red))
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "12-19-2022")!), StreakLabel("Not done in 1 week", .red))
         
-        XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-7-2022")!), nil)
-        XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-8-2022")!), 0)
-        XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-9-2022")!), 1)
+        XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-7-2022")!),  nil)
+        XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-8-2022")!),  0)
+        XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-9-2022")!),  1)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-10-2022")!), 2)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-11-2022")!), 3)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-12-2022")!), 4)
@@ -84,9 +84,9 @@ final class NotDoneInTests: XCTestCase {
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-18-2022")!), 10)
         XCTAssertEqual(habit.notDoneInDays(on: df.date(from: "12-19-2022")!), 11)
         
-        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-7-2022")!), nil)
-        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-8-2022")!), 0)
-        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-9-2022")!), 0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-7-2022")!),  nil)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-8-2022")!),  0)
+        XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-9-2022")!),  0)
         XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-10-2022")!), 0)
         XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-11-2022")!), 0)
         XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-12-2022")!), 0)
@@ -189,124 +189,4 @@ final class NotDoneInTests: XCTestCase {
         XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-25-2022")!), 1)
         XCTAssertEqual(habit.notDoneInWeeks(on: df.date(from: "12-26-2022")!), 1)
     }
-    
-//    func testOneTimePerWeek2() throws {
-//        let startWednesday = df.date(from: "12-7-2022")!
-//        let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
-//        habit.updateStartDate(to: startWednesday)
-//        habit.updateFrequency(to: .timesPerWeek(times: 1, resetDay: .sunday), on: startWednesday)
-//
-//        // Never done
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
-//        XCTAssertNil(habit.notDoneInDays(on: startWednesday))
-//
-//        // Done once
-//        habit.markCompleted(on: startWednesday)
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: startWednesday), 0)
-//
-//        // Next week (should still have streak)
-//        vm.currentDay = df.date(from: "12-14-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 7)
-//
-//        // Next week (on the day before it changes, should still have streak)
-//        vm.currentDay = df.date(from: "12-18-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 11)
-//
-//        // Next next week (on the day it changes, no longer have streak)
-//        vm.currentDay = df.date(from: "12-19-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("Not done in 12 days", .red))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 12)
-//
-//        // Next next week (no longer have streak)
-//        vm.currentDay = df.date(from: "12-21-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("Not done in 14 days", .red))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 14)
-//    }
-//
-//    func testTwoTimesPerWeek() throws {
-//        let startWednesday = df.date(from: "12-7-2022")!
-//        let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
-//        habit.updateStartDate(to: startWednesday)
-//        habit.updateFrequency(to: .timesPerWeek(times: 2, resetDay: .sunday), on: startWednesday)
-//
-//        // Never done
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
-//        XCTAssertNil(habit.notDoneInDays(on: startWednesday))
-//
-//        // Done once
-//        habit.markCompleted(on: startWednesday)
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
-//        XCTAssertEqual(habit.notDoneInDays(on: startWednesday), 0)
-//
-//        // Done twice
-//        vm.currentDay = df.date(from: "12-8-2022")!
-//        habit.markCompleted(on: vm.currentDay)
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 0)
-//
-//        // Next week (should still have streak)
-//        vm.currentDay = df.date(from: "12-14-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 6)
-//
-//        // Next week (on the day before it changes, should still have streak)
-//        vm.currentDay = df.date(from: "12-18-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 10)
-//
-//        // Next next week (on the day it changes, no longer have streak)
-//        vm.currentDay = df.date(from: "12-19-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("Not done in 11 days", .red))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 11)
-//
-//        // Next next week (no longer have streak)
-//        vm.currentDay = df.date(from: "12-21-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("Not done in 13 days", .red))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 13)
-//    }
-//
-//    func testTwoTimesPerWeek2() throws {
-//        let startWednesday = df.date(from: "12-7-2022")!
-//        let vm = HabitRowViewModel(moc: context, habit: habit, currentDay: startWednesday)
-//        habit.updateStartDate(to: startWednesday)
-//        habit.updateFrequency(to: .timesPerWeek(times: 2, resetDay: .sunday), on: startWednesday)
-//
-//        // Never done
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
-//        XCTAssertNil(habit.notDoneInDays(on: startWednesday))
-//
-//        // Done once
-//        habit.markCompleted(on: startWednesday)
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("No streak", StreakLabel.gray))
-//        XCTAssertEqual(habit.notDoneInDays(on: startWednesday), 0)
-//
-//        // Done twice
-//        vm.currentDay = df.date(from: "12-8-2022")!
-//        habit.markCompleted(on: vm.currentDay)
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 0)
-//
-//        // Next week (should still have streak)
-//        vm.currentDay = df.date(from: "12-14-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 6)
-//
-//        // Next week (on the day before it changes, should still have streak)
-//        vm.currentDay = df.date(from: "12-18-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("1 week streak", .green))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 10)
-//
-//        // Next next week (on the day it changes, no longer have streak)
-//        vm.currentDay = df.date(from: "12-19-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("Not done in 11 days", .red))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 11)
-//
-//        // Next next week (no longer have streak)
-//        vm.currentDay = df.date(from: "12-21-2022")!
-//        XCTAssertEqual(vm.streakLabel(), StreakLabel("Not done in 13 days", .red))
-//        XCTAssertEqual(habit.notDoneInDays(on: vm.currentDay), 13)
-//    }
 }
