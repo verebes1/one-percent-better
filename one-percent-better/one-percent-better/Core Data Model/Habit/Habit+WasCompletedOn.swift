@@ -396,7 +396,7 @@ extension Habit {
         var day = date
         var weeks = 0
         
-        while !wasCompletedThisWeek(on: day) && started(before: day) {
+        while !wasCompletedThisWeek(on: day, withFrequency: freq, upTo: true) && started(before: day) {
             // Forgive the current week
             if day != date {
                 weeks += 1

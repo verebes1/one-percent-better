@@ -1,5 +1,5 @@
 //
-//  NotDoneInTests.swift
+//  TimesPerWeekStreakTests.swift
 //  one-percent-betterTests
 //
 //  Created by Jeremy Cook on 5/15/23.
@@ -9,7 +9,7 @@ import XCTest
 import CoreData
 @testable import One_Percent_Better
 
-final class NotDoneInTests: XCTestCase {
+final class TimesPerWeekStreakTests: XCTestCase {
     
     let context = CoreDataManager.previews.mainContext
     var habit: Habit!

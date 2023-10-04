@@ -273,4 +273,77 @@ final class SpecificWeekdayStreakTests: XCTestCase {
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-16-2023")!)!.label, "Not done in 2 weeks")
         XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-17-2023")!)!.label, "Not done in 2 weeks")
     }
+    
+    /// Test due 2 times a week, and complete it on off days
+    func testStreakLabel5() {
+        StartOfWeekModel.shared.startOfWeek = .monday
+        let vm = HabitRowViewModel(moc: context, habit: habit, sdvm: SelectedDateViewModel())
+        let startDate = df.date(from: "8-21-2023")!
+        habit.updateStartDate(to: startDate)
+        habit.updateFrequency(to: .specificWeekdays([Weekday(df.date(from: "8-21-2023")!), Weekday(df.date(from: "8-22-2023")!)]), on: startDate)
+        habit.markCompleted(on: df.date(from: "8-21-2023")!)
+        habit.markCompleted(on: df.date(from: "8-22-2023")!)
+        habit.markCompleted(on: df.date(from: "9-6-2023")!)
+        habit.markCompleted(on: df.date(from: "9-9-2023")!)
+        
+        /*
+         Week 1
+         Date     | Due  | Did  |  Streak label
+         ----------------------------------------
+         8/21  M  |➡️⏰  |  ✅  |  No streak
+         8/22  T  |  ⏰  |  ✅  |  1 week streak
+         8/23  W  |      |      |  1 week streak
+         8/24  T  |      |      |  1 week streak
+         8/25  F  |      |      |  1 week streak
+         8/26  S  |      |      |  1 week streak
+         8/27  S  |      |      |  1 week streak
+         */
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-21-2023")!)!.label, "No streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-22-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-23-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-24-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-25-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-26-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-27-2023")!)!.label, "1 week streak")
+        
+        /*
+         Week 2
+         Date     | Due  | Did  |  Streak label
+         ----------------------------------------
+         8/28  M  |➡️⏰  |      |  1 week streak
+         8/29  T  |  ⏰  |      |  1 week streak
+         8/30  W  |      |      |  1 week streak
+         8/31  T  |      |      |  1 week streak
+         9/1   F  |      |      |  1 week streak
+         9/2   S  |      |      |  1 week streak
+         9/3   S  |      |      |  1 week streak
+         */
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-28-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-29-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-30-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "8-31-2023")!)!.label, "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-1-2023")!)!.label,  "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-2-2023")!)!.label,  "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-3-2023")!)!.label,  "1 week streak")
+        
+        /*
+         Week 3
+         Date     | Due  | Did  |  Streak label
+         ----------------------------------------
+         9/4   M  |➡️⏰  |      |  Not done in 1 week
+         9/5   T  |  ⏰  |      |  Not done in 1 week
+         9/6   W  |      |  ✅  |  Not done in 1 week
+         9/7   T  |      |      |  Not done in 1 week
+         9/8   F  |      |      |  Not done in 1 week
+         9/9   S  |      |  ✅  |  1 week streak
+         9/10  S  |      |      |  1 week streak
+         */
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-4-2023")!)!.label,  "Not done in 1 week")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-5-2023")!)!.label,  "Not done in 1 week")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-6-2023")!)!.label,  "Not done in 1 week")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-7-2023")!)!.label,  "Not done in 1 week")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-8-2023")!)!.label,  "Not done in 1 week")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-9-2023")!)!.label,  "1 week streak")
+        XCTAssertEqual(vm.streakLabel(on: df.date(from: "9-10-2023")!)!.label, "1 week streak")
+    }
 }
