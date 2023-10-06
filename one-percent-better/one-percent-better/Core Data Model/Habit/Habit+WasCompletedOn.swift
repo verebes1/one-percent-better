@@ -213,7 +213,6 @@ extension Habit {
                     streak += 1
                 } else if day == date {
                     // Forgive the current day
-                    continue
                 } else {
                     break
                 }
