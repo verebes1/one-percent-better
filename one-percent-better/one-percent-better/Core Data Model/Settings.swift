@@ -11,7 +11,9 @@ import CoreData
 import SwiftUI
 
 @objc(Settings)
-public class Settings: NSManagedObject {
+public class Settings: NSManagedObject, NamedEntity {
+    
+    static var entityName = "Settings"
     
     /// The app-wide appearance
     /// System = 0
