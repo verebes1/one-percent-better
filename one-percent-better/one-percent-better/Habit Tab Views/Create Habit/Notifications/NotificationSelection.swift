@@ -77,25 +77,12 @@ struct NotificationSelection: View {
                         Label("Random Time", systemImage: "dice")
                     }
                 } label: {
-                    VStack {
-                        Button {
-                            selectFrequency = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "plus")
-                                Text("Add Reminder")
-                            }
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 20)
-                            .fontWeight(.medium)
-                            .foregroundColor(Style.accentColor)
-                        }
-                        
-                        //                  BottomButton(label: "Add Reminder")
+                    Button {
+                        selectFrequency = true
+                    } label: {
+                        Label("Add Reminder", systemImage: "plus")
+                            .accentButtonStyle()
                     }
-                    .background(Color.cardColor)
-                    .cornerRadius(radius: 10)
-                    .padding(.horizontal, 20)
                 }
                 
                 if !habit.notificationsArray.isEmpty {

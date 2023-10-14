@@ -40,15 +40,8 @@ extension Color {
     static let tertiaryLabel = Color(UIColor.tertiaryLabel)
     static let quaternaryLabel = Color(UIColor.quaternaryLabel)
     
-    static func labelOpposite(scheme: ColorScheme) -> Color {
-        switch scheme {
-        case .light:
-            return Color.white
-        case .dark:
-            return Color.black
-        default:
-            return Color.darkText
-        }
+    static var labelOpposite: Color {
+        Color.dynamicColor(light: .white, dark: .black)
     }
     
     // MARK: - Background Colors

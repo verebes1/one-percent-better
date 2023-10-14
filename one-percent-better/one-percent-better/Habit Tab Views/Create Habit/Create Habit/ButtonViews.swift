@@ -7,94 +7,88 @@
 
 import SwiftUI
 
-struct BottomButton: View {
-   
-   @Environment(\.colorScheme) var scheme
-   
-   let label: String
-   
-   var withBottomPadding: Bool = true
-   
-   private var textColor: Color {
-      scheme == .light ? .white : .black
-   }
-   
-   var body: some View {
-      ZStack {
-         RoundedRectangle(cornerRadius: 10)
-            .foregroundColor(Style.accentColor)
+struct AccentButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .fontWeight(.semibold)
+            .foregroundColor(.labelOpposite)
             .frame(height: 50)
             .padding(.horizontal, 20)
-         Text(label)
-            .fontWeight(.semibold)
-            .foregroundColor(textColor)
-      }
-      .padding(.bottom, withBottomPadding ? 10 : 0)
-   }
+            .background(Style.accentColor)
+            .cornerRadius(radius: 10)
+    }
 }
 
-struct BottomButton_Previews: PreviewProvider {
-   
-   @State static var label: String = ""
-   
-   static var previews: some View {
-      VStack {
-         BottomButton(label: "Test")
-      }
-   }
+extension View {
+    func accentButtonStyle() -> some View {
+        modifier(AccentButtonStyle())
+    }
+}
+
+struct WideAccentButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .fontWeight(.semibold)
+            .foregroundColor(.labelOpposite)
+            .frame(maxWidth: .infinity)
+            .frame(height: 50)
+            .padding(.horizontal, 20)
+            .background(Style.accentColor)
+            .cornerRadius(radius: 10)
+            .padding(.bottom, 10)
+            .padding(.horizontal, 20)
+    }
+}
+
+extension View {
+    func wideAccentButtonStyle() -> some View {
+        modifier(WideAccentButtonStyle())
+    }
 }
 
 struct BottomButtonDisabledWhenEmpty: View {
-   
-   @Environment(\.colorScheme) var scheme
-   
-   let text: String
-   @Binding var dependingLabel: String
-   
-   var withBottomPadding: Bool = true
-   
-   private var textColor: Color {
-      scheme == .light ? .white : .black
-   }
-   
-   var body: some View {
-      ZStack {
-         RoundedRectangle(cornerRadius: 10)
-            .foregroundColor(dependingLabel.isEmpty ? .systemGray5 : Style.accentColor)
+    
+    @Environment(\.colorScheme) var scheme
+    
+    let text: String
+    @Binding var dependingLabel: String
+    
+    var body: some View {
+        Text(text)
+            .fontWeight(.semibold)
+            .foregroundColor(dependingLabel.isEmpty ? .tertiaryLabel : .labelOpposite)
+            .frame(maxWidth: .infinity)
             .frame(height: 50)
             .padding(.horizontal, 20)
-         Text(text)
-            .fontWeight(.medium)
-            .foregroundColor(dependingLabel.isEmpty ? .tertiaryLabel : textColor)
-      }
-      .padding(.bottom, withBottomPadding ? 10 : 0)
-   }
+            .background(dependingLabel.isEmpty ? .systemGray5 : Style.accentColor)
+            .cornerRadius(radius: 10)
+            .padding(.bottom, 10)
+            .padding(.horizontal, 20)
+    }
 }
 
-struct BottomButtonEmptyMeansDisabled_Previews: PreviewProvider {
-   
-   @State static var label: String = ""
-   
-   static var previews: some View {
-      VStack {
-         TextField("Test", text: $label)
-            .padding()
-         BottomButtonDisabledWhenEmpty(text: "Test", dependingLabel: $label)
-      }
-   }
-}
 
-struct SkipButton: View {
-   var body: some View {
-      ZStack {
-         Spacer()
-            .frame(height: 50)
-            .padding(.horizontal, 15)
-         Text("Skip")
-            .fontWeight(.bold)
-            .foregroundColor(.green)
-      }
-      .padding(.bottom, 10)
-   }
-}
+struct BottomButton_Previews: PreviewProvider {
+    
+    @State static var label: String = ""
+    
+    static var previews: some View {
+        VStack {
+            Button {
+                print("1")
+            } label: {
+                Text("Continue")
+                    .wideAccentButtonStyle()
+            }
+            
+            Button {
+                print("2")
+            } label: {
+                Text("Continue")
+                    .accentButtonStyle()
+            }
 
+            BottomButtonDisabledWhenEmpty(text: "Disabled", dependingLabel: $label)
+        }
+    }
+}
