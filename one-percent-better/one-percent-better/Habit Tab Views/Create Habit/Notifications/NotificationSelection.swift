@@ -53,8 +53,7 @@ struct NotificationSelection: View {
     
     var body: some View {
         Background {
-            VStack(spacing: 10) {
-                
+            VStack(spacing: 0) {
                 
                 AnimatedHabitCreationHeader(animateBell: $animateBell,
                                             title: "Reminder",
@@ -81,8 +80,8 @@ struct NotificationSelection: View {
                         selectFrequency = true
                     } label: {
                         Label("Add Reminder", systemImage: "plus")
-                            .accentButtonStyle()
                     }
+                    .buttonStyle(.accent)
                 }
                 
                 if !habit.notificationsArray.isEmpty {

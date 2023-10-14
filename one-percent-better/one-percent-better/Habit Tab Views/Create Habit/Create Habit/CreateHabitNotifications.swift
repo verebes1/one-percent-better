@@ -37,8 +37,8 @@ struct CreateHabitNotifications: View {
                nav.path.removeLast(3)
             } label: {
                 Text("Done")
-                    .wideAccentButtonStyle()
             }
+            .buttonStyle(.wideAccent)
          }
       }
       .onAppear {
