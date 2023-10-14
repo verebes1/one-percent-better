@@ -49,8 +49,8 @@ struct CreateHabitFrequency: View {
                     nav.path.append(ChooseFrequencyRoute.next(habit, fssm.selection))
                 } label: {
                     Text("Next")
-                        .wideAccentButtonStyle()
                 }
+                .buttonStyle(.wideAccent)
             }
             .navigationDestination(for: ChooseFrequencyRoute.self) { route in
                 if case let .next(habit, habitFrequency) = route {

@@ -7,27 +7,36 @@
 
 import SwiftUI
 
-struct AccentButtonStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
+struct AccentButtonStyle: ButtonStyle {
+    
+    @Environment(\.colorScheme) var scheme
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
             .fontWeight(.semibold)
             .foregroundColor(.labelOpposite)
             .frame(height: 50)
             .padding(.horizontal, 20)
             .background(Style.accentColor)
             .cornerRadius(radius: 10)
+            .opacity(configuration.isPressed ?
+                     (scheme == .light ? 0.2 : 0.4)
+                     : 1)
     }
 }
 
-extension View {
-    func accentButtonStyle() -> some View {
-        modifier(AccentButtonStyle())
+extension ButtonStyle where Self == AccentButtonStyle {
+    static var accent: AccentButtonStyle {
+        AccentButtonStyle()
     }
 }
 
-struct WideAccentButtonStyle: ViewModifier {
-    func body(content: Content) -> some View {
-        content
+struct WideAccentButtonStyle: ButtonStyle {
+    
+    @Environment(\.colorScheme) var scheme
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
             .fontWeight(.semibold)
             .foregroundColor(.labelOpposite)
             .frame(maxWidth: .infinity)
@@ -37,12 +46,15 @@ struct WideAccentButtonStyle: ViewModifier {
             .cornerRadius(radius: 10)
             .padding(.bottom, 10)
             .padding(.horizontal, 20)
+            .opacity(configuration.isPressed ?
+                     (scheme == .light ? 0.2 : 0.4)
+                     : 1)
     }
 }
 
-extension View {
-    func wideAccentButtonStyle() -> some View {
-        modifier(WideAccentButtonStyle())
+extension ButtonStyle where Self == WideAccentButtonStyle {
+    static var wideAccent: WideAccentButtonStyle {
+        WideAccentButtonStyle()
     }
 }
 
@@ -74,19 +86,21 @@ struct BottomButton_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
+            
+            Button {
+                print("0")
+            } label: {
+                Text("Continue")
+            }
+            .buttonStyle(.accent)
+
+            
             Button {
                 print("1")
             } label: {
                 Text("Continue")
-                    .wideAccentButtonStyle()
             }
-            
-            Button {
-                print("2")
-            } label: {
-                Text("Continue")
-                    .accentButtonStyle()
-            }
+            .buttonStyle(.wideAccent)
 
             BottomButtonDisabledWhenEmpty(text: "Disabled", dependingLabel: $label)
         }

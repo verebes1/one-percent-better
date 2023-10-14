@@ -57,8 +57,8 @@ struct CreateTimeTracker: View {
                }
             } label: {
                 Text("Create")
-                    .wideAccentButtonStyle()
             }
+            .buttonStyle(.wideAccent)
          }
       }
       .onDisappear{
