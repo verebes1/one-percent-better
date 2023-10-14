@@ -56,7 +56,8 @@ struct CreateTimeTracker: View {
                   nav.path.removeLast(2)
                }
             } label: {
-               BottomButton(label: "Create")
+                Text("Create")
+                    .wideAccentButtonStyle()
             }
          }
       }

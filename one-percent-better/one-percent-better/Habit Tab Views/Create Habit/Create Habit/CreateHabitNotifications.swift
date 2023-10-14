@@ -36,7 +36,8 @@ struct CreateHabitNotifications: View {
                barManager.isHidden = false
                nav.path.removeLast(3)
             } label: {
-               BottomButton(label: "Done")
+                Text("Done")
+                    .wideAccentButtonStyle()
             }
          }
       }
