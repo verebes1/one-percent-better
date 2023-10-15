@@ -16,6 +16,7 @@ extension Color {
     static let cardColorLighter = Color("CardColorLighter")
     static let grayButton = Color("GrayButton")
     static let appIconColor = Color("appIconColor")
+    static let labelOpposite = Color("LabelOpposite")
     
     static let calendarGray = Color(#colorLiteral(red: 0.7812705636, green: 0.7763053775, blue: 0.7978962064, alpha: 1))
     static let calendarGrayNotInMonth = Color(#colorLiteral(red: 0.9568627477, green: 0.9568627477, blue: 0.9568627477, alpha: 1))
@@ -39,10 +40,6 @@ extension Color {
     static let secondaryLabel = Color(UIColor.secondaryLabel)
     static let tertiaryLabel = Color(UIColor.tertiaryLabel)
     static let quaternaryLabel = Color(UIColor.quaternaryLabel)
-    
-    static var labelOpposite: Color {
-        Color.dynamicColor(light: .white, dark: .black)
-    }
     
     // MARK: - Background Colors
     static let systemBackground = Color(UIColor.systemBackground)

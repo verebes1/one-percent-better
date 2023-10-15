@@ -24,12 +24,19 @@ struct CreateHabitName: View {
    @State private var isGoingToFrequency = false
    @State private var showSuggestions = false
    
+   init() {
+      print("~~~~ CreateHabit init")
+   }
+   
    var body: some View {
       Background {
          VStack {
+            
             Spacer()
+            
             HabitCreationHeader(systemImage: "square.and.pencil",
                                 title: "Create New Habit")
+            
             
             CreateTextField(placeholder: "Name", text: $habitName, focus: $nameInFocus)
             
@@ -121,16 +128,16 @@ struct CreateHabitName: View {
    }
 }
 
-struct CreateNewHabit_Previews: PreviewProvider {
-   
-   static var previews: some View {
-      let moc = CoreDataManager.previews.mainContext
-      NavigationStack {
-         CreateHabitName()
-            .environment(\.managedObjectContext, moc)
-            .environmentObject(HabitListViewModel(moc, sdvm: SelectedDateViewModel()))
-            .environmentObject(HabitTabNavPath())
-            .environmentObject(BottomBarManager())
-      }
-   }
-}
+//struct CreateNewHabit_Previews: PreviewProvider {
+//
+//   static var previews: some View {
+//      let moc = CoreDataManager.previews.mainContext
+//      NavigationStack {
+//         CreateHabitName()
+//            .environment(\.managedObjectContext, moc)
+//            .environmentObject(HabitListViewModel(moc))
+//            .environmentObject(HabitTabNavPath())
+//            .environmentObject(BottomBarManager())
+//      }
+//   }
+//}
