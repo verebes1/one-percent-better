@@ -29,7 +29,6 @@ public class Notification: NSManagedObject {
     @NSManaged public var unscheduledNotificationStrings: [String]
     
     var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
-    var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
     
     func nextDue() -> Date {
         fatalError("Override in subclass")
