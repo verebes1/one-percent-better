@@ -59,11 +59,9 @@ struct SettingsView: View {
                             }
                             
                             // Habit Notifications Debug View
-                            /*
-                             NavigationLink(value: SettingsNavRoute.habitNotifications) {
-                             IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
-                             }
-                             */
+                            NavigationLink(value: SettingsNavRoute.habitNotifications) {
+                                IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
+                            }
                         }
                         .listRowBackground(Color.cardColor)
                         

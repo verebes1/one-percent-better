@@ -18,19 +18,24 @@ protocol UserNotificationCenter {
 }
 extension UNUserNotificationCenter: UserNotificationCenter {}
 
+enum NotificationManagerError: Error {
+    case notificationWasDeleted
+}
+
 class NotificationManager {
     
     static var shared = NotificationManager()
-    var moc: NSManagedObjectContext
+    var backgroundContext: NSManagedObjectContext
     static var MAX_NOTIFS = 60
     
     var permissionGranted = false
     
     /// Protocol for interfacing with UNUserNotificationCenter
     var userNotificationCenter: UserNotificationCenter = UNUserNotificationCenter.current()
+    var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
     
-    init(moc: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
-        self.moc = moc
+    init(moc: NSManagedObjectContext = CoreDataManager.shared.backgroundContext) {
+        self.backgroundContext = moc
     }
     
     func requestNotificationPermission() async -> Bool? {
@@ -101,56 +106,72 @@ class NotificationManager {
         return pendingNotifications
     }
     
-    @MainActor func cleanUpScheduledNotifications() async throws {
+    func cleanUpScheduledNotifications() async throws {
         let today = Date()
         var nextNotifDate: Date?
         if let (_, date, _) = try await getNextNotification() {
             nextNotifDate = date
         }
-        let scheduledNotifications = moc.fetchArray(ScheduledNotification.self)
-        
-        for scheduledNotification in scheduledNotifications {
-            if scheduledNotification.date < today {
-                scheduledNotification.notification.removeFromScheduledNotifications(scheduledNotification)
-            } else if let nextDate = nextNotifDate,
-                      scheduledNotification.date >= nextDate {
-                scheduledNotification.notification.removeFromScheduledNotifications(scheduledNotification)
+        await backgroundContext.perform {
+            let scheduledNotifications = self.backgroundContext.fetchArray(ScheduledNotification.self)
+            for scheduledNotification in scheduledNotifications {
+                if scheduledNotification.date < today {
+                    scheduledNotification.notification.removeFromScheduledNotifications(scheduledNotification)
+                } else if let nextDate = nextNotifDate,
+                          scheduledNotification.date >= nextDate {
+                    scheduledNotification.notification.removeFromScheduledNotifications(scheduledNotification)
+                }
             }
         }
     }
     
-    @MainActor func removeNotification(_ notification: PendingNotification) async {
-        var notifications: [Notification]
-        do {
-            let fetchRequest: NSFetchRequest<Notification> = Notification.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == %@", notification.id)
-            notifications = try moc.fetch(fetchRequest)
-        } catch {
-            assertionFailure("Unable to find notification in Core Database")
-            return
+    /// Clean up any expired notifications, i.e. ones that are not from today
+    @MainActor func cleanUpExpiredNotifications() async throws {
+        let notifs = await UNUserNotificationCenter.current().deliveredNotifications()
+        for notif in notifs {
+            // TODO: 1.1.5 Fix this for more notification frequency types!
+            if !Cal.isDateInToday(notif.date) {
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
+            }
         }
-        
-        for notif in notifications {
-            guard let scheduledNotif = notif.scheduledNotificationsArray.first(where: { $0.index == notification.num }) else {
-                continue
+    }
+    
+    func removeNotification(_ notification: PendingNotification) async {
+        await backgroundContext.perform {
+            var notifications: [Notification]
+            do {
+                let fetchRequest: NSFetchRequest<Notification> = Notification.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "id == %@", notification.id)
+                notifications = try self.backgroundContext.fetch(fetchRequest)
+            } catch {
+                assertionFailure("Unable to find notification in Core Database")
+                return
             }
             
-            notif.unscheduledNotificationStrings.append(notification.message)
-            notif.removeFromScheduledNotifications(scheduledNotif)
-            moc.delete(scheduledNotif)
-            return
+            for notif in notifications {
+                guard let scheduledNotif = notif.scheduledNotificationsArray.first(where: { $0.index == notification.num }) else {
+                    continue
+                }
+                
+                notif.unscheduledNotificationStrings.append(notification.message)
+                notif.removeFromScheduledNotifications(scheduledNotif)
+                self.backgroundContext.delete(scheduledNotif)
+                return
+            }
         }
     }
     
-    @MainActor func notificationTime(for notification: Notification) async -> DateComponents {
-        if let specificTime = notification as? SpecificTimeNotification {
-            let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
-            return time
-        } else if let randomTime = notification as? RandomTimeNotification {
-            let time = randomTime.getRandomTime()
-            return time
+    func notificationTime(for notification: Notification) async -> DateComponents {
+        return await backgroundContext.perform {
+            if let specificTime = notification as? SpecificTimeNotification {
+                let time = Cal.dateComponents([.hour, .minute], from: specificTime.time)
+                return time
+            } else if let randomTime = notification as? RandomTimeNotification {
+                let time = randomTime.getRandomTime()
+                return time
+            }
+            fatalError("Unable to get time for notification")
         }
-        fatalError("Unable to get time for notification")
     }
     
     // MARK: Rebalance
@@ -194,10 +215,50 @@ class NotificationManager {
         rebalanceTask?.cancel()
     }
     
-    @MainActor func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
+    func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
         try Task.checkCancellation()
-        let request = try await notification.createNotificationRequest(index: index, date: date)
+        let request = try await createNotificationRequest(notification: notification, index: index, date: date)
         await addNotificationRequest(request: request)
+    }
+    
+    func createScheduledNotification(notification: Notification, index: Int, on date: Date) async throws -> String {
+        let unscheduledStrings = await backgroundContext.perform {
+            return notification.unscheduledNotificationStrings
+        }
+        let habitName = await backgroundContext.perform {
+            return notification.habit.name
+        }
+        if unscheduledStrings.isEmpty {
+            let messages = try await notificationGenerator.generateNotifications(habitName: habitName)
+            try await backgroundContext.perform {
+                guard !notification.isDeleted else {
+                    NotificationManager.shared.rebalanceTask?.cancel()
+                    throw NotificationManagerError.notificationWasDeleted
+                }
+                notification.unscheduledNotificationStrings = messages
+            }
+            try Task.checkCancellation()
+        }
+        var message: String!
+        message = await backgroundContext.perform { notification.unscheduledNotificationStrings.removeLast() }
+        await backgroundContext.perform {
+            let scheduledNotification = ScheduledNotification(context: self.backgroundContext, index: index, date: date, string: message, notification: notification)
+            notification.addToScheduledNotifications(scheduledNotification)
+            print("Adding to scheduled notification for id: \(notification.id), index: \(index), date: \(date)")
+        }
+        try Task.checkCancellation()
+        return message
+    }
+
+    func createNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws -> UNNotificationRequest {
+        try Task.checkCancellation()
+        let identifier = await backgroundContext.perform { return "OnePercentBetter&\(notification.id.uuidString)&\(index)" }
+        let dateObject = Cal.date(from: date)!
+        let message = try await createScheduledNotification(notification: notification, index: index, on: dateObject)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
+        let notifContent = await backgroundContext.perform { return notification.generateNotificationContent(message: message) }
+        let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
+        return request
     }
     
     func addNotificationRequest(request: UNNotificationRequest) async {
@@ -269,8 +330,15 @@ class NotificationManager {
         // Step 3: Remove any already sent notifications from scheduled list
         try await cleanUpScheduledNotifications()
         
-        await moc.perform {
-            self.moc.assertSave()
+        // Remove any notifications from previous days
+        try await cleanUpExpiredNotifications()
+        
+        await backgroundContext.perform {
+            self.backgroundContext.assertSave()
+            
+            CoreDataManager.shared.mainContext.perform {
+                CoreDataManager.shared.mainContext.assertSave()
+            }
         }
         
         print("~o~ Finished rebalancing habit notifications! ~o~")
@@ -278,26 +346,28 @@ class NotificationManager {
     
     /// Get the next due notification
     /// - Returns: A tuple containing the next due notification NSManageObject, the date it's scheduled for, and the index of the notification
-    @MainActor func getNextNotification() async throws -> (notification: Notification, date: Date, index: Int)? {
-        let habits = Habit.habits(from: moc)
-        var nextNotifsAndDates: [(Notification, Date)] = []
-        
-        for habit in habits {
-            for notif in habit.notificationsArray {
-                let nextDate = notif.nextDue()
-                nextNotifsAndDates.append((notif, nextDate))
+    func getNextNotification() async throws -> (notification: Notification, date: Date, index: Int)? {
+        return try await backgroundContext.perform {
+            let habits = Habit.habits(from: self.backgroundContext)
+            var nextNotifsAndDates: [(Notification, Date)] = []
+            
+            for habit in habits {
+                for notif in habit.notificationsArray {
+                    let nextDate = notif.nextDue()
+                    nextNotifsAndDates.append((notif, nextDate))
+                }
+                try Task.checkCancellation()
             }
-            try Task.checkCancellation()
-        }
-        
-        nextNotifsAndDates = nextNotifsAndDates.sorted { $0.1 < $1.1 }
-        
-        if let hasNext = nextNotifsAndDates.first {
-            let lastScheduledIndex = hasNext.0.scheduledNotificationsArray.last?.index ?? -1
-            print("Next to-be scheduled notification: \(hasNext.0.habit.name), date: \(hasNext.1), index: \(lastScheduledIndex)")
-            return (hasNext.0, hasNext.1, lastScheduledIndex)
-        } else {
-            return nil
+            
+            nextNotifsAndDates = nextNotifsAndDates.sorted { $0.1 < $1.1 }
+            
+            if let hasNext = nextNotifsAndDates.first {
+                let lastScheduledIndex = hasNext.0.scheduledNotificationsArray.last?.index ?? -1
+                print("Next to-be scheduled notification: \(hasNext.0.habit.name), date: \(hasNext.1), index: \(lastScheduledIndex)")
+                return (hasNext.0, hasNext.1, lastScheduledIndex)
+            } else {
+                return nil
+            }
         }
     }
 }

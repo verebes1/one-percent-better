@@ -31,44 +31,6 @@ public class Notification: NSManagedObject {
     var moc: NSManagedObjectContext = CoreDataManager.shared.mainContext
     var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
     
-    @MainActor func createScheduledNotification(index: Int, on date: Date) async throws -> String {
-        if unscheduledNotificationStrings.isEmpty {
-            let messages = try await notificationGenerator.generateNotifications(habitName: habit.name)
-            await moc.perform {
-                guard !self.isDeleted && self.managedObjectContext != nil else {
-                    NotificationManager.shared.rebalanceTask?.cancel()
-                    return
-                }
-                self.unscheduledNotificationStrings = messages
-            }
-            try Task.checkCancellation()
-        }
-        var message: String!
-        await moc.perform {
-            guard !self.isDeleted && self.managedObjectContext != nil else {
-                NotificationManager.shared.rebalanceTask?.cancel()
-                return
-            }
-            message = self.unscheduledNotificationStrings.removeLast()
-            let scheduledNotification = ScheduledNotification(context: self.moc, index: index, date: date, string: message, notification: self)
-            self.addToScheduledNotifications(scheduledNotification)
-        }
-        try Task.checkCancellation()
-        print("Adding to scheduled notification for id: \(self.id), index: \(index), date: \(date)")
-        return message
-    }
-    
-    @MainActor func createNotificationRequest(index: Int, date: DateComponents) async throws -> UNNotificationRequest {
-        try Task.checkCancellation()
-        let identifier = "OnePercentBetter&\(id.uuidString)&\(index)"
-        let dateObject = Cal.date(from: date)!
-        let message = try await createScheduledNotification(index: index, on: dateObject)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
-        let notifContent = generateNotificationContent(message: message)
-        let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
-        return request
-    }
-    
     func nextDue() -> Date {
         fatalError("Override in subclass")
     }
