@@ -121,7 +121,6 @@ class NotificationManager {
     
     /// Clean up any expired notifications, i.e. ones that are not from today
     @MainActor func cleanUpExpiredNotifications() async throws {
-        let habits = moc.fetchArray(Habit.self)
         let notifs = await UNUserNotificationCenter.current().deliveredNotifications()
         for notif in notifs {
             // TODO: 1.1.5 Fix this for more notification frequency types!
