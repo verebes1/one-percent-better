@@ -10,7 +10,7 @@ import CoreData
 import Combine
 
 enum ProgressViewNavRoute: Hashable {
-   case editHabit
+   case editHabit(Habit)
    case newTracker
 }
 
@@ -51,6 +51,7 @@ class TrackersViewModel: ConditionalManagedObjectFetcher<Tracker> {
 
 struct HabitProgressViewContainer: View {
    
+    @EnvironmentObject var nav: HabitTabNavPath
    @StateObject var vm: ProgressViewModel
    @StateObject var tm: TrackersViewModel
    
@@ -68,12 +69,17 @@ struct HabitProgressViewContainer: View {
             .toolbar {
                ToolbarItem(placement: .navigationBarTrailing) {
                   Menu {
-                     NavigationLink(value: ProgressViewNavRoute.editHabit) {
-                        Label("Edit Habit", systemImage: "pencil")
-                     }
-                     NavigationLink(value: ProgressViewNavRoute.newTracker) {
-                        Label("New Tracker", systemImage: "plus")
-                     }
+                      Button {
+                          nav.path.append(ProgressViewNavRoute.editHabit(vm.habit))
+                      } label: {
+                          Label("Edit Habit", systemImage: "pencil")
+                      }
+                      
+                      Button {
+                          nav.path.append(ProgressViewNavRoute.newTracker)
+                      } label: {
+                          Label("New Tracker", systemImage: "plus")
+                      }
                   } label: {
                      Image(systemName: "ellipsis.circle")
                   }
@@ -82,8 +88,8 @@ struct HabitProgressViewContainer: View {
             .navigationTitle(vm.habit.name)
             .navigationBarTitleDisplayMode(.large)
             .navigationDestination(for: ProgressViewNavRoute.self) { route in
-               if case .editHabit = route {
-                  EditHabit(habit: vm.habit)
+               if case .editHabit(let habit) = route {
+                  EditHabit(habit: habit)
                      .environmentObject(vm)
                      .environmentObject(tm)
                }

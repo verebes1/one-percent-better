@@ -58,7 +58,7 @@ struct CreateHabitName: View {
                      Image(systemName: "chevron.right")
                         .rotationEffect(showSuggestions ? Angle(degrees: -90) : Angle(degrees: 90))
                   }
-                  .foregroundColor(.labelOpposite(scheme: scheme))
+                  .foregroundColor(.labelOpposite)
                }
                .transaction { transaction in
                    transaction.disablesAnimations = true
@@ -129,7 +129,7 @@ struct CreateHabitName: View {
 }
 
 //struct CreateNewHabit_Previews: PreviewProvider {
-//   
+//
 //   static var previews: some View {
 //      let moc = CoreDataManager.previews.mainContext
 //      NavigationStack {

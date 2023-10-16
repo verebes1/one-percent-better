@@ -36,7 +36,6 @@ struct SettingsView: View {
                 Text("Version \(appVersion)")
                 Spacer()
             }
-            Text("Made by ") + Text("Jeremy").foregroundColor(.primary)// + Text(" from 🇺🇸")
         }
     }
     

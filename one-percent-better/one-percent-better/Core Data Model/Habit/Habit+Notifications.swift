@@ -59,14 +59,14 @@ extension Habit {
             }
         }
         
-        await removeDeliveredNotifications()
+        removeDeliveredNotifications()
         
         if rebalance {
             notificationManager.rebalanceHabitNotifications()
         }
     }
     
-    @MainActor func removeDeliveredNotifications() {
+    func removeDeliveredNotifications() {
         moc.perform {
             for habitNotif in self.notificationsArray {
                 let id = habitNotif.id

@@ -227,6 +227,10 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
     }
     
     func cleanUp() {
+        // Remove delivered notifications
+        removeDeliveredNotifications()
+        
+        // Remove pending notifications
         for notification in notificationsArray {
             notification.removePendingNotifications()
         }

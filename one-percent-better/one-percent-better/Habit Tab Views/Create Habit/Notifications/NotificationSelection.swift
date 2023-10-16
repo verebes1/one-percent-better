@@ -53,8 +53,7 @@ struct NotificationSelection: View {
     
     var body: some View {
         Background {
-            VStack(spacing: 10) {
-                
+            VStack(spacing: 0) {
                 
                 AnimatedHabitCreationHeader(animateBell: $animateBell,
                                             title: "Reminder",
@@ -77,25 +76,12 @@ struct NotificationSelection: View {
                         Label("Random Time", systemImage: "dice")
                     }
                 } label: {
-                    VStack {
-                        Button {
-                            selectFrequency = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "plus")
-                                Text("Add Reminder")
-                            }
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 20)
-                            .fontWeight(.medium)
-                            .foregroundColor(Style.accentColor)
-                        }
-                        
-                        //                  BottomButton(label: "Add Reminder")
+                    Button {
+                        selectFrequency = true
+                    } label: {
+                        Label("Add Reminder", systemImage: "plus")
                     }
-                    .background(Color.cardColor)
-                    .cornerRadius(radius: 10)
-                    .padding(.horizontal, 20)
+                    .buttonStyle(.accent)
                 }
                 
                 if !habit.notificationsArray.isEmpty {

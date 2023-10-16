@@ -113,6 +113,7 @@ struct FrequencySelectionStack: View {
                                                         resetDay: .sunday)) {
                 XTimesPerWeekBeginningEveryY(timesPerWeek: $fssm.timesPerWeek,
                                              beginningDay: $fssm.resetDay)
+                .environmentObject(sowm)
             }
         }
         .environmentObject(sowm)
