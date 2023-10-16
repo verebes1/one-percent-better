@@ -340,4 +340,135 @@ class NotificationManager {
             }
         }
     }
+    
+    func removeNotifications(on date: Date, habitID: UUID) async {
+        var wasRebalancing = false
+        if await rebalanceManager.isRebalancing {
+            wasRebalancing = true
+            cancelRebalance()
+        }
+        
+        await backgroundContext.perform { [habitID] in
+            var notifications: [Notification]
+            do {
+                let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "id == %@", habitID as CVarArg)
+                if let habit = try self.backgroundContext.fetch(fetchRequest).first {
+                    notifications = habit.notificationsArray
+                } else {
+                    return
+                }
+            } catch {
+                assertionFailure("Unable to find notification in Core Database")
+                return
+            }
+            
+            for notification in notifications {
+                for scheduled in notification.scheduledNotificationsArray {
+                    if Cal.isDate(date, inSameDayAs: scheduled.date), scheduled.isScheduled {
+                        let identifier = "OnePercentBetter&\(scheduled.notification.id.uuidString)&\(scheduled.index)"
+                        print("remove notification with id: \(identifier)")
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+                        scheduled.isScheduled = false
+                    }
+                }
+            }
+        }
+        
+        removeDeliveredNotifications(habitID: habitID)
+        
+        if wasRebalancing {
+            rebalanceHabitNotifications()
+        } else {
+            await backgroundContext.perform {
+                self.backgroundContext.assertSave()
+                CoreDataManager.shared.mainContext.perform {
+                    CoreDataManager.shared.mainContext.assertSave()
+                }
+            }
+        }
+    }
+    
+    func removeDeliveredNotifications(habitID: UUID) {
+        backgroundContext.perform {
+            var notifications: [Notification]
+            do {
+                let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "id == %@", habitID as CVarArg)
+                if let habit = try self.backgroundContext.fetch(fetchRequest).first {
+                    notifications = habit.notificationsArray
+                } else {
+                    return
+                }
+            } catch {
+                assertionFailure("Unable to find notification in Core Database")
+                return
+            }
+            
+            for habitNotif in notifications {
+                let id = habitNotif.id
+                UNUserNotificationCenter.current().getDeliveredNotifications { [id] notifs in
+                    for notif in notifs {
+                        if notif.request.identifier.hasPrefix("OnePercentBetter&\(id)") {
+                            UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func addNotificationsBack(on date: Date, habitID: UUID) async {
+        var wasRebalancing = false
+        if await rebalanceManager.isRebalancing {
+            wasRebalancing = true
+            cancelRebalance()
+        }
+        
+        await backgroundContext.perform { [habitID] in
+            var notifications: [Notification]
+            do {
+                let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "id == %@", habitID as CVarArg)
+                if let habit = try self.backgroundContext.fetch(fetchRequest).first {
+                    notifications = habit.notificationsArray
+                } else {
+                    return
+                }
+            } catch {
+                assertionFailure("Unable to find notification in Core Database")
+                return
+            }
+            
+            for notification in notifications {
+                for scheduled in notification.scheduledNotificationsArray {
+                    if Cal.isDate(date, inSameDayAs: scheduled.date), !scheduled.isScheduled {
+                        let identifier = "OnePercentBetter&\(scheduled.notification.id.uuidString)&\(scheduled.index)"
+                        let dayComponents = Cal.dateComponents([.day, .month, .year, .hour, .minute], from: scheduled.date)
+                        let trigger = UNCalendarNotificationTrigger(dateMatching: dayComponents, repeats: false)
+                        let notifContent = notification.generateNotificationContent(message: scheduled.string)
+                        let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
+                        print("adding notification with id: \(identifier)")
+                        UNUserNotificationCenter.current().add(request) { error in
+                            if let error = error {
+                                print("error adding notification back: \(error.localizedDescription)")
+                            }
+                        }
+                        scheduled.isScheduled = true
+                    }
+                }
+            }
+        }
+        
+        if wasRebalancing {
+            rebalanceHabitNotifications()
+        } else {
+            await backgroundContext.perform {
+                self.backgroundContext.assertSave()
+                CoreDataManager.shared.mainContext.perform {
+                    CoreDataManager.shared.mainContext.assertSave()
+                }
+            }
+        }
+    }
 }
