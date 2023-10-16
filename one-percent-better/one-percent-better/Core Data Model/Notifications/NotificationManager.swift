@@ -30,12 +30,15 @@ class NotificationManager {
     
     var permissionGranted = false
     
+    var rebalanceManager: NotificationRebalanceManager!
+    
     /// Protocol for interfacing with UNUserNotificationCenter
     var userNotificationCenter: UserNotificationCenter = UNUserNotificationCenter.current()
     var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
     
     init(moc: NSManagedObjectContext = CoreDataManager.shared.backgroundContext) {
         self.backgroundContext = moc
+        self.rebalanceManager = NotificationRebalanceManager(work: self.rebalanceHabitNotificationsTask)
     }
     
     func requestNotificationPermission() async -> Bool? {
@@ -174,45 +177,12 @@ class NotificationManager {
         }
     }
     
-    // MARK: Rebalance
-    
-    var rebalanceTask: Task<Void, Never>?
-    var shouldRestartRebalance = false
-    
-    /// A boolean to indicate if there is rebalancing going on or not right now
-    var rebalanceRequestCount = 0
-    
     func rebalanceHabitNotifications() {
-        rebalanceRequestCount += 1
-        if let rt = rebalanceTask {
-            rt.cancel()
-            Task {
-                while rebalanceTask != nil {
-                    try? await Task.sleep(for: .seconds(0.3))
-                    print("~W~ waiting for cancellation to restart new rebalance ~W~")
-                }
-                startRebalanceTask()
-            }
-        } else {
-            print("~+~ Starting new rebalance task ~+~")
-            startRebalanceTask()
-        }
-    }
-    
-    func startRebalanceTask() {
-        rebalanceTask = Task {
-            do {
-                try await rebalanceHabitNotificationsTask()
-            } catch {
-                print("~-~ startRebalanceTask task was cancelled! ~-~")
-            }
-            rebalanceTask = nil
-            rebalanceRequestCount -= 1
-        }
+        Task { await rebalanceManager.requestRebalance() }
     }
     
     func cancelRebalance() {
-        rebalanceTask?.cancel()
+        Task { await rebalanceManager.cancelRebalance() }
     }
     
     func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
@@ -232,7 +202,7 @@ class NotificationManager {
             let messages = try await notificationGenerator.generateNotifications(habitName: habitName)
             try await backgroundContext.perform {
                 guard !notification.isDeleted else {
-                    NotificationManager.shared.rebalanceTask?.cancel()
+                    Task { await self.rebalanceManager.cancelRebalance() }
                     throw NotificationManagerError.notificationWasDeleted
                 }
                 notification.unscheduledNotificationStrings = messages
