@@ -114,6 +114,8 @@ prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
     )
 }
 
+// MARK: - Image
+
 extension Image {
     func fitToFrame() -> some View {
         return self
@@ -122,12 +124,21 @@ extension Image {
     }
 }
 
+// MARK: - View
+
 extension View {
     func printType() -> some View {
         print(type(of: self))
         return self
     }
+    
+    func printChanges() -> some View {
+        let _ = Self._printChanges()
+        return self
+    }
 }
+
+// MARK: - RandomAccessCollection
 
 extension RandomAccessCollection {
     /// Finds such index N that predicate is true for all elements up to
@@ -178,12 +189,5 @@ extension RandomAccessCollection where Element == Date, Index == Int {
         } else {
             return nil
         }
-    }
-}
-
-extension View {
-    func printChanges() -> some View {
-        let _ = Self._printChanges()
-        return self
     }
 }

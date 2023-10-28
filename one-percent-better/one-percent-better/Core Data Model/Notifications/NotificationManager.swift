@@ -25,16 +25,27 @@ enum NotificationManagerError: Error {
 class NotificationManager {
     
     static var shared = NotificationManager()
+    
+    /// The max number of scheduled notifications a user can have
+    /// The max allowed by iOS is 64. We leave 1 open for the optional 
+    /// repeating daily reminder, which only counts as one because it recurrs at
+    /// the same time every day with the same message.
+    static var MAX_NOTIFS = 63
+    
+    /// Use a background context when CRUDing notifications because the CRUD
+    /// operations needs to occur asynchronously to not block the UI
     var backgroundContext: NSManagedObjectContext
-    static var MAX_NOTIFS = 60
     
+    /// If notification permission was granted by the user
     var permissionGranted = false
-    
-    var rebalanceManager: NotificationRebalanceManager!
     
     /// Protocol for interfacing with UNUserNotificationCenter
     var userNotificationCenter: UserNotificationCenter = UNUserNotificationCenter.current()
     var notificationGenerator: NotificationGeneratorDelegate = NotificationGenerator()
+    
+    /// An actor used to rebalance notifications when habit notifications are changed
+    /// or replenish notifications after notifications are delivered
+    var rebalanceManager: NotificationRebalanceManager!
     
     init(moc: NSManagedObjectContext = CoreDataManager.shared.backgroundContext) {
         self.backgroundContext = moc
@@ -51,62 +62,10 @@ class NotificationManager {
         }
     }
     
-    struct PendingNotification: Comparable {
-        let notifIDString: String
-        let id: String
-        let num: Int
-        let date: Date
-        let message: String
-        
-        static func < (lhs: PendingNotification, rhs: PendingNotification) -> Bool {
-            lhs.date < rhs.date
-        }
-    }
-    
+    /// Return the pending notifications sorted by date
     func pendingNotifications() async -> [PendingNotification] {
         let pendingNotificationRequests = await userNotificationCenter.pendingNotificationRequests()
-        
-        // Step 3: Sort pending notifications by date scheduled
-        var pendingNotifications: [PendingNotification] = []
-        for notif in pendingNotificationRequests {
-            guard let calTrigger = notif.trigger as? UNCalendarNotificationTrigger else {
-                assert(false)
-                continue
-            }
-            
-            let dateComponents = calTrigger.dateComponents
-            guard dateComponents.day != nil,
-                  dateComponents.month != nil,
-                  dateComponents.year != nil,
-                  dateComponents.hour != nil,
-                  dateComponents.minute != nil else {
-                continue
-            }
-            
-            guard let date = Cal.date(from: dateComponents) else {
-                assert(false)
-                continue
-            }
-            
-            let idComponents = notif.identifier.components(separatedBy: "&")
-            
-            guard idComponents.count == 3 else {
-                assert(false)
-                continue
-            }
-            
-            let id = idComponents[1]
-            guard let num = Int(idComponents[2]) else {
-                assert(false)
-                continue
-            }
-            let body = notif.content.body
-            let pendingNotification = PendingNotification(notifIDString: notif.identifier, id: id, num: num, date: date, message: body)
-            pendingNotifications.append(pendingNotification)
-        }
-        pendingNotifications = pendingNotifications.sorted()
-        
-        return pendingNotifications
+        return pendingNotificationRequests.compactMap { $0.pendingNotification }.sorted()
     }
     
     func cleanUpScheduledNotifications() async throws {
@@ -152,7 +111,7 @@ class NotificationManager {
             }
             
             for notif in notifications {
-                guard let scheduledNotif = notif.scheduledNotificationsArray.first(where: { $0.index == notification.num }) else {
+                guard let scheduledNotif = notif.scheduledNotificationsArray.first(where: { $0.index == notification.index }) else {
                     continue
                 }
                 
@@ -185,9 +144,9 @@ class NotificationManager {
         Task { await rebalanceManager.cancelRebalance() }
     }
     
-    func createAndAddNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws {
+    func createAndAddNotificationRequest(notification: Notification, index: Int, dateComponents: DateComponents) async throws {
         try Task.checkCancellation()
-        let request = try await createNotificationRequest(notification: notification, index: index, date: date)
+        let request = try await createNotificationRequest(notification: notification, index: index, dateComponents: dateComponents)
         await addNotificationRequest(request: request)
     }
     
@@ -220,12 +179,12 @@ class NotificationManager {
         return message
     }
 
-    func createNotificationRequest(notification: Notification, index: Int, date: DateComponents) async throws -> UNNotificationRequest {
+    func createNotificationRequest(notification: Notification, index: Int, dateComponents: DateComponents) async throws -> UNNotificationRequest {
         try Task.checkCancellation()
         let identifier = await backgroundContext.perform { return "OnePercentBetter&\(notification.id.uuidString)&\(index)" }
-        let dateObject = Cal.date(from: date)!
+        let dateObject = Cal.date(from: dateComponents)!
         let message = try await createScheduledNotification(notification: notification, index: index, on: dateObject)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: false)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         let notifContent = await backgroundContext.perform { return notification.generateNotificationContent(message: message) }
         let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
         return request
@@ -260,35 +219,31 @@ class NotificationManager {
             try Task.checkCancellation()
             
             let nextIndex = (index + 1) % Self.MAX_NOTIFS
-            var dayAndTime = await notificationTime(for: notification)
-            let dayComponents = Cal.dateComponents([.day, .month, .year,], from: day)
-            dayAndTime.calendar = Cal
-            dayAndTime.day = dayComponents.day
-            dayAndTime.month = dayComponents.month
-            dayAndTime.year = dayComponents.year
-            let newDate = Cal.date(from: dayAndTime)!
+            var notifDateComponents = await notificationTime(for: notification)
+            notifDateComponents.addingDayMonthYear(from: day)
+            let notifDate = Cal.date(from: notifDateComponents)!
             
             guard let lastPendingNotif = pendingNotifications.last else {
                 // No pending notification requests, add new notification
-                try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
+                try await createAndAddNotificationRequest(notification: notification, index: nextIndex, dateComponents: notifDateComponents)
                 notificationAllowance -= 1
                 continue
             }
             
-            if newDate < lastPendingNotif.date && notificationAllowance <= 0 {
+            if notifDate < lastPendingNotif.date && notificationAllowance <= 0 {
                 pendingNotifications.removeLast()
                 // Add notification message back in unscheduledNotifications list for that notif id
                 await removeNotification(lastPendingNotif)
                 
                 // Remove the scheduled notification
-                userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.notifIDString])
+                userNotificationCenter.removePendingNotificationRequests(withIdentifiers: [lastPendingNotif.identifier])
                 
                 // Add new notification
-                try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
+                try await createAndAddNotificationRequest(notification: notification, index: nextIndex, dateComponents: notifDateComponents)
                 notificationAllowance -= 1
             } else {
                 if notificationAllowance > 0 {
-                    try await createAndAddNotificationRequest(notification: notification, index: nextIndex, date: dayAndTime)
+                    try await createAndAddNotificationRequest(notification: notification, index: nextIndex, dateComponents: notifDateComponents)
                     notificationAllowance -= 1
                 } else {
                     // Can't schedule any more notifications
@@ -303,6 +258,13 @@ class NotificationManager {
         // Remove any notifications from previous days
         try await cleanUpExpiredNotifications()
         
+        // Save background and sync to main context
+        await saveContext()
+        
+        print("~o~ Finished rebalancing habit notifications! ~o~")
+    }
+    
+    private func saveContext() async {
         await backgroundContext.perform {
             self.backgroundContext.assertSave()
             
@@ -310,8 +272,6 @@ class NotificationManager {
                 CoreDataManager.shared.mainContext.assertSave()
             }
         }
-        
-        print("~o~ Finished rebalancing habit notifications! ~o~")
     }
     
     /// Get the next due notification

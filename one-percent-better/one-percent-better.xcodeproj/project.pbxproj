@@ -170,6 +170,7 @@
 		8093B4662A8720B600DA0F52 /* HabitListMoveDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */; };
 		809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */; };
 		809943852ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */; };
+		809943872ADF6DCC00C18969 /* PendingNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943862ADF6DCC00C18969 /* PendingNotification.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80A8FF6A2A5B7ED200B43B90 /* ShareBetaFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */; };
@@ -422,6 +423,7 @@
 		8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListMoveDeleteTests.swift; sourceTree = "<group>"; };
 		809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRebalanceManager.swift; sourceTree = "<group>"; };
 		809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRebalanceManagerTests.swift; sourceTree = "<group>"; };
+		809943862ADF6DCC00C18969 /* PendingNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingNotification.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
 		80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareBetaFeedback.swift; sourceTree = "<group>"; };
@@ -1030,6 +1032,7 @@
 				80744F6829B5592B00DAF196 /* Notification.swift */,
 				8068F9E82A4CFC5B0028E378 /* NotificationGenerator.swift */,
 				8040282A29C413E2003D27CE /* NotificationManager.swift */,
+				809943862ADF6DCC00C18969 /* PendingNotification.swift */,
 				809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */,
 				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
 				8040282629C2B384003D27CE /* ScheduledNotification.swift */,
@@ -1303,6 +1306,7 @@
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
+				809943872ADF6DCC00C18969 /* PendingNotification.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
 				8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */,
