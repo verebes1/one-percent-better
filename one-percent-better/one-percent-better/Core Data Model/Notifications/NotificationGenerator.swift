@@ -26,8 +26,7 @@ class NotificationGenerator: NotificationGeneratorDelegate {
    func generateNotifications(habitName: String) async throws -> [String] {
       self.habitName = habitName
       return try await withCheckedThrowingContinuation { continuation in
-         Task.detached { [weak self] in
-            guard let self else { return }
+         Task {
             var notifs: [String] = []
             let adjectiveArray = ["creative": 7, "motivating": 5, "sassy": 5, "funny": 10, "funny Gen Z": 5]
             for (adjective, count) in adjectiveArray {

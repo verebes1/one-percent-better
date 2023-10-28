@@ -212,12 +212,9 @@ class NotificationManager {
         // or maximum number of notification requests is reached
         for _ in 0 ..< Self.MAX_NOTIFS {
             try Task.checkCancellation()
-            
             guard let (notification, day, index) = try await getNextNotification() else {
                 break
             }
-            try Task.checkCancellation()
-            
             let nextIndex = (index + 1) % Self.MAX_NOTIFS
             var notifDateComponents = await notificationTime(for: notification)
             notifDateComponents.addingDayMonthYear(from: day)
