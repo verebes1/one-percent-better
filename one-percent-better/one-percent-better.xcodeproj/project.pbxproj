@@ -167,6 +167,7 @@
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
 		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
 		8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36528767F7A00D0CB1B /* RingShape.swift */; };
+		808F44A32AEDD5E400E346D4 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 808F44A22AEDD5E400E346D4 /* OpenAI */; };
 		8093B4662A8720B600DA0F52 /* HabitListMoveDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */; };
 		809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */; };
 		809943852ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */; };
@@ -181,7 +182,6 @@
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AF1F212A6F690F00DFAEB6 /* DueOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AF1F202A6F690F00DFAEB6 /* DueOnTests.swift */; };
 		80BA250A29B7F3900072B1AA /* RandomTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BA250929B7F3900072B1AA /* RandomTimeTests.swift */; };
-		80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 80BA250C29B8155C0072B1AA /* OpenAISwift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
 		80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A228E69EB2002A1347 /* ChartTest.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
@@ -485,7 +485,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */,
+				808F44A32AEDD5E400E346D4 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1106,7 +1106,7 @@
 			);
 			name = "one-percent-better";
 			packageProductDependencies = (
-				80BA250C29B8155C0072B1AA /* OpenAISwift */,
+				808F44A22AEDD5E400E346D4 /* OpenAI */,
 			);
 			productName = "one-percent-better-swiftui";
 			productReference = 8055A9702831BAA5009A1881 /* One Percent Better.app */;
@@ -1181,7 +1181,7 @@
 			);
 			mainGroup = 8055A9672831BAA5009A1881;
 			packageReferences = (
-				80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */,
+				808F44A12AEDD5E400E346D4 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 8055A9712831BAA5009A1881 /* Products */;
 			projectDirPath = "";
@@ -1776,21 +1776,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */ = {
+		808F44A12AEDD5E400E346D4 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/adamrushy/OpenAISwift.git";
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.3.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		80BA250C29B8155C0072B1AA /* OpenAISwift */ = {
+		808F44A22AEDD5E400E346D4 /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */;
-			productName = OpenAISwift;
+			package = 808F44A12AEDD5E400E346D4 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 

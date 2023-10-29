@@ -14,7 +14,7 @@ protocol NotificationGeneratorDelegate {
 class NotificationGenerator: NotificationGeneratorDelegate {
    
    var habitName: String!
-   var chatGPT: ChatGPTDelegate = OpenAI()
+   var chatGPT: ChatGPTDelegate = OpenAIManager()
    
    func notificationPrompt(n: Int, adjective: String) -> String {
       return """
