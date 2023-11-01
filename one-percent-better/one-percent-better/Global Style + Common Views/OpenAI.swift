@@ -42,7 +42,7 @@ class OpenAIManager: ChatGPTDelegate {
     
     /// Query ChatGPT with a prompt and maxTokens
     func queryChatGPT(prompt: String, maxTokens: Int = 400) async throws -> String {
-        let query = ChatQuery(model: .gpt4, messages: [.init(role: .assistant, content: prompt) ], maxTokens: maxTokens)
+        let query = ChatQuery(model: .gpt4, messages: [.init(role: .assistant, content: prompt)], maxTokens: maxTokens)
         let result = try await openAI.chats(query: query)
         if let answer = result.choices.first?.message.content {
             return answer

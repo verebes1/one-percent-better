@@ -49,12 +49,6 @@ actor NotificationRebalanceManager {
             await task.value
         }
     }
-    
-    func waitForFinish() async {
-        if let task = currentTask {
-            await task.value
-        }
-    }
 }
 
 

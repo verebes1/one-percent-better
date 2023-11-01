@@ -206,7 +206,7 @@ class NotificationManager: ObservableObject {
     }
     
     func rebalance() {
-        print("rebalancing....")
+        print("Requesting rebalance....")
         Task { await rebalanceManager.requestRebalance() }
     }
     
@@ -315,15 +315,9 @@ class NotificationManager: ObservableObject {
         }
     }
     
-    func removeNotifications(on date: Date, habitID: UUID) async {
-        var wasRebalancing = false
-        if await rebalanceManager.isRebalancing {
-            wasRebalancing = true
-            cancelRebalance()
-        }
-        
+    func notifications(for habitID: UUID) async -> [Notification] {
+        var notifications: [Notification] = []
         await backgroundContext.perform { [habitID] in
-            var notifications: [Notification]
             do {
                 let fetchRequest: NSFetchRequest<Habit> = Habit.fetchRequest()
                 fetchRequest.predicate = NSPredicate(format: "id == %@", habitID as CVarArg)
@@ -336,13 +330,23 @@ class NotificationManager: ObservableObject {
                 assertionFailure("Unable to find notification in Core Database")
                 return
             }
-            
+        }
+        return notifications
+    }
+    
+    func removeNotifications(on date: Date, habitID: UUID) async {
+        var wasRebalancing = false
+        if await rebalanceManager.isRebalancing {
+            wasRebalancing = true
+            cancelRebalance()
+        }
+        let notifications = await notifications(for: habitID)
+        await backgroundContext.perform {
             for notification in notifications {
                 for scheduled in notification.scheduledNotificationsArray {
                     if Cal.isDate(date, inSameDayAs: scheduled.date), scheduled.isScheduled {
-                        let identifier = "OnePercentBetter&\(scheduled.notification.id.uuidString)&\(scheduled.index)"
-                        print("remove notification with id: \(identifier)")
-                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [identifier])
+                        print("remove notification with id: \(scheduled.identifier)")
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [scheduled.identifier])
                         scheduled.isScheduled = false
                     }
                 }
@@ -384,6 +388,7 @@ class NotificationManager: ObservableObject {
                 UNUserNotificationCenter.current().getDeliveredNotifications { [id] notifs in
                     for notif in notifs {
                         if notif.request.identifier.hasPrefix("OnePercentBetter&\(id)") {
+                            print("Removing delivered notification: OnePercentBetter&\(id)")
                             UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
                         }
                     }
@@ -417,12 +422,11 @@ class NotificationManager: ObservableObject {
             for notification in notifications {
                 for scheduled in notification.scheduledNotificationsArray {
                     if Cal.isDate(date, inSameDayAs: scheduled.date), !scheduled.isScheduled {
-                        let identifier = "OnePercentBetter&\(scheduled.notification.id.uuidString)&\(scheduled.index)"
                         let dayComponents = Cal.dateComponents([.day, .month, .year, .hour, .minute], from: scheduled.date)
                         let trigger = UNCalendarNotificationTrigger(dateMatching: dayComponents, repeats: false)
                         let notifContent = notification.generateNotificationContent(message: scheduled.string)
-                        let request = UNNotificationRequest(identifier: identifier, content: notifContent, trigger: trigger)
-                        print("adding notification with id: \(identifier)")
+                        let request = UNNotificationRequest(identifier: scheduled.identifier, content: notifContent, trigger: trigger)
+                        print("adding notification with id: \(scheduled.identifier)")
                         UNUserNotificationCenter.current().add(request) { error in
                             if let error = error {
                                 print("error adding notification back: \(error.localizedDescription)")
