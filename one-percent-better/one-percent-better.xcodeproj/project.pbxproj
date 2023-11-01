@@ -168,6 +168,7 @@
 		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
 		8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36528767F7A00D0CB1B /* RingShape.swift */; };
 		808F44A32AEDD5E400E346D4 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 808F44A22AEDD5E400E346D4 /* OpenAI */; };
+		808F44A52AF1CF5100E346D4 /* DeveloperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808F44A42AF1CF5100E346D4 /* DeveloperController.swift */; };
 		8093B4662A8720B600DA0F52 /* HabitListMoveDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */; };
 		809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */; };
 		809943852ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */; };
@@ -420,6 +421,7 @@
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
 		8081A3632874E72900D0CB1B /* GradientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTest.swift; sourceTree = "<group>"; };
 		8081A36528767F7A00D0CB1B /* RingShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingShape.swift; sourceTree = "<group>"; };
+		808F44A42AF1CF5100E346D4 /* DeveloperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperController.swift; sourceTree = "<group>"; };
 		8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListMoveDeleteTests.swift; sourceTree = "<group>"; };
 		809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRebalanceManager.swift; sourceTree = "<group>"; };
 		809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRebalanceManagerTests.swift; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 				8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */,
 				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 				8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */,
+				808F44A42AF1CF5100E346D4 /* DeveloperController.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -1346,6 +1349,7 @@
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80F6671F2A33F77600095E60 /* Frequency.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
+				808F44A52AF1CF5100E346D4 /* DeveloperController.swift in Sources */,
 				802AB86B29F9F93100210AD6 /* YearGridCell.swift in Sources */,
 				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
 				802AB86D29FCC40000210AD6 /* HabitCreationObject.swift in Sources */,

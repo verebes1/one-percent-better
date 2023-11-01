@@ -156,7 +156,7 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         for notification in notificationsArray {
             notification.completeReset()
         }
-        notificationManager.rebalanceHabitNotifications()
+        notificationManager.rebalance()
     }
     
     var editableTrackers: [Tracker] {

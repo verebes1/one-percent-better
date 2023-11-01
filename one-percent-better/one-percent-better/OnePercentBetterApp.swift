@@ -20,8 +20,9 @@ struct OnePercentBetterApp: App {
                     .environment(\.managedObjectContext, coreDataManager.mainContext)
                     .onAppear {
                         print("NSHomeDirectory: \(NSHomeDirectory())")
+                        print("Device UDID: \(String(describing: UIDevice.current.identifierForVendor?.uuidString))")
                         FeatureLogController.shared.setUp()
-                        NotificationManager.shared.rebalanceHabitNotifications()
+                        NotificationManager.shared.rebalance()
                     }
             } else {
                 // App behavior during testing

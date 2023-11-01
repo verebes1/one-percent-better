@@ -12,7 +12,7 @@ import CoreData
 extension Habit {
     func addNotification(_ notification: Notification) {
         self.addToNotifications(notification)
-        notificationManager.rebalanceHabitNotifications()
+        notificationManager.rebalance()
     }
     
     func addNotifications(_ notifications: [Notification]) {
@@ -20,7 +20,7 @@ extension Habit {
             self.addToNotifications(notif)
         }
         if !notifications.isEmpty {
-            notificationManager.rebalanceHabitNotifications()
+            notificationManager.rebalance()
         }
     }
 }

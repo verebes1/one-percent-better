@@ -44,8 +44,8 @@ class OpenAIManager: ChatGPTDelegate {
     func queryChatGPT(prompt: String, maxTokens: Int = 400) async throws -> String {
         let query = ChatQuery(model: .gpt4, messages: [.init(role: .assistant, content: prompt) ], maxTokens: maxTokens)
         let result = try await openAI.chats(query: query)
-        if let ans = result.choices.first?.message.content {
-            return ans
+        if let answer = result.choices.first?.message.content {
+            return answer
         } else {
             throw OpenAIError.emptyMessageResponse
         }

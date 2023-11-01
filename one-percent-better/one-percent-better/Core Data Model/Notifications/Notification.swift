@@ -65,7 +65,7 @@ public class Notification: NSManagedObject {
     }
     
     public override func prepareForDeletion() {
-        NotificationManager.shared.rebalanceHabitNotifications()
+        NotificationManager.shared.rebalance()
     }
 }
 

@@ -10,7 +10,7 @@ import CoreData
 
 enum SettingsNavRoute: Hashable {
     case dailyReminder(Settings)
-    case habitNotifications
+    case debugNotifications
     case feedback
     case privacy
 }
@@ -57,9 +57,11 @@ struct SettingsView: View {
                                 DailyReminderRow()
                             }
                             
-                            // Habit Notifications Debug View
-                            NavigationLink(value: SettingsNavRoute.habitNotifications) {
-                                IconTextRow(title: "Habit Notifications", icon: "bell.fill", color: .cyan)
+                            if DeveloperController.shared.isDeveloper {
+                                // Habit Notifications Debug View
+                                NavigationLink(value: SettingsNavRoute.debugNotifications) {
+                                    IconTextRow(title: "Debug Notifications", icon: "bell.fill", color: .cyan)
+                                }
                             }
                         }
                         .listRowBackground(Color.cardColor)
@@ -99,7 +101,7 @@ struct SettingsView: View {
                         switch route {
                         case .dailyReminder(let settings):
                             DailyReminder(settings: settings)
-                        case .habitNotifications:
+                        case .debugNotifications:
                             AllHabitNotifications()
                         case .feedback:
                             ShareBetaFeedback()

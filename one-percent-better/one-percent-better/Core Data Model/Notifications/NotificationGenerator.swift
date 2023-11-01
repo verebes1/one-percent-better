@@ -77,30 +77,30 @@ class NotificationGenerator: NotificationGeneratorDelegate {
       }
    }
    
-   func getAINotifications(_ n: Int, adjective: String, level: Int = 0) async throws -> [String]? {
-      guard level <= 3 else { return nil }
+   func getAINotifications(_ n: Int, adjective: String, retryAttempt: Int = 0) async throws -> [String]? {
+      guard retryAttempt <= 3 else { return nil }
       
       try Task.checkCancellation()
       
       var list: [String] = []
       var answer: String!
-      print("Fetching \(n) \(adjective) notifications for habit \(habitName!) from ChatGPT... level: \(level)")
+      print("Fetching \(n) \(adjective) notifications for habit \(habitName!) from ChatGPT... level: \(retryAttempt)")
       do {
          let chatGPTAnswer = try await chatGPT.queryChatGPT(prompt: notificationPrompt(n: n, adjective: adjective), maxTokens: 400)
          answer = chatGPTAnswer
       } catch {
          print("Error getting response from ChatGPT: \(error.localizedDescription)")
-         return try await getAINotifications(n, adjective: adjective, level: level + 1)
+         return try await getAINotifications(n, adjective: adjective, retryAttempt: retryAttempt + 1)
       }
       
       guard let parsedList = parseGPTAnswerIntoArray(answer) else {
-         return try await getAINotifications(n, adjective: adjective, level: level + 1)
+         return try await getAINotifications(n, adjective: adjective, retryAttempt: retryAttempt + 1)
       }
       list = parsedList
       
       // accept if received 80% or more of requested notifications
       guard list.count >= Int(0.8 * Double(n)) else {
-         return try await getAINotifications(n, adjective: adjective, level: level + 1)
+         return try await getAINotifications(n, adjective: adjective, retryAttempt: retryAttempt + 1)
       }
       
       list = list.map { $0.trimmingCharacters(in: .whitespaces) }

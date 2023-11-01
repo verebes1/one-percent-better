@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreData
+import Combine
 
 protocol UserNotificationCenter {
     func add(_ request: UNNotificationRequest, withCompletionHandler completionHandler: ((Error?) -> Void)?)
@@ -22,7 +23,7 @@ enum NotificationManagerError: Error {
     case notificationWasDeleted
 }
 
-class NotificationManager {
+class NotificationManager: ObservableObject {
     
     static var shared = NotificationManager()
     
@@ -47,11 +48,26 @@ class NotificationManager {
     /// or replenish notifications after notifications are delivered
     var rebalanceManager: NotificationRebalanceManager!
     
+    var isRebalancingObserver: PassthroughSubject<Bool, Never> = .init()
+    
+    @Published var isRebalancing = false
+    
+    private var cancelBag: Set<AnyCancellable> = []
+    
     init(moc: NSManagedObjectContext = CoreDataManager.shared.backgroundContext) {
         self.backgroundContext = moc
-        self.rebalanceManager = NotificationRebalanceManager(work: self.rebalanceHabitNotificationsTask)
+        self.rebalanceManager = NotificationRebalanceManager(work: self._rebalance, observer: isRebalancingObserver)
+        
+        isRebalancingObserver.sink { newValue in
+            Task { @MainActor in
+                self.isRebalancing = newValue
+            }
+        }
+        .store(in: &cancelBag)
     }
     
+    /// Get notification permission from the user
+    /// - Returns: True/false and nil for error
     func requestNotificationPermission() async -> Bool? {
         do {
             permissionGranted = try await userNotificationCenter.requestAuthorization(options: [.alert, .badge, .sound])
@@ -114,7 +130,6 @@ class NotificationManager {
                 guard let scheduledNotif = notif.scheduledNotificationsArray.first(where: { $0.index == notification.index }) else {
                     continue
                 }
-                
                 notif.unscheduledNotificationStrings.append(notification.message)
                 notif.removeFromScheduledNotifications(scheduledNotif)
                 self.backgroundContext.delete(scheduledNotif)
@@ -134,14 +149,6 @@ class NotificationManager {
             }
             fatalError("Unable to get time for notification")
         }
-    }
-    
-    func rebalanceHabitNotifications() {
-        Task { await rebalanceManager.requestRebalance() }
-    }
-    
-    func cancelRebalance() {
-        Task { await rebalanceManager.cancelRebalance() }
     }
     
     func createAndAddNotificationRequest(notification: Notification, index: Int, dateComponents: DateComponents) async throws {
@@ -198,7 +205,16 @@ class NotificationManager {
         }
     }
     
-    func rebalanceHabitNotificationsTask() async throws {
+    func rebalance() {
+        print("rebalancing....")
+        Task { await rebalanceManager.requestRebalance() }
+    }
+    
+    func cancelRebalance() {
+        Task { await rebalanceManager.cancelRebalance() }
+    }
+    
+    private func _rebalance() async throws {
         
         print("~~~ Rebalancing habit notifications! ~~~")
         
@@ -249,7 +265,8 @@ class NotificationManager {
             }
         }
         
-        // Step 3: Remove any already sent notifications from scheduled list
+        // Step 3: Clean Up
+        // Remove any already sent notifications from scheduled list
         try await cleanUpScheduledNotifications()
         
         // Remove any notifications from previous days
@@ -335,7 +352,7 @@ class NotificationManager {
         removeDeliveredNotifications(habitID: habitID)
         
         if wasRebalancing {
-            rebalanceHabitNotifications()
+            rebalance()
         } else {
             await backgroundContext.perform {
                 self.backgroundContext.assertSave()
@@ -418,7 +435,7 @@ class NotificationManager {
         }
         
         if wasRebalancing {
-            rebalanceHabitNotifications()
+            rebalance()
         } else {
             await backgroundContext.perform {
                 self.backgroundContext.assertSave()
