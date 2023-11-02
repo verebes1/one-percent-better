@@ -12,15 +12,14 @@ Features:
 - **Insights**: View cumulative statistics of all your habits, such as a moving average of your daily percent completion rate.
 - **Light and Dark Mode**: Choose between the two or to use the system's setting.
 
-<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/acc15ea1-5af0-4ca1-a86e-243c7b342737.png" width="300">
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/df439f74-7d85-4151-a781-66f3826d7718.png" width="300">
 
-<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/fb40afe8-3fad-42d2-996f-be61271e3cbe.png" width="300">
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/213cb8a8-bc6d-4ef0-a58a-de05d332df88.png" width="300">
 
-<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/7ee30118-6b43-4117-8e72-bd5ecd5419c5.png" width="300">
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/adc4b8b1-5e40-4f14-830b-bfb7fffd2f8c.png" width="300">
 
-<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/7d21fcaf-802b-442e-bc86-f4ad1b6d2820.png" width="300">
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/a032082b-c312-4fb3-b000-092942e2d002.png" width="300">
 
-<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/521a37f9-86f3-4588-bed6-b8d6cf59d610.png" width="300">
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/30af38a6-a2d9-40f7-a78c-d187c28bebaa.png" width="300">
 
-<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/85485043-5984-4a31-aabb-1b9731950c34.png" width="300">
-
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/ca109f74-36ef-4fbc-8af4-66c429397bbb.png" width="300">
