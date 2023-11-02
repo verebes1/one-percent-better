@@ -1,4 +1,4 @@
-# one-percent-better
+# 1% Better
 An iOS app written in SwiftUI to visualize and track the progress of habits. The idea behind 1% Better is you can only get at most 1% better at something every day. If you try to get 5% better at something every day, you'll soon run out of steam and burn out. If you only get 0.5% better at something every day, you'll not see enough progress and get bored and quit. This app is designed to help you find your 1% better every day range in order to stay consistent with your habits in the long run.
 Features:
 - **Improvement Score**: Every time you complete your habit this score will grow 1% bigger, and every time you don't it will decay 0.5% smaller.
