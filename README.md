@@ -16,4 +16,11 @@ Features:
 
 <img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/fb40afe8-3fad-42d2-996f-be61271e3cbe.png" width="300">
 
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/7ee30118-6b43-4117-8e72-bd5ecd5419c5.png" width="300">
+
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/7d21fcaf-802b-442e-bc86-f4ad1b6d2820.png" width="300">
+
+<img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/521a37f9-86f3-4588-bed6-b8d6cf59d610.png" width="300">
+
 <img src="https://github.com/cook-jeremy/one-percent-better/assets/12803067/85485043-5984-4a31-aabb-1b9731950c34.png" width="300">
+
