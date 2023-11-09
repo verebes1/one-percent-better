@@ -38,7 +38,7 @@ struct CreateNewTracker: View {
     let photoTrackerItem = TrackerListItem(title: "Photo",
                                            description: "Track visual progress using a photo, such as a plant growing over time.",
                                            systemImage: "photo",
-                                           color: .mint)
+                                           color: .green)
     
     let exerciseTrackerItem = TrackerListItem(title: "Exercise",
                                               description: "Track the sets of weights and reps you do at the gym.",
@@ -78,15 +78,15 @@ struct CreateNewTracker: View {
                     }
                     .listRowBackground(Color.cardColor)
                     
-                    //               NavigationLink(value: CreateTrackerNavRoute.timeTracker(habit)) {
-                    CreateTrackerListItem(tracker: timeTrackerItem)
-                    //               }
-                        .listRowBackground(Color.cardColor)
-                    
-                    //               NavigationLink(value: CreateTrackerNavRoute.noteTracker(habit)) {
-                    CreateTrackerListItem(tracker: noteTrackerItem)
-                    //               }
-                        .listRowBackground(Color.cardColor)
+//                    NavigationLink(value: CreateTrackerNavRoute.timeTracker(habit)) {
+//                        CreateTrackerListItem(tracker: timeTrackerItem)
+//                    }
+//                    .listRowBackground(Color.cardColor)
+//
+//                    NavigationLink(value: CreateTrackerNavRoute.noteTracker(habit)) {
+//                        CreateTrackerListItem(tracker: noteTrackerItem)
+//                    }
+//                    .listRowBackground(Color.cardColor)
                 }
                 .listStyle(.insetGrouped)
                 .scrollContentBackground(.hidden)

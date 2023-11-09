@@ -64,6 +64,7 @@ public class Notification: NSManagedObject {
     }
     
     public override func prepareForDeletion() {
+        print("notif preparing for deletion")
         NotificationManager.shared.rebalance()
     }
 }
