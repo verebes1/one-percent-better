@@ -27,6 +27,12 @@ struct TrackersContainer: Codable {
     let exerciseTrackers: [ExerciseTracker]?
 }
 
+struct FrequenciesContainer: Codable {
+    let specificWeekdays: [SpecificWeekdaysFrequency]
+    let xTimesPerWeek: [XTimesPerWeekFrequency]
+    let xTimesPerDay: [XTimesPerDayFrequency]
+}
+
 @objc(Habit)
 public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
     
@@ -249,6 +255,7 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         
         // TODO: 1.0.9 Add notifications container
         // TODO: 1.1.2 Add frequencies container
+        case frequenciesContainer
     }
     
     required convenience public init(from decoder: Decoder) throws {
@@ -308,6 +315,15 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
                 }
             }
         }
+        
+        if let frequenciesContainer = try? container.decode(FrequenciesContainer.self, forKey: .frequenciesContainer) {
+            var allFrequencies: [Frequency] = frequenciesContainer.specificWeekdays + frequenciesContainer.xTimesPerDay + frequenciesContainer.xTimesPerWeek
+            allFrequencies = allFrequencies.sorted { $0.startDate < $1.startDate }
+            for freq in allFrequencies {
+                freq.habit = self
+                self.addToFrequencies(freq)
+            }
+        }
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -334,6 +350,13 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         }
         let trackersContainer = TrackersContainer(numberTrackers: numberTrackers, improvementTracker: improvementTracker, imageTrackers: imageTrackers, exerciseTrackers: exerciseTrackers)
         try container.encode(trackersContainer, forKey: .trackersContainer)
+        
+        // Bundle up frequencies into a container struct
+        let xTimesPerDay = frequenciesArray.compactMap { $0 as? XTimesPerDayFrequency }
+        let specificWeekdays = frequenciesArray.compactMap { $0 as? SpecificWeekdaysFrequency }
+        let xTimesPerWeek = frequenciesArray.compactMap { $0 as? XTimesPerWeekFrequency }
+        let frequenciesContainer = FrequenciesContainer(specificWeekdays: specificWeekdays, xTimesPerWeek: xTimesPerWeek, xTimesPerDay: xTimesPerDay)
+        try container.encode(frequenciesContainer, forKey: .frequenciesContainer)
         
         try container.encode(startDate, forKey: .startDate)
         try container.encode(daysCompleted, forKey: .daysCompleted)

@@ -80,6 +80,27 @@ struct SettingsView: View {
                         }
                         .listRowBackground(Color.cardColor)
                         
+                        // Export/import
+                        Section(header: Text("Data")) {
+                           Button {
+                              if let jsonFile = exportManager.createJSON(context: CoreDataManager.shared.mainContext) {
+                                 exportJson = jsonFile
+                                 showActivityController = true
+                              }
+                           } label: {
+                              IconTextRow(title: "Export Data", icon: "square.and.arrow.up", color: .red)
+                           }
+                           .buttonStyle(PlainButtonStyle())
+                           
+                           Button {
+                              showDocumentPicker = true
+                           } label: {
+                              IconTextRow(title: "Import Data", icon: "square.and.arrow.down", color: .blue)
+                           }
+                           .buttonStyle(PlainButtonStyle())
+                        }
+                        .listRowBackground(Color.cardColor)
+                        
                         // Privacy
                         Section {
                             NavigationLink(value: SettingsNavRoute.privacy) {
