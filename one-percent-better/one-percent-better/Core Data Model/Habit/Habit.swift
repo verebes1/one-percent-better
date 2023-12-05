@@ -33,6 +33,11 @@ struct FrequenciesContainer: Codable {
     let xTimesPerDay: [XTimesPerDayFrequency]
 }
 
+struct NotificationsContainer: Codable {
+    let randomTimeNotifications: [RandomTimeNotification]
+    let specificTimeNotifications: [SpecificTimeNotification]
+}
+
 @objc(Habit)
 public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
     
@@ -252,10 +257,8 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         case daysCompleted
         case timesCompleted
         case trackersContainer
-        
-        // TODO: 1.0.9 Add notifications container
-        // TODO: 1.1.2 Add frequencies container
         case frequenciesContainer
+        case notifications
     }
     
     required convenience public init(from decoder: Decoder) throws {
@@ -324,6 +327,14 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
                 self.addToFrequencies(freq)
             }
         }
+        
+        let notificationsContainer = try! container.decode(NotificationsContainer.self, forKey: .notifications)
+            let allNotifications: [Notification] = notificationsContainer.randomTimeNotifications + notificationsContainer.specificTimeNotifications
+            for notif in allNotifications {
+                notif.habit = self
+                self.addToNotifications(notif)
+            }
+        
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -357,6 +368,12 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         let xTimesPerWeek = frequenciesArray.compactMap { $0 as? XTimesPerWeekFrequency }
         let frequenciesContainer = FrequenciesContainer(specificWeekdays: specificWeekdays, xTimesPerWeek: xTimesPerWeek, xTimesPerDay: xTimesPerDay)
         try container.encode(frequenciesContainer, forKey: .frequenciesContainer)
+        
+        // Bundle up notifications into a container struct
+        let randomTimes = notificationsArray.compactMap { $0 as? RandomTimeNotification }
+        let specificTimes = notificationsArray.compactMap { $0 as? SpecificTimeNotification }
+        let notificationsContainer = NotificationsContainer(randomTimeNotifications: randomTimes, specificTimeNotifications: specificTimes)
+        try container.encode(notificationsContainer, forKey: .notifications)
         
         try container.encode(startDate, forKey: .startDate)
         try container.encode(daysCompleted, forKey: .daysCompleted)

@@ -11,7 +11,7 @@ import CoreData
 import UIKit
 
 @objc(Notification)
-public class Notification: NSManagedObject {
+public class Notification: NSManagedObject, Codable {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Notification> {
         return NSFetchRequest<Notification>(entityName: "Notification")
     }
@@ -66,6 +66,20 @@ public class Notification: NSManagedObject {
     public override func prepareForDeletion() {
         print("notif preparing for deletion")
         NotificationManager.shared.rebalance()
+    }
+    
+    // MARK: - Encodable
+    
+    /// Method to conform to Decodable, but should not be used
+    /// - Parameter decoder: decoder
+    required convenience public init(from decoder: Decoder) throws {
+        fatalError("Decoder on \(#file) should not be called")
+    }
+    
+    /// Method to conform to Encodable, but should not be used
+    /// - Parameter encoder: encoder
+    public func encode(to encoder: Encoder) throws {
+        fatalError("Encoder on \(#file) should not be called")
     }
 }
 

@@ -40,9 +40,9 @@ class NotificationGenerator: NotificationGeneratorDelegate {
         try await Task.sleep(for: .milliseconds(sleepTime))
         async let rhyming = try await getAINotifications(5, adjective: "rhyming")
         let allResults = try await [creative, motivating, sassy, funny, punny, rhyming]
-        allResults
-            .compactMap { $0 }
-            .forEach { notifs.append(contentsOf: $0) }
+        notifs = allResults
+            .flatMap { $0 }
+            .shuffled()
         
         if notifs.isEmpty {
             notifs = defaultNotifications()
@@ -85,8 +85,8 @@ class NotificationGenerator: NotificationGeneratorDelegate {
         }
     }
     
-    func getAINotifications(_ n: Int, adjective: String, retryAttempt: Int = 0) async throws -> [String]? {
-        guard retryAttempt <= 3 else { return nil }
+    func getAINotifications(_ n: Int, adjective: String, retryAttempt: Int = 0) async throws -> [String] {
+        guard retryAttempt <= 3 else { return [] }
         
         try Task.checkCancellation()
         
