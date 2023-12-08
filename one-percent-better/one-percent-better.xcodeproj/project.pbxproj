@@ -332,7 +332,7 @@
 		80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTrackerEnterDataView.swift; sourceTree = "<group>"; };
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
-		8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeStartingWeekdayView.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Settings Tab Views/ChangeStartingWeekdayView.swift"; sourceTree = "<absolute>"; };
+		8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStartingWeekdayView.swift; sourceTree = "<group>"; };
 		8038AB242A959A9E0048A946 /* opb 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 21.xcdatamodel"; sourceTree = "<group>"; };
 		8038AB262A95A0230048A946 /* SelectedDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDayView.swift; sourceTree = "<group>"; };
 		8038AB292A95A3470048A946 /* GeneratePreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePreviewData.swift; sourceTree = "<group>"; };
