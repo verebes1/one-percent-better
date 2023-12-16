@@ -119,6 +119,17 @@ class NotificationManager {
         }
     }
     
+    /// Clean up any expired notifications, i.e. ones that are not from today
+    @MainActor func cleanUpExpiredNotifications() async throws {
+        let notifs = await UNUserNotificationCenter.current().deliveredNotifications()
+        for notif in notifs {
+            // TODO: 1.1.5 Fix this for more notification frequency types!
+            if !Cal.isDateInToday(notif.date) {
+                UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notif.request.identifier])
+            }
+        }
+    }
+    
     @MainActor func removeNotification(_ notification: PendingNotification) async {
         var notifications: [Notification]
         do {
@@ -268,6 +279,9 @@ class NotificationManager {
         
         // Step 3: Remove any already sent notifications from scheduled list
         try await cleanUpScheduledNotifications()
+        
+        // Remove any notifications from previous days
+        try await cleanUpExpiredNotifications()
         
         await moc.perform {
             self.moc.assertSave()

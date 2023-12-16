@@ -48,8 +48,9 @@ struct CreateHabitFrequency: View {
                     isGoingToNotifications = true
                     nav.path.append(ChooseFrequencyRoute.next(habit, fssm.selection))
                 } label: {
-                    BottomButton(label: "Next")
+                    Text("Next")
                 }
+                .buttonStyle(.wideAccent)
             }
             .navigationDestination(for: ChooseFrequencyRoute.self) { route in
                 if case let .next(habit, habitFrequency) = route {
