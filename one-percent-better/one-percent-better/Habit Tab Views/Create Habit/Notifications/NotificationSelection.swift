@@ -57,7 +57,7 @@ struct NotificationSelection: View {
                 
                 AnimatedHabitCreationHeader(animateBell: $animateBell,
                                             title: "Reminder",
-                                            subtitle: "Add reminders powered by AI to complete your habit.")
+                                            subtitle: "Add AI-generated reminders to complete your habit.")
                 
                 Menu {
                     Button {

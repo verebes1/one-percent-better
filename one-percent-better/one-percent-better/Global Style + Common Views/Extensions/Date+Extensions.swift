@@ -45,3 +45,13 @@ extension Int {
         (self % 4 == 0 && self % 100 != 0) || self % 400 == 0
     }
 }
+
+extension DateComponents {
+    mutating func addingDayMonthYear(from date: Date) {
+        let dmyComponents = Cal.dateComponents([.day, .month, .year,], from: date)
+        self.calendar = Cal
+        self.day = dmyComponents.day
+        self.month = dmyComponents.month
+        self.year = dmyComponents.year
+    }
+}

@@ -27,6 +27,17 @@ struct TrackersContainer: Codable {
     let exerciseTrackers: [ExerciseTracker]?
 }
 
+struct FrequenciesContainer: Codable {
+    let specificWeekdays: [SpecificWeekdaysFrequency]
+    let xTimesPerWeek: [XTimesPerWeekFrequency]
+    let xTimesPerDay: [XTimesPerDayFrequency]
+}
+
+struct NotificationsContainer: Codable {
+    let randomTimeNotifications: [RandomTimeNotification]
+    let specificTimeNotifications: [SpecificTimeNotification]
+}
+
 @objc(Habit)
 public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
     
@@ -156,7 +167,7 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         for notification in notificationsArray {
             notification.completeReset()
         }
-        notificationManager.rebalanceHabitNotifications()
+        notificationManager.rebalance()
     }
     
     var editableTrackers: [Tracker] {
@@ -228,7 +239,7 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
     
     func cleanUp() {
         // Remove delivered notifications
-        removeDeliveredNotifications()
+        NotificationManager.shared.removeDeliveredNotifications(habitID: id)
         
         // Remove pending notifications
         for notification in notificationsArray {
@@ -246,9 +257,8 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         case daysCompleted
         case timesCompleted
         case trackersContainer
-        
-        // TODO: 1.0.9 Add notifications container
-        // TODO: 1.1.2 Add frequencies container
+        case frequenciesContainer
+        case notifications
     }
     
     required convenience public init(from decoder: Decoder) throws {
@@ -308,6 +318,23 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
                 }
             }
         }
+        
+        if let frequenciesContainer = try? container.decode(FrequenciesContainer.self, forKey: .frequenciesContainer) {
+            var allFrequencies: [Frequency] = frequenciesContainer.specificWeekdays + frequenciesContainer.xTimesPerDay + frequenciesContainer.xTimesPerWeek
+            allFrequencies = allFrequencies.sorted { $0.startDate < $1.startDate }
+            for freq in allFrequencies {
+                freq.habit = self
+                self.addToFrequencies(freq)
+            }
+        }
+        
+        let notificationsContainer = try! container.decode(NotificationsContainer.self, forKey: .notifications)
+            let allNotifications: [Notification] = notificationsContainer.randomTimeNotifications + notificationsContainer.specificTimeNotifications
+            for notif in allNotifications {
+                notif.habit = self
+                self.addToNotifications(notif)
+            }
+        
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -334,6 +361,19 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
         }
         let trackersContainer = TrackersContainer(numberTrackers: numberTrackers, improvementTracker: improvementTracker, imageTrackers: imageTrackers, exerciseTrackers: exerciseTrackers)
         try container.encode(trackersContainer, forKey: .trackersContainer)
+        
+        // Bundle up frequencies into a container struct
+        let xTimesPerDay = frequenciesArray.compactMap { $0 as? XTimesPerDayFrequency }
+        let specificWeekdays = frequenciesArray.compactMap { $0 as? SpecificWeekdaysFrequency }
+        let xTimesPerWeek = frequenciesArray.compactMap { $0 as? XTimesPerWeekFrequency }
+        let frequenciesContainer = FrequenciesContainer(specificWeekdays: specificWeekdays, xTimesPerWeek: xTimesPerWeek, xTimesPerDay: xTimesPerDay)
+        try container.encode(frequenciesContainer, forKey: .frequenciesContainer)
+        
+        // Bundle up notifications into a container struct
+        let randomTimes = notificationsArray.compactMap { $0 as? RandomTimeNotification }
+        let specificTimes = notificationsArray.compactMap { $0 as? SpecificTimeNotification }
+        let notificationsContainer = NotificationsContainer(randomTimeNotifications: randomTimes, specificTimeNotifications: specificTimes)
+        try container.encode(notificationsContainer, forKey: .notifications)
         
         try container.encode(startDate, forKey: .startDate)
         try container.encode(daysCompleted, forKey: .daysCompleted)

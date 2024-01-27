@@ -58,9 +58,11 @@ class CoreDataManager: ObservableObject {
    }()
    
    lazy var backgroundContext: NSManagedObjectContext = {
-      let context = self.persistentContainer.newBackgroundContext()
-      context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-      return context
+       let context = NSManagedObjectContext(.privateQueue)
+       //      context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+       context.parent = mainContext
+       context.automaticallyMergesChangesFromParent = true
+       return context
    }()
    
    lazy var mainContext: NSManagedObjectContext = {

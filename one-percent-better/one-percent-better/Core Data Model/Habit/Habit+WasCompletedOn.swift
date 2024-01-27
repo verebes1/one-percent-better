@@ -141,15 +141,18 @@ extension Habit {
         
         // Remove notifications for today if fully completed
         if let freq = frequency(on: date) {
+            let habitID = self.id
             switch freq {
             case .timesPerDay(let n):
                 if timesCompleted(on: date) == n {
-                    removeNotifications(on: date)
+                    // TODO: 1.1.6 Does this need to be cancelled?
+                    Task { await NotificationManager.shared.removeNotifications(on: date, habitID: habitID) }
                 } else {
-                    removeDeliveredNotifications()
+                    Task { NotificationManager.shared.removeDeliveredNotifications(habitID: habitID) }
                 }
             case .specificWeekdays, .timesPerWeek:
-                removeNotifications(on: date)
+                // TODO: 1.1.6 Does this need to be cancelled?
+                Task { await NotificationManager.shared.removeNotifications(on: date, habitID: habitID) }
             }
         }
         
@@ -176,7 +179,9 @@ extension Habit {
         
         // Fix this at some point
         improvementTracker?.update(on: date)
-        addNotificationsBack(on: date)
+        // TODO: 1.1.6 Does this need to be cancelled?
+        let habitID = self.id
+        Task { await NotificationManager.shared.addNotificationsBack(on: date, habitID: habitID) }
         moc.assertSave()
     }
     

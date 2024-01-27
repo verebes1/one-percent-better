@@ -167,7 +167,12 @@
 		8081A3622874E0E000D0CB1B /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3612874E0E000D0CB1B /* GradientRing.swift */; };
 		8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A3632874E72900D0CB1B /* GradientTest.swift */; };
 		8081A36628767F7A00D0CB1B /* RingShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8081A36528767F7A00D0CB1B /* RingShape.swift */; };
+		808F44A32AEDD5E400E346D4 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 808F44A22AEDD5E400E346D4 /* OpenAI */; };
+		808F44A52AF1CF5100E346D4 /* DeveloperController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 808F44A42AF1CF5100E346D4 /* DeveloperController.swift */; };
 		8093B4662A8720B600DA0F52 /* HabitListMoveDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */; };
+		809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */; };
+		809943852ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */; };
+		809943872ADF6DCC00C18969 /* PendingNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809943862ADF6DCC00C18969 /* PendingNotification.swift */; };
 		809AF27D286607AE005A6D58 /* EditTrackersList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 809AF27C286607AE005A6D58 /* EditTrackersList.swift */; };
 		80A6D9F928949F43009BF024 /* HabitRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A6D9F828949F43009BF024 /* HabitRow.swift */; };
 		80A8FF6A2A5B7ED200B43B90 /* ShareBetaFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */; };
@@ -178,7 +183,6 @@
 		80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AE85FA28E3FC10006E8964 /* MigrationModel8to9.swift */; };
 		80AF1F212A6F690F00DFAEB6 /* DueOnTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AF1F202A6F690F00DFAEB6 /* DueOnTests.swift */; };
 		80BA250A29B7F3900072B1AA /* RandomTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BA250929B7F3900072B1AA /* RandomTimeTests.swift */; };
-		80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 80BA250C29B8155C0072B1AA /* OpenAISwift */; };
 		80BCDD652940F9A8002DBBEB /* WeeklyPercentGraphCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BCDD642940F9A8002DBBEB /* WeeklyPercentGraphCard.swift */; };
 		80BF87A328E69EB2002A1347 /* ChartTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80BF87A228E69EB2002A1347 /* ChartTest.swift */; };
 		80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C14EF728BC0B290059BBA4 /* EditHabitFrequency.swift */; };
@@ -328,7 +332,7 @@
 		80385D3C285CDFD800CBDF71 /* NumberTrackerEnterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberTrackerEnterDataView.swift; sourceTree = "<group>"; };
 		80385D3E285CFDC800CBDF71 /* CreateGraphTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateGraphTracker.swift; sourceTree = "<group>"; };
 		8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicy.swift; sourceTree = "<group>"; };
-		8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangeStartingWeekdayView.swift; path = "/Users/jeremycook/projects/one-percent-better/one-percent-better/one-percent-better/Settings Tab Views/ChangeStartingWeekdayView.swift"; sourceTree = "<absolute>"; };
+		8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeStartingWeekdayView.swift; sourceTree = "<group>"; };
 		8038AB242A959A9E0048A946 /* opb 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "opb 21.xcdatamodel"; sourceTree = "<group>"; };
 		8038AB262A95A0230048A946 /* SelectedDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedDayView.swift; sourceTree = "<group>"; };
 		8038AB292A95A3470048A946 /* GeneratePreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePreviewData.swift; sourceTree = "<group>"; };
@@ -417,7 +421,11 @@
 		8081A3612874E0E000D0CB1B /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
 		8081A3632874E72900D0CB1B /* GradientTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientTest.swift; sourceTree = "<group>"; };
 		8081A36528767F7A00D0CB1B /* RingShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RingShape.swift; sourceTree = "<group>"; };
+		808F44A42AF1CF5100E346D4 /* DeveloperController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperController.swift; sourceTree = "<group>"; };
 		8093B4652A8720B600DA0F52 /* HabitListMoveDeleteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListMoveDeleteTests.swift; sourceTree = "<group>"; };
+		809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRebalanceManager.swift; sourceTree = "<group>"; };
+		809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRebalanceManagerTests.swift; sourceTree = "<group>"; };
+		809943862ADF6DCC00C18969 /* PendingNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingNotification.swift; sourceTree = "<group>"; };
 		809AF27C286607AE005A6D58 /* EditTrackersList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackersList.swift; sourceTree = "<group>"; };
 		80A6D9F828949F43009BF024 /* HabitRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitRow.swift; sourceTree = "<group>"; };
 		80A8FF692A5B7ED200B43B90 /* ShareBetaFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareBetaFeedback.swift; sourceTree = "<group>"; };
@@ -479,7 +487,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				80BA250D29B8155C0072B1AA /* OpenAISwift in Frameworks */,
+				808F44A32AEDD5E400E346D4 /* OpenAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +596,7 @@
 				8038AB222A9599830048A946 /* ChangeStartingWeekdayView.swift */,
 				80385CB0285BEE5900CBDF71 /* SettingsView.swift */,
 				8038AB202A8EF8AD0048A946 /* PrivacyPolicy.swift */,
+				808F44A42AF1CF5100E346D4 /* DeveloperController.swift */,
 			);
 			path = "Settings Tab Views";
 			sourceTree = "<group>";
@@ -990,6 +999,7 @@
 				8068F9E62A4905CB0028E378 /* MockOpenAI.swift */,
 				8068F9EA2A4D29E70028E378 /* MockNotificationGenerator.swift */,
 				80EA4EA52A5E3A4800A87347 /* HabitFrequencyTests.swift */,
+				809943842ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift */,
 			);
 			path = "Notification Tests";
 			sourceTree = "<group>";
@@ -1025,6 +1035,8 @@
 				80744F6829B5592B00DAF196 /* Notification.swift */,
 				8068F9E82A4CFC5B0028E378 /* NotificationGenerator.swift */,
 				8040282A29C413E2003D27CE /* NotificationManager.swift */,
+				809943862ADF6DCC00C18969 /* PendingNotification.swift */,
+				809943822ADC8A5300C18969 /* NotificationRebalanceManager.swift */,
 				80744F6A29B5596500DAF196 /* RandomTimeNotification.swift */,
 				8040282629C2B384003D27CE /* ScheduledNotification.swift */,
 				80744F6429B558A800DAF196 /* SpecificTimeNotification.swift */,
@@ -1097,7 +1109,7 @@
 			);
 			name = "one-percent-better";
 			packageProductDependencies = (
-				80BA250C29B8155C0072B1AA /* OpenAISwift */,
+				808F44A22AEDD5E400E346D4 /* OpenAI */,
 			);
 			productName = "one-percent-better-swiftui";
 			productReference = 8055A9702831BAA5009A1881 /* One Percent Better.app */;
@@ -1172,7 +1184,7 @@
 			);
 			mainGroup = 8055A9672831BAA5009A1881;
 			packageReferences = (
-				80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */,
+				808F44A12AEDD5E400E346D4 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 8055A9712831BAA5009A1881 /* Products */;
 			projectDirPath = "";
@@ -1297,6 +1309,7 @@
 				80385D07285BEE5900CBDF71 /* CoreDataMigrationStep.swift in Sources */,
 				80F6671B2A33F73F00095E60 /* XTimesPerDayFrequency.swift in Sources */,
 				80385D34285BEE5900CBDF71 /* GraphView.swift in Sources */,
+				809943872ADF6DCC00C18969 /* PendingNotification.swift in Sources */,
 				80C14EF828BC0B290059BBA4 /* EditHabitFrequency.swift in Sources */,
 				8081A3642874E72900D0CB1B /* GradientTest.swift in Sources */,
 				8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */,
@@ -1305,6 +1318,7 @@
 				80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* HabitProgessView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
+				809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */,
 				8062AA432902F23000903123 /* ProgressCards.swift in Sources */,
 				80385D11285BEE5900CBDF71 /* ButtonViews.swift in Sources */,
 				80125C872A393C5100682BB9 /* BorderedRectangle.swift in Sources */,
@@ -1335,6 +1349,7 @@
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80F6671F2A33F77600095E60 /* Frequency.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
+				808F44A52AF1CF5100E346D4 /* DeveloperController.swift in Sources */,
 				802AB86B29F9F93100210AD6 /* YearGridCell.swift in Sources */,
 				8062AA4129019FDB00903123 /* DailyReminderRow.swift in Sources */,
 				802AB86D29FCC40000210AD6 /* HabitCreationObject.swift in Sources */,
@@ -1414,6 +1429,7 @@
 				80EA4EA62A5E3A4800A87347 /* HabitFrequencyTests.swift in Sources */,
 				805296C12A12E65C00C2C90E /* TimesPerWeekStreakTests.swift in Sources */,
 				806BB18629A4388F006549A9 /* XTimesPerDayTests.swift in Sources */,
+				809943852ADCAD6600C18969 /* NotificationRebalanceManagerTests.swift in Sources */,
 				8048B76A29FDBEB500F11AB9 /* YearViewTests.swift in Sources */,
 				80FF97F22856C9BE00A96026 /* HabitsHeaderViewTests.swift in Sources */,
 				8068F9E72A4905CB0028E378 /* MockOpenAI.swift in Sources */,
@@ -1764,21 +1780,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */ = {
+		808F44A12AEDD5E400E346D4 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/adamrushy/OpenAISwift.git";
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.3.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		80BA250C29B8155C0072B1AA /* OpenAISwift */ = {
+		808F44A22AEDD5E400E346D4 /* OpenAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 80BA250B29B8155C0072B1AA /* XCRemoteSwiftPackageReference "OpenAISwift" */;
-			productName = OpenAISwift;
+			package = 808F44A12AEDD5E400E346D4 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 
