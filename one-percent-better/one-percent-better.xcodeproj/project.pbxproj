@@ -14,6 +14,7 @@
 		8006A09928F71812005D1A19 /* GrowingTapButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09828F71812005D1A19 /* GrowingTapButton.swift */; };
 		8006A09B28F719A1005D1A19 /* MinusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09A28F719A1005D1A19 /* MinusStepper.swift */; };
 		8006A09D28F71BBC005D1A19 /* PlusStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8006A09C28F71BBC005D1A19 /* PlusStepper.swift */; };
+		800AEB0E2B68964400D0212F /* MigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800AEB0D2B68964400D0212F /* MigrationView.swift */; };
 		800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F40F7285F913A0071CC70 /* GraphGestureTest.swift */; };
 		800F4172285FDB9B0071CC70 /* AllImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800F4171285FDB9B0071CC70 /* AllImagesView.swift */; };
 		80125C872A393C5100682BB9 /* BorderedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C862A393C5100682BB9 /* BorderedRectangle.swift */; };
@@ -249,6 +250,7 @@
 		8006A09828F71812005D1A19 /* GrowingTapButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowingTapButton.swift; sourceTree = "<group>"; };
 		8006A09A28F719A1005D1A19 /* MinusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinusStepper.swift; sourceTree = "<group>"; };
 		8006A09C28F71BBC005D1A19 /* PlusStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlusStepper.swift; sourceTree = "<group>"; };
+		800AEB0D2B68964400D0212F /* MigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationView.swift; sourceTree = "<group>"; };
 		800F40F7285F913A0071CC70 /* GraphGestureTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphGestureTest.swift; sourceTree = "<group>"; };
 		800F4171285FDB9B0071CC70 /* AllImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllImagesView.swift; sourceTree = "<group>"; };
 		80125C862A393C5100682BB9 /* BorderedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedRectangle.swift; sourceTree = "<group>"; };
@@ -538,6 +540,7 @@
 				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
 				80385CAD285BEE5900CBDF71 /* Global Style + Common Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
+				800AEB0D2B68964400D0212F /* MigrationView.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
 				80385CB1285BEE5900CBDF71 /* Assets.xcassets */,
 				80385CC3285BEE5900CBDF71 /* Preview Content */,
@@ -1316,6 +1319,7 @@
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */,
 				80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */,
+				800AEB0E2B68964400D0212F /* MigrationView.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* HabitProgessView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */,
