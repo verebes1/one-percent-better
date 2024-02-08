@@ -328,13 +328,13 @@ public class Habit: NSManagedObject, Codable, Identifiable, NamedEntity {
             }
         }
         
-        let notificationsContainer = try! container.decode(NotificationsContainer.self, forKey: .notifications)
+        if let notificationsContainer = try? container.decode(NotificationsContainer.self, forKey: .notifications) {
             let allNotifications: [Notification] = notificationsContainer.randomTimeNotifications + notificationsContainer.specificTimeNotifications
             for notif in allNotifications {
                 notif.habit = self
                 self.addToNotifications(notif)
             }
-        
+        }
     }
     
     public func encode(to encoder: Encoder) throws {

@@ -42,6 +42,7 @@ class HeaderWeekViewModel: ConditionalManagedObjectFetcher<Habit> {
     
     override func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         habits = controller.fetchedObjects as? [Habit] ?? []
+        newDayUpdate(to: sdvm.selectedDate)
     }
     
     /// Update selected week index and improvement scores to new day
