@@ -64,6 +64,7 @@ public class Notification: NSManagedObject, Codable {
     }
     
     public override func prepareForDeletion() {
+        removePendingNotifications()
         print("notif preparing for deletion")
         NotificationManager.shared.rebalance()
     }
