@@ -7,6 +7,23 @@
 
 import SwiftUI
 
+struct BackgroundModifier: ViewModifier {
+    var color = Color.backgroundColor
+    
+    func body(content: Content) -> some View {
+        ZStack {
+           color.ignoresSafeArea()
+           content
+        }
+    }
+}
+
+extension View {
+    func backgroundColor() -> some View {
+        modifier(BackgroundModifier())
+    }
+}
+
 struct Background<Content>: View where Content: View {
    
    var color = Color.backgroundColor

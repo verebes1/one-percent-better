@@ -20,6 +20,8 @@
 		80125C892A3A82DB00682BB9 /* CreateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80125C882A3A82DB00682BB9 /* CreateTextField.swift */; };
 		8018589A2863A7AB003DE454 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801858992863A7AB003DE454 /* UIImage.swift */; };
 		8018589C2863C5FE003DE454 /* EditHabit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8018589B2863C5FE003DE454 /* EditHabit.swift */; };
+		80198B392B7AFC0C000D6A78 /* EntranceTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80198B382B7AFC0C000D6A78 /* EntranceTransition.swift */; };
+		80198B3B2B7B1B51000D6A78 /* MigrationExportDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80198B3A2B7B1B51000D6A78 /* MigrationExportDataView.swift */; };
 		801AC9F32A45E4A500DE95D6 /* CreateHabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 801AC9F22A45E4A500DE95D6 /* CreateHabitName.swift */; };
 		8027BEFA28DD164500EC3E66 /* ExerciseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEF928DD164500EC3E66 /* ExerciseCard.swift */; };
 		8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */; };
@@ -130,6 +132,7 @@
 		805A1D0C2A9E9DF700305F99 /* Habit+Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A1D0B2A9E9DF700305F99 /* Habit+Array.swift */; };
 		805A64EF2867CB1400F068B1 /* YearView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805A64EE2867CB1400F068B1 /* YearView.swift */; };
 		805C1BC5294A9CFA00F7CE48 /* CapsuleMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */; };
+		805F2C582B7ADF8D00C86949 /* MigrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805F2C572B7ADF8D00C86949 /* MigrationView.swift */; };
 		806235F42A2ED7620040F9BD /* MigrationModel18to19.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806235F32A2ED7620040F9BD /* MigrationModel18to19.swift */; };
 		8062AA3428F9FE5600903123 /* NotificationSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3328F9FE5600903123 /* NotificationSelection.swift */; };
 		8062AA3628FF2C3F00903123 /* IconTextRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8062AA3528FF2C3F00903123 /* IconTextRow.swift */; };
@@ -255,6 +258,8 @@
 		80125C882A3A82DB00682BB9 /* CreateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTextField.swift; sourceTree = "<group>"; };
 		801858992863A7AB003DE454 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		8018589B2863C5FE003DE454 /* EditHabit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabit.swift; sourceTree = "<group>"; };
+		80198B382B7AFC0C000D6A78 /* EntranceTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntranceTransition.swift; sourceTree = "<group>"; };
+		80198B3A2B7B1B51000D6A78 /* MigrationExportDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationExportDataView.swift; sourceTree = "<group>"; };
 		801AC9F22A45E4A500DE95D6 /* CreateHabitName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateHabitName.swift; sourceTree = "<group>"; };
 		8027BEF928DD164500EC3E66 /* ExerciseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseCard.swift; sourceTree = "<group>"; };
 		8027BEFB28DD1A6B00EC3E66 /* ExerciseAllEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExerciseAllEntries.swift; sourceTree = "<group>"; };
@@ -377,6 +382,7 @@
 		805A1D0B2A9E9DF700305F99 /* Habit+Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Habit+Array.swift"; sourceTree = "<group>"; };
 		805A64EE2867CB1400F068B1 /* YearView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearView.swift; sourceTree = "<group>"; };
 		805C1BC4294A9CFA00F7CE48 /* CapsuleMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleMenuButton.swift; sourceTree = "<group>"; };
+		805F2C572B7ADF8D00C86949 /* MigrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationView.swift; sourceTree = "<group>"; };
 		806235F32A2ED7620040F9BD /* MigrationModel18to19.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationModel18to19.swift; sourceTree = "<group>"; };
 		8062AA3328F9FE5600903123 /* NotificationSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSelection.swift; sourceTree = "<group>"; };
 		8062AA3528FF2C3F00903123 /* IconTextRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconTextRow.swift; sourceTree = "<group>"; };
@@ -536,6 +542,7 @@
 				80385CC5285BEE5900CBDF71 /* Habit Tab Views */,
 				80DAAC2E293478CD00E626D7 /* Insights Tab Views */,
 				80385CAF285BEE5900CBDF71 /* Settings Tab Views */,
+				805F2C592B7AE07C00C86949 /* Migration Views */,
 				80385CAD285BEE5900CBDF71 /* Global Style + Common Views */,
 				80385CEB285BEE5900CBDF71 /* OnePercentBetterApp.swift */,
 				80385CFD285BEE5900CBDF71 /* ContentView.swift */,
@@ -967,6 +974,16 @@
 			path = Frequency;
 			sourceTree = "<group>";
 		};
+		805F2C592B7AE07C00C86949 /* Migration Views */ = {
+			isa = PBXGroup;
+			children = (
+				805F2C572B7ADF8D00C86949 /* MigrationView.swift */,
+				80198B382B7AFC0C000D6A78 /* EntranceTransition.swift */,
+				80198B3A2B7B1B51000D6A78 /* MigrationExportDataView.swift */,
+			);
+			path = "Migration Views";
+			sourceTree = "<group>";
+		};
 		806BB18429A43860006549A9 /* Frequency Tests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1267,6 +1284,7 @@
 				80385D2D285BEE5900CBDF71 /* CalendarSpacingView.swift in Sources */,
 				8027BEFC28DD1A6B00EC3E66 /* ExerciseAllEntries.swift in Sources */,
 				80385D3B285CD80C00CBDF71 /* ImagePicker.swift in Sources */,
+				80198B392B7AFC0C000D6A78 /* EntranceTransition.swift in Sources */,
 				80CC692428E39BA800584340 /* MyStepper.swift in Sources */,
 				8040282729C2B384003D27CE /* ScheduledNotification.swift in Sources */,
 				8038AB232A9599830048A946 /* ChangeStartingWeekdayView.swift in Sources */,
@@ -1316,6 +1334,7 @@
 				80385D35285BEE5900CBDF71 /* GraphCardView.swift in Sources */,
 				80CC692828E3B5A700584340 /* EveryWeekOnSpecificWeekDays.swift in Sources */,
 				80F6671D2A33F73F00095E60 /* XTimesPerWeekFrequency.swift in Sources */,
+				805F2C582B7ADF8D00C86949 /* MigrationView.swift in Sources */,
 				80385D2B285BEE5900CBDF71 /* HabitProgessView.swift in Sources */,
 				800F40F8285F913A0071CC70 /* GraphGestureTest.swift in Sources */,
 				809943832ADC8A5300C18969 /* NotificationRebalanceManager.swift in Sources */,
@@ -1348,6 +1367,7 @@
 				80D88C4A290A41C5005CD7B4 /* MigrationModel10-to-11.swift in Sources */,
 				80AE85FB28E3FC10006E8964 /* MigrationModel8to9.swift in Sources */,
 				80F6671F2A33F77600095E60 /* Frequency.swift in Sources */,
+				80198B3B2B7B1B51000D6A78 /* MigrationExportDataView.swift in Sources */,
 				80385D33285BEE5900CBDF71 /* GraphData.swift in Sources */,
 				808F44A52AF1CF5100E346D4 /* DeveloperController.swift in Sources */,
 				802AB86B29F9F93100210AD6 /* YearGridCell.swift in Sources */,
